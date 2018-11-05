@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Cooking.Controls.Ratings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Cooking.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.Resources>
+            <local:RatingConverter x:Key="RatingConverter" OnBrush="#FFFFFFFF" OffBrush="#50FFFFFF" />
+            <Style TargetType="Rectangle">
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Bottom" />
+                <Setter Property="Margin" Value="5,0,0,0" />
+            </Style>
+        </Grid.Resources>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Rectangle Margin="0" Width="5" Height="2.5"  Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=1}"/>
+            <Rectangle Width="5" Height="5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=2}"/>
+            <Rectangle Width="5" Height="7.5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=3}"/>
+            <Rectangle Width="5" Height="10" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=4}"/>
+            <Rectangle Width="5" Height="12.5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=5}"/>
+            <Rectangle Width="5" Height="15"  Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=6}"/>
+            <Rectangle Width="5" Height="17.5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=7}"/>
+            <Rectangle Width="5" Height="20" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=8}"/>
+            <Rectangle Width="5" Height="22.5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=9}"/>
+            <Rectangle Width="5" Height="25" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=10}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

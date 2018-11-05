@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="Cooking.Pages.Ingredients.IngredientsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:Cooking.Pages.Ingredients"
+             mahapps:DialogParticipation.Register="{Binding}"
+        mc:Ignorable="d"
+        d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <local:IngredientsViewModel />
+    </UserControl.DataContext>
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+            <ItemsControl ItemsSource="{Binding Ingredients.Value}" Name="CategoriesList">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" FontSize="20" VerticalAlignment="Center" />
+                            <Button Margin="10 0 0 0"
+                                    Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                    Width="36" 
+                                    Height="36"
+                                    Command="{Binding ElementName=CategoriesList, Path=DataContext.EditCategoryCommand.Value}"
+                                    CommandParameter="{Binding}">
+                                <icons:PackIconModern Width="15"
+                                                      Height="15"
+                                                      Kind="Edit" />
+                            </Button>
+                            <Button Margin="5 0 0 0"
+                                    Grid.Column="4" 
+                                    Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                    Width="36" 
+                                    Height="36"
+                                    Command="{Binding ElementName=CategoriesList, Path=DataContext.DeleteCategoryCommand.Value}"
+                                    CommandParameter="{Binding}">
+                                    <icons:PackIconModern Width="15"
+                                                      Height="15"
+                                                      Kind="Delete" />
+                             </Button>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+            <ItemsControl.Template>
+                <ControlTemplate TargetType="{x:Type ItemsControl}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+        </ItemsControl>
+        <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                Width="48" 
+                Height="48"
+                Command="{Binding AddCategoryCommand.Value}"
+                HorizontalAlignment="Center"
+                Grid.Row="1">
+            <icons:PackIconModern Width="20"
+                                  Height="20"
+                                  Kind="Add" />
+        </Button>
+    </Grid>
+</UserControl>

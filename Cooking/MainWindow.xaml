@@ -1,0 +1,194 @@
+﻿<mahapps:MetroWindow x:Class="Cooking.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:recipe="clr-namespace:Cooking.Pages.Recepies"
+        xmlns:ingredient="clr-namespace:Cooking.Pages.Ingredients"
+        xmlns:tag="clr-namespace:Cooking.Pages.Tags"
+        xmlns:main="clr-namespace:Cooking.Pages.MainPage"
+        xmlns:dd="urn:gong-wpf-dragdrop"
+        ShowDialogsOverTitleBar="False"
+        mc:Ignorable="d"
+        Title="Кулинарная книжка" Height="650" Width="1000">
+    <mahapps:MetroWindow.Resources>
+        <ResourceDictionary>
+            <!--  This is the template for the menu items.  -->
+            <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mahapps:HamburgerMenuIconItem}">
+                <Grid Height="48">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ContentControl Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding Icon}"
+                                    Focusable="False"
+                                    IsTabStop="False" />
+                    <TextBlock Grid.Column="1"
+                               VerticalAlignment="Center"
+                               FontSize="16"
+                               Text="{Binding Label}" />
+                </Grid>
+            </DataTemplate>
+
+            <materialDesignConverters:BrushRoundConverter x:Key="BrushRoundConverter" />
+
+            <Style x:Key="HamburgerMenuCreatorsItemStyle"
+                   BasedOn="{StaticResource HamburgerMenuItemStyle}"
+                   TargetType="{x:Type ListBoxItem}">
+                <Setter Property="mahapps:ItemHelper.ActiveSelectionBackgroundBrush" Value="Transparent" />
+                <Setter Property="mahapps:ItemHelper.ActiveSelectionForegroundBrush" Value="{DynamicResource AccentBaseColorBrush}" />
+                <Setter Property="mahapps:ItemHelper.DisabledForegroundBrush" Value="{DynamicResource GrayNormalBrush}" />
+                <Setter Property="mahapps:ItemHelper.DisabledSelectedBackgroundBrush" Value="Transparent" />
+                <Setter Property="mahapps:ItemHelper.DisabledSelectedForegroundBrush" Value="{DynamicResource GrayNormalBrush}" />
+                <Setter Property="mahapps:ItemHelper.HoverBackgroundBrush" Value="{DynamicResource GrayBrush9}" />
+                <Setter Property="mahapps:ItemHelper.HoverSelectedBackgroundBrush" Value="{DynamicResource GrayBrush9}" />
+                <Setter Property="mahapps:ItemHelper.SelectedBackgroundBrush" Value="Transparent" />
+                <Setter Property="mahapps:ItemHelper.SelectedForegroundBrush" Value="{DynamicResource AccentBaseColorBrush}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Grid Background="{TemplateBinding Background}" RenderOptions.ClearTypeHint="{TemplateBinding RenderOptions.ClearTypeHint}">
+                                <Border x:Name="Border"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                <Grid Margin="{TemplateBinding BorderThickness}">
+                                    <Grid HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mahapps:HamburgerMenu}}, Path=ShowSelectionIndicator, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Rectangle x:Name="SelectionIndicator"
+                                                   Width="3"
+                                                   Height="48"
+                                                   Fill="{TemplateBinding Foreground}"
+                                                   Focusable="False"
+                                                   Opacity="0.0" />
+                                    </Grid>
+                                    <materialDesign:Ripple Padding="{TemplateBinding Padding}"
+                                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                           Content="{TemplateBinding Content}"
+                                                           ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                           ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                                           Feedback="{TemplateBinding Foreground, Converter={StaticResource BrushRoundConverter}}"
+                                                           Focusable="False"
+                                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </Grid>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=(mahapps:ItemHelper.SelectedForegroundBrush), Mode=OneWay}" />
+                                    <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(mahapps:ItemHelper.SelectedBackgroundBrush), Mode=OneWay}" />
+                                    <Setter TargetName="SelectionIndicator" Property="Opacity" Value="1.0" />
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="True" />
+                                        <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=(mahapps:ItemHelper.ActiveSelectionForegroundBrush), Mode=OneWay}" />
+                                    <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(mahapps:ItemHelper.ActiveSelectionBackgroundBrush), Mode=OneWay}" />
+                                </MultiTrigger>
+
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True" />
+                                        <Condition Property="IsSelected" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(mahapps:ItemHelper.HoverSelectedBackgroundBrush), Mode=OneWay}" />
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsMouseOver" Value="True" />
+                                        <Condition Property="IsSelected" Value="False" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(mahapps:ItemHelper.HoverBackgroundBrush), Mode=OneWay}" />
+                                </MultiTrigger>
+
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=(mahapps:ItemHelper.DisabledForegroundBrush), Mode=OneWay}" />
+                                    <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Path=(mahapps:ItemHelper.DisabledBackgroundBrush), Mode=OneWay}" />
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsEnabled" Value="False" />
+                                        <Condition Property="IsSelected" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=(mahapps:ItemHelper.DisabledSelectedForegroundBrush), Mode=OneWay}" />
+                                    <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Path=(mahapps:ItemHelper.DisabledSelectedBackgroundBrush), Mode=OneWay}" />
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="HamburgerMenuCreatorsStyle"
+                   BasedOn="{StaticResource {x:Type mahapps:HamburgerMenu}}"
+                   TargetType="{x:Type mahapps:HamburgerMenu}">
+                <Setter Property="ItemContainerStyle" Value="{StaticResource HamburgerMenuCreatorsItemStyle}" />
+                <Setter Property="OptionsItemContainerStyle" Value="{StaticResource HamburgerMenuCreatorsItemStyle}" />
+                <Setter Property="PaneBackground" Value="{DynamicResource WhiteBrush}" />
+                <Setter Property="PaneForeground" Value="{DynamicResource TextBrush}" />
+                <Setter Property="ShowSelectionIndicator" Value="True" />
+            </Style>
+        </ResourceDictionary>
+    </mahapps:MetroWindow.Resources>
+    
+    
+    <mahapps:HamburgerMenu x:Name="HamburgerMenuControl"
+                           HamburgerWidth="48"
+                           OpenPaneLength="150"
+                           IsPaneOpen="False"
+                           ItemInvoked="HamburgerMenuControl_OnItemInvoked"
+                           SelectedIndex="0"
+                           ItemTemplate="{StaticResource MenuItemTemplate}"
+                           OptionsItemTemplate="{StaticResource MenuItemTemplate}"
+                           Style="{StaticResource HamburgerMenuCreatorsStyle}"
+                           VerticalScrollBarOnLeftSide="False">
+        <mahapps:HamburgerMenu.ItemsSource>
+            <mahapps:HamburgerMenuItemCollection>
+                <mahapps:HamburgerMenuIconItem Label="Главная" 
+                                                       Icon="{icons:Modern Kind=Page}" >
+                    <mahapps:HamburgerMenuIconItem.Tag>
+                        <main:MainPage />
+                    </mahapps:HamburgerMenuIconItem.Tag>
+                </mahapps:HamburgerMenuIconItem>
+                <mahapps:HamburgerMenuIconItem Label="Рецепты" 
+                                                   Icon="{icons:Modern Kind=FoodCupcake}" >
+                    <mahapps:HamburgerMenuIconItem.Tag>
+                        <recipe:RecepiesView />
+                    </mahapps:HamburgerMenuIconItem.Tag>
+                </mahapps:HamburgerMenuIconItem>
+
+                <mahapps:HamburgerMenuIconItem Label="Ингредиенты" 
+                                                   Icon="{icons:FontAwesome Kind=PuzzlePieceSolid}" >
+                    <mahapps:HamburgerMenuIconItem.Tag>
+                        <ingredient:IngredientsView />
+                    </mahapps:HamburgerMenuIconItem.Tag>
+                </mahapps:HamburgerMenuIconItem>
+                
+                <mahapps:HamburgerMenuIconItem Label="Теги" 
+                                                   Icon="{icons:Modern Kind=Tag}" >
+                    <mahapps:HamburgerMenuIconItem.Tag>
+                        <tag:TagsView />
+                    </mahapps:HamburgerMenuIconItem.Tag>
+                </mahapps:HamburgerMenuIconItem>
+            </mahapps:HamburgerMenuItemCollection>
+        </mahapps:HamburgerMenu.ItemsSource>
+
+        <mahapps:HamburgerMenu.ContentTemplate>
+            <DataTemplate DataType="{x:Type mahapps:HamburgerMenuIconItem}">
+                <ContentControl Content="{Binding Tag}" Focusable="True" />
+            </DataTemplate>
+        </mahapps:HamburgerMenu.ContentTemplate>
+    </mahapps:HamburgerMenu>
+</mahapps:MetroWindow>
