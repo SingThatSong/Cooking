@@ -18,6 +18,7 @@
     </UserControl.InputBindings>
 
     <UserControl.Resources>
+        <converters:InvertedBooleanConverter x:Key="oppositeConverter"/>
         <converters:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         <converters:IsNullToVisibilityConverter x:Key="isNullToVisibilityConverter" NullVisibility="Visible" NotNullVisibility="Collapsed" />
         <converters:IsNullToVisibilityConverter x:Key="isNotNullToVisibilityConverter" NullVisibility="Collapsed" NotNullVisibility="Visible" />
@@ -36,7 +37,6 @@
                   IsReadOnly="True"
                   mahapps:ItemHelper.SelectedBackgroundBrush="Transparent" >
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Binding="{Binding IsSelected}" IsReadOnly="False"/>
                 <DataGridTextColumn Binding="{Binding DayName}" Header="День" />
                 <DataGridTemplateColumn Header="Ужин" Width="*" >
                     <DataGridTemplateColumn.CellTemplate>
@@ -85,8 +85,11 @@
                                             Foreground="LightBlue"
                                             BorderThickness="0"
                                             VerticalAlignment="Center"
+                                            ToolTipService.ToolTip="По выбранным фильтрам нет альтернатив"
+                                            ToolTipService.ShowOnDisabled="True"
+                                            ToolTipService.IsEnabled="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource oppositeConverter}}"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
-                                                                            Path=DataContext.GetAlternativeRecipe.Value}"
+                                                                            Path=DataContext.GetAlternativeRecipe}"
                                             CommandParameter="{Binding}">
                                         <icons:PackIconModern Width="10"
                                                       Height="10"

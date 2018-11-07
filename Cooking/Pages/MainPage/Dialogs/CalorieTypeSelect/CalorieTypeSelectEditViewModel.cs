@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.MainPage.Dialogs.Model.CalorieTypeSelect;
 using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
-using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

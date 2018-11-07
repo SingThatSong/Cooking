@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Ingredients;
 using MahApps.Metro.Controls.Dialogs;
-using MahApps.Metro.IconPacks;
 using Microsoft.Win32;
-using Prism.Commands;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -59,7 +57,41 @@ namespace Cooking.Pages.Recepies
                 () => new DelegateCommand(() => {
                     Recipe.ImagePath = null;
                 },
-                canExecuteMethod: () => Recipe?.ImagePath != null));
+                canExecute: () => Recipe?.ImagePath != null));
+
+            AddIngredientToGroupCommand = new Lazy<DelegateCommand<IngredientGroupDTO>>(
+                () => new DelegateCommand<IngredientGroupDTO>(async (group) => {
+                    var viewModel = new RecipeIngredientEditViewModel() { IsCreation = true };
+
+                    var dialog = new CustomDialog()
+                    {
+                        Title = "Добавление ингредиента",
+                        Content = new RecipeIngredientEditView()
+                        {
+                            DataContext = viewModel
+                        }
+                    };
+                    await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
+                    await dialog.WaitUntilUnloadedAsync();
+
+                    if (viewModel.DialogResultOk)
+                    {
+                        if (group.Ingredients == null)
+                        {
+                            group.Ingredients = new ObservableCollection<RecipeIngredientDTO>();
+                        }
+
+                        group.Ingredients.Add(viewModel.Ingredient);
+
+                        if (viewModel.Ingredients != null)
+                        {
+                            foreach (var ingredient in viewModel.Ingredients)
+                            {
+                                group.Ingredients.Add(ingredient);
+                            }
+                        }
+                    }
+                }));
 
             AddIngredientCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(async () => {
@@ -87,10 +119,69 @@ namespace Cooking.Pages.Recepies
 
                         if (viewModel.Ingredients != null)
                         {
-                            Recipe.Ingredients.AddRange(viewModel.Ingredients);
+                            foreach (var ingredient in viewModel.Ingredients)
+                            {
+                                Recipe.Ingredients.Add(ingredient);
+                            }
                         }
                     }
                 }));
+
+            RemoveIngredientGroupCommand = new Lazy<DelegateCommand<IngredientGroupDTO>>(
+                () => new DelegateCommand<IngredientGroupDTO>(async (group) => {
+
+                    var dialog = await DialogCoordinator.Instance.ShowMessageAsync(this, "Точно удалить?", null, MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() { AffirmativeButtonText = "Да", NegativeButtonText = "Нет" });
+
+                    if (dialog == MessageDialogResult.Affirmative)
+                    {
+                        Recipe.IngredientGroups.Remove(group);
+                    }
+                }));
+
+            EditIngredientGroupCommand = new Lazy<DelegateCommand<IngredientGroupDTO>>(
+                () => new DelegateCommand<IngredientGroupDTO>(async (group) => {
+                    var viewModel = new IngredientGroupEditViewModel(Mapper.Map<IngredientGroupDTO>(group));
+
+                    var dialog = new CustomDialog()
+                    {
+                        Title = "Редактирование группы ингредиентов",
+                        Content = new IngredientGroupEdit()
+                        {
+                            DataContext = viewModel
+                        }
+                    };
+                    await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
+                    await dialog.WaitUntilUnloadedAsync();
+
+                    if (viewModel.DialogResultOk)
+                    {
+                        Mapper.Map(viewModel.IngredientGroup, group);
+                    }
+                }));
+
+
+            AddIngredientGroupCommand = new Lazy<DelegateCommand>(
+                () => new DelegateCommand(async () => {
+                    var viewModel = new IngredientGroupEditViewModel();
+
+                    var dialog = new CustomDialog()
+                    {
+                        Title = "Добавление группы ингредиентов",
+                        Content = new IngredientGroupEdit()
+                        {
+                            DataContext = viewModel
+                        }
+                    };
+                    await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
+                    await dialog.WaitUntilUnloadedAsync();
+
+                    if (viewModel.DialogResultOk)
+                    {
+                        Recipe.IngredientGroups = Recipe.IngredientGroups ?? new ObservableCollection<IngredientGroupDTO>();
+                        Recipe.IngredientGroups.Add(viewModel.IngredientGroup);
+                    }
+                }));
+
             AddTagCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(async () => {
                     var viewModel = new TagSelectEditViewModel(Recipe.Tags);
@@ -150,7 +241,12 @@ namespace Cooking.Pages.Recepies
         public Lazy<DelegateCommand> RemoveImageCommand { get; }
         public Lazy<DelegateCommand> AddIngredientCommand { get; }
         public Lazy<DelegateCommand> AddTagCommand { get; }
+        public Lazy<DelegateCommand> AddIngredientGroupCommand { get; }
+
         
+        public Lazy<DelegateCommand<IngredientGroupDTO>> AddIngredientToGroupCommand { get; }
+        public Lazy<DelegateCommand<IngredientGroupDTO>> RemoveIngredientGroupCommand { get; }
+        public Lazy<DelegateCommand<IngredientGroupDTO>> EditIngredientGroupCommand { get; }
         public Lazy<DelegateCommand<RecipeIngredientDTO>> EditIngredientCommand { get; }
         public Lazy<DelegateCommand<RecipeIngredientDTO>> RemoveIngredientCommand { get; }
         

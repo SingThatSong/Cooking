@@ -13,6 +13,10 @@
     <UserControl.DataContext>
         <local:TagsViewModel />
     </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+    </UserControl.Resources>
     
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -22,7 +26,7 @@
         <ItemsControl ItemsSource="{Binding Tags.Value}" Name="TagsList">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" >
                             <Border Margin="5" Padding="5 0" BorderThickness="0"
                                            Background="{Binding Color}" CornerRadius="3">
                                 <TextBlock Text="{Binding Name}" FontSize="20" 
@@ -30,6 +34,7 @@
                                            mahapps:ControlsHelper.CornerRadius="5" />
                             </Border>
                             <Button Margin="10 0 0 0"
+                                      Visibility="{Binding ElementName=TagsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
                                         Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                                         Width="36" 
                                         Height="36"
@@ -40,6 +45,7 @@
                                                           Kind="Edit" />
                                 </Button>
                             <Button Margin="5 0 0 0"
+                                    Visibility="{Binding ElementName=TagsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
                                         Grid.Column="4" 
                                         Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                                         Width="36" 
@@ -60,15 +66,28 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             </ItemsControl>
-        <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
-                Width="48" 
-                Height="48"
-                Command="{Binding AddTagCommand.Value}"
-                HorizontalAlignment="Center"
-                Grid.Row="1">
-            <icons:PackIconModern Width="20"
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
+            <ToggleButton 
+                      Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                      Width="48" 
+                      Height="48"
+                      IsChecked="{Binding IsEditing}"
+                      Foreground="LightGray">
+                <icons:PackIconModern 
+                                  Width="20"
                                   Height="20"
-                                  Kind="Add" />
-        </Button>
+                                  Kind="Edit" />
+            </ToggleButton>
+            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                    Width="48" 
+                    Height="48"
+                    Command="{Binding AddTagCommand.Value}"
+                    Margin="10 0 0 0" >
+                <icons:PackIconModern Width="20"
+                                      Height="20"
+                                      Kind="Add" />
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

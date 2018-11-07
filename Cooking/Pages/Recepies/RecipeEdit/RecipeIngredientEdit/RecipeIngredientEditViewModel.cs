@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
-using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,7 +35,7 @@ namespace Cooking.Pages.Ingredients
                     Ingredients.Add(Ingredient);
                     Ingredient = new RecipeIngredientDTO();
                 },
-                canExecuteMethod: () => IsCreation));
+                canExecute: () => IsCreation));
 
             using (var context = new CookingContext())
             {

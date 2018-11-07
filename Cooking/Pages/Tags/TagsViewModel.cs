@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
-using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -128,5 +128,7 @@ namespace Cooking.Pages.Tags
         public Lazy<DelegateCommand> AddTagCommand { get; }
         public Lazy<DelegateCommand<TagDTO>> EditTagCommand { get; }
         public Lazy<DelegateCommand<TagDTO>> DeleteTagCommand { get; }
+
+        public bool IsEditing { get; set; }
     }
 }

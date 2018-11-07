@@ -11,11 +11,11 @@ using System.Linq;
 
 namespace Cooking.Pages.Recepies
 {
-    public partial class TagSelectEditViewModel : INotifyPropertyChanged
+    public partial class IngredientGroupEditViewModel : INotifyPropertyChanged
     {
         public bool DialogResultOk { get; set; }
 
-        public TagSelectEditViewModel(IEnumerable<TagDTO> tags, List<TagDTO> allTags = null)
+        public IngredientGroupEditViewModel(IngredientGroupDTO ingredientGroup = null)
         {
             OkCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(async () => {
@@ -28,36 +28,14 @@ namespace Cooking.Pages.Recepies
                     var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
                     await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
                 }));
-
-            if (allTags == null)
-            {
-                using (var context = new CookingContext())
-                {
-                    AllTags = context.Tags.Select(x => Mapper.Map<TagDTO>(x)).ToList();
-                }
-            }
-            else
-            {
-                AllTags = allTags;
-            }
-
-            if (tags != null)
-            {
-                foreach (var tag in tags)
-                {
-                    AllTags.Single(x => x.ID == tag.ID).IsChecked = true;
-                }
-            }
+            IngredientGroup = ingredientGroup ?? new IngredientGroupDTO();
         }
-
-        public List<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Lazy<DelegateCommand> OkCommand { get; }
         public Lazy<DelegateCommand> CloseCommand { get; }
 
-        public List<TagDTO> AllTags { get; set; }
-
+        public IngredientGroupDTO IngredientGroup { get; }
     }
 }

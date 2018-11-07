@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -10,5 +11,7 @@ namespace Data.Model
         public string Name { get; set; }
         public TagType Type { get; set; }
         public string Color { get; set; }
+
+        public List<RecipeTag> Recipies { get; set; }
     }
 }

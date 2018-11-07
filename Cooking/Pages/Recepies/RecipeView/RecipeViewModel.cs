@@ -1,15 +1,8 @@
-﻿using AutoMapper;
+﻿using Cooking.Commands;
 using Cooking.DTO;
-using Cooking.Pages.Ingredients;
 using MahApps.Metro.Controls.Dialogs;
-using MahApps.Metro.IconPacks;
-using Microsoft.Win32;
-using Prism.Commands;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 
 namespace Cooking.Pages.Recepies
 {

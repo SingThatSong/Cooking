@@ -77,7 +77,18 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Ellipse.Style>
-                            </Ellipse>
+                        </Ellipse>
+                        <ToggleButton 
+                                Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                                Width="24" 
+                                Height="24"
+                                Margin="5 5 0 0"
+                                IsChecked="{Binding CurrentWeek.Monday.DinnerWasCooked}"
+                                Foreground="LightGray">
+                            <icons:PackIconModern Width="15"
+                                  Height="10"
+                                  Kind="Check" />
+                        </ToggleButton>
                     </StackPanel>
                     <local:DayControl DataContext="{Binding CurrentWeek.Monday.Dinner}"/>
                 </StackPanel>
@@ -110,6 +121,17 @@
                                 </Style>
                             </Ellipse.Style>
                         </Ellipse>
+                        <ToggleButton 
+                                Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                                Width="24" 
+                                Height="24"
+                                Margin="5 5 0 0"
+                                IsChecked="{Binding CurrentWeek.Tuesday.DinnerWasCooked}"
+                                Foreground="LightGray">
+                            <icons:PackIconModern Width="15"
+                                  Height="10"
+                                  Kind="Check" />
+                        </ToggleButton>
                     </StackPanel>
                     <local:DayControl DataContext="{Binding CurrentWeek.Tuesday.Dinner}" />
                 </StackPanel>
@@ -142,6 +164,17 @@
                                 </Style>
                             </Ellipse.Style>
                         </Ellipse>
+                        <ToggleButton 
+                                Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                                Width="24" 
+                                Height="24"
+                                Margin="5 5 0 0"
+                                IsChecked="{Binding CurrentWeek.Wednesday.DinnerWasCooked}"
+                                Foreground="LightGray">
+                            <icons:PackIconModern Width="15"
+                                  Height="10"
+                                  Kind="Check" />
+                        </ToggleButton>
                     </StackPanel>
                     <local:DayControl DataContext="{Binding CurrentWeek.Wednesday.Dinner}" />
                 </StackPanel>
@@ -174,6 +207,17 @@
                                 </Style>
                             </Ellipse.Style>
                         </Ellipse>
+                        <ToggleButton 
+                                Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                                Width="24" 
+                                Height="24"
+                                Margin="5 5 0 0"
+                                IsChecked="{Binding CurrentWeek.Thursday.DinnerWasCooked}"
+                                Foreground="LightGray">
+                            <icons:PackIconModern Width="15"
+                                  Height="10"
+                                  Kind="Check" />
+                        </ToggleButton>
                     </StackPanel>
                     <local:DayControl DataContext="{Binding CurrentWeek.Thursday.Dinner}" />
                 </StackPanel>
@@ -206,6 +250,17 @@
                                 </Style>
                             </Ellipse.Style>
                         </Ellipse>
+                        <ToggleButton 
+                                Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                                Width="24" 
+                                Height="24"
+                                Margin="5 5 0 0"
+                                IsChecked="{Binding CurrentWeek.Friday.DinnerWasCooked}"
+                                Foreground="LightGray">
+                            <icons:PackIconModern Width="15"
+                                  Height="10"
+                                  Kind="Check" />
+                        </ToggleButton>
                     </StackPanel>
                     <local:DayControl DataContext="{Binding CurrentWeek.Friday.Dinner}" />
                 </StackPanel>
@@ -238,6 +293,17 @@
                                 </Style>
                             </Ellipse.Style>
                         </Ellipse>
+                        <ToggleButton 
+                                Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                                Width="24" 
+                                Height="24"
+                                Margin="5 5 0 0"
+                                IsChecked="{Binding CurrentWeek.Saturday.DinnerWasCooked}"
+                                Foreground="LightGray">
+                            <icons:PackIconModern Width="15"
+                                  Height="10"
+                                  Kind="Check" />
+                        </ToggleButton>
                     </StackPanel>
                     <local:DayControl DataContext="{Binding CurrentWeek.Saturday.Dinner}" />
                 </StackPanel>
@@ -270,8 +336,20 @@
                                 </Style>
                             </Ellipse.Style>
                         </Ellipse>
+                        <ToggleButton 
+                                Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                                Width="24" 
+                                Height="24"
+                                Margin="5 5 0 0"
+                                IsChecked="{Binding CurrentWeek.Sunday.DinnerWasCooked}"
+                                Foreground="LightGray">
+                            <icons:PackIconModern Width="15"
+                                  Height="10"
+                                  Kind="Check" />
+                        </ToggleButton>
                     </StackPanel>
                     <local:DayControl DataContext="{Binding CurrentWeek.Sunday.Dinner}" />
+
                 </StackPanel>
             </WrapPanel>
         </ScrollViewer>

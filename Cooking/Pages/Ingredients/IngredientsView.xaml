@@ -13,6 +13,10 @@
     <UserControl.DataContext>
         <local:IngredientsViewModel />
     </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+    </UserControl.Resources>
     
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -22,11 +26,12 @@
             <ItemsControl ItemsSource="{Binding Ingredients.Value}" Name="CategoriesList">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Height="36">
                             <TextBlock Text="{Binding Name}" FontSize="20" VerticalAlignment="Center" />
                             <Button Margin="10 0 0 0"
                                     Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                                     Width="36" 
+                                    Visibility="{Binding ElementName=CategoriesList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
                                     Height="36"
                                     Command="{Binding ElementName=CategoriesList, Path=DataContext.EditCategoryCommand.Value}"
                                     CommandParameter="{Binding}">
@@ -38,6 +43,7 @@
                                     Grid.Column="4" 
                                     Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                                     Width="36" 
+                                    Visibility="{Binding ElementName=CategoriesList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
                                     Height="36"
                                     Command="{Binding ElementName=CategoriesList, Path=DataContext.DeleteCategoryCommand.Value}"
                                     CommandParameter="{Binding}">
@@ -62,15 +68,29 @@
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
-        <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
-                Width="48" 
-                Height="48"
-                Command="{Binding AddCategoryCommand.Value}"
-                HorizontalAlignment="Center"
-                Grid.Row="1">
-            <icons:PackIconModern Width="20"
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" >
+            <ToggleButton 
+                      Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                      Width="48" 
+                      Height="48"
+                      IsChecked="{Binding IsEditing}"
+                      Foreground="LightGray">
+                <icons:PackIconModern 
+                                  Width="20"
                                   Height="20"
-                                  Kind="Add" />
-        </Button>
+                                  Kind="Edit" />
+            </ToggleButton>
+            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                    Width="48" 
+                    Height="48"
+                    Command="{Binding AddCategoryCommand.Value}"
+                    Margin="10 0 0 0" >
+                <icons:PackIconModern Width="20"
+                                      Height="20"
+                                      Kind="Add" />
+            </Button>
+        </StackPanel>
+
     </Grid>
 </UserControl>

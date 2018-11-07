@@ -1,5 +1,5 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using Prism.Commands;
+﻿using Cooking.Commands;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 
 namespace Cooking.Pages.Recepies

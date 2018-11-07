@@ -7,5 +7,6 @@ namespace Data.Model.Plan
         public Guid? ID { get; set; }
         public Guid? DinnerID { get; set; }
         public Recipe Dinner { get; set; }
+        public bool DinnerWasCooked { get; set; }
     }
 }

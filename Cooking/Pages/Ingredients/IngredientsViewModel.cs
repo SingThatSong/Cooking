@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
-using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -144,5 +144,7 @@ namespace Cooking.Pages.Ingredients
         public Lazy<DelegateCommand> AddCategoryCommand { get; }
         public Lazy<DelegateCommand<IngredientDTO>> EditCategoryCommand { get; }
         public Lazy<DelegateCommand<IngredientDTO>> DeleteCategoryCommand { get; }
+
+        public bool IsEditing { get; set; }
     }
 }

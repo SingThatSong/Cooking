@@ -17,12 +17,21 @@
         <local:RecepiesViewModel />
     </UserControl.DataContext>
 
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+    </UserControl.Resources>
+    
     <Grid Margin="20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <ItemsControl ItemsSource="{Binding Recipies.Value}" Name="RecipiesList">
+        <TextBox ToolTip="Название #ингредиент1, ингредиент2 ~тег1, тег2"
+                 mahapps:TextBoxHelper.Watermark="Поиск..."
+                 mahapps:TextBoxHelper.UseFloatingWatermark="True" 
+                 Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <ItemsControl ItemsSource="{Binding RecipiesSource.View}" Name="RecipiesList" Grid.Row="1" Margin="0 5 0 0">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Width="150" Margin="3">
@@ -40,7 +49,7 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Image>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding ElementName=RecipiesList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}">
                                 <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                                         Width="24" 
                                         Height="24"
@@ -78,15 +87,27 @@
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
-        <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
-                Width="48" 
-                Height="48"
-                Command="{Binding AddRecipeCommand.Value}"
-                HorizontalAlignment="Center"
-                Grid.Row="1">
-            <icons:PackIconModern Width="20"
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" >
+            <ToggleButton 
+                      Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                      Width="48" 
+                      Height="48"
+                      IsChecked="{Binding IsEditing}"
+                      Foreground="LightGray">
+                <icons:PackIconModern 
+                                  Width="20"
                                   Height="20"
-                                  Kind="Add" />
-        </Button>
+                                  Kind="Edit" />
+            </ToggleButton>
+            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                    Width="48" 
+                    Height="48"
+                    Command="{Binding AddRecipeCommand.Value}"
+                    Margin="10 0 0 0" >
+                <icons:PackIconModern Width="20"
+                                      Height="20"
+                                      Kind="Add" />
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

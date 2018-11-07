@@ -1,15 +1,10 @@
-﻿using AutoMapper;
+﻿using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.MainPage.Dialogs.Model;
-using Cooking.Pages.MainPage.Dialogs.Model.CalorieTypeSelect;
 using Cooking.Pages.Recepies;
-using Data.Context;
-using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
-using Prism.Commands;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
@@ -37,20 +32,19 @@ namespace Cooking.Pages.MainPage.Dialogs
                     await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
                 }));
 
-            GetAlternativeRecipe = new Lazy<DelegateCommand<DayPlan>>(
-                () => new DelegateCommand<DayPlan>(async (day) => {
-                    if (day.RecipeAlternatives.Count > 1)
-                    {
-                        RecipeDTO newRecipe;
-                        do
-                        {
-                            newRecipe = day.RecipeAlternatives[Random.Next(0, day.RecipeAlternatives.Count - 1)];
-                        }
-                        while (day.Recipe == newRecipe);
+            GetAlternativeRecipe = new DelegateCommand<DayPlan>(async (day) =>
+            {
+                RecipeDTO newRecipe;
+                do
+                {
+                    newRecipe = day.RecipeAlternatives[Random.Next(0, day.RecipeAlternatives.Count)];
+                }
+                while (day.Recipe == newRecipe);
 
-                        day.Recipe = newRecipe;
-                    }
-                }));
+                day.Recipe = newRecipe;
+            },
+                canExecute: (day) =>
+                 day?.RecipeAlternatives?.Count > 1);
 
             ShowRecipe = new Lazy<DelegateCommand<DayPlan>>(
                 () => new DelegateCommand<DayPlan>(async (day) => {
@@ -79,7 +73,7 @@ namespace Cooking.Pages.MainPage.Dialogs
         public IEnumerable<DayPlan> Days { get; }
 
         public Lazy<DelegateCommand<DayPlan>> ShowRecipe { get; }
-        public Lazy<DelegateCommand<DayPlan>> GetAlternativeRecipe { get; }
+        public DelegateCommand<DayPlan> GetAlternativeRecipe { get; }
         public Lazy<DelegateCommand> OkCommand { get; }
         public Lazy<DelegateCommand> CloseCommand { get; }
 

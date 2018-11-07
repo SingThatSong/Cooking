@@ -30,7 +30,7 @@
         <KeyBinding Key="Esc" Command="{Binding CloseCommand.Value}" />
     </UserControl.InputBindings>
     
-    <Grid MinHeight="500">
+    <Grid MinHeight="500" x:Name="RecipeEdit">
         
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -81,12 +81,118 @@
                             Foreground="Green"
                             BorderThickness="0"
                             VerticalAlignment="Center"
+                            Command="{Binding AddIngredientGroupCommand.Value}">
+                        <icons:PackIconModern Width="10"
+                                              Height="10"
+                                              Kind="TableAdd" />
+                    </Button>
+                    <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                            Width="24" 
+                            Height="24"
+                            Margin="5 0 0 0"
+                            Foreground="Green"
+                            BorderThickness="0"
+                            VerticalAlignment="Center"
                             Command="{Binding AddIngredientCommand.Value}">
                         <icons:PackIconModern Width="10"
                                               Height="10"
                                               Kind="Add" />
                     </Button>
                 </StackPanel>
+
+                <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Margin="0 0 0 20">
+                                <StackPanel Orientation="Horizontal" TextElement.FontSize="18" TextElement.FontWeight="Bold" VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name}" />
+                                    <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                            Width="24" 
+                                            Height="24"
+                                            Margin="5 0 0 0"
+                                            Foreground="Green"
+                                            BorderThickness="0"
+                                            VerticalAlignment="Center"
+                                            Command="{Binding ElementName=RecipeEdit, Path=DataContext.AddIngredientToGroupCommand.Value}"
+                                            CommandParameter="{Binding}">
+                                        <icons:PackIconModern Width="10"
+                                              Height="10"
+                                              Kind="Add" />
+                                    </Button>
+                                    <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                            Width="24" 
+                                            Height="24"
+                                            Margin="5 0 0 0"
+                                            Foreground="Gray"
+                                            VerticalAlignment="Center"
+                                            Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientGroupCommand.Value}"
+                                            CommandParameter="{Binding}">
+                                        <icons:PackIconModern Width="10"
+                                                  Height="10"
+                                                  Kind="Edit" />
+                                    </Button>
+                                    <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                            Width="24" 
+                                            Height="24"
+                                            Margin="2 0 0 0"
+                                            Foreground="Red"
+                                            VerticalAlignment="Center"
+                                            Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientGroupCommand.Value}"
+                                            CommandParameter="{Binding}">
+                                        <icons:PackIconModern Width="10"
+                                                  Height="10"
+                                                  Kind="Close" />
+                                    </Button>
+                                </StackPanel>
+                                <ItemsControl ItemsSource="{Binding Ingredients}" Name="IngredientsList">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" TextElement.FontSize="15" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Ingredient.Name}" />
+                                                <TextBlock Text="{Binding Amount}" Margin="5 0 0 0" />
+                                                <TextBlock Text="{Binding MeasureUnit.Name}" Margin="5 0 0 0" />
+                                                <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                            Width="24" 
+                                            Height="24"
+                                            Margin="5 0 0 0"
+                                            Foreground="Gray"
+                                            VerticalAlignment="Center"
+                                            Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientCommand.Value}"
+                                            CommandParameter="{Binding}">
+                                                    <icons:PackIconModern Width="10"
+                                                  Height="10"
+                                                  Kind="Edit" />
+                                                </Button>
+                                                <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                            Width="24" 
+                                            Height="24"
+                                            Margin="2 0 0 0"
+                                            Foreground="Red"
+                                            VerticalAlignment="Center"
+                                            Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientCommand.Value}"
+                                            CommandParameter="{Binding}">
+                                                    <icons:PackIconModern Width="10"
+                                                  Height="10"
+                                                  Kind="Close" />
+                                                </Button>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
 
                 <ItemsControl ItemsSource="{Binding Recipe.Ingredients}" Name="IngredientsList">
                     <ItemsControl.ItemTemplate>

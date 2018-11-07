@@ -44,6 +44,8 @@ namespace Data.Context
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Day>().ToTable("Day");
+
             modelBuilder.Entity<Day>()
                 .HasOne(x => x.Dinner)
                 .WithMany()
@@ -51,34 +53,42 @@ namespace Data.Context
 
 
 
-            //modelBuilder.Entity<Recipe>()
-            //    .HasMany(x => x.IngredientsGroups)
-            //    .WithOne()
-            //    .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Recipe>()
+                .HasMany(x => x.IngredientGroups)
+                .WithOne()
+                .OnDelete(DeleteBehavior.SetNull);
 
-            //modelBuilder.Entity<IngredientsGroup>()
-            //    .HasMany(x => x.Ingredients)
-            //    .WithOne()
-            //    .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<IngredientsGroup>()
+                .HasMany(x => x.Ingredients)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             modelBuilder.Entity<Recipe>()
                 .HasMany(x => x.Ingredients)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Recipe>()
-                .HasMany(x => x.Tags)
-                .WithOne()
-                .OnDelete(DeleteBehavior.SetNull);
-
             modelBuilder.Entity<RecipeIngredient>()
                 .HasOne(x => x.Ingredient)
                 .WithMany()
                 .HasForeignKey(x => x.IngredientId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+
+            modelBuilder.Entity<RecipeTag>()
+                .HasKey(bc => new { bc.RecipeId, bc.TagId });
+            modelBuilder.Entity<RecipeTag>()
+                .HasOne(bc => bc.Recipe)
+                .WithMany(b => b.Tags)
+                .HasForeignKey(bc => bc.RecipeId);
+            modelBuilder.Entity<RecipeTag>()
+                .HasOne(bc => bc.Tag)
+                .WithMany(b => b.Recipies)
+                .HasForeignKey(bc => bc.TagId);
         }
 
         public DbSet<Week> Weeks { get; set; }
+        public DbSet<Day> Days { get; set; }
 
 
         public DbSet<Recipe> Recipies { get; set; }

@@ -51,6 +51,8 @@ namespace Data.Migrations
 
                     b.Property<Guid?>("DinnerID");
 
+                    b.Property<bool>("DinnerWasCooked");
+
                     b.HasKey("ID");
 
                     b.HasIndex("DinnerID");
@@ -153,6 +155,19 @@ namespace Data.Migrations
                     b.ToTable("RecipeIngredients");
                 });
 
+            modelBuilder.Entity("Data.Model.RecipeTag", b =>
+                {
+                    b.Property<Guid>("RecipeId");
+
+                    b.Property<Guid>("TagId");
+
+                    b.HasKey("RecipeId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("RecipeTag");
+                });
+
             modelBuilder.Entity("Data.Model.Tag", b =>
                 {
                     b.Property<Guid>("ID")
@@ -162,13 +177,9 @@ namespace Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<Guid?>("RecipeID");
-
                     b.Property<int>("Type");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("RecipeID");
 
                     b.ToTable("Tags");
                 });
@@ -176,9 +187,9 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Model.IngredientsGroup", b =>
                 {
                     b.HasOne("Data.Model.Recipe")
-                        .WithMany("IngredientsGroups")
+                        .WithMany("IngredientGroups")
                         .HasForeignKey("RecipeID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Data.Model.Plan.Day", b =>
@@ -244,12 +255,17 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Data.Model.Tag", b =>
+            modelBuilder.Entity("Data.Model.RecipeTag", b =>
                 {
-                    b.HasOne("Data.Model.Recipe")
+                    b.HasOne("Data.Model.Recipe", "Recipe")
                         .WithMany("Tags")
-                        .HasForeignKey("RecipeID")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Data.Model.Tag", "Tag")
+                        .WithMany("Recipies")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

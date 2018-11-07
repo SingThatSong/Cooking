@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.EntityFrameworkCore;
-using Prism.Commands;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows.Data;
 
 namespace Cooking.Pages.Recepies
 {
@@ -17,7 +17,10 @@ namespace Cooking.Pages.Recepies
     {
         public RecepiesViewModel()
         {
-            Recipies = new Lazy<ObservableCollection<RecipeDTO>>(GetCategories);
+            Recipies = new Lazy<ObservableCollection<RecipeDTO>>(GetRecipies);
+            RecipiesSource = new CollectionViewSource() { Source = Recipies.Value };
+            RecipiesSource.Filter += RecipiesSource_Filter;
+
             ViewRecipeCommand = new Lazy<DelegateCommand<RecipeDTO>>(() => new DelegateCommand<RecipeDTO>(ViewRecipe));
             AddRecipeCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddRecipe));
             DeleteRecipeCommand = new Lazy<DelegateCommand<RecipeDTO>>(() => new DelegateCommand<RecipeDTO>(cat => DeleteCategory(cat.ID)));
@@ -28,16 +31,19 @@ namespace Cooking.Pages.Recepies
                     {
                         var existing = context.Recipies
                                               .Where(x => x.ID == recipe.ID)
+                                              .Include(x => x.IngredientGroups)
+                                                  .ThenInclude(x => x.Ingredients)
+                                                      .ThenInclude(x => x.Ingredient)
                                               .Include(x => x.Ingredients)
                                                   .ThenInclude(x => x.Ingredient)
                                               .Include(x => x.Tags)
+                                                  .ThenInclude(x => x.Tag)
                                               .Single();
 
-                        Mapper.Map(existing.Ingredients, recipe.Ingredients);
-                        Mapper.Map(existing.Tags, recipe.Tags);
+                        Mapper.Map(existing, recipe);
                     }
 
-                        var viewModel = new RecipeEditViewModel(Mapper.Map<RecipeDTO>(recipe));
+                    var viewModel = new RecipeEditViewModel(Mapper.Map<RecipeDTO>(recipe));
 
                     var dialog = new CustomDialog()
                     {
@@ -64,29 +70,16 @@ namespace Cooking.Pages.Recepies
 
                             var existing = context.Recipies
                                                   .Where(x => x.ID == recipe.ID)
+                                                  .Include(x => x.IngredientGroups)
+                                                      .ThenInclude(x => x.Ingredients)
+                                                          .ThenInclude(x => x.Ingredient)
                                                   .Include(x => x.Ingredients)
                                                       .ThenInclude(x => x.Ingredient)
                                                   .Include(x => x.Tags)
+                                                    .ThenInclude(x => x.Tag)
                                                   .Single();
-                            
+
                             Mapper.Map(viewModel.Recipe, existing);
-
-                            for (int i = 0; i < existing.Ingredients.Count; i++)
-                            {
-                                var dbValue = context.RecipeIngredients.Find(existing.Ingredients[i].ID);
-                                if (dbValue != null)
-                                {
-                                    existing.Ingredients[i] = dbValue;
-                                }
-                            }
-
-                            for (int i = 0; i < existing.Tags.Count; i++)
-                            {
-                                if (existing.Tags[i] != null)
-                                {
-                                    existing.Tags[i] = context.Tags.Find(existing.Tags[i].ID);
-                                }
-                            }
 
                             context.SaveChanges();
                         }
@@ -95,6 +88,33 @@ namespace Cooking.Pages.Recepies
                         Mapper.Map(viewModel.Recipe, existingRecipe);
                     }
                 }));
+        }
+
+        private void RecipiesSource_Filter(object sender, FilterEventArgs e)
+        {
+            if (RecipeFilter == null)
+                return;
+
+            if(e.Item is RecipeDTO recipe)
+            {
+                e.Accepted = RecipeFilter.FilterRecipe(recipe);
+            }
+        }
+
+        private string filterText;
+        private RecipeFilter RecipeFilter { get; set; }
+        public string FilterText
+        {
+            get => filterText;
+            set
+            {
+                if(filterText != value)
+                {
+                    filterText = value;
+                    RecipeFilter = new RecipeFilter(value);
+                    RecipiesSource.View.Refresh();
+                }
+            }
         }
 
         public async void DeleteCategory(Guid recipeId)
@@ -129,13 +149,16 @@ namespace Cooking.Pages.Recepies
             {
                 var existing = context.Recipies
                                       .Where(x => x.ID == recipe.ID)
+                                      .Include(x => x.IngredientGroups)
+                                          .ThenInclude(x => x.Ingredients)
+                                              .ThenInclude(x => x.Ingredient)
                                       .Include(x => x.Ingredients)
                                           .ThenInclude(x => x.Ingredient)
                                       .Include(x => x.Tags)
+                                          .ThenInclude(x => x.Tag)
                                       .Single();
 
-                Mapper.Map(existing.Ingredients, recipe.Ingredients);
-                Mapper.Map(existing.Tags, recipe.Tags);
+                Mapper.Map(existing, recipe);
             }
 
             var viewModel = new RecipeViewModel(recipe);
@@ -180,22 +203,27 @@ namespace Cooking.Pages.Recepies
                 var recipe = Mapper.Map<Recipe>(viewModel.Recipe);
                 using (var context = new CookingContext())
                 {
-
-                    for (int i = 0; i < recipe.Ingredients.Count; i++)
+                    if (recipe.Ingredients != null)
                     {
-                        var dbValue = context.RecipeIngredients.Find(recipe.Ingredients[i].ID);
-                        if (dbValue != null)
+                        for (int i = 0; i < recipe.Ingredients.Count; i++)
                         {
-                            recipe.Ingredients[i] = dbValue;
+                            var dbValue = context.RecipeIngredients.Find(recipe.Ingredients[i].ID);
+                            if (dbValue != null)
+                            {
+                                recipe.Ingredients[i] = dbValue;
+                            }
                         }
                     }
 
-                    for (int i = 0; i < recipe.Tags.Count; i++)
+                    if (recipe.Tags != null)
                     {
-                        var dbValue = context.Tags.Find(recipe.Tags[i].ID);
-                        if (dbValue != null)
+                        for (int i = 0; i < recipe.Tags.Count; i++)
                         {
-                            recipe.Tags[i] = dbValue;
+                            var dbValue = context.Tags.Find(recipe.Tags[i].Tag.ID);
+                            if (dbValue != null)
+                            {
+                                recipe.Tags[i].Tag = dbValue;
+                            }
                         }
                     }
 
@@ -207,14 +235,22 @@ namespace Cooking.Pages.Recepies
             }
         }
 
+        public CollectionViewSource RecipiesSource { get; }
+
         public Lazy<ObservableCollection<RecipeDTO>> Recipies { get; }
-        private ObservableCollection<RecipeDTO> GetCategories()
+        private ObservableCollection<RecipeDTO> GetRecipies()
         {
             try
             {
                 using (var Context = new CookingContext())
                 {
-                    var originalList = Context.Recipies.ToList();
+                    var originalList = Context.Recipies
+                                              .Include(x => x.Ingredients)
+                                                  .ThenInclude(x => x.Ingredient)
+                                              .Include(x => x.Tags)
+                                                  .ThenInclude(x => x.Tag)
+                                              .ToList();
+
                     return new ObservableCollection<RecipeDTO>(
                         originalList.OrderBy(x => x.Name).Select(x =>
                         {
@@ -226,7 +262,7 @@ namespace Cooking.Pages.Recepies
             }
             catch
             {
-                return null;
+                return new ObservableCollection<RecipeDTO>();
             }
         }
 
@@ -236,5 +272,7 @@ namespace Cooking.Pages.Recepies
         public Lazy<DelegateCommand<RecipeDTO>> ViewRecipeCommand { get; }
         public Lazy<DelegateCommand<RecipeDTO>> EditRecipeCommand { get; }
         public Lazy<DelegateCommand<RecipeDTO>> DeleteRecipeCommand { get; }
+
+        public bool IsEditing { get; set; }
     }
 }

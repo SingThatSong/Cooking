@@ -11,8 +11,8 @@ namespace Data.Model
         public string Description { get; set; }
         public int PortionsCount { get; set; }
         public CalorieType CalorieType { get; set; }
-        //public List<IngredientsGroup> IngredientsGroups { get; set; }
+        public List<IngredientsGroup> IngredientGroups { get; set; }
         public List<RecipeIngredient> Ingredients { get; set; }
-        public List<Tag> Tags { get; set; }
+        public List<RecipeTag> Tags { get; set; }
     }
 }

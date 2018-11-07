@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.MainPage.Dialogs;
 using Cooking.Pages.MainPage.Dialogs.Model;
@@ -9,7 +10,6 @@ using Data.Model;
 using Data.Model.Plan;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.EntityFrameworkCore;
-using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -93,11 +93,63 @@ namespace Cooking.Pages.MainPage
 
                 if (currentWeek != null)
                 {
-                    return Mapper.Map<WeekDTO>(currentWeek);
+                    var week = Mapper.Map<WeekDTO>(currentWeek);
+
+                    if (week.Monday != null)
+                    {
+                        week.Monday.PropertyChanged += Day_PropertyChanged;
+                    }
+
+                    if (week.Tuesday != null)
+                    {
+                        week.Tuesday.PropertyChanged += Day_PropertyChanged;
+                    }
+
+                    if (week.Wednesday != null)
+                    {
+                        week.Wednesday.PropertyChanged += Day_PropertyChanged;
+                    }
+
+                    if (week.Thursday != null)
+                    {
+                        week.Thursday.PropertyChanged += Day_PropertyChanged;
+                    }
+
+                    if (week.Friday != null)
+                    {
+                        week.Friday.PropertyChanged += Day_PropertyChanged;
+                    }
+
+                    if (week.Saturday != null)
+                    {
+                        week.Saturday.PropertyChanged += Day_PropertyChanged;
+                    }
+
+                    if (week.Sunday != null)
+                    {
+                        week.Sunday.PropertyChanged += Day_PropertyChanged;
+                    }
+
+                    return week;
                 }
                 else
                 {
                     return null;
+                }
+            }
+        }
+
+        private void Day_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Day.DinnerWasCooked))
+            {
+                var day = sender as DayDTO;
+
+                using (var context = new CookingContext())
+                {
+                    var dayDb = context.Days.Find(day.ID);
+                    dayDb.DinnerWasCooked = day.DinnerWasCooked;
+                    context.SaveChanges();
                 }
             }
         }
@@ -300,43 +352,43 @@ namespace Cooking.Pages.MainPage
                                 case "Пн":
                                     newWeek.Monday = new Day()
                                     {
-                                        DinnerID = day.Recipe.ID
+                                        DinnerID = day.Recipe?.ID
                                     };
                                     break;
                                 case "Вт":
                                     newWeek.Tuesday = new Day()
                                     {
-                                        DinnerID = day.Recipe.ID
+                                        DinnerID = day.Recipe?.ID
                                     };
                                     break;
                                 case "Ср":
                                     newWeek.Wednesday = new Day()
                                     {
-                                        DinnerID = day.Recipe.ID
+                                        DinnerID = day.Recipe?.ID
                                     };
                                     break;
                                 case "Чт":
                                     newWeek.Thursday = new Day()
                                     {
-                                        DinnerID = day.Recipe.ID
+                                        DinnerID = day.Recipe?.ID
                                     };
                                     break;
                                 case "Пт":
                                     newWeek.Friday = new Day()
                                     {
-                                        DinnerID = day.Recipe.ID
+                                        DinnerID = day.Recipe?.ID
                                     };
                                     break;
                                 case "Сб":
                                     newWeek.Saturday = new Day()
                                     {
-                                        DinnerID = day.Recipe.ID
+                                        DinnerID = day.Recipe?.ID
                                     };
                                     break;
                                 case "Вс":
                                     newWeek.Sunday = new Day()
                                     {
-                                        DinnerID = day.Recipe.ID
+                                        DinnerID = day.Recipe?.ID
                                     };
                                     break;
                             }
@@ -372,12 +424,13 @@ namespace Cooking.Pages.MainPage
 
                     var query = context.Recipies
                                        .Include(x => x.Tags)
+                                           .ThenInclude(x => x.Tag)
                                        .Include(x => x.Ingredients)
                                            .ThenInclude(x => x.Ingredient).AsQueryable();
 
                     foreach(var tag in requiredTags)
                     {
-                        query = query.Where(x => x.Tags.Any(ttag => ttag.ID == tag.ID));
+                        query = query.Where(x => x.Tags.Any(ttag => ttag.Tag.ID == tag.ID));
                     }
 
                     if (!day.CalorieTypes.Contains(CalorieTypeSelection.Any))
@@ -400,7 +453,7 @@ namespace Cooking.Pages.MainPage
 
                     if (recipiesNotSelectedYet.Count > 0)
                     {
-                        day.Recipe = Mapper.Map<RecipeDTO>(recipiesNotSelectedYet[random.Next(0, recipiesNotSelectedYet.Count - 1)]);
+                        day.Recipe = Mapper.Map<RecipeDTO>(recipiesNotSelectedYet[random.Next(0, recipiesNotSelectedYet.Count)]);
                     }
                 }
             }

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(CookingContext))]
-    [Migration("20181105163849_DayMany")]
-    partial class DayMany
+    [Migration("20181107223127_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,12 +30,30 @@ namespace Data.Migrations
                     b.ToTable("Ingredients");
                 });
 
+            modelBuilder.Entity("Data.Model.IngredientsGroup", b =>
+                {
+                    b.Property<Guid?>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<Guid?>("RecipeID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("RecipeID");
+
+                    b.ToTable("IngredientsGroup");
+                });
+
             modelBuilder.Entity("Data.Model.Plan.Day", b =>
                 {
                     b.Property<Guid?>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<Guid?>("DinnerID");
+
+                    b.Property<bool>("DinnerWasCooked");
 
                     b.HasKey("ID");
 
@@ -122,6 +140,8 @@ namespace Data.Migrations
 
                     b.Property<Guid?>("IngredientId");
 
+                    b.Property<Guid?>("IngredientsGroupID");
+
                     b.Property<int?>("MeasureUnitID");
 
                     b.Property<Guid?>("RecipeID");
@@ -130,9 +150,24 @@ namespace Data.Migrations
 
                     b.HasIndex("IngredientId");
 
+                    b.HasIndex("IngredientsGroupID");
+
                     b.HasIndex("RecipeID");
 
                     b.ToTable("RecipeIngredients");
+                });
+
+            modelBuilder.Entity("Data.Model.RecipeTag", b =>
+                {
+                    b.Property<Guid>("RecipeId");
+
+                    b.Property<Guid>("TagId");
+
+                    b.HasKey("RecipeId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("RecipeTag");
                 });
 
             modelBuilder.Entity("Data.Model.Tag", b =>
@@ -144,15 +179,19 @@ namespace Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<Guid?>("RecipeID");
-
                     b.Property<int>("Type");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("RecipeID");
-
                     b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("Data.Model.IngredientsGroup", b =>
+                {
+                    b.HasOne("Data.Model.Recipe")
+                        .WithMany("IngredientGroups")
+                        .HasForeignKey("RecipeID")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Data.Model.Plan.Day", b =>
@@ -207,18 +246,28 @@ namespace Data.Migrations
                         .WithMany()
                         .HasForeignKey("IngredientId");
 
+                    b.HasOne("Data.Model.IngredientsGroup")
+                        .WithMany("Ingredients")
+                        .HasForeignKey("IngredientsGroupID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Data.Model.Recipe")
                         .WithMany("Ingredients")
                         .HasForeignKey("RecipeID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Data.Model.Tag", b =>
+            modelBuilder.Entity("Data.Model.RecipeTag", b =>
                 {
-                    b.HasOne("Data.Model.Recipe")
+                    b.HasOne("Data.Model.Recipe", "Recipe")
                         .WithMany("Tags")
-                        .HasForeignKey("RecipeID")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("RecipeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Data.Model.Tag", "Tag")
+                        .WithMany("Recipies")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

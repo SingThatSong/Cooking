@@ -1,7 +1,7 @@
-﻿using Cooking.DTO;
+﻿using Cooking.Commands;
+using Cooking.DTO;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
-using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
