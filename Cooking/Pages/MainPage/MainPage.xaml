@@ -49,7 +49,7 @@
               TextElement.FontSize="15"
               HorizontalAlignment="Center"
               VerticalAlignment="Top">
-                <StackPanel Orientation="Vertical" Margin="10">
+                <StackPanel Orientation="Vertical" Margin="10" Visibility="{Binding CurrentWeek.Monday.Dinner, Converter={StaticResource isNotNullConverter}}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                         <TextBlock Text="Понедельник" FontSize="20"/>
                         <Ellipse Height="15" 
@@ -92,7 +92,7 @@
                     </StackPanel>
                     <local:DayControl DataContext="{Binding CurrentWeek.Monday.Dinner}"/>
                 </StackPanel>
-                <StackPanel Orientation="Vertical" Width="200" Margin="10">
+                <StackPanel Orientation="Vertical" Width="200" Margin="10" Visibility="{Binding CurrentWeek.Tuesday.Dinner, Converter={StaticResource isNotNullConverter}}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBlock Text="Вторник" FontSize="20" />
                         <Ellipse Height="15" 
@@ -135,7 +135,7 @@
                     </StackPanel>
                     <local:DayControl DataContext="{Binding CurrentWeek.Tuesday.Dinner}" />
                 </StackPanel>
-                <StackPanel Orientation="Vertical" Width="200" Margin="10">
+                <StackPanel Orientation="Vertical" Width="200" Margin="10" Visibility="{Binding CurrentWeek.Wednesday.Dinner, Converter={StaticResource isNotNullConverter}}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBlock Text="Среда" FontSize="20" />
                         <Ellipse Height="15" 
@@ -178,7 +178,7 @@
                     </StackPanel>
                     <local:DayControl DataContext="{Binding CurrentWeek.Wednesday.Dinner}" />
                 </StackPanel>
-                <StackPanel Orientation="Vertical" Width="200" Margin="10">
+                <StackPanel Orientation="Vertical" Width="200" Margin="10" Visibility="{Binding CurrentWeek.Thursday.Dinner, Converter={StaticResource isNotNullConverter}}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBlock Text="Четверг" FontSize="20" />
                         <Ellipse Height="15" 
@@ -221,7 +221,7 @@
                     </StackPanel>
                     <local:DayControl DataContext="{Binding CurrentWeek.Thursday.Dinner}" />
                 </StackPanel>
-                <StackPanel Orientation="Vertical" Width="200" Margin="10">
+                <StackPanel Orientation="Vertical" Width="200" Margin="10" Visibility="{Binding CurrentWeek.Friday.Dinner, Converter={StaticResource isNotNullConverter}}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBlock Text="Пятница" FontSize="20" />
                         <Ellipse Height="15" 
@@ -264,7 +264,7 @@
                     </StackPanel>
                     <local:DayControl DataContext="{Binding CurrentWeek.Friday.Dinner}" />
                 </StackPanel>
-                <StackPanel Orientation="Vertical" Width="200" Margin="10">
+                <StackPanel Orientation="Vertical" Width="200" Margin="10" Visibility="{Binding CurrentWeek.Saturday.Dinner, Converter={StaticResource isNotNullConverter}}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBlock Text="Суббота" FontSize="20" />
                         <Ellipse Height="15" 
@@ -307,7 +307,7 @@
                     </StackPanel>
                     <local:DayControl DataContext="{Binding CurrentWeek.Saturday.Dinner}" />
                 </StackPanel>
-                <StackPanel Orientation="Vertical" Width="200" Margin="10">
+                <StackPanel Orientation="Vertical" Width="200" Margin="10" Visibility="{Binding CurrentWeek.Sunday.Dinner, Converter={StaticResource isNotNullConverter}}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBlock Text="Воскресенье" FontSize="20"/>
                         <Ellipse Height="15" 

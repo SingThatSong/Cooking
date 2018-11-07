@@ -8,6 +8,8 @@ namespace Data.Model
         DishType = 1,
         [Description("Main Ingredient")]
         MainIngredient = 2,
-        Occasion = 3
+        Occasion = 3,
+        [Description("Источник")]
+        Source = 4
     }
 }
