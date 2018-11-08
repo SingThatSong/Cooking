@@ -32,6 +32,7 @@ namespace Cooking.Pages.Ingredients
             AddMultipleCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(async () => {
                     Ingredients = Ingredients ?? new List<RecipeIngredientDTO>();
+                    Ingredient.Order = Ingredients.Count + 1;
                     Ingredients.Add(Ingredient);
                     Ingredient = new RecipeIngredientDTO();
                 },

@@ -16,7 +16,7 @@
         <KeyBinding Key="Esc" Command="{Binding CloseCommand.Value}" />
     </UserControl.InputBindings>
     
-    <Grid Height="230">
+    <Grid Height="270">
         
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -42,6 +42,7 @@
                           Style="{DynamicResource VirtualisedMetroComboBox}"
                           IsTextSearchEnabled="False"
                           StaysOpenOnEdit="True"
+                          IsDropDownOpen="False"
                           Text="{Binding Ingredient}"
                           SelectedValue="{Binding Ingredient.Ingredient}"
                           KeyUp="ComboBox_KeyUp"/>

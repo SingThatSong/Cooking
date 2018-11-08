@@ -150,7 +150,26 @@ namespace Cooking.Pages.Recepies
 
         private bool HasIngredient(RecipeDTO recipe, string category)
         {
-            return recipe.Ingredients != null && recipe.Ingredients.Any(x => x.Ingredient.Name.ToUpperInvariant() == category.ToUpperInvariant());
+            // Ищем среди ингредиентов
+            if (recipe.Ingredients != null
+                && recipe.Ingredients.Any(x => x.Ingredient.Name.ToUpperInvariant() == category.ToUpperInvariant()))
+            {
+                return true;
+            }
+
+            // Ищем среди групп ингредиентов
+            if (recipe.IngredientGroups != null)
+            {
+                foreach(var group in recipe.IngredientGroups)
+                {
+                    if (group.Ingredients.Any(x => x.Ingredient.Name.ToUpperInvariant() == category.ToUpperInvariant()))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

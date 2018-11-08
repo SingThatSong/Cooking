@@ -23,6 +23,8 @@ namespace Cooking.Pages.Ingredients
 
         private void ComboBox_KeyUp(object sender, KeyEventArgs e)
         {
+
+
             var Cmb = sender as ComboBox;
 
             CollectionView itemsViewOriginal = (CollectionView)CollectionViewSource.GetDefaultView(Cmb.ItemsSource);
@@ -39,6 +41,18 @@ namespace Cooking.Pages.Ingredients
 
             itemsViewOriginal.Refresh();
             Cmb.IsDropDownOpen = true;
+
+            // https://stackoverflow.com/a/43727449/1134449
+            var textBox = e.OriginalSource as TextBox;
+            if (textBox == null) return;
+            if (textBox.Text.Length >= 2) return;
+            textBox.SelectionLength = 0;
+            textBox.SelectionStart = 1;
+        }
+
+        private void ComboBox_KeyUp_1(object sender, KeyEventArgs e)
+        {
+
         }
     }
 }

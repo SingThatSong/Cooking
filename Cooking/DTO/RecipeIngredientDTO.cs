@@ -10,6 +10,7 @@ namespace Cooking.DTO
         public IngredientDTO Ingredient { get; set; }
         public double? Amount { get; set; }
         public MeasureUnit MeasureUnit { get; set; }
+        public int Order { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

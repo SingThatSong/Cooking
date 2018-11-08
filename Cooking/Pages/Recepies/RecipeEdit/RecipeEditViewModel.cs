@@ -81,15 +81,19 @@ namespace Cooking.Pages.Recepies
                             group.Ingredients = new ObservableCollection<RecipeIngredientDTO>();
                         }
 
-                        group.Ingredients.Add(viewModel.Ingredient);
+                        var normalizeCount = group.Ingredients.Count;
 
                         if (viewModel.Ingredients != null)
                         {
                             foreach (var ingredient in viewModel.Ingredients)
                             {
+                                ingredient.Order += normalizeCount;
                                 group.Ingredients.Add(ingredient);
                             }
                         }
+
+                        viewModel.Ingredient.Order = group.Ingredients.Count + 1;
+                        group.Ingredients.Add(viewModel.Ingredient);
                     }
                 }));
 
