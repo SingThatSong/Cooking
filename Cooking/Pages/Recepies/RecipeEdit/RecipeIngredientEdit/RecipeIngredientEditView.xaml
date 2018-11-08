@@ -16,7 +16,7 @@
         <KeyBinding Key="Esc" Command="{Binding CloseCommand.Value}" />
     </UserControl.InputBindings>
     
-    <Grid Height="270">
+    <Grid Height="250">
         
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -28,14 +28,8 @@
 
                 <TextBlock Margin="0 10 0 0" Text="Ингредиент" />
                 <ComboBox mahapps:TextBoxHelper.ClearTextButton="True"
-                          DisplayMemberPath="Name"
-                          IsEditable="True"
-                          ItemsSource="{Binding AllIngredients}"
-                          Style="{DynamicResource VirtualisedMetroComboBox}"
-                          Text="{Binding Ingredient}"
-                          SelectedValue="{Binding Ingredient.Ingredient}"/>
-                
-                <ComboBox mahapps:TextBoxHelper.ClearTextButton="True"
+                          TextBoxBase.TextChanged="Ingredient_TextChanged"
+                          x:Name="Ingredient"
                           DisplayMemberPath="Name"
                           IsEditable="True"
                           ItemsSource="{Binding AllIngredients}"
@@ -44,8 +38,7 @@
                           StaysOpenOnEdit="True"
                           IsDropDownOpen="False"
                           Text="{Binding Ingredient}"
-                          SelectedValue="{Binding Ingredient.Ingredient}"
-                          KeyUp="ComboBox_KeyUp"/>
+                          SelectedValue="{Binding Ingredient.Ingredient}" />
 
                 <TextBlock Margin="0 10 0 0" Text="Количество" />
                 <TextBox Text="{Binding Ingredient.Amount}" />

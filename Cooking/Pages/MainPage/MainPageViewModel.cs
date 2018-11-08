@@ -34,57 +34,92 @@ namespace Cooking.Pages.MainPage
             using (var context = new CookingContext())
             {
                 var currentWeek = context.Weeks.Include(x => x.Monday)
-                                                    .ThenInclude(x => x.Dinner)
-                                                        .ThenInclude(x => x.Ingredients)
-                                                            .ThenInclude(x => x.Ingredient)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.Ingredients)
+                                                          .ThenInclude(x => x.Ingredient)
+                                               .Include(x => x.Monday)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.IngredientGroups)
+                                                          .ThenInclude(x => x.Ingredients)
+                                                               .ThenInclude(x => x.Ingredient)
                                                .Include(x => x.Monday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
 
                                                .Include(x => x.Tuesday)
-                                                    .ThenInclude(x => x.Dinner)
-                                                        .ThenInclude(x => x.Ingredients)
-                                                            .ThenInclude(x => x.Ingredient)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.Ingredients)
+                                                          .ThenInclude(x => x.Ingredient)
+                                               .Include(x => x.Tuesday)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.IngredientGroups)
+                                                           .ThenInclude(x => x.Ingredients)
+                                                               .ThenInclude(x => x.Ingredient)
                                                .Include(x => x.Tuesday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
 
                                                .Include(x => x.Wednesday)
-                                                    .ThenInclude(x => x.Dinner)
-                                                        .ThenInclude(x => x.Ingredients)
-                                                            .ThenInclude(x => x.Ingredient)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.Ingredients)
+                                                          .ThenInclude(x => x.Ingredient)
+                                               .Include(x => x.Wednesday)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.IngredientGroups)
+                                                           .ThenInclude(x => x.Ingredients)
+                                                               .ThenInclude(x => x.Ingredient)
                                                .Include(x => x.Wednesday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
 
                                                .Include(x => x.Thursday)
-                                                    .ThenInclude(x => x.Dinner)
-                                                        .ThenInclude(x => x.Ingredients)
-                                                            .ThenInclude(x => x.Ingredient)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.Ingredients)
+                                                          .ThenInclude(x => x.Ingredient)
+                                               .Include(x => x.Thursday)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.IngredientGroups)
+                                                           .ThenInclude(x => x.Ingredients)
+                                                               .ThenInclude(x => x.Ingredient)
                                                .Include(x => x.Thursday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
 
                                                .Include(x => x.Friday)
-                                                    .ThenInclude(x => x.Dinner)
-                                                        .ThenInclude(x => x.Ingredients)
-                                                            .ThenInclude(x => x.Ingredient)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.Ingredients)
+                                                          .ThenInclude(x => x.Ingredient)
+                                               .Include(x => x.Friday)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.IngredientGroups)
+                                                           .ThenInclude(x => x.Ingredients)
+                                                               .ThenInclude(x => x.Ingredient)
                                                .Include(x => x.Friday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
 
                                                .Include(x => x.Saturday)
-                                                    .ThenInclude(x => x.Dinner)
-                                                        .ThenInclude(x => x.Ingredients)
-                                                            .ThenInclude(x => x.Ingredient)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.Ingredients)
+                                                          .ThenInclude(x => x.Ingredient)
+                                               .Include(x => x.Saturday)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.IngredientGroups)
+                                                           .ThenInclude(x => x.Ingredients)
+                                                               .ThenInclude(x => x.Ingredient)
                                                .Include(x => x.Saturday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
 
                                                .Include(x => x.Sunday)
-                                                    .ThenInclude(x => x.Dinner)
-                                                        .ThenInclude(x => x.Ingredients)
-                                                            .ThenInclude(x => x.Ingredient)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.Ingredients)
+                                                          .ThenInclude(x => x.Ingredient)
+                                               .Include(x => x.Sunday)
+                                                  .ThenInclude(x => x.Dinner)
+                                                      .ThenInclude(x => x.IngredientGroups)
+                                                           .ThenInclude(x => x.Ingredients)
+                                                               .ThenInclude(x => x.Ingredient)
                                                .Include(x => x.Sunday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
@@ -182,9 +217,19 @@ namespace Cooking.Pages.MainPage
                     allProducts.AddRange(CurrentWeek.Monday.Dinner.Ingredients);
                 }
 
+                if (CurrentWeek.Monday?.Dinner?.IngredientGroups != null)
+                {
+                    allProducts.AddRange(CurrentWeek.Monday.Dinner.IngredientGroups.SelectMany(x => x.Ingredients));
+                }
+
                 if (CurrentWeek.Tuesday?.Dinner?.Ingredients != null)
                 {
                     allProducts.AddRange(CurrentWeek.Tuesday.Dinner.Ingredients);
+                }
+
+                if (CurrentWeek.Tuesday?.Dinner?.IngredientGroups != null)
+                {
+                    allProducts.AddRange(CurrentWeek.Tuesday.Dinner.IngredientGroups.SelectMany(x => x.Ingredients));
                 }
 
                 if (CurrentWeek.Wednesday?.Dinner?.Ingredients != null)
@@ -192,9 +237,19 @@ namespace Cooking.Pages.MainPage
                     allProducts.AddRange(CurrentWeek.Wednesday.Dinner.Ingredients);
                 }
 
+                if (CurrentWeek.Wednesday?.Dinner?.IngredientGroups != null)
+                {
+                    allProducts.AddRange(CurrentWeek.Wednesday.Dinner.IngredientGroups.SelectMany(x => x.Ingredients));
+                }
+
                 if (CurrentWeek.Thursday?.Dinner?.Ingredients != null)
                 {
                     allProducts.AddRange(CurrentWeek.Thursday.Dinner.Ingredients);
+                }
+
+                if (CurrentWeek.Thursday?.Dinner?.IngredientGroups != null)
+                {
+                    allProducts.AddRange(CurrentWeek.Thursday.Dinner.IngredientGroups.SelectMany(x => x.Ingredients));
                 }
 
                 if (CurrentWeek.Friday?.Dinner?.Ingredients != null)
@@ -202,9 +257,19 @@ namespace Cooking.Pages.MainPage
                     allProducts.AddRange(CurrentWeek.Friday.Dinner.Ingredients);
                 }
 
+                if (CurrentWeek.Friday?.Dinner?.IngredientGroups != null)
+                {
+                    allProducts.AddRange(CurrentWeek.Friday.Dinner.IngredientGroups.SelectMany(x => x.Ingredients));
+                }
+
                 if (CurrentWeek.Saturday?.Dinner?.Ingredients != null)
                 {
                     allProducts.AddRange(CurrentWeek.Saturday.Dinner.Ingredients);
+                }
+
+                if (CurrentWeek.Saturday?.Dinner?.IngredientGroups != null)
+                {
+                    allProducts.AddRange(CurrentWeek.Saturday.Dinner.IngredientGroups.SelectMany(x => x.Ingredients));
                 }
 
                 if (CurrentWeek.Sunday?.Dinner?.Ingredients != null)
@@ -212,7 +277,12 @@ namespace Cooking.Pages.MainPage
                     allProducts.AddRange(CurrentWeek.Sunday.Dinner.Ingredients);
                 }
 
-                var grouped = allProducts.GroupBy(x => x.Ingredient.Name).OrderBy(x => x.Key);
+                if (CurrentWeek.Sunday?.Dinner?.IngredientGroups != null)
+                {
+                    allProducts.AddRange(CurrentWeek.Sunday.Dinner.IngredientGroups.SelectMany(x => x.Ingredients));
+                }
+
+                var grouped = allProducts.GroupBy(x => x.Ingredient?.Name).OrderBy(x => x.Key);
 
                 var sb = new StringBuilder();
                 foreach(var group in grouped)

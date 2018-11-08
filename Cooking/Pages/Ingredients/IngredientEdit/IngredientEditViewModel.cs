@@ -4,6 +4,7 @@ using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace Cooking.Pages.Ingredients
@@ -29,7 +30,7 @@ namespace Cooking.Pages.Ingredients
             Ingredient = category ?? new IngredientDTO();
         }
 
-        public List<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
+        public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

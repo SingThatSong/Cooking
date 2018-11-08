@@ -38,26 +38,7 @@ namespace Cooking
                     .ForMember(x => x.Ingredients, op => op.Ignore())
                     .AfterMap((src, dest, context) =>
                     {
-                        if (src.Ingredients != null)
-                        {
-                            foreach (var ingredient in src.Ingredients)
-                            {
-                                var existingIngredient = dest.Ingredients?.SingleOrDefault(x => x.ID == ingredient.ID);
-                                if (existingIngredient != null)
-                                {
-                                    context.Mapper.Map(ingredient, existingIngredient);
-                                }
-                                else
-                                {
-                                    dest.Ingredients = dest.Ingredients ?? new List<RecipeIngredient>();
-                                    dest.Ingredients.Add(context.Mapper.Map<RecipeIngredient>(ingredient));
-                                }
-                            }
-                        }
-                        else
-                        {
-                            dest.Ingredients = null;
-                        }
+                        dest.Ingredients = MapCollection(src.Ingredients, dest.Ingredients, context.Mapper);
                     })
                     .ReverseMap();
                 cfg.CreateMap<DayDTO, Day>().ReverseMap();
@@ -70,48 +51,8 @@ namespace Cooking
                     .ForMember(x => x.Tags, op => op.Ignore())
                     .AfterMap((src, dest, context) =>
                     {
-                        if (src.IngredientGroups != null)
-                        {
-                            foreach (var group in src.IngredientGroups)
-                            {
-                                var existingGroup = dest.IngredientGroups?.SingleOrDefault(x => x.ID == group.ID);
-                                if (existingGroup != null)
-                                {
-                                    context.Mapper.Map(group, existingGroup);
-                                }
-                                else
-                                {
-                                    dest.IngredientGroups = dest.IngredientGroups ?? new List<IngredientsGroup>();
-                                    dest.IngredientGroups.Add(context.Mapper.Map<IngredientsGroup>(group));
-                                }
-                            }
-                        }
-                        else
-                        {
-                            dest.IngredientGroups = null;
-                        }
-
-                        if (src.Ingredients != null)
-                        {
-                            foreach (var ingredient in src.Ingredients)
-                            {
-                                var existingIngredient = dest.Ingredients?.SingleOrDefault(x => x.ID == ingredient.ID);
-                                if (existingIngredient != null && existingIngredient.ID != null)
-                                {
-                                    context.Mapper.Map(ingredient, existingIngredient);
-                                }
-                                else
-                                {
-                                    dest.Ingredients = dest.Ingredients ?? new List<RecipeIngredient>();
-                                    dest.Ingredients.Add(context.Mapper.Map<RecipeIngredient>(ingredient));
-                                }
-                            }
-                        }
-                        else
-                        {
-                            dest.Ingredients = null;
-                        }
-
+                        dest.IngredientGroups = MapCollection(src.IngredientGroups, dest.IngredientGroups, context.Mapper);
+                        dest.Ingredients      = MapCollection(src.Ingredients, dest.Ingredients, context.Mapper);
                         dest.Tags = src.Tags?.Select(x => new RecipeTag() { Recipe = dest, Tag = context.Mapper.Map<Tag>(x)}).ToList();
                     });
 
@@ -119,6 +60,15 @@ namespace Cooking
                    .ForMember(x => x.Tags, op => op.Ignore())
                    .AfterMap((src, dest, context) => 
                    {
+                       if(dest.IngredientGroups != null)
+                       {
+                           foreach(var group in dest.IngredientGroups)
+                           {
+                               group.Ingredients = new ObservableCollection<RecipeIngredientDTO>(group.Ingredients.OrderBy(x => x.Order));
+                           }
+                       }
+
+                       dest.Ingredients = new ObservableCollection<RecipeIngredientDTO>(dest.Ingredients.OrderBy(x => x.Order));
                        dest.Tags = new ObservableCollection<TagDTO>(src.Tags.Select(x => context.Mapper.Map<TagDTO>(x.Tag)));
                    });
 
@@ -135,6 +85,40 @@ namespace Cooking
             {
                 context.Database.Migrate();
             }
+        }
+
+        private List<TDestination> MapCollection<TSource, TDestination>(IEnumerable<TSource> source, IEnumerable<TDestination> destination, IRuntimeMapper mapper)
+        {
+            if (source == null)
+            {
+                return null;
+            }
+
+            var destBackup = destination;
+            List<TDestination> result = new List<TDestination>();
+
+            foreach (var ingredient in source)
+            {
+                if (((dynamic)ingredient).ID == null)
+                {
+                    result.Add(mapper.Map<TDestination>(ingredient));
+                }
+                else
+                {
+                    var existingIngredient = destBackup.SingleOrDefault(x => ((dynamic)x).ID == ((dynamic)ingredient).ID);
+                    if (existingIngredient != null)
+                    {
+                        mapper.Map(ingredient, existingIngredient);
+                        result.Add(existingIngredient);
+                    }
+                    else
+                    {
+                        result.Add(mapper.Map<TDestination>(ingredient));
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

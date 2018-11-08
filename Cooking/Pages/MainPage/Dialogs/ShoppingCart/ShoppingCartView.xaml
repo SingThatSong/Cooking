@@ -29,7 +29,17 @@
             <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                     Width="48" 
                     Height="48"
+                    Foreground="#FF2EBE60"
+                    Command="{Binding EvernoteExportCommand.Value}">
+                <icons:PackIconModern Width="20"
+                                          Height="20"
+                                          Kind="SocialEvernote" />
+            </Button>
+            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                    Width="48" 
+                    Height="48"
                     Foreground="Red"
+                    Margin="10 0 0 0"
                     Command="{Binding CloseCommand.Value}">
                 <icons:PackIconModern Width="20"
                                           Height="20"

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Data.Model
 {
@@ -6,20 +7,27 @@ namespace Data.Model
     {
         private MeasureUnit() { }
 
-        public static MeasureUnit Gram = new MeasureUnit() { ID = 1, Name = "г", FullName = "грамм" };
-        public static MeasureUnit Ml = new MeasureUnit() { ID = 2, Name = "мл", FullName = "миллилитр" };
-        public static MeasureUnit Unit = new MeasureUnit() { ID = 3, Name = "шт", FullName = "штука" };
-        public static MeasureUnit TableSpoon = new MeasureUnit() { ID = 4, Name = "ст.л.", FullName = "столовая ложка" };
-        public static MeasureUnit TeaSpoon = new MeasureUnit() { ID = 5, Name = "ч.л.", FullName = "чайная ложка" };
-        public static MeasureUnit Cup = new MeasureUnit() { ID = 6, Name = "ст.", FullName = "стакан" };
-        public static MeasureUnit Pinch = new MeasureUnit() { ID = 7, Name = "щепотка", FullName = "щепотка" };
-        public static MeasureUnit Sprig = new MeasureUnit() { ID = 8, Name = "веточка", FullName = "веточка" };
+        public static MeasureUnit Gram = new MeasureUnit(id: 1, name: "г", fullName: "грамм" );
+        public static MeasureUnit Ml = new MeasureUnit(id: 2, name: "мл", fullName: "миллилитр" );
+        public static MeasureUnit Unit = new MeasureUnit(id: 3, name: "шт", fullName: "штука" );
+        public static MeasureUnit TableSpoon = new MeasureUnit(id: 4, name: "ст.л.", fullName: "столовая ложка" );
+        public static MeasureUnit TeaSpoon = new MeasureUnit(id: 5, name: "ч.л.", fullName: "чайная ложка" );
+        public static MeasureUnit Cup = new MeasureUnit(id: 6, name: "ст.", fullName: "стакан" );
+        public static MeasureUnit Pinch = new MeasureUnit(id: 7, name: "щепотка", fullName: "щепотка" );
+        public static MeasureUnit Sprig = new MeasureUnit(id: 8, name: "веточка", fullName: "веточка" );
 
-        public int? ID { get; internal set; }
-        public string Name { get; set; }
-        public string FullName { get; set; }
+        private MeasureUnit(int id, string name, string fullName)
+        {
+            ID = id;
+            Name = name;
+            FullName = fullName;
+        }
 
-        public static List<MeasureUnit> AllValues { get; } = new List<MeasureUnit>
+        public int ID { get; }
+        public string Name { get; }
+        public string FullName { get; }
+
+        public static ReadOnlyCollection<MeasureUnit> AllValues { get; } = new ReadOnlyCollection<MeasureUnit>(new []
         {
             Gram,
             Ml,
@@ -29,6 +37,6 @@ namespace Data.Model
             Cup,
             Pinch,
             Sprig
-        };
+        });
     }
 }

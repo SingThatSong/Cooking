@@ -9,6 +9,7 @@
              xmlns:model="clr-namespace:Data.Model;assembly=Data"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:converters="clr-namespace:Cooking.Converters"
+             xmlns:dd="urn:gong-wpf-dragdrop"
              mahapps:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d"
              
@@ -146,11 +147,16 @@
                                                   Kind="Close" />
                                     </Button>
                                 </StackPanel>
-                                <ItemsControl ItemsSource="{Binding Ingredients}" Name="IngredientsList">
+                                <ItemsControl ItemsSource="{Binding Ingredients}" 
+                                              Name="IngredientsList"
+                                              
+                                              dd:DragDrop.IsDragSource="True"
+                                              dd:DragDrop.IsDropTarget="True"
+                                              dd:DragDrop.DragHandler="{Binding ElementName=RecipeEdit, Path=DataContext}"
+                                              dd:DragDrop.DropHandler="{Binding ElementName=RecipeEdit, Path=DataContext}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" TextElement.FontSize="15" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding Order}" />
                                                 <TextBlock Text="{Binding Ingredient.Name}" />
                                                 <TextBlock Text="{Binding Amount}" Margin="5 0 0 0" />
                                                 <TextBlock Text="{Binding MeasureUnit.Name}" Margin="5 0 0 0" />
@@ -197,7 +203,13 @@
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
 
-                <ItemsControl ItemsSource="{Binding Recipe.Ingredients}" Name="IngredientsList">
+                <ItemsControl ItemsSource="{Binding Recipe.Ingredients}" 
+                              Name="IngredientsList"
+                              
+                              dd:DragDrop.IsDragSource="True"
+                              dd:DragDrop.IsDropTarget="True"
+                              dd:DragDrop.DragHandler="{Binding}"
+                              dd:DragDrop.DropHandler="{Binding}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" TextElement.FontSize="15" VerticalAlignment="Center">

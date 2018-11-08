@@ -207,12 +207,16 @@ namespace Cooking.Pages.Recepies
                     {
                         for (int i = 0; i < recipe.IngredientGroups.Count; i++)
                         {
-
-
-                            var dbValue = context.RecipeIngredients.Find(recipe.Ingredients[i].ID);
-                            if (dbValue != null)
+                            if (recipe.Ingredients != null)
                             {
-                                recipe.Ingredients[i] = dbValue;
+                                for (int j = 0; j < recipe.IngredientGroups[i].Ingredients.Count; j++)
+                                {
+                                    var dbValue = context.RecipeIngredients.Find(recipe.IngredientGroups[i].Ingredients[j].ID);
+                                    if (dbValue != null)
+                                    {
+                                        recipe.IngredientGroups[i].Ingredients[j] = dbValue;
+                                    }
+                                }
                             }
                         }
                     }

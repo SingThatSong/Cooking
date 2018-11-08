@@ -2,9 +2,11 @@
 using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Ingredients;
+using GongSolutions.Wpf.DragDrop;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -12,7 +14,7 @@ using System.Linq;
 
 namespace Cooking.Pages.Recepies
 {
-    public partial class RecipeEditViewModel : INotifyPropertyChanged
+    public partial class RecipeEditViewModel : INotifyPropertyChanged, IDropTarget
     {
         public bool DialogResultOk { get; set; }
 
@@ -119,26 +121,19 @@ namespace Cooking.Pages.Recepies
                             Recipe.Ingredients = new ObservableCollection<RecipeIngredientDTO>();
                         }
 
-                        Recipe.Ingredients.Add(viewModel.Ingredient);
+                        var normalizeCount = Recipe.Ingredients.Count;
 
                         if (viewModel.Ingredients != null)
                         {
                             foreach (var ingredient in viewModel.Ingredients)
                             {
+                                ingredient.Order += normalizeCount;
                                 Recipe.Ingredients.Add(ingredient);
                             }
                         }
-                    }
-                }));
 
-            RemoveIngredientGroupCommand = new Lazy<DelegateCommand<IngredientGroupDTO>>(
-                () => new DelegateCommand<IngredientGroupDTO>(async (group) => {
-
-                    var dialog = await DialogCoordinator.Instance.ShowMessageAsync(this, "Точно удалить?", null, MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings() { AffirmativeButtonText = "Да", NegativeButtonText = "Нет" });
-
-                    if (dialog == MessageDialogResult.Affirmative)
-                    {
-                        Recipe.IngredientGroups.Remove(group);
+                        viewModel.Ingredient.Order = Recipe.Ingredients.Count + 1;
+                        Recipe.Ingredients.Add(viewModel.Ingredient);
                     }
                 }));
 
@@ -231,10 +226,96 @@ namespace Cooking.Pages.Recepies
 
             RemoveIngredientCommand = new Lazy<DelegateCommand<RecipeIngredientDTO>>(
                 () => new DelegateCommand<RecipeIngredientDTO>(ingredient => {
-                    Recipe.Ingredients.Remove(ingredient);  
+
+                    if (Recipe.Ingredients != null && Recipe.Ingredients.Contains(ingredient))
+                    {
+                        Recipe.Ingredients.Remove(ingredient);
+                        return;
+                    }
+
+                    if (Recipe.IngredientGroups != null)
+                    {
+                        foreach(var group in Recipe.IngredientGroups)
+                        {
+                            if(group.Ingredients.Contains(ingredient))
+                            {
+                                group.Ingredients.Remove(ingredient);
+                                return;
+                            }
+                        }
+                    }
                 }));
 
             Recipe = category ?? new RecipeDTO();
+        }
+
+        public void DragOver(IDropInfo dropInfo)
+        {
+            dropInfo.Effects = System.Windows.DragDropEffects.Move;
+            dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
+        }
+
+        public async void Drop(IDropInfo dropInfo)
+        {
+            if (dropInfo.TargetCollection != dropInfo.DragInfo.SourceCollection) return;
+            if (!(dropInfo.Data is RecipeIngredientDTO ingredient)) return;
+            if (!(dropInfo.TargetItem is RecipeIngredientDTO targetIngredient)) return;
+            if (dropInfo.Data == dropInfo.TargetItem) return;
+
+            var oldOrder = ingredient.Order;
+
+            if (dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.AfterTargetItem))
+            {
+                if (targetIngredient.Order < oldOrder)
+                {
+                    ingredient.Order = targetIngredient.Order + 1;
+                }
+                else
+                {
+                    ingredient.Order = targetIngredient.Order;
+                }
+            }
+            else if (dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.BeforeTargetItem))
+            {
+                if (targetIngredient.Order > oldOrder)
+                {
+                    ingredient.Order = targetIngredient.Order - 1;
+                }
+                else
+                {
+                    ingredient.Order = targetIngredient.Order;
+                }
+            }
+            else
+            { }
+
+            var backup = new List<RecipeIngredientDTO>(dropInfo.TargetCollection.Cast<RecipeIngredientDTO>());
+            if (ingredient.Order < oldOrder)
+            {
+                foreach (var item in backup)
+                {
+                    if (ingredient != item && ingredient.Order <= item.Order && item.Order < oldOrder)
+                    {
+                        item.Order++;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var item in backup)
+                {
+                    if (ingredient != item && item.Order > oldOrder && item.Order <= ingredient.Order)
+                    {
+                        item.Order--;
+                    }
+                }
+            }
+
+            (dropInfo.TargetCollection as ObservableCollection<RecipeIngredientDTO>).Clear();
+            foreach (var item in backup.OrderBy(x => x.Order))
+            {
+                (dropInfo.TargetCollection as ObservableCollection<RecipeIngredientDTO>).Add(item);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

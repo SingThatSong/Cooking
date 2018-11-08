@@ -6,6 +6,7 @@ using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
@@ -45,7 +46,16 @@ namespace Cooking.Pages.Ingredients
             if (ingredient != null)
             {
                 Ingredient = ingredient;
-                Ingredient.Ingredient = AllIngredients.SingleOrDefault(x => x.ID == Ingredient.Ingredient?.ID);
+
+                if (Ingredient.Ingredient != null)
+                {
+                    Ingredient.Ingredient = AllIngredients.SingleOrDefault(x => x.ID == Ingredient.Ingredient.ID);
+                }
+
+                if (Ingredient.MeasureUnit != null)
+                {
+                    Ingredient.MeasureUnit = MeasurementUnits.Single(x => x.ID == Ingredient.MeasureUnit.ID);
+                }
             }
             else
             {
@@ -53,7 +63,7 @@ namespace Cooking.Pages.Ingredients
             }
         }
 
-        public List<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
+        public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
