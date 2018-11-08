@@ -203,6 +203,20 @@ namespace Cooking.Pages.Recepies
                 var recipe = Mapper.Map<Recipe>(viewModel.Recipe);
                 using (var context = new CookingContext())
                 {
+                    if (recipe.IngredientGroups != null)
+                    {
+                        for (int i = 0; i < recipe.IngredientGroups.Count; i++)
+                        {
+
+
+                            var dbValue = context.RecipeIngredients.Find(recipe.Ingredients[i].ID);
+                            if (dbValue != null)
+                            {
+                                recipe.Ingredients[i] = dbValue;
+                            }
+                        }
+                    }
+
                     if (recipe.Ingredients != null)
                     {
                         for (int i = 0; i < recipe.Ingredients.Count; i++)

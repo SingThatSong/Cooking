@@ -4,6 +4,7 @@ using Data.Context;
 using Data.Model;
 using Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -95,7 +96,7 @@ namespace Cooking
                             foreach (var ingredient in src.Ingredients)
                             {
                                 var existingIngredient = dest.Ingredients?.SingleOrDefault(x => x.ID == ingredient.ID);
-                                if (existingIngredient != null)
+                                if (existingIngredient != null && existingIngredient.ID != null)
                                 {
                                     context.Mapper.Map(ingredient, existingIngredient);
                                 }

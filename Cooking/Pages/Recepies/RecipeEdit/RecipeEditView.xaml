@@ -150,6 +150,7 @@
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal" TextElement.FontSize="15" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Order}" />
                                                 <TextBlock Text="{Binding Ingredient.Name}" />
                                                 <TextBlock Text="{Binding Amount}" Margin="5 0 0 0" />
                                                 <TextBlock Text="{Binding MeasureUnit.Name}" Margin="5 0 0 0" />

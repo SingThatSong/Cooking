@@ -45,7 +45,7 @@ namespace Cooking.Pages.Ingredients
             if (ingredient != null)
             {
                 Ingredient = ingredient;
-                Ingredient.Ingredient = AllIngredients.SingleOrDefault(x => x.ID == Ingredient.Ingredient.ID);
+                Ingredient.Ingredient = AllIngredients.SingleOrDefault(x => x.ID == Ingredient.Ingredient?.ID);
             }
             else
             {
