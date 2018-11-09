@@ -9,24 +9,45 @@
     <Grid>
         <Grid.Resources>
             <local:RatingConverter x:Key="RatingConverter" OnBrush="#FFFFFFFF" OffBrush="#50FFFFFF" />
+            <Style TargetType="Grid">
+            </Style>
             <Style TargetType="Rectangle">
-                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
                 <Setter Property="VerticalAlignment" Value="Bottom" />
-                <Setter Property="Margin" Value="5,0,0,0" />
             </Style>
         </Grid.Resources>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Rectangle Margin="0" Width="5" Height="2.5"  Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=1}"/>
-            <Rectangle Width="5" Height="5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=2}"/>
-            <Rectangle Width="5" Height="7.5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=3}"/>
-            <Rectangle Width="5" Height="10" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=4}"/>
-            <Rectangle Width="5" Height="12.5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=5}"/>
-            <Rectangle Width="5" Height="15"  Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=6}"/>
-            <Rectangle Width="5" Height="17.5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=7}"/>
-            <Rectangle Width="5" Height="20" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=8}"/>
-            <Rectangle Width="5" Height="22.5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=9}"/>
-            <Rectangle Width="5" Height="25" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=10}"/>
+            <Grid MouseUp="Rectangle1_Mousep" Background="Transparent" Width="10">
+                <Rectangle Width="5" Height="2.5"  Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=1}"/>
+            </Grid>
+            <Grid MouseUp="Rectangle2_Mousep" Width="10" Background="Transparent" >
+                <Rectangle Width="5" Height="5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=2}" />
+            </Grid>
+            <Grid MouseUp="Rectangle3_Mousep" Width="10" Background="Transparent" >
+                <Rectangle Width="5" Height="7.5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=3}" />
+            </Grid>
+            <Grid MouseUp="Rectangle4_Mousep" Width="10" Background="Transparent" >
+                <Rectangle Width="5" Height="10" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=4}" />
+            </Grid>
+            <Grid MouseUp="Rectangle5_Mousep" Width="10" Background="Transparent" >
+                <Rectangle Width="5" Height="12.5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=5}" />
+            </Grid>
+            <Grid MouseUp="Rectangle6_Mousep" Width="10" Background="Transparent" >
+                <Rectangle Width="5" Height="15"  Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=6}" />
+            </Grid>
+            <Grid MouseUp="Rectangle7_Mousep" Width="10" Background="Transparent" >
+                <Rectangle Width="5" Height="17.5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=7}" />
+            </Grid>
+            <Grid MouseUp="Rectangle8_Mousep" Width="10" Background="Transparent" >
+                <Rectangle Width="5" Height="20" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=8}" />
+            </Grid>
+            <Grid MouseUp="Rectangle9_Mousep" Width="10" Background="Transparent" >
+                <Rectangle Width="5" Height="22.5" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=9}" />
+            </Grid>
+            <Grid MouseUp="Rectangle10_Mousep" Width="10" Background="Transparent" >
+                <Rectangle Width="5" Height="25" Fill="{Binding RatingValue, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource RatingConverter}, ConverterParameter=10}" />
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>

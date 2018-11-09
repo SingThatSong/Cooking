@@ -19,8 +19,7 @@ namespace Cooking.Helpers
                 return null;
             }
 
-            var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute),
-                                                       false);
+            var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
             return attributes.Length == 0
                 ? value.ToString()
                 : ((DescriptionAttribute)attributes[0]).Description;

@@ -35,6 +35,55 @@ namespace Cooking.Controls
         public static readonly DependencyProperty RatingValueProperty =
             DependencyProperty.Register("RatingValue", typeof(double), typeof(Ratings));
 
+        private void Rectangle1_Mousep(object sender, MouseButtonEventArgs e)
+        {
+            RatingValue = 1;
+        }
+
+        private void Rectangle2_Mousep(object sender, MouseButtonEventArgs e)
+        {
+            RatingValue = 2;
+        }
+
+        private void Rectangle3_Mousep(object sender, MouseButtonEventArgs e)
+        {
+            RatingValue = 3;
+        }
+
+        private void Rectangle4_Mousep(object sender, MouseButtonEventArgs e)
+        {
+            RatingValue = 4;
+        }
+
+        private void Rectangle5_Mousep(object sender, MouseButtonEventArgs e)
+        {
+            RatingValue = 5;
+        }
+
+        private void Rectangle6_Mousep(object sender, MouseButtonEventArgs e)
+        {
+            RatingValue = 6;
+        }
+
+        private void Rectangle7_Mousep(object sender, MouseButtonEventArgs e)
+        {
+            RatingValue = 7;
+        }
+
+        private void Rectangle8_Mousep(object sender, MouseButtonEventArgs e)
+        {
+            RatingValue = 8;
+        }
+
+        private void Rectangle9_Mousep(object sender, MouseButtonEventArgs e)
+        {
+            RatingValue = 9;
+        }
+
+        private void Rectangle10_Mousep(object sender, MouseButtonEventArgs e)
+        {
+            RatingValue = 10;
+        }
     }
 
     public class RatingConverter : IValueConverter
@@ -44,11 +93,6 @@ namespace Cooking.Controls
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if ((double)value != 0)
-            {
-
-            }
-
             double rating = 0;
             double number = 0;
             if (double.TryParse(value.ToString(), out rating) && double.TryParse(parameter.ToString(), out number))
