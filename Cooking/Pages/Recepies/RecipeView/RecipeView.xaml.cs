@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Diagnostics;
+using System.Windows.Input;
 
 namespace Cooking.Pages.Recepies
 {
@@ -15,6 +16,12 @@ namespace Cooking.Pages.Recepies
             // https://stackoverflow.com/a/21352864
             Focusable = true;
             Loaded += (s, e) => Keyboard.Focus(this);
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
         }
     }
 }

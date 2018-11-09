@@ -7,6 +7,7 @@ namespace Data.Model
     {
         public Guid ID { get; set; }
         public string Name { get; set; }
+        public string SourceUrl { get; set; }
         public string ImagePath { get; set; }
         public string Description { get; set; }
         public int PortionsCount { get; set; }

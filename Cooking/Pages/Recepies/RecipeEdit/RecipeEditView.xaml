@@ -65,6 +65,9 @@
                 <TextBlock Text="Название" FontSize="15" />
                 <TextBox Text="{Binding Recipe.Name}" />
 
+                <TextBlock Text="Источник" FontSize="15" />
+                <TextBox Text="{Binding Recipe.SourceUrl}" />
+                
                 <TextBlock Text="Тип" FontSize="15" Margin="0 5 0 0"/>
                 <ComboBox Text="Выбор типа рецепта по калорийности"
                           SelectedValue="{Binding Recipe.CalorieType, Converter={StaticResource enumToDescriptionConverter}}"

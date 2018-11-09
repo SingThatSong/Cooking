@@ -12,7 +12,8 @@ namespace Cooking.DTO
         public Guid ID { get; set; }
 
         public string Name { get; set; }
-
+        public string SourceUrl { get; set; }
+        
         [AlsoNotifyFor(nameof(FullPath))]
         public string ImagePath { get; set; }
 
