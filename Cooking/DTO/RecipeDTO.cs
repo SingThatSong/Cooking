@@ -30,6 +30,8 @@ namespace Cooking.DTO
         public ObservableCollection<RecipeIngredientDTO> Ingredients { get; set; }
         public ObservableCollection<TagDTO> Tags { get; set; }
 
+        public bool IsSelected { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

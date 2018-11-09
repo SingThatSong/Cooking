@@ -42,8 +42,30 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
-                                <TextBlock Text="Под фильтр не попал ни один рецепт" Foreground="Red" Visibility="{Binding Recipe, Converter={StaticResource isNullToVisibilityConverter}}" />
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding Recipe, Converter={StaticResource isNotNullToVisibilityConverter}}">
+                                <TextBlock Text="Под фильтр не попал ни один рецепт" 
+                                           Foreground="Red"
+                                           VerticalAlignment="Center">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Recipe, Converter={StaticResource isNullToVisibilityConverter}}" Value="Visible" />
+                                                        <Condition Binding="{Binding SpecificRecipe, Converter={StaticResource isNullToVisibilityConverter}}" Value="Visible" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </MultiDataTrigger>
+                                                <DataTrigger Binding="{Binding SpecificRecipe, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Recipe, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <StackPanel Orientation="Horizontal" >
                                     <TextBlock Text="{Binding Recipe.Name}" VerticalAlignment="Center" >
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseUp">
@@ -95,7 +117,94 @@
                                                       Height="10"
                                                       Kind="Refresh" />
                                     </Button>
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Recipe, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible" />
+                                                        <Condition Binding="{Binding SpecificRecipe, Converter={StaticResource isNullToVisibilityConverter}}" Value="Visible" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </MultiDataTrigger>
+                                                <DataTrigger Binding="{Binding SpecificRecipe, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Recipe, Converter={StaticResource isNullToVisibilityConverter}}" Value="Visible">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
                                 </StackPanel>
+                                <StackPanel Orientation="Horizontal" 
+                                            Visibility="{Binding SpecificRecipe, Converter={StaticResource isNotNullToVisibilityConverter}}">
+                                    <TextBlock Text="{Binding SpecificRecipe.Name}" VerticalAlignment="Center" >
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseUp">
+                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
+                                                                            Path=DataContext.ShowRecipe.Value}"
+                                                                       CommandParameter="{Binding}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBlock>
+                                    <Ellipse Height="15" Width="15" 
+                                                         VerticalAlignment="Top" 
+                                                         Margin="10 5 0 0">
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding SpecificRecipe.CalorieType}" Value="0">
+                                                        <Setter Property="Fill" Value="Gray" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding SpecificRecipe.CalorieType}" Value="{x:Static model:CalorieType.Fitness}">
+                                                        <Setter Property="Fill" Value="Green" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding SpecificRecipe.CalorieType}" Value="{x:Static model:CalorieType.Protein}">
+                                                        <Setter Property="Fill" Value="Yellow" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding SpecificRecipe.CalorieType}" Value="{x:Static model:CalorieType.Bad}">
+                                                        <Setter Property="Fill" Value="Orange" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding SpecificRecipe.CalorieType}" Value="{x:Static model:CalorieType.Sweets}">
+                                                        <Setter Property="Fill" Value="Red" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                    <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                            Width="24" 
+                                            Height="24"
+                                            Foreground="Red"
+                                            BorderThickness="0"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Right"
+                                            ToolTipService.IsEnabled="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource oppositeConverter}}"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
+                                                                            Path=DataContext.DeleteRecipeManuallyCommand}"
+                                            CommandParameter="{Binding}">
+                                        <icons:PackIconModern Width="10"
+                                                      Height="10"
+                                                      Kind="Delete" />
+                                    </Button>
+                                </StackPanel>
+
+                                <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                            Width="24" 
+                                            Height="24"
+                                            Foreground="Gray"
+                                            BorderThickness="0"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Right"
+                                            ToolTipService.IsEnabled="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource oppositeConverter}}"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
+                                                                            Path=DataContext.SetRecipeManuallyCommand}"
+                                            CommandParameter="{Binding}">
+                                    <icons:PackIconModern Width="10"
+                                                      Height="10"
+                                                      Kind="DrawPen" />
+                                </Button>
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

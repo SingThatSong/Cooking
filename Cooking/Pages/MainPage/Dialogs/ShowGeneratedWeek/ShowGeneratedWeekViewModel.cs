@@ -31,6 +31,38 @@ namespace Cooking.Pages.MainPage.Dialogs
                     var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
                     await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
                 }));
+            DeleteRecipeManuallyCommand = new DelegateCommand<DayPlan>(async (day) =>
+            {
+                day.SpecificRecipe = null;
+            });
+
+            SetRecipeManuallyCommand = new DelegateCommand<DayPlan>(async (day) =>
+            {
+                var viewModel = new RecipeSelectViewModel();
+
+                var dialog = new CustomDialog()
+                {
+                    Content = new RecipeSelectView()
+                    {
+                        DataContext = viewModel
+                    }
+                };
+
+                var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
+
+                await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
+
+                do
+                {
+                    await dialog.WaitUntilUnloadedAsync();
+                }
+                while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this));
+
+                if (viewModel.DialogResultOk)
+                {
+                    day.SpecificRecipe = viewModel.Recipies.Value.Single(x => x.IsSelected);
+                }
+            });
 
             GetAlternativeRecipe = new DelegateCommand<DayPlan>(async (day) =>
             {
@@ -74,6 +106,8 @@ namespace Cooking.Pages.MainPage.Dialogs
 
         public Lazy<DelegateCommand<DayPlan>> ShowRecipe { get; }
         public DelegateCommand<DayPlan> GetAlternativeRecipe { get; }
+        public DelegateCommand<DayPlan> DeleteRecipeManuallyCommand { get; }
+        public DelegateCommand<DayPlan> SetRecipeManuallyCommand { get; }
         public Lazy<DelegateCommand> OkCommand { get; }
         public Lazy<DelegateCommand> CloseCommand { get; }
 

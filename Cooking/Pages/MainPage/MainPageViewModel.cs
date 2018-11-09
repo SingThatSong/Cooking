@@ -427,43 +427,57 @@ namespace Cooking.Pages.MainPage
                                 case "Пн":
                                     newWeek.Monday = new Day()
                                     {
-                                        DinnerID = day.Recipe?.ID
+                                        DinnerID = day.SpecificRecipe != null 
+                                                    ? day.SpecificRecipe?.ID
+                                                    : day.Recipe?.ID
                                     };
                                     break;
                                 case "Вт":
                                     newWeek.Tuesday = new Day()
                                     {
-                                        DinnerID = day.Recipe?.ID
+                                        DinnerID = day.SpecificRecipe != null
+                                                    ? day.SpecificRecipe?.ID
+                                                    : day.Recipe?.ID
                                     };
                                     break;
                                 case "Ср":
                                     newWeek.Wednesday = new Day()
                                     {
-                                        DinnerID = day.Recipe?.ID
+                                        DinnerID = day.SpecificRecipe != null
+                                                    ? day.SpecificRecipe?.ID
+                                                    : day.Recipe?.ID
                                     };
                                     break;
                                 case "Чт":
                                     newWeek.Thursday = new Day()
                                     {
-                                        DinnerID = day.Recipe?.ID
+                                        DinnerID = day.SpecificRecipe != null
+                                                    ? day.SpecificRecipe?.ID
+                                                    : day.Recipe?.ID
                                     };
                                     break;
                                 case "Пт":
                                     newWeek.Friday = new Day()
                                     {
-                                        DinnerID = day.Recipe?.ID
+                                        DinnerID = day.SpecificRecipe != null
+                                                    ? day.SpecificRecipe?.ID
+                                                    : day.Recipe?.ID
                                     };
                                     break;
                                 case "Сб":
                                     newWeek.Saturday = new Day()
                                     {
-                                        DinnerID = day.Recipe?.ID
+                                        DinnerID = day.SpecificRecipe != null
+                                                    ? day.SpecificRecipe?.ID
+                                                    : day.Recipe?.ID
                                     };
                                     break;
                                 case "Вс":
                                     newWeek.Sunday = new Day()
                                     {
-                                        DinnerID = day.Recipe?.ID
+                                        DinnerID = day.SpecificRecipe != null
+                                                    ? day.SpecificRecipe?.ID
+                                                    : day.Recipe?.ID
                                     };
                                     break;
                             }

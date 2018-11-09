@@ -12,6 +12,8 @@ namespace Cooking.Pages.MainPage.Dialogs.Model
 {
     public class DayPlan : INotifyPropertyChanged
     {
+        // Рецепт, указанный вручную
+        public RecipeDTO SpecificRecipe { get; set; }
         public RecipeDTO Recipe { get; set; }
         public List<RecipeDTO> RecipeAlternatives { get; set; }
 

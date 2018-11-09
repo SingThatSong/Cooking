@@ -260,6 +260,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\MainPage\Dialogs\ShowGeneratedWeek\RecipeSelect\RecipeSelectView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\MainPage\Dialogs\ShowGeneratedWeek\ShowGeneratedWeekView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -327,6 +331,10 @@
     <Compile Include="Pages\MainPage\Dialogs\CalorieTypeSelect\CalorieTypeSelectView.xaml.cs">
       <DependentUpon>CalorieTypeSelectView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MainPage\Dialogs\ShowGeneratedWeek\RecipeSelect\RecipeSelectView.xaml.cs">
+      <DependentUpon>RecipeSelectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MainPage\Dialogs\ShowGeneratedWeek\RecipeSelect\RecipeSelectViewModel.cs" />
     <Compile Include="Pages\MainPage\Dialogs\ShowGeneratedWeek\ShowGeneratedWeekView.xaml.cs">
       <DependentUpon>ShowGeneratedWeekView.xaml</DependentUpon>
     </Compile>
