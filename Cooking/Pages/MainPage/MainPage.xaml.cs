@@ -24,5 +24,13 @@ namespace Cooking.Pages.MainPage
         {
             InitializeComponent();
         }
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if((bool)e.NewValue && DataContext is MainPageViewModel mainPageViewModel)
+            {
+                mainPageViewModel.LoadedCommand.Execute();
+            }
+        }
     }
 }

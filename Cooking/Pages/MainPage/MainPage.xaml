@@ -8,8 +8,10 @@
              xmlns:model="clr-namespace:Data.Model;assembly=Data"
              xmlns:converters="clr-namespace:Cooking.Converters"
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              mahapps:DialogParticipation.Register="{Binding}"
+             IsVisibleChanged="UserControl_IsVisibleChanged"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
         <local:MainPageViewModel />

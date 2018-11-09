@@ -24,6 +24,11 @@ namespace Cooking.Pages.MainPage
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public DelegateCommand LoadedCommand => new DelegateCommand(() =>
+        {
+            CurrentWeek = GetWeek(WeekStart);
+        });
+
         public DateTime WeekStart { get; set; }
         public DateTime WeekEnd { get; set; }
 
@@ -194,7 +199,7 @@ namespace Cooking.Pages.MainPage
             WeekStart = FirstDayOfWeek(DateTime.Now);
             WeekEnd   = LastDayOfWeek(DateTime.Now);
 
-            CurrentWeek = GetWeek(DateTime.Now);
+            //CurrentWeek = GetWeek(DateTime.Now);
 
             CreateNewWeekCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(() => CreateWeek(DateTime.Now)));
             DeleteCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(() => 
