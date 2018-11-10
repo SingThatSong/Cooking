@@ -34,7 +34,7 @@ namespace Cooking.Pages.Recepies
             {
                 using (var context = new CookingContext())
                 {
-                    AllTags = context.Tags.Select(x => Mapper.Map<TagDTO>(x)).ToList();
+                    AllTags = context.Tags.Select(x => Mapper.Map<TagDTO>(x)).OrderBy(x => x.Name).ToList();
                 }
             }
             else

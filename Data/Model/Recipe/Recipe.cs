@@ -10,6 +10,10 @@ namespace Data.Model
         public string SourceUrl { get; set; }
         public string ImagePath { get; set; }
         public string Description { get; set; }
+
+        public int Difficulty { get; set; }
+        public int Rating { get; set; }
+
         public int PortionsCount { get; set; }
         public CalorieType CalorieType { get; set; }
         public List<IngredientsGroup> IngredientGroups { get; set; }

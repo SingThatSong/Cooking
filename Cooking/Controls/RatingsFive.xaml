@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Cooking.Controls.Ratings"
+﻿<UserControl x:Class="Cooking.Controls.RatingsFive"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -19,7 +19,7 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid MouseUp="Rectangle1_Mousep" MouseEnter="Grid_MouseEnter1" MouseLeave="Grid_MouseLeave" Background="Transparent" Width="10">
-                <Rectangle Width="5" Height="2.5">
+                <Rectangle Width="5" Height="5">
                     <Rectangle.Fill>
                         <MultiBinding Converter="{StaticResource RatingConverter}" ConverterParameter="1">
                             <Binding Path="RatingValue" RelativeSource="{RelativeSource AncestorType=UserControl}" />
@@ -29,7 +29,7 @@
                 </Rectangle>
             </Grid>
             <Grid MouseUp="Rectangle2_Mousep" MouseEnter="Grid_MouseEnter2" MouseLeave="Grid_MouseLeave" Width="10" Background="Transparent" >
-                <Rectangle Width="5" Height="5">
+                <Rectangle Width="5" Height="10">
                     <Rectangle.Fill>
                         <MultiBinding Converter="{StaticResource RatingConverter}" ConverterParameter="2">
                             <Binding Path="RatingValue" RelativeSource="{RelativeSource AncestorType=UserControl}" />
@@ -39,7 +39,7 @@
                 </Rectangle>
             </Grid>
             <Grid MouseUp="Rectangle3_Mousep" MouseEnter="Grid_MouseEnter3" MouseLeave="Grid_MouseLeave" Width="10" Background="Transparent" >
-                <Rectangle Width="5" Height="7.5">
+                <Rectangle Width="5" Height="15">
                     <Rectangle.Fill>
                         <MultiBinding Converter="{StaticResource RatingConverter}" ConverterParameter="3">
                             <Binding Path="RatingValue" RelativeSource="{RelativeSource AncestorType=UserControl}" />
@@ -49,7 +49,7 @@
                 </Rectangle>
             </Grid>
             <Grid MouseUp="Rectangle4_Mousep" MouseEnter="Grid_MouseEnter4" MouseLeave="Grid_MouseLeave" Width="10" Background="Transparent" >
-                <Rectangle Width="5" Height="10">
+                <Rectangle Width="5" Height="20">
                     <Rectangle.Fill>
                         <MultiBinding Converter="{StaticResource RatingConverter}" ConverterParameter="4">
                             <Binding Path="RatingValue" RelativeSource="{RelativeSource AncestorType=UserControl}" />
@@ -59,59 +59,9 @@
                 </Rectangle>
             </Grid>
             <Grid MouseUp="Rectangle5_Mousep" MouseEnter="Grid_MouseEnter5" MouseLeave="Grid_MouseLeave" Width="10" Background="Transparent" >
-                <Rectangle Width="5" Height="12.5">
-                    <Rectangle.Fill>
-                        <MultiBinding Converter="{StaticResource RatingConverter}" ConverterParameter="5">
-                            <Binding Path="RatingValue" RelativeSource="{RelativeSource AncestorType=UserControl}" />
-                            <Binding Path="RatingValuePreview" RelativeSource="{RelativeSource AncestorType=UserControl}" />
-                        </MultiBinding>
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Grid>
-            <Grid MouseUp="Rectangle6_Mousep" MouseEnter="Grid_MouseEnter6" MouseLeave="Grid_MouseLeave" Width="10" Background="Transparent" >
-                <Rectangle Width="5" Height="15">
-                    <Rectangle.Fill>
-                        <MultiBinding Converter="{StaticResource RatingConverter}" ConverterParameter="6">
-                            <Binding Path="RatingValue" RelativeSource="{RelativeSource AncestorType=UserControl}" />
-                            <Binding Path="RatingValuePreview" RelativeSource="{RelativeSource AncestorType=UserControl}" />
-                        </MultiBinding>
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Grid>
-            <Grid MouseUp="Rectangle7_Mousep" MouseEnter="Grid_MouseEnter7" MouseLeave="Grid_MouseLeave" Width="10" Background="Transparent" >
-                <Rectangle Width="5" Height="17.5">
-                    <Rectangle.Fill>
-                        <MultiBinding Converter="{StaticResource RatingConverter}" ConverterParameter="7">
-                            <Binding Path="RatingValue" RelativeSource="{RelativeSource AncestorType=UserControl}" />
-                            <Binding Path="RatingValuePreview" RelativeSource="{RelativeSource AncestorType=UserControl}" />
-                        </MultiBinding>
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Grid>
-            <Grid MouseUp="Rectangle8_Mousep" MouseEnter="Grid_MouseEnter8" MouseLeave="Grid_MouseLeave" Width="10" Background="Transparent" >
-                <Rectangle Width="5" Height="20">
-                    <Rectangle.Fill>
-                        <MultiBinding Converter="{StaticResource RatingConverter}" ConverterParameter="8">
-                            <Binding Path="RatingValue" RelativeSource="{RelativeSource AncestorType=UserControl}" />
-                            <Binding Path="RatingValuePreview" RelativeSource="{RelativeSource AncestorType=UserControl}" />
-                        </MultiBinding>
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Grid>
-            <Grid MouseUp="Rectangle9_Mousep" MouseEnter="Grid_MouseEnter9" MouseLeave="Grid_MouseLeave" Width="10" Background="Transparent" >
-                <Rectangle Width="5" Height="22.5">
-                    <Rectangle.Fill>
-                        <MultiBinding Converter="{StaticResource RatingConverter}" ConverterParameter="9">
-                            <Binding Path="RatingValue" RelativeSource="{RelativeSource AncestorType=UserControl}" />
-                            <Binding Path="RatingValuePreview" RelativeSource="{RelativeSource AncestorType=UserControl}" />
-                        </MultiBinding>
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Grid>
-            <Grid MouseUp="Rectangle10_Mousep" MouseEnter="Grid_MouseEnter10" MouseLeave="Grid_MouseLeave" Width="10" Background="Transparent" >
                 <Rectangle Width="5" Height="25">
                     <Rectangle.Fill>
-                        <MultiBinding Converter="{StaticResource RatingConverter}" ConverterParameter="10">
+                        <MultiBinding Converter="{StaticResource RatingConverter}" ConverterParameter="5">
                             <Binding Path="RatingValue" RelativeSource="{RelativeSource AncestorType=UserControl}" />
                             <Binding Path="RatingValuePreview" RelativeSource="{RelativeSource AncestorType=UserControl}" />
                         </MultiBinding>

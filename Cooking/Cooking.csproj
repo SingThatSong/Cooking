@@ -214,6 +214,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\RatingsFive.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\Ratings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -228,6 +232,9 @@
     </Compile>
     <Compile Include="Command\DelegateCommand.cs" />
     <Compile Include="Command\DelegateCommand{T}.cs" />
+    <Compile Include="Controls\RatingsFive.xaml.cs">
+      <DependentUpon>RatingsFive.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Ratings.xaml.cs">
       <DependentUpon>Ratings.xaml</DependentUpon>
     </Compile>
@@ -318,6 +325,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Pages\MainPage\DayControl.xaml.cs">
       <DependentUpon>DayControl.xaml</DependentUpon>
     </Compile>

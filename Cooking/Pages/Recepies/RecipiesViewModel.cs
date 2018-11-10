@@ -81,6 +81,48 @@ namespace Cooking.Pages.Recepies
 
                             Mapper.Map(viewModel.Recipe, existing);
 
+                            if (existing.IngredientGroups != null)
+                            {
+                                for (int i = 0; i < existing.IngredientGroups.Count; i++)
+                                {
+                                    if (existing.Ingredients != null)
+                                    {
+                                        for (int j = 0; j < existing.IngredientGroups[i].Ingredients.Count; j++)
+                                        {
+                                            var dbValue = context.RecipeIngredients.Find(existing.IngredientGroups[i].Ingredients[j].ID);
+                                            if (dbValue != null)
+                                            {
+                                                existing.IngredientGroups[i].Ingredients[j] = dbValue;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (existing.Ingredients != null)
+                            {
+                                for (int i = 0; i < existing.Ingredients.Count; i++)
+                                {
+                                    var dbValue = context.RecipeIngredients.Find(existing.Ingredients[i].ID);
+                                    if (dbValue != null)
+                                    {
+                                        existing.Ingredients[i] = dbValue;
+                                    }
+                                }
+                            }
+
+                            if (existing.Tags != null)
+                            {
+                                for (int i = 0; i < existing.Tags.Count; i++)
+                                {
+                                    var dbValue = context.Tags.Find(existing.Tags[i].Tag.ID);
+                                    if (dbValue != null)
+                                    {
+                                        existing.Tags[i].Tag = dbValue;
+                                    }
+                                }
+                            }
+
                             context.SaveChanges();
                         }
 

@@ -10,6 +10,7 @@
              xmlns:controls="clr-namespace:Cooking.Controls"
              xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
              mahapps:DialogParticipation.Register="{Binding}"
+             Margin="-100 0"
         mc:Ignorable="d"
         d:DesignHeight="450" d:DesignWidth="800">
 

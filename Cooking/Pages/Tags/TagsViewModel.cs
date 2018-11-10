@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
 using Cooking.Commands;
 using Cooking.DTO;
+using Cooking.Pages.Recepies;
 using Data.Context;
 using Data.Model;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 
 namespace Cooking.Pages.Tags
 {
@@ -18,6 +21,15 @@ namespace Cooking.Pages.Tags
             Tags = new Lazy<ObservableCollection<TagDTO>>(GetTags);
             AddTagCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddTag));
             DeleteTagCommand = new Lazy<DelegateCommand<TagDTO>>(() => new DelegateCommand<TagDTO>(cat => DeleteTag(cat.ID)));
+            ViewTagCommand = new Lazy<DelegateCommand<TagDTO>>(() => new DelegateCommand<TagDTO>(tag =>
+            {
+                if (Application.Current.MainWindow.DataContext is MainWindowViewModel mainWindowViewModel)
+                {
+                    mainWindowViewModel.SelectedMenuItem = mainWindowViewModel.MenuItems[1] as HamburgerMenuIconItem;
+                    ((mainWindowViewModel.SelectedMenuItem.Tag as RecepiesView).DataContext as RecepiesViewModel).FilterText = $"~{tag.Name}";
+                }
+            }));
+
             EditTagCommand = new Lazy<DelegateCommand<TagDTO>>(
                 () => new DelegateCommand<TagDTO>(async (tag) => {
 
@@ -124,8 +136,9 @@ namespace Cooking.Pages.Tags
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
+        
         public Lazy<DelegateCommand> AddTagCommand { get; }
+        public Lazy<DelegateCommand<TagDTO>> ViewTagCommand { get; }
         public Lazy<DelegateCommand<TagDTO>> EditTagCommand { get; }
         public Lazy<DelegateCommand<TagDTO>> DeleteTagCommand { get; }
 

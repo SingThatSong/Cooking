@@ -9,6 +9,7 @@
              xmlns:model="clr-namespace:Data.Model;assembly=Data"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:converters="clr-namespace:Cooking.Converters"
+             xmlns:controls="clr-namespace:Cooking.Controls"
              xmlns:dd="urn:gong-wpf-dragdrop"
              mahapps:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d"
@@ -67,6 +68,12 @@
 
                 <TextBlock Text="Источник" FontSize="15" />
                 <TextBox Text="{Binding Recipe.SourceUrl}" />
+
+                <TextBlock Text="Сложность" FontSize="15" />
+                <controls:RatingsFive RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
+
+                <TextBlock Text="Рейтинг" FontSize="15" />
+                <controls:Ratings RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
                 
                 <TextBlock Text="Тип" FontSize="15" Margin="0 5 0 0"/>
                 <ComboBox Text="Выбор типа рецепта по калорийности"

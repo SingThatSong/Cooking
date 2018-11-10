@@ -153,37 +153,11 @@
                            ItemTemplate="{StaticResource MenuItemTemplate}"
                            OptionsItemTemplate="{StaticResource MenuItemTemplate}"
                            Style="{StaticResource HamburgerMenuCreatorsStyle}"
-                           VerticalScrollBarOnLeftSide="False">
-        <mahapps:HamburgerMenu.ItemsSource>
-            <mahapps:HamburgerMenuItemCollection>
-                <mahapps:HamburgerMenuIconItem Label="Главная" 
-                                                       Icon="{icons:Modern Kind=Page}" >
-                    <mahapps:HamburgerMenuIconItem.Tag>
-                        <main:MainPage />
-                    </mahapps:HamburgerMenuIconItem.Tag>
-                </mahapps:HamburgerMenuIconItem>
-                <mahapps:HamburgerMenuIconItem Label="Рецепты" 
-                                                   Icon="{icons:Modern Kind=FoodCupcake}" >
-                    <mahapps:HamburgerMenuIconItem.Tag>
-                        <recipe:RecepiesView />
-                    </mahapps:HamburgerMenuIconItem.Tag>
-                </mahapps:HamburgerMenuIconItem>
+                           VerticalScrollBarOnLeftSide="False"
+                           ItemsSource="{Binding MenuItems}" 
+                           SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
+                           Content="{Binding SelectedMenuItem, Mode=TwoWay}">
 
-                <mahapps:HamburgerMenuIconItem Label="Ингредиенты" 
-                                                   Icon="{icons:FontAwesome Kind=PuzzlePieceSolid}" >
-                    <mahapps:HamburgerMenuIconItem.Tag>
-                        <ingredient:IngredientsView />
-                    </mahapps:HamburgerMenuIconItem.Tag>
-                </mahapps:HamburgerMenuIconItem>
-                
-                <mahapps:HamburgerMenuIconItem Label="Теги" 
-                                                   Icon="{icons:Modern Kind=Tag}" >
-                    <mahapps:HamburgerMenuIconItem.Tag>
-                        <tag:TagsView />
-                    </mahapps:HamburgerMenuIconItem.Tag>
-                </mahapps:HamburgerMenuIconItem>
-            </mahapps:HamburgerMenuItemCollection>
-        </mahapps:HamburgerMenu.ItemsSource>
 
         <mahapps:HamburgerMenu.ContentTemplate>
             <DataTemplate DataType="{x:Type mahapps:HamburgerMenuIconItem}">

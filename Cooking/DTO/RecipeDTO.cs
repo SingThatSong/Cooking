@@ -22,9 +22,11 @@ namespace Cooking.DTO
                                 : null;
 
         public string Description { get; set; }
-        public double Rating { get; set; }
         public int PortionsCount { get; set; }
         public CalorieType CalorieType { get; set; }
+
+        public int Difficulty { get; set; }
+        public int Rating { get; set; }
 
         public ObservableCollection<IngredientGroupDTO> IngredientGroups { get; set; }
         public ObservableCollection<RecipeIngredientDTO> Ingredients { get; set; }

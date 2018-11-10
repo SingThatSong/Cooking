@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:local="clr-namespace:Cooking.Pages.Ingredients"
              mahapps:DialogParticipation.Register="{Binding}"
         mc:Ignorable="d"
@@ -16,6 +17,11 @@
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        <CollectionViewSource x:Key="ingredients" Source="{Binding Ingredients.Value}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Name"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
     </UserControl.Resources>
     
     <Grid Margin="20">
@@ -23,10 +29,10 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-            <ItemsControl ItemsSource="{Binding Ingredients.Value}" Name="CategoriesList">
+            <ItemsControl ItemsSource="{Binding Source={StaticResource ingredients}}" Name="CategoriesList">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Height="36">
+                    <StackPanel Orientation="Horizontal" Margin="5 0">
                             <TextBlock Text="{Binding Name}" FontSize="20" VerticalAlignment="Center" />
                             <Button Margin="10 0 0 0"
                                     Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
@@ -54,19 +60,11 @@
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-
-            <ItemsControl.Template>
-                <ControlTemplate TargetType="{x:Type ItemsControl}">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsPresenter />
-                    </ScrollViewer>
-                </ControlTemplate>
-            </ItemsControl.Template>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
         </ItemsControl>
 
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" >
