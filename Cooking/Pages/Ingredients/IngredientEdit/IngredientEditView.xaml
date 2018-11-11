@@ -16,21 +16,23 @@
         <KeyBinding Key="Esc" Command="{Binding CloseCommand.Value}" />
     </UserControl.InputBindings>
     
-    <Grid Height="150">
+    <Grid Height="200">
         
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition Height="100"/>
+            <RowDefinition />
         </Grid.RowDefinitions>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Название" />
                 <TextBox Grid.Column="1"
-                    Text="{Binding Ingredient.Name}" />
+                         Name="Focused"
+                    Text="{Binding Ingredient.Name, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ItemsControl ItemsSource="{Binding SimilarIngredients}" Margin="0 10 0 0"></ItemsControl>
 
             </StackPanel>
-        </ScrollViewer>
+            
         <StackPanel Margin="20" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
             <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                     Width="48" 

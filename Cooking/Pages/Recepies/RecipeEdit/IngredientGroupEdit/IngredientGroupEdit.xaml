@@ -23,7 +23,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBox Text="{Binding IngredientGroup.Name}" Height="30"/>
+        <TextBox Text="{Binding IngredientGroup.Name}" Height="30" Name="Focused"/>
         <StackPanel Margin="20" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
             <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                     Width="48" 

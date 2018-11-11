@@ -1,13 +1,16 @@
 ﻿using AutoMapper;
 using Cooking.Commands;
 using Cooking.DTO;
+using Cooking.Pages.Recepies;
 using Data.Context;
 using Data.Model;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 
 namespace Cooking.Pages.Ingredients
 {
@@ -16,6 +19,14 @@ namespace Cooking.Pages.Ingredients
         public IngredientsViewModel()
         {
             Ingredients = new Lazy<ObservableCollection<IngredientDTO>>(GetIngredients);
+            ViewIngredientCommand = new Lazy<DelegateCommand<IngredientDTO>>(() => new DelegateCommand<IngredientDTO>(ingredient =>
+            {
+                if (Application.Current.MainWindow.DataContext is MainWindowViewModel mainWindowViewModel)
+                {
+                    mainWindowViewModel.SelectedMenuItem = mainWindowViewModel.MenuItems[1] as HamburgerMenuIconItem;
+                    ((mainWindowViewModel.SelectedMenuItem.Tag as RecepiesView).DataContext as RecepiesViewModel).FilterText = $"#{ingredient.Name}";
+                }
+            }));
             AddCategoryCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddRecipe));
             DeleteCategoryCommand = new Lazy<DelegateCommand<IngredientDTO>>(() => new DelegateCommand<IngredientDTO>(cat => DeleteCategory(cat.ID)));
             EditCategoryCommand = new Lazy<DelegateCommand<IngredientDTO>>(
@@ -142,6 +153,8 @@ namespace Cooking.Pages.Ingredients
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Lazy<DelegateCommand> AddCategoryCommand { get; }
+        
+        public Lazy<DelegateCommand<IngredientDTO>> ViewIngredientCommand { get; }
         public Lazy<DelegateCommand<IngredientDTO>> EditCategoryCommand { get; }
         public Lazy<DelegateCommand<IngredientDTO>> DeleteCategoryCommand { get; }
 

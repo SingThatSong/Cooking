@@ -39,7 +39,7 @@
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" x:Name="RecipeScroll">
             <StackPanel Orientation="Vertical">
                 <Image Source="{Binding Recipe.FullPath}" Stretch="Uniform" MaxHeight="150"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 10 0 0">
@@ -64,7 +64,7 @@
                     </Button>
                 </StackPanel>
                 <TextBlock Text="Название" FontSize="15" />
-                <TextBox Text="{Binding Recipe.Name}" />
+                <TextBox Text="{Binding Recipe.Name}" Name="Focused" />
 
                 <TextBlock Text="Источник" FontSize="15" />
                 <TextBox Text="{Binding Recipe.SourceUrl}" />
@@ -261,7 +261,7 @@
                 </ItemsControl>
 
                 <TextBlock Margin="0 10 0 0" Text="Описание" FontSize="15" />
-                <xctk:RichTextBox MinHeight="100" Text="{Binding Recipe.Description}">
+                <xctk:RichTextBox MinHeight="100" Text="{Binding Recipe.Description}" TextChanged="RichTextBox_TextChanged">
                     <xctk:RichTextBoxFormatBarManager.FormatBar>
                         <xctk:RichTextBoxFormatBar />
                     </xctk:RichTextBoxFormatBarManager.FormatBar>
@@ -300,7 +300,7 @@
                                         BorderThickness="0"
                                         Foreground="Red"
                                         VerticalAlignment="Center"
-                                        Command="{Binding ElementName=IngredientsList, Path=DataContext.RemoveTagCommand.Value}"
+                                        Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveTagCommand.Value}"
                                         CommandParameter="{Binding}">
                                     <icons:PackIconModern Width="10"
                                               Height="10"

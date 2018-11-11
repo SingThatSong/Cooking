@@ -7,8 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 
 namespace Cooking
@@ -20,6 +22,10 @@ namespace Cooking
     {
         public App()
         {
+            Trace.Listeners.Add(new TextWriterTraceListener("Log.log"));
+            Trace.AutoFlush = true;
+            AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;
+
             Mapper.Initialize(cfg =>
             {
                 cfg.AllowNullDestinationValues = true;
@@ -84,6 +90,27 @@ namespace Cooking
             using (var context = new CookingContext())
             {
                 context.Database.Migrate();
+            }
+        }
+
+        private const string dateTimeFormat = "dd.MM.yyyy hh:mm";
+
+        private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            if (e.ExceptionObject is Exception exception)
+            {
+                var exceptionDescription = new StringBuilder();
+
+                exceptionDescription.AppendLine(exception.Message);
+                exceptionDescription.AppendLine(exception.StackTrace);
+
+                while (exception.InnerException != null)
+                {
+                    exception = exception.InnerException;
+                    exceptionDescription.AppendLine(exception.Message);
+                    exceptionDescription.AppendLine(exception.StackTrace);
+                }
+                Trace.TraceError($"[{DateTime.Now.ToString(dateTimeFormat)}] {exceptionDescription.ToString()}");
             }
         }
 

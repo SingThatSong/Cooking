@@ -29,19 +29,24 @@
     <UserControl.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand.Value}" />
     </UserControl.InputBindings>
-    
-    <Grid Height="230">
+
+    <Grid Height="230" >
         
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" MinWidth="130"/>
+        </Grid.ColumnDefinitions>
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Название" />
                 <TextBox Grid.Column="1"
-                    Text="{Binding Tag.Name}" />
+                         Name="Focused"
+                         Text="{Binding Tag.Name, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Text="Цвет" />
                 <xctk:ColorPicker Foreground="Black"
                     DisplayColorAndName="True" 
@@ -50,9 +55,14 @@
                 <TextBlock Text="Категория" />
                 <ComboBox SelectedValue="{Binding Tag.Type, Converter={StaticResource enumToDescriptionConverter}}"
                                       ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}" />
+                
 
             </StackPanel>
         </ScrollViewer>
+
+        <ItemsControl ItemsSource="{Binding SimilarTags}" Grid.Column="1" Margin="20 0 0 0"></ItemsControl>
+        
+
         <StackPanel Margin="20" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
             <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                     Width="48" 

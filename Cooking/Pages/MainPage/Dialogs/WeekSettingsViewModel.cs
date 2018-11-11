@@ -56,7 +56,7 @@ namespace Cooking.Pages.MainPage.Dialogs
                     mainIngredients.Insert(0, TagDTO.Any);
                     mainIngredients[0].IsChecked = false;
 
-                    var viewModel = new TagSelectEditViewModel(day.NeededMainIngredients, mainIngredients);
+                    var viewModel = new TagSelectEditViewModel(day.NeededMainIngredients, TagType.MainIngredient, mainIngredients);
 
                     var dialog = new CustomDialog()
                     {
@@ -71,7 +71,7 @@ namespace Cooking.Pages.MainPage.Dialogs
 
                     if (viewModel.DialogResultOk)
                     {
-                        var list = viewModel.AllTags.Where(x => x.IsChecked).ToList();
+                        var list = viewModel.MainIngredients.Where(x => x.IsChecked).ToList();
 
                         if(list.Any(x => x != TagDTO.Any))
                         {
@@ -85,17 +85,17 @@ namespace Cooking.Pages.MainPage.Dialogs
             AddDishTypesCommand = new Lazy<DelegateCommand<DayPlan>>(
                 () => new DelegateCommand<DayPlan>(async (day) => {
 
-                    List<TagDTO> mainIngredients;
+                    List<TagDTO> dishTypes;
 
                     using (var context = new CookingContext())
                     {
-                        mainIngredients = context.Tags.Where(x => x.Type == TagType.DishType).Select(x => Mapper.Map<TagDTO>(x)).ToList();
+                        dishTypes = context.Tags.Where(x => x.Type == TagType.DishType).Select(x => Mapper.Map<TagDTO>(x)).ToList();
                     }
 
-                    mainIngredients.Insert(0, TagDTO.Any);
-                    mainIngredients[0].IsChecked = false;
+                    dishTypes.Insert(0, TagDTO.Any);
+                    dishTypes[0].IsChecked = false;
 
-                    var viewModel = new TagSelectEditViewModel(day.NeededDishTypes, mainIngredients);
+                    var viewModel = new TagSelectEditViewModel(day.NeededDishTypes, TagType.DishType, dishTypes);
 
                     var dialog = new CustomDialog()
                     {
@@ -110,7 +110,7 @@ namespace Cooking.Pages.MainPage.Dialogs
 
                     if (viewModel.DialogResultOk)
                     {
-                        var list = viewModel.AllTags.Where(x => x.IsChecked).ToList();
+                        var list = viewModel.DishTypes.Where(x => x.IsChecked).ToList();
 
                         if (list.Any(x => x != TagDTO.Any))
                         {

@@ -198,9 +198,36 @@ namespace Cooking.Pages.Recepies
 
                     if (viewModel.DialogResultOk)
                     {
-                        Recipe.Tags = new ObservableCollection<TagDTO>(viewModel.AllTags.Where(x => x.IsChecked));
+                        IEnumerable<TagDTO> tags = new List<TagDTO>();
+                        if (viewModel.MainIngredients != null)
+                        {
+                            tags = tags.Union(viewModel.MainIngredients.Where(x => x.IsChecked));
+                        }
+
+                        if (viewModel.DishTypes != null)
+                        {
+                            tags = tags.Union(viewModel.DishTypes.Where(x => x.IsChecked));
+                        }
+
+                        if (viewModel.Occasions != null)
+                        {
+                            tags = tags.Union(viewModel.Occasions.Where(x => x.IsChecked));
+                        }
+
+                        if (viewModel.Sources != null)
+                        {
+                            tags = tags.Union(viewModel.Sources.Where(x => x.IsChecked));
+                        }
+
+                        Recipe.Tags = new ObservableCollection<TagDTO>(tags);
                     }
                 }));
+
+            RemoveTagCommand = new Lazy<DelegateCommand<TagDTO>>(
+                () => new DelegateCommand<TagDTO>(tag =>
+            {
+                Recipe.Tags.Remove(tag);
+            }));
 
             EditIngredientCommand = new Lazy<DelegateCommand<RecipeIngredientDTO>>(
                 () => new DelegateCommand<RecipeIngredientDTO>(async (ingredient) => {
@@ -329,6 +356,8 @@ namespace Cooking.Pages.Recepies
         public Lazy<DelegateCommand> AddIngredientGroupCommand { get; }
 
         
+        public Lazy<DelegateCommand<TagDTO>> RemoveTagCommand { get; }
+
         public Lazy<DelegateCommand<IngredientGroupDTO>> AddIngredientToGroupCommand { get; }
         public Lazy<DelegateCommand<IngredientGroupDTO>> RemoveIngredientGroupCommand { get; }
         public Lazy<DelegateCommand<IngredientGroupDTO>> EditIngredientGroupCommand { get; }

@@ -23,6 +23,11 @@
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition MaxWidth="100"/>
+        </Grid.ColumnDefinitions>
+       
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
 
@@ -49,6 +54,19 @@
                           mahapps:TextBoxHelper.ClearTextButton="True"
                           DisplayMemberPath="FullName"/>
             </StackPanel>
+        </ScrollViewer>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1" Margin="10 0 0 0">
+            <ItemsControl ItemsSource="{Binding Ingredients}" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Ingredient.Name}" />
+                            <TextBlock Text="{Binding Amount}" Margin="5 0 0 0"/>
+                            <TextBlock Text="{Binding MeasureUnit.Name}" Margin="5 0 0 0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
         <StackPanel Margin="0 0 0 0" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
             <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 

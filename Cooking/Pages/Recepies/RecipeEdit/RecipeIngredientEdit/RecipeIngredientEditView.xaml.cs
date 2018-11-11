@@ -19,13 +19,18 @@ namespace Cooking.Pages.Ingredients
             // Для того, чтобы окно могло работать с нажатием клавиш на клавиатуре
             // https://stackoverflow.com/a/21352864
             Focusable = true;
-            Loaded += (s, e) => Keyboard.Focus(this);
+            Loaded += (s, e) => Keyboard.Focus(Ingredient);
 
 
         }
 
         private void Ingredient_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (string.IsNullOrEmpty(Ingredient.Text))
+            {
+                return;
+            }
+
             CollectionView itemsViewOriginal = (CollectionView)CollectionViewSource.GetDefaultView(Ingredient.ItemsSource);
 
             itemsViewOriginal.Filter = ((o) =>

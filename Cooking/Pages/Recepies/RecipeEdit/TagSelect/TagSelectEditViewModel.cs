@@ -16,39 +16,114 @@ namespace Cooking.Pages.Recepies
     {
         public bool DialogResultOk { get; set; }
 
-        public TagSelectEditViewModel(IEnumerable<TagDTO> tags, List<TagDTO> allTags = null)
+        public TagSelectEditViewModel(IEnumerable<TagDTO> tags, TagType? filterTag = null, IEnumerable<TagDTO> tagsFilter = null)
         {
             OkCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
-                    DialogResultOk = true;
-                    CloseCommand.Value.Execute();
-                }));
+               () => new DelegateCommand(async () => {
+                   DialogResultOk = true;
+                   CloseCommand.Value.Execute();
+               }));
 
             CloseCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
-                    var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
-                    await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
-                }));
+               () => new DelegateCommand(async () => {
+                   var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
+                   await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
+               }));
 
-            if (allTags == null)
+            if (!filterTag.HasValue)
             {
                 using (var context = new CookingContext())
                 {
-                    AllTags = context.Tags.Select(x => Mapper.Map<TagDTO>(x)).OrderBy(x => x.Name).ToList();
+                    MainIngredients = context.Tags
+                                             .Where(x => x.Type == TagType.MainIngredient)
+                                             .Select(x => Mapper.Map<TagDTO>(x))
+                                             .OrderBy(x => x.Name)
+                                             .ToList();
+
+                    DishTypes = context.Tags
+                                       .Where(x => x.Type == TagType.DishType)
+                                       .Select(x => Mapper.Map<TagDTO>(x))
+                                       .OrderBy(x => x.Name)
+                                       .ToList();
+
+                    Occasions = context.Tags
+                                      .Where(x => x.Type == TagType.Occasion)
+                                      .Select(x => Mapper.Map<TagDTO>(x))
+                                      .OrderBy(x => x.Name)
+                                      .ToList();
+
+                    Sources = context.Tags
+                                     .Where(x => x.Type == TagType.Source)
+                                     .Select(x => Mapper.Map<TagDTO>(x))
+                                     .OrderBy(x => x.Name)
+                                     .ToList();
                 }
             }
             else
             {
-                AllTags = allTags;
+                switch (filterTag)
+                {
+                    case TagType.DishType:
+                        DishTypes = tagsFilter.ToList();
+                        break;
+                    case TagType.MainIngredient:
+                        MainIngredients = tagsFilter.ToList();
+                        break;
+                    case TagType.Occasion:
+                        Occasions = tagsFilter.ToList();
+                        break;
+                    case TagType.Source:
+                        Sources = tagsFilter.ToList();
+                        break;
+                }
             }
 
             if (tags != null)
             {
                 foreach (var tag in tags)
                 {
-                    AllTags.Single(x => x.ID == tag.ID).IsChecked = true;
+                    if (MainIngredients != null)
+                    {
+                        var mainIngredient = MainIngredients.FirstOrDefault(x => x.ID == tag.ID);
+                        if (mainIngredient != null)
+                        {
+                            mainIngredient.IsChecked = true;
+                            continue;
+                        }
+                    }
+
+                    if (DishTypes != null)
+                    {
+                        var dishType = DishTypes.FirstOrDefault(x => x.ID == tag.ID);
+                        if (dishType != null)
+                        {
+                            dishType.IsChecked = true;
+                            continue;
+                        }
+                    }
+
+                    if (Occasions != null)
+                    {
+                        var occsion = Occasions.FirstOrDefault(x => x.ID == tag.ID);
+                        if (occsion != null)
+                        {
+                            occsion.IsChecked = true;
+                            continue;
+                        }
+                    }
+
+                    if (Sources != null)
+                    {
+                        var source = Sources.FirstOrDefault(x => x.ID == tag.ID);
+                        if (source != null)
+                        {
+                            source.IsChecked = true;
+                            continue;
+                        }
+                    }
                 }
             }
+
         }
 
         public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
@@ -58,7 +133,10 @@ namespace Cooking.Pages.Recepies
         public Lazy<DelegateCommand> OkCommand { get; }
         public Lazy<DelegateCommand> CloseCommand { get; }
 
-        public List<TagDTO> AllTags { get; set; }
+        public List<TagDTO> MainIngredients { get; set; }
+        public List<TagDTO> DishTypes { get; set; }
+        public List<TagDTO> Occasions { get; set; }
+        public List<TagDTO> Sources { get; set; }
 
     }
 }

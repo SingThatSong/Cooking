@@ -15,7 +15,6 @@
     </UserControl.Resources>
 
     <Grid>
-        <TextBlock Text="Под фильтр не попал ни один рецепт" Foreground="Red" Visibility="{Binding Converter={StaticResource isNullToVisibilityConverter}}" />
         <StackPanel Orientation="Vertical" Visibility="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}">
             <Image Source="{Binding FullPath}" MaxHeight="150" Margin="0 5 0 0" >
                 <i:Interaction.Triggers>

@@ -27,9 +27,9 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <TextBox ToolTip="Название #ингредиент1, ингредиент2 ~тег1, тег2"
-                 mahapps:TextBoxHelper.Watermark="Поиск..."
+        <TextBox mahapps:TextBoxHelper.Watermark="Поиск... Пример: Название #ингредиент1, ингредиент2 ~тег1, тег2"
                  mahapps:TextBoxHelper.UseFloatingWatermark="True" 
+                 mahapps:TextBoxHelper.ClearTextButton="True"
                  Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <ItemsControl ItemsSource="{Binding RecipiesSource.View}" Name="RecipiesList" Grid.Row="1" Margin="0 5 0 0">
                 <ItemsControl.ItemTemplate>
