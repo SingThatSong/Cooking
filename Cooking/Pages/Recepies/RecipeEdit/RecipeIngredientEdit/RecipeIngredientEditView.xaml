@@ -16,7 +16,7 @@
         <KeyBinding Key="Esc" Command="{Binding CloseCommand.Value}" />
     </UserControl.InputBindings>
     
-    <Grid Height="250">
+    <Grid Height="250" Name="RecipeIngredientEdit">
         
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -25,7 +25,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition MaxWidth="100"/>
+            <ColumnDefinition MaxWidth="140"/>
         </Grid.ColumnDefinitions>
        
         <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -59,11 +59,24 @@
             <ItemsControl ItemsSource="{Binding Ingredients}" >
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Ingredient.Name}" />
-                            <TextBlock Text="{Binding Amount}" Margin="5 0 0 0"/>
-                            <TextBlock Text="{Binding MeasureUnit.Name}" Margin="5 0 0 0"/>
-                        </StackPanel>
+                        <WrapPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Ingredient.Name}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Amount}" Margin="5 0 0 0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding MeasureUnit.Name}" Margin="5 0 0 0" VerticalAlignment="Center"/>
+                            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                        Width="24" 
+                                        Height="24"
+                                        Margin="2 0 0 0"
+                                        BorderThickness="0"
+                                        Foreground="Red"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding ElementName=RecipeIngredientEdit, Path=DataContext.RemoveIngredientCommand.Value}"
+                                        CommandParameter="{Binding}">
+                                <icons:PackIconModern Width="10"
+                                              Height="10"
+                                              Kind="Close" />
+                            </Button>
+                        </WrapPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

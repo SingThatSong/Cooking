@@ -75,7 +75,11 @@ namespace Cooking
                        }
 
                        dest.Ingredients = new ObservableCollection<RecipeIngredientDTO>(dest.Ingredients.OrderBy(x => x.Order));
-                       dest.Tags = new ObservableCollection<TagDTO>(src.Tags.Select(x => context.Mapper.Map<TagDTO>(x.Tag)));
+                       if (src.Tags != null)
+                       {
+                           var tags = src.Tags.Select(x => context.Mapper.Map<TagDTO>(x.Tag));
+                           dest.Tags = new ObservableCollection<TagDTO>(tags.OrderBy(x => x.Type).ThenBy(x => x.Name));
+                       }
                    });
 
                 cfg.CreateMap<IngredientDTO, Ingredient>().ReverseMap();

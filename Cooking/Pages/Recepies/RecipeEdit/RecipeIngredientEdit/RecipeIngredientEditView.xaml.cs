@@ -26,13 +26,14 @@ namespace Cooking.Pages.Ingredients
 
         private void Ingredient_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (string.IsNullOrEmpty(Ingredient.Text))
-            {
-                return;
-            }
-
             CollectionView itemsViewOriginal = (CollectionView)CollectionViewSource.GetDefaultView(Ingredient.ItemsSource);
 
+            if (string.IsNullOrEmpty(Ingredient.Text))
+            {
+                itemsViewOriginal.Refresh();
+                return;
+            }
+            
             itemsViewOriginal.Filter = ((o) =>
             {
                 if (String.IsNullOrEmpty(Ingredient.Text)) return true;

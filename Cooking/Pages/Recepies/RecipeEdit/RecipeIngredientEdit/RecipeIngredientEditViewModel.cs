@@ -38,6 +38,9 @@ namespace Cooking.Pages.Ingredients
                     Ingredient = new RecipeIngredientDTO();
                 },
                 canExecute: () => IsCreation));
+            RemoveIngredientCommand = new Lazy<DelegateCommand<RecipeIngredientDTO>>(
+                () => new DelegateCommand<RecipeIngredientDTO>(i => Ingredients.Remove(i))
+            );
 
             using (var context = new CookingContext())
             {
@@ -70,6 +73,9 @@ namespace Cooking.Pages.Ingredients
         public Lazy<DelegateCommand> OkCommand { get; }
         public Lazy<DelegateCommand> CloseCommand { get; }
         public Lazy<DelegateCommand> AddMultipleCommand { get; }
+        public Lazy<DelegateCommand<RecipeIngredientDTO>> RemoveIngredientCommand { get; }
+        
+
         public RecipeIngredientDTO Ingredient { get; set; }
         public ObservableCollection<RecipeIngredientDTO> Ingredients { get; set; }
 

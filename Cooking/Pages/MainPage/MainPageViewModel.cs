@@ -50,6 +50,7 @@ namespace Cooking.Pages.MainPage
                                                .Include(x => x.Monday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
+                                                            .ThenInclude(x => x.Tag)
 
                                                .Include(x => x.Tuesday)
                                                   .ThenInclude(x => x.Dinner)
@@ -63,6 +64,7 @@ namespace Cooking.Pages.MainPage
                                                .Include(x => x.Tuesday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
+                                                            .ThenInclude(x => x.Tag)
 
                                                .Include(x => x.Wednesday)
                                                   .ThenInclude(x => x.Dinner)
@@ -76,6 +78,7 @@ namespace Cooking.Pages.MainPage
                                                .Include(x => x.Wednesday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
+                                                            .ThenInclude(x => x.Tag)
 
                                                .Include(x => x.Thursday)
                                                   .ThenInclude(x => x.Dinner)
@@ -89,6 +92,7 @@ namespace Cooking.Pages.MainPage
                                                .Include(x => x.Thursday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
+                                                            .ThenInclude(x => x.Tag)
 
                                                .Include(x => x.Friday)
                                                   .ThenInclude(x => x.Dinner)
@@ -102,6 +106,7 @@ namespace Cooking.Pages.MainPage
                                                .Include(x => x.Friday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
+                                                            .ThenInclude(x => x.Tag)
 
                                                .Include(x => x.Saturday)
                                                   .ThenInclude(x => x.Dinner)
@@ -115,6 +120,7 @@ namespace Cooking.Pages.MainPage
                                                .Include(x => x.Saturday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
+                                                            .ThenInclude(x => x.Tag)
 
                                                .Include(x => x.Sunday)
                                                   .ThenInclude(x => x.Dinner)
@@ -128,6 +134,7 @@ namespace Cooking.Pages.MainPage
                                                .Include(x => x.Sunday)
                                                     .ThenInclude(x => x.Dinner)
                                                         .ThenInclude(x => x.Tags)
+                                                            .ThenInclude(x => x.Tag)
 
                                                .SingleOrDefault(x => x.Start.Date <= dayOfWeek.Date && dayOfWeek.Date <= x.End.Date);
 
@@ -485,8 +492,8 @@ namespace Cooking.Pages.MainPage
 
                         context.Add(newWeek);
                         context.SaveChanges();
+                        CurrentWeek = GetWeek(newWeek.Start);
                     }
-                    CurrentWeek = GetWeek(DateTime.Now);
                 }
             }
         }
