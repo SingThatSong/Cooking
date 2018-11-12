@@ -9,5 +9,16 @@ namespace Data.Model
         public Guid ID { get; set; }
         public string Name { get; set; }
 
+        [NotMapped]
+        public IngredientType Type { get; set; }
+
+        public int? TypeID
+        {
+            get => Type?.ID;
+            set
+            {
+                Type = IngredientType.AllValues.SingleOrDefault(x => x.ID == value);
+            }
+        }
     }
 }

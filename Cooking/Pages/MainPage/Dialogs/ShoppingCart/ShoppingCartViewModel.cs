@@ -41,9 +41,26 @@ namespace Cooking.Pages.Recepies
 
                         if (i == split.Length) break;
 
-                        sb.AppendLine("				<div>");
-                        sb.AppendLine($"					<en-todo></en-todo>{split[i]}");
-                        sb.AppendLine("				</div>");
+                        if (split[i].StartsWith("\t"))
+                        {
+                            sb.AppendLine("				<div>");
+                            sb.AppendLine($"					<en-todo/>{split[i].TrimStart(new[] { '\t' })}");
+                            sb.AppendLine("				</div>");
+                        }
+                        else
+                        {
+                            if (split[i] == "---------------------------------------------")
+                            {
+                                sb.AppendLine("<hr/>");
+                            }
+                            else
+                            {
+                                sb.AppendLine("				<div>");
+                                sb.AppendLine($"					<span style=\"font-weight: bold; \"><font style=\"font-size: 14pt;\">{split[i]}</font></span>");
+                                sb.AppendLine("				</div>");
+                            }
+                            continue;
+                        }
                         i++;
 
                         bool ulStarted = false;

@@ -73,7 +73,7 @@ namespace Cooking.Pages.Ingredients
 
         private List<string> AllIngredientNames { get; set; }
 
-        public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
+        public ReadOnlyCollection<IngredientType> IngredientTypes => IngredientType.AllValues;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

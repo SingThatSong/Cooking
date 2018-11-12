@@ -294,22 +294,52 @@ namespace Cooking.Pages.MainPage
                     allProducts.AddRange(CurrentWeek.Sunday.Dinner.IngredientGroups.SelectMany(x => x.Ingredients));
                 }
 
-                var grouped = allProducts.GroupBy(x => x.Ingredient?.Name).OrderBy(x => x.Key);
-
+                var typeGroups = allProducts.GroupBy(x => x.Ingredient?.Type?.Name).OrderBy(x => x.Key);
                 var sb = new StringBuilder();
-                foreach(var group in grouped)
+                foreach (var type in typeGroups.Where(x => x.Key != null))
                 {
-                    sb.AppendLine(group.Key);
-                    var measureGroup = group.GroupBy(x => x.MeasureUnit?.FullName);
-                    
-                    foreach(var measure in measureGroup)
+                    sb.AppendLine(type.Key);
+
+                    var grouped = type.GroupBy(x => x.Ingredient?.Name).OrderBy(x => x.Key);
+
+                    foreach (var group in grouped)
                     {
-                        if (measure.Key != null)
+                        sb.AppendLine($"\t" + group.Key);
+                        var measureGroup = group.GroupBy(x => x.MeasureUnit?.FullName);
+
+                        foreach (var measure in measureGroup)
                         {
-                            sb.AppendLine($"{measure.Sum(x => x.Amount)} {measure.Key}");
+                            if (measure.Key != null)
+                            {
+                                sb.AppendLine($"\t{measure.Sum(x => x.Amount)} {measure.Key}");
+                            }
                         }
+                        sb.AppendLine();
                     }
-                    sb.AppendLine();
+                }
+
+                sb.AppendLine("---------------------------------------------");
+
+                foreach (var type in typeGroups.Where(x => x.Key == null))
+                {
+                    sb.AppendLine(type.Key);
+
+                    var grouped = type.GroupBy(x => x.Ingredient?.Name).OrderBy(x => x.Key);
+
+                    foreach (var group in grouped)
+                    {
+                        sb.AppendLine($"\t" + group.Key);
+                        var measureGroup = group.GroupBy(x => x.MeasureUnit?.FullName);
+
+                        foreach (var measure in measureGroup)
+                        {
+                            if (measure.Key != null)
+                            {
+                                sb.AppendLine($"\t{measure.Sum(x => x.Amount)} {measure.Key}");
+                            }
+                        }
+                        sb.AppendLine();
+                    }
                 }
 
                 var viewModel = new ShoppingCartViewModel(sb.ToString());
