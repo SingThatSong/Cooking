@@ -42,6 +42,8 @@ namespace Cooking.Pages.Ingredients
                 () => new DelegateCommand<RecipeIngredientDTO>(i => Ingredients.Remove(i))
             );
 
+            AddCategoryCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddRecipe));
+
             using (var context = new CookingContext())
             {
                 AllIngredients = context.Ingredients.Select(x => Mapper.Map<IngredientDTO>(x)).ToList();
@@ -66,6 +68,35 @@ namespace Cooking.Pages.Ingredients
             }
         }
 
+        public async void AddRecipe()
+        {
+            var viewModel = new IngredientEditViewModel();
+
+            var dialog = new CustomDialog()
+            {
+                Title = "Новый ингредиент",
+                Content = new IngredientEditView()
+                {
+                    DataContext = viewModel
+                }
+            };
+
+            await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
+            await dialog.WaitUntilUnloadedAsync();
+
+            if (viewModel.DialogResultOk)
+            {
+                var category = Mapper.Map<Ingredient>(viewModel.Ingredient);
+                using (var context = new CookingContext())
+                {
+                    context.Add(category);
+                    context.SaveChanges();
+                }
+                viewModel.Ingredient.ID = category.ID;
+                AllIngredients.Add(viewModel.Ingredient);
+            }
+        }
+
         public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -74,7 +105,9 @@ namespace Cooking.Pages.Ingredients
         public Lazy<DelegateCommand> CloseCommand { get; }
         public Lazy<DelegateCommand> AddMultipleCommand { get; }
         public Lazy<DelegateCommand<RecipeIngredientDTO>> RemoveIngredientCommand { get; }
-        
+
+        public Lazy<DelegateCommand> AddCategoryCommand { get; }
+
 
         public RecipeIngredientDTO Ingredient { get; set; }
         public ObservableCollection<RecipeIngredientDTO> Ingredients { get; set; }

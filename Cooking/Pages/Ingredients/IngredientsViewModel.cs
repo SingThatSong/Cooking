@@ -157,7 +157,7 @@ namespace Cooking.Pages.Ingredients
         public Lazy<DelegateCommand<IngredientDTO>> ViewIngredientCommand { get; }
         public Lazy<DelegateCommand<IngredientDTO>> EditCategoryCommand { get; }
         public Lazy<DelegateCommand<IngredientDTO>> DeleteCategoryCommand { get; }
-
+        
         public bool IsEditing { get; set; }
     }
 }

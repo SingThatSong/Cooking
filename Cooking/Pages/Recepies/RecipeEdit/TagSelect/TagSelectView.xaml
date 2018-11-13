@@ -27,6 +27,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="50" />
         </Grid.ColumnDefinitions>
 
         <ItemsControl ItemsSource="{Binding MainIngredients}" MinHeight="200">
@@ -117,6 +118,17 @@
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
+        
+        <Button Grid.Column="5"
+            Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                    Width="36" 
+                    Height="36"
+                    Command="{Binding AddTagCommand.Value}"
+                    Margin="10 0 0 0" >
+            <icons:PackIconModern Width="15"
+                                      Height="15"
+                                      Kind="Add" />
+        </Button>
 
         <StackPanel Margin="20" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Grid.ColumnSpan="4">
             <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 

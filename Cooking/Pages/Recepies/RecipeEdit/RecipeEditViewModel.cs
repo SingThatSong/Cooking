@@ -111,10 +111,18 @@ namespace Cooking.Pages.Recepies
                             DataContext = viewModel
                         }
                     };
-                    await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
-                    await dialog.WaitUntilUnloadedAsync();
 
-                    if(viewModel.DialogResultOk)
+                    var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
+
+                    await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
+
+                    do
+                    {
+                        await dialog.WaitUntilUnloadedAsync();
+                    }
+                    while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this));
+
+                    if (viewModel.DialogResultOk)
                     {
                         if (Recipe.Ingredients == null)
                         {
@@ -171,8 +179,16 @@ namespace Cooking.Pages.Recepies
                             DataContext = viewModel
                         }
                     };
+
+                    var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
+
                     await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
-                    await dialog.WaitUntilUnloadedAsync();
+
+                    do
+                    {
+                        await dialog.WaitUntilUnloadedAsync();
+                    }
+                    while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this));
 
                     if (viewModel.DialogResultOk)
                     {
@@ -193,8 +209,16 @@ namespace Cooking.Pages.Recepies
                             DataContext = viewModel
                         }
                     };
+
+                    var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
+
                     await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
-                    await dialog.WaitUntilUnloadedAsync();
+
+                    do
+                    {
+                        await dialog.WaitUntilUnloadedAsync();
+                    }
+                    while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this));
 
                     if (viewModel.DialogResultOk)
                     {
@@ -242,8 +266,16 @@ namespace Cooking.Pages.Recepies
                             DataContext = viewModel
                         }
                     };
+
+                    var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
+
                     await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
-                    await dialog.WaitUntilUnloadedAsync();
+
+                    do
+                    {
+                        await dialog.WaitUntilUnloadedAsync();
+                    }
+                    while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this));
 
                     if (viewModel.DialogResultOk)
                     {
@@ -355,7 +387,6 @@ namespace Cooking.Pages.Recepies
         public Lazy<DelegateCommand> AddTagCommand { get; }
         public Lazy<DelegateCommand> AddIngredientGroupCommand { get; }
 
-        
         public Lazy<DelegateCommand<TagDTO>> RemoveTagCommand { get; }
 
         public Lazy<DelegateCommand<IngredientGroupDTO>> AddIngredientToGroupCommand { get; }

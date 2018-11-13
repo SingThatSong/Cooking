@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Cooking.Commands;
 using Cooking.DTO;
+using Cooking.Pages.Tags;
 using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
@@ -18,6 +19,8 @@ namespace Cooking.Pages.Recepies
 
         public TagSelectEditViewModel(IEnumerable<TagDTO> tags, TagType? filterTag = null, IEnumerable<TagDTO> tagsFilter = null)
         {
+            AddTagCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddTag));
+
             OkCommand = new Lazy<DelegateCommand>(
                () => new DelegateCommand(async () => {
                    DialogResultOk = true;
@@ -34,29 +37,25 @@ namespace Cooking.Pages.Recepies
             {
                 using (var context = new CookingContext())
                 {
-                    MainIngredients = context.Tags
+                    MainIngredients = new ObservableCollection<TagDTO>(context.Tags
                                              .Where(x => x.Type == TagType.MainIngredient)
                                              .Select(x => Mapper.Map<TagDTO>(x))
-                                             .OrderBy(x => x.Name)
-                                             .ToList();
+                                             .OrderBy(x => x.Name));
 
-                    DishTypes = context.Tags
+                    DishTypes = new ObservableCollection<TagDTO>(context.Tags
                                        .Where(x => x.Type == TagType.DishType)
                                        .Select(x => Mapper.Map<TagDTO>(x))
-                                       .OrderBy(x => x.Name)
-                                       .ToList();
+                                       .OrderBy(x => x.Name));
 
-                    Occasions = context.Tags
+                    Occasions = new ObservableCollection<TagDTO>(context.Tags
                                       .Where(x => x.Type == TagType.Occasion)
                                       .Select(x => Mapper.Map<TagDTO>(x))
-                                      .OrderBy(x => x.Name)
-                                      .ToList();
+                                      .OrderBy(x => x.Name));
 
-                    Sources = context.Tags
+                    Sources = new ObservableCollection<TagDTO>(context.Tags
                                      .Where(x => x.Type == TagType.Source)
                                      .Select(x => Mapper.Map<TagDTO>(x))
-                                     .OrderBy(x => x.Name)
-                                     .ToList();
+                                     .OrderBy(x => x.Name));
                 }
             }
             else
@@ -64,16 +63,16 @@ namespace Cooking.Pages.Recepies
                 switch (filterTag)
                 {
                     case TagType.DishType:
-                        DishTypes = tagsFilter.ToList();
+                        DishTypes = new ObservableCollection<TagDTO>(tagsFilter);
                         break;
                     case TagType.MainIngredient:
-                        MainIngredients = tagsFilter.ToList();
+                        MainIngredients = new ObservableCollection<TagDTO>(tagsFilter);
                         break;
                     case TagType.Occasion:
-                        Occasions = tagsFilter.ToList();
+                        Occasions = new ObservableCollection<TagDTO>(tagsFilter);
                         break;
                     case TagType.Source:
-                        Sources = tagsFilter.ToList();
+                        Sources = new ObservableCollection<TagDTO>(tagsFilter);
                         break;
                 }
             }
@@ -126,6 +125,57 @@ namespace Cooking.Pages.Recepies
 
         }
 
+        public async void AddTag()
+        {
+            var viewModel = new TagEditViewModel();
+
+            var dialog = new CustomDialog()
+            {
+                Title = "Новый тег",
+                Content = new TagEditView()
+                {
+                    DataContext = viewModel
+                }
+            };
+
+            var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
+
+            await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
+
+            do
+            {
+                await dialog.WaitUntilUnloadedAsync();
+            }
+            while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this));
+
+            if (viewModel.DialogResultOk)
+            {
+                var category = Mapper.Map<Tag>(viewModel.Tag);
+                using (var context = new CookingContext())
+                {
+                    context.Add(category);
+                    context.SaveChanges();
+                }
+                viewModel.Tag.ID = category.ID;
+
+                switch(category.Type)
+                {
+                    case TagType.DishType:
+                        DishTypes.Add(viewModel.Tag);
+                        break;
+                    case TagType.MainIngredient:
+                        MainIngredients.Add(viewModel.Tag);
+                        break;
+                    case TagType.Occasion:
+                        Occasions.Add(viewModel.Tag);
+                        break;
+                    case TagType.Source:
+                        Sources.Add(viewModel.Tag);
+                        break;
+                }
+            }
+        }
+
         public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -133,10 +183,12 @@ namespace Cooking.Pages.Recepies
         public Lazy<DelegateCommand> OkCommand { get; }
         public Lazy<DelegateCommand> CloseCommand { get; }
 
-        public List<TagDTO> MainIngredients { get; set; }
-        public List<TagDTO> DishTypes { get; set; }
-        public List<TagDTO> Occasions { get; set; }
-        public List<TagDTO> Sources { get; set; }
+        public Lazy<DelegateCommand> AddTagCommand { get; }
+
+        public ObservableCollection<TagDTO> MainIngredients { get; set; }
+        public ObservableCollection<TagDTO> DishTypes { get; set; }
+        public ObservableCollection<TagDTO> Occasions { get; set; }
+        public ObservableCollection<TagDTO> Sources { get; set; }
 
     }
 }
