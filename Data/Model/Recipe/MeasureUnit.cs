@@ -15,6 +15,8 @@ namespace Data.Model
         public static MeasureUnit Cup = new MeasureUnit(id: 6, name: "ст.", fullName: "стакан" );
         public static MeasureUnit Pinch = new MeasureUnit(id: 7, name: "щепотка", fullName: "щепотка" );
         public static MeasureUnit Sprig = new MeasureUnit(id: 8, name: "веточка", fullName: "веточка" );
+        public static MeasureUnit Clove = new MeasureUnit(id: 9, name: "зубчик", fullName: "зубчик");
+        public static MeasureUnit Bundle = new MeasureUnit(id: 10, name: "пучок", fullName: "пучок");
 
         private MeasureUnit(int id, string name, string fullName)
         {
@@ -36,7 +38,9 @@ namespace Data.Model
             TeaSpoon,
             Cup,
             Pinch,
-            Sprig
+            Sprig,
+            Clove,
+            Bundle
         });
     }
 }
