@@ -8,5 +8,7 @@ namespace Data.Model.Plan
         public Guid? DinnerID { get; set; }
         public Recipe Dinner { get; set; }
         public bool DinnerWasCooked { get; set; }
+
+        public DateTime? Date { get; set; }
     }
 }

@@ -466,7 +466,8 @@ namespace Cooking.Pages.MainPage
                                     {
                                         DinnerID = day.SpecificRecipe != null 
                                                     ? day.SpecificRecipe?.ID
-                                                    : day.Recipe?.ID
+                                                    : day.Recipe?.ID,
+                                        Date = WeekStart
                                     };
                                     break;
                                 case "Вт":
@@ -474,7 +475,8 @@ namespace Cooking.Pages.MainPage
                                     {
                                         DinnerID = day.SpecificRecipe != null
                                                     ? day.SpecificRecipe?.ID
-                                                    : day.Recipe?.ID
+                                                    : day.Recipe?.ID,
+                                        Date = WeekStart.AddDays(1)
                                     };
                                     break;
                                 case "Ср":
@@ -482,7 +484,8 @@ namespace Cooking.Pages.MainPage
                                     {
                                         DinnerID = day.SpecificRecipe != null
                                                     ? day.SpecificRecipe?.ID
-                                                    : day.Recipe?.ID
+                                                    : day.Recipe?.ID,
+                                        Date = WeekStart.AddDays(2)
                                     };
                                     break;
                                 case "Чт":
@@ -490,7 +493,8 @@ namespace Cooking.Pages.MainPage
                                     {
                                         DinnerID = day.SpecificRecipe != null
                                                     ? day.SpecificRecipe?.ID
-                                                    : day.Recipe?.ID
+                                                    : day.Recipe?.ID,
+                                        Date = WeekStart.AddDays(3)
                                     };
                                     break;
                                 case "Пт":
@@ -498,7 +502,8 @@ namespace Cooking.Pages.MainPage
                                     {
                                         DinnerID = day.SpecificRecipe != null
                                                     ? day.SpecificRecipe?.ID
-                                                    : day.Recipe?.ID
+                                                    : day.Recipe?.ID,
+                                        Date = WeekStart.AddDays(4)
                                     };
                                     break;
                                 case "Сб":
@@ -506,7 +511,8 @@ namespace Cooking.Pages.MainPage
                                     {
                                         DinnerID = day.SpecificRecipe != null
                                                     ? day.SpecificRecipe?.ID
-                                                    : day.Recipe?.ID
+                                                    : day.Recipe?.ID,
+                                        Date = WeekStart.AddDays(5)
                                     };
                                     break;
                                 case "Вс":
@@ -514,7 +520,8 @@ namespace Cooking.Pages.MainPage
                                     {
                                         DinnerID = day.SpecificRecipe != null
                                                     ? day.SpecificRecipe?.ID
-                                                    : day.Recipe?.ID
+                                                    : day.Recipe?.ID,
+                                        Date = WeekStart.AddDays(6)
                                     };
                                     break;
                             }
@@ -532,7 +539,9 @@ namespace Cooking.Pages.MainPage
 
         private void GenerateRecipies(IEnumerable<DayPlan> selectedDays)
         {
-            foreach(var day in selectedDays)
+            var cacheCooked = new LastDayCooked();
+
+            foreach (var day in selectedDays)
             {
                 using (var context = new CookingContext())
                 {
@@ -579,7 +588,7 @@ namespace Cooking.Pages.MainPage
 
                     if (recipiesNotSelectedYet.Count > 0)
                     {
-                        day.Recipe = Mapper.Map<RecipeDTO>(recipiesNotSelectedYet[random.Next(0, recipiesNotSelectedYet.Count)]);
+                        day.Recipe = Mapper.Map<RecipeDTO>(recipiesNotSelectedYet.OrderByDescending(x => cacheCooked.DaysFromLasCook(x)).First());
                     }
                 }
             }
@@ -598,6 +607,36 @@ namespace Cooking.Pages.MainPage
         {
             DateTime ldowDate = FirstDayOfWeek(date).AddDays(6);
             return ldowDate;
+        }
+    }
+
+    internal class LastDayCooked
+    {
+        private Dictionary<Recipe, DateTime?> cache = new Dictionary<Recipe, DateTime?>();
+
+        public int DaysFromLasCook(Recipe recipe)
+        {
+            var date = DayWhenLasWasCooked(recipe);
+
+            if (date != null)
+            {
+                return (int)(DateTime.Now - date.Value).TotalDays;
+            }
+            else
+            {
+                return int.MaxValue;
+            }
+        }
+
+        public DateTime? DayWhenLasWasCooked(Recipe recipe)
+        {
+            if (cache.ContainsKey(recipe)) return cache[recipe];
+
+            using (var context = new CookingContext())
+            {
+                var test = context.Days.Where(x => x.DinnerID == recipe.ID && x.DinnerWasCooked && x.Date != null).OrderBy(x => x.Date).ToList();
+                return cache[recipe] = context.Days.Where(x => x.DinnerID == recipe.ID && x.DinnerWasCooked && x.Date != null).OrderBy(x => x.Date).FirstOrDefault()?.Date;
+            }
         }
     }
 
