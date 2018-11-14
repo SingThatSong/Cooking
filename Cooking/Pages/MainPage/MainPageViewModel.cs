@@ -214,6 +214,44 @@ namespace Cooking.Pages.MainPage
                 using (var context = new CookingContext())
                 {
                     var entity = context.Weeks.Find(CurrentWeek.ID);
+                    context.Entry(entity).Reference(x => x.Monday).Load();
+                    context.Entry(entity).Reference(x => x.Tuesday).Load();
+                    context.Entry(entity).Reference(x => x.Wednesday).Load();
+                    context.Entry(entity).Reference(x => x.Thursday).Load();
+                    context.Entry(entity).Reference(x => x.Friday).Load();
+                    context.Entry(entity).Reference(x => x.Saturday).Load();
+                    context.Entry(entity).Reference(x => x.Sunday).Load();
+
+                    if (entity.Monday != null)
+                    {
+                        context.Remove(entity.Monday);
+                    }
+                    if (entity.Monday != null)
+                    {
+                        context.Remove(entity.Tuesday);
+                    }
+                    if (entity.Monday != null)
+                    {
+                        context.Remove(entity.Wednesday);
+                    }
+
+                    if (entity.Monday != null)
+                    {
+                        context.Remove(entity.Thursday);
+                    }
+                    if (entity.Monday != null)
+                    {
+                        context.Remove(entity.Friday);
+                    }
+                    if (entity.Monday != null)
+                    {
+                        context.Remove(entity.Saturday);
+                    }
+                    if (entity.Monday != null)
+                    {
+                        context.Remove(entity.Sunday);
+                    }
+
                     context.Remove(entity);
                     context.SaveChanges();
                 }
@@ -402,33 +440,37 @@ namespace Cooking.Pages.MainPage
 
         private async void CreateWeek(DateTime dayOfWeek)
         {
-            var viewModel = new WeekSettingsViewModel(WeekStart, WeekEnd);
-
-            var dialog = new CustomDialog()
-            {
-                Title = "Фильтр для блюд на неделю",
-                Content = new WeekSettings()
-                {
-                    DataContext = viewModel
-                }
-            };
-
-            var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
-
-            await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
-
+            ShowGeneratedWeekViewModel showGeneratedWeekViewModel;
+            WeekSettingsViewModel weekSettingsViewModel = null;
             do
             {
-                await dialog.WaitUntilUnloadedAsync();
-            }
-            while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this));
+                weekSettingsViewModel = weekSettingsViewModel ?? new WeekSettingsViewModel(WeekStart, WeekEnd);
 
-            if (viewModel.IsDialogResultOK)
-            {
-                var selectedDays = viewModel.Days.Where(x => x.IsSelected);
+                var dialog = new CustomDialog()
+                {
+                    Title = "Фильтр для блюд на неделю",
+                    Content = new WeekSettings()
+                    {
+                        DataContext = weekSettingsViewModel
+                    }
+                };
+
+                var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
+
+                await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
+
+                do
+                {
+                    await dialog.WaitUntilUnloadedAsync();
+                }
+                while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this));
+
+                if (!weekSettingsViewModel.IsDialogResultOK) return;
+
+                var selectedDays = weekSettingsViewModel.Days.Where(x => x.IsSelected);
                 GenerateRecipies(selectedDays);
 
-                var showGeneratedWeekViewModel = new ShowGeneratedWeekViewModel(WeekStart, WeekEnd, selectedDays);
+                showGeneratedWeekViewModel = new ShowGeneratedWeekViewModel(WeekStart, WeekEnd, selectedDays);
 
                 var showGeneratedWeekView = new CustomDialog()
                 {
@@ -464,7 +506,7 @@ namespace Cooking.Pages.MainPage
                                 case "Пн":
                                     newWeek.Monday = new Day()
                                     {
-                                        DinnerID = day.SpecificRecipe != null 
+                                        DinnerID = day.SpecificRecipe != null
                                                     ? day.SpecificRecipe?.ID
                                                     : day.Recipe?.ID,
                                         Date = WeekStart
@@ -533,6 +575,7 @@ namespace Cooking.Pages.MainPage
                     }
                 }
             }
+            while (showGeneratedWeekViewModel.ReturnBack);
         }
 
         private Random random = new Random();
@@ -563,10 +606,18 @@ namespace Cooking.Pages.MainPage
                                        .Include(x => x.Ingredients)
                                            .ThenInclude(x => x.Ingredient).AsQueryable();
 
-                    foreach(var tag in requiredTags)
+                    if (requiredTags.Count > 0)
                     {
-                        query = query.Where(x => x.Tags.Any(ttag => ttag.Tag.ID == tag.ID));
+                        var predicate = PredicateBuilder.False<Recipe>();
+
+                        foreach (var tag in requiredTags)
+                        {
+                            predicate = predicate.Or(x => x.Tags.Any(ttag => ttag.Tag.ID == tag.ID));
+                        }
+
+                        query = query.Where(predicate);
                     }
+
 
                     if (!day.CalorieTypes.Contains(CalorieTypeSelection.Any))
                     {

@@ -217,6 +217,16 @@
             <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                     Width="48" 
                     Height="48"
+                    Foreground="White"
+                    Command="{Binding ReturnCommand.Value}">
+                <icons:Octicons Width="20"
+                                      Height="20"
+                                      Kind="Reply" />
+            </Button>
+            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                    Width="48" 
+                    Height="48"
+                    Margin="10 0 0 0"
                     Foreground="Green"
                     Command="{Binding OkCommand.Value}">
                 <icons:PackIconModern Width="20"

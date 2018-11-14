@@ -19,6 +19,13 @@ namespace Cooking.Pages.MainPage.Dialogs
 
             Days = days;
 
+            ReturnCommand = new Lazy<DelegateCommand>(
+                () => new DelegateCommand(async () => {
+                    ReturnBack = true;
+                    var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
+                    await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
+                }));
+
             OkCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(async () => {
                     IsDialogResultOK = true;
@@ -31,6 +38,8 @@ namespace Cooking.Pages.MainPage.Dialogs
                     var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
                     await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
                 }));
+
+
             DeleteRecipeManuallyCommand = new DelegateCommand<DayPlan>(async (day) =>
             {
                 day.SpecificRecipe = null;
@@ -98,6 +107,7 @@ namespace Cooking.Pages.MainPage.Dialogs
         private Random Random = new Random();
 
         public bool IsDialogResultOK { get; set; }
+        public bool ReturnBack { get; set; }
 
         public DateTime WeekStart { get; }
         public DateTime WeekEnd { get; }
@@ -108,6 +118,7 @@ namespace Cooking.Pages.MainPage.Dialogs
         public DelegateCommand<DayPlan> GetAlternativeRecipe { get; }
         public DelegateCommand<DayPlan> DeleteRecipeManuallyCommand { get; }
         public DelegateCommand<DayPlan> SetRecipeManuallyCommand { get; }
+        public Lazy<DelegateCommand> ReturnCommand { get; }
         public Lazy<DelegateCommand> OkCommand { get; }
         public Lazy<DelegateCommand> CloseCommand { get; }
 
