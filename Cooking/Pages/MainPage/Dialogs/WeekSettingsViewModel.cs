@@ -164,5 +164,12 @@ namespace Cooking.Pages.MainPage.Dialogs
         public Lazy<DelegateCommand<DayPlan>> AddCalorieTypesCommand { get; }
         public Lazy<DelegateCommand> OkCommand { get; }
         public Lazy<DelegateCommand> CloseCommand { get; }
+
+        public int? MinRatingAll { get; set; }
+        public int? MaxComplexityAll { get; set; }
+        public bool OnlyNewRecipiesAll { get; set; }
+        public bool IsSelectedAll { get; set; } = true;
+        public ObservableCollection<TagDTO> NeededMainIngredientsAll { get; set; } = new ObservableCollection<TagDTO>() { TagDTO.Any };
+        public ObservableCollection<TagDTO> NeededDishTypesAll { get; set; } = new ObservableCollection<TagDTO>() { TagDTO.Any };
     }
 }

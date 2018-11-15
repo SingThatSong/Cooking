@@ -6,6 +6,7 @@
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:local="clr-namespace:Cooking.Pages.MainPage.Dialogs"
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:controls="clr-namespace:Cooking.Controls"
              xmlns:model="clr-namespace:Data.Model;assembly=Data"
              xmlns:converters="clr-namespace:Cooking.Converters"
              mahapps:DialogParticipation.Register="{Binding}"
@@ -25,19 +26,24 @@
             <RowDefinition />
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
+
         <DataGrid ItemsSource="{Binding Days}" 
                   AutoGenerateColumns="False"
-                  CanUserAddRows="False" BorderThickness="0" CanUserSortColumns="False" 
-                  mahapps:ItemHelper.SelectedBackgroundBrush="Transparent" >
+                  CanUserAddRows="False" 
+                  BorderThickness="0" 
+                  CanUserSortColumns="False" 
+                  CanUserReorderColumns="False"
+                  mahapps:ItemHelper.SelectedBackgroundBrush="Transparent" 
+                  FontSize="10">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Binding="{Binding IsSelected}" IsReadOnly="False"/>
                 <DataGridTextColumn Binding="{Binding DayName}" Header="День" />
                 <DataGridTemplateColumn Header="Main ingredient" Width="*" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
 
-                                <ItemsControl ItemsSource="{Binding NeededMainIngredients}">
+                                <ItemsControl ItemsSource="{Binding NeededMainIngredients}" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Name}" />
@@ -68,7 +74,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
 
-                                <ItemsControl ItemsSource="{Binding NeededDishTypes}">
+                                <ItemsControl ItemsSource="{Binding NeededDishTypes}" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
@@ -101,7 +107,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
 
-                                <ItemsControl ItemsSource="{Binding CalorieTypes}">
+                                <ItemsControl ItemsSource="{Binding CalorieTypes}" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Ellipse Height="15" Width="15" 
@@ -152,6 +158,29 @@
                                                   Kind="Magnify" />
                                 </Button>
                             </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Макс сложность" Width="1.2*" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <controls:RatingsFive RatingValue="{Binding MaxComplexity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Мин рейтинг" Width="*" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <controls:Ratings RatingValue="{Binding MinRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Только новые рецепты" Width="*" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding OnlyNewRecipies, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

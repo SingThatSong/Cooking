@@ -17,7 +17,9 @@ namespace Cooking.Pages.MainPage.Dialogs.Model
         public RecipeDTO Recipe { get; set; }
         public List<RecipeDTO> RecipeAlternatives { get; set; }
 
-
+        public int? MinRating { get; set; }
+        public int? MaxComplexity { get; set; }
+        public bool OnlyNewRecipies { get; set; }
         public bool IsSelected { get; set; } = true;
         public string DayName { get; set; }
         public ObservableCollection<TagDTO> NeededMainIngredients { get; set; } = new ObservableCollection<TagDTO>() { TagDTO.Any };

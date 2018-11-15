@@ -631,7 +631,24 @@ namespace Cooking.Pages.MainPage
                         query = query.Where(predicate);
                     }
 
+                    if (day.MaxComplexity != null)
+                    {
+                        query = query.Where(x => x.Difficulty <= day.MaxComplexity);
+                    }
+
+                    if (day.MinRating != null)
+                    {
+                        query = query.Where(x => x.Rating >= day.MinRating);
+                    }
+
+
                     var test = query.ToList();
+
+                    if (day.OnlyNewRecipies)
+                    {
+                        test = test.Where(x => cacheCooked.DayWhenLasWasCooked(x) == null).ToList();
+                    }
+
                     day.RecipeAlternatives = test.Select(x => Mapper.Map<RecipeDTO>(x)).ToList();
 
                     var selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
@@ -685,7 +702,6 @@ namespace Cooking.Pages.MainPage
 
             using (var context = new CookingContext())
             {
-                var test = context.Days.Where(x => x.DinnerID == recipe.ID && x.DinnerWasCooked && x.Date != null).OrderBy(x => x.Date).ToList();
                 return cache[recipe] = context.Days.Where(x => x.DinnerID == recipe.ID && x.DinnerWasCooked && x.Date != null).OrderBy(x => x.Date).FirstOrDefault()?.Date;
             }
         }
