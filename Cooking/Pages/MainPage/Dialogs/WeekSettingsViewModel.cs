@@ -22,6 +22,7 @@ namespace Cooking.Pages.MainPage.Dialogs
             WeekEnd = weekEnd;
 
             Days = new List<DayPlan>();
+            Days.Add(new DayPlan());
             Days.Add(new DayPlan() { DayName = "Пн" });
             Days.Add(new DayPlan() { DayName = "Вт" });
             Days.Add(new DayPlan() { DayName = "Ср" });
@@ -29,6 +30,8 @@ namespace Cooking.Pages.MainPage.Dialogs
             Days.Add(new DayPlan() { DayName = "Пт" });
             Days.Add(new DayPlan() { DayName = "Сб" });
             Days.Add(new DayPlan() { DayName = "Вс" });
+
+            Days[0].PropertyChanged += WeekSettingsViewModel_PropertyChanged;
 
             OkCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(async () => {
@@ -150,6 +153,34 @@ namespace Cooking.Pages.MainPage.Dialogs
                         day.CalorieTypes = new ObservableCollection<CalorieTypeSelection>(list);
                     }
                 }));
+        }
+
+        private void WeekSettingsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch(e.PropertyName)
+            {
+                case nameof(DayPlan.CalorieTypes):
+                    Days.ForEach(x => x.CalorieTypes = (sender as DayPlan).CalorieTypes);
+                    break;
+                case nameof(DayPlan.IsSelected):
+                    Days.ForEach(x => x.IsSelected = (sender as DayPlan).IsSelected);
+                    break;
+                case nameof(DayPlan.MaxComplexity):
+                    Days.ForEach(x => x.MaxComplexity = (sender as DayPlan).MaxComplexity);
+                    break;
+                case nameof(DayPlan.MinRating):
+                    Days.ForEach(x => x.MinRating = (sender as DayPlan).MinRating);
+                    break;
+                case nameof(DayPlan.NeededDishTypes):
+                    Days.ForEach(x => x.NeededDishTypes = (sender as DayPlan).NeededDishTypes);
+                    break;
+                case nameof(DayPlan.NeededMainIngredients):
+                    Days.ForEach(x => x.NeededMainIngredients = (sender as DayPlan).NeededMainIngredients);
+                    break;
+                case nameof(DayPlan.OnlyNewRecipies):
+                    Days.ForEach(x => x.OnlyNewRecipies = (sender as DayPlan).OnlyNewRecipies);
+                    break;
+            }
         }
 
         public bool IsDialogResultOK { get; set; }

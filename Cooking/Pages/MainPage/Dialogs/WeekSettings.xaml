@@ -36,14 +36,14 @@
                   mahapps:ItemHelper.SelectedBackgroundBrush="Transparent" 
                   FontSize="10">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Binding="{Binding IsSelected}" IsReadOnly="False"/>
-                <DataGridTextColumn Binding="{Binding DayName}" Header="День" />
+                <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False"/>
+                <DataGridTextColumn Binding="{Binding DayName, UpdateSourceTrigger=PropertyChanged}" Header="День" />
                 <DataGridTemplateColumn Header="Main ingredient" Width="*" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" >
 
-                                <ItemsControl ItemsSource="{Binding NeededMainIngredients}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <ItemsControl ItemsSource="{Binding NeededMainIngredients, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Name}" />
