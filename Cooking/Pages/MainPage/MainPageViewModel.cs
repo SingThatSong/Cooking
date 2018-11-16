@@ -467,7 +467,7 @@ namespace Cooking.Pages.MainPage
 
                 if (!weekSettingsViewModel.IsDialogResultOK) return;
 
-                var selectedDays = weekSettingsViewModel.Days.Where(x => x.IsSelected);
+                var selectedDays = weekSettingsViewModel.Days.Skip(1).Where(x => x.IsSelected);
                 GenerateRecipies(selectedDays);
 
                 showGeneratedWeekViewModel = new ShowGeneratedWeekViewModel(WeekStart, WeekEnd, selectedDays);
