@@ -20,25 +20,28 @@
         
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="80" />
+        </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="Название" />
-                <TextBox Grid.Column="1"
-                         Name="Focused"
-                    Text="{Binding Ingredient.Name, UpdateSourceTrigger=PropertyChanged}" />
-                
-                <TextBlock Margin="0 10 0 0" Text="Тип" />
-                <ComboBox ItemsSource="{Binding IngredientTypes}" 
-                              SelectedItem="{Binding Ingredient.Type}"
-                              mahapps:TextBoxHelper.ClearTextButton="True"
-                              DisplayMemberPath="Name"/>
-            <ItemsControl ItemsSource="{Binding SimilarIngredients}" Margin="0 10 0 0"></ItemsControl>
-
-            </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Название" />
+            <TextBox Grid.Column="1"
+                     Name="Focused"
+                Text="{Binding Ingredient.Name, UpdateSourceTrigger=PropertyChanged}" />
             
-        <StackPanel Margin="20" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
+            <TextBlock Margin="0 10 0 0" Text="Тип" />
+            <ComboBox ItemsSource="{Binding IngredientTypes}" 
+                          SelectedItem="{Binding Ingredient.Type}"
+                          mahapps:TextBoxHelper.ClearTextButton="True"
+                          DisplayMemberPath="Name"/>
+        </StackPanel>
+        <ItemsControl ItemsSource="{Binding SimilarIngredients}" Margin="10 10 0 0" Grid.Column="1"></ItemsControl>
+
+        <StackPanel Margin="0 20 0 0" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Grid.ColumnSpan="2">
             <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                     Width="48" 
                     Height="48"
