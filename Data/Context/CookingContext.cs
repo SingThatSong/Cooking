@@ -48,8 +48,7 @@ namespace Data.Context
 
             modelBuilder.Entity<Day>()
                 .HasOne(x => x.Dinner)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithMany();
 
 
 

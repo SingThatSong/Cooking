@@ -4,28 +4,100 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:Cooking.Converters"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:Cooking.Pages.MainPage"
+             xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:model="clr-namespace:Data.Model;assembly=Data"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
-        <converters:IsNullToVisibilityConverter x:Key="isNullToVisibilityConverter" NullVisibility="Visible" NotNullVisibility="Collapsed" />
+        <converters:IsNullToVisibilityConverter x:Key="isNullConverter" NullVisibility="Visible" NotNullVisibility="Collapsed" />
         <converters:IsNullToVisibilityConverter x:Key="isNotNullToVisibilityConverter" NullVisibility="Collapsed" NotNullVisibility="Visible" />
+        
+        
     </UserControl.Resources>
 
-    <Grid>
-        <StackPanel Orientation="Vertical" Visibility="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}">
-            <Image Source="{Binding FullPath}" MaxHeight="150" Margin="0 5 0 0" >
+    <StackPanel Orientation="Vertical" Width="200" Margin="10" >
+        <StackPanel.Style>
+            <Style TargetType="StackPanel">
+                <Style.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding Path=Dinner, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible" />
+                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, Path=DataContext.WeekEdit}" Value="False" />
+                        </MultiDataTrigger.Conditions>
+                        <MultiDataTrigger.Setters>
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </MultiDataTrigger.Setters>
+                    </MultiDataTrigger>
+                    <DataTrigger Binding="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Collapsed">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=Dinner, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Collapsed">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=Dinner, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible">
+                        <Setter Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, Path=DataContext.WeekEdit}" Value="True">
+                        <Setter Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </StackPanel.Style>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DayName}" FontSize="20" />
+            <Ellipse Height="15" 
+                                 Width="15" 
+                                 VerticalAlignment="Center" 
+                                 Margin="10 5 0 0">
+                <Ellipse.Style>
+                    <Style TargetType="Ellipse">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="0">
+                                <Setter Property="Fill" Value="Gray" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="{x:Static model:CalorieType.Fitness}">
+                                <Setter Property="Fill" Value="Green" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="{x:Static model:CalorieType.Protein}">
+                                <Setter Property="Fill" Value="Yellow" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="{x:Static model:CalorieType.Bad}">
+                                <Setter Property="Fill" Value="Orange" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="{x:Static model:CalorieType.Sweets}">
+                                <Setter Property="Fill" Value="Red" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Ellipse.Style>
+            </Ellipse>
+            <ToggleButton 
+                                Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                                Width="24" 
+                                Height="24"
+                                Margin="5 5 0 0"
+                                IsChecked="{Binding DinnerWasCooked}"
+                                Foreground="LightGray">
+                <icons:PackIconModern Width="15"
+                                  Height="10"
+                                  Kind="Check" />
+            </ToggleButton>
+        </StackPanel>
+        
+        <StackPanel Orientation="Vertical">
+
+            <Image Source="{Binding Dinner.FullPath}" MaxHeight="150" Margin="0 5 0 0" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseUp">
-                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, 
-                                                    Path=DataContext.ShowRecipe.Value}"
+                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, Path=DataContext.ShowRecipe.Value}"
                                                CommandParameter="{Binding}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Image>
-            <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" >
+            <TextBlock Text="{Binding Dinner.Name}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseUp">
                         <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, 
@@ -34,6 +106,42 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible" />
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, Path=DataContext.WeekEdit}" Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <DataTrigger Binding="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Collapsed">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, Path=DataContext.WeekEdit}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <Button 
+                    Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                    Width="24" 
+                    Height="24"
+                    Margin="10 0 0 0"
+                    Foreground="Red"
+                    Command="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, 
+                                                    Path=DataContext.DeleteDinnerCommand.Value}"
+                    CommandParameter="{Binding}">
+                    <icons:PackIconModern Width="10"
+                                  Height="10"
+                                  Kind="Delete" />
+                </Button>
+            </StackPanel>
         </StackPanel>
-    </Grid>
+    </StackPanel>
 </UserControl>

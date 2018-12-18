@@ -19,7 +19,8 @@ namespace Cooking.Pages.Ingredients
         public RecipeIngredientEditViewModel(RecipeIngredientDTO ingredient = null)
         {
             OkCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
+                () => new DelegateCommand(() =>
+                {
                     DialogResultOk = true;
                     CloseCommand.Value.Execute();
                 }));
@@ -31,7 +32,8 @@ namespace Cooking.Pages.Ingredients
                 }));
 
             AddMultipleCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
+                () => new DelegateCommand(() =>
+                {
                     Ingredients = Ingredients ?? new ObservableCollection<RecipeIngredientDTO>();
                     Ingredient.Order = Ingredients.Count + 1;
                     Ingredients.Add(Ingredient);
@@ -94,6 +96,7 @@ namespace Cooking.Pages.Ingredients
                 }
                 viewModel.Ingredient.ID = category.ID;
                 AllIngredients.Add(viewModel.Ingredient);
+                Ingredient.Ingredient = viewModel.Ingredient;
             }
         }
 

@@ -8,7 +8,7 @@
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:model="clr-namespace:Data.Model;assembly=Data"
              xmlns:converters="clr-namespace:Cooking.Converters"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mahapps:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d"
              Margin="-100 0"

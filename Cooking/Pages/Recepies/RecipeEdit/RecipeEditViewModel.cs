@@ -73,8 +73,16 @@ namespace Cooking.Pages.Recepies
                             DataContext = viewModel
                         }
                     };
+
+                    var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
+
                     await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
-                    await dialog.WaitUntilUnloadedAsync();
+
+                    do
+                    {
+                        await dialog.WaitUntilUnloadedAsync();
+                    }
+                    while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this));
 
                     if (viewModel.DialogResultOk)
                     {

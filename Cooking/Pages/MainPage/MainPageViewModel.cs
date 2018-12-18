@@ -32,6 +32,8 @@ namespace Cooking.Pages.MainPage
         public DateTime WeekStart { get; set; }
         public DateTime WeekEnd { get; set; }
 
+        public bool WeekEdit { get; set; } = true;
+
         public WeekDTO CurrentWeek { get; set; }
 
         private WeekDTO GetWeek(DateTime dayOfWeek)
@@ -258,7 +260,6 @@ namespace Cooking.Pages.MainPage
 
                 CurrentWeek = null;
             }));
-
             CreateShoppingListCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(async () =>
             {
                 var allProducts = new List<RecipeIngredientDTO>();
@@ -427,9 +428,23 @@ namespace Cooking.Pages.MainPage
                     WeekStart = FirstDayOfWeek(dayOnPreviousWeek);
                     WeekEnd = LastDayOfWeek(dayOnPreviousWeek);
                 }));
+
+            DeleteDinnerCommand = new Lazy<DelegateCommand<DayDTO>>(() => new DelegateCommand<DayDTO>(day => 
+            {
+                using (var context = new CookingContext())
+                {
+                    var dayDb = context.Days.Where(x => x.ID == day.ID).Include(x => x.Dinner).Single();
+                    dayDb.Dinner = null;
+                    dayDb.DinnerWasCooked = false;
+                    context.SaveChanges();
+                }
+                day.Dinner = null;
+                day.DinnerWasCooked = false;
+            }));
         }
 
         
+        public Lazy<DelegateCommand<DayDTO>> DeleteDinnerCommand { get; }
         public Lazy<DelegateCommand<RecipeDTO>> ShowRecipe { get; }
         public Lazy<DelegateCommand> CreateShoppingListCommand { get; }
         public Lazy<DelegateCommand> CreateNewWeekCommand { get; }

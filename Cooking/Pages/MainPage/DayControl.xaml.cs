@@ -1,28 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Bindables;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Cooking.Pages.MainPage
 {
     /// <summary>
     /// Логика взаимодействия для DayControl.xaml
     /// </summary>
+    [DependencyProperty]
     public partial class DayControl : UserControl
     {
         public DayControl()
         {
             InitializeComponent();
         }
+
+        public bool Edit { get; set; }
+
+        public string DayName { get; set; }
     }
 }
