@@ -32,7 +32,7 @@ namespace Cooking.Pages.MainPage
         public DateTime WeekStart { get; set; }
         public DateTime WeekEnd { get; set; }
 
-        public bool WeekEdit { get; set; } = true;
+        public bool WeekEdit { get; set; }
 
         public WeekDTO CurrentWeek { get; set; }
 

@@ -93,7 +93,7 @@
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseUp">
                         <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, Path=DataContext.ShowRecipe.Value}"
-                                               CommandParameter="{Binding}"/>
+                                               CommandParameter="{Binding Dinner}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Image>
