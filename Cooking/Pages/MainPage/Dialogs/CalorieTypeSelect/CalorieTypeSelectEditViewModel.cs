@@ -20,7 +20,7 @@ namespace Cooking.Pages.Recepies
         public CalorieTypeSelectEditViewModel(IEnumerable<CalorieTypeSelection> selectedTypes)
         {
             OkCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
+                () => new DelegateCommand(() => {
                     DialogResultOk = true;
                     CloseCommand.Value.Execute();
                 }));

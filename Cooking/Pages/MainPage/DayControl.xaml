@@ -14,8 +14,6 @@
         <converters:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         <converters:IsNullToVisibilityConverter x:Key="isNullConverter" NullVisibility="Visible" NotNullVisibility="Collapsed" />
         <converters:IsNullToVisibilityConverter x:Key="isNotNullToVisibilityConverter" NullVisibility="Collapsed" NotNullVisibility="Visible" />
-        
-        
     </UserControl.Resources>
 
     <StackPanel Orientation="Vertical" Width="200" Margin="10" >
@@ -132,7 +130,19 @@
                     Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                     Width="24" 
                     Height="24"
-                    Margin="10 0 0 0"
+                    Foreground="LightGray"
+                    Command="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, 
+                                      Path=DataContext.SelectDinnerCommand.Value}"
+                    CommandParameter="{Binding}">
+                    <icons:PackIconModern Width="10"
+                                  Height="10"
+                                  Kind="DrawPen" />
+                </Button>
+                <Button 
+                    Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                    Width="24" 
+                    Height="24"
+                    Margin="5 0 0 0"
                     Foreground="Red"
                     Command="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, 
                                                     Path=DataContext.DeleteDinnerCommand.Value}"

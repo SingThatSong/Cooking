@@ -18,7 +18,7 @@ namespace Cooking.Pages.Recepies
         public IngredientGroupEditViewModel(IngredientGroupDTO ingredientGroup = null)
         {
             OkCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
+                () => new DelegateCommand(() => {
                     DialogResultOk = true;
                     CloseCommand.Value.Execute();
                 }));

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cooking.Commands;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -26,15 +27,15 @@ namespace Cooking.Controls
             InitializeComponent();
         }
 
-        public int RatingValue
+        public int? RatingValue
         {
-            get { return (int)GetValue(RatingValueProperty); }
+            get { return (int?)GetValue(RatingValueProperty); }
             set { SetValue(RatingValueProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for RatingValue.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty RatingValueProperty =
-            DependencyProperty.Register("RatingValue", typeof(int), typeof(Ratings));
+            DependencyProperty.Register("RatingValue", typeof(int?), typeof(Ratings));
 
         public int? RatingValuePreview
         {
@@ -45,6 +46,8 @@ namespace Cooking.Controls
         // Using a DependencyProperty as the backing store for RatingValue.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty RatingValuePreviewProperty =
             DependencyProperty.Register("RatingValuePreview", typeof(int?), typeof(Ratings), new PropertyMetadata(null));
+
+        public DelegateCommand ClearValueCommand => new DelegateCommand(() => RatingValue = null);
 
         private void Rectangle1_Mousep(object sender, MouseButtonEventArgs e)
         {
@@ -154,7 +157,7 @@ namespace Cooking.Controls
             {
                 double rating = 0;
                 double number = 0;
-                if (double.TryParse(values[0].ToString(), out rating) && double.TryParse(parameter.ToString(), out number))
+                if (double.TryParse(values[0]?.ToString(), out rating) && double.TryParse(parameter.ToString(), out number))
                 {
                     if (rating >= number)
                     {

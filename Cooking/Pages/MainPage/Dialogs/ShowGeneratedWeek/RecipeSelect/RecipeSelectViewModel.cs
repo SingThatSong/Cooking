@@ -21,7 +21,7 @@ namespace Cooking.Pages.Recepies
             RecipiesSource = new CollectionViewSource() { Source = Recipies.Value };
             RecipiesSource.Filter += RecipiesSource_Filter;
             OkCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
+                () => new DelegateCommand(() => {
                     DialogResultOk = true;
                     CloseCommand.Value.Execute();
                 }));

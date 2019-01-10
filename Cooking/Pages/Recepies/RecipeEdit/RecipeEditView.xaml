@@ -69,11 +69,21 @@
                 <TextBlock Text="Источник" FontSize="15" />
                 <TextBox Text="{Binding Recipe.SourceUrl}" />
 
-                <TextBlock Text="Сложность" FontSize="15" />
-                <controls:RatingsFive RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Сложность" FontSize="15" />
+                        <controls:RatingsFive RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Grid.Column="1">
+                        <TextBlock Text="Рейтинг" FontSize="15" />
+                        <controls:Ratings RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
+                    </StackPanel>
+                </Grid>
 
-                <TextBlock Text="Рейтинг" FontSize="15" />
-                <controls:Ratings RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
                 
                 <TextBlock Text="Тип" FontSize="15" Margin="0 5 0 0"/>
                 <ComboBox Text="Выбор типа рецепта по калорийности"

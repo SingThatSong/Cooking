@@ -9,7 +9,8 @@ using System.ComponentModel;
 
 namespace Cooking
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    [AddINotifyPropertyChangedInterface]
+    public class MainWindowViewModel
     {
         public MainWindowViewModel()
         {
@@ -45,7 +46,5 @@ namespace Cooking
                 Tag = new TagsView()
             },
         };
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -8,7 +8,7 @@ namespace Cooking.Pages.Recepies
 {
     public class RecipeFilter
     {
-        static char[] filterChars = { '~', '#' };
+        static readonly char[] filterChars = { '~', '#' };
 
 
         public RecipeFilter()
@@ -102,7 +102,6 @@ namespace Cooking.Pages.Recepies
             return result;
         }
 
-        internal List<string> Artists;
         internal string RecipeName;
         internal List<string> tags;
         internal List<string> ingredients;

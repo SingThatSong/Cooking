@@ -18,7 +18,7 @@ namespace Cooking.Pages.Recepies
                 }));
 
             EvernoteExportCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
+                () => new DelegateCommand(() => {
                     var sb = new StringBuilder();
                     sb.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
                     sb.AppendLine("<!DOCTYPE en-export SYSTEM \"http://xml.evernote.com/pub/evernote-export2.dtd\">");

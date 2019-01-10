@@ -119,6 +119,7 @@ namespace Cooking
         }
 
         private List<TDestination> MapCollection<TSource, TDestination>(IEnumerable<TSource> source, IEnumerable<TDestination> destination, IRuntimeMapper mapper)
+            where TDestination : class
         {
             if (source == null)
             {
@@ -136,7 +137,7 @@ namespace Cooking
                 }
                 else
                 {
-                    var existingIngredient = destBackup.SingleOrDefault(x => ((dynamic)x).ID == ((dynamic)ingredient).ID);
+                    var existingIngredient = destBackup?.SingleOrDefault(x => ((dynamic)x).ID == ((dynamic)ingredient).ID);
                     if (existingIngredient != null)
                     {
                         mapper.Map(ingredient, existingIngredient);

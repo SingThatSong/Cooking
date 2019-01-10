@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Cooking.Commands;
 using Cooking.DTO;
+using Cooking.Mappings;
 using Cooking.Pages.MainPage.Dialogs;
 using Cooking.Pages.MainPage.Dialogs.Model;
 using Cooking.Pages.MainPage.Dialogs.Model.CalorieTypeSelect;
@@ -441,9 +442,49 @@ namespace Cooking.Pages.MainPage
                 day.Dinner = null;
                 day.DinnerWasCooked = false;
             }));
+
+            SelectDinnerCommand = new Lazy<DelegateCommand<DayDTO>>(() => new DelegateCommand<DayDTO>(async day =>
+            {
+                var viewModel = new RecipeSelectViewModel();
+
+                var dialog = new CustomDialog()
+                {
+                    Content = new RecipeSelectView()
+                    {
+                        DataContext = viewModel
+                    }
+                };
+
+                var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
+
+                await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
+
+                do
+                {
+                    await dialog.WaitUntilUnloadedAsync();
+                }
+                while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this));
+
+                if (viewModel.DialogResultOk)
+                {
+                    day.Dinner = viewModel.Recipies.Value.SingleOrDefault(x => x.IsSelected);
+
+                    if (day.Dinner != null)
+                    {
+                        using (var context = new CookingContext())
+                        {
+                            var dayDb = context.Days.Find(day.ID);
+                            dayDb.Dinner = MappingsHelper.MapToRecipe(day.Dinner, context);
+                            dayDb.Dinner.ID = Guid.Empty;
+                            await context.SaveChangesAsync();
+                        }
+                    }
+                }
+            }));
         }
 
-        
+
+        public Lazy<DelegateCommand<DayDTO>> SelectDinnerCommand { get; }
         public Lazy<DelegateCommand<DayDTO>> DeleteDinnerCommand { get; }
         public Lazy<DelegateCommand<RecipeDTO>> ShowRecipe { get; }
         public Lazy<DelegateCommand> CreateShoppingListCommand { get; }
@@ -510,9 +551,11 @@ namespace Cooking.Pages.MainPage
                 {
                     using (var context = new CookingContext())
                     {
-                        var newWeek = new Week();
-                        newWeek.Start = WeekStart;
-                        newWeek.End = WeekEnd;
+                        var newWeek = new Week
+                        {
+                            Start = WeekStart,
+                            End = WeekEnd
+                        };
 
                         foreach (var day in showGeneratedWeekViewModel.Days)
                         {
@@ -592,8 +635,6 @@ namespace Cooking.Pages.MainPage
             }
             while (showGeneratedWeekViewModel.ReturnBack);
         }
-
-        private Random random = new Random();
 
         private void GenerateRecipies(IEnumerable<DayPlan> selectedDays)
         {
@@ -695,7 +736,7 @@ namespace Cooking.Pages.MainPage
 
     internal class LastDayCooked
     {
-        private Dictionary<Recipe, DateTime?> cache = new Dictionary<Recipe, DateTime?>();
+        private readonly Dictionary<Recipe, DateTime?> cache = new Dictionary<Recipe, DateTime?>();
 
         public int DaysFromLasCook(Recipe recipe)
         {

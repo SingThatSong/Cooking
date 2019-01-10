@@ -21,7 +21,7 @@ namespace Cooking.Pages.Recepies
         public RecipeEditViewModel(RecipeDTO category = null)
         {
             OkCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
+                () => new DelegateCommand(() => {
                     DialogResultOk = true;
                     CloseCommand.Value.Execute();
                 }));
@@ -322,7 +322,7 @@ namespace Cooking.Pages.Recepies
             dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
         }
 
-        public async void Drop(IDropInfo dropInfo)
+        public void Drop(IDropInfo dropInfo)
         {
             if (dropInfo.TargetCollection != dropInfo.DragInfo.SourceCollection) return;
             if (!(dropInfo.Data is RecipeIngredientDTO ingredient)) return;

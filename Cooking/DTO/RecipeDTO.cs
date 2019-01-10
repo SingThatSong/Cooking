@@ -7,7 +7,8 @@ using System.IO;
 
 namespace Cooking.DTO
 {
-    public class RecipeDTO : INotifyPropertyChanged
+    [AddINotifyPropertyChangedInterface]
+    public class RecipeDTO
     {
         public Guid ID { get; set; }
 
@@ -25,15 +26,13 @@ namespace Cooking.DTO
         public int PortionsCount { get; set; }
         public CalorieType CalorieType { get; set; }
 
-        public int Difficulty { get; set; }
-        public int Rating { get; set; }
+        public int? Difficulty { get; set; }
+        public int? Rating { get; set; }
 
         public ObservableCollection<IngredientGroupDTO> IngredientGroups { get; set; }
         public ObservableCollection<RecipeIngredientDTO> Ingredients { get; set; }
         public ObservableCollection<TagDTO> Tags { get; set; }
 
         public bool IsSelected { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -22,7 +22,7 @@ namespace Cooking.Pages.Recepies
             AddTagCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddTag));
 
             OkCommand = new Lazy<DelegateCommand>(
-               () => new DelegateCommand(async () => {
+               () => new DelegateCommand(() => {
                    DialogResultOk = true;
                    CloseCommand.Value.Execute();
                }));

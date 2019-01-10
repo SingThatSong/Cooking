@@ -40,7 +40,7 @@ namespace Cooking.Pages.MainPage.Dialogs
                 }));
 
 
-            DeleteRecipeManuallyCommand = new DelegateCommand<DayPlan>(async (day) =>
+            DeleteRecipeManuallyCommand = new DelegateCommand<DayPlan>(day =>
             {
                 day.SpecificRecipe = null;
             });
@@ -73,7 +73,7 @@ namespace Cooking.Pages.MainPage.Dialogs
                 }
             });
 
-            GetAlternativeRecipe = new DelegateCommand<DayPlan>(async (day) =>
+            GetAlternativeRecipe = new DelegateCommand<DayPlan>((day) =>
             {
                 RecipeDTO newRecipe;
                 do
@@ -104,7 +104,7 @@ namespace Cooking.Pages.MainPage.Dialogs
                 }));
         }
 
-        private Random Random = new Random();
+        private readonly Random Random = new Random();
 
         public bool IsDialogResultOK { get; set; }
         public bool ReturnBack { get; set; }
