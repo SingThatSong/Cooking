@@ -1,5 +1,6 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
+using Cooking.Pages.MainPage;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.ComponentModel;
@@ -17,6 +18,11 @@ namespace Cooking.Pages.Recepies
                 }));
 
             Recipe = recipe;
+            LastCooked = new Lazy<string>(() =>
+            {
+                var daysFromLastCook = new LastDayCooked().DaysFromLasCook(Recipe.ID);
+                return daysFromLastCook == int.MaxValue ? "Новый рецепт" : $"Дней с последнего приготовления: {daysFromLastCook}";
+            });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -24,5 +30,7 @@ namespace Cooking.Pages.Recepies
         public Lazy<DelegateCommand> CloseCommand { get; }
         
         public RecipeDTO Recipe { get; set; }
+
+        public Lazy<string> LastCooked { get; }
     }
 }

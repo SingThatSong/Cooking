@@ -57,6 +57,7 @@
                        </Hyperlink.Inlines>
                 </Hyperlink>
             </TextBlock>
+            <TextBlock Text="{Binding LastCooked.Value}" TextWrapping="Wrap" />
         </StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
             <Grid Margin="0 10 0 0">
@@ -80,7 +81,7 @@
                     
                     <TextBlock Text="{Binding Recipe.PortionsCount, StringFormat='Количество порций: {0}'}"
                            FontSize="20" TextWrapping="Wrap" />
-
+                    
                     
                     <TextBlock Text="Ингредиенты" FontSize="20" Margin="0 10 0 0" VerticalAlignment="Center"/>
 
