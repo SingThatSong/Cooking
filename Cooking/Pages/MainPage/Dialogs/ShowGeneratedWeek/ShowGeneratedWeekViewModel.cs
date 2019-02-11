@@ -75,14 +75,12 @@ namespace Cooking.Pages.MainPage.Dialogs
 
             GetAlternativeRecipe = new DelegateCommand<DayPlan>((day) =>
             {
-                RecipeDTO newRecipe;
-                do
+                if (day.Recipe.Name == day.RecipeAlternatives.Last().Name)
                 {
-                    newRecipe = day.RecipeAlternatives[Random.Next(0, day.RecipeAlternatives.Count)];
+                    day.Recipe = day.RecipeAlternatives.First();
                 }
-                while (day.Recipe == newRecipe);
 
-                day.Recipe = newRecipe;
+                day.Recipe = day.RecipeAlternatives.SkipWhile(x => x.Name != day.Recipe.Name).Skip(1).First();
             },
                 canExecute: (day) =>
                  day?.RecipeAlternatives?.Count > 1);
