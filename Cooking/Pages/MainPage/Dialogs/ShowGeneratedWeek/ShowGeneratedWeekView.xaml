@@ -66,6 +66,23 @@
                                     </TextBlock.Style>
                                 </TextBlock>
                                 <StackPanel Orientation="Horizontal" >
+                                    <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                            Width="24" 
+                                            Height="24"
+                                            Margin="5 0 0 0"
+                                            Foreground="LightBlue"
+                                            BorderThickness="0"
+                                            VerticalAlignment="Center"
+                                            ToolTipService.ToolTip="По выбранным фильтрам нет альтернатив"
+                                            ToolTipService.ShowOnDisabled="True"
+                                            ToolTipService.IsEnabled="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource oppositeConverter}}"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
+                                                                            Path=DataContext.GetAlternativeRecipe}"
+                                            CommandParameter="{Binding}">
+                                        <icons:PackIconModern Width="10"
+                                                      Height="10"
+                                                      Kind="Refresh" />
+                                    </Button>
                                     <TextBlock Text="{Binding Recipe.Name}" VerticalAlignment="Center" >
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseUp">
@@ -100,23 +117,6 @@
                                             </Style>
                                         </Ellipse.Style>
                                     </Ellipse>
-                                    <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
-                                            Width="24" 
-                                            Height="24"
-                                            Margin="5 0 0 0"
-                                            Foreground="LightBlue"
-                                            BorderThickness="0"
-                                            VerticalAlignment="Center"
-                                            ToolTipService.ToolTip="По выбранным фильтрам нет альтернатив"
-                                            ToolTipService.ShowOnDisabled="True"
-                                            ToolTipService.IsEnabled="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource oppositeConverter}}"
-                                            Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
-                                                                            Path=DataContext.GetAlternativeRecipe}"
-                                            CommandParameter="{Binding}">
-                                        <icons:PackIconModern Width="10"
-                                                      Height="10"
-                                                      Kind="Refresh" />
-                                    </Button>
                                     <StackPanel.Style>
                                         <Style TargetType="StackPanel">
                                             <Style.Triggers>
