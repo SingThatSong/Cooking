@@ -697,7 +697,6 @@ namespace Cooking.Pages.MainPage
                         query = query.Where(x => x.Rating >= day.MinRating);
                     }
 
-
                     var test = query.ToList();
 
                     if (day.OnlyNewRecipies)
@@ -705,7 +704,9 @@ namespace Cooking.Pages.MainPage
                         test = test.Where(x => cacheCooked.DayWhenLasWasCooked(x) == null).ToList();
                     }
 
-                    day.RecipeAlternatives = test.Select(x => Mapper.Map<RecipeDTO>(x)).ToList();
+                    day.RecipeAlternatives = test.OrderByDescending(x => cacheCooked.DaysFromLasCook(x))
+                                                 .Select(x => Mapper.Map<RecipeDTO>(x))
+                                                 .ToList();
 
                     var selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
                     var recipiesNotSelectedYet = test.Where(x => !selectedRecipies.Any(selected => selected.ID == x.ID)).ToList();
@@ -736,11 +737,13 @@ namespace Cooking.Pages.MainPage
 
     internal class LastDayCooked
     {
-        private readonly Dictionary<Recipe, DateTime?> cache = new Dictionary<Recipe, DateTime?>();
+        private readonly Dictionary<Guid, DateTime?> cache = new Dictionary<Guid, DateTime?>();
 
-        public int DaysFromLasCook(Recipe recipe)
+        public int DaysFromLasCook(Recipe recipe) => DaysFromLasCook(recipe.ID);
+
+        public int DaysFromLasCook(Guid recipeId)
         {
-            var date = DayWhenLasWasCooked(recipe);
+            var date = DayWhenLasWasCooked(recipeId);
 
             if (date != null)
             {
@@ -752,13 +755,15 @@ namespace Cooking.Pages.MainPage
             }
         }
 
-        public DateTime? DayWhenLasWasCooked(Recipe recipe)
+        public DateTime? DayWhenLasWasCooked(Recipe recipe) => DayWhenLasWasCooked(recipe.ID);
+
+        public DateTime? DayWhenLasWasCooked(Guid recipeId)
         {
-            if (cache.ContainsKey(recipe)) return cache[recipe];
+            if (cache.ContainsKey(recipeId)) return cache[recipeId];
 
             using (var context = new CookingContext())
             {
-                return cache[recipe] = context.Days.Where(x => x.DinnerID == recipe.ID && x.DinnerWasCooked && x.Date != null).OrderBy(x => x.Date).FirstOrDefault()?.Date;
+                return cache[recipeId] = context.Days.Where(x => x.DinnerID == recipeId && x.DinnerWasCooked && x.Date != null).OrderBy(x => x.Date).FirstOrDefault()?.Date;
             }
         }
     }
