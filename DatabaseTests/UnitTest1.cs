@@ -92,6 +92,8 @@ namespace DatabaseTests
             using (var context = new CookingContext())
             {
                 Assert.AreEqual(1, context.Recipies.Count());
+                var rec = context.Recipies.Find(recipe.ID);
+                Assert.IsNotNull(rec);
             }
 
             // Добавим неделю и день, устанавливая только FK на существующий рецепт
