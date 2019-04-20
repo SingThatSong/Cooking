@@ -6,9 +6,15 @@ namespace Data.Context
 {
     public class CookingContext : DbContext
     {
+        private string DbFilename { get; }
+        public CookingContext(string dbFilename = "cooking.db")
+        {
+            DbFilename = dbFilename;
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=cooking.db")
+            optionsBuilder.UseSqlite($"Data Source={DbFilename}")
                           .EnableSensitiveDataLogging();
         }
 
