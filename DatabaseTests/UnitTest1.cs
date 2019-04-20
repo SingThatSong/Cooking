@@ -29,36 +29,20 @@ namespace DatabaseTests
             File.Delete("cooking.db");
         }
 
-        //[TestMethod]
-        //public void CreateRecipe()
-        //{
-        //    using (var context = new CookingContext())
-        //    {
-        //        context.Recipies.Add(new Recipe());
-        //        context.SaveChanges();
-        //    }
-
-        //    using (var context = new CookingContext())
-        //    {
-        //        Assert.AreEqual(1, context.Recipies.Count());
-        //    }
-        //}
-
         [TestMethod]
-        public void Test()
+        public void CreateRecipe()
         {
             using (var context = new CookingContext())
             {
-                var results = context.Recipies.Where(x => x.Name.StartsWith("Творожная")).ToList();
+                context.Recipies.Add(new Recipe());
+                context.SaveChanges();
+            }
 
-                foreach (var zapekanka in results)
-                {
-
-                }
+            using (var context = new CookingContext())
+            {
+                Assert.AreEqual(1, context.Recipies.Count());
             }
         }
-
-
 
         [TestMethod]
         public void RemovindRecipe_DoesNotRemoveWeek()
@@ -93,29 +77,38 @@ namespace DatabaseTests
             }
         }
 
-            //    int weeks = 0;
-            //    using (var context = new CookingContext())
-            //    {
-            //        context.Database.Migrate();
-            //    }
+        [TestMethod]
+        public void SetDinnerFK_Works()
+        {
+            var recipe = new Recipe();
 
-            //    using (var context = new CookingContext())
-            //    {
-            //        weeks = context.Weeks.Count();
+            // Добавим рецепт в БД
+            using (var context = new CookingContext())
+            {
+                context.Recipies.Add(recipe);
+                context.SaveChanges();
+            }
 
-            //        var week = context.Weeks.ToList();
+            using (var context = new CookingContext())
+            {
+                Assert.AreEqual(1, context.Recipies.Count());
+            }
 
-            //        var recipeDb = context.Recipies.Find(new Guid("2727f533-ec92-4566-a008-76b82cba1ad1"));
-            //        context.Recipies.Remove(recipeDb);
+            // Добавим неделю и день, устанавливая только FK на существующий рецепт
+            using (var context = new CookingContext())
+            {
+                context.Add(new Week() { Monday = new Day() { DinnerID = recipe.ID } });
+                context.SaveChanges();
+            }
 
-            //        context.SaveChanges();
-            //    }
-
-            //    using (var context = new CookingContext())
-            //    {
-            //        Assert.AreEqual(weeks, context.Weeks.Count());
-            //    }
-            //}
+            using (var context = new CookingContext())
+            {
+                Assert.AreEqual(1, context.Recipies.Count());
+                Assert.AreEqual(1, context.Weeks.Count());
+                Assert.AreEqual(1, context.Days.Count());
+                Assert.AreEqual(recipe.ID, context.Days.First().DinnerID);
+            }
+        }
 
         [TestMethod]
         public void BackupAndRestoreDb()
