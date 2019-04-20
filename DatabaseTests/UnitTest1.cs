@@ -13,21 +13,21 @@ namespace DatabaseTests
     [TestClass]
     public class UnitTest1
     {
-        //[TestInitialize]
-        //public void Setup()
-        //{
-        //    File.Delete("cooking.db");
-        //    using (var context = new CookingContext())
-        //    {
-        //        context.Database.EnsureCreated();
-        //    }
-        //}
+        [TestInitialize]
+        public void Setup()
+        {
+            File.Delete("cooking.db");
+            using (var context = new CookingContext())
+            {
+                context.Database.EnsureCreated();
+            }
+        }
 
-        //[TestCleanup]
-        //public void Teardown()
-        //{
-        //    File.Delete("cooking.db");
-        //}
+        [TestCleanup]
+        public void Teardown()
+        {
+            File.Delete("cooking.db");
+        }
 
         //[TestMethod]
         //public void CreateRecipe()
@@ -120,7 +120,7 @@ namespace DatabaseTests
         [TestMethod]
         public void BackupAndRestoreDb()
         {
-            DatabaseBackup.Backup();
+            //DatabaseBackup.Backup();
             //DatabaseBackup.Restore(Environment.CurrentDirectory, "newdb.db");
         }
     }
