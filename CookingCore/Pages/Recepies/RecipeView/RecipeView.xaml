@@ -1,0 +1,202 @@
+﻿<UserControl x:Class="Cooking.Pages.Recepies.RecipeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:model="clr-namespace:Data.Model;assembly=Data"
+             xmlns:controls="clr-namespace:Cooking.Controls"
+             mahapps:DialogParticipation.Register="{Binding}"
+             mc:Ignorable="d"
+             Margin="-100 0"
+             d:DesignHeight="450" 
+             d:DesignWidth="800">
+
+    <UserControl.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand.Value}" />
+    </UserControl.InputBindings>
+    
+    <Grid MinHeight="500">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="26" Text="{Binding Recipe.Name}" />
+                <Ellipse Height="15" Width="15" VerticalAlignment="Center" Margin="10 8 0 0">
+                    <Ellipse.Style>
+                        <Style TargetType="Ellipse">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Recipe.CalorieType}" Value="{x:Static model:CalorieType.Fitness}">
+                                    <Setter Property="Fill" Value="Green" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Recipe.CalorieType}" Value="{x:Static model:CalorieType.Protein}">
+                                    <Setter Property="Fill" Value="Yellow" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Recipe.CalorieType}" Value="{x:Static model:CalorieType.Bad}">
+                                    <Setter Property="Fill" Value="Orange" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Recipe.CalorieType}" Value="{x:Static model:CalorieType.Sweets}">
+                                    <Setter Property="Fill" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Ellipse.Style>
+                </Ellipse>
+            </StackPanel>
+            <TextBlock>           
+                <Hyperlink NavigateUri="{Binding Recipe.SourceUrl}" 
+                           RequestNavigate="Hyperlink_RequestNavigate" >
+                       <Hyperlink.Inlines>
+                            <Run Text="{Binding Recipe.SourceUrl}"/>
+                       </Hyperlink.Inlines>
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock Text="{Binding LastCooked.Value}" TextWrapping="Wrap" />
+        </StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+            <Grid Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Image 
+                       Source="{Binding Recipe.FullPath}" 
+                       Stretch="Uniform" 
+                       MaxHeight="150" 
+                       Margin="0 0 25 0"/>
+
+                <StackPanel Orientation="Vertical" Grid.Column="1" >
+
+                    
+                    <TextBlock Text="{Binding Recipe.PortionsCount, StringFormat='Количество порций: {0}'}"
+                           FontSize="20" TextWrapping="Wrap" />
+                    
+                    
+                    <TextBlock Text="Ингредиенты" FontSize="20" Margin="0 10 0 0" VerticalAlignment="Center"/>
+
+                    <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical" Margin="0 0 0 20">
+                                    <StackPanel Orientation="Horizontal" TextElement.FontSize="15" TextElement.FontWeight="Bold" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Name}" />
+                                    </StackPanel>
+                                    <ItemsControl ItemsSource="{Binding Ingredients}" Name="IngredientsList">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" TextElement.FontSize="15" VerticalAlignment="Center">
+                                                    <BulletDecorator>
+                                                        <BulletDecorator.Bullet>
+                                                            <Ellipse Height="5" Width="5" Fill="Gray"/>
+                                                        </BulletDecorator.Bullet>
+                                                        <TextBlock Text="{Binding Ingredient.Name}" Margin="5 0 0 0" />
+                                                    </BulletDecorator>
+                                                    <TextBlock Text="{Binding Amount}" Margin="5 0 0 0" />
+                                                    <TextBlock Text="{Binding MeasureUnit.Name}" Margin="5 0 0 0" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+
+                    <ItemsControl ItemsSource="{Binding Recipe.Ingredients}" Name="IngredientsList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" TextElement.FontSize="15" VerticalAlignment="Center">
+                                    <BulletDecorator>
+                                        <BulletDecorator.Bullet>
+                                            <Ellipse Height="5" Width="5" Fill="Gray"/>
+                                        </BulletDecorator.Bullet>
+                                        <TextBlock Text="{Binding Ingredient.Name}" Margin="5 0 0 0" />
+                                    </BulletDecorator>
+
+                                    <TextBlock Text="{Binding Amount}"  Margin="5 0 0 0" />
+                                    <TextBlock Text="{Binding MeasureUnit.FullName}" Margin="5 0 0 0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20 0 0">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Сложность" FontSize="15" />
+                            <controls:RatingsFive RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" Margin="0 10 0 0" IsEnabled="False" />
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="30 0 0 0">
+                            <TextBlock Text="Рейтинг" FontSize="15" />
+                            <controls:Ratings RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" Margin="0 10 0 0" IsEnabled="False" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <TextBlock Margin="0 10 0 0" Text="Описание" FontSize="20" />
+                    <xctk:RichTextBox Text="{Binding Recipe.Description}" IsReadOnly="True" BorderThickness="0" />
+
+                    <TextBlock Margin="0 10 0 0" Text="Теги" FontSize="20" />
+
+                    <ItemsControl ItemsSource="{Binding Recipe.Tags}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="5" Padding="5 0" BorderThickness="0"
+                                       Background="{Binding Color}" CornerRadius="3">
+                                    <TextBlock Text="{Binding Name}" FontSize="15" 
+                                       VerticalAlignment="Center"
+                                       mahapps:ControlsHelper.CornerRadius="5" />
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+
+                </StackPanel>
+
+            </Grid>
+        </ScrollViewer>
+        <StackPanel Margin="20" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
+            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                    Width="48" 
+                    Height="48"
+                    Margin="10 0 0 0"
+                    Foreground="Gray"
+                    Command="{Binding CloseCommand.Value}">
+                <icons:PackIconModern Width="20"
+                                          Height="20"
+                                          Kind="Close" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>
