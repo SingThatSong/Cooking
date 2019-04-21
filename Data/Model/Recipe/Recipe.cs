@@ -16,8 +16,8 @@ namespace Data.Model
 
         public int PortionsCount { get; set; }
         public CalorieType CalorieType { get; set; }
-        public List<IngredientsGroup> IngredientGroups { get; set; }
-        public List<RecipeIngredient> Ingredients { get; set; }
-        public List<RecipeTag> Tags { get; set; }
+        public virtual List<IngredientsGroup> IngredientGroups { get; set; }
+        public virtual List<RecipeIngredient> Ingredients { get; set; }
+        public virtual List<RecipeTag> Tags { get; set; }
     }
 }

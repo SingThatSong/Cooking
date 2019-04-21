@@ -9,7 +9,7 @@ namespace Data.Model
         public Guid? ID { get; set; }
         public int Order { get; set; }
         public Guid? IngredientId { get; set; }
-        public Ingredient Ingredient { get; set; }
+        public virtual Ingredient Ingredient { get; set; }
         public double? Amount { get; set; }
 
         [NotMapped]

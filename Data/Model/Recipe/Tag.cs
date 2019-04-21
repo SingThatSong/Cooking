@@ -12,6 +12,6 @@ namespace Data.Model
         public TagType Type { get; set; }
         public string Color { get; set; }
 
-        public List<RecipeTag> Recipies { get; set; }
+        public virtual List<RecipeTag> Recipies { get; set; }
     }
 }

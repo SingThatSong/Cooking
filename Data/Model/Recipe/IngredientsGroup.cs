@@ -8,6 +8,6 @@ namespace Data.Model
         public Guid? ID { get; set; }
 
         public string Name { get; set; }
-        public List<RecipeIngredient> Ingredients { get; set; }
+        public virtual List<RecipeIngredient> Ingredients { get; set; }
     }
 }

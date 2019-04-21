@@ -37,11 +37,19 @@ namespace DatabaseTests
                 Assert.IsNotNull(rec);
             }
 
+            var week = new Week() { Monday = new Day() { DinnerID = recipe.ID } };
+
             // Добавим неделю и день, устанавливая только FK на существующий рецепт
             using (var context = new CookingContext(dbName))
             {
-                context.Add(new Week() { Monday = new Day() { DinnerID = recipe.ID } });
+                context.Add(week);
                 context.SaveChanges();
+            }
+
+            using (var context = new CookingContext(dbName, true))
+            {
+                var test = context.Weeks.Find(week.ID);
+                var dinner = test.Monday.Dinner;
             }
         }
     }

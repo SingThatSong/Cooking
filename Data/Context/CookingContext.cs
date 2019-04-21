@@ -7,15 +7,23 @@ namespace Data.Context
     public class CookingContext : DbContext
     {
         private string DbFilename { get; }
-        public CookingContext(string dbFilename = "cooking.db")
+        public bool UseLazyLoading { get; }
+
+        public CookingContext(string dbFilename = "cooking.db", bool useLazyLoading = false)
         {
             DbFilename = dbFilename;
+            UseLazyLoading = useLazyLoading;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite($"Data Source={DbFilename}")
                           .EnableSensitiveDataLogging();
+
+            if (UseLazyLoading)
+            {
+                optionsBuilder.UseLazyLoadingProxies();
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

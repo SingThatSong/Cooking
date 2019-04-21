@@ -12,24 +12,24 @@ namespace Data.Model.Plan
         public DateTime End { get; set; }
 
         public Guid? MondayID { get; set; }
-        public Day Monday { get; set; }
+        public virtual Day Monday { get; set; }
 
         public Guid? TuesdayID { get; set; }
-        public Day Tuesday { get; set; }
+        public virtual Day Tuesday { get; set; }
 
         public Guid? WednesdayID { get; set; }
-        public Day Wednesday { get; set; }
+        public virtual Day Wednesday { get; set; }
 
         public Guid? ThursdayID { get; set; }
-        public Day Thursday { get; set; }
+        public virtual Day Thursday { get; set; }
 
         public Guid? FridayID { get; set; }
-        public Day Friday { get; set; }
+        public virtual Day Friday { get; set; }
 
         public Guid? SaturdayID { get; set; }
-        public Day Saturday { get; set; }
+        public virtual Day Saturday { get; set; }
 
         public Guid? SundayID { get; set; }
-        public Day Sunday { get; set; }
+        public virtual Day Sunday { get; set; }
     }
 }
