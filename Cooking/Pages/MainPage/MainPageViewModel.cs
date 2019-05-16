@@ -665,7 +665,7 @@ namespace Cooking.Pages.MainPage
 
             using (var context = new CookingContext())
             {
-                return cache[recipeId] = context.Days.Where(x => x.DinnerID == recipeId && x.DinnerWasCooked && x.Date != null).OrderBy(x => x.Date).FirstOrDefault()?.Date;
+                return cache[recipeId] = context.Days.Where(x => x.DinnerID == recipeId && x.DinnerWasCooked && x.Date != null).OrderByDescending(x => x.Date).FirstOrDefault()?.Date;
             }
         }
     }
