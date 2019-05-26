@@ -383,9 +383,130 @@ namespace Cooking.Pages.MainPage
                     }
                 }
             }));
+
+            MoveRecipe = new Lazy<DelegateCommand<DayDTO>>(() => new DelegateCommand<DayDTO>(async day => 
+            {
+                var viewModel = new MoveRecipeViewModel();
+
+                var dialog = new CustomDialog()
+                {
+                    Content = new MoveRecipe()
+                    {
+                        DataContext = viewModel
+                    }
+                };
+
+                var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
+
+                await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
+
+                do
+                {
+                    await dialog.WaitUntilUnloadedAsync();
+                }
+                while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this));
+
+                if (viewModel.DialogResultOk)
+                {
+                    if (day.Dinner != null)
+                    {
+                        using (var context = new CookingContext(useLazyLoading: true))
+                        {
+                            // Удаление дня на этой неделе
+                            var week = context.Weeks.Find(CurrentWeek.ID);
+
+                            if (CurrentWeek.MondayID == day.ID)
+                            {
+                                week.MondayID = null;
+                                CurrentWeek.Monday = null;
+                                CurrentWeek.MondayID = null;
+                            }
+                            else if (CurrentWeek.TuesdayID == day.ID)
+                            {
+                                week.TuesdayID = null;
+                                CurrentWeek.Tuesday = null;
+                                CurrentWeek.TuesdayID = null;
+                            }
+                            else if (CurrentWeek.WednesdayID == day.ID)
+                            {
+                                week.WednesdayID = null;
+                                CurrentWeek.Wednesday = null;
+                                CurrentWeek.WednesdayID = null;
+                            }
+                            else if (CurrentWeek.ThursdayID == day.ID)
+                            {
+                                week.ThursdayID = null;
+                                CurrentWeek.Thursday = null;
+                                CurrentWeek.ThursdayID = null;
+                            }
+                            else if (CurrentWeek.FridayID == day.ID)
+                            {
+                                week.FridayID = null;
+                                CurrentWeek.Friday = null;
+                                CurrentWeek.FridayID = null;
+                            }
+                            else if (CurrentWeek.SaturdayID == day.ID)
+                            {
+                                week.SaturdayID = null;
+                                CurrentWeek.Saturday = null;
+                                CurrentWeek.SaturdayID = null;
+                            }
+                            else if (CurrentWeek.SundayID == day.ID)
+                            {
+                                week.SundayID = null;
+                                CurrentWeek.Sunday = null;
+                                CurrentWeek.SundayID = null;
+                            }
+
+                            // Перенос дня на неделю вперёд
+                            var dayOnNextWeek = WeekEnd.AddDays(1);
+                            var nextWeek = context.Weeks.SingleOrDefault(x => x.Start.Date <= dayOnNextWeek.Date && dayOnNextWeek.Date <= x.End.Date);
+                            if (nextWeek == null)
+                            {
+                                nextWeek = new Week()
+                                {
+                                    Start = FirstDayOfWeek(dayOnNextWeek),
+                                    End = LastDayOfWeek(dayOnNextWeek)
+                                };
+                                context.Add(nextWeek);
+                            }
+
+                            var selectedDay = viewModel.DaysOfWeek.Single(x => x.IsSelected);
+                            
+                            switch (selectedDay.WeekDay)
+                            {
+                                case DayOfWeek.Monday:
+                                    nextWeek.MondayID = day.ID;
+                                    break;
+                                case DayOfWeek.Tuesday:
+                                    nextWeek.TuesdayID = day.ID;
+                                    break;
+                                case DayOfWeek.Wednesday:
+                                    nextWeek.WednesdayID = day.ID;
+                                    break;
+                                case DayOfWeek.Thursday:
+                                    nextWeek.ThursdayID = day.ID;
+                                    break;
+                                case DayOfWeek.Friday:
+                                    nextWeek.FridayID = day.ID;
+                                    break;
+                                case DayOfWeek.Saturday:
+                                    nextWeek.SaturdayID = day.ID;
+                                    break;
+                                case DayOfWeek.Sunday:
+                                    nextWeek.SundayID = day.ID;
+                                    break;
+                            }
+
+                            await context.SaveChangesAsync();
+                        }
+                    }
+                }
+            }));
         }
 
 
+        public Lazy<DelegateCommand<DayDTO>> MoveRecipe { get; }
         public Lazy<DelegateCommand<DayDTO>> SelectDinnerCommand { get; }
         public Lazy<DelegateCommand<DayDTO>> DeleteDinnerCommand { get; }
         public Lazy<DelegateCommand<RecipeDTO>> ShowRecipe { get; }

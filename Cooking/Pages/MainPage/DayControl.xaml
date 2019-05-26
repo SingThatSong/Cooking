@@ -84,20 +84,24 @@
                                   Kind="Check" />
             </ToggleButton>
         </StackPanel>
-        
-        <StackPanel Orientation="Vertical">
 
+        <StackPanel Orientation="Vertical" Tag="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}}">
+            <StackPanel.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Перенести рецепт на следующую неделю" Command="{Binding Path=PlacementTarget.Tag.DataContext.MoveRecipe.Value, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" />
+                </ContextMenu>
+            </StackPanel.ContextMenu>
             <Image Source="{Binding Dinner.FullPath}" MaxHeight="150" Margin="0 5 0 0" >
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseUp">
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, Path=DataContext.ShowRecipe.Value}"
                                                CommandParameter="{Binding Dinner}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Image>
-            <TextBlock Text="{Binding Dinner.Name}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" >
+            <TextBlock Text="{Binding Dinner.Name}" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseUp">
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, 
                                                     Path=DataContext.ShowRecipe.Value}"
                                                CommandParameter="{Binding Dinner}"/>

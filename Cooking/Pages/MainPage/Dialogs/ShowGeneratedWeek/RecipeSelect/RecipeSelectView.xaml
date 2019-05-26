@@ -34,41 +34,41 @@
                  mahapps:TextBoxHelper.UseFloatingWatermark="True" 
                  Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <ItemsControl ItemsSource="{Binding RecipiesSource.View}" Name="RecipiesList" Grid.Row="1" Margin="0 5 0 0">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Width="150" Margin="3">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Width="150" Margin="3">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonUp">
+                                <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.SelectRecipeCommand.Value}" CommandParameter="{Binding}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <TextBlock TextWrapping="NoWrap" Width="150" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" FontSize="20" HorizontalAlignment="Center" >
                             <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseLeftButtonUp">
-                                    <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.SelectRecipeCommand.Value}" CommandParameter="{Binding}" />
+                                <i:EventTrigger EventName="MouseRightButtonUp">
+                                    <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand.Value}" CommandParameter="{Binding}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-                            <TextBlock TextWrapping="NoWrap" Width="150" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" FontSize="20" HorizontalAlignment="Center" >
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseRightButtonUp">
-                                            <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand.Value}" CommandParameter="{Binding}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                            </TextBlock>
-                            <Image Source="{Binding FullPath}" Stretch="Uniform" Height="150" Width="150">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="MouseRightButtonUp">
-                                        <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand.Value}" CommandParameter="{Binding}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Image>
-                            <StackPanel.Style>
-                                <Style TargetType="StackPanel">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                        <Setter Property="Background" Value="Teal" />
-                                        <Setter Property="Opacity" Value="0.6" />
-                                    </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </StackPanel.Style>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
+                        </TextBlock>
+                        <Image Source="{Binding FullPath}" Stretch="Uniform" Height="150" Width="150">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseRightButtonUp">
+                                    <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand.Value}" CommandParameter="{Binding}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Image>
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="Background" Value="Teal" />
+                                    <Setter Property="Opacity" Value="0.6" />
+                                </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel />

@@ -1,9 +1,18 @@
 ﻿using Data.Model;
 using Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Data.Context
 {
+    public class CookingContextFactory : IDesignTimeDbContextFactory<CookingContext>
+    {
+        public CookingContext CreateDbContext(string[] args)
+        {
+            return new CookingContext();
+        }
+    }
+
     public class CookingContext : DbContext
     {
         private string DbFilename { get; }
@@ -66,6 +75,9 @@ namespace Data.Context
                 .OnDelete(DeleteBehavior.SetNull);
 
 
+            modelBuilder.Entity<Recipe>()
+                .HasIndex(x => x.Name)
+                .IsUnique();
 
             modelBuilder.Entity<Recipe>()
                 .HasMany(x => x.IngredientGroups)

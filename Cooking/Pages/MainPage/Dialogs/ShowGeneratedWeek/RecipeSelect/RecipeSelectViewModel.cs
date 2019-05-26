@@ -49,7 +49,7 @@ namespace Cooking.Pages.Recepies
             if (RecipeFilter == null)
                 return;
 
-            if(e.Item is RecipeDTO recipe)
+            if (e.Item is RecipeDTO recipe)
             {
                 e.Accepted = RecipeFilter.FilterRecipe(recipe);
             }
@@ -62,7 +62,7 @@ namespace Cooking.Pages.Recepies
             get => filterText;
             set
             {
-                if(filterText != value)
+                if (filterText != value)
                 {
                     filterText = value;
                     RecipeFilter = new RecipeFilter(value);
