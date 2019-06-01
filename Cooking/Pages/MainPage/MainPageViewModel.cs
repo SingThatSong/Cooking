@@ -376,8 +376,7 @@ namespace Cooking.Pages.MainPage
                         using (var context = new CookingContext())
                         {
                             var dayDb = context.Days.Find(day.ID);
-                            dayDb.Dinner = MappingsHelper.MapToRecipe(day.Dinner, context);
-                            dayDb.Dinner.ID = Guid.Empty;
+                            dayDb.DinnerID = day.Dinner.ID;
                             await context.SaveChangesAsync();
                         }
                     }
