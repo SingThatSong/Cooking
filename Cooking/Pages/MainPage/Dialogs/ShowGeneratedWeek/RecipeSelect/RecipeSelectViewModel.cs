@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Cooking.Commands;
 using Cooking.DTO;
+using Cooking.Pages.MainPage.Dialogs.Model;
 using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
@@ -9,13 +10,14 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Windows.Data;
 
 namespace Cooking.Pages.Recepies
 {
     public partial class RecipeSelectViewModel : INotifyPropertyChanged
     {
-        public RecipeSelectViewModel()
+        public RecipeSelectViewModel(DayPlan day = null)
         {
             Recipies = new Lazy<ObservableCollection<RecipeDTO>>(GetRecipies);
             RecipiesSource = new CollectionViewSource() { Source = Recipies.Value };
@@ -42,6 +44,43 @@ namespace Cooking.Pages.Recepies
                 }));
 
             ViewRecipeCommand = new Lazy<DelegateCommand<RecipeDTO>>(() => new DelegateCommand<RecipeDTO>(ViewRecipe));
+
+            if (day != null)
+            {
+                var sb = new StringBuilder();
+
+                if (day.NeededDishTypes != null && day.NeededDishTypes.Where(x => x.IsChecked && x.CanBeRemoved).Count() > 0)
+                {
+                    sb.Append("~");
+                    foreach (var dishType in day.NeededDishTypes)
+                    {
+                        sb.Append(dishType.Name + ",");
+                    }
+                }
+
+                if (sb.Length > 0)
+                {
+                    sb.Remove(sb.Length - 1, 1);
+                    sb.Append(" ");
+                }
+                
+
+                if (day.NeededMainIngredients != null && day.NeededMainIngredients.Where(x => x.IsChecked && x.CanBeRemoved).Count() > 0)
+                {
+                    sb.Append("#");
+                    foreach (var mainIngredient in day.NeededMainIngredients)
+                    {
+                        sb.Append(mainIngredient.Name + ",");
+                    }
+                }
+
+                if (sb.Length > 0)
+                {
+                    sb.Remove(sb.Length - 1, 1);
+                }
+
+                FilterText = sb.ToString();
+            }
         }
 
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)

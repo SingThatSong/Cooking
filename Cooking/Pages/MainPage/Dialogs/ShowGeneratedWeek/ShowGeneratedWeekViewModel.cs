@@ -47,7 +47,7 @@ namespace Cooking.Pages.MainPage.Dialogs
 
             SetRecipeManuallyCommand = new DelegateCommand<DayPlan>(async (day) =>
             {
-                var viewModel = new RecipeSelectViewModel();
+                var viewModel = new RecipeSelectViewModel(day);
 
                 var dialog = new CustomDialog()
                 {
