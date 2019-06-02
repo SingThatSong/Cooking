@@ -2,7 +2,9 @@
 using Cooking.DTO;
 using Cooking.Pages.MainPage.Dialogs.Model;
 using Cooking.Pages.Recepies;
+using Data.Context;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -87,6 +89,22 @@ namespace Cooking.Pages.MainPage.Dialogs
 
             ShowRecipe = new Lazy<DelegateCommand<DayPlan>>(
                 () => new DelegateCommand<DayPlan>(async (day) => {
+
+                    if (day.Recipe.Ingredients.Count == 0 && day.Recipe.IngredientGroups.Count == 0)
+                    {
+                        using (var context = new CookingContext())
+                        {
+                            var recipe = context.Recipies.Include(x => x.IngredientGroups)
+                                                        .ThenInclude(x => x.Ingredients)
+                                                            .ThenInclude(x => x.Ingredient)
+                                                    .Include(x => x.Ingredients)
+                                                        .ThenInclude(x => x.Ingredient)
+                                                    .Single(x => x.ID == day.Recipe.ID);
+
+                            AutoMapper.Mapper.Map(recipe, day.Recipe);
+                        }
+                    }
+
                     var viewModel = new RecipeViewModel(day.Recipe);
 
                     var dialog = new CustomDialog()
