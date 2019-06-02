@@ -120,7 +120,17 @@
                 </Rectangle>
             </Grid>
 
-            <Button Command="{Binding ClearValueCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" BorderThickness="0" >
+            <Button Command="{Binding ClearValueCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                    BorderThickness="0">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
                 <icons:Octicons Kind="X" />
             </Button>
         </StackPanel>
