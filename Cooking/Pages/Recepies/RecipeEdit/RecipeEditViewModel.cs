@@ -45,11 +45,13 @@ namespace Cooking.Pages.Recepies
                         {
                             var dir = Directory.CreateDirectory("Images");
                             var file = new FileInfo(openFileDialog.FileName);
-                            var newFileName = Path.Combine(dir.FullName, file.Name);
-                            if (!File.Exists(newFileName))
+                            var newFilePath = Path.Combine(dir.FullName, file.Name);
+                            if (File.Exists(newFilePath))
                             {
-                                File.Copy(openFileDialog.FileName, newFileName);
+                                File.Delete(newFilePath);
                             }
+
+                            File.Copy(openFileDialog.FileName, newFilePath);
                             Recipe.ImagePath = $@"Images/{file.Name}";
                         }
                     }
