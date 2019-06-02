@@ -47,7 +47,7 @@
             <Button Command="{Binding CreateNewWeekCommand.Value}" Content="Создать расписание на неделю" Width="200" Margin="0 20 0 0"/>
         </StackPanel>
 
-        <ScrollViewer Grid.Row="1" Grid.Column="1" Visibility="{Binding CurrentWeek, Converter={StaticResource isNotNullConverter}}" >
+        <ScrollViewer Grid.Row="1" Grid.Column="1" Visibility="{Binding CurrentWeek, Converter={StaticResource isNotNullConverter}}" VerticalScrollBarVisibility="Auto" >
             <WrapPanel
               TextElement.FontSize="15"
               HorizontalAlignment="Center"
