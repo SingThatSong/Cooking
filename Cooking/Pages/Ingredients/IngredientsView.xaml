@@ -30,28 +30,29 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <ItemsControl ItemsSource="{Binding Source={StaticResource ingredients}}" Name="IngredientsList">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="5 0">
-                        <TextBlock Text="{Binding Name}" FontSize="20" VerticalAlignment="Center" >
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseUp">
-                                    <i:InvokeCommandAction Command="{Binding ElementName=IngredientsList, Path=DataContext.ViewIngredientCommand.Value}"
-                                                           CommandParameter="{Binding}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </TextBlock>
-                        <Button Margin="10 0 0 0"
-                                    Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
-                                    Width="36" 
-                                    Visibility="{Binding ElementName=IngredientsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
-                                    Height="36"
-                                    Command="{Binding ElementName=IngredientsList, Path=DataContext.EditCategoryCommand.Value}"
-                                    CommandParameter="{Binding}">
-                                <icons:PackIconModern Width="15"
-                                                      Height="15"
-                                                      Kind="Edit" />
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding Source={StaticResource ingredients}}" Name="IngredientsList">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="5 0">
+                            <TextBlock Text="{Binding Name}" FontSize="20" VerticalAlignment="Center" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseUp">
+                                        <i:InvokeCommandAction Command="{Binding ElementName=IngredientsList, Path=DataContext.ViewIngredientCommand.Value}"
+                                                               CommandParameter="{Binding}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBlock>
+                            <Button Margin="10 0 0 0"
+                                        Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                        Width="36" 
+                                        Visibility="{Binding ElementName=IngredientsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
+                                        Height="36"
+                                        Command="{Binding ElementName=IngredientsList, Path=DataContext.EditCategoryCommand.Value}"
+                                        CommandParameter="{Binding}">
+                                    <icons:PackIconModern Width="15"
+                                                          Height="15"
+                                                          Kind="Edit" />
                             </Button>
                             <Button Margin="5 0 0 0"
                                     Grid.Column="4" 
@@ -64,17 +65,17 @@
                                     <icons:PackIconModern Width="15"
                                                       Height="15"
                                                       Kind="Delete" />
-                             </Button>
+                            </Button>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Vertical" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
-
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" >
             <ToggleButton 
                       Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
