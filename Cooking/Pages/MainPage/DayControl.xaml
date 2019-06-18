@@ -46,10 +46,27 @@
         </StackPanel.Style>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DayName}" FontSize="20" />
+            <icons:PackIconMaterial Width="15"
+                                   Height="10"
+                                   Kind="AlertDecagram"
+                                   Foreground="Lime"
+                                   Margin="-3 0 0 0">
+                <icons:PackIconMaterial.Style>
+                    <Style TargetType="icons:PackIconMaterial">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Dinner.LastCooked}" Value="-1">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Setter Property="ToolTip" Value="Новый рецепт!" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </icons:PackIconMaterial.Style>
+            </icons:PackIconMaterial>
             <Ellipse Height="15" 
-                                 Width="15" 
-                                 VerticalAlignment="Center" 
-                                 Margin="10 5 0 0">
+                     Width="15" 
+                     VerticalAlignment="Center" 
+                     Margin="5 5 0 0">
                 <Ellipse.Style>
                     <Style TargetType="Ellipse">
                         <Style.Triggers>

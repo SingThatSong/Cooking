@@ -388,6 +388,7 @@
       <DependentUpon>WeekSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MainPage\Dialogs\WeekSettingsViewModel.cs" />
+    <Compile Include="Pages\MainPage\LastDayCooked.cs" />
     <Compile Include="Pages\MainPage\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

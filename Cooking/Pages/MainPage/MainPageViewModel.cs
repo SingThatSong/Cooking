@@ -660,8 +660,6 @@ namespace Cooking.Pages.MainPage
 
         private void GenerateRecipies(IEnumerable<DayPlan> selectedDays)
         {
-            var cacheCooked = new LastDayCooked();
-
             foreach (var day in selectedDays)
             {
                 using (var context = new CookingContext())
@@ -723,10 +721,10 @@ namespace Cooking.Pages.MainPage
 
                     if (day.OnlyNewRecipies)
                     {
-                        test = test.Where(x => cacheCooked.DayWhenLasWasCooked(x) == null).ToList();
+                        test = test.Where(x => LastDayCooked.DayWhenLasWasCooked(x) == null).ToList();
                     }
 
-                    day.RecipeAlternatives = test.OrderByDescending(x => cacheCooked.DaysFromLasCook(x))
+                    day.RecipeAlternatives = test.OrderByDescending(x => LastDayCooked.DaysFromLasCook(x))
                                                  .Select(x => Mapper.Map<RecipeDTO>(x))
                                                  .ToList();
 
@@ -735,7 +733,7 @@ namespace Cooking.Pages.MainPage
 
                     if (recipiesNotSelectedYet.Count > 0)
                     {
-                        day.Recipe = Mapper.Map<RecipeDTO>(recipiesNotSelectedYet.OrderByDescending(x => cacheCooked.DaysFromLasCook(x)).First());
+                        day.Recipe = Mapper.Map<RecipeDTO>(recipiesNotSelectedYet.OrderByDescending(x => LastDayCooked.DaysFromLasCook(x)).First());
                     }
                 }
             }
@@ -754,39 +752,6 @@ namespace Cooking.Pages.MainPage
         {
             DateTime ldowDate = FirstDayOfWeek(date).AddDays(6);
             return ldowDate;
-        }
-    }
-
-    internal class LastDayCooked
-    {
-        private readonly Dictionary<Guid, DateTime?> cache = new Dictionary<Guid, DateTime?>();
-
-        public int DaysFromLasCook(Recipe recipe) => DaysFromLasCook(recipe.ID);
-
-        public int DaysFromLasCook(Guid recipeId)
-        {
-            var date = DayWhenLasWasCooked(recipeId);
-
-            if (date != null)
-            {
-                return (int)(DateTime.Now - date.Value).TotalDays;
-            }
-            else
-            {
-                return int.MaxValue;
-            }
-        }
-
-        public DateTime? DayWhenLasWasCooked(Recipe recipe) => DayWhenLasWasCooked(recipe.ID);
-
-        public DateTime? DayWhenLasWasCooked(Guid recipeId)
-        {
-            if (cache.ContainsKey(recipeId)) return cache[recipeId];
-
-            using (var context = new CookingContext())
-            {
-                return cache[recipeId] = context.Days.Where(x => x.DinnerID == recipeId && x.DinnerWasCooked && x.Date != null).OrderByDescending(x => x.Date).FirstOrDefault()?.Date;
-            }
         }
     }
 

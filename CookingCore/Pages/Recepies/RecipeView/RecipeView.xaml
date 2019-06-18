@@ -57,7 +57,18 @@
                        </Hyperlink.Inlines>
                 </Hyperlink>
             </TextBlock>
-            <TextBlock Text="{Binding LastCooked.Value}" TextWrapping="Wrap" />
+            <TextBlock TextWrapping="Wrap" >
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Text" Value="{Binding Recipe.LastCooked, StringFormat={}Последнее приготовление: {0} дней назад}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Recipe.LastCooked}" Value="-1">
+                                <Setter Property="Text" Value="Новый рецепт" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
         </StackPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
             <Grid Margin="0 10 0 0">

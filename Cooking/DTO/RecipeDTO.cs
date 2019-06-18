@@ -1,4 +1,5 @@
-﻿using Data.Model;
+﻿using Cooking.Pages.MainPage;
+using Data.Model;
 using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
@@ -34,5 +35,6 @@ namespace Cooking.DTO
         public ObservableCollection<TagDTO> Tags { get; set; }
 
         public bool IsSelected { get; set; }
+        public int LastCooked => LastDayCooked.DaysFromLasCook(ID);
     }
 }
