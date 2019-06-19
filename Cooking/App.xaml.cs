@@ -48,6 +48,7 @@ namespace Cooking
                     })
                     .ReverseMap();
                 cfg.CreateMap<DayDTO, Day>().ReverseMap();
+                cfg.CreateMap<Week, WeekDTO>().ReverseMap();
                 cfg.CreateMap<TagDTO, Tag>()
                    .ReverseMap();
 
@@ -126,7 +127,6 @@ namespace Cooking
                 return null;
             }
 
-            var destBackup = destination;
             List<TDestination> result = new List<TDestination>();
 
             foreach (var ingredient in source)
@@ -137,7 +137,7 @@ namespace Cooking
                 }
                 else
                 {
-                    var existingIngredient = destBackup?.SingleOrDefault(x => ((dynamic)x).ID == ((dynamic)ingredient).ID);
+                    var existingIngredient = destination?.SingleOrDefault(x => ((dynamic)x).ID == ((dynamic)ingredient).ID);
                     if (existingIngredient != null)
                     {
                         mapper.Map(ingredient, existingIngredient);
