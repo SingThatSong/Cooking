@@ -56,6 +56,15 @@
                             <Run Text="{Binding Recipe.SourceUrl}"/>
                        </Hyperlink.Inlines>
                 </Hyperlink>
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Recipe.SourceUrl}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
             </TextBlock>
             <TextBlock TextWrapping="Wrap" >
                 <TextBlock.Style>
@@ -85,7 +94,8 @@
                        Source="{Binding Recipe.FullPath}" 
                        Stretch="Uniform" 
                        MaxHeight="150" 
-                       Margin="0 0 25 0"/>
+                       Margin="0 0 25 0"
+                        VerticalAlignment="Top"/>
 
                 <StackPanel Orientation="Vertical" Grid.Column="1" >
 
