@@ -25,9 +25,37 @@ namespace Cooking.Pages.MainPage
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DelegateCommand LoadedCommand => new DelegateCommand(() =>
+        public DelegateCommand LoadedCommand => new DelegateCommand(async () =>
         {
             CurrentWeek = GetWeek(WeekStart);
+
+            var dayOnPreviousWeek = WeekStart.AddDays(-1);
+            var prevWeek = GetWeek(dayOnPreviousWeek);
+
+            if ((prevWeek.Monday != null && !prevWeek.Monday.DinnerWasCooked)
+               || (prevWeek.Tuesday != null && !prevWeek.Tuesday.DinnerWasCooked)
+               || (prevWeek.Wednesday != null && !prevWeek.Wednesday.DinnerWasCooked)
+               || (prevWeek.Thursday != null && !prevWeek.Thursday.DinnerWasCooked)
+               || (prevWeek.Friday != null && !prevWeek.Friday.DinnerWasCooked)
+               || (prevWeek.Saturday != null && !prevWeek.Saturday.DinnerWasCooked)
+               || (prevWeek.Sunday != null && !prevWeek.Sunday.DinnerWasCooked))
+            {
+                // Нужно напомнить о рецептах на прошедшей неделе
+                var result = await DialogCoordinator.Instance.ShowMessageAsync(this, 
+                    "Кстати", 
+                    "За прошлую неделю есть рецепты, которые не были приготовлены. Рекомендуем их удалить или перенести", 
+                    MessageDialogStyle.AffirmativeAndNegative, 
+                    new MetroDialogSettings()
+                    {
+                        AffirmativeButtonText = "Перейти к предыдущей неделе",
+                        NegativeButtonText = "Закрыть"
+                    });
+
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    SelectPreviousWeekCommand.Value.Execute();
+                }
+            }
         });
 
         public DateTime WeekStart { get; set; }
