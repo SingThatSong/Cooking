@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="Cooking.Pages.Garnishes.GarnishesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:Cooking.Pages.Garnishes"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             mahapps:DialogParticipation.Register="{Binding}"
+        mc:Ignorable="d"
+        d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <local:GarnishesViewModel />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        <CollectionViewSource x:Key="tags" Source="{Binding Tags.Value}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Type"/>
+                <scm:SortDescription PropertyName="Name"/>
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <ItemsControl ItemsSource="{Binding Source={StaticResource tags}}" Name="TagsList">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                    <StackPanel Orientation="Horizontal" >
+                            <Border Margin="5" Padding="5 0" BorderThickness="0"
+                                           Background="{Binding Color}" CornerRadius="3">
+                                <TextBlock Text="{Binding Name}" FontSize="20" 
+                                           VerticalAlignment="Center"
+                                           mahapps:ControlsHelper.CornerRadius="5" />
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseUp">
+                                    <i:InvokeCommandAction Command="{Binding ElementName=TagsList, Path=DataContext.ViewTagCommand.Value}"
+                                                           CommandParameter="{Binding}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Border>
+                            <Button Margin="10 0 0 0"
+                                      Visibility="{Binding ElementName=TagsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
+                                        Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                        Width="36" 
+                                        Height="36"
+                                        Command="{Binding ElementName=TagsList, Path=DataContext.EditTagCommand.Value}"
+                                        CommandParameter="{Binding}">
+                                    <icons:PackIconModern Width="15"
+                                                          Height="15"
+                                                          Kind="Edit" />
+                                </Button>
+                            <Button Margin="5 0 0 0"
+                                    Visibility="{Binding ElementName=TagsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
+                                        Grid.Column="4" 
+                                        Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                        Width="36" 
+                                        Height="36"
+                                        Command="{Binding ElementName=TagsList, Path=DataContext.DeleteTagCommand.Value}"
+                                        CommandParameter="{Binding}">
+                                        <icons:PackIconModern Width="15"
+                                                          Height="15"
+                                                          Kind="Delete" />
+                                 </Button>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            </ItemsControl>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
+            <ToggleButton 
+                      Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                      Width="48" 
+                      Height="48"
+                      IsChecked="{Binding IsEditing}"
+                      Foreground="LightGray">
+                <icons:PackIconModern 
+                                  Width="20"
+                                  Height="20"
+                                  Kind="Edit" />
+            </ToggleButton>
+            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                    Width="48" 
+                    Height="48"
+                    Command="{Binding AddTagCommand.Value}"
+                    Margin="10 0 0 0" >
+                <icons:PackIconModern Width="20"
+                                      Height="20"
+                                      Kind="Add" />
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

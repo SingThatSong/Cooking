@@ -32,7 +32,8 @@ namespace Cooking.Pages.MainPage
             var dayOnPreviousWeek = WeekStart.AddDays(-1);
             var prevWeek = GetWeek(dayOnPreviousWeek);
 
-            if ((prevWeek.Monday != null && !prevWeek.Monday.DinnerWasCooked)
+            if (prevWeek != null 
+               && (prevWeek.Monday != null && !prevWeek.Monday.DinnerWasCooked)
                || (prevWeek.Tuesday != null && !prevWeek.Tuesday.DinnerWasCooked)
                || (prevWeek.Wednesday != null && !prevWeek.Wednesday.DinnerWasCooked)
                || (prevWeek.Thursday != null && !prevWeek.Thursday.DinnerWasCooked)

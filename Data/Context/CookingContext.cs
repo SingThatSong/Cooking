@@ -74,11 +74,6 @@ namespace Data.Context
                 .WithMany()
                 .OnDelete(DeleteBehavior.SetNull);
 
-
-            modelBuilder.Entity<Recipe>()
-                .HasIndex(x => x.Name)
-                .IsUnique();
-
             modelBuilder.Entity<Recipe>()
                 .HasMany(x => x.IngredientGroups)
                 .WithOne()
@@ -121,5 +116,6 @@ namespace Data.Context
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Garnish> Garnishes { get; set; }
     }
 }

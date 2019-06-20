@@ -49,6 +49,7 @@ namespace Cooking
                     .ReverseMap();
                 cfg.CreateMap<DayDTO, Day>().ReverseMap();
                 cfg.CreateMap<Week, WeekDTO>().ReverseMap();
+                cfg.CreateMap<Garnish, GarnishDTO>().ReverseMap();
                 cfg.CreateMap<TagDTO, Tag>()
                    .ReverseMap();
 

@@ -1,4 +1,5 @@
-﻿using Cooking.Pages.Ingredients;
+﻿using Cooking.Pages.Garnishes;
+using Cooking.Pages.Ingredients;
 using Cooking.Pages.MainPage;
 using Cooking.Pages.Recepies;
 using Cooking.Pages.Tags;
@@ -44,6 +45,13 @@ namespace Cooking
                 Label = "Теги",
                 Icon = new PackIconModern() { Kind = PackIconModernKind.Tag },
                 Tag = new TagsView()
+            },
+            new HamburgerMenuIconItem()
+            {
+                Label = "Гарниры",
+                Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.FoodVariant },
+                Tag = new GarnishesView(),
+                ToolTip = "Гарниры"
             },
         };
     }

@@ -272,6 +272,7 @@
     <Compile Include="Converters\EnumToDescriptionConverter.cs" />
     <Compile Include="DTO\DayDTO.cs" />
     <Compile Include="DTO\IngredientGroupDTO.cs" />
+    <Compile Include="DTO\GarnishDTO.cs" />
     <Compile Include="DTO\WeekDTO.cs" />
     <Compile Include="DTO\TagDTO.cs" />
     <Compile Include="DTO\IngredientDTO.cs" />
@@ -320,6 +321,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Recepies\RecipeEdit\TagSelect\TagSelectView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Garnishes\TagEdit\GarnishEditView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Garnishes\GarnishesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -402,6 +411,14 @@
     </Compile>
     <Compile Include="Pages\Recepies\RecipeEdit\TagSelect\TagSelectEditViewModel.cs" />
     <Compile Include="Pages\Recepies\RecipeFilter.cs" />
+    <Compile Include="Pages\Garnishes\TagEdit\GarnishEditView.xaml.cs">
+      <DependentUpon>GarnishEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Garnishes\TagEdit\GarnishEditViewModel.cs" />
+    <Compile Include="Pages\Garnishes\GarnishesView.xaml.cs">
+      <DependentUpon>GarnishesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Garnishes\GarnishesViewModel.cs" />
     <Compile Include="Pages\Tags\TagEdit\TagEditView.xaml.cs">
       <DependentUpon>TagEditView.xaml</DependentUpon>
     </Compile>
