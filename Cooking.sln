@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseTests", "DatabaseTests\DatabaseTests.csproj", "{217A3CDB-8B64-4C13-9F69-11F43AB11347}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookingCore", "CookingCore\CookingCore.csproj", "{CCF69234-78CA-428A-A28B-9691A56DDDD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookingCore", "CookingCore\CookingCore.csproj", "{CCF69234-78CA-428A-A28B-9691A56DDDD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{229C1943-2C28-4157-BF89-7C226083547B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{CCF69234-78CA-428A-A28B-9691A56DDDD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCF69234-78CA-428A-A28B-9691A56DDDD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCF69234-78CA-428A-A28B-9691A56DDDD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{229C1943-2C28-4157-BF89-7C226083547B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{229C1943-2C28-4157-BF89-7C226083547B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{229C1943-2C28-4157-BF89-7C226083547B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{229C1943-2C28-4157-BF89-7C226083547B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

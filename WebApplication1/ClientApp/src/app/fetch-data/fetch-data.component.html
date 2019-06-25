@@ -1,0 +1,23 @@
+<h1>Список рецептов</h1>
+
+<p *ngIf="!forecasts"><em>Loading...</em></p>
+
+<table class='table table-striped' *ngIf="forecasts">
+  <thead>
+    <tr>
+      <th>Наименование</th>
+      <th>Описание</th>
+      <th>Ссылка</th>
+      <th>Сложность</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let forecast of forecasts">
+      <td><a href="/recipe/{{ forecast.id }}">{{ forecast.name }}</a></td>
+      <td [innerHtml]="forecast.description"></td>
+      <td><a href="{{ forecast.sourceUrl }}" *ngIf="forecast.sourceUrl">Ссылка</a></td>
+      <td>{{ forecast.difficulty }}</td>
+
+    </tr>
+  </tbody>
+</table>

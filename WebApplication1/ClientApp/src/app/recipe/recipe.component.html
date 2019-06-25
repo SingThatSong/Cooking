@@ -1,0 +1,13 @@
+<h1>{{recipe.name}}</h1>
+
+<a href="{{ recipe.sourceUrl }}" *ngIf="recipe.sourceUrl">Ссылка</a>
+
+<h2>Ингредиенты</h2>
+<ul>
+  <li *ngFor="let ingredient of recipe.ingredients">
+    {{ingredient.ingredient.name}} {{ingredient.amount}} {{ingredient.measureUnit?.fullName}}
+  </li>
+</ul>
+
+<h2>Описание</h2>
+<p [innerHtml]="recipe.description"></p>

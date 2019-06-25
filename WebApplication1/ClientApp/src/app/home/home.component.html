@@ -1,0 +1,24 @@
+<h1>Список рецептов на неделю</h1>
+
+<p *ngIf="!week"><em>Loading...</em></p>
+
+<h3>Понедельник</h3>
+<a href="/recipe/{{ week.monday?.dinner.id }}">{{ week.monday?.dinner.name }}</a>
+
+<h3>Вторник</h3>
+<a href="/recipe/{{ week.tuesday?.dinner.id }}">{{ week.tuesday?.dinner.name }}</a>
+
+<h3>Среда</h3>
+<a href="/recipe/{{ week.wednesday?.dinner.id }}">{{ week.wednesday?.dinner.name }}</a>
+
+<h3>Четверг</h3>
+<a href="/recipe/{{ week.thursday?.dinner.id }}">{{ week.thursday?.dinner.name }}</a>
+
+<h3>Пятница</h3>
+<a href="/recipe/{{ week.friday?.dinner.id }}">{{ week.friday?.dinner.name }}</a>
+
+<h3>Суббота</h3>
+<a href="/recipe/{{ week.saturday?.dinner.id }}">{{ week.saturday?.dinner.name }}</a>
+
+<h3>Воскресенье</h3>
+<a href="/recipe/{{ week.sunday?.dinner.id }}">{{ week.sunday?.dinner.name }}</a>
