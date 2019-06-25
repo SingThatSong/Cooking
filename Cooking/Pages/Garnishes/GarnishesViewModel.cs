@@ -19,26 +19,18 @@ namespace Cooking.Pages.Garnishes
     {
         public GarnishesViewModel()
         {
-            Tags = new Lazy<ObservableCollection<GarnishDTO>>(GetTags);
-            AddTagCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddTag));
-            DeleteTagCommand = new Lazy<DelegateCommand<GarnishDTO>>(() => new DelegateCommand<GarnishDTO>(cat => DeleteTag(cat.ID)));
-            ViewTagCommand = new Lazy<DelegateCommand<GarnishDTO>>(() => new DelegateCommand<GarnishDTO>(tag =>
-            {
-                if (Application.Current.MainWindow.DataContext is MainWindowViewModel mainWindowViewModel)
-                {
-                    mainWindowViewModel.SelectedMenuItem = mainWindowViewModel.MenuItems[1] as HamburgerMenuIconItem;
-                    ((mainWindowViewModel.SelectedMenuItem.Tag as RecepiesView).DataContext as RecepiesViewModel).FilterText = $"~{tag.Name}";
-                }
-            }));
+            Garnishes = new Lazy<ObservableCollection<GarnishDTO>>(GetGarnishes);
+            AddGarnishCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddGarnish));
+            DeleteGarnishCommand = new Lazy<DelegateCommand<GarnishDTO>>(() => new DelegateCommand<GarnishDTO>(cat => DeleteGarnish(cat.ID)));
 
-            EditTagCommand = new Lazy<DelegateCommand<GarnishDTO>>(
+            EditGarnishCommand = new Lazy<DelegateCommand<GarnishDTO>>(
                 () => new DelegateCommand<GarnishDTO>(async (tag) => {
 
                     var viewModel = new GarnishEditViewModel(Mapper.Map<GarnishDTO>(tag));
 
                     var dialog = new CustomDialog()
                     {
-                        Title = "Редактирование тега",
+                        Title = "Редактирование гарнира",
                         Content = new GarnishEditView()
                         {
                             DataContext = viewModel
@@ -52,17 +44,17 @@ namespace Cooking.Pages.Garnishes
                         using (var context = new CookingContext())
                         {
                             var existing = context.Garnishes.Find(tag.ID);
-                            Mapper.Map(viewModel.Tag, existing);
+                            Mapper.Map(viewModel.Garnish, existing);
                             context.SaveChanges();
                         }
 
-                        var existingRecipe = Tags.Value.Single(x => x.ID == tag.ID);
-                        Mapper.Map(viewModel.Tag, existingRecipe);
+                        var existingRecipe = Garnishes.Value.Single(x => x.ID == tag.ID);
+                        Mapper.Map(viewModel.Garnish, existingRecipe);
                     }
                 }));
         }
 
-        public async void DeleteTag(Guid recipeId)
+        public async void DeleteGarnish(Guid recipeId)
         {
             var result = await DialogCoordinator.Instance.ShowMessageAsync(
                 this, 
@@ -84,17 +76,17 @@ namespace Cooking.Pages.Garnishes
                     context.SaveChanges();
                 }
 
-                Tags.Value.Remove(Tags.Value.Single(x => x.ID == recipeId));
+                Garnishes.Value.Remove(Garnishes.Value.Single(x => x.ID == recipeId));
             }
         }
 
-        public async void AddTag()
+        public async void AddGarnish()
         {
             var viewModel = new GarnishEditViewModel();
 
             var dialog = new CustomDialog()
             {
-                Title = "Новый тег",
+                Title = "Новый гарнир",
                 Content = new GarnishEditView()
                 {
                     DataContext = viewModel
@@ -106,19 +98,19 @@ namespace Cooking.Pages.Garnishes
 
             if (viewModel.DialogResultOk)
             {
-                var category = Mapper.Map<Garnish>(viewModel.Tag);
+                var category = Mapper.Map<Garnish>(viewModel.Garnish);
                 using (var context = new CookingContext())
                 {
                     context.Add(category);
                     context.SaveChanges();
                 }
-                viewModel.Tag.ID = category.ID;
-                Tags.Value.Add(viewModel.Tag);
+                viewModel.Garnish.ID = category.ID;
+                Garnishes.Value.Add(viewModel.Garnish);
             }
         }
 
-        public Lazy<ObservableCollection<GarnishDTO>> Tags { get; }
-        private ObservableCollection<GarnishDTO> GetTags()
+        public Lazy<ObservableCollection<GarnishDTO>> Garnishes { get; }
+        private ObservableCollection<GarnishDTO> GetGarnishes()
         {
             try
             {
@@ -138,10 +130,9 @@ namespace Cooking.Pages.Garnishes
 
         public event PropertyChangedEventHandler PropertyChanged;
         
-        public Lazy<DelegateCommand> AddTagCommand { get; }
-        public Lazy<DelegateCommand<GarnishDTO>> ViewTagCommand { get; }
-        public Lazy<DelegateCommand<GarnishDTO>> EditTagCommand { get; }
-        public Lazy<DelegateCommand<GarnishDTO>> DeleteTagCommand { get; }
+        public Lazy<DelegateCommand> AddGarnishCommand { get; }
+        public Lazy<DelegateCommand<GarnishDTO>> EditGarnishCommand { get; }
+        public Lazy<DelegateCommand<GarnishDTO>> DeleteGarnishCommand { get; }
 
         public bool IsEditing { get; set; }
     }

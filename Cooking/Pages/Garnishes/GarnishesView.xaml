@@ -18,7 +18,7 @@
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
-        <CollectionViewSource x:Key="tags" Source="{Binding Tags.Value}">
+        <CollectionViewSource x:Key="tags" Source="{Binding Garnishes.Value}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Type"/>
                 <scm:SortDescription PropertyName="Name"/>
@@ -31,7 +31,7 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <ItemsControl ItemsSource="{Binding Source={StaticResource tags}}" Name="TagsList">
+        <ItemsControl ItemsSource="{Binding Source={StaticResource tags}}" Name="GarnishesList">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                     <StackPanel Orientation="Horizontal" >
@@ -40,31 +40,25 @@
                                 <TextBlock Text="{Binding Name}" FontSize="20" 
                                            VerticalAlignment="Center"
                                            mahapps:ControlsHelper.CornerRadius="5" />
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseUp">
-                                    <i:InvokeCommandAction Command="{Binding ElementName=TagsList, Path=DataContext.ViewTagCommand.Value}"
-                                                           CommandParameter="{Binding}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
                         </Border>
                             <Button Margin="10 0 0 0"
-                                      Visibility="{Binding ElementName=TagsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
+                                      Visibility="{Binding ElementName=GarnishesList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
                                         Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                                         Width="36" 
                                         Height="36"
-                                        Command="{Binding ElementName=TagsList, Path=DataContext.EditTagCommand.Value}"
+                                        Command="{Binding ElementName=GarnishesList, Path=DataContext.EditGarnishCommand.Value}"
                                         CommandParameter="{Binding}">
                                     <icons:PackIconModern Width="15"
                                                           Height="15"
                                                           Kind="Edit" />
                                 </Button>
                             <Button Margin="5 0 0 0"
-                                    Visibility="{Binding ElementName=TagsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
+                                    Visibility="{Binding ElementName=GarnishesList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
                                         Grid.Column="4" 
                                         Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                                         Width="36" 
                                         Height="36"
-                                        Command="{Binding ElementName=TagsList, Path=DataContext.DeleteTagCommand.Value}"
+                                        Command="{Binding ElementName=GarnishesList, Path=DataContext.DeleteGarnishCommand.Value}"
                                         CommandParameter="{Binding}">
                                         <icons:PackIconModern Width="15"
                                                           Height="15"
@@ -96,7 +90,7 @@
             <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                     Width="48" 
                     Height="48"
-                    Command="{Binding AddTagCommand.Value}"
+                    Command="{Binding AddGarnishCommand.Value}"
                     Margin="10 0 0 0" >
                 <icons:PackIconModern Width="20"
                                       Height="20"

@@ -22,11 +22,11 @@ namespace Cooking.Pages.Garnishes
                 () => new DelegateCommand(async () => {
                     if (NameChanged)
                     {
-                        if (AllTagNames.Any(x => TagCompare(Tag.Name, x) == 0))
+                        if (AllGarnishNames.Any(x => GarnishCompare(Garnish.Name, x) == 0))
                         {
                             var result = await DialogCoordinator.Instance.ShowMessageAsync(
                                                 this, 
-                                                "Такой тег уже существует", 
+                                                "Такой гарнир уже существует", 
                                                 "Всё равно сохранить?", 
                                                 MessageDialogStyle.AffirmativeAndNegative, 
                                                 new MetroDialogSettings() {
@@ -47,25 +47,25 @@ namespace Cooking.Pages.Garnishes
 
             CloseCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(async () => {
-                    Tag.PropertyChanged -= Tag_PropertyChanged;
+                    Garnish.PropertyChanged -= Garnish_PropertyChanged;
                     var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
                     await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
                 }));
 
-            Tag = category ?? new GarnishDTO();
+            Garnish = category ?? new GarnishDTO();
             using (var context = new CookingContext())
             {
-                AllTagNames = context.Garnishes.AsQueryable().Select(x => x.Name).ToList();
+                AllGarnishNames = context.Garnishes.AsQueryable().Select(x => x.Name).ToList();
             }
 
-            Tag.PropertyChanged += Tag_PropertyChanged;
+            Garnish.PropertyChanged += Garnish_PropertyChanged;
         }
 
-        private void Tag_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Garnish_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(Tag.Name))
+            if (e.PropertyName == nameof(Garnish.Name))
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SimilarTags)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SimilarGarnishes)));
                 NameChanged = true;
             }
         }
@@ -75,14 +75,14 @@ namespace Cooking.Pages.Garnishes
         public Lazy<DelegateCommand> OkCommand { get; }
         public Lazy<DelegateCommand> CloseCommand { get; }
 
-        public GarnishDTO Tag { get; set; }
-        private List<string> AllTagNames { get; set; }
+        public GarnishDTO Garnish { get; set; }
+        private List<string> AllGarnishNames { get; set; }
 
-        public IEnumerable<string> SimilarTags => string.IsNullOrWhiteSpace(Tag?.Name)
+        public IEnumerable<string> SimilarGarnishes => string.IsNullOrWhiteSpace(Garnish?.Name)
             ? null 
-            : AllTagNames.OrderBy(x => TagCompare(x, Tag.Name)).Take(3);
+            : AllGarnishNames.OrderBy(x => GarnishCompare(x, Garnish.Name)).Take(3);
 
-        private int TagCompare(string str1, string str2)
+        private int GarnishCompare(string str1, string str2)
          => StringCompare.DiffLength(
                     string.Join(" ", str1.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name)),
                     string.Join(" ", str2.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name))
