@@ -25,8 +25,18 @@ namespace Cooking.Pages.MainPage
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private bool IsLoaded { get; set; }
         public DelegateCommand LoadedCommand => new DelegateCommand(async () =>
         {
+            if (!IsLoaded)
+            {
+                IsLoaded = true;
+            }
+            else
+            {
+                return;
+            }
+
             CurrentWeek = GetWeek(WeekStart);
 
             var dayOnPreviousWeek = WeekStart.AddDays(-1);
