@@ -43,13 +43,13 @@ namespace Cooking.Pages.MainPage
             var prevWeek = GetWeek(dayOnPreviousWeek);
 
             if (prevWeek != null 
-               && (prevWeek.Monday != null && prevWeek.Monday.Dinner != null && !prevWeek.Monday.DinnerWasCooked)
+               && ((prevWeek.Monday != null && prevWeek.Monday.Dinner != null && !prevWeek.Monday.DinnerWasCooked)
                || (prevWeek.Tuesday != null && prevWeek.Tuesday.Dinner != null && !prevWeek.Tuesday.DinnerWasCooked)
                || (prevWeek.Wednesday != null && prevWeek.Wednesday.Dinner != null && !prevWeek.Wednesday.DinnerWasCooked)
                || (prevWeek.Thursday != null && prevWeek.Thursday.Dinner != null && !prevWeek.Thursday.DinnerWasCooked)
                || (prevWeek.Friday != null && prevWeek.Friday.Dinner != null && !prevWeek.Friday.DinnerWasCooked)
                || (prevWeek.Saturday != null && prevWeek.Saturday.Dinner != null && !prevWeek.Saturday.DinnerWasCooked)
-               || (prevWeek.Sunday != null && prevWeek.Sunday.Dinner != null && !prevWeek.Sunday.DinnerWasCooked))
+               || (prevWeek.Sunday != null && prevWeek.Sunday.Dinner != null && !prevWeek.Sunday.DinnerWasCooked)))
             {
                 // Нужно напомнить о рецептах на прошедшей неделе
                 var result = await DialogCoordinator.Instance.ShowMessageAsync(this, 
