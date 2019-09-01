@@ -1,18 +1,9 @@
 ﻿using Data.Model;
 using Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace Data.Context
 {
-    public class CookingContextFactory : IDesignTimeDbContextFactory<CookingContext>
-    {
-        public CookingContext CreateDbContext(string[] args)
-        {
-            return new CookingContext();
-        }
-    }
-
     public class CookingContext : DbContext
     {
         private string DbFilename { get; }
@@ -27,7 +18,11 @@ namespace Data.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite($"Data Source={DbFilename}")
-                          .EnableSensitiveDataLogging();
+#if DEBUG
+                          //.UseLoggerFactory(new ConsoleLoggerFactory())
+                          //.EnableSensitiveDataLogging()
+#endif
+                          ;
 
             if (UseLazyLoading)
             {
@@ -37,36 +32,6 @@ namespace Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Week>()
-                .HasOne(x => x.Monday)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Week>()
-                .HasOne(x => x.Tuesday)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Week>()
-                .HasOne(x => x.Wednesday)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Week>()
-                .HasOne(x => x.Thursday)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Week>()
-                .HasOne(x => x.Friday)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Week>()
-                .HasOne(x => x.Saturday)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Week>()
-                .HasOne(x => x.Sunday)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<Day>().ToTable("Day");
 
             modelBuilder.Entity<Day>()
@@ -95,6 +60,13 @@ namespace Data.Context
                 .WithMany()
                 .HasForeignKey(x => x.IngredientId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+
+
+            modelBuilder.Entity<Week>()
+                .HasMany(x => x.Days)
+                .WithOne(x => x.Week)
+                .HasForeignKey(x => x.WeekID)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<RecipeTag>()
                 .HasKey(bc => new { bc.RecipeId, bc.TagId });

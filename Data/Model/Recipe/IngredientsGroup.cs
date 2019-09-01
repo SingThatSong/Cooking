@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace Data.Model
 {
-    public class IngredientsGroup
+    public class IngredientsGroup : Entity
     {
-        public Guid? ID { get; set; }
-
         public string Name { get; set; }
         public virtual List<RecipeIngredient> Ingredients { get; set; }
     }

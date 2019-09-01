@@ -14,24 +14,12 @@ using System.Linq;
 
 namespace Cooking.Pages.Recepies
 {
-    public partial class RecipeEditViewModel : INotifyPropertyChanged, IDropTarget
+    public partial class RecipeEditViewModel : OkCancelViewModel, IDropTarget
     {
-        public bool DialogResultOk { get; set; }
+        public RecipeEditViewModel() { }
 
-        public RecipeEditViewModel(RecipeDTO category = null)
+        public RecipeEditViewModel(RecipeMain category = null)
         {
-            OkCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(() => {
-                    DialogResultOk = true;
-                    CloseCommand.Value.Execute();
-                }));
-
-            CloseCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
-                    var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
-                    await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
-                }));
-
             ImageSearchCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(() => {
                     OpenFileDialog openFileDialog = new OpenFileDialog()
@@ -63,8 +51,8 @@ namespace Cooking.Pages.Recepies
                 },
                 canExecute: () => Recipe?.ImagePath != null));
 
-            AddIngredientToGroupCommand = new Lazy<DelegateCommand<IngredientGroupDTO>>(
-                () => new DelegateCommand<IngredientGroupDTO>(async (group) => {
+            AddIngredientToGroupCommand = new Lazy<DelegateCommand<IngredientGroupMain>>(
+                () => new DelegateCommand<IngredientGroupMain>(async (group) => {
                     var viewModel = new RecipeIngredientEditViewModel() { IsCreation = true };
 
                     var dialog = new CustomDialog()
@@ -90,7 +78,7 @@ namespace Cooking.Pages.Recepies
                     {
                         if (group.Ingredients == null)
                         {
-                            group.Ingredients = new ObservableCollection<RecipeIngredientDTO>();
+                            group.Ingredients = new ObservableCollection<RecipeIngredientMain>();
                         }
 
                         var normalizeCount = group.Ingredients.Count;
@@ -136,7 +124,7 @@ namespace Cooking.Pages.Recepies
                     {
                         if (Recipe.Ingredients == null)
                         {
-                            Recipe.Ingredients = new ObservableCollection<RecipeIngredientDTO>();
+                            Recipe.Ingredients = new ObservableCollection<RecipeIngredientMain>();
                         }
 
                         var normalizeCount = Recipe.Ingredients.Count;
@@ -155,9 +143,9 @@ namespace Cooking.Pages.Recepies
                     }
                 }));
 
-            EditIngredientGroupCommand = new Lazy<DelegateCommand<IngredientGroupDTO>>(
-                () => new DelegateCommand<IngredientGroupDTO>(async (group) => {
-                    var viewModel = new IngredientGroupEditViewModel(Mapper.Map<IngredientGroupDTO>(group));
+            EditIngredientGroupCommand = new Lazy<DelegateCommand<IngredientGroupMain>>(
+                () => new DelegateCommand<IngredientGroupMain>(async (group) => {
+                    var viewModel = new IngredientGroupEditViewModel(Mapper.Map<IngredientGroupMain>(group));
 
                     var dialog = new CustomDialog()
                     {
@@ -202,14 +190,14 @@ namespace Cooking.Pages.Recepies
 
                     if (viewModel.DialogResultOk)
                     {
-                        Recipe.IngredientGroups = Recipe.IngredientGroups ?? new ObservableCollection<IngredientGroupDTO>();
+                        Recipe.IngredientGroups = Recipe.IngredientGroups ?? new ObservableCollection<IngredientGroupMain>();
                         Recipe.IngredientGroups.Add(viewModel.IngredientGroup);
                     }
                 }));
 
             AddTagCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(async () => {
-                    var viewModel = new TagSelectEditViewModel(Recipe.Tags);
+                    var viewModel = new TagSelectEditViewModel(Recipe.Tags, new DialogUtils(this));
 
                     var dialog = new CustomDialog()
                     {
@@ -263,10 +251,10 @@ namespace Cooking.Pages.Recepies
                 Recipe.Tags.Remove(tag);
             }));
 
-            EditIngredientCommand = new Lazy<DelegateCommand<RecipeIngredientDTO>>(
-                () => new DelegateCommand<RecipeIngredientDTO>(async (ingredient) => {
+            EditIngredientCommand = new Lazy<DelegateCommand<RecipeIngredientMain>>(
+                () => new DelegateCommand<RecipeIngredientMain>(async (ingredient) => {
 
-                    var viewModel = new RecipeIngredientEditViewModel(Mapper.Map<RecipeIngredientDTO>(ingredient));
+                    var viewModel = new RecipeIngredientEditViewModel(Mapper.Map<RecipeIngredientMain>(ingredient));
 
                     var dialog = new CustomDialog()
                     {
@@ -293,8 +281,8 @@ namespace Cooking.Pages.Recepies
                     }
                 }));
 
-            RemoveIngredientCommand = new Lazy<DelegateCommand<RecipeIngredientDTO>>(
-                () => new DelegateCommand<RecipeIngredientDTO>(ingredient => {
+            RemoveIngredientCommand = new Lazy<DelegateCommand<RecipeIngredientMain>>(
+                () => new DelegateCommand<RecipeIngredientMain>(ingredient => {
 
                     if (Recipe.Ingredients != null && Recipe.Ingredients.Contains(ingredient))
                     {
@@ -315,7 +303,7 @@ namespace Cooking.Pages.Recepies
                     }
                 }));
 
-            Recipe = category ?? new RecipeDTO();
+            Recipe = category ?? new RecipeMain();
         }
 
         public void DragOver(IDropInfo dropInfo)
@@ -327,8 +315,8 @@ namespace Cooking.Pages.Recepies
         public void Drop(IDropInfo dropInfo)
         {
             if (dropInfo.TargetCollection != dropInfo.DragInfo.SourceCollection) return;
-            if (!(dropInfo.Data is RecipeIngredientDTO ingredient)) return;
-            if (!(dropInfo.TargetItem is RecipeIngredientDTO targetIngredient)) return;
+            if (!(dropInfo.Data is RecipeIngredientMain ingredient)) return;
+            if (!(dropInfo.TargetItem is RecipeIngredientMain targetIngredient)) return;
             if (dropInfo.Data == dropInfo.TargetItem) return;
 
             var oldOrder = ingredient.Order;
@@ -358,7 +346,7 @@ namespace Cooking.Pages.Recepies
             else
             { }
 
-            var backup = new List<RecipeIngredientDTO>(dropInfo.TargetCollection.Cast<RecipeIngredientDTO>());
+            var backup = new List<RecipeIngredientMain>(dropInfo.TargetCollection.Cast<RecipeIngredientMain>());
             if (ingredient.Order < oldOrder)
             {
                 foreach (var item in backup)
@@ -380,17 +368,15 @@ namespace Cooking.Pages.Recepies
                 }
             }
 
-            (dropInfo.TargetCollection as ObservableCollection<RecipeIngredientDTO>).Clear();
+            (dropInfo.TargetCollection as ObservableCollection<RecipeIngredientMain>).Clear();
             foreach (var item in backup.OrderBy(x => x.Order))
             {
-                (dropInfo.TargetCollection as ObservableCollection<RecipeIngredientDTO>).Add(item);
+                (dropInfo.TargetCollection as ObservableCollection<RecipeIngredientMain>).Add(item);
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Lazy<DelegateCommand> OkCommand { get; }
-        public Lazy<DelegateCommand> CloseCommand { get; }
         public Lazy<DelegateCommand> ImageSearchCommand { get; }
         public Lazy<DelegateCommand> RemoveImageCommand { get; }
         public Lazy<DelegateCommand> AddIngredientCommand { get; }
@@ -399,12 +385,12 @@ namespace Cooking.Pages.Recepies
 
         public Lazy<DelegateCommand<TagDTO>> RemoveTagCommand { get; }
 
-        public Lazy<DelegateCommand<IngredientGroupDTO>> AddIngredientToGroupCommand { get; }
-        public Lazy<DelegateCommand<IngredientGroupDTO>> RemoveIngredientGroupCommand { get; }
-        public Lazy<DelegateCommand<IngredientGroupDTO>> EditIngredientGroupCommand { get; }
-        public Lazy<DelegateCommand<RecipeIngredientDTO>> EditIngredientCommand { get; }
-        public Lazy<DelegateCommand<RecipeIngredientDTO>> RemoveIngredientCommand { get; }
+        public Lazy<DelegateCommand<IngredientGroupMain>> AddIngredientToGroupCommand { get; }
+        public Lazy<DelegateCommand<IngredientGroupMain>> RemoveIngredientGroupCommand { get; }
+        public Lazy<DelegateCommand<IngredientGroupMain>> EditIngredientGroupCommand { get; }
+        public Lazy<DelegateCommand<RecipeIngredientMain>> EditIngredientCommand { get; }
+        public Lazy<DelegateCommand<RecipeIngredientMain>> RemoveIngredientCommand { get; }
         
-        public RecipeDTO Recipe { get; set; }
+        public RecipeMain Recipe { get; set; }
     }
 }

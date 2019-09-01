@@ -1,14 +1,13 @@
 ﻿using Cooking.Helpers;
 using Data.Model;
 
-namespace Cooking.Pages.MainPage.Dialogs.Model.CalorieTypeSelect
+namespace Cooking.Pages.MainPage.Dialogs
 {
     public class CalorieTypeSelection
     {
         public static CalorieTypeSelection Any = new CalorieTypeSelection()
         {
-            Name = "Любой",
-            IsSelected = true
+            Name = "Любой"
         };
 
         private CalorieType calorieType;

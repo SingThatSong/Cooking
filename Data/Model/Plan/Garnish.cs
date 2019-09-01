@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Data.Model.Plan
 {
-    public class Garnish
+    public class Garnish : Entity
     {
-        public Guid ID { get; set; }
         public string Name { get; set; }
     }
 }

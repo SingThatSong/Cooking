@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mahapps:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d"
              Margin="-200 0"
@@ -13,7 +12,7 @@
              d:DesignWidth="800">
     
     <UserControl.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding CloseCommand.Value}" />
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </UserControl.InputBindings>
     
     <Grid MinHeight="200" MaxHeight="600" Margin="0 10 0 0" HorizontalAlignment="Center" >
@@ -124,7 +123,7 @@
             Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
                     Width="36" 
                     Height="36"
-                    Command="{Binding AddTagCommand.Value}"
+                    Command="{Binding AddTagCommand}"
                     Margin="10 0 0 0" >
             <icons:PackIconModern Width="15"
                                       Height="15"
@@ -136,7 +135,7 @@
                     Width="48" 
                     Height="48"
                     Foreground="Green"
-                    Command="{Binding OkCommand.Value}">
+                    Command="{Binding OkCommand}">
                 <icons:PackIconModern Width="20"
                                       Height="20"
                                       Kind="Check" />
@@ -146,7 +145,7 @@
                     Height="48"
                     Margin="10 0 0 0"
                     Foreground="Red"
-                    Command="{Binding CloseCommand.Value}">
+                    Command="{Binding CloseCommand}">
                 <icons:PackIconModern Width="20"
                                           Height="20"
                                           Kind="Close" />

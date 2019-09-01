@@ -4,6 +4,7 @@ using Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -51,7 +52,13 @@ namespace DatabaseTests
             using (var context = new CookingContext())
             {
                 context.Recipies.Add(recipe);
-                context.Weeks.Add(new Week() { Monday = new Day() { Dinner = recipe } });
+                var week = new Week();
+                week.Days = new List<Day>()
+                {
+                    new Day() { Dinner = recipe }
+                };
+
+                context.Weeks.Add(week);
                 context.SaveChanges();
             }
 
@@ -77,28 +84,20 @@ namespace DatabaseTests
         }
 
         [TestMethod]
-        public void SetDinnerFK_Works()
+        public void RemovindWeek_RemovesDay()
         {
             var recipe = new Recipe();
+            var week = new Week();
 
-            // Добавим рецепт в БД
             using (var context = new CookingContext())
             {
                 context.Recipies.Add(recipe);
-                context.SaveChanges();
-            }
+                week.Days = new List<Day>()
+                {
+                    new Day() { Dinner = recipe }
+                };
 
-            using (var context = new CookingContext())
-            {
-                Assert.AreEqual(1, context.Recipies.Count());
-                var rec = context.Recipies.Find(recipe.ID);
-                Assert.IsNotNull(rec);
-            }
-
-            // Добавим неделю и день, устанавливая только FK на существующий рецепт
-            using (var context = new CookingContext())
-            {
-                context.Add(new Week() { Monday = new Day() { DinnerID = recipe.ID } });
+                context.Weeks.Add(week);
                 context.SaveChanges();
             }
 
@@ -107,15 +106,89 @@ namespace DatabaseTests
                 Assert.AreEqual(1, context.Recipies.Count());
                 Assert.AreEqual(1, context.Weeks.Count());
                 Assert.AreEqual(1, context.Days.Count());
-                Assert.AreEqual(recipe.ID, context.Days.First().DinnerID);
+            }
+
+            using (var context = new CookingContext())
+            {
+                context.Weeks.Remove(week);
+                context.SaveChanges();
+            }
+
+            using (var context = new CookingContext())
+            {
+                Assert.AreEqual(1, context.Recipies.Count());
+                Assert.AreEqual(0, context.Weeks.Count());
+                Assert.AreEqual(0, context.Days.Count());
             }
         }
 
         [TestMethod]
-        public void BackupAndRestoreDb()
+        public void RemovindDay_DoesNotRemoveWeek()
         {
-            //DatabaseBackup.Backup();
-            //DatabaseBackup.Restore(Environment.CurrentDirectory, "newdb.db");
+
+            //using (var context = new CookingContext())
+            //{
+            //    var recipe = new Recipe();
+            //    context.Recipies.Add(recipe);
+            //    context.Weeks.Add(new Week() { Monday = new Day() { Dinner = recipe } });
+            //    context.SaveChanges();
+            //}
+
+            //using (var context = new CookingContext())
+            //{
+            //    Assert.AreEqual(1, context.Recipies.Count());
+            //    Assert.AreEqual(1, context.Weeks.Count());
+            //    Assert.AreEqual(1, context.Days.Count());
+            //}
+
+            //using (var context = new CookingContext())
+            //{
+            //    var day = context.Days.First();
+            //    context.Days.Remove(day);
+            //    context.SaveChanges();
+            //}
+
+            //using (var context = new CookingContext())
+            //{
+            //    Assert.AreEqual(1, context.Recipies.Count());
+            //    Assert.AreEqual(1, context.Weeks.Count());
+            //    Assert.AreEqual(0, context.Days.Count());
+            //}
+        }
+
+        [TestMethod]
+        public void SetDinnerFK_Works()
+        {
+            //var recipe = new Recipe();
+
+            //// Добавим рецепт в БД
+            //using (var context = new CookingContext())
+            //{
+            //    context.Recipies.Add(recipe);
+            //    context.SaveChanges();
+            //}
+
+            //using (var context = new CookingContext())
+            //{
+            //    Assert.AreEqual(1, context.Recipies.Count());
+            //    var rec = context.Recipies.Find(recipe.ID);
+            //    Assert.IsNotNull(rec);
+            //}
+
+            //// Добавим неделю и день, устанавливая только FK на существующий рецепт
+            //using (var context = new CookingContext())
+            //{
+            //    context.Add(new Week() { Monday = new Day() { DinnerID = recipe.ID } });
+            //    context.SaveChanges();
+            //}
+
+            //using (var context = new CookingContext())
+            //{
+            //    Assert.AreEqual(1, context.Recipies.Count());
+            //    Assert.AreEqual(1, context.Weeks.Count());
+            //    Assert.AreEqual(1, context.Days.Count());
+            //    Assert.AreEqual(recipe.ID, context.Days.First().DinnerID);
+            //}
         }
     }
 }

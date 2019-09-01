@@ -14,7 +14,7 @@
              Margin="-100 0"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding CloseCommand.Value}" />
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </UserControl.InputBindings>
 
     <UserControl.Resources>
@@ -58,7 +58,7 @@
                                         BorderThickness="0"
                                         VerticalAlignment="Center"
                                         Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
-                                                                        Path=DataContext.AddMainIngredientCommand.Value}"
+                                                                        Path=DataContext.AddMainIngredientCommand}"
                                         CommandParameter="{Binding}">
                                     <icons:PackIconModern Width="10"
                                                   Height="10"
@@ -91,7 +91,7 @@
                                         BorderThickness="0"
                                         VerticalAlignment="Center"
                                         Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
-                                                                        Path=DataContext.AddDishTypesCommand.Value}"
+                                                                        Path=DataContext.AddDishTypesCommand}"
                                         CommandParameter="{Binding}">
                                     <icons:PackIconModern Width="10"
                                                   Height="10"
@@ -151,7 +151,7 @@
                                         BorderThickness="0"
                                         VerticalAlignment="Center"
                                         Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
-                                                                        Path=DataContext.AddCalorieTypesCommand.Value}"
+                                                                        Path=DataContext.AddCalorieTypesCommand}"
                                         CommandParameter="{Binding}">
                                     <icons:PackIconModern Width="10"
                                                   Height="10"
@@ -193,7 +193,7 @@
                     Width="48" 
                     Height="48"
                     Foreground="Green"
-                    Command="{Binding OkCommand.Value}">
+                    Command="{Binding OkCommand}">
                 <icons:PackIconModern Width="20"
                                       Height="20"
                                       Kind="Check" />
@@ -203,7 +203,7 @@
                     Height="48"
                     Margin="10 0 0 0"
                     Foreground="Red"
-                    Command="{Binding CloseCommand.Value}">
+                    Command="{Binding CloseCommand}">
                 <icons:PackIconModern Width="20"
                                           Height="20"
                                           Kind="Close" />

@@ -19,14 +19,14 @@ namespace Cooking.Pages.Garnishes
     {
         public GarnishesViewModel()
         {
-            Garnishes = new Lazy<ObservableCollection<GarnishDTO>>(GetGarnishes);
+            Garnishes = new Lazy<ObservableCollection<GarnishMain>>(GetGarnishes);
             AddGarnishCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddGarnish));
-            DeleteGarnishCommand = new Lazy<DelegateCommand<GarnishDTO>>(() => new DelegateCommand<GarnishDTO>(cat => DeleteGarnish(cat.ID)));
+            DeleteGarnishCommand = new Lazy<DelegateCommand<GarnishMain>>(() => new DelegateCommand<GarnishMain>(cat => DeleteGarnish(cat.ID)));
 
-            EditGarnishCommand = new Lazy<DelegateCommand<GarnishDTO>>(
-                () => new DelegateCommand<GarnishDTO>(async (tag) => {
+            EditGarnishCommand = new Lazy<DelegateCommand<GarnishMain>>(
+                () => new DelegateCommand<GarnishMain>(async (tag) => {
 
-                    var viewModel = new GarnishEditViewModel(Mapper.Map<GarnishDTO>(tag));
+                    var viewModel = new GarnishEditViewModel(Mapper.Map<GarnishMain>(tag));
 
                     var dialog = new CustomDialog()
                     {
@@ -109,16 +109,16 @@ namespace Cooking.Pages.Garnishes
             }
         }
 
-        public Lazy<ObservableCollection<GarnishDTO>> Garnishes { get; }
-        private ObservableCollection<GarnishDTO> GetGarnishes()
+        public Lazy<ObservableCollection<GarnishMain>> Garnishes { get; }
+        private ObservableCollection<GarnishMain> GetGarnishes()
         {
             try
             {
                 using (var context = new CookingContext())
                 {
                     var originalList = context.Garnishes.ToList();
-                    return new ObservableCollection<GarnishDTO>(
-                        originalList.Select(x => Mapper.Map<GarnishDTO>(x))
+                    return new ObservableCollection<GarnishMain>(
+                        originalList.Select(x => Mapper.Map<GarnishMain>(x))
                     );
                 }
             }
@@ -131,8 +131,8 @@ namespace Cooking.Pages.Garnishes
         public event PropertyChangedEventHandler PropertyChanged;
         
         public Lazy<DelegateCommand> AddGarnishCommand { get; }
-        public Lazy<DelegateCommand<GarnishDTO>> EditGarnishCommand { get; }
-        public Lazy<DelegateCommand<GarnishDTO>> DeleteGarnishCommand { get; }
+        public Lazy<DelegateCommand<GarnishMain>> EditGarnishCommand { get; }
+        public Lazy<DelegateCommand<GarnishMain>> DeleteGarnishCommand { get; }
 
         public bool IsEditing { get; set; }
     }

@@ -39,7 +39,7 @@ namespace Cooking.Pages.Ingredients
                 if (String.IsNullOrEmpty(Ingredient.Text)) return true;
                 else
                 {
-                    if (((IngredientDTO)o).Name.Contains(Ingredient.Text)) return true;
+                    if (((IngredientMain)o).Name.Contains(Ingredient.Text)) return true;
                     else return false;
                 }
             });

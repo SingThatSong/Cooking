@@ -4,9 +4,8 @@ using System.Linq;
 
 namespace Data.Model
 {
-    public class Ingredient
+    public class Ingredient : Entity
     {
-        public Guid ID { get; set; }
         public string Name { get; set; }
 
         [NotMapped]

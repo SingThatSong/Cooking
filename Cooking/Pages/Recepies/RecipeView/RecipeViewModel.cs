@@ -1,29 +1,23 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
-using Cooking.Pages.MainPage;
+using Cooking.ServiceLayer;
 using MahApps.Metro.Controls.Dialogs;
+using PropertyChanged;
+using ServiceLayer;
 using System;
-using System.ComponentModel;
 
 namespace Cooking.Pages.Recepies
 {
-    public partial class RecipeViewModel : INotifyPropertyChanged
+    public partial class RecipeViewModel : DialogViewModel
     {
-        public RecipeViewModel(RecipeDTO recipe)
+        public RecipeViewModel() : base() { }
+
+        public RecipeViewModel(Guid recipeId) : base()
         {
-            CloseCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
-                    var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
-                    await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
-                }));
-
-            Recipe = recipe;
+            var recipeDb = RecipeService.GetRecipe<RecipeFull>(recipeId).Result;
+            Recipe = MapperService.Mapper.Map<RecipeMain>(recipeDb);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public Lazy<DelegateCommand> CloseCommand { get; }
         
-        public RecipeDTO Recipe { get; set; }
+        public RecipeFull Recipe { get; set; }
     }
 }

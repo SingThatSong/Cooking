@@ -4,11 +4,9 @@
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:Cooking.Pages.Recepies"
-             xmlns:controls="clr-namespace:Cooking.Controls"
-             xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
              mahapps:DialogParticipation.Register="{Binding}"
              Margin="-100 0"
         mc:Ignorable="d"
@@ -39,20 +37,20 @@
                     <StackPanel Width="150" Margin="3">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseLeftButtonUp">
-                                <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.SelectRecipeCommand.Value}" CommandParameter="{Binding}" />
+                                <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.SelectRecipeCommand}" CommandParameter="{Binding}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <TextBlock TextWrapping="NoWrap" Width="150" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" FontSize="20" HorizontalAlignment="Center" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseRightButtonUp">
-                                    <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand.Value}" CommandParameter="{Binding}" />
+                                    <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand}" CommandParameter="{Binding}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBlock>
                         <Image Source="{Binding FullPath}" Stretch="Uniform" Height="150" Width="150">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseRightButtonUp">
-                                    <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand.Value}" CommandParameter="{Binding}" />
+                                    <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand}" CommandParameter="{Binding}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Image>
@@ -88,7 +86,7 @@
                     Width="48" 
                     Height="48"
                     Foreground="Green"
-                    Command="{Binding OkCommand.Value}">
+                    Command="{Binding OkCommand}">
                 <icons:PackIconModern Width="20"
                                       Height="20"
                                       Kind="Check" />
@@ -98,7 +96,7 @@
                     Height="48"
                     Margin="10 0 0 0"
                     Foreground="Red"
-                    Command="{Binding CloseCommand.Value}">
+                    Command="{Binding CloseCommand}">
                 <icons:PackIconModern Width="20"
                                           Height="20"
                                           Kind="Close" />

@@ -16,7 +16,7 @@ namespace Cooking.Pages.Ingredients
     {
         public bool DialogResultOk { get; set; }
 
-        public RecipeIngredientEditViewModel(RecipeIngredientDTO ingredient = null)
+        public RecipeIngredientEditViewModel(RecipeIngredientMain ingredient = null)
         {
             OkCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(() =>
@@ -34,21 +34,21 @@ namespace Cooking.Pages.Ingredients
             AddMultipleCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(() =>
                 {
-                    Ingredients = Ingredients ?? new ObservableCollection<RecipeIngredientDTO>();
+                    Ingredients = Ingredients ?? new ObservableCollection<RecipeIngredientMain>();
                     Ingredient.Order = Ingredients.Count + 1;
                     Ingredients.Add(Ingredient);
-                    Ingredient = new RecipeIngredientDTO();
+                    Ingredient = new RecipeIngredientMain();
                 },
                 canExecute: () => IsCreation));
-            RemoveIngredientCommand = new Lazy<DelegateCommand<RecipeIngredientDTO>>(
-                () => new DelegateCommand<RecipeIngredientDTO>(i => Ingredients.Remove(i))
+            RemoveIngredientCommand = new Lazy<DelegateCommand<RecipeIngredientMain>>(
+                () => new DelegateCommand<RecipeIngredientMain>(i => Ingredients.Remove(i))
             );
 
             AddCategoryCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddRecipe));
 
             using (var context = new CookingContext())
             {
-                AllIngredients = context.Ingredients.Select(x => Mapper.Map<IngredientDTO>(x)).ToList();
+                AllIngredients = context.Ingredients.Select(x => Mapper.Map<IngredientMain>(x)).ToList();
             }
             if (ingredient != null)
             {
@@ -66,7 +66,7 @@ namespace Cooking.Pages.Ingredients
             }
             else
             {
-                Ingredient = new RecipeIngredientDTO();
+                Ingredient = new RecipeIngredientMain();
             }
         }
 
@@ -107,15 +107,15 @@ namespace Cooking.Pages.Ingredients
         public Lazy<DelegateCommand> OkCommand { get; }
         public Lazy<DelegateCommand> CloseCommand { get; }
         public Lazy<DelegateCommand> AddMultipleCommand { get; }
-        public Lazy<DelegateCommand<RecipeIngredientDTO>> RemoveIngredientCommand { get; }
+        public Lazy<DelegateCommand<RecipeIngredientMain>> RemoveIngredientCommand { get; }
 
         public Lazy<DelegateCommand> AddCategoryCommand { get; }
 
 
-        public RecipeIngredientDTO Ingredient { get; set; }
-        public ObservableCollection<RecipeIngredientDTO> Ingredients { get; set; }
+        public RecipeIngredientMain Ingredient { get; set; }
+        public ObservableCollection<RecipeIngredientMain> Ingredients { get; set; }
 
-        public List<IngredientDTO> AllIngredients { get; set; }
+        public List<IngredientMain> AllIngredients { get; set; }
 
         public bool IsCreation { get; set; }
 

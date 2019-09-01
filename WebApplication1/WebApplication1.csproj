@@ -18,8 +18,8 @@
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.0.0-preview3-19153-02" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0-preview3.19153.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.0-preview3.19153.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.10" />
-    <PackageReference Include="RtfPipe" Version="1.0.7092.25824" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.2" />
+    <PackageReference Include="RtfPipe" Version="1.0.7155.29772" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

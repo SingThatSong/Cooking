@@ -15,7 +15,7 @@ namespace Cooking.Pages.Recepies
     {
         public bool DialogResultOk { get; set; }
 
-        public IngredientGroupEditViewModel(IngredientGroupDTO ingredientGroup = null)
+        public IngredientGroupEditViewModel(IngredientGroupMain ingredientGroup = null)
         {
             OkCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(() => {
@@ -28,7 +28,7 @@ namespace Cooking.Pages.Recepies
                     var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
                     await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
                 }));
-            IngredientGroup = ingredientGroup ?? new IngredientGroupDTO();
+            IngredientGroup = ingredientGroup ?? new IngredientGroupMain();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -36,6 +36,6 @@ namespace Cooking.Pages.Recepies
         public Lazy<DelegateCommand> OkCommand { get; }
         public Lazy<DelegateCommand> CloseCommand { get; }
 
-        public IngredientGroupDTO IngredientGroup { get; }
+        public IngredientGroupMain IngredientGroup { get; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\PropertyChanged.Fody.3.0.1\build\PropertyChanged.Fody.props" Condition="Exists('..\packages\PropertyChanged.Fody.3.0.1\build\PropertyChanged.Fody.props')" />
+  <Import Project="..\packages\PropertyChanged.Fody.3.1.1\build\PropertyChanged.Fody.props" Condition="Exists('..\packages\PropertyChanged.Fody.3.1.1\build\PropertyChanged.Fody.props')" />
   <Import Project="..\packages\Microsoft.EntityFrameworkCore.Design.3.0.0-preview3.19153.1\build\net461\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('..\packages\Microsoft.EntityFrameworkCore.Design.3.0.0-preview3.19153.1\build\net461\Microsoft.EntityFrameworkCore.Design.props')" />
   <Import Project="..\packages\Bindables.Fody.4.0.0\build\Bindables.Fody.props" Condition="Exists('..\packages\Bindables.Fody.4.0.0\build\Bindables.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -72,25 +72,28 @@
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net47\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.4.0.0-alpha0303\lib\net462\ControlzEx.dll</HintPath>
+      <HintPath>..\packages\ControlzEx.4.0.1\lib\net462\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Flee.Net45, Version=1.0.0.0, Culture=neutral, PublicKeyToken=951a102ce2413032, processorArchitecture=MSIL">
+      <HintPath>..\packages\Flee.1.2.2\lib\net45\Flee.Net45.dll</HintPath>
     </Reference>
     <Reference Include="GongSolutions.WPF.DragDrop, Version=2.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
       <HintPath>..\packages\gong-wpf-dragdrop.2.1.0-alpha0009\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.2.0.0-alpha0391\lib\net47\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.2.0.0-alpha0409\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro.IconPacks, Version=3.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.IconPacks.3.0.0-alpha0164\lib\net47\MahApps.Metro.IconPacks.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.IconPacks.3.0.0-alpha0206\lib\net47\MahApps.Metro.IconPacks.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro.IconPacks.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=0c0d510f9915137a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.IconPacks.3.0.0-alpha0164\lib\net47\MahApps.Metro.IconPacks.Core.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.IconPacks.3.0.0-alpha0206\lib\net47\MahApps.Metro.IconPacks.Core.dll</HintPath>
     </Reference>
-    <Reference Include="MaterialDesignColors, Version=1.2.0.1418, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignColors.1.2.0-ci1418\lib\net45\MaterialDesignColors.dll</HintPath>
+    <Reference Include="MaterialDesignColors, Version=1.2.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.2.0\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=2.6.0.1444, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.2.6.0-ci1444\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.6.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.6.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Data.Sqlite, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.Sqlite.Core.3.0.0-preview3.19153.1\lib\netstandard2.0\Microsoft.Data.Sqlite.dll</HintPath>
@@ -158,8 +161,11 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="PropertyChanged, Version=3.0.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
-      <HintPath>..\packages\PropertyChanged.Fody.3.0.1\lib\net452\PropertyChanged.dll</HintPath>
+    <Reference Include="Plafi, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Plafi.0.1.3\lib\net48\Plafi.dll</HintPath>
+    </Reference>
+    <Reference Include="PropertyChanged, Version=3.1.1.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.3.1.1\lib\net452\PropertyChanged.dll</HintPath>
     </Reference>
     <Reference Include="Remotion.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <HintPath>..\packages\Remotion.Linq.2.2.0\lib\net45\Remotion.Linq.dll</HintPath>
@@ -204,6 +210,11 @@
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.6.0-preview5.19224.8\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.6.0-preview6.19259.10\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
@@ -270,13 +281,16 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\IsNullToVisibilityConverter.cs" />
     <Compile Include="Converters\EnumToDescriptionConverter.cs" />
-    <Compile Include="DTO\DayDTO.cs" />
+    <Compile Include="DialogUtils.cs" />
+    <Compile Include="DTO\MainPage\DayMain.cs" />
     <Compile Include="DTO\IngredientGroupDTO.cs" />
     <Compile Include="DTO\GarnishDTO.cs" />
-    <Compile Include="DTO\WeekDTO.cs" />
+    <Compile Include="DTO\RecipeSearch\SearchTag.cs" />
+    <Compile Include="DTO\MainPage\WeekMain.cs" />
+    <Compile Include="DTO\RecipeSelect\RecipeSelect.cs" />
     <Compile Include="DTO\TagDTO.cs" />
     <Compile Include="DTO\IngredientDTO.cs" />
-    <Compile Include="DTO\RecipeDTO.cs" />
+    <Compile Include="DTO\MainPage\RecipeMain.cs" />
     <Compile Include="DTO\RecipeIngredientDTO.cs" />
     <Compile Include="Helpers\EnumExtensions.cs" />
     <Compile Include="Helpers\StringCompare.cs" />
@@ -308,7 +322,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\MainPage\Dialogs\WeekSettings.xaml">
+    <Page Include="Pages\MainPage\Dialogs\WeekSettings\WeekSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -367,7 +381,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="MapperService.cs" />
     <Compile Include="Mappings\MappingsHelper.cs" />
+    <Compile Include="Pages\Garnishes\TagEdit\asymc.cs" />
+    <Compile Include="Pages\MainPage\Dialogs\MoveRecipe\SelectDay.cs" />
+    <Compile Include="Pages\DialogViewModel.cs" />
+    <Compile Include="Pages\OkCancelViewModel.cs" />
     <Compile Include="Pages\MainPage\DayControl.xaml.cs">
       <DependentUpon>DayControl.xaml</DependentUpon>
     </Compile>
@@ -380,7 +399,7 @@
       <DependentUpon>ShoppingCartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MainPage\Dialogs\CalorieTypeSelect\CalorieTypeSelection.cs" />
-    <Compile Include="Pages\MainPage\Dialogs\Model\DayPlan.cs" />
+    <Compile Include="Pages\MainPage\Dialogs\ShowGeneratedWeek\DayPlan.cs" />
     <Compile Include="Pages\MainPage\Dialogs\CalorieTypeSelect\CalorieTypeSelectEditViewModel.cs" />
     <Compile Include="Pages\MainPage\Dialogs\CalorieTypeSelect\CalorieTypeSelectView.xaml.cs">
       <DependentUpon>CalorieTypeSelectView.xaml</DependentUpon>
@@ -393,11 +412,10 @@
       <DependentUpon>ShowGeneratedWeekView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\MainPage\Dialogs\ShowGeneratedWeek\ShowGeneratedWeekViewModel.cs" />
-    <Compile Include="Pages\MainPage\Dialogs\WeekSettings.xaml.cs">
+    <Compile Include="Pages\MainPage\Dialogs\WeekSettings\WeekSettings.xaml.cs">
       <DependentUpon>WeekSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\MainPage\Dialogs\WeekSettingsViewModel.cs" />
-    <Compile Include="Pages\MainPage\LastDayCooked.cs" />
+    <Compile Include="Pages\MainPage\Dialogs\WeekSettings\WeekSettingsViewModel.cs" />
     <Compile Include="Pages\MainPage\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -410,7 +428,6 @@
       <DependentUpon>TagSelectView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Recepies\RecipeEdit\TagSelect\TagSelectEditViewModel.cs" />
-    <Compile Include="Pages\Recepies\RecipeFilter.cs" />
     <Compile Include="Pages\Garnishes\TagEdit\GarnishEditView.xaml.cs">
       <DependentUpon>GarnishEditView.xaml</DependentUpon>
     </Compile>
@@ -484,6 +501,10 @@
       <Project>{1AD0ACAC-D704-48A6-9D17-171D3886FE0A}</Project>
       <Name>Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj">
+      <Project>{5D916B69-F617-41E7-91CD-FAEF483E48A2}</Project>
+      <Name>ServiceLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
@@ -498,6 +519,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -505,14 +527,14 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Bindables.Fody.4.0.0\build\Bindables.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Bindables.Fody.4.0.0\build\Bindables.Fody.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.EntityFrameworkCore.Design.3.0.0-preview3.19153.1\build\net461\Microsoft.EntityFrameworkCore.Design.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.EntityFrameworkCore.Design.3.0.0-preview3.19153.1\build\net461\Microsoft.EntityFrameworkCore.Design.props'))" />
-    <Error Condition="!Exists('..\packages\Fody.5.0.6\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.5.0.6\build\Fody.targets'))" />
-    <Error Condition="!Exists('..\packages\PropertyChanged.Fody.3.0.1\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.3.0.1\build\PropertyChanged.Fody.props'))" />
     <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets'))" />
     <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets'))" />
     <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.6.0.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.0.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\PropertyChanged.Fody.3.1.1\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.3.1.1\build\PropertyChanged.Fody.props'))" />
   </Target>
-  <Import Project="..\packages\Fody.5.0.6\build\Fody.targets" Condition="Exists('..\packages\Fody.5.0.6\build\Fody.targets')" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.14\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets')" />
+  <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />
 </Project>

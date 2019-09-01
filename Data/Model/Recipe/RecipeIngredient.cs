@@ -4,9 +4,8 @@ using System.Linq;
 
 namespace Data.Model
 {
-    public class RecipeIngredient
+    public class RecipeIngredient : Entity
     {
-        public Guid? ID { get; set; }
         public int Order { get; set; }
         public Guid? IngredientId { get; set; }
         public virtual Ingredient Ingredient { get; set; }
@@ -20,14 +19,9 @@ namespace Data.Model
             get => MeasureUnit?.ID;
             set
             {
-                if (value != null)
-                {
-                    MeasureUnit = MeasureUnit.AllValues.Single(x => x.ID == value);
-                }
-                else
-                {
-                    MeasureUnit = null;
-                }
+                MeasureUnit = value != null
+                              ? MeasureUnit.AllValues.Single(x => x.ID == value)
+                              : null;
             }
         }
     }

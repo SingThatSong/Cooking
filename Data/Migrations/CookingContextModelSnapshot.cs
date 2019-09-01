@@ -32,7 +32,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Model.IngredientsGroup", b =>
                 {
-                    b.Property<Guid?>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
@@ -48,25 +48,31 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Model.Plan.Day", b =>
                 {
-                    b.Property<Guid?>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime?>("Date");
+
+                    b.Property<int>("DayOfWeek");
 
                     b.Property<Guid?>("DinnerID");
 
                     b.Property<bool>("DinnerWasCooked");
 
+                    b.Property<Guid?>("WeekID");
+
                     b.HasKey("ID");
 
                     b.HasIndex("DinnerID");
+
+                    b.HasIndex("WeekID");
 
                     b.ToTable("Day");
                 });
 
             modelBuilder.Entity("Data.Model.Plan.Garnish", b =>
                 {
-                    b.Property<Guid?>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
@@ -78,49 +84,14 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Model.Plan.Week", b =>
                 {
-                    b.Property<Guid?>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("End");
 
-                    b.Property<Guid?>("FridayID");
-
-                    b.Property<Guid?>("MondayID");
-
-                    b.Property<Guid?>("SaturdayID");
-
                     b.Property<DateTime>("Start");
 
-                    b.Property<Guid?>("SundayID");
-
-                    b.Property<Guid?>("ThursdayID");
-
-                    b.Property<Guid?>("TuesdayID");
-
-                    b.Property<Guid?>("WednesdayID");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("FridayID")
-                        .IsUnique();
-
-                    b.HasIndex("MondayID")
-                        .IsUnique();
-
-                    b.HasIndex("SaturdayID")
-                        .IsUnique();
-
-                    b.HasIndex("SundayID")
-                        .IsUnique();
-
-                    b.HasIndex("ThursdayID")
-                        .IsUnique();
-
-                    b.HasIndex("TuesdayID")
-                        .IsUnique();
-
-                    b.HasIndex("WednesdayID")
-                        .IsUnique();
 
                     b.ToTable("Weeks");
                 });
@@ -153,7 +124,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Model.RecipeIngredient", b =>
                 {
-                    b.Property<Guid?>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<double?>("Amount");
@@ -222,43 +193,10 @@ namespace Data.Migrations
                         .WithMany()
                         .HasForeignKey("DinnerID")
                         .OnDelete(DeleteBehavior.SetNull);
-                });
 
-            modelBuilder.Entity("Data.Model.Plan.Week", b =>
-                {
-                    b.HasOne("Data.Model.Plan.Day", "Friday")
-                        .WithOne()
-                        .HasForeignKey("Data.Model.Plan.Week", "FridayID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Data.Model.Plan.Day", "Monday")
-                        .WithOne()
-                        .HasForeignKey("Data.Model.Plan.Week", "MondayID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Data.Model.Plan.Day", "Saturday")
-                        .WithOne()
-                        .HasForeignKey("Data.Model.Plan.Week", "SaturdayID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Data.Model.Plan.Day", "Sunday")
-                        .WithOne()
-                        .HasForeignKey("Data.Model.Plan.Week", "SundayID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Data.Model.Plan.Day", "Thursday")
-                        .WithOne()
-                        .HasForeignKey("Data.Model.Plan.Week", "ThursdayID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Data.Model.Plan.Day", "Tuesday")
-                        .WithOne()
-                        .HasForeignKey("Data.Model.Plan.Week", "TuesdayID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Data.Model.Plan.Day", "Wednesday")
-                        .WithOne()
-                        .HasForeignKey("Data.Model.Plan.Week", "WednesdayID")
+                    b.HasOne("Data.Model.Plan.Week", "Week")
+                        .WithMany("Days")
+                        .HasForeignKey("WeekID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

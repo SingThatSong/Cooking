@@ -1,9 +1,11 @@
+using Cooking.ServiceLayer.MainPage;
 using Data.Context;
 using Data.Model;
 using Data.Model.Plan;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RtfPipe;
+using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,27 +59,9 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet("[action]/currentweek")]
-        public async Task<Week> CurrentWeek()
+        public async Task<WeekMainPage> CurrentWeek()
         {
-            using (var context = new CookingContext(Database))
-            {
-                var result = context.Weeks.Include(x => x.Monday)
-                                            .ThenInclude(x => x.Dinner)
-                                          .Include(x => x.Tuesday)
-                                            .ThenInclude(x => x.Dinner)
-                                          .Include(x => x.Wednesday)
-                                            .ThenInclude(x => x.Dinner)
-                                          .Include(x => x.Thursday)
-                                            .ThenInclude(x => x.Dinner)
-                                          .Include(x => x.Friday)
-                                            .ThenInclude(x => x.Dinner)
-                                          .Include(x => x.Saturday)
-                                            .ThenInclude(x => x.Dinner)
-                                          .Include(x => x.Sunday)
-                                            .ThenInclude(x => x.Dinner)
-                                            .SingleOrDefault(x => x.Start.Date <= DateTime.Now.Date && DateTime.Now.Date <= x.End.Date);
-                return result;
-            }
+            return await WeekService.GetWeekAsync(DateTime.Now);
         }
     }
 }

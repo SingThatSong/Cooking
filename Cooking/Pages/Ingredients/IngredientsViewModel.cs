@@ -18,8 +18,8 @@ namespace Cooking.Pages.Ingredients
     {
         public IngredientsViewModel()
         {
-            Ingredients = new Lazy<ObservableCollection<IngredientDTO>>(GetIngredients);
-            ViewIngredientCommand = new Lazy<DelegateCommand<IngredientDTO>>(() => new DelegateCommand<IngredientDTO>(ingredient =>
+            Ingredients = new Lazy<ObservableCollection<IngredientMain>>(GetIngredients);
+            ViewIngredientCommand = new Lazy<DelegateCommand<IngredientMain>>(() => new DelegateCommand<IngredientMain>(ingredient =>
             {
                 if (Application.Current.MainWindow.DataContext is MainWindowViewModel mainWindowViewModel)
                 {
@@ -28,11 +28,11 @@ namespace Cooking.Pages.Ingredients
                 }
             }));
             AddCategoryCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddRecipe));
-            DeleteCategoryCommand = new Lazy<DelegateCommand<IngredientDTO>>(() => new DelegateCommand<IngredientDTO>(cat => DeleteCategory(cat.ID)));
-            EditCategoryCommand = new Lazy<DelegateCommand<IngredientDTO>>(
-                () => new DelegateCommand<IngredientDTO>(async (ingredient) => {
+            DeleteCategoryCommand = new Lazy<DelegateCommand<IngredientMain>>(() => new DelegateCommand<IngredientMain>(cat => DeleteCategory(cat.ID)));
+            EditCategoryCommand = new Lazy<DelegateCommand<IngredientMain>>(
+                () => new DelegateCommand<IngredientMain>(async (ingredient) => {
 
-                    var viewModel = new IngredientEditViewModel(Mapper.Map<IngredientDTO>(ingredient));
+                    var viewModel = new IngredientEditViewModel(Mapper.Map<IngredientMain>(ingredient));
 
                     var dialog = new CustomDialog()
                     {
@@ -115,18 +115,18 @@ namespace Cooking.Pages.Ingredients
             }
         }
 
-        public Lazy<ObservableCollection<IngredientDTO>> Ingredients { get; }
-        private ObservableCollection<IngredientDTO> GetIngredients()
+        public Lazy<ObservableCollection<IngredientMain>> Ingredients { get; }
+        private ObservableCollection<IngredientMain> GetIngredients()
         {
             try
             {
                 using (var Context = new CookingContext())
                 {
                     var originalList = Context.Ingredients.ToList();
-                    return new ObservableCollection<IngredientDTO>(
+                    return new ObservableCollection<IngredientMain>(
                         originalList.OrderBy(x => x.Name).Select(x =>
                         {
-                            var dto = Mapper.Map<IngredientDTO>(x);
+                            var dto = Mapper.Map<IngredientMain>(x);
                             dto.PropertyChanged += Dto_PropertyChanged;
                             return dto;
                         })
@@ -143,7 +143,7 @@ namespace Cooking.Pages.Ingredients
         {
             using (var Context = new CookingContext())
             {
-                var dto = sender as IngredientDTO;
+                var dto = sender as IngredientMain;
                 var original = Context.Ingredients.Find(dto.ID);
                 Mapper.Map(dto, original);
                 Context.SaveChanges();
@@ -154,9 +154,9 @@ namespace Cooking.Pages.Ingredients
 
         public Lazy<DelegateCommand> AddCategoryCommand { get; }
         
-        public Lazy<DelegateCommand<IngredientDTO>> ViewIngredientCommand { get; }
-        public Lazy<DelegateCommand<IngredientDTO>> EditCategoryCommand { get; }
-        public Lazy<DelegateCommand<IngredientDTO>> DeleteCategoryCommand { get; }
+        public Lazy<DelegateCommand<IngredientMain>> ViewIngredientCommand { get; }
+        public Lazy<DelegateCommand<IngredientMain>> EditCategoryCommand { get; }
+        public Lazy<DelegateCommand<IngredientMain>> DeleteCategoryCommand { get; }
         
         public bool IsEditing { get; set; }
     }

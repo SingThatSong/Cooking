@@ -12,7 +12,7 @@ namespace Cooking.Mappings
 {
     internal class MappingsHelper
     {
-        public static Recipe MapToRecipe(RecipeDTO recipeDTO, CookingContext context)
+        public static Recipe MapToRecipe(RecipeMain recipeDTO, CookingContext context)
         {
             var recipe = Mapper.Map<Recipe>(recipeDTO);
             if (recipe.IngredientGroups != null)

@@ -5,6 +5,8 @@ using Cooking.Pages.Tags;
 using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
+using PropertyChanged;
+using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,141 +15,48 @@ using System.Linq;
 
 namespace Cooking.Pages.Recepies
 {
-    public partial class TagSelectEditViewModel : INotifyPropertyChanged
+    public partial class TagSelectEditViewModel : OkCancelViewModel
     {
-        public bool DialogResultOk { get; set; }
+        private readonly DialogUtils dialogUtils;
 
-        public TagSelectEditViewModel(IEnumerable<TagDTO> tags, TagType? filterTag = null, IEnumerable<TagDTO> tagsFilter = null)
+        public TagSelectEditViewModel()
         {
-            AddTagCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddTag));
+            throw new NotImplementedException();
+        }
 
-            OkCommand = new Lazy<DelegateCommand>(
-               () => new DelegateCommand(() => {
-                   DialogResultOk = true;
-                   CloseCommand.Value.Execute();
-               }));
+        public TagSelectEditViewModel(IEnumerable<TagDTO> currentTags, DialogUtils dialogUtils)
+        {
+            this.dialogUtils = dialogUtils;
+            AddTagCommand = new DelegateCommand(AddTag);
+            AllTags = new ObservableCollection<TagDTO>(TagService.GetSearchTags().Select(x => MapperService.Mapper.Map<TagDTO>(x)));
+            CtorInternal(currentTags);
+        }
 
-            CloseCommand = new Lazy<DelegateCommand>(
-               () => new DelegateCommand(async () => {
-                   var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
-                   await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
-               }));
+        public TagSelectEditViewModel(IEnumerable<TagDTO> currentTags, TagType filterTag, IEnumerable<TagDTO> allTags, DialogUtils dialogUtils)
+        {
+            this.dialogUtils = dialogUtils;
+            AddTagCommand = new DelegateCommand(AddTag);
+            AllTags = new ObservableCollection<TagDTO>(allTags);
+            CtorInternal(currentTags);
+        }
 
-            if (!filterTag.HasValue)
+        private void CtorInternal(IEnumerable<TagDTO> currentTags)
+        {
+            if (currentTags != null)
             {
-                using (var context = new CookingContext())
+                var tagsSelected = AllTags.Where(x => currentTags.Any(ct => ct.ID == x.ID));
+
+                foreach (var tag in tagsSelected)
                 {
-                    MainIngredients = new ObservableCollection<TagDTO>(context.Tags
-                                             .Where(x => x.Type == TagType.MainIngredient)
-                                             .Select(x => Mapper.Map<TagDTO>(x))
-                                             .OrderBy(x => x.Name));
-
-                    DishTypes = new ObservableCollection<TagDTO>(context.Tags
-                                       .Where(x => x.Type == TagType.DishType)
-                                       .Select(x => Mapper.Map<TagDTO>(x))
-                                       .OrderBy(x => x.Name));
-
-                    Occasions = new ObservableCollection<TagDTO>(context.Tags
-                                      .Where(x => x.Type == TagType.Occasion)
-                                      .Select(x => Mapper.Map<TagDTO>(x))
-                                      .OrderBy(x => x.Name));
-
-                    Sources = new ObservableCollection<TagDTO>(context.Tags
-                                     .Where(x => x.Type == TagType.Source)
-                                     .Select(x => Mapper.Map<TagDTO>(x))
-                                     .OrderBy(x => x.Name));
+                    tag.IsChecked = true;
                 }
             }
-            else
-            {
-                switch (filterTag)
-                {
-                    case TagType.DishType:
-                        DishTypes = new ObservableCollection<TagDTO>(tagsFilter);
-                        break;
-                    case TagType.MainIngredient:
-                        MainIngredients = new ObservableCollection<TagDTO>(tagsFilter);
-                        break;
-                    case TagType.Occasion:
-                        Occasions = new ObservableCollection<TagDTO>(tagsFilter);
-                        break;
-                    case TagType.Source:
-                        Sources = new ObservableCollection<TagDTO>(tagsFilter);
-                        break;
-                }
-            }
-
-            if (tags != null)
-            {
-                foreach (var tag in tags)
-                {
-                    if (MainIngredients != null)
-                    {
-                        var mainIngredient = MainIngredients.FirstOrDefault(x => x.ID == tag.ID);
-                        if (mainIngredient != null)
-                        {
-                            mainIngredient.IsChecked = true;
-                            continue;
-                        }
-                    }
-
-                    if (DishTypes != null)
-                    {
-                        var dishType = DishTypes.FirstOrDefault(x => x.ID == tag.ID);
-                        if (dishType != null)
-                        {
-                            dishType.IsChecked = true;
-                            continue;
-                        }
-                    }
-
-                    if (Occasions != null)
-                    {
-                        var occsion = Occasions.FirstOrDefault(x => x.ID == tag.ID);
-                        if (occsion != null)
-                        {
-                            occsion.IsChecked = true;
-                            continue;
-                        }
-                    }
-
-                    if (Sources != null)
-                    {
-                        var source = Sources.FirstOrDefault(x => x.ID == tag.ID);
-                        if (source != null)
-                        {
-                            source.IsChecked = true;
-                            continue;
-                        }
-                    }
-                }
-            }
-
         }
 
         public async void AddTag()
         {
-            var viewModel = new TagEditViewModel();
-
-            var dialog = new CustomDialog()
-            {
-                Title = "Новый тег",
-                Content = new TagEditView()
-                {
-                    DataContext = viewModel
-                }
-            };
-
-            var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
-
-            await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
-
-            do
-            {
-                await dialog.WaitUntilUnloadedAsync();
-            }
-            while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this));
-
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Новый тег");
+            
             if (viewModel.DialogResultOk)
             {
                 var category = Mapper.Map<Tag>(viewModel.Tag);
@@ -158,37 +67,20 @@ namespace Cooking.Pages.Recepies
                 }
                 viewModel.Tag.ID = category.ID;
 
-                switch(category.Type)
-                {
-                    case TagType.DishType:
-                        DishTypes.Add(viewModel.Tag);
-                        break;
-                    case TagType.MainIngredient:
-                        MainIngredients.Add(viewModel.Tag);
-                        break;
-                    case TagType.Occasion:
-                        Occasions.Add(viewModel.Tag);
-                        break;
-                    case TagType.Source:
-                        Sources.Add(viewModel.Tag);
-                        break;
-                }
+                AllTags.Add(viewModel.Tag);
             }
         }
 
         public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public DelegateCommand AddTagCommand { get; }
 
-        public Lazy<DelegateCommand> OkCommand { get; }
-        public Lazy<DelegateCommand> CloseCommand { get; }
+        public ObservableCollection<TagDTO> AllTags { get; }
 
-        public Lazy<DelegateCommand> AddTagCommand { get; }
-
-        public ObservableCollection<TagDTO> MainIngredients { get; set; }
-        public ObservableCollection<TagDTO> DishTypes { get; set; }
-        public ObservableCollection<TagDTO> Occasions { get; set; }
-        public ObservableCollection<TagDTO> Sources { get; set; }
+        public IEnumerable<TagDTO> MainIngredients => AllTags.Where(x => x.Type == TagType.MainIngredient);
+        public IEnumerable<TagDTO> DishTypes => AllTags.Where(x => x.Type == TagType.DishType);
+        public IEnumerable<TagDTO> Occasions => AllTags.Where(x => x.Type == TagType.Occasion);
+        public IEnumerable<TagDTO> Sources => AllTags.Where(x => x.Type == TagType.Source);
 
     }
 }

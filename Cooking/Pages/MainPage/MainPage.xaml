@@ -1,19 +1,16 @@
 ﻿<UserControl x:Class="Cooking.Pages.MainPage.MainPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Cooking.Pages.MainPage"
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:model="clr-namespace:Data.Model;assembly=Data"
-             xmlns:converters="clr-namespace:Cooking.Converters"
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:controls="clr-namespace:Cooking.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:Cooking.Converters"
+             xmlns:local="clr-namespace:Cooking.Pages.MainPage"
              mc:Ignorable="d" 
              mahapps:DialogParticipation.Register="{Binding}"
-             IsVisibleChanged="UserControl_IsVisibleChanged"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" >
     <UserControl.DataContext>
         <local:MainPageViewModel />
     </UserControl.DataContext>
@@ -22,6 +19,12 @@
         <converters:IsNullToVisibilityConverter x:Key="isNullConverter" NullVisibility="Visible" NotNullVisibility="Collapsed" />
         <converters:IsNullToVisibilityConverter x:Key="isNotNullConverter" NullVisibility="Collapsed" NotNullVisibility="Visible" />
     </UserControl.Resources>
+    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -44,7 +47,7 @@
 
         <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" Visibility="{Binding CurrentWeek, Converter={StaticResource isNullConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" >
             <TextBlock Text="Для этой недели нет расписания" FontSize="25"/>
-            <Button Command="{Binding CreateNewWeekCommand.Value}" Content="Создать расписание на неделю" Width="200" Margin="0 20 0 0"/>
+            <Button Command="{Binding CreateNewWeekCommand}" Content="Создать расписание на неделю" Width="200" Margin="0 20 0 0"/>
         </StackPanel>
 
         <ScrollViewer Grid.Row="1" Grid.Column="1" Visibility="{Binding CurrentWeek, Converter={StaticResource isNotNullConverter}}" VerticalScrollBarVisibility="Auto" >
@@ -72,7 +75,7 @@
                 Width="48" 
                 Height="48"
                 Foreground="Teal"
-                Command="{Binding CreateShoppingListCommand.Value}" >
+                Command="{Binding CreateShoppingListCommand}" >
                 <icons:FontAwesome Width="20"
                                   Height="20"
                                   Kind="ShoppingCartSolid" />
@@ -94,7 +97,7 @@
                 Height="48"
                 Margin="10 0 0 0"
                 Foreground="Red"
-                Command="{Binding DeleteCommand.Value}">
+                Command="{Binding DeleteCommand}">
                 <icons:PackIconModern Width="20"
                                   Height="20"
                                   Kind="Delete" />
@@ -107,7 +110,7 @@
                 Height="48"
                 Foreground="Gray"
                 VerticalAlignment="Center"
-                Command="{Binding SelectPreviousWeekCommand.Value}" >
+                Command="{Binding SelectPreviousWeekCommand}" >
             <icons:FontAwesome Width="20"
                                   Height="20"
                                   Kind="ArrowLeftSolid" />
@@ -119,7 +122,7 @@
                 Height="48"
                 Foreground="Gray"
                 VerticalAlignment="Center"
-                Command="{Binding SelectNextWeekCommand.Value}" >
+                Command="{Binding SelectNextWeekCommand}" >
             <icons:FontAwesome Width="20"
                                   Height="20"
                                   Kind="ArrowRightSolid" />

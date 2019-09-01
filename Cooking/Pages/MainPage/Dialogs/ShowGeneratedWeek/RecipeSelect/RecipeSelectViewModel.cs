@@ -1,13 +1,11 @@
-﻿using AutoMapper;
-using Cooking.Commands;
+﻿using Cooking.Commands;
 using Cooking.DTO;
-using Cooking.Pages.MainPage.Dialogs.Model;
-using Data.Context;
-using Data.Model;
+using Cooking.Pages.MainPage.Dialogs;
 using MahApps.Metro.Controls.Dialogs;
-using Microsoft.EntityFrameworkCore;
+using Plafi;
+using ServiceLayer;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -15,35 +13,37 @@ using System.Windows.Data;
 
 namespace Cooking.Pages.Recepies
 {
-    public partial class RecipeSelectViewModel : INotifyPropertyChanged
+    public partial class RecipeSelectViewModel : OkCancelViewModel
     {
+        public RecipeSelectViewModel() : this(null)
+        {
+
+        }
+
+        public Guid SelectedRecipeID { get; private set; }
+
         public RecipeSelectViewModel(DayPlan day = null)
         {
-            Recipies = new Lazy<ObservableCollection<RecipeDTO>>(GetRecipies);
-            RecipiesSource = new CollectionViewSource() { Source = Recipies.Value };
-            RecipiesSource.Filter += RecipiesSource_Filter;
-            OkCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(() => {
-                    DialogResultOk = true;
-                    CloseCommand.Value.Execute();
-                }));
+            FilterContext = new FilterContext<RecipeMain>().AddFilter("#", HasIngredient)
+                                                           .AddFilter("$", HasTag);
 
-            CloseCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
-                    var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
-                    await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
-                }));
-            SelectRecipeCommand = new Lazy<DelegateCommand<RecipeDTO>>(
-                () => new DelegateCommand<RecipeDTO>(recipe => {
-                    foreach(var r in Recipies.Value.Where(x => x.IsSelected))
+            var dbRecipies = RecipeService.GetRecipies();
+
+            Recipies = dbRecipies.Select(x => MapperService.Mapper.Map<RecipeSelect>(x)).ToList();
+
+            RecipiesSource = new CollectionViewSource() { Source = Recipies };
+            RecipiesSource.Filter += RecipiesSource_Filter;
+
+            SelectRecipeCommand = new DelegateCommand<RecipeSelect>(recipe => {
+                    foreach(var r in Recipies.Where(x => x.IsSelected))
                     {
                         r.IsSelected = false;
                     }
 
                     recipe.IsSelected = true;
-                }));
+                });
 
-            ViewRecipeCommand = new Lazy<DelegateCommand<RecipeDTO>>(() => new DelegateCommand<RecipeDTO>(ViewRecipe));
+            ViewRecipeCommand = new DelegateCommand<RecipeMain>(ViewRecipe);
 
             if (day != null)
             {
@@ -85,17 +85,17 @@ namespace Cooking.Pages.Recepies
 
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)
         {
-            if (RecipeFilter == null)
+            if (FilterContext == null)
                 return;
 
-            if (e.Item is RecipeDTO recipe)
+            if (e.Item is RecipeMain recipe)
             {
-                e.Accepted = RecipeFilter.FilterRecipe(recipe);
+                e.Accepted = FilterContext.Filter(recipe);
             }
         }
 
         private string filterText;
-        private RecipeFilter RecipeFilter { get; set; }
+        private FilterContext<RecipeMain> FilterContext { get; set; }
         public string FilterText
         {
             get => filterText;
@@ -104,31 +104,44 @@ namespace Cooking.Pages.Recepies
                 if (filterText != value)
                 {
                     filterText = value;
-                    RecipeFilter = new RecipeFilter(value);
+                    FilterContext.BuildExpression(value);
                     RecipiesSource.View.Refresh();
                 }
             }
         }
-        
-        public async void ViewRecipe(RecipeDTO recipe)
-        {
-            using (var context = new CookingContext())
-            {
-                var existing = context.Recipies
-                                      .Where(x => x.ID == recipe.ID)
-                                      .Include(x => x.IngredientGroups)
-                                          .ThenInclude(x => x.Ingredients)
-                                              .ThenInclude(x => x.Ingredient)
-                                      .Include(x => x.Ingredients)
-                                          .ThenInclude(x => x.Ingredient)
-                                      .Include(x => x.Tags)
-                                          .ThenInclude(x => x.Tag)
-                                      .Single();
 
-                Mapper.Map(existing, recipe);
+        private bool HasTag(RecipeMain recipe, string category)
+        {
+            return recipe.Tags != null && recipe.Tags.Any(x => x.Name.ToUpperInvariant() == category.ToUpperInvariant());
+        }
+
+        private bool HasIngredient(RecipeMain recipe, string category)
+        {
+            // Ищем среди ингредиентов
+            if (recipe.Ingredients != null
+                && recipe.Ingredients.Any(x => x.Ingredient.Name.ToUpperInvariant() == category.ToUpperInvariant()))
+            {
+                return true;
             }
 
-            var viewModel = new RecipeViewModel(recipe);
+            // Ищем среди групп ингредиентов
+            if (recipe.IngredientGroups != null)
+            {
+                foreach (var group in recipe.IngredientGroups)
+                {
+                    if (group.Ingredients.Any(x => x.Ingredient.Name.ToUpperInvariant() == category.ToUpperInvariant()))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public async void ViewRecipe(RecipeMain recipe)
+        {
+            var viewModel = new RecipeViewModel(recipe.ID);
 
             var dialog = new CustomDialog()
             {
@@ -142,43 +155,11 @@ namespace Cooking.Pages.Recepies
             await dialog.WaitUntilUnloadedAsync();
         }
 
+        public List<RecipeSelect> Recipies;
+
         public CollectionViewSource RecipiesSource { get; }
 
-        public Lazy<ObservableCollection<RecipeDTO>> Recipies { get; }
-        private ObservableCollection<RecipeDTO> GetRecipies()
-        {
-            try
-            {
-                using (var Context = new CookingContext())
-                {
-                    var originalList = Context.Recipies
-                                              .Include(x => x.Ingredients)
-                                                  .ThenInclude(x => x.Ingredient)
-                                              .Include(x => x.Tags)
-                                                  .ThenInclude(x => x.Tag)
-                                              .ToList();
-
-                    return new ObservableCollection<RecipeDTO>(
-                        originalList.OrderBy(x => x.Name).Select(x =>
-                        {
-                            var dto = Mapper.Map<RecipeDTO>(x);
-                            return dto;
-                        })
-                    );
-                }
-            }
-            catch
-            {
-                return new ObservableCollection<RecipeDTO>();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        
-        public Lazy<DelegateCommand<RecipeDTO>> SelectRecipeCommand { get; }
-        public Lazy<DelegateCommand<RecipeDTO>> ViewRecipeCommand { get; }
-        public Lazy<DelegateCommand> OkCommand { get; }
-        public Lazy<DelegateCommand> CloseCommand { get; }
-        public bool DialogResultOk { get; private set; }
+        public DelegateCommand<RecipeSelect> SelectRecipeCommand { get; }
+        public DelegateCommand<RecipeMain> ViewRecipeCommand { get; }
     }
 }

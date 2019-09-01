@@ -14,7 +14,7 @@
              Margin="-100 0"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding CloseCommand.Value}" />
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </UserControl.InputBindings>
 
     <UserControl.Resources>
@@ -87,7 +87,7 @@
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseUp">
                                                 <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
-                                                                            Path=DataContext.ShowRecipe.Value}"
+                                                                            Path=DataContext.ShowRecipe}"
                                                                        CommandParameter="{Binding}"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
@@ -143,7 +143,7 @@
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseUp">
                                                 <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
-                                                                            Path=DataContext.ShowRecipe.Value}"
+                                                                            Path=DataContext.ShowRecipe}"
                                                                        CommandParameter="{Binding}"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
@@ -218,7 +218,7 @@
                     Width="48" 
                     Height="48"
                     Foreground="White"
-                    Command="{Binding ReturnCommand.Value}">
+                    Command="{Binding ReturnCommand}">
                 <icons:Octicons Width="20"
                                       Height="20"
                                       Kind="Reply" />
@@ -228,7 +228,7 @@
                     Height="48"
                     Margin="10 0 0 0"
                     Foreground="Green"
-                    Command="{Binding OkCommand.Value}">
+                    Command="{Binding OkCommand}">
                 <icons:PackIconModern Width="20"
                                       Height="20"
                                       Kind="Check" />
@@ -238,7 +238,7 @@
                     Height="48"
                     Margin="10 0 0 0"
                     Foreground="Red"
-                    Command="{Binding CloseCommand.Value}">
+                    Command="{Binding CloseCommand}">
                 <icons:PackIconModern Width="20"
                                           Height="20"
                                           Kind="Close" />

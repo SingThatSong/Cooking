@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ServiceLayer;
 
 namespace WebApplication1
 {
@@ -13,6 +14,7 @@ namespace WebApplication1
     {
         public Startup(IConfiguration configuration)
         {
+            DatabaseService.DbFileName = @"C:\Cooking\publish\cooking.db";
             Configuration = configuration;
         }
 

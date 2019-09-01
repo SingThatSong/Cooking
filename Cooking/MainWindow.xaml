@@ -135,8 +135,11 @@
             </Style>
         </ResourceDictionary>
     </mahapps:MetroWindow.Resources>
-    
-    
+
+    <mahapps:MetroWindow.WindowButtonCommands>
+        <mahapps:WindowButtonCommands Style="{DynamicResource MahApps.Metro.Styles.WindowButtonCommands.Win10}" />
+    </mahapps:MetroWindow.WindowButtonCommands>
+
     <mahapps:HamburgerMenu x:Name="HamburgerMenuControl"
                            HamburgerWidth="48"
                            OpenPaneLength="150"
@@ -150,8 +153,6 @@
                            ItemsSource="{Binding MenuItems}" 
                            SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
                            Content="{Binding SelectedMenuItem, Mode=TwoWay}">
-
-
         <mahapps:HamburgerMenu.ContentTemplate>
             <DataTemplate DataType="{x:Type mahapps:HamburgerMenuIconItem}">
                 <ContentControl Content="{Binding Tag}" Focusable="True" />

@@ -1,6 +1,7 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Helpers;
+using Cooking.Pages.Recepies;
 using Data.Context;
 using MahApps.Metro.Controls.Dialogs;
 using PropertyChanged;
@@ -11,54 +12,46 @@ using System.Linq;
 
 namespace Cooking.Pages.Garnishes
 {
-    public partial class GarnishEditViewModel : INotifyPropertyChanged
+    public partial class GarnishEditViewModel : OkCancelViewModel
     {
-        public bool DialogResultOk { get; set; }
         private bool NameChanged { get; set; }
 
-        public GarnishEditViewModel(GarnishDTO category = null)
+        public GarnishEditViewModel(GarnishMain category = null)
         {
-            OkCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
-                    if (NameChanged)
-                    {
-                        if (AllGarnishNames.Any(x => GarnishCompare(Garnish.Name, x) == 0))
-                        {
-                            var result = await DialogCoordinator.Instance.ShowMessageAsync(
-                                                this, 
-                                                "Такой гарнир уже существует", 
-                                                "Всё равно сохранить?", 
-                                                MessageDialogStyle.AffirmativeAndNegative, 
-                                                new MetroDialogSettings() {
-                                                    AffirmativeButtonText = "Да",
-                                                    NegativeButtonText = "Нет"
-                                                });
-
-                            if (result == MessageDialogResult.Negative)
-                            {
-                                return;
-                            }
-                        }
-                    }
-
-                    DialogResultOk = true;
-                    CloseCommand.Value.Execute();
-                }));
-
-            CloseCommand = new Lazy<DelegateCommand>(
-                () => new DelegateCommand(async () => {
-                    Garnish.PropertyChanged -= Garnish_PropertyChanged;
-                    var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
-                    await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
-                }));
-
-            Garnish = category ?? new GarnishDTO();
+            Garnish = category ?? new GarnishMain();
             using (var context = new CookingContext())
             {
                 AllGarnishNames = context.Garnishes.AsQueryable().Select(x => x.Name).ToList();
             }
 
             Garnish.PropertyChanged += Garnish_PropertyChanged;
+        }
+
+        protected override async void Ok()
+        {
+            if (NameChanged)
+            {
+                if (AllGarnishNames.Any(x => GarnishCompare(Garnish.Name, x) == 0))
+                {
+                    var result = await DialogCoordinator.Instance.ShowMessageAsync(
+                                        this,
+                                        "Такой гарнир уже существует",
+                                        "Всё равно сохранить?",
+                                        MessageDialogStyle.AffirmativeAndNegative,
+                                        new MetroDialogSettings()
+                                        {
+                                            AffirmativeButtonText = "Да",
+                                            NegativeButtonText = "Нет"
+                                        });
+
+                    if (result == MessageDialogResult.Negative)
+                    {
+                        return;
+                    }
+                }
+            }
+
+            base.Ok();
         }
 
         private void Garnish_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -72,10 +65,7 @@ namespace Cooking.Pages.Garnishes
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Lazy<DelegateCommand> OkCommand { get; }
-        public Lazy<DelegateCommand> CloseCommand { get; }
-
-        public GarnishDTO Garnish { get; set; }
+        public GarnishMain Garnish { get; set; }
         private List<string> AllGarnishNames { get; set; }
 
         public IEnumerable<string> SimilarGarnishes => string.IsNullOrWhiteSpace(Garnish?.Name)

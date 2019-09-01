@@ -17,7 +17,7 @@ namespace Cooking.Pages.Ingredients
         public bool DialogResultOk { get; set; }
         private bool NameChanged { get; set; }
 
-        public IngredientEditViewModel(IngredientDTO category = null)
+        public IngredientEditViewModel(IngredientMain category = null)
         {
             OkCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(async () => {
@@ -53,7 +53,7 @@ namespace Cooking.Pages.Ingredients
                     await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
                 }));
 
-            Ingredient = category ?? new IngredientDTO();
+            Ingredient = category ?? new IngredientMain();
             using (var context = new CookingContext())
             {
                 AllIngredientNames = context.Ingredients.AsQueryable().Select(x => x.Name).ToList();
@@ -90,6 +90,6 @@ namespace Cooking.Pages.Ingredients
                         string.Join(" ", str2.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name))
                 );
 
-        public IngredientDTO Ingredient { get; set; }
+        public IngredientMain Ingredient { get; set; }
     }
 }
