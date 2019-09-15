@@ -172,11 +172,11 @@
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Сложность" FontSize="15" />
-                            <controls:RatingsFive RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" Margin="0 10 0 0" IsEnabled="False" />
+                            <controls:Ratings RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" Margin="0 10 0 0" MaxRating="5"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Margin="30 0 0 0">
                             <TextBlock Text="Рейтинг" FontSize="15" />
-                            <controls:Ratings RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" Margin="0 10 0 0" IsEnabled="False" />
+                            <controls:Ratings RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" Margin="0 10 0 0" MaxRating="10" />
                         </StackPanel>
                     </StackPanel>
 

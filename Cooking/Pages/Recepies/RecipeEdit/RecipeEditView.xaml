@@ -76,11 +76,11 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Сложность" FontSize="15" />
-                        <controls:RatingsFive RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
+                        <controls:Ratings RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" MaxRating="5" />
                     </StackPanel>
                     <StackPanel Orientation="Vertical" Grid.Column="1">
                         <TextBlock Text="Рейтинг" FontSize="15" />
-                        <controls:Ratings RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
+                        <controls:Ratings RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" MaxRating="10" />
                     </StackPanel>
                 </Grid>
 

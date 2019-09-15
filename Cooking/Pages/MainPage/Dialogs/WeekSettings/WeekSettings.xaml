@@ -164,7 +164,7 @@
                 <DataGridTemplateColumn Header="Макс сложность" Width="1.2*" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <controls:RatingsFive RatingValue="{Binding MaxComplexity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <controls:Ratings RatingValue="{Binding MaxComplexity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxRating="5"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -172,7 +172,7 @@
                 <DataGridTemplateColumn Header="Мин рейтинг" Width="*" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <controls:Ratings RatingValue="{Binding MinRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <controls:Ratings RatingValue="{Binding MinRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxRating="10" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
