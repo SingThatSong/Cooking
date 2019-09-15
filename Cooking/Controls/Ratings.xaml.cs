@@ -22,14 +22,16 @@ namespace Cooking.Controls
         [DependencyProperty] public double HeightStep { get; set; }
         [DependencyProperty] public List<int> RatingsInternal { get; set; }
         [DependencyProperty] public int? IntegerValue { get; set; }
-        [DependencyProperty] public int? RatingValue { get; set; }
         [DependencyProperty] public int? RatingValuePreview { get; set; }
 
 
         [DependencyProperty(OnPropertyChanged = nameof(OnRatingChanged))]
+        public int? RatingValue { get; set; }
+
+        [DependencyProperty(OnPropertyChanged = nameof(OnMaxRatingChanged))]
         public int? MaxRating { get; set; }
 
-        private static void OnRatingChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        private static void OnMaxRatingChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             if (dependencyPropertyChangedEventArgs.OldValue == null)
             {
@@ -37,6 +39,15 @@ namespace Cooking.Controls
                 obj.RatingsInternal = Enumerable.Range(1, (int)dependencyPropertyChangedEventArgs.NewValue).ToList();
                 var height = obj.GetValue(HeightProperty);
                 obj.HeightStep = (double)height / obj.RatingsInternal.Count;
+            }
+        }
+
+        private static void OnRatingChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            if (dependencyPropertyChangedEventArgs.OldValue == null)
+            {
+                var obj = dependencyObject as Ratings;
+                obj.IntegerValue = (int?)dependencyPropertyChangedEventArgs.NewValue;
             }
         }
 

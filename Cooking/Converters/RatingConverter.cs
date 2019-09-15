@@ -15,28 +15,20 @@ namespace Cooking.Converters
         {
             if (values.Length != 3) return null;
 
-            parameter = values[0];
-            if (values[2] == null)
+            var valueIndex = (int)values[0];
+            var rating = (int?)values[1];
+            var ratingPreview = (int?)values[2];
+
+            if (ratingPreview == null)
             {
-                if (double.TryParse(values[1]?.ToString(), out double rating) && double.TryParse(parameter.ToString(), out double number))
+                if (rating >= valueIndex)
                 {
-                    if (rating >= number)
-                    {
-                        return OnBrush;
-                    }
-                    return OffBrush;
+                    return OnBrush;
                 }
             }
-            else
+            else if (ratingPreview >= valueIndex)
             {
-                if (double.TryParse(parameter.ToString(), out double number))
-                {
-                    if ((int?)values[2] >= number)
-                    {
-                        return PreviewBrush;
-                    }
-                    return OffBrush;
-                }
+                return PreviewBrush;
             }
 
             return OffBrush;
