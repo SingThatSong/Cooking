@@ -49,7 +49,7 @@
                         </Border>
                             <Button Margin="10 0 0 0"
                                       Visibility="{Binding ElementName=TagsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
-                                        Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                        Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                                         Width="36" 
                                         Height="36"
                                         Command="{Binding ElementName=TagsList, Path=DataContext.EditTagCommand.Value}"
@@ -61,7 +61,7 @@
                             <Button Margin="5 0 0 0"
                                     Visibility="{Binding ElementName=TagsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
                                         Grid.Column="4" 
-                                        Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                        Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                                         Width="36" 
                                         Height="36"
                                         Command="{Binding ElementName=TagsList, Path=DataContext.DeleteTagCommand.Value}"
@@ -83,7 +83,7 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
             <ToggleButton 
-                      Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                      Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" 
                       Width="48" 
                       Height="48"
                       IsChecked="{Binding IsEditing}"
@@ -93,7 +93,7 @@
                                   Height="20"
                                   Kind="Edit" />
             </ToggleButton>
-            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+            <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                     Width="48" 
                     Height="48"
                     Command="{Binding AddTagCommand.Value}"

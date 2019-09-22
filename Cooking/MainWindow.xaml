@@ -34,7 +34,7 @@
             <materialDesignConverters:BrushRoundConverter x:Key="BrushRoundConverter" />
 
             <Style x:Key="HamburgerMenuCreatorsItemStyle"
-                   BasedOn="{StaticResource HamburgerMenuItemStyle}"
+                   BasedOn="{StaticResource MahApps.Styles.ListBoxItem.HamburgerMenuItem}"
                    TargetType="{x:Type ListBoxItem}">
                 <Setter Property="mahapps:ItemHelper.ActiveSelectionBackgroundBrush" Value="Transparent" />
                 <Setter Property="mahapps:ItemHelper.ActiveSelectionForegroundBrush" Value="{DynamicResource AccentBaseColorBrush}" />
@@ -137,7 +137,7 @@
     </mahapps:MetroWindow.Resources>
 
     <mahapps:MetroWindow.WindowButtonCommands>
-        <mahapps:WindowButtonCommands Style="{DynamicResource MahApps.Metro.Styles.WindowButtonCommands.Win10}" />
+        <mahapps:WindowButtonCommands Style="{DynamicResource MahApps.Styles.WindowButtonCommands.Win10}" />
     </mahapps:MetroWindow.WindowButtonCommands>
 
     <mahapps:HamburgerMenu x:Name="HamburgerMenuControl"

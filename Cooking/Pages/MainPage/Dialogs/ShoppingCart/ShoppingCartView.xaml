@@ -71,7 +71,7 @@
         </ItemsControl>
 
         <StackPanel Margin="20" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
-            <!--<Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+            <!--<Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                     Width="48" 
                     Height="48"
                     Foreground="#FF2EBE60"
@@ -80,7 +80,7 @@
                                           Height="20"
                                           Kind="SocialEvernote" />
             </Button>-->
-            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+            <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                     Width="48" 
                     Height="48"
                     Foreground="Red"

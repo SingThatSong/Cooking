@@ -4,7 +4,6 @@ using PropertyChanged;
 
 namespace Cooking.Pages.Recepies
 {
-    [AddINotifyPropertyChangedInterface]
     public partial class OkCancelViewModel : DialogViewModel
     {
         public bool DialogResultOk { get; private set; }

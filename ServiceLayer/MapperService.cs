@@ -7,12 +7,13 @@ using ServiceLayer.DTO.MainPage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace ServiceLayer
 {
     internal static class MapperService
     {
-        private static Lazy<IMapper> mapper = new Lazy<IMapper>(CreateMapper);
+        private static readonly Lazy<IMapper> mapper = new Lazy<IMapper>(CreateMapper);
 
         public static IMapper Mapper => mapper.Value;
 
@@ -21,6 +22,9 @@ namespace ServiceLayer
             return new MapperConfiguration(cfg =>
             {
                 cfg.AllowNullDestinationValues = true;
+                cfg.AllowNullCollections = null;
+
+                cfg.AddMaps(Assembly.GetEntryAssembly());
 
                 cfg.CreateMap<Tag, TagSearch>();
 
@@ -36,6 +40,9 @@ namespace ServiceLayer
                 cfg.CreateMap<Tag, TagData>();
 
                 cfg.CreateMap<Ingredient, IngredientData>();
+
+                cfg.CreateMap<Garnish, GarnishDTO>();
+                cfg.CreateMap<Garnish, Garnish>();
 
                 //cfg.CreateMap<IngredientDTO, IngredientDTO>();
 
@@ -55,7 +62,6 @@ namespace ServiceLayer
                 //    .ReverseMap();
                 //cfg.CreateMap<DayDTO, Day>().ReverseMap();
                 //cfg.CreateMap<Week, WeekAllData>().ReverseMap();
-                //cfg.CreateMap<Garnish, GarnishDTO>().ReverseMap();
 
                 //cfg.CreateMap<RecipeDTO, Recipe>()
                 //    .ForMember(x => x.IngredientGroups, op => op.Ignore())

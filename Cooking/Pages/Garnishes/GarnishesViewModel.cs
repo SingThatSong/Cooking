@@ -1,57 +1,46 @@
-﻿using AutoMapper;
-using Cooking.Commands;
+﻿using Cooking.Commands;
 using Cooking.DTO;
-using Cooking.Pages.Recepies;
-using Data.Context;
-using Data.Model;
 using Data.Model.Plan;
-using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using PropertyChanged;
+using ServiceLayer;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows;
 
 namespace Cooking.Pages.Garnishes
 {
-    public partial class GarnishesViewModel : INotifyPropertyChanged
+    [AddINotifyPropertyChangedInterface]
+    public partial class GarnishesViewModel
     {
+        public ObservableCollection<GarnishDTO> Garnishes { get; }
+        public bool IsEditing { get; set; }
+
+        public DelegateCommand AddGarnishCommand { get; }
+        public DelegateCommand<GarnishDTO> EditGarnishCommand { get; }
+        public DelegateCommand<GarnishDTO> DeleteGarnishCommand { get; }
+
         public GarnishesViewModel()
         {
-            Garnishes = new Lazy<ObservableCollection<GarnishMain>>(GetGarnishes);
-            AddGarnishCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddGarnish));
-            DeleteGarnishCommand = new Lazy<DelegateCommand<GarnishMain>>(() => new DelegateCommand<GarnishMain>(cat => DeleteGarnish(cat.ID)));
+            Garnishes = GarnishService.GetGarnishes<ServiceLayer.GarnishDTO>()
+                                      .MapTo<ObservableCollection<GarnishDTO>>();
 
-            EditGarnishCommand = new Lazy<DelegateCommand<GarnishMain>>(
-                () => new DelegateCommand<GarnishMain>(async (tag) => {
+            AddGarnishCommand = new DelegateCommand(AddGarnish);
+            DeleteGarnishCommand = new DelegateCommand<GarnishDTO>(cat => DeleteGarnish(cat.ID));
+            EditGarnishCommand = new DelegateCommand<GarnishDTO>(EditGarnish);
+        }
 
-                    var viewModel = new GarnishEditViewModel(Mapper.Map<GarnishMain>(tag));
+        private async void EditGarnish(GarnishDTO garnish)
+        {
+            var viewModel = new GarnishEditViewModel(garnish.MapTo<GarnishDTO>());
+            await new DialogUtils(this).ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Редактирование гарнира", viewModel);
 
-                    var dialog = new CustomDialog()
-                    {
-                        Title = "Редактирование гарнира",
-                        Content = new GarnishEditView()
-                        {
-                            DataContext = viewModel
-                        }
-                    };
-                    await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
-                    await dialog.WaitUntilUnloadedAsync();
-
-                    if (viewModel.DialogResultOk)
-                    {
-                        using (var context = new CookingContext())
-                        {
-                            var existing = context.Garnishes.Find(tag.ID);
-                            Mapper.Map(viewModel.Garnish, existing);
-                            context.SaveChanges();
-                        }
-
-                        var existingRecipe = Garnishes.Value.Single(x => x.ID == tag.ID);
-                        Mapper.Map(viewModel.Garnish, existingRecipe);
-                    }
-                }));
+            if (viewModel.DialogResultOk)
+            {
+                await GarnishService.UpdateGarnishAsync(viewModel.Garnish.MapTo<Garnish>());
+                var existingRecipe = Garnishes.Single(x => x.ID == garnish.ID);
+                viewModel.Garnish.MapTo(existingRecipe);
+            }
         }
 
         public async void DeleteGarnish(Guid recipeId)
@@ -69,71 +58,21 @@ namespace Cooking.Pages.Garnishes
 
             if (result == MessageDialogResult.Affirmative)
             {
-                using (var context = new CookingContext())
-                {
-                    var category = await context.Garnishes.FindAsync(recipeId);
-                    context.Garnishes.Remove(category);
-                    context.SaveChanges();
-                }
-
-                Garnishes.Value.Remove(Garnishes.Value.Single(x => x.ID == recipeId));
+                await GarnishService.DeleteGarnishAsync(recipeId);
+                Garnishes.Remove(Garnishes.Single(x => x.ID == recipeId));
             }
         }
 
         public async void AddGarnish()
         {
-            var viewModel = new GarnishEditViewModel();
-
-            var dialog = new CustomDialog()
-            {
-                Title = "Новый гарнир",
-                Content = new GarnishEditView()
-                {
-                    DataContext = viewModel
-                }
-            };
-
-            await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
-            await dialog.WaitUntilUnloadedAsync();
+            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Новый гарнир");
 
             if (viewModel.DialogResultOk)
             {
-                var category = Mapper.Map<Garnish>(viewModel.Garnish);
-                using (var context = new CookingContext())
-                {
-                    context.Add(category);
-                    context.SaveChanges();
-                }
-                viewModel.Garnish.ID = category.ID;
-                Garnishes.Value.Add(viewModel.Garnish);
+                var id = await GarnishService.CreateGarnishAsync(viewModel.Garnish.MapTo<Garnish>());
+                viewModel.Garnish.ID = id;
+                Garnishes.Add(viewModel.Garnish);
             }
         }
-
-        public Lazy<ObservableCollection<GarnishMain>> Garnishes { get; }
-        private ObservableCollection<GarnishMain> GetGarnishes()
-        {
-            try
-            {
-                using (var context = new CookingContext())
-                {
-                    var originalList = context.Garnishes.ToList();
-                    return new ObservableCollection<GarnishMain>(
-                        originalList.Select(x => Mapper.Map<GarnishMain>(x))
-                    );
-                }
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        
-        public Lazy<DelegateCommand> AddGarnishCommand { get; }
-        public Lazy<DelegateCommand<GarnishMain>> EditGarnishCommand { get; }
-        public Lazy<DelegateCommand<GarnishMain>> DeleteGarnishCommand { get; }
-
-        public bool IsEditing { get; set; }
     }
 }

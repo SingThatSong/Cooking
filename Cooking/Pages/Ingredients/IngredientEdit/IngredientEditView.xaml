@@ -42,7 +42,7 @@
         <ItemsControl ItemsSource="{Binding SimilarIngredients}" Margin="10 10 0 0" Grid.Column="1"></ItemsControl>
 
         <StackPanel Margin="0 20 0 0" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Grid.ColumnSpan="2">
-            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+            <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                     Width="48" 
                     Height="48"
                     Foreground="Green"
@@ -51,7 +51,7 @@
                                       Height="20"
                                       Kind="Check" />
             </Button>
-            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+            <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                     Width="48" 
                     Height="48"
                     Margin="10 0 0 0"

@@ -5,6 +5,7 @@ using Cooking.Pages.Recepies;
 using Data.Context;
 using MahApps.Metro.Controls.Dialogs;
 using PropertyChanged;
+using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,26 +13,29 @@ using System.Linq;
 
 namespace Cooking.Pages.Garnishes
 {
-    public partial class GarnishEditViewModel : OkCancelViewModel
+    public partial class GarnishEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {
         private bool NameChanged { get; set; }
 
-        public GarnishEditViewModel(GarnishMain category = null)
+        public GarnishEditViewModel() : this(null)
         {
-            Garnish = category ?? new GarnishMain();
-            using (var context = new CookingContext())
-            {
-                AllGarnishNames = context.Garnishes.AsQueryable().Select(x => x.Name).ToList();
-            }
 
+        }
+
+        public GarnishEditViewModel(GarnishDTO category)
+        {
+            Garnish = category ?? new GarnishDTO();
+            AllGarnishNames = GarnishService.GetSearchNames();
             Garnish.PropertyChanged += Garnish_PropertyChanged;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         protected override async void Ok()
         {
             if (NameChanged)
             {
-                if (AllGarnishNames.Any(x => GarnishCompare(Garnish.Name, x) == 0))
+                if (AllGarnishNames.Contains(Garnish.Name))
                 {
                     var result = await DialogCoordinator.Instance.ShowMessageAsync(
                                         this,
@@ -63,9 +67,7 @@ namespace Cooking.Pages.Garnishes
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public GarnishMain Garnish { get; set; }
+        public GarnishDTO Garnish { get; set; }
         private List<string> AllGarnishNames { get; set; }
 
         public IEnumerable<string> SimilarGarnishes => string.IsNullOrWhiteSpace(Garnish?.Name)

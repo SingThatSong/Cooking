@@ -18,7 +18,7 @@
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
-        <CollectionViewSource x:Key="tags" Source="{Binding Garnishes.Value}">
+        <CollectionViewSource x:Key="tags" Source="{Binding Garnishes}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Type"/>
                 <scm:SortDescription PropertyName="Name"/>
@@ -26,7 +26,7 @@
         </CollectionViewSource>
     </UserControl.Resources>
     
-    <Grid Margin="20">
+    <Grid Margin="20" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="50" />
@@ -34,19 +34,19 @@
         <ItemsControl ItemsSource="{Binding Source={StaticResource tags}}" Name="GarnishesList">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                    <StackPanel Orientation="Horizontal" >
-                            <Border Margin="5" Padding="5 0" BorderThickness="0"
+                        <StackPanel Orientation="Horizontal">
+                            <Border Margin="5" Padding="5 0" BorderThickness="0"  Width="350"
                                            Background="{Binding Color}" CornerRadius="3">
-                                <TextBlock Text="{Binding Name}" FontSize="20" 
+                                <TextBlock Text="{Binding Name}" FontSize="20" TextWrapping="Wrap"
                                            VerticalAlignment="Center"
                                            mahapps:ControlsHelper.CornerRadius="5" />
-                        </Border>
+                            </Border>
                             <Button Margin="10 0 0 0"
                                       Visibility="{Binding ElementName=GarnishesList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
-                                        Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                        Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                                         Width="36" 
                                         Height="36"
-                                        Command="{Binding ElementName=GarnishesList, Path=DataContext.EditGarnishCommand.Value}"
+                                        Command="{Binding ElementName=GarnishesList, Path=DataContext.EditGarnishCommand}"
                                         CommandParameter="{Binding}">
                                     <icons:PackIconModern Width="15"
                                                           Height="15"
@@ -55,16 +55,15 @@
                             <Button Margin="5 0 0 0"
                                     Visibility="{Binding ElementName=GarnishesList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
                                         Grid.Column="4" 
-                                        Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                        Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                                         Width="36" 
                                         Height="36"
-                                        Command="{Binding ElementName=GarnishesList, Path=DataContext.DeleteGarnishCommand.Value}"
+                                        Command="{Binding ElementName=GarnishesList, Path=DataContext.DeleteGarnishCommand}"
                                         CommandParameter="{Binding}">
                                         <icons:PackIconModern Width="15"
                                                           Height="15"
                                                           Kind="Delete" />
                                  </Button>
-
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -77,7 +76,7 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
             <ToggleButton 
-                      Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+                      Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" 
                       Width="48" 
                       Height="48"
                       IsChecked="{Binding IsEditing}"
@@ -87,10 +86,10 @@
                                   Height="20"
                                   Kind="Edit" />
             </ToggleButton>
-            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+            <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                     Width="48" 
                     Height="48"
-                    Command="{Binding AddGarnishCommand.Value}"
+                    Command="{Binding AddGarnishCommand}"
                     Margin="10 0 0 0" >
                 <icons:PackIconModern Width="20"
                                       Height="20"

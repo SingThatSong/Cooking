@@ -20,7 +20,7 @@ namespace Cooking.Pages.Recepies
 
         }
 
-        public Guid SelectedRecipeID { get; private set; }
+        public Guid SelectedRecipeID { get; set; }
 
         public RecipeSelectViewModel(DayPlan day = null)
         {
@@ -41,6 +41,7 @@ namespace Cooking.Pages.Recepies
                     }
 
                     recipe.IsSelected = true;
+                    SelectedRecipeID = recipe.ID;
                 });
 
             ViewRecipeCommand = new DelegateCommand<RecipeMain>(ViewRecipe);

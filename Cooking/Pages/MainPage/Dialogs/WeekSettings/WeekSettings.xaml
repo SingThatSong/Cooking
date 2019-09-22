@@ -50,7 +50,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                                         Width="24" 
                                         Height="24"
                                         Margin="5 0 0 0"
@@ -83,7 +83,7 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                                         Width="24" 
                                         Height="24"
                                         Margin="5 0 0 0"
@@ -143,7 +143,7 @@
                                         </ItemsPanelTemplate>
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
-                                <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                                <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                                         Width="24" 
                                         Height="24"
                                         Margin="5 0 0 0"
@@ -189,7 +189,7 @@
 
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
-            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+            <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                     Width="48" 
                     Height="48"
                     Foreground="Green"
@@ -198,7 +198,7 @@
                                       Height="20"
                                       Kind="Check" />
             </Button>
-            <Button Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+            <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                     Width="48" 
                     Height="48"
                     Margin="10 0 0 0"

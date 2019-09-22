@@ -2,7 +2,7 @@
 
 namespace ServiceLayer
 {
-    public class IngredientItem
+    public sealed class IngredientItem
     {
         public string Name { get; set; }
 

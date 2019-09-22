@@ -2,15 +2,20 @@
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
-using System.Windows.Media;
 
 namespace Cooking.Converters
 {
+    /// <summary>
+    /// Converter which returns multiplication of its parameters. All of the parameters must be convertable to double (e.g. int, double, float, etc.)
+    /// </summary>
     public class MultiplyConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            double result = System.Convert.ToDouble(values[0]);
+            if (values == null || values.Length == 0) 
+                return Binding.DoNothing;
+
+            var result = System.Convert.ToDouble(values[0]);
 
             foreach (var val in values.Skip(1))
             {

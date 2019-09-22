@@ -9,6 +9,9 @@ namespace Cooking.Helpers
 {
     public static class EnumExtensions
     {
+        /// <summary>
+        /// Get DescriptionAttribute from enum
+        /// </summary>
         public static string Description(this Enum value)
         {
             var enumType = value.GetType();
@@ -25,13 +28,16 @@ namespace Cooking.Helpers
                 : ((DescriptionAttribute)attributes[0]).Description;
         }
 
+        /// <summary>
+        /// Get Enum value from Description
+        /// </summary>
         public static Enum Enum(this Type type, string description)
         {
             var values = System.Enum.GetValues(type);
 
             foreach (var value in values)
             {
-                if(description == Description((Enum)value))
+                if (description == Description((Enum)value))
                 {
                     return (Enum)value;
                 }

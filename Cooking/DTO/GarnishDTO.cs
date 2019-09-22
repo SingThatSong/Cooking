@@ -1,12 +1,12 @@
-﻿using Cooking.ServiceLayer;
+﻿using Data.Model;
 using PropertyChanged;
 using System.ComponentModel;
 
 namespace Cooking.DTO
 {
-    [AddINotifyPropertyChangedInterface]
-    public class GarnishMain : GarnishDTO, INotifyPropertyChanged
+    public class GarnishDTO : Entity, INotifyPropertyChanged
     {
+        public string Name { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

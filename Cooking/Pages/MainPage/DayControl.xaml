@@ -89,7 +89,7 @@
                     </Style>
                 </Ellipse.Style>
             </Ellipse>
-            <ToggleButton Style="{DynamicResource MahApps.Metro.Styles.MetroCircleToggleButtonStyle}" 
+            <ToggleButton Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" 
                           Width="24" 
                           Height="24"
                           Margin="5 5 0 0"
@@ -149,7 +149,7 @@
                     </Style>
                 </StackPanel.Style>
                 <Button 
-                    Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                    Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                     Width="24" 
                     Height="24"
                     Foreground="LightGray"
@@ -161,7 +161,7 @@
                                   Kind="DrawPen" />
                 </Button>
                 <Button 
-                    Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}" 
+                    Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                     Width="24" 
                     Height="24"
                     Margin="5 0 0 0"

@@ -50,7 +50,7 @@ namespace Cooking
             where TDialog : UserControl, new()
             where TDialogContent : class, new()
         {
-            content = content ?? new TDialogContent();
+            content ??= new TDialogContent();
 
             CustomDialog dialog = new CustomDialog()
             {

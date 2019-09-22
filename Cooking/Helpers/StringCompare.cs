@@ -18,7 +18,7 @@ namespace Cooking.Helpers
             int m = str1.Length, n = str2.Length;
             int[,] E = new int[m + 1, n + 1];
 
-            Func<int, int, int> diff = (x, y) => str1[x] == str2[y] ? 0 : 1;
+            int diff(int x, int y) => str1[x] == str2[y] ? 0 : 1;
 
             for (int i = 0; i < m + 1; i++)
                 E[i, 0] = i;

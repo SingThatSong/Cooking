@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ServiceLayer
 {
-    public class DatabaseService
+    public sealed class DatabaseService
     {
         public static string DbFileName { get; set; } = "cooking.db";
 

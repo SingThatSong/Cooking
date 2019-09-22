@@ -7,6 +7,7 @@ using System.Windows.Data;
 
 namespace Cooking.Converters
 {
+    /// Converter for displaying <see cref="System.ComponentModel.DescriptionAttribute"/> values from enums
     public class EnumToDescriptionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

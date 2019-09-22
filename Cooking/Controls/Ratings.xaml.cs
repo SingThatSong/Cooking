@@ -4,14 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace Cooking.Controls
 {
     /// <summary>
-    /// Логика взаимодействия для Ratings.xaml
+    /// Ratings control
     /// </summary>
-    
     public partial class Ratings : UserControl
     {
         public Ratings()
@@ -19,20 +17,59 @@ namespace Cooking.Controls
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Internal value for determining column height, which is HeightStep * ColumnValue
+        /// </summary>
         [DependencyProperty] public double HeightStep { get; set; }
+
+        /// <summary>
+        /// Internal representation of ratings. List of all possible rating values, based on MaxRating
+        /// </summary>
         [DependencyProperty] public List<int> RatingsInternal { get; set; }
+
+        /// <summary>
+        /// Integer value of rating for visual representation. Equals to RatingValue when idle or RatingValuePreview when MouseOver
+        /// </summary>
         [DependencyProperty] public int? IntegerValue { get; set; }
-        [DependencyProperty] public int? RatingValuePreview { get; set; }
 
+        /// <summary>
+        /// RatingValue which is underneath mouse when MouseOver
+        /// </summary>
+        [DependencyProperty(OnPropertyChanged = nameof(OnRatingPreviewChanged))]
+        public int? RatingValuePreview { get; set; }
+        private static void OnRatingPreviewChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var obj = dependencyObject as Ratings;
+            if (dependencyPropertyChangedEventArgs.NewValue != null)
+            {
+                obj.IntegerValue = (int?)dependencyPropertyChangedEventArgs.NewValue;
+            }
+            else
+            {
+                // Mouse leaving control, fall back to RatingValue
+                obj.IntegerValue = obj.RatingValue;
+            }
+        }
 
+        /// <summary>
+        /// Selected rating
+        /// </summary>
         [DependencyProperty(OnPropertyChanged = nameof(OnRatingChanged))]
         public int? RatingValue { get; set; }
+        private static void OnRatingChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var obj = dependencyObject as Ratings;
+            obj.IntegerValue = (int?)dependencyPropertyChangedEventArgs.NewValue;
+        }
 
+        /// <summary>
+        /// Maximum possible rating
+        /// </summary>
         [DependencyProperty(OnPropertyChanged = nameof(OnMaxRatingChanged))]
         public int? MaxRating { get; set; }
-
         private static void OnMaxRatingChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
+            // Only control initialization
             if (dependencyPropertyChangedEventArgs.OldValue == null)
             {
                 var obj = dependencyObject as Ratings;
@@ -42,36 +79,11 @@ namespace Cooking.Controls
             }
         }
 
-        private static void OnRatingChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
-            if (dependencyPropertyChangedEventArgs.OldValue == null)
-            {
-                var obj = dependencyObject as Ratings;
-                obj.IntegerValue = (int?)dependencyPropertyChangedEventArgs.NewValue;
-            }
-        }
 
-        public DelegateCommand ClearValueCommand => new DelegateCommand(() =>
-        {
-            RatingValue = null;
-            IntegerValue = null;
-        });
+        public DelegateCommand ClearValueCommand     => new DelegateCommand(() => RatingValue = null);
+        public DelegateCommand<int> ClickCommand     => new DelegateCommand<int>(i => RatingValue = i);
 
-        public DelegateCommand<int> ClickCommand => new DelegateCommand<int>(i =>
-        {
-            RatingValue = i;
-            IntegerValue = i;
-        });
-
-        public DelegateCommand<int> MouseOverCommand => new DelegateCommand<int>(i => {
-            RatingValuePreview = i;
-            IntegerValue = i;
-        });
-
-        public DelegateCommand MouseLeaveCommand => new DelegateCommand(() =>
-        {
-            RatingValuePreview = null;
-            IntegerValue = RatingValue;
-        });
+        public DelegateCommand<int> MouseOverCommand => new DelegateCommand<int>(i => RatingValuePreview = i);
+        public DelegateCommand MouseLeaveCommand     => new DelegateCommand(() => RatingValuePreview = null);
     }
 }

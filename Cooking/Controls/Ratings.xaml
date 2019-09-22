@@ -7,19 +7,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:converters="clr-namespace:Cooking.Converters"
-             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Height="30">
+    
     <StackPanel Orientation="Horizontal">
         <StackPanel.Resources>
             <converters:MultiplyConverter x:Key="MultiplyConverter" />
             <converters:RatingConverter x:Key="RatingConverter" OnBrush="#FFFFFFFF" OffBrush="#50FFFFFF" PreviewBrush="#87FFFFFF" />
-            <Style TargetType="Rectangle">
-                <Setter Property="HorizontalAlignment" Value="Center" />
-                <Setter Property="VerticalAlignment" Value="Bottom" />
-            </Style>
         </StackPanel.Resources>
 
+        <!-- Rating columns -->
         <ItemsControl ItemsSource="{Binding RatingsInternal, ElementName=RatingControl, Mode=OneWay}" Background="Transparent">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseLeave">
@@ -71,11 +68,13 @@
 
         </ItemsControl>
 
+        <!-- Integer rating value -->
         <TextBlock Text="{Binding IntegerValue, ElementName=RatingControl, Mode=OneWay}" FontSize="20" Margin="5 0"/>
-
+        
+        <!-- Clear button -->
         <Button Command="{Binding ClearValueCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
                 BorderThickness="0" 
-                Background="Transparent" >
+                Background="Transparent">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template">
@@ -88,6 +87,9 @@
                         </Setter.Value>
                     </Setter>
                     <Style.Triggers>
+                        <DataTrigger Binding="{Binding RatingValue, ElementName=RatingControl}" Value="{x:Null}" >
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </Trigger>
@@ -100,5 +102,6 @@
             </Button.Style>
             <icons:Octicons Kind="X" />
         </Button>
+        
     </StackPanel>
 </UserControl>

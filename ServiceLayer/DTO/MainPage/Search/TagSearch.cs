@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ServiceLayer.DTO.MainPage
 {
-    public class TagSearch : Entity
+    public sealed class TagSearch : Entity
     {
         public string Name { get; set; }
     }

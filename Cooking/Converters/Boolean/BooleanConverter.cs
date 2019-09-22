@@ -8,8 +8,8 @@ using System.Windows.Data;
 
 namespace Cooking.Converters
 {
-    // WPF Конвертер для преобразования из bool значения в любое другое (например, Visibility)
-    // Взято отсюда: https://stackoverflow.com/a/5182660
+    // WPF Converter for converting bool values (e.x. Visibility)
+    // https://stackoverflow.com/a/5182660
     public class BooleanConverter<T> : IValueConverter
     {
         public BooleanConverter(T trueValue, T falseValue)

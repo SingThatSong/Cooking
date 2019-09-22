@@ -3,64 +3,26 @@ using System.Windows.Input;
 
 namespace Cooking.Commands
 {
-    public class DelegateCommand : ICommand
+    /// <summary>
+    /// DelegateCommand without parameters
+    /// </summary>
+    public class DelegateCommand : DelegateCommandBase
     {
         private readonly Func<bool> _canExecute;
-        private readonly bool _executeOnce;
         private readonly Action _execute;
 
-        private bool _executed;
-
-        /// <summary>
-        /// https://stackoverflow.com/a/7353704/1134449
-        /// </summary>
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
-
-        public DelegateCommand(Action execute, bool executeOnce = false)
-                       : this(execute, null, executeOnce)
-        {
-        }
-
-        public DelegateCommand(Action execute, Func<bool> canExecute, bool executeOnce = false)
+        /// <param name="execute">Method, which is executed on Execute method</param>
+        /// <param name="canExecute">Defines if method can be executed</param>
+        /// <param name="executeOnce">Defines if method could be executed just once (useful for event bindings, such as OnLoading)</param>
+        public DelegateCommand(Action execute, Func<bool> canExecute = null, bool executeOnce = false)
         {
             _execute = execute;
             _canExecute = canExecute;
+            _canExecuteSpecified = _canExecute != null;
             _executeOnce = executeOnce;
         }
 
-        public bool CanExecute()
-        {
-            return CanExecute(null);
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            if (_executeOnce && _executed)
-            {
-                return false;
-            }
-
-            if (_canExecute == null)
-            {
-                return true;
-            }
-
-            return _canExecute();
-        }
-
-        public void Execute()
-        {
-            Execute(null);
-        }
-
-        public void Execute(object parameter)
-        {
-            _executed = true;
-            _execute();
-        }
+        protected override void ExecuteInternal(object parameter) => _execute();
+        protected override bool CanExecuteInternal(object parameter) => _canExecute();
     }
 }

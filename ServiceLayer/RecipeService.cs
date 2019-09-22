@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer
 {
-    public class RecipeService
+    public static class RecipeService
     {
         private readonly static Dictionary<Guid, DateTime?> lastCookedId = new Dictionary<Guid, DateTime?>();
 
