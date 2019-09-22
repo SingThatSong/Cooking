@@ -15,18 +15,23 @@ namespace Cooking.Pages.Garnishes
 {
     public partial class GarnishEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {
+        public GarnishDTO Garnish { get; set; }
         private bool NameChanged { get; set; }
 
-        public GarnishEditViewModel() : this(null)
-        {
-
-        }
+        public GarnishEditViewModel() : this(null) { }
 
         public GarnishEditViewModel(GarnishDTO category)
         {
             Garnish = category ?? new GarnishDTO();
             AllGarnishNames = GarnishService.GetSearchNames();
-            Garnish.PropertyChanged += Garnish_PropertyChanged;
+            Garnish.PropertyChanged += (src, e) =>
+            {
+                if (e.PropertyName == nameof(Garnish.Name))
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SimilarGarnishes)));
+                    NameChanged = true;
+                }
+            };
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -35,7 +40,7 @@ namespace Cooking.Pages.Garnishes
         {
             if (NameChanged)
             {
-                if (AllGarnishNames.Contains(Garnish.Name))
+                if (AllGarnishNames.Any(x => x.ToUpperInvariant() == Garnish.Name.ToUpperInvariant()))
                 {
                     var result = await DialogCoordinator.Instance.ShowMessageAsync(
                                         this,
@@ -57,17 +62,7 @@ namespace Cooking.Pages.Garnishes
 
             base.Ok();
         }
-
-        private void Garnish_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(Garnish.Name))
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SimilarGarnishes)));
-                NameChanged = true;
-            }
-        }
-
-        public GarnishDTO Garnish { get; set; }
+        
         private List<string> AllGarnishNames { get; set; }
 
         public IEnumerable<string> SimilarGarnishes => string.IsNullOrWhiteSpace(Garnish?.Name)

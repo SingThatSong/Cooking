@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Cooking.Pages.Recepies
@@ -18,6 +19,13 @@ namespace Cooking.Pages.Recepies
             Loaded += (s, e) => Keyboard.Focus(this);
         }
 
+        private void RichTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (e.Changes.Count > 1 && e.UndoAction != UndoAction.Clear)
+            {
+                RecipeScroll.ScrollToEnd();
+            }
+        }
         private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
             try

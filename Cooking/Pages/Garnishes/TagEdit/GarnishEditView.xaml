@@ -5,22 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             xmlns:model="clr-namespace:Data.Model;assembly=Data"
-             xmlns:System="clr-namespace:System;assembly=mscorlib"
-             xmlns:converters="clr-namespace:Cooking.Converters"
              mahapps:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d"
              
              d:DesignHeight="450" 
              d:DesignWidth="800">
-    
+
     <UserControl.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </UserControl.InputBindings>
 
     <Grid Height="130" >
-        
+
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="70"/>
@@ -40,7 +36,6 @@
         </ScrollViewer>
 
         <ItemsControl ItemsSource="{Binding SimilarGarnishes}" Grid.Column="1" Margin="20 0 0 0"></ItemsControl>
-        
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
             <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 

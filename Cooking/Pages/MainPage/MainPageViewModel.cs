@@ -251,7 +251,7 @@ namespace Cooking.Pages.MainPage
 
                 if (showGeneratedWeekViewModel.DialogResultOk)
                 {
-                    var daysDictionary = showGeneratedWeekViewModel.Days.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe.ID);
+                    var daysDictionary = showGeneratedWeekViewModel.Days.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
 
                     await WeekService.CreateWeekAsync(WeekStart, daysDictionary);
                     CurrentWeek = await GetWeekAsync(WeekStart);

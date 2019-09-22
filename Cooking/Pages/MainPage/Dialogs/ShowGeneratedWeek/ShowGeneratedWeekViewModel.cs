@@ -79,35 +79,9 @@ namespace Cooking.Pages.MainPage.Dialogs
                  day?.RecipeAlternatives?.Count > 1);
 
             ShowRecipe = new DelegateCommand<DayPlan>(async (day) => {
-
-                    //if (day.Recipe.Ingredients.Count == 0 && day.Recipe.IngredientGroups.Count == 0)
-                    //{
-                    //    using (var context = new CookingContext())
-                    //    {
-                    //        var recipe = context.Recipies.Include(x => x.IngredientGroups)
-                    //                                    .ThenInclude(x => x.Ingredients)
-                    //                                        .ThenInclude(x => x.Ingredient)
-                    //                                .Include(x => x.Ingredients)
-                    //                                    .ThenInclude(x => x.Ingredient)
-                    //                                .Single(x => x.ID == day.Recipe.ID);
-
-                    //        AutoMapper.Mapper.Map(recipe, day.Recipe);
-                    //    }
-                    //}
-
-                    //var viewModel = new RecipeViewModel(day.Recipe);
-
-                    //var dialog = new CustomDialog()
-                    //{
-                    //    Content = new RecipeView()
-                    //    {
-                    //        DataContext = viewModel
-                    //    }
-                    //};
-
-                    //await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
-                    //await dialog.WaitUntilUnloadedAsync();
-                });
+                var viewModel = new RecipeViewModel(day.Recipe.ID);
+                await new DialogUtils(this).ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: viewModel);
+            });
         }
 
         public bool ReturnBack { get; set; }
@@ -122,7 +96,5 @@ namespace Cooking.Pages.MainPage.Dialogs
         public DelegateCommand<DayPlan> DeleteRecipeManuallyCommand { get; }
         public DelegateCommand<DayPlan> SetRecipeManuallyCommand { get; }
         public DelegateCommand ReturnCommand { get; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -6,6 +6,7 @@ using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Cooking.Pages.Garnishes
@@ -13,21 +14,27 @@ namespace Cooking.Pages.Garnishes
     [AddINotifyPropertyChangedInterface]
     public partial class GarnishesViewModel
     {
-        public ObservableCollection<GarnishDTO> Garnishes { get; }
+        public ObservableCollection<GarnishDTO> Garnishes { get; set; }
         public bool IsEditing { get; set; }
 
         public DelegateCommand AddGarnishCommand { get; }
         public DelegateCommand<GarnishDTO> EditGarnishCommand { get; }
-        public DelegateCommand<GarnishDTO> DeleteGarnishCommand { get; }
+        public DelegateCommand<Guid> DeleteGarnishCommand { get; }
+        public DelegateCommand LoadedCommand { get; }
 
         public GarnishesViewModel()
         {
+            LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
+            AddGarnishCommand = new DelegateCommand(AddGarnish);
+            DeleteGarnishCommand = new DelegateCommand<Guid>(DeleteGarnish);
+            EditGarnishCommand = new DelegateCommand<GarnishDTO>(EditGarnish);
+        }
+
+        private void OnLoaded()
+        {
+            Debug.WriteLine("GarnishesViewModel.OnLoaded");
             Garnishes = GarnishService.GetGarnishes<ServiceLayer.GarnishDTO>()
                                       .MapTo<ObservableCollection<GarnishDTO>>();
-
-            AddGarnishCommand = new DelegateCommand(AddGarnish);
-            DeleteGarnishCommand = new DelegateCommand<GarnishDTO>(cat => DeleteGarnish(cat.ID));
-            EditGarnishCommand = new DelegateCommand<GarnishDTO>(EditGarnish);
         }
 
         private async void EditGarnish(GarnishDTO garnish)
@@ -38,8 +45,8 @@ namespace Cooking.Pages.Garnishes
             if (viewModel.DialogResultOk)
             {
                 await GarnishService.UpdateGarnishAsync(viewModel.Garnish.MapTo<Garnish>());
-                var existingRecipe = Garnishes.Single(x => x.ID == garnish.ID);
-                viewModel.Garnish.MapTo(existingRecipe);
+                var existingGarnish = Garnishes.Single(x => x.ID == garnish.ID);
+                viewModel.Garnish.MapTo(existingGarnish);
             }
         }
 
@@ -58,7 +65,7 @@ namespace Cooking.Pages.Garnishes
 
             if (result == MessageDialogResult.Affirmative)
             {
-                await GarnishService.DeleteGarnishAsync(recipeId);
+                await GarnishService.DeleteAsync(recipeId);
                 Garnishes.Remove(Garnishes.Single(x => x.ID == recipeId));
             }
         }

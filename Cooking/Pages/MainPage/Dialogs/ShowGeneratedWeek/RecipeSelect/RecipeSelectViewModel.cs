@@ -102,7 +102,7 @@ namespace Cooking.Pages.Recepies
             get => filterText;
             set
             {
-                if (filterText != value)
+                if (filterText != value && value != "")
                 {
                     filterText = value;
                     FilterContext.BuildExpression(value);

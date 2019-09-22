@@ -2,65 +2,74 @@
 using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Recepies;
+using Cooking.ServiceLayer;
 using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using PropertyChanged;
+using ServiceLayer;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 
 namespace Cooking.Pages.Ingredients
 {
-    public partial class IngredientsViewModel : INotifyPropertyChanged
+    [AddINotifyPropertyChangedInterface]
+    public partial class IngredientsViewModel
     {
+        public ObservableCollection<IngredientMain> Ingredients { get; private set; }
+        public bool IsEditing { get; set; }
+
+        public DelegateCommand AddIngredientCommand { get; }
+
+        public DelegateCommand<IngredientMain> ViewIngredientCommand { get; }
+        public DelegateCommand<IngredientMain> EditCategoryCommand { get; }
+        public DelegateCommand<Guid> DeleteCategoryCommand { get; }
+        public DelegateCommand LoadedCommand { get; }
+
         public IngredientsViewModel()
         {
-            Ingredients = new Lazy<ObservableCollection<IngredientMain>>(GetIngredients);
-            ViewIngredientCommand = new Lazy<DelegateCommand<IngredientMain>>(() => new DelegateCommand<IngredientMain>(ingredient =>
-            {
-                if (Application.Current.MainWindow.DataContext is MainWindowViewModel mainWindowViewModel)
-                {
-                    mainWindowViewModel.SelectedMenuItem = mainWindowViewModel.MenuItems[1] as HamburgerMenuIconItem;
-                    ((mainWindowViewModel.SelectedMenuItem.Tag as RecepiesView).DataContext as RecepiesViewModel).FilterText = $"#{ingredient.Name}";
-                }
-            }));
-            AddCategoryCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddRecipe));
-            DeleteCategoryCommand = new Lazy<DelegateCommand<IngredientMain>>(() => new DelegateCommand<IngredientMain>(cat => DeleteCategory(cat.ID)));
-            EditCategoryCommand = new Lazy<DelegateCommand<IngredientMain>>(
-                () => new DelegateCommand<IngredientMain>(async (ingredient) => {
-
-                    var viewModel = new IngredientEditViewModel(Mapper.Map<IngredientMain>(ingredient));
-
-                    var dialog = new CustomDialog()
-                    {
-                        Title = "Редактирование ингредиента",
-                        Content = new IngredientEditView()
-                        {
-                            DataContext = viewModel
-                        }
-                    };
-                    await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
-                    await dialog.WaitUntilUnloadedAsync();
-
-                    if (viewModel.DialogResultOk)
-                    {
-                        using (var context = new CookingContext())
-                        {
-                            var existing = context.Ingredients.Find(ingredient.ID);
-                            Mapper.Map(viewModel.Ingredient, existing);
-                            context.SaveChanges();
-                        }
-
-                        var existingRecipe = Ingredients.Value.Single(x => x.ID == ingredient.ID);
-                        Mapper.Map(viewModel.Ingredient, existingRecipe);
-                    }
-                }));
+            LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
+            ViewIngredientCommand = new DelegateCommand<IngredientMain>(ViewIngredient);
+            AddIngredientCommand = new DelegateCommand(AddRecipe);
+            DeleteCategoryCommand = new DelegateCommand<Guid>(DeleteIngredient);
+            EditCategoryCommand = new DelegateCommand<IngredientMain>(EditIngredient);
         }
 
-        public async void DeleteCategory(Guid recipeId)
+        private void ViewIngredient(IngredientMain ingredient)
+        {
+            if (Application.Current.MainWindow.DataContext is MainWindowViewModel mainWindowViewModel)
+            {
+                mainWindowViewModel.SelectedMenuItem = mainWindowViewModel.MenuItems[1] as HamburgerMenuIconItem;
+                ((mainWindowViewModel.SelectedMenuItem.Tag as RecepiesView).DataContext as RecepiesViewModel).FilterText = $"#{ingredient.Name}";
+            }
+        }
+
+        private async void EditIngredient(IngredientMain ingredient)
+        {
+            var viewModel = new IngredientEditViewModel(ingredient.MapTo<IngredientMain>());
+            await new DialogUtils(this).ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Редактирование ингредиента", viewModel);
+            
+            if (viewModel.DialogResultOk)
+            {
+                await IngredientService.UpdateIngredientAsync(viewModel.Ingredient.MapTo<Ingredient>());
+                var existingRecipe = Ingredients.Single(x => x.ID == ingredient.ID);
+                viewModel.Ingredient.MapTo(existingRecipe);
+            }
+        }
+
+        private void OnLoaded()
+        {
+            Debug.WriteLine("IngredientsViewModel.OnLoaded");
+            Ingredients = IngredientService.GetIngredients<IngredientData>()
+                                           .MapTo<ObservableCollection<IngredientMain>>();
+        }
+
+        public async void DeleteIngredient(Guid id)
         {
             var result = await DialogCoordinator.Instance.ShowMessageAsync(
                 this, 
@@ -75,89 +84,21 @@ namespace Cooking.Pages.Ingredients
 
             if (result == MessageDialogResult.Affirmative)
             {
-                using (var context = new CookingContext())
-                {
-                    var category = await context.Ingredients.FindAsync(recipeId);
-                    context.Ingredients.Remove(category);
-                    context.SaveChanges();
-                }
-
-                Ingredients.Value.Remove(Ingredients.Value.Single(x => x.ID == recipeId));
+                await IngredientService.DeleteAsync(id);
+                Ingredients.Remove(Ingredients.Single(x => x.ID == id));
             }
         }
 
         public async void AddRecipe()
         {
-            var viewModel = new IngredientEditViewModel();
-
-            var dialog = new CustomDialog()
-            {
-                Title = "Новый ингредиент",
-                Content = new IngredientEditView()
-                {
-                    DataContext = viewModel
-                }
-            };
-
-            await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
-            await dialog.WaitUntilUnloadedAsync();
+            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Новый ингредиент");
 
             if (viewModel.DialogResultOk)
             {
-                var category = Mapper.Map<Ingredient>(viewModel.Ingredient);
-                using (var context = new CookingContext())
-                {
-                    context.Add(category);
-                    context.SaveChanges();
-                }
-                viewModel.Ingredient.ID = category.ID;
-                Ingredients.Value.Add(viewModel.Ingredient);
+                var id = await IngredientService.CreateGarnishAsync(viewModel.Ingredient.MapTo<Ingredient>());
+                viewModel.Ingredient.ID = id;
+                Ingredients.Add(viewModel.Ingredient);
             }
         }
-
-        public Lazy<ObservableCollection<IngredientMain>> Ingredients { get; }
-        private ObservableCollection<IngredientMain> GetIngredients()
-        {
-            try
-            {
-                using (var Context = new CookingContext())
-                {
-                    var originalList = Context.Ingredients.ToList();
-                    return new ObservableCollection<IngredientMain>(
-                        originalList.OrderBy(x => x.Name).Select(x =>
-                        {
-                            var dto = Mapper.Map<IngredientMain>(x);
-                            dto.PropertyChanged += Dto_PropertyChanged;
-                            return dto;
-                        })
-                    );
-                }
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        private void Dto_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            using (var Context = new CookingContext())
-            {
-                var dto = sender as IngredientMain;
-                var original = Context.Ingredients.Find(dto.ID);
-                Mapper.Map(dto, original);
-                Context.SaveChanges();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public Lazy<DelegateCommand> AddCategoryCommand { get; }
-        
-        public Lazy<DelegateCommand<IngredientMain>> ViewIngredientCommand { get; }
-        public Lazy<DelegateCommand<IngredientMain>> EditCategoryCommand { get; }
-        public Lazy<DelegateCommand<IngredientMain>> DeleteCategoryCommand { get; }
-        
-        public bool IsEditing { get; set; }
     }
 }

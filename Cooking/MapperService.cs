@@ -2,8 +2,8 @@
 using Cooking.DTO;
 using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.MainPage;
+using Data.Model;
 using Data.Model.Plan;
-using ServiceLayer;
 using ServiceLayer.DTO.MainPage;
 using System;
 
@@ -28,10 +28,17 @@ namespace Cooking
                 cfg.CreateMap<DayMainPage, DayMain>();
                 cfg.CreateMap<RecipeSlim, RecipeSelect>();
                 cfg.CreateMap<RecipeFull, RecipeMain>();
+                cfg.CreateMap<RecipeMain, RecipeMain>(); 
+                cfg.CreateMap<RecipeIngredientMain, RecipeIngredientMain>();
                 cfg.CreateMap<RecipeIngredientData, RecipeIngredientMain>();
-                cfg.CreateMap<TagSearch, TagDTO>();
+                cfg.CreateMap<TagServiceDto, TagDTO>();
                 cfg.CreateMap<TagData, TagDTO>();
+                cfg.CreateMap<TagDTO, Tag>();
+                cfg.CreateMap<IngredientGroupMain, IngredientGroupMain>();
                 cfg.CreateMap<IngredientGroupData, IngredientGroupMain>();
+                cfg.CreateMap<IngredientData, IngredientMain>();
+                cfg.CreateMap<IngredientMain, IngredientMain>();
+                cfg.CreateMap<IngredientMain, Ingredient>();
             });
 
             return config.CreateMapper();

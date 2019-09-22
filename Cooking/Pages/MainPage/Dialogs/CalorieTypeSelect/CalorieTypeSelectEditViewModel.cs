@@ -14,9 +14,13 @@ namespace Cooking.Pages.Recepies
 
         public CalorieTypeSelectEditViewModel(IEnumerable<CalorieTypeSelection> selectedTypes) : base()
         {
-            AllValues = new ObservableCollection<CalorieTypeSelection>(Enum.GetValues(typeof(CalorieType)).Cast<CalorieType>().Select(x => new CalorieTypeSelection() { CalorieType = x }));
+            AllValues = new ObservableCollection<CalorieTypeSelection>(
+                Enum.GetValues(typeof(CalorieType))
+                .Cast<CalorieType>()
+                .Select(x => new CalorieTypeSelection() { CalorieType = x })
+            );
+
             AllValues.Insert(0, CalorieTypeSelection.Any);
-            AllValues[0].IsSelected = false;
 
             if (selectedTypes != null)
             {

@@ -119,5 +119,28 @@ namespace ServiceLayer
                 context.SaveChanges();
             }
         }
+
+        public static async Task UpdateAsync(Recipe recipe)
+        {
+            using (var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true))
+            {
+                var existingRecipe = await context.Recipies.FindAsync(recipe.ID);
+                MapperService.Mapper.Map(recipe, existingRecipe);
+                MappingsHelper.MapToRecipe(existingRecipe, context);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public static async Task<Guid> CreateAsync(Recipe recipe)
+        {
+            using (var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true))
+            {
+                var recipeNew = MappingsHelper.MapToRecipe(recipe, context);
+
+                await context.Recipies.AddAsync(recipeNew);
+                await context.SaveChangesAsync();
+                return recipeNew.ID;
+            }
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace Cooking.Pages.Tags
         public TagEditViewModel(TagDTO category = null)
         {
             Tag = category ?? new TagDTO();
-            AllTagNames = TagService.GetSearchTagNames();
+            AllTagNames = TagService.GetTagNames();
             Tag.PropertyChanged += Tag_PropertyChanged;
         }
 

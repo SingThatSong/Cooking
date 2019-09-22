@@ -26,7 +26,7 @@ namespace ServiceLayer
 
                 cfg.AddMaps(Assembly.GetEntryAssembly());
 
-                cfg.CreateMap<Tag, TagSearch>();
+                cfg.CreateMap<Tag, TagServiceDto>();
 
                 cfg.CreateMap<Week, WeekMainPage>();
                 cfg.CreateMap<Day, DayMainPage>();
@@ -39,6 +39,7 @@ namespace ServiceLayer
                 cfg.CreateMap<RecipeIngredient, RecipeIngredientData>();
                 cfg.CreateMap<Tag, TagData>();
 
+                cfg.CreateMap<Ingredient, Ingredient>();
                 cfg.CreateMap<Ingredient, IngredientData>();
 
                 cfg.CreateMap<Garnish, GarnishDTO>();

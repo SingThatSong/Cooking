@@ -1,20 +1,17 @@
 ﻿using AutoMapper;
-using Cooking.DTO;
 using Data.Context;
 using Data.Model;
-
-namespace Cooking.Mappings
+namespace ServiceLayer
 {
     internal class MappingsHelper
     {
-        public static Recipe MapToRecipe(RecipeMain recipeDTO, CookingContext context)
+        public static Recipe MapToRecipe(Recipe recipe, CookingContext context)
         {
-            var recipe = Mapper.Map<Recipe>(recipeDTO);
             if (recipe.IngredientGroups != null)
             {
                 for (int i = 0; i < recipe.IngredientGroups.Count; i++)
                 {
-                    if (recipe.Ingredients != null)
+                    if (recipe.IngredientGroups[i].Ingredients != null)
                     {
                         for (int j = 0; j < recipe.IngredientGroups[i].Ingredients.Count; j++)
                         {

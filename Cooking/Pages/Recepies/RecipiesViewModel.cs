@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Cooking.Commands;
 using Cooking.DTO;
-using Cooking.Mappings;
 using Cooking.ServiceLayer;
 using Data.Context;
+using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using Plafi;
@@ -11,6 +11,7 @@ using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Data;
 
@@ -19,117 +20,39 @@ namespace Cooking.Pages.Recepies
     [AddINotifyPropertyChangedInterface]
     public partial class RecepiesViewModel
     {
-        public CollectionViewSource RecipiesSource { get; }
-        public ObservableCollection<RecipeSelect> Recipies { get; }
+        public CollectionViewSource RecipiesSource { get; set; }
+        public ObservableCollection<RecipeSelect> Recipies { get; set; }
 
         public DelegateCommand AddRecipeCommand { get; }
         public DelegateCommand<Guid> ViewRecipeCommand { get; }
-        public DelegateCommand<RecipeMain> EditRecipeCommand { get; }
-        public DelegateCommand<Guid> DeleteRecipeCommand { get; }
 
-        public bool IsEditing { get; set; }
+        public DelegateCommand LoadedCommand { get; }
 
         public RecepiesViewModel()
         {
-            FilterContext = new FilterContext<RecipeSelect>().AddFilter("#", HasIngredient)
+            FilterContext = new FilterContext<RecipeSelect>().AddFilter("name", HasName, isDefault:true)
+                                                             .AddFilter("#", HasIngredient)
                                                              .AddFilter("$", HasTag);
 
             dialogUtils = new DialogUtils(this);
-            Recipies = GetRecipies();
+            LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
 
-            RecipiesSource = new CollectionViewSource() { Source = Recipies };
-            RecipiesSource.Filter += RecipiesSource_Filter;
-
-
-            DeleteRecipeCommand = new DelegateCommand<Guid>(DeleteRecipe);
 
             ViewRecipeCommand = new DelegateCommand<Guid>(ViewRecipe);
             AddRecipeCommand = new DelegateCommand(AddRecipe);
-            EditRecipeCommand = new DelegateCommand<RecipeMain>(async (recipe) => {
 
-                using (var context = new CookingContext())
-                {
-                    var existing = context.Recipies
-                                          .Where(x => x.ID == recipe.ID)
-                                          .Include(x => x.IngredientGroups)
-                                              .ThenInclude(x => x.Ingredients)
-                                                  .ThenInclude(x => x.Ingredient)
-                                          .Include(x => x.Ingredients)
-                                              .ThenInclude(x => x.Ingredient)
-                                          .Include(x => x.Tags)
-                                              .ThenInclude(x => x.Tag)
-                                          .Single();
+            RecipiesSource = new CollectionViewSource();
+            RecipiesSource.Filter += RecipiesSource_Filter;
+        }
 
-                    Mapper.Map(existing, recipe);
-                }
+        private void OnLoaded()
+        {
+            Debug.WriteLine("RecepiesViewModel.OnLoaded");
 
-                var viewModel = new RecipeEditViewModel(recipe);
-                await dialogUtils.ShowCustomMessageAsync<RecipeEditView, RecipeEditViewModel>("Редактирование рецепта", viewModel);
+            Recipies = RecipeService.GetRecipies()
+                                    .MapTo<ObservableCollection<RecipeSelect>>();
 
-                if (viewModel.DialogResultOk)
-                {
-                    using (var context = new CookingContext())
-                    {
-
-                        var existing = context.Recipies
-                                              .Where(x => x.ID == recipe.ID)
-                                              .Include(x => x.IngredientGroups)
-                                                  .ThenInclude(x => x.Ingredients)
-                                                      .ThenInclude(x => x.Ingredient)
-                                              .Include(x => x.Ingredients)
-                                                  .ThenInclude(x => x.Ingredient)
-                                              .Include(x => x.Tags)
-                                                .ThenInclude(x => x.Tag)
-                                              .Single();
-
-                        Mapper.Map(viewModel.Recipe, existing);
-
-                        if (existing.IngredientGroups != null)
-                        {
-                            for (int i = 0; i < existing.IngredientGroups.Count; i++)
-                            {
-                                if (existing.Ingredients != null)
-                                {
-                                    for (int j = 0; j < existing.IngredientGroups[i].Ingredients.Count; j++)
-                                    {
-                                        var dbValue = context.RecipeIngredients.Find(existing.IngredientGroups[i].Ingredients[j].ID);
-                                        if (dbValue != null)
-                                        {
-                                            existing.IngredientGroups[i].Ingredients[j] = dbValue;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        if (existing.Ingredients != null)
-                        {
-                            for (int i = 0; i < existing.Ingredients.Count; i++)
-                            {
-                                var dbValue = context.RecipeIngredients.Find(existing.Ingredients[i].ID);
-                                if (dbValue != null)
-                                {
-                                    existing.Ingredients[i] = dbValue;
-                                }
-                            }
-                        }
-
-                        if (existing.Tags != null)
-                        {
-                            for (int i = 0; i < existing.Tags.Count; i++)
-                            {
-                                var dbValue = context.Tags.Find(existing.Tags[i].Tag.ID);
-                                if (dbValue != null)
-                                {
-                                    existing.Tags[i].Tag = dbValue;
-                                }
-                            }
-                        }
-
-                        context.SaveChanges();
-                    }
-                }
-            });
+            RecipiesSource.Source = Recipies;
         }
 
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)
@@ -154,13 +77,26 @@ namespace Cooking.Pages.Recepies
             {
                 if (filterText != value)
                 {
-                    filterText = value; 
-                    FilterContext.BuildExpression(value);
-                    expressionBuilt = true;
-                    RecipiesSource.View.Refresh();
+                    filterText = value;
+                    try
+                    {
+                        FilterContext.BuildExpression(value);
+                        expressionBuilt = true;
+                    }
+                    catch 
+                    {
+                        expressionBuilt = false;
+                    }
+
+                    RecipiesSource.View?.Refresh();
                 }
             }
         }
+        private bool HasName(RecipeSelect recipe, string name)
+        {
+            return recipe.Name.ToUpperInvariant().Contains(name.ToUpperInvariant());
+        }
+
         private bool HasTag(RecipeSelect recipe, string category)
         {
             var recipeDb = RecipeService.GetRecipe<RecipeFull>(recipe.ID).Result;
@@ -193,25 +129,6 @@ namespace Cooking.Pages.Recepies
             return false;
         }
 
-        public async void DeleteRecipe(Guid recipeId)
-        {
-            var result = await DialogCoordinator.Instance.ShowMessageAsync(
-                this, 
-                "Точно удалить?",
-                "Восстановить будет нельзя",
-                style: MessageDialogStyle.AffirmativeAndNegative,
-                settings: new MetroDialogSettings()
-                {
-                    AffirmativeButtonText = "Да",
-                    NegativeButtonText = "Нет"
-                });
-
-            if (result == MessageDialogResult.Affirmative)
-            {
-                await RecipeService.DeleteRecipe(recipeId);
-                Recipies.Remove(Recipies.Single(x => x.ID == recipeId));
-            }
-        }
 
         public async void ViewRecipe(Guid recipeId)
         {
@@ -220,26 +137,14 @@ namespace Cooking.Pages.Recepies
 
         public async void AddRecipe()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeEditViewModel>("Новый рецепт");
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>("Новый рецепт", content: new RecipeViewModel() { IsEditing = true }); ;
 
             if (viewModel.DialogResultOk)
             {
-                using (var context = new CookingContext())
-                {
-                    var recipe = MappingsHelper.MapToRecipe(viewModel.Recipe, context);
-                    context.Add(recipe);
-                    context.SaveChanges();
-
-                    viewModel.Recipe.ID = recipe.ID;
-                    //Recipies.Value.Add(viewModel.Recipe);
-                }
+                var id = await RecipeService.CreateAsync(viewModel.Recipe.MapTo<Recipe>());
+                viewModel.Recipe.ID = id;
+                Recipies.Add(viewModel.Recipe.MapTo<RecipeSelect>());
             }
-        }
-
-        private ObservableCollection<RecipeSelect> GetRecipies()
-        {
-            var revcipiesDb = RecipeService.GetRecipies();
-            return new ObservableCollection<RecipeSelect>(revcipiesDb.Select(x => MapperService.Mapper.Map<RecipeSelect>(x)));
         }
     }
 }

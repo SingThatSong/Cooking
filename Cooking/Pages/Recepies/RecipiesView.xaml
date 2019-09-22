@@ -7,6 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:Cooking.Pages.Recepies"
+             xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
              mahapps:DialogParticipation.Register="{Binding}"
         mc:Ignorable="d"
         d:DesignHeight="450" d:DesignWidth="800">
@@ -19,85 +20,66 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
     </UserControl.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="55" />
         </Grid.RowDefinitions>
         <TextBox mahapps:TextBoxHelper.Watermark="Поиск... Пример: Название #ингредиент1, ингредиент2 ~тег1, тег2"
                  mahapps:TextBoxHelper.UseFloatingWatermark="True" 
                  mahapps:TextBoxHelper.ClearTextButton="True"
                  Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <ItemsControl ItemsSource="{Binding RecipiesSource.View}" Name="RecipiesList" Grid.Row="1" Margin="0 5 0 0">
-                <ItemsControl.ItemTemplate>
+        <ListView ItemsSource="{Binding RecipiesSource.View}" 
+                      Name="RecipiesList" 
+                      Grid.Row="1" 
+                      Margin="0 5 0 0" 
+                      VirtualizingStackPanel.IsVirtualizing="True"
+                    VirtualizingPanel.VirtualizationMode="Recycling"
+                      VirtualizingPanel.ScrollUnit="Pixel"
+                      ScrollViewer.CanContentScroll="True">
+            <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Width="150" Margin="3">
-                        <TextBlock TextWrapping="NoWrap" Width="150" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" FontSize="20" HorizontalAlignment="Center" >
+                            <TextBlock TextWrapping="NoWrap" Width="150" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" FontSize="20" HorizontalAlignment="Center" >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseUp">
                                         <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand}" CommandParameter="{Binding ID}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                        </TextBlock>
-                        <Image Source="{Binding FullPath}" Stretch="Uniform" Height="150" Width="150">
+                            </TextBlock>
+                            <Image Source="{Binding FullPath}" Stretch="Uniform" Height="150" Width="150">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseUp">
                                         <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand}" CommandParameter="{Binding ID}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Image>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding ElementName=RecipiesList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}">
-                                <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                                        Width="24" 
-                                        Height="24"
-                                        Command="{Binding ElementName=RecipiesList, Path=DataContext.EditRecipeCommand}"
-                                        CommandParameter="{Binding ID}">
-                                    <icons:PackIconModern Width="10"
-                                                          Height="10"
-                                                          Kind="Edit" />
-                                </Button>
-                                <Button Grid.Column="4" 
-                                        Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                                        Width="24" 
-                                        Height="24"
-                                        Command="{Binding ElementName=RecipiesList, Path=DataContext.DeleteRecipeCommand}"
-                                        CommandParameter="{Binding ID}">
-                                        <icons:PackIconModern Width="10"
-                                                          Height="10"
-                                                          Kind="Delete" />
-                                 </Button>
-                            </StackPanel>
                         </StackPanel>
                     </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
+            </ListView.ItemTemplate>
+            <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel />
+                    <wpftk:VirtualizingWrapPanel Orientation="Vertical" />
                 </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+            </ListView.ItemsPanel>
 
-            <ItemsControl.Template>
+            <ListView.Template>
                 <ControlTemplate TargetType="{x:Type ItemsControl}">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <ItemsPresenter />
                     </ScrollViewer>
                 </ControlTemplate>
-            </ItemsControl.Template>
-        </ItemsControl>
-        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" >
-            <ToggleButton 
-                      Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" 
-                      Width="48" 
-                      Height="48"
-                      IsChecked="{Binding IsEditing}"
-                      Foreground="LightGray">
-                <icons:PackIconModern 
-                                  Width="20"
-                                  Height="20"
-                                  Kind="Edit" />
-            </ToggleButton>
+            </ListView.Template>
+        </ListView>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="0 5 0 0">
             <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                     Width="48" 
                     Height="48"

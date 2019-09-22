@@ -18,12 +18,18 @@
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
-        <CollectionViewSource x:Key="ingredients" Source="{Binding Ingredients.Value}">
+        <CollectionViewSource x:Key="ingredients" Source="{Binding Ingredients}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Name"/>
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -38,7 +44,7 @@
                             <TextBlock Text="{Binding Name}" FontSize="20" VerticalAlignment="Center" >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseUp">
-                                        <i:InvokeCommandAction Command="{Binding ElementName=IngredientsList, Path=DataContext.ViewIngredientCommand.Value}"
+                                        <i:InvokeCommandAction Command="{Binding ElementName=IngredientsList, Path=DataContext.ViewIngredientCommand}"
                                                                CommandParameter="{Binding}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
@@ -48,7 +54,7 @@
                                         Width="36" 
                                         Visibility="{Binding ElementName=IngredientsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
                                         Height="36"
-                                        Command="{Binding ElementName=IngredientsList, Path=DataContext.EditCategoryCommand.Value}"
+                                        Command="{Binding ElementName=IngredientsList, Path=DataContext.EditCategoryCommand}"
                                         CommandParameter="{Binding}">
                                     <icons:PackIconModern Width="15"
                                                           Height="15"
@@ -60,8 +66,8 @@
                                     Width="36" 
                                     Visibility="{Binding ElementName=IngredientsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}"
                                     Height="36"
-                                    Command="{Binding ElementName=IngredientsList, Path=DataContext.DeleteCategoryCommand.Value}"
-                                    CommandParameter="{Binding}">
+                                    Command="{Binding ElementName=IngredientsList, Path=DataContext.DeleteCategoryCommand}"
+                                    CommandParameter="{Binding ID}">
                                     <icons:PackIconModern Width="15"
                                                       Height="15"
                                                       Kind="Delete" />
@@ -91,7 +97,7 @@
             <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                     Width="48" 
                     Height="48"
-                    Command="{Binding AddCategoryCommand.Value}"
+                    Command="{Binding AddIngredientCommand}"
                     Margin="10 0 0 0" >
                 <icons:PackIconModern Width="20"
                                       Height="20"

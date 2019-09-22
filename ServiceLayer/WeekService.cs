@@ -46,7 +46,7 @@ namespace ServiceLayer
             }
         }
 
-        public static async Task CreateWeekAsync(DateTime weekStart, Dictionary<DayOfWeek, Guid> selectedRecepies)
+        public static async Task CreateWeekAsync(DateTime weekStart, Dictionary<DayOfWeek, Guid?> selectedRecepies)
         {
             Debug.WriteLine("WeekService.CreateWeekAsync");
             using (var context = new CookingContext())
@@ -59,7 +59,7 @@ namespace ServiceLayer
 
                 var days = new List<Day>();
 
-                foreach (var recepie in selectedRecepies)
+                foreach (var recepie in selectedRecepies.Where(x => x.Value != null))
                 {
                     days.Add(new Day()
                     {

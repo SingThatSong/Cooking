@@ -28,7 +28,7 @@ namespace Cooking.Pages.Recepies
         {
             this.dialogUtils = dialogUtils;
             AddTagCommand = new DelegateCommand(AddTag);
-            AllTags = new ObservableCollection<TagDTO>(TagService.GetSearchTags().Select(x => MapperService.Mapper.Map<TagDTO>(x)));
+            AllTags = new ObservableCollection<TagDTO>(TagService.GetTags().Select(x => MapperService.Mapper.Map<TagDTO>(x)));
             CtorInternal(currentTags);
         }
 
@@ -59,14 +59,8 @@ namespace Cooking.Pages.Recepies
             
             if (viewModel.DialogResultOk)
             {
-                var category = Mapper.Map<Tag>(viewModel.Tag);
-                using (var context = new CookingContext())
-                {
-                    context.Add(category);
-                    context.SaveChanges();
-                }
-                viewModel.Tag.ID = category.ID;
-
+                var id = await TagService.CreateAsync(viewModel.Tag.MapTo<Tag>());
+                viewModel.Tag.ID = id;
                 AllTags.Add(viewModel.Tag);
             }
         }

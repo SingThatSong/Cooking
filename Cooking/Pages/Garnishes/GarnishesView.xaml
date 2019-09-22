@@ -16,6 +16,12 @@
         <local:GarnishesViewModel />
     </UserControl.DataContext>
 
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         <CollectionViewSource x:Key="tags" Source="{Binding Garnishes}">
@@ -59,7 +65,7 @@
                                         Width="36" 
                                         Height="36"
                                         Command="{Binding ElementName=GarnishesList, Path=DataContext.DeleteGarnishCommand}"
-                                        CommandParameter="{Binding}">
+                                        CommandParameter="{Binding ID}">
                                         <icons:PackIconModern Width="15"
                                                           Height="15"
                                                           Kind="Delete" />

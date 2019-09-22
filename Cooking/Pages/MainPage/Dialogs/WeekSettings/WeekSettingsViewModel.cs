@@ -90,7 +90,7 @@ namespace Cooking.Pages.MainPage.Dialogs
 
         private async Task<ObservableCollection<TagDTO>> GetTags(TagType type, ObservableCollection<TagDTO> current)
         {
-            var dbTags = TagService.GetSearchTagsByType(type);
+            var dbTags = TagService.GetTagsByType(type);
 
             var allTags = dbTags.Select(x => MapperService.Mapper.Map<TagDTO>(x)).ToList();
 

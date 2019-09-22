@@ -27,7 +27,7 @@
     </UserControl.Resources>
     
     <UserControl.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding CloseCommand.Value}" />
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </UserControl.InputBindings>
 
     <Grid Height="230" >
@@ -68,7 +68,7 @@
                     Width="48" 
                     Height="48"
                     Foreground="Green"
-                    Command="{Binding OkCommand.Value}">
+                    Command="{Binding OkCommand}">
                 <icons:PackIconModern Width="20"
                                       Height="20"
                                       Kind="Check" />
@@ -78,7 +78,7 @@
                     Height="48"
                     Margin="10 0 0 0"
                     Foreground="Red"
-                    Command="{Binding CloseCommand.Value}">
+                    Command="{Binding CloseCommand}">
                 <icons:PackIconModern Width="20"
                                           Height="20"
                                           Kind="Close" />

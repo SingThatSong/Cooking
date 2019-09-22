@@ -1,9 +1,6 @@
 ﻿using Cooking.Commands;
-using MahApps.Metro.Controls.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 
 namespace Cooking.Pages.Recepies

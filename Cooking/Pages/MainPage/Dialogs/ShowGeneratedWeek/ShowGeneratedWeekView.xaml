@@ -180,7 +180,6 @@
                                             BorderThickness="0"
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Right"
-                                            ToolTipService.IsEnabled="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource oppositeConverter}}"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
                                                                             Path=DataContext.DeleteRecipeManuallyCommand}"
                                             CommandParameter="{Binding}">
@@ -197,7 +196,6 @@
                                             BorderThickness="0"
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Right"
-                                            ToolTipService.IsEnabled="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource oppositeConverter}}"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
                                                                             Path=DataContext.SetRecipeManuallyCommand}"
                                             CommandParameter="{Binding}">

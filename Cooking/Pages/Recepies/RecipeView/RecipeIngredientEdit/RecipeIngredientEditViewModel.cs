@@ -50,24 +50,8 @@ namespace Cooking.Pages.Ingredients
             {
                 AllIngredients = context.Ingredients.Select(x => Mapper.Map<IngredientMain>(x)).ToList();
             }
-            if (ingredient != null)
-            {
-                Ingredient = ingredient;
 
-                if (Ingredient.Ingredient != null)
-                {
-                    Ingredient.Ingredient = AllIngredients.SingleOrDefault(x => x.ID == Ingredient.Ingredient.ID);
-                }
-
-                if (Ingredient.MeasureUnit != null)
-                {
-                    Ingredient.MeasureUnit = MeasurementUnits.Single(x => x.ID == Ingredient.MeasureUnit.ID);
-                }
-            }
-            else
-            {
-                Ingredient = new RecipeIngredientMain();
-            }
+            Ingredient = ingredient ?? new RecipeIngredientMain();
         }
 
         public async void AddRecipe()

@@ -1,28 +1,35 @@
 ﻿using Cooking.ServiceLayer;
 using Data.Context;
+using Data.Model;
 using Data.Model.Plan;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ServiceLayer
 {
-    public static class GarnishService
+    public static class IngredientService
     {
-        public static List<T> GetGarnishes<T>() where T : GarnishDTO
+        public static List<T> GetIngredients<T>() where T : IngredientData
         {
+            if (typeof(T).Assembly != Assembly.GetExecutingAssembly())
+            {
+                throw new InvalidOperationException();
+            }
+
             using (var context = new CookingContext(DatabaseService.DbFileName))
             {
-                return MapperService.Mapper.ProjectTo<T>(context.Garnishes).ToList();
+                return MapperService.Mapper.ProjectTo<T>(context.Ingredients).ToList();
             }
         }
 
-        public static async Task<Guid> CreateGarnishAsync(Garnish garnish)
+        public static async Task<Guid> CreateGarnishAsync(Ingredient garnish)
         {
             using (var context = new CookingContext(DatabaseService.DbFileName))
             {
-                await context.Garnishes.AddAsync(garnish);
+                await context.Ingredients.AddAsync(garnish);
                 await context.SaveChangesAsync();
                 return garnish.ID;
             }
@@ -32,17 +39,17 @@ namespace ServiceLayer
         {
             using (var context = new CookingContext(DatabaseService.DbFileName))
             {
-                var entity = await context.Garnishes.FindAsync(id);
-                context.Garnishes.Remove(entity);
+                var entity = await context.Ingredients.FindAsync(id);
+                context.Ingredients.Remove(entity);
             }
         }
 
-        public static async Task UpdateGarnishAsync(Garnish garnish)
+        public static async Task UpdateIngredientAsync(Ingredient ingredient)
         {
             using (var context = new CookingContext(DatabaseService.DbFileName))
             {
-                var existing = await context.Garnishes.FindAsync(garnish.ID);
-                MapperService.Mapper.Map(garnish, existing);
+                var existing = await context.Ingredients.FindAsync(ingredient.ID);
+                MapperService.Mapper.Map(ingredient, existing);
                 await context.SaveChangesAsync();
             }
         }
@@ -51,7 +58,7 @@ namespace ServiceLayer
         {
             using (var context = new CookingContext(DatabaseService.DbFileName))
             {
-                return context.Garnishes.Select(x => x.Name).ToList();
+                return context.Ingredients.Select(x => x.Name).ToList();
             }
         }
     }
