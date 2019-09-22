@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Cooking.Commands;
 using Cooking.DTO;
+using Cooking.ServiceLayer;
 using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
+using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,11 +47,8 @@ namespace Cooking.Pages.Ingredients
             );
 
             AddCategoryCommand = new Lazy<DelegateCommand>(() => new DelegateCommand(AddRecipe));
-
-            using (var context = new CookingContext())
-            {
-                AllIngredients = context.Ingredients.Select(x => Mapper.Map<IngredientMain>(x)).ToList();
-            }
+            AllIngredients = IngredientService.GetIngredients<IngredientData>()
+                                              .MapTo<List<IngredientMain>>();
 
             Ingredient = ingredient ?? new RecipeIngredientMain();
         }

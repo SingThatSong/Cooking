@@ -403,8 +403,6 @@ namespace Cooking.Pages.Recepies
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public Lazy<DelegateCommand> ImageSearchCommand { get; }
         public Lazy<DelegateCommand> RemoveImageCommand { get; }
         public Lazy<DelegateCommand> AddIngredientCommand { get; }
@@ -419,7 +417,6 @@ namespace Cooking.Pages.Recepies
         public Lazy<DelegateCommand<RecipeIngredientMain>> EditIngredientCommand { get; }
         public Lazy<DelegateCommand<RecipeIngredientMain>> RemoveIngredientCommand { get; }
         public DelegateCommand<Guid> DeleteRecipeCommand { get; }
-
 
         public async void DeleteRecipe(Guid recipeId)
         {
