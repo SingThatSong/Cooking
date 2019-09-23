@@ -40,7 +40,7 @@ namespace Cooking.Pages.Recepies
         {
             if (recipeId.HasValue)
             {
-                var recipeDb = RecipeService.GetRecipe<RecipeFull>(recipeId.Value).Result;
+                var recipeDb = RecipeService.GetRecipe<RecipeFull>(recipeId.Value);
                 Recipe = MapperService.Mapper.Map<RecipeMain>(recipeDb);
             }
             else

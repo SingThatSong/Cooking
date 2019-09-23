@@ -1,6 +1,7 @@
 ﻿using Data.Model;
 using Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Data.Context
 {
@@ -54,6 +55,13 @@ namespace Data.Context
                 .HasMany(x => x.Ingredients)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Recipe>()
+                .Property(e => e.ID)
+                .HasConversion(
+                    g => g.ToByteArray(),
+                    b => new Guid(b));
+
 
             modelBuilder.Entity<RecipeIngredient>()
                 .HasOne(x => x.Ingredient)

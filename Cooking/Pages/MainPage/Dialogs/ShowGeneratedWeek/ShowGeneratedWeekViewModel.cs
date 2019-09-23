@@ -60,7 +60,7 @@ namespace Cooking.Pages.MainPage.Dialogs
                 {
                     var recipeId = viewModel.Recipies.Single(x => x.IsSelected).ID;
 
-                    day.SpecificRecipe = await RecipeService.GetRecipe<RecipeSlim>(recipeId);
+                    day.SpecificRecipe = RecipeService.GetRecipe<RecipeSlim>(recipeId);
                 }
             });
 

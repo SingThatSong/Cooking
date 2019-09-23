@@ -11,7 +11,7 @@ namespace Data.Context
 
         public ILogger CreateLogger(string categoryName)
         {
-            Debug.WriteLine($"Event for {categoryName}");
+            Debug.WriteLine($"{categoryName}");
             return logger ?? (logger = new ConsoleLogger());
         }
 

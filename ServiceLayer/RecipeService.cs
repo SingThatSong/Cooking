@@ -101,13 +101,12 @@ namespace ServiceLayer
             }
         }
 
-        public static async Task<TRecipe> GetRecipe<TRecipe>(Guid recipeId) where TRecipe : RecipeSlim
+        public static TRecipe GetRecipe<TRecipe>(Guid recipeId) where TRecipe : RecipeSlim
         {
-            using (var context = new CookingContext())
-            {
-                return await MapperService.Mapper.ProjectTo<TRecipe>(context.Recipies)
-                                                 .SingleAsync(x => x.ID == recipeId);
-            }
+            using var context = new CookingContext();
+
+            return MapperService.Mapper.ProjectTo<TRecipe>(context.Recipies)
+                                       .Single(x => x.ID == recipeId);
         }
 
         public static async Task DeleteRecipe(Guid id)

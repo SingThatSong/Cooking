@@ -99,13 +99,13 @@ namespace Cooking.Pages.Recepies
 
         private bool HasTag(RecipeSelect recipe, string category)
         {
-            var recipeDb = RecipeService.GetRecipe<RecipeFull>(recipe.ID).Result;
+            var recipeDb = RecipeService.GetRecipe<RecipeFull>(recipe.ID);
             return recipeDb.Tags != null && recipeDb.Tags.Any(x => x.Name.ToUpperInvariant() == category.ToUpperInvariant());
         }
 
         private bool HasIngredient(RecipeSelect recipe, string category)
         {
-            var recipeDb = RecipeService.GetRecipe<RecipeFull>(recipe.ID).Result;
+            var recipeDb = RecipeService.GetRecipe<RecipeFull>(recipe.ID);
 
             // Ищем среди ингредиентов
             if (recipeDb.Ingredients != null

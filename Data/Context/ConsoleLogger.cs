@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 
 namespace Data.Context
@@ -10,7 +11,7 @@ namespace Data.Context
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss.fff")}] {formatter(state, exception)}");
+            Debug.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss.fff")}] {formatter(state, exception)}");
         }
     }
 }
