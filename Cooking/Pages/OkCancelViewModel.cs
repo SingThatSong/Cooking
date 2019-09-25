@@ -7,7 +7,7 @@ namespace Cooking.Pages.Recepies
     public partial class OkCancelViewModel : DialogViewModel
     {
         public bool DialogResultOk { get; private set; }
-        public DelegateCommand OkCommand { get; }
+        public DelegateCommand OkCommand { get; protected set; }
 
         public OkCancelViewModel() : base()
         {

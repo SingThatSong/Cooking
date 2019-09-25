@@ -11,6 +11,7 @@ using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Data;
@@ -43,6 +44,8 @@ namespace Cooking.Pages.Recepies
 
             RecipiesSource = new CollectionViewSource();
             RecipiesSource.Filter += RecipiesSource_Filter;
+            RecipiesSource.IsLiveSortingRequested = true;
+            RecipiesSource.SortDescriptions.Add(new SortDescription() { PropertyName = nameof(RecipeSelect.Name) });
         }
 
         private void OnLoaded()
@@ -128,7 +131,6 @@ namespace Cooking.Pages.Recepies
 
             return false;
         }
-
 
         public async void ViewRecipe(Guid recipeId)
         {

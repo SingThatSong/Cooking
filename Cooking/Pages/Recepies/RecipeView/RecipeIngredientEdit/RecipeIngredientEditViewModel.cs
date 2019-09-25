@@ -18,6 +18,8 @@ namespace Cooking.Pages.Ingredients
     {
         public bool DialogResultOk { get; set; }
 
+        public RecipeIngredientEditViewModel() : this(null) { }
+
         public RecipeIngredientEditViewModel(RecipeIngredientMain ingredient = null)
         {
             OkCommand = new Lazy<DelegateCommand>(

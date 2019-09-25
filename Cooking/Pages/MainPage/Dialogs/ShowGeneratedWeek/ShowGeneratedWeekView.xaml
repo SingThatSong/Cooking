@@ -19,7 +19,7 @@
 
     <UserControl.Resources>
         <converters:SimpleBooleanConverter x:Key="oppositeConverter" True="False" False="True"/>
-        <converters:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         <converters:IsNullToVisibilityConverter x:Key="isNullToVisibilityConverter" NullVisibility="Visible" NotNullVisibility="Collapsed" />
         <converters:IsNullToVisibilityConverter x:Key="isNotNullToVisibilityConverter" NullVisibility="Collapsed" NotNullVisibility="Visible" />
     </UserControl.Resources>
