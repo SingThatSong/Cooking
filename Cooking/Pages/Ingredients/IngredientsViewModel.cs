@@ -95,7 +95,7 @@ namespace Cooking.Pages.Ingredients
 
             if (viewModel.DialogResultOk)
             {
-                var id = await IngredientService.CreateGarnishAsync(viewModel.Ingredient.MapTo<Ingredient>());
+                var id = await IngredientService.CreateAsync(viewModel.Ingredient.MapTo<Ingredient>());
                 viewModel.Ingredient.ID = id;
                 Ingredients.Add(viewModel.Ingredient);
             }

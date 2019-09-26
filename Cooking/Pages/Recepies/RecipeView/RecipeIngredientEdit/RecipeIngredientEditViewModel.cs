@@ -73,13 +73,8 @@ namespace Cooking.Pages.Ingredients
 
             if (viewModel.DialogResultOk)
             {
-                var category = Mapper.Map<Ingredient>(viewModel.Ingredient);
-                using (var context = new CookingContext())
-                {
-                    context.Add(category);
-                    context.SaveChanges();
-                }
-                viewModel.Ingredient.ID = category.ID;
+                var id = await IngredientService.CreateAsync(viewModel.Ingredient.MapTo<Ingredient>());
+                viewModel.Ingredient.ID = id;
                 AllIngredients.Add(viewModel.Ingredient);
                 Ingredient.Ingredient = viewModel.Ingredient;
             }

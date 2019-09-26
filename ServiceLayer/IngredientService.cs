@@ -25,13 +25,13 @@ namespace ServiceLayer
             }
         }
 
-        public static async Task<Guid> CreateGarnishAsync(Ingredient garnish)
+        public static async Task<Guid> CreateAsync(Ingredient item)
         {
             using (var context = new CookingContext(DatabaseService.DbFileName))
             {
-                await context.Ingredients.AddAsync(garnish);
+                await context.Ingredients.AddAsync(item);
                 await context.SaveChangesAsync();
-                return garnish.ID;
+                return item.ID;
             }
         }
 

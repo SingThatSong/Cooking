@@ -120,12 +120,12 @@ namespace Cooking.Pages.Recepies
 
             EditIngredientGroupCommand = new DelegateCommand<IngredientGroupMain>(async (group) => {                    
                 
-                    var viewModel = new IngredientGroupEditViewModel(Mapper.Map<IngredientGroupMain>(group));
+                    var viewModel = new IngredientGroupEditViewModel(group.MapTo<IngredientGroupMain>());
                     await new DialogUtils(this).ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Редактирование группы ингредиентов", viewModel);
 
                     if (viewModel.DialogResultOk)
                     {
-                        Mapper.Map(viewModel.IngredientGroup, group);
+                        viewModel.IngredientGroup.MapTo(group);
                     }
                 });
 
@@ -181,7 +181,7 @@ namespace Cooking.Pages.Recepies
 
                 if (viewModel.DialogResultOk)
                 {
-                    Mapper.Map(viewModel.Ingredient, ingredient);
+                    viewModel.Ingredient.MapTo(ingredient);
                 }
             });
 
