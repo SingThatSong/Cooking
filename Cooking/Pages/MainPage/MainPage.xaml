@@ -1,131 +1,189 @@
-﻿<UserControl x:Class="Cooking.Pages.MainPage.MainPage"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:converters="clr-namespace:Cooking.Converters"
-             xmlns:local="clr-namespace:Cooking.Pages.MainPage"
-             mc:Ignorable="d" 
-             mahapps:DialogParticipation.Register="{Binding}"
-             d:DesignHeight="450" d:DesignWidth="800" >
-    <UserControl.DataContext>
-        <local:MainPageViewModel />
-    </UserControl.DataContext>
+﻿<UserControl
+  x:Class="Cooking.Pages.MainPage.MainPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:converters="clr-namespace:Cooking.Converters"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+  xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+  xmlns:local="clr-namespace:Cooking.Pages.MainPage"
+  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  d:DesignHeight="450"
+  d:DesignWidth="800"
+  mahapps:DialogParticipation.Register="{Binding}"
+  mc:Ignorable="d">
+  <UserControl.DataContext>
+    <local:MainPageViewModel />
+  </UserControl.DataContext>
 
-    <UserControl.Resources>
-        <converters:IsNullToVisibilityConverter x:Key="isNullConverter" NullVisibility="Visible" NotNullVisibility="Collapsed" />
-        <converters:IsNullToVisibilityConverter x:Key="isNotNullConverter" NullVisibility="Collapsed" NotNullVisibility="Visible" />
-    </UserControl.Resources>
-    
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-    
-    <Grid Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition />
-            <RowDefinition Height="80"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60"/>
-            <ColumnDefinition />
-            <ColumnDefinition Width="60"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Column="1" TextBlock.FontSize="15" HorizontalAlignment="Center" Margin="0 10 0 0">
-            <TextBlock Text="Неделя" />
-            <TextBlock Text="{Binding WeekStart, StringFormat={}dd.MM}" Margin="5 0 0 0" />
-            <TextBlock Text="-" Margin="5 0"/>
-            <TextBlock Text="{Binding WeekEnd, StringFormat={}dd.MM.yyyy}" />
-            <TextBlock Text="Ужины" Margin="10 0"/>
-        </StackPanel>
+  <UserControl.Resources>
+    <converters:IsNullToVisibilityConverter
+      x:Key="isNullConverter"
+      NotNullVisibility="Collapsed"
+      NullVisibility="Visible" />
+    <converters:IsNullToVisibilityConverter
+      x:Key="isNotNullConverter"
+      NotNullVisibility="Visible"
+      NullVisibility="Collapsed" />
+  </UserControl.Resources>
 
-        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" Visibility="{Binding CurrentWeek, Converter={StaticResource isNullConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center" >
-            <TextBlock Text="Для этой недели нет расписания" FontSize="25"/>
-            <Button Command="{Binding CreateNewWeekCommand}" Content="Создать расписание на неделю" Width="200" Margin="0 20 0 0"/>
-        </StackPanel>
+  <i:Interaction.Triggers>
+    <i:EventTrigger EventName="Loaded">
+      <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+    </i:EventTrigger>
+  </i:Interaction.Triggers>
 
-        <ScrollViewer Grid.Row="1" Grid.Column="1" Visibility="{Binding CurrentWeek, Converter={StaticResource isNotNullConverter}}" VerticalScrollBarVisibility="Auto" >
-            <WrapPanel
-              TextElement.FontSize="15"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Top">
-                <local:DayControl DataContext="{Binding CurrentWeek.Monday}" Edit="{Binding WeekEdit}" DayName="Понедельник" />
-                <local:DayControl DataContext="{Binding CurrentWeek.Tuesday}" Edit="{Binding WeekEdit}" DayName="Вторник" />
-                <local:DayControl DataContext="{Binding CurrentWeek.Wednesday}" Edit="{Binding WeekEdit}" DayName="Среда" />
-                <local:DayControl DataContext="{Binding CurrentWeek.Thursday}" Edit="{Binding WeekEdit}" DayName="Четверг" />
-                <local:DayControl DataContext="{Binding CurrentWeek.Friday}" Edit="{Binding WeekEdit}" DayName="Пятница" />
-                <local:DayControl DataContext="{Binding CurrentWeek.Saturday}" Edit="{Binding WeekEdit}" DayName="Суббота" />
-                <local:DayControl DataContext="{Binding CurrentWeek.Sunday}" Edit="{Binding WeekEdit}" DayName="Воскресенье" />
-            </WrapPanel>
-        </ScrollViewer>
-        <StackPanel  Grid.Row="3"  Grid.Column="1"
-                     Orientation="Horizontal" 
-                     Visibility="{Binding CurrentWeek, Converter={StaticResource isNotNullConverter}}"
-                     VerticalAlignment="Bottom" 
-                     HorizontalAlignment="Center" 
-                     Margin="0 0 0 20">
-            <Button 
-                Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                Width="48" 
-                Height="48"
-                Foreground="Teal"
-                Command="{Binding CreateShoppingListCommand}" >
-                <icons:FontAwesome Width="20"
-                                  Height="20"
-                                  Kind="ShoppingCartSolid" />
-            </Button>
-            <ToggleButton 
-                Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}" 
-                IsChecked="{Binding WeekEdit}"
-                Width="48" 
-                Height="48"
-                Margin="10 0 0 0"
-                Foreground="LightGray" >
-                <icons:PackIconModern Width="20"
-                                  Height="20"
-                                  Kind="Edit" />
-            </ToggleButton>
-            <Button 
-                Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                Width="48" 
-                Height="48"
-                Margin="10 0 0 0"
-                Foreground="Red"
-                Command="{Binding DeleteCommand}">
-                <icons:PackIconModern Width="20"
-                                  Height="20"
-                                  Kind="Delete" />
-            </Button>
-        </StackPanel>
+  <Grid Background="Transparent">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="40" />
+      <RowDefinition />
+      <RowDefinition Height="80" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="60" />
+      <ColumnDefinition />
+      <ColumnDefinition Width="60" />
+    </Grid.ColumnDefinitions>
+    <StackPanel
+      Grid.Column="1"
+      Margin="0,10,0,0"
+      HorizontalAlignment="Center"
+      Orientation="Horizontal"
+      TextBlock.FontSize="15">
+      <TextBlock Text="Неделя" />
+      <TextBlock Margin="5,0,0,0" Text="{Binding WeekStart, StringFormat={}dd.MM}" />
+      <TextBlock Margin="5,0" Text="-" />
+      <TextBlock Text="{Binding WeekEnd, StringFormat={}dd.MM.yyyy}" />
+      <TextBlock Margin="10,0" Text="Ужины" />
+    </StackPanel>
 
-        <Button Grid.Row="1"
-                Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                Width="48" 
-                Height="48"
-                Foreground="Gray"
-                VerticalAlignment="Center"
-                Command="{Binding SelectPreviousWeekCommand}" >
-            <icons:FontAwesome Width="20"
-                                  Height="20"
-                                  Kind="ArrowLeftSolid" />
-        </Button>
+    <StackPanel
+      Grid.Row="1"
+      Grid.Column="1"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      Orientation="Vertical"
+      Visibility="{Binding CurrentWeek, Converter={StaticResource isNullConverter}}">
+      <TextBlock FontSize="25" Text="Для этой недели нет расписания" />
+      <Button
+        Width="200"
+        Margin="0,20,0,0"
+        Command="{Binding CreateNewWeekCommand}"
+        Content="Создать расписание на неделю" />
+    </StackPanel>
 
-        <Button Grid.Row="1" Grid.Column="3"
-                Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                Width="48" 
-                Height="48"
-                Foreground="Gray"
-                VerticalAlignment="Center"
-                Command="{Binding SelectNextWeekCommand}" >
-            <icons:FontAwesome Width="20"
-                                  Height="20"
-                                  Kind="ArrowRightSolid" />
-        </Button>
-    </Grid>
+    <ScrollViewer
+      Grid.Row="1"
+      Grid.Column="1"
+      VerticalScrollBarVisibility="Auto"
+      Visibility="{Binding CurrentWeek, Converter={StaticResource isNotNullConverter}}">
+      <WrapPanel
+        HorizontalAlignment="Center"
+        VerticalAlignment="Top"
+        TextElement.FontSize="15">
+        <local:DayControl
+          DataContext="{Binding CurrentWeek.Monday}"
+          DayName="Понедельник"
+          Edit="{Binding WeekEdit}" />
+        <local:DayControl
+          DataContext="{Binding CurrentWeek.Tuesday}"
+          DayName="Вторник"
+          Edit="{Binding WeekEdit}" />
+        <local:DayControl
+          DataContext="{Binding CurrentWeek.Wednesday}"
+          DayName="Среда"
+          Edit="{Binding WeekEdit}" />
+        <local:DayControl
+          DataContext="{Binding CurrentWeek.Thursday}"
+          DayName="Четверг"
+          Edit="{Binding WeekEdit}" />
+        <local:DayControl
+          DataContext="{Binding CurrentWeek.Friday}"
+          DayName="Пятница"
+          Edit="{Binding WeekEdit}" />
+        <local:DayControl
+          DataContext="{Binding CurrentWeek.Saturday}"
+          DayName="Суббота"
+          Edit="{Binding WeekEdit}" />
+        <local:DayControl
+          DataContext="{Binding CurrentWeek.Sunday}"
+          DayName="Воскресенье"
+          Edit="{Binding WeekEdit}" />
+      </WrapPanel>
+    </ScrollViewer>
+    <StackPanel
+      Grid.Row="3"
+      Grid.Column="1"
+      Margin="0,0,0,20"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Bottom"
+      Orientation="Horizontal"
+      Visibility="{Binding CurrentWeek, Converter={StaticResource isNotNullConverter}}">
+      <Button
+        Width="48"
+        Height="48"
+        Command="{Binding CreateShoppingListCommand}"
+        Foreground="Teal"
+        Style="{DynamicResource MahApps.Styles.Button.Circle}">
+        <icons:FontAwesome
+          Width="20"
+          Height="20"
+          Kind="ShoppingCartSolid" />
+      </Button>
+      <ToggleButton
+        Width="48"
+        Height="48"
+        Margin="10,0,0,0"
+        Foreground="LightGray"
+        IsChecked="{Binding WeekEdit}"
+        Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+        <icons:PackIconModern
+          Width="20"
+          Height="20"
+          Kind="Edit" />
+      </ToggleButton>
+      <Button
+        Width="48"
+        Height="48"
+        Margin="10,0,0,0"
+        Command="{Binding DeleteCommand}"
+        Foreground="Red"
+        Style="{DynamicResource MahApps.Styles.Button.Circle}">
+        <icons:PackIconModern
+          Width="20"
+          Height="20"
+          Kind="Delete" />
+      </Button>
+    </StackPanel>
+
+    <Button
+      Grid.Row="1"
+      Width="48"
+      Height="48"
+      VerticalAlignment="Center"
+      Command="{Binding SelectPreviousWeekCommand}"
+      Foreground="Gray"
+      Style="{DynamicResource MahApps.Styles.Button.Circle}">
+      <icons:FontAwesome
+        Width="20"
+        Height="20"
+        Kind="ArrowLeftSolid" />
+    </Button>
+
+    <Button
+      Grid.Row="1"
+      Grid.Column="3"
+      Width="48"
+      Height="48"
+      VerticalAlignment="Center"
+      Command="{Binding SelectNextWeekCommand}"
+      Foreground="Gray"
+      Style="{DynamicResource MahApps.Styles.Button.Circle}">
+      <icons:FontAwesome
+        Width="20"
+        Height="20"
+        Kind="ArrowRightSolid" />
+    </Button>
+  </Grid>
 </UserControl>

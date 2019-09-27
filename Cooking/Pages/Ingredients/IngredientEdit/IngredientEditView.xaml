@@ -1,65 +1,79 @@
-﻿<UserControl x:Class="Cooking.Pages.Ingredients.IngredientEditView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mahapps:DialogParticipation.Register="{Binding}"
-             mc:Ignorable="d"
-             
-             d:DesignHeight="450" 
-             d:DesignWidth="800">
+﻿<UserControl
+  x:Class="Cooking.Pages.Ingredients.IngredientEditView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  d:DesignHeight="450"
+  d:DesignWidth="800"
+  mahapps:DialogParticipation.Register="{Binding}"
+  mc:Ignorable="d">
 
-    <UserControl.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
-    </UserControl.InputBindings>
-    
-    <Grid Height="200">
-        
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="100"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="80" />
-        </Grid.ColumnDefinitions>
+  <UserControl.InputBindings>
+    <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
+  </UserControl.InputBindings>
 
-        <StackPanel Orientation="Vertical">
-            <TextBlock Text="Название" />
-            <TextBox Grid.Column="1"
-                     Name="Focused"
-                Text="{Binding Ingredient.Name, UpdateSourceTrigger=PropertyChanged}" />
-            
-            <TextBlock Margin="0 10 0 0" Text="Тип" />
-            <ComboBox ItemsSource="{Binding IngredientTypes}" 
-                          SelectedItem="{Binding Ingredient.Type}"
-                          mahapps:TextBoxHelper.ClearTextButton="True"
-                          DisplayMemberPath="Name"/>
-        </StackPanel>
-        <ItemsControl ItemsSource="{Binding SimilarIngredients}" Margin="10 10 0 0" Grid.Column="1"></ItemsControl>
+  <Grid Height="200">
 
-        <StackPanel Margin="0 20 0 0" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Grid.ColumnSpan="2">
-            <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                    Width="48" 
-                    Height="48"
-                    Foreground="Green"
-                    Command="{Binding OkCommand}">
-                <icons:PackIconModern Width="20"
-                                      Height="20"
-                                      Kind="Check" />
-            </Button>
-            <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                    Width="48" 
-                    Height="48"
-                    Margin="10 0 0 0"
-                    Foreground="Red"
-                    Command="{Binding CloseCommand}">
-                <icons:PackIconModern Width="20"
-                                          Height="20"
-                                          Kind="Close" />
-            </Button>
-        </StackPanel>
-    </Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition Height="100" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition Width="80" />
+    </Grid.ColumnDefinitions>
+
+    <StackPanel Orientation="Vertical">
+      <TextBlock Text="Название" />
+      <TextBox
+        Name="Focused"
+        Grid.Column="1"
+        Text="{Binding Ingredient.Name, UpdateSourceTrigger=PropertyChanged}" />
+
+      <TextBlock Margin="0,10,0,0" Text="Тип" />
+      <ComboBox
+        mahapps:TextBoxHelper.ClearTextButton="True"
+        DisplayMemberPath="Name"
+        ItemsSource="{Binding IngredientTypes}"
+        SelectedItem="{Binding Ingredient.Type}" />
+    </StackPanel>
+    <ItemsControl
+      Grid.Column="1"
+      Margin="10,10,0,0"
+      ItemsSource="{Binding SimilarIngredients}" />
+
+    <StackPanel
+      Grid.Row="2"
+      Grid.ColumnSpan="2"
+      Margin="0,20,0,0"
+      HorizontalAlignment="Center"
+      Orientation="Horizontal">
+      <Button
+        Width="48"
+        Height="48"
+        Command="{Binding OkCommand}"
+        Foreground="Green"
+        Style="{DynamicResource MahApps.Styles.Button.Circle}">
+        <icons:PackIconModern
+          Width="20"
+          Height="20"
+          Kind="Check" />
+      </Button>
+      <Button
+        Width="48"
+        Height="48"
+        Margin="10,0,0,0"
+        Command="{Binding CloseCommand}"
+        Foreground="Red"
+        Style="{DynamicResource MahApps.Styles.Button.Circle}">
+        <icons:PackIconModern
+          Width="20"
+          Height="20"
+          Kind="Close" />
+      </Button>
+    </StackPanel>
+  </Grid>
 </UserControl>

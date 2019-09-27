@@ -1,155 +1,196 @@
-﻿<UserControl x:Class="Cooking.Pages.Recepies.TagSelectView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mahapps:DialogParticipation.Register="{Binding}"
-             mc:Ignorable="d"
-             Margin="-200 0"
-             d:DesignHeight="450" 
-             d:DesignWidth="800">
-    
-    <UserControl.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
-    </UserControl.InputBindings>
-    
-    <Grid MinHeight="200" MaxHeight="600" Margin="0 10 0 0" HorizontalAlignment="Center" >
-        
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="100"/>
-        </Grid.RowDefinitions>
+﻿<UserControl
+  x:Class="Cooking.Pages.Recepies.TagSelectView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  Margin="-200,0"
+  d:DesignHeight="450"
+  d:DesignWidth="800"
+  mahapps:DialogParticipation.Register="{Binding}"
+  mc:Ignorable="d">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="50" />
-        </Grid.ColumnDefinitions>
+  <UserControl.InputBindings>
+    <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
+  </UserControl.InputBindings>
 
-        <ItemsControl ItemsSource="{Binding MainIngredients}" MinHeight="200">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Margin="3 0 0 3" Padding="0" BorderThickness="0"
-                                           Background="{Binding Color}" CornerRadius="3">
-                        <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Vertical" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.Template>
-                <ControlTemplate TargetType="{x:Type ItemsControl}">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsPresenter />
-                    </ScrollViewer>
-                </ControlTemplate>
-            </ItemsControl.Template>
-        </ItemsControl>
-        <ItemsControl ItemsSource="{Binding DishTypes}" MinHeight="200" Grid.Column="1">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Margin="3 0 0 3" Padding="0" BorderThickness="0"
-                                           Background="{Binding Color}" CornerRadius="3">
-                        <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Vertical"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.Template>
-                <ControlTemplate TargetType="{x:Type ItemsControl}">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsPresenter />
-                    </ScrollViewer>
-                </ControlTemplate>
-            </ItemsControl.Template>
-        </ItemsControl>
-        <ItemsControl ItemsSource="{Binding Occasions}" MinHeight="200" Grid.Column="2">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Margin="3 0 0 3" Padding="0" BorderThickness="0"
-                                           Background="{Binding Color}" CornerRadius="3">
-                        <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Vertical"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.Template>
-                <ControlTemplate TargetType="{x:Type ItemsControl}">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsPresenter />
-                    </ScrollViewer>
-                </ControlTemplate>
-            </ItemsControl.Template>
-        </ItemsControl>
-        <ItemsControl ItemsSource="{Binding Sources}" MinHeight="200" Grid.Column="3">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Margin="3 0 0 3" Padding="0" BorderThickness="0"
-                                           Background="{Binding Color}" CornerRadius="3">
-                        <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Vertical"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.Template>
-                <ControlTemplate TargetType="{x:Type ItemsControl}">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsPresenter />
-                    </ScrollViewer>
-                </ControlTemplate>
-            </ItemsControl.Template>
-        </ItemsControl>
-        
-        <Button Grid.Column="5"
-            Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                    Width="36" 
-                    Height="36"
-                    Command="{Binding AddTagCommand}"
-                    Margin="10 0 0 0" >
-            <icons:PackIconModern Width="15"
-                                      Height="15"
-                                      Kind="Add" />
-        </Button>
+  <Grid
+    MinHeight="200"
+    MaxHeight="600"
+    Margin="0,10,0,0"
+    HorizontalAlignment="Center">
 
-        <StackPanel Margin="20" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Grid.ColumnSpan="4">
-            <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                    Width="48" 
-                    Height="48"
-                    Foreground="Green"
-                    Command="{Binding OkCommand}">
-                <icons:PackIconModern Width="20"
-                                      Height="20"
-                                      Kind="Check" />
-            </Button>
-            <Button Style="{DynamicResource MahApps.Styles.Button.Circle}" 
-                    Width="48" 
-                    Height="48"
-                    Margin="10 0 0 0"
-                    Foreground="Red"
-                    Command="{Binding CloseCommand}">
-                <icons:PackIconModern Width="20"
-                                          Height="20"
-                                          Kind="Close" />
-            </Button>
-        </StackPanel>
-    </Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition Height="100" />
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="50" />
+    </Grid.ColumnDefinitions>
+
+    <ItemsControl MinHeight="200" ItemsSource="{Binding MainIngredients}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Border
+            Margin="3,0,0,3"
+            Padding="0"
+            Background="{Binding Color}"
+            BorderThickness="0"
+            CornerRadius="3">
+            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <StackPanel Orientation="Vertical" />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.Template>
+        <ControlTemplate TargetType="{x:Type ItemsControl}">
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsPresenter />
+          </ScrollViewer>
+        </ControlTemplate>
+      </ItemsControl.Template>
+    </ItemsControl>
+    <ItemsControl
+      Grid.Column="1"
+      MinHeight="200"
+      ItemsSource="{Binding DishTypes}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Border
+            Margin="3,0,0,3"
+            Padding="0"
+            Background="{Binding Color}"
+            BorderThickness="0"
+            CornerRadius="3">
+            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel Orientation="Vertical" />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.Template>
+        <ControlTemplate TargetType="{x:Type ItemsControl}">
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsPresenter />
+          </ScrollViewer>
+        </ControlTemplate>
+      </ItemsControl.Template>
+    </ItemsControl>
+    <ItemsControl
+      Grid.Column="2"
+      MinHeight="200"
+      ItemsSource="{Binding Occasions}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Border
+            Margin="3,0,0,3"
+            Padding="0"
+            Background="{Binding Color}"
+            BorderThickness="0"
+            CornerRadius="3">
+            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel Orientation="Vertical" />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.Template>
+        <ControlTemplate TargetType="{x:Type ItemsControl}">
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsPresenter />
+          </ScrollViewer>
+        </ControlTemplate>
+      </ItemsControl.Template>
+    </ItemsControl>
+    <ItemsControl
+      Grid.Column="3"
+      MinHeight="200"
+      ItemsSource="{Binding Sources}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Border
+            Margin="3,0,0,3"
+            Padding="0"
+            Background="{Binding Color}"
+            BorderThickness="0"
+            CornerRadius="3">
+            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel Orientation="Vertical" />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.Template>
+        <ControlTemplate TargetType="{x:Type ItemsControl}">
+          <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsPresenter />
+          </ScrollViewer>
+        </ControlTemplate>
+      </ItemsControl.Template>
+    </ItemsControl>
+
+    <Button
+      Grid.Column="5"
+      Width="36"
+      Height="36"
+      Margin="10,0,0,0"
+      Command="{Binding AddTagCommand}"
+      Style="{DynamicResource MahApps.Styles.Button.Circle}">
+      <icons:PackIconModern
+        Width="15"
+        Height="15"
+        Kind="Add" />
+    </Button>
+
+    <StackPanel
+      Grid.Row="2"
+      Grid.ColumnSpan="4"
+      Margin="20"
+      HorizontalAlignment="Center"
+      Orientation="Horizontal">
+      <Button
+        Width="48"
+        Height="48"
+        Command="{Binding OkCommand}"
+        Foreground="Green"
+        Style="{DynamicResource MahApps.Styles.Button.Circle}">
+        <icons:PackIconModern
+          Width="20"
+          Height="20"
+          Kind="Check" />
+      </Button>
+      <Button
+        Width="48"
+        Height="48"
+        Margin="10,0,0,0"
+        Command="{Binding CloseCommand}"
+        Foreground="Red"
+        Style="{DynamicResource MahApps.Styles.Button.Circle}">
+        <icons:PackIconModern
+          Width="20"
+          Height="20"
+          Kind="Close" />
+      </Button>
+    </StackPanel>
+  </Grid>
 </UserControl>
