@@ -45,7 +45,7 @@
     <ListView
       Name="RecipiesList"
       Grid.Row="1"
-      Margin="0,5,0,0"
+      Margin="0 5 0 0"
       ItemsSource="{Binding RecipiesSource.View}"
       ScrollViewer.CanContentScroll="True"
       VirtualizingPanel.ScrollUnit="Pixel"

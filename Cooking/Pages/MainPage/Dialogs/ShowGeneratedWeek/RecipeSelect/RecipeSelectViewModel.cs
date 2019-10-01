@@ -50,7 +50,7 @@ namespace Cooking.Pages.Recepies
             {
                 var sb = new StringBuilder();
 
-                if (day.NeededDishTypes != null && day.NeededDishTypes.Where(x => x.IsChecked && x.CanBeRemoved).Count() > 0)
+                if (day.NeededDishTypes != null && day.NeededDishTypes.Any(x => x.IsChecked && x.CanBeRemoved))
                 {
                     sb.Append("~");
                     foreach (var dishType in day.NeededDishTypes)
@@ -66,7 +66,7 @@ namespace Cooking.Pages.Recepies
                 }
                 
 
-                if (day.NeededMainIngredients != null && day.NeededMainIngredients.Where(x => x.IsChecked && x.CanBeRemoved).Count() > 0)
+                if (day.NeededMainIngredients != null && day.NeededMainIngredients.Any(x => x.IsChecked && x.CanBeRemoved))
                 {
                     sb.Append("#");
                     foreach (var mainIngredient in day.NeededMainIngredients)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+#pragma warning disable CA1814 // Используйте массивы массивов вместо многомерных массивов
 namespace Cooking.Helpers
 {
     public static class StringCompare
@@ -16,6 +17,7 @@ namespace Cooking.Helpers
             if (str1.Equals(str2)) return 0;
 
             int m = str1.Length, n = str2.Length;
+
             int[,] E = new int[m + 1, n + 1];
 
             int diff(int x, int y) => str1[x] == str2[y] ? 0 : 1;
@@ -38,3 +40,5 @@ namespace Cooking.Helpers
         }
     }
 }
+
+#pragma warning restore CA1814

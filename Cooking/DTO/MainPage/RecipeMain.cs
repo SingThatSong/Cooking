@@ -11,9 +11,9 @@ namespace Cooking.DTO
     public class RecipeMain
     {        
         [AlsoNotifyFor(nameof(FullPath))]
-        public string ImagePath { get; set; }
+        public string? ImagePath { get; set; }
 
-        public string FullPath => ImagePath != null 
+        public string? FullPath => ImagePath != null 
                                 ? Path.GetFullPath(ImagePath) 
                                 : null;
 

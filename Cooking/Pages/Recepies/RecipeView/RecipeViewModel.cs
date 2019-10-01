@@ -3,6 +3,7 @@ using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Ingredients;
 using Cooking.ServiceLayer;
+using Data.Model;
 using GongSolutions.Wpf.DragDrop;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
@@ -58,6 +59,7 @@ namespace Cooking.Pages.Recepies
             if (recipeId.HasValue)
             {
                 var recipeDb = RecipeService.GetRecipe<RecipeFull>(recipeId.Value);
+
                 Recipe = recipeDb.MapTo<RecipeMain>();
             }
             else
@@ -74,102 +76,60 @@ namespace Cooking.Pages.Recepies
                 canExecute: () => Recipe?.ImagePath != null
             );
 
-            AddIngredientToGroupCommand = new DelegateCommand<IngredientGroupMain>(async (group) => {
+            AddIngredientToGroupCommand = new DelegateCommand<IngredientGroupMain>(AddIngredientToGroup);
+            AddIngredientCommand = new DelegateCommand(AddIngredient);
+            EditIngredientGroupCommand = new DelegateCommand<IngredientGroupMain>(async (group) => {
 
-                    var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", new RecipeIngredientEditViewModel() { IsCreation = true });
+                var viewModel = new IngredientGroupEditViewModel(group.MapTo<IngredientGroupMain>());
+                await new DialogUtils(this).ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Редактирование группы ингредиентов", viewModel);
 
-                    if (viewModel.DialogResultOk)
-                    {
-                        group.Ingredients ??= new ObservableCollection<RecipeIngredientMain>();
-
-                        if (viewModel.Ingredients != null)
-                        {
-                            foreach (var ingredient in viewModel.Ingredients)
-                            {
-                                ingredient.Order += group.Ingredients.Count;
-                                group.Ingredients.Add(ingredient);
-                            }
-                        }
-
-                        viewModel.Ingredient.Order = group.Ingredients.Count + 1;
-                        group.Ingredients.Add(viewModel.Ingredient);
-                    }
-                });
-
-            AddIngredientCommand = new DelegateCommand(async () => {
-
-                    var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", new RecipeIngredientEditViewModel() { IsCreation = true });
-
-                    if (viewModel.DialogResultOk)
-                    {
-                        Recipe.Ingredients ??= new ObservableCollection<RecipeIngredientMain>();
-
-                        if (viewModel.Ingredients != null)
-                        {
-                            foreach (var ingredient in viewModel.Ingredients)
-                            {
-                                ingredient.Order += Recipe.Ingredients.Count;
-                                Recipe.Ingredients.Add(ingredient);
-                            }
-                        }
-
-                        viewModel.Ingredient.Order = Recipe.Ingredients.Count + 1;
-                        Recipe.Ingredients.Add(viewModel.Ingredient);
-                    }
-                });
-
-            EditIngredientGroupCommand = new DelegateCommand<IngredientGroupMain>(async (group) => {                    
-                
-                    var viewModel = new IngredientGroupEditViewModel(group.MapTo<IngredientGroupMain>());
-                    await new DialogUtils(this).ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Редактирование группы ингредиентов", viewModel);
-
-                    if (viewModel.DialogResultOk)
-                    {
-                        viewModel.IngredientGroup.MapTo(group);
-                    }
-                });
+                if (viewModel.DialogResultOk)
+                {
+                    viewModel.IngredientGroup.MapTo(group);
+                }
+            });
 
 
             AddIngredientGroupCommand = new DelegateCommand(async () => {
-                    var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Добавление группы ингредиентов");
+                var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Добавление группы ингредиентов");
 
-                    if (viewModel.DialogResultOk)
-                    {
-                        Recipe.IngredientGroups = Recipe.IngredientGroups ?? new ObservableCollection<IngredientGroupMain>();
-                        Recipe.IngredientGroups.Add(viewModel.IngredientGroup);
-                    }
-                });
+                if (viewModel.DialogResultOk)
+                {
+                    Recipe.IngredientGroups = Recipe.IngredientGroups ?? new ObservableCollection<IngredientGroupMain>();
+                    Recipe.IngredientGroups.Add(viewModel.IngredientGroup);
+                }
+            });
 
             AddTagCommand = new DelegateCommand(async () => {
-                    var dialogUtils = new DialogUtils(this);
-                    var viewModel = await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectEditViewModel>("Добавление тегов", new TagSelectEditViewModel(Recipe.Tags, dialogUtils));
+                var dialogUtils = new DialogUtils(this);
+                var viewModel = await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectEditViewModel>("Добавление тегов", new TagSelectEditViewModel(Recipe.Tags, dialogUtils));
 
-                    if (viewModel.DialogResultOk)
+                if (viewModel.DialogResultOk)
+                {
+                    IEnumerable<TagDTO> tags = new List<TagDTO>();
+                    if (viewModel.MainIngredients != null)
                     {
-                        IEnumerable<TagDTO> tags = new List<TagDTO>();
-                        if (viewModel.MainIngredients != null)
-                        {
-                            tags = tags.Union(viewModel.MainIngredients.Where(x => x.IsChecked));
-                        }
-
-                        if (viewModel.DishTypes != null)
-                        {
-                            tags = tags.Union(viewModel.DishTypes.Where(x => x.IsChecked));
-                        }
-
-                        if (viewModel.Occasions != null)
-                        {
-                            tags = tags.Union(viewModel.Occasions.Where(x => x.IsChecked));
-                        }
-
-                        if (viewModel.Sources != null)
-                        {
-                            tags = tags.Union(viewModel.Sources.Where(x => x.IsChecked));
-                        }
-
-                        Recipe.Tags = new ObservableCollection<TagDTO>(tags);
+                        tags = tags.Union(viewModel.MainIngredients.Where(x => x.IsChecked));
                     }
-                });
+
+                    if (viewModel.DishTypes != null)
+                    {
+                        tags = tags.Union(viewModel.DishTypes.Where(x => x.IsChecked));
+                    }
+
+                    if (viewModel.Occasions != null)
+                    {
+                        tags = tags.Union(viewModel.Occasions.Where(x => x.IsChecked));
+                    }
+
+                    if (viewModel.Sources != null)
+                    {
+                        tags = tags.Union(viewModel.Sources.Where(x => x.IsChecked));
+                    }
+
+                    Recipe.Tags = new ObservableCollection<TagDTO>(tags);
+                }
+            });
 
             RemoveTagCommand = new DelegateCommand<TagDTO>(tag =>
             {
@@ -187,25 +147,70 @@ namespace Cooking.Pages.Recepies
 
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientMain>(ingredient => {
 
-                    if (Recipe.Ingredients != null && Recipe.Ingredients.Contains(ingredient))
-                    {
-                        Recipe.Ingredients.Remove(ingredient);
-                        return;
-                    }
+                if (Recipe.Ingredients != null && Recipe.Ingredients.Contains(ingredient))
+                {
+                    Recipe.Ingredients.Remove(ingredient);
+                    return;
+                }
 
-                    if (Recipe.IngredientGroups != null)
+                if (Recipe.IngredientGroups != null)
+                {
+                    foreach (var group in Recipe.IngredientGroups)
                     {
-                        foreach (var group in Recipe.IngredientGroups)
+                        if (group.Ingredients.Contains(ingredient))
                         {
-                            if(group.Ingredients.Contains(ingredient))
-                            {
-                                group.Ingredients.Remove(ingredient);
-                                return;
-                            }
+                            group.Ingredients.Remove(ingredient);
+                            return;
                         }
                     }
-                });
+                }
+            });
 
+        }
+
+        public async void AddIngredient()
+        {
+
+            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", new RecipeIngredientEditViewModel() { IsCreation = true });
+
+            if (viewModel.DialogResultOk)
+            {
+                Recipe.Ingredients ??= new ObservableCollection<RecipeIngredientMain>();
+
+                if (viewModel.Ingredients != null)
+                {
+                    foreach (var ingredient in viewModel.Ingredients)
+                    {
+                        ingredient.Order += Recipe.Ingredients.Count;
+                        Recipe.Ingredients.Add(ingredient);
+                    }
+                }
+
+                viewModel.Ingredient.Order = Recipe.Ingredients.Count + 1;
+                Recipe.Ingredients.Add(viewModel.Ingredient);
+            }
+        }
+
+        public async void AddIngredientToGroup(IngredientGroupMain group)
+        {
+            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", new RecipeIngredientEditViewModel() { IsCreation = true });
+
+            if (viewModel.DialogResultOk)
+            {
+                group.Ingredients ??= new ObservableCollection<RecipeIngredientMain>();
+
+                if (viewModel.Ingredients != null)
+                {
+                    foreach (var ingredient in viewModel.Ingredients)
+                    {
+                        ingredient.Order += group.Ingredients.Count;
+                        group.Ingredients.Add(ingredient);
+                    }
+                }
+
+                viewModel.Ingredient.Order = group.Ingredients.Count + 1;
+                group.Ingredients.Add(viewModel.Ingredient);
+            }
         }
 
         public void ImageSearch()
@@ -271,8 +276,6 @@ namespace Cooking.Pages.Recepies
                     ingredient.Order = targetIngredient.Order;
                 }
             }
-            else
-            { }
 
             var backup = targetCollection.MapTo<List<RecipeIngredientMain>>();
             if (ingredient.Order < oldOrder)
@@ -304,8 +307,10 @@ namespace Cooking.Pages.Recepies
         }
 
 
-        protected override void Ok()
+        protected override async void Ok()
         {
+            await RecipeService.UpdateAsync(Recipe.MapTo<Recipe>());
+
             RecipeBackup = null;
             IsEditing = false;
         }

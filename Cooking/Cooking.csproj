@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>if_pan_416389.ico</ApplicationIcon>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   
   <ItemGroup>
@@ -22,7 +23,7 @@
       <Version>2.0.4</Version>
     </PackageReference>
     <PackageReference Include="Extended.Wpf.Toolkit">
-      <Version>3.5.0</Version>
+      <Version>3.6.0</Version>
     </PackageReference>
     <PackageReference Include="Fody">
       <Version>6.0.0</Version>
@@ -36,13 +37,13 @@
       <Version>2.0.0-alpha0490</Version>
     </PackageReference>
     <PackageReference Include="MahApps.Metro.IconPacks">
-      <Version>3.0.0-alpha0213</Version>
+      <Version>3.0.0-alpha0223</Version>
     </PackageReference>
     <PackageReference Include="MaterialDesignColors">
-      <Version>1.2.1-ci581</Version>
+      <Version>1.2.1-ci607</Version>
     </PackageReference>
     <PackageReference Include="MaterialDesignThemes">
-      <Version>3.0.0-ci581</Version>
+      <Version>3.0.0-ci607</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.5-beta1.final">
       <PrivateAssets>all</PrivateAssets>
