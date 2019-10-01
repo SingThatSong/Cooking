@@ -26,7 +26,7 @@ namespace Cooking.Commands
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public bool CanExecute(object parameter = null)
+        public bool CanExecute(object? parameter = null)
         {
             // Single execution
             if (_executeOnce && _executed)
@@ -49,9 +49,9 @@ namespace Cooking.Commands
         /// </summary>
         /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored</param>
         /// <returns>If this command can be executed</returns>
-        protected abstract bool CanExecuteInternal(object parameter);
+        protected abstract bool CanExecuteInternal(object? parameter);
         
-        public void Execute(object parameter = null)
+        public void Execute(object? parameter = null)
         {
             // Calling abstract method
             ExecuteInternal(parameter);
@@ -62,6 +62,6 @@ namespace Cooking.Commands
         /// Provide implementation of Execute, keep it to buisness logic
         /// </summary>
         /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored</param>
-        protected abstract void ExecuteInternal(object parameter);
+        protected abstract void ExecuteInternal(object? parameter);
     }
 }

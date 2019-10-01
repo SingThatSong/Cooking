@@ -8,7 +8,7 @@ namespace Cooking.Command
 {
     public class AsyncDelegateCommand<T> : ICommand
     {
-        private readonly Func<T, bool> _canExecute;
+        private readonly Func<T, bool>? _canExecute;
         private readonly Func<T, Task> _execute;
         private bool _freezeWhenBusy { get; }
 
@@ -36,7 +36,7 @@ namespace Cooking.Command
         }
 
         public AsyncDelegateCommand(Func<T, Task> execute,
-                       Func<T, bool> canExecute = null,
+                       Func<T, bool>? canExecute = null,
                        bool freezeWhenBusy = false)
         {
             _execute = execute;
@@ -63,7 +63,7 @@ namespace Cooking.Command
         {
             IsBusy = true;
             await Task.Delay(1).ConfigureAwait(false);
-            await _execute((T)parameter);
+            await _execute((T)parameter).ConfigureAwait(false);
             IsBusy = false;
         }
     }

@@ -6,7 +6,7 @@ namespace Cooking.Command
 {
     public class AsyncDelegateCommand : ICommand
     {
-        private readonly Func<bool> _canExecute;
+        private readonly Func<bool>? _canExecute;
         private readonly Func<Task> _execute;
         private bool _freezeWhenBusy { get; }
 
@@ -34,7 +34,7 @@ namespace Cooking.Command
         }
 
         public AsyncDelegateCommand(Func<Task> execute,
-                                    Func<bool> canExecute = null,
+                                    Func<bool>? canExecute = null,
                                     bool freezeWhenBusy = false)
         {
             _execute = execute;
@@ -62,7 +62,7 @@ namespace Cooking.Command
             IsBusy = true;
             // Принудительно переводим выполнение в фоновый поток
             await Task.Delay(1).ConfigureAwait(false);
-            await _execute();
+            await _execute().ConfigureAwait(false);
             IsBusy = false;
         }
     }
