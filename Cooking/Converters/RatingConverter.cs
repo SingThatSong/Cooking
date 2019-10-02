@@ -21,9 +21,9 @@ namespace Cooking.Converters
         public Brush OnBrush { get; set; }
         public Brush OffBrush { get; set; }
 
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values.Length != 3) return null;
+            if (values?.Length != 3) return null;
 
             var valueIndex = (int)values[0];
             var rating = (int?)values[1];

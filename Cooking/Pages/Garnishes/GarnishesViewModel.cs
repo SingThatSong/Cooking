@@ -61,7 +61,7 @@ namespace Cooking.Pages.Garnishes
                 {
                     AffirmativeButtonText = "Да",
                     NegativeButtonText = "Нет"
-                });
+                }).ConfigureAwait(false);
 
             if (result == MessageDialogResult.Affirmative)
             {

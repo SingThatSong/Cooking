@@ -35,7 +35,7 @@ namespace Cooking.Pages.Recepies
         }
 
         public RecipeMain Recipe { get; set; }
-        private RecipeMain RecipeBackup { get; set; }
+        private RecipeMain? RecipeBackup { get; set; }
 
         public DelegateCommand ImageSearchCommand { get; }
         public DelegateCommand RemoveImageCommand { get; }

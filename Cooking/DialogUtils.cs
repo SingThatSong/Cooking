@@ -46,7 +46,7 @@ namespace Cooking
         /// <param name="dialogTitle">Заголовок</param>
         /// <param name="content">Объект ViewModel, который будет использован для View</param>
         /// <returns>Объект ViewModel, который может нести значения, введённые пользователем</returns>
-        public virtual async Task<TDialogContent> ShowCustomMessageAsync<TDialog, TDialogContent>(string title = null, TDialogContent content = null)
+        public virtual async Task<TDialogContent> ShowCustomMessageAsync<TDialog, TDialogContent>(string? title = null, TDialogContent? content = null)
             where TDialog : UserControl, new()
             where TDialogContent : class, new()
         {

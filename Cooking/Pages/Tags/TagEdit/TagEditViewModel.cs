@@ -17,9 +17,9 @@ namespace Cooking.Pages.Tags
     {
         private bool NameChanged { get; set; }
 
-        public TagEditViewModel() : base() { }
+        public TagEditViewModel() : this(null) { }
 
-        public TagEditViewModel(TagDTO category = null)
+        public TagEditViewModel(TagDTO? category = null)
         {
             Tag = category ?? new TagDTO();
             AllTagNames = TagService.GetTagNames();

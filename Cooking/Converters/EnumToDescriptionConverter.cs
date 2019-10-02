@@ -38,7 +38,14 @@ namespace Cooking.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return targetType.Enum(value.ToString());
+            if (value != null)
+            {
+                return targetType.Enum(value.ToString());
+            }
+            else
+            {
+                return Binding.DoNothing;
+            }
         }
     }
 }

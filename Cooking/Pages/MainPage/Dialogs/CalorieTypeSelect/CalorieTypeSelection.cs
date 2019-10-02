@@ -5,7 +5,7 @@ namespace Cooking.Pages.MainPage.Dialogs
 {
     public class CalorieTypeSelection
     {
-        public static CalorieTypeSelection Any = new CalorieTypeSelection()
+        public static readonly CalorieTypeSelection Any = new CalorieTypeSelection()
         {
             Name = "Любой"
         };

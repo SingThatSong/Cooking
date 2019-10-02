@@ -8,9 +8,9 @@ namespace Cooking.Commands
     /// </summary>
     public abstract class DelegateCommandBase : ICommand
     {
-        protected bool _executeOnce;
-        protected bool _executed;
-        protected bool _canExecuteSpecified;
+        protected bool ExecuteOnce { get; set; }
+        protected bool Executed { get; set; }
+        protected bool CanExecuteSpecified { get; set; }
 
         /// <summary>
         /// https://stackoverflow.com/a/7353704/1134449
@@ -29,13 +29,13 @@ namespace Cooking.Commands
         public bool CanExecute(object? parameter = null)
         {
             // Single execution
-            if (_executeOnce && _executed)
+            if (ExecuteOnce && Executed)
             {
                 return false;
             }
 
             // Always can execute if no condition is specified
-            if (!_canExecuteSpecified)
+            if (!CanExecuteSpecified)
             {
                 return true;
             }
@@ -55,7 +55,7 @@ namespace Cooking.Commands
         {
             // Calling abstract method
             ExecuteInternal(parameter);
-            _executed = true;
+            Executed = true;
         }
 
         /// <summary>

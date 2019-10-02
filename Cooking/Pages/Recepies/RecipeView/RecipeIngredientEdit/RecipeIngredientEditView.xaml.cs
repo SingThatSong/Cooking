@@ -48,8 +48,7 @@ namespace Cooking.Pages.Ingredients
             Ingredient.IsDropDownOpen = true;
 
             // https://stackoverflow.com/a/43727449/1134449
-            var textBox = e.OriginalSource as TextBox;
-            if (textBox == null) return;
+            if (!(e.OriginalSource is TextBox textBox)) return;
             if (textBox.Text.Length >= 2) return;
             textBox.SelectionLength = 0;
             textBox.SelectionStart = 1;

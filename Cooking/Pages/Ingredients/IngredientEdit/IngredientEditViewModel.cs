@@ -21,7 +21,7 @@ namespace Cooking.Pages.Ingredients
 
         public IngredientEditViewModel() : this(null) { }
 
-        public IngredientEditViewModel(IngredientMain category = null)
+        public IngredientEditViewModel(IngredientMain? category = null)
         {
             Ingredient = category ?? new IngredientMain();
             AllIngredientNames = IngredientService.GetSearchNames();

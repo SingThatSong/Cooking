@@ -18,8 +18,8 @@ namespace Cooking.Commands
         {
             _execute = execute;
             _canExecute = canExecute;
-            _canExecuteSpecified = _canExecute != null;
-            _executeOnce = executeOnce;
+            CanExecuteSpecified = _canExecute != null;
+            ExecuteOnce = executeOnce;
         }
 
         protected override void ExecuteInternal(object parameter) => _execute();

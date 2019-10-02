@@ -32,7 +32,7 @@ namespace Cooking.Pages.Recepies
             CtorInternal(currentTags);
         }
 
-        public TagSelectEditViewModel(IEnumerable<TagDTO> currentTags, TagType filterTag, IEnumerable<TagDTO> allTags, DialogUtils dialogUtils)
+        public TagSelectEditViewModel(IEnumerable<TagDTO> currentTags, IEnumerable<TagDTO> allTags, DialogUtils dialogUtils)
         {
             this.dialogUtils = dialogUtils;
             AddTagCommand = new DelegateCommand(AddTag);

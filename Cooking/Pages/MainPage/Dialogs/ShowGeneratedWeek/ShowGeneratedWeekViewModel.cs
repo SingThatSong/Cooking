@@ -58,8 +58,7 @@ namespace Cooking.Pages.MainPage.Dialogs
 
                 if (viewModel.DialogResultOk)
                 {
-                    var recipeId = viewModel.Recipies.Single(x => x.IsSelected).ID;
-
+                    var recipeId = viewModel.SelectedRecipeID;
                     day.SpecificRecipe = RecipeService.GetRecipe<RecipeSlim>(recipeId);
                 }
             });

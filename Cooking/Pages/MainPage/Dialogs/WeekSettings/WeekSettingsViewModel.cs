@@ -14,7 +14,7 @@ namespace Cooking.Pages.MainPage.Dialogs
 {
     public class WeekSettingsViewModel : OkCancelViewModel
     {
-        DialogUtils dialogUtils;
+        readonly DialogUtils dialogUtils;
 
         public DateTime WeekStart { get; }
         public DateTime WeekEnd { get; }
@@ -98,7 +98,7 @@ namespace Cooking.Pages.MainPage.Dialogs
             allTags[0].IsChecked = false;
             allTags.ForEach(x => x.Type = type);
 
-            var viewModel = new TagSelectEditViewModel(current, type, allTags, dialogUtils);
+            var viewModel = new TagSelectEditViewModel(current, allTags, dialogUtils);
             await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectEditViewModel>($"Категории {type}", viewModel);
 
             if (viewModel.DialogResultOk)
@@ -118,37 +118,38 @@ namespace Cooking.Pages.MainPage.Dialogs
             }
             else
             {
-                return null;
+                return new ObservableCollection<TagDTO>();
             }
         }
 
         private void OnHeaderValueChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            var dayPlan = sender as DayPlan;
-
-            switch (e.PropertyName)
+            if (sender is DayPlan dayPlan)
             {
-                case nameof(DayPlan.CalorieTypes):
-                    Days.ForEach(x => x.CalorieTypes          = dayPlan.CalorieTypes);
-                    break;
-                case nameof(DayPlan.IsSelected):
-                    Days.ForEach(x => x.IsSelected            = dayPlan.IsSelected);
-                    break;
-                case nameof(DayPlan.MaxComplexity):
-                    Days.ForEach(x => x.MaxComplexity         = dayPlan.MaxComplexity);
-                    break;
-                case nameof(DayPlan.MinRating):
-                    Days.ForEach(x => x.MinRating             = dayPlan.MinRating);
-                    break;
-                case nameof(DayPlan.NeededDishTypes):
-                    Days.ForEach(x => x.NeededDishTypes       = dayPlan.NeededDishTypes);
-                    break;
-                case nameof(DayPlan.NeededMainIngredients):
-                    Days.ForEach(x => x.NeededMainIngredients = dayPlan.NeededMainIngredients);
-                    break;
-                case nameof(DayPlan.OnlyNewRecipies):
-                    Days.ForEach(x => x.OnlyNewRecipies       = dayPlan.OnlyNewRecipies);
-                    break;
+                switch (e.PropertyName)
+                {
+                    case nameof(DayPlan.CalorieTypes):
+                        Days.ForEach(x => x.CalorieTypes = dayPlan.CalorieTypes);
+                        break;
+                    case nameof(DayPlan.IsSelected):
+                        Days.ForEach(x => x.IsSelected = dayPlan.IsSelected);
+                        break;
+                    case nameof(DayPlan.MaxComplexity):
+                        Days.ForEach(x => x.MaxComplexity = dayPlan.MaxComplexity);
+                        break;
+                    case nameof(DayPlan.MinRating):
+                        Days.ForEach(x => x.MinRating = dayPlan.MinRating);
+                        break;
+                    case nameof(DayPlan.NeededDishTypes):
+                        Days.ForEach(x => x.NeededDishTypes = dayPlan.NeededDishTypes);
+                        break;
+                    case nameof(DayPlan.NeededMainIngredients):
+                        Days.ForEach(x => x.NeededMainIngredients = dayPlan.NeededMainIngredients);
+                        break;
+                    case nameof(DayPlan.OnlyNewRecipies):
+                        Days.ForEach(x => x.OnlyNewRecipies = dayPlan.OnlyNewRecipies);
+                        break;
+                }
             }
         }
     }

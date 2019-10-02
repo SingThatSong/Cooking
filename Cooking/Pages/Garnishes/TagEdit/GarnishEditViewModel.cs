@@ -20,7 +20,7 @@ namespace Cooking.Pages.Garnishes
 
         public GarnishEditViewModel() : this(null) { }
 
-        public GarnishEditViewModel(GarnishDTO category)
+        public GarnishEditViewModel(GarnishDTO? category)
         {
             Garnish = category ?? new GarnishDTO();
             AllGarnishNames = GarnishService.GetSearchNames();

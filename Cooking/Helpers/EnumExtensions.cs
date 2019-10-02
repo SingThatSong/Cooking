@@ -31,15 +31,15 @@ namespace Cooking.Helpers
         /// <summary>
         /// Get Enum value from Description
         /// </summary>
-        public static Enum Enum(this Type type, string description)
+        public static Enum? Enum(this Type type, string description)
         {
             var values = System.Enum.GetValues(type);
 
             foreach (var value in values)
             {
-                if (description == Description((Enum)value))
+                if (description == Description((Enum)value!))
                 {
-                    return (Enum)value;
+                    return (Enum)value!;
                 }
             }
 

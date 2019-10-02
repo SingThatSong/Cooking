@@ -12,7 +12,7 @@ namespace Cooking.DTO
         [AlsoNotifyFor(nameof(FullPath))]
         public new string ImagePath { get; set; }
 
-        public string FullPath => ImagePath != null 
+        public string? FullPath => ImagePath != null 
                                 ? Path.GetFullPath(ImagePath) 
                                 : null;
         public bool IsSelected { get; set; }

@@ -22,20 +22,20 @@ namespace Cooking.Pages.Recepies
 
         public Guid SelectedRecipeID { get; set; }
 
-        public RecipeSelectViewModel(DayPlan day = null)
+        public RecipeSelectViewModel(DayPlan? day = null)
         {
             FilterContext = new FilterContext<RecipeMain>().AddFilter("#", HasIngredient)
                                                            .AddFilter("$", HasTag);
 
             var dbRecipies = RecipeService.GetRecipies();
 
-            Recipies = dbRecipies.Select(x => MapperService.Mapper.Map<RecipeSelect>(x)).ToList();
+            _recipies = dbRecipies.Select(x => MapperService.Mapper.Map<RecipeSelect>(x)).ToList();
 
-            RecipiesSource = new CollectionViewSource() { Source = Recipies };
+            RecipiesSource = new CollectionViewSource() { Source = _recipies };
             RecipiesSource.Filter += RecipiesSource_Filter;
 
             SelectRecipeCommand = new DelegateCommand<RecipeSelect>(recipe => {
-                    foreach(var r in Recipies.Where(x => x.IsSelected))
+                    foreach(var r in _recipies.Where(x => x.IsSelected))
                     {
                         r.IsSelected = false;
                     }
@@ -102,7 +102,7 @@ namespace Cooking.Pages.Recepies
             get => filterText;
             set
             {
-                if (filterText != value && value != "")
+                if (filterText != value && string.IsNullOrEmpty(value))
                 {
                     filterText = value;
                     FilterContext.BuildExpression(value);
@@ -156,7 +156,9 @@ namespace Cooking.Pages.Recepies
             await dialog.WaitUntilUnloadedAsync();
         }
 
-        public List<RecipeSelect> Recipies;
+        private readonly List<RecipeSelect> _recipies;
+
+        public RecipeSelect? SelectedRecipe => _recipies.FirstOrDefault(x => x.IsSelected);
 
         public CollectionViewSource RecipiesSource { get; }
 

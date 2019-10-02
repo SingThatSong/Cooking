@@ -39,15 +39,17 @@ namespace Cooking.Controls
         public int? RatingValuePreview { get; set; }
         private static void OnRatingPreviewChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            var obj = dependencyObject as Ratings;
-            if (dependencyPropertyChangedEventArgs.NewValue != null)
+            if (dependencyObject is Ratings obj)
             {
-                obj.IntegerValue = (int?)dependencyPropertyChangedEventArgs.NewValue;
-            }
-            else
-            {
-                // Mouse leaving control, fall back to RatingValue
-                obj.IntegerValue = obj.RatingValue;
+                if (dependencyPropertyChangedEventArgs.NewValue != null)
+                {
+                    obj.IntegerValue = (int?)dependencyPropertyChangedEventArgs.NewValue;
+                }
+                else
+                {
+                    // Mouse leaving control, fall back to RatingValue
+                    obj.IntegerValue = obj.RatingValue;
+                }
             }
         }
 

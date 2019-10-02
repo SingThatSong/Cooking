@@ -16,7 +16,7 @@ namespace Cooking.Pages.Recepies
         public bool DialogResultOk { get; set; }
 
         public IngredientGroupEditViewModel() : this(null) { }
-        public IngredientGroupEditViewModel(IngredientGroupMain ingredientGroup = null)
+        public IngredientGroupEditViewModel(IngredientGroupMain? ingredientGroup = null)
         {
             OkCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(() => {

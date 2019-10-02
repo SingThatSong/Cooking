@@ -18,12 +18,12 @@ namespace Cooking.Pages.MainPage
     [AddINotifyPropertyChangedInterface]
     public class MainPageViewModel
     {
-        private DialogUtils dialogUtils { get; set; }
+        private readonly DialogUtils dialogUtils;
 
         public DateTime WeekStart { get; set; }
         public DateTime WeekEnd { get; set; }
         public bool WeekEdit { get; set; }
-        public WeekMain CurrentWeek { get; set; }
+        public WeekMain? CurrentWeek { get; set; }
 
         public DelegateCommand LoadedCommand { get; }
         public DelegateCommand CreateShoppingListCommand { get; }
@@ -52,7 +52,7 @@ namespace Cooking.Pages.MainPage
             MoveRecipeCommand           = new DelegateCommand<Guid>(MoveRecipe);
         }
 
-        private async Task<WeekMain> GetWeekAsync(DateTime dayOfWeek)
+        private async Task<WeekMain?> GetWeekAsync(DateTime dayOfWeek)
         {
             Debug.WriteLine("MainPageViewModel.GetWeekAsync");
             var weekData = await WeekService.GetWeekAsync(dayOfWeek);
@@ -73,8 +73,10 @@ namespace Cooking.Pages.MainPage
                 {
                     if (e.PropertyName == nameof(DayMain.DinnerWasCooked))
                     {
-                        var dayChanged = sender as DayMain;
-                        DayService.SetDinnerWasCooked(dayChanged.ID, dayChanged.DinnerWasCooked);
+                        if (sender is DayMain dayChanged)
+                        {
+                            DayService.SetDinnerWasCooked(dayChanged.ID, dayChanged.DinnerWasCooked);
+                        }
                     }
                 };
             }

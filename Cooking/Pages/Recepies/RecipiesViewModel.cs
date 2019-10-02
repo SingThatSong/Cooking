@@ -22,7 +22,7 @@ namespace Cooking.Pages.Recepies
     public partial class RecepiesViewModel
     {
         public CollectionViewSource RecipiesSource { get; set; }
-        public ObservableCollection<RecipeSelect> Recipies { get; set; }
+        public ObservableCollection<RecipeSelect>? Recipies { get; set; }
 
         public DelegateCommand AddRecipeCommand { get; }
         public DelegateCommand<Guid> ViewRecipeCommand { get; }
@@ -69,11 +69,11 @@ namespace Cooking.Pages.Recepies
             }
         }
 
-        private string filterText;
+        private string? filterText;
         private readonly DialogUtils dialogUtils;
         private bool expressionBuilt = false;
         private FilterContext<RecipeSelect> FilterContext { get; set; }
-        public string FilterText
+        public string? FilterText
         {
             get => filterText;
             set

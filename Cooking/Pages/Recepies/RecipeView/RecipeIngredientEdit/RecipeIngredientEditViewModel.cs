@@ -20,7 +20,7 @@ namespace Cooking.Pages.Ingredients
 
         public RecipeIngredientEditViewModel() : this(null) { }
 
-        public RecipeIngredientEditViewModel(RecipeIngredientMain ingredient = null)
+        public RecipeIngredientEditViewModel(RecipeIngredientMain? ingredient = null)
         {
             OkCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(() =>
@@ -38,7 +38,7 @@ namespace Cooking.Pages.Ingredients
             AddMultipleCommand = new Lazy<DelegateCommand>(
                 () => new DelegateCommand(() =>
                 {
-                    Ingredients = Ingredients ?? new ObservableCollection<RecipeIngredientMain>();
+                    Ingredients ??= new ObservableCollection<RecipeIngredientMain>();
                     Ingredient.Order = Ingredients.Count + 1;
                     Ingredients.Add(Ingredient);
                     Ingredient = new RecipeIngredientMain();

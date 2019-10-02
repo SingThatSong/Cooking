@@ -10,7 +10,7 @@ namespace Cooking.Pages.MainPage.Dialogs
     public class DayPlan : INotifyPropertyChanged
     {
         // Рецепт, указанный вручную
-        public RecipeSlim SpecificRecipe { get; set; }
+        public RecipeSlim? SpecificRecipe { get; set; }
         public RecipeSlim Recipe { get; set; }
         public List<RecipeSlim> RecipeAlternatives { get; set; }
 
