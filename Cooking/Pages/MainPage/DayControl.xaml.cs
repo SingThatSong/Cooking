@@ -1,7 +1,7 @@
 ﻿using Bindables;
 using System.Windows.Controls;
 
-namespace Cooking.Pages.MainPage
+namespace Cooking.Pages
 {
     /// <summary>
     /// Логика взаимодействия для DayControl.xaml

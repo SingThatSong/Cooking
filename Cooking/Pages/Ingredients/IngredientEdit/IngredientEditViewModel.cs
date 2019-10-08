@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cooking.Pages.Ingredients
 {
@@ -35,7 +36,7 @@ namespace Cooking.Pages.Ingredients
             };
         }
 
-        protected override async void Ok()
+        protected override async Task Ok()
         {
             if (NameChanged)
             {

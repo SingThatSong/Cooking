@@ -28,13 +28,17 @@ namespace Cooking
                 cfg.CreateMap<DayMainPage, DayMain>();
                 cfg.CreateMap<RecipeSlim, RecipeSelect>();
                 cfg.CreateMap<RecipeFull, RecipeMain>();
-                cfg.CreateMap<RecipeMain, RecipeMain>(); 
+                cfg.CreateMap<RecipeMain, RecipeMain>();
+                cfg.CreateMap<RecipeMain, Recipe>();
                 cfg.CreateMap<RecipeIngredientMain, RecipeIngredientMain>();
+                cfg.CreateMap<RecipeIngredientMain, RecipeIngredient>();
                 cfg.CreateMap<RecipeIngredientData, RecipeIngredientMain>();
                 cfg.CreateMap<TagServiceDto, TagDTO>();
                 cfg.CreateMap<TagData, TagDTO>();
                 cfg.CreateMap<TagDTO, Tag>();
+                cfg.CreateMap<TagDTO, RecipeTag>();
                 cfg.CreateMap<IngredientGroupMain, IngredientGroupMain>();
+                cfg.CreateMap<IngredientGroupMain, IngredientsGroup>();
                 cfg.CreateMap<IngredientGroupData, IngredientGroupMain>();
                 cfg.CreateMap<IngredientData, IngredientMain>();
                 cfg.CreateMap<IngredientMain, IngredientMain>();

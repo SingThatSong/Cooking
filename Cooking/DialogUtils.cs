@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Cooking
@@ -22,20 +23,23 @@ namespace Cooking
         // Баг mahapps - ожидаем закрытия именно этого окна, а не дочерних
         public virtual async Task ShowAndWaitForClosedAsync(BaseMetroDialog dialog)
         {
-            // Перед отображением запоминаем родителя
-            BaseMetroDialog parentDialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel);
-
-            await DialogCoordinator.ShowMetroDialogAsync(ViewModel, dialog);
-
-            BaseMetroDialog currentDialog;
-            do
+            await Application.Current.Dispatcher.Invoke(async () =>
             {
-                // Unloaded срабатывает в том числе при переключении на дочерние окна
-                // Ждём, пока активным не станет родитель
-                await dialog.WaitUntilUnloadedAsync();
-                currentDialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel);
-            }
-            while (currentDialog != parentDialog);
+                // Перед отображением запоминаем родителя
+                BaseMetroDialog parentDialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel).ConfigureAwait(false);
+
+                await DialogCoordinator.ShowMetroDialogAsync(ViewModel, dialog).ConfigureAwait(false);
+
+                BaseMetroDialog currentDialog;
+                do
+                {
+                    // Unloaded срабатывает в том числе при переключении на дочерние окна
+                    // Ждём, пока активным не станет родитель
+                    await dialog.WaitUntilUnloadedAsync().ConfigureAwait(false);
+                    currentDialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel).ConfigureAwait(false);
+                }
+                while (currentDialog != parentDialog);
+            }).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -52,14 +56,17 @@ namespace Cooking
         {
             content ??= new TDialogContent();
 
-            CustomDialog dialog = new CustomDialog()
+            await Application.Current.Dispatcher.Invoke(async () =>
             {
-                Title = title,
-                Content = new TDialog { DataContext = content }
-            };
+                CustomDialog dialog = new CustomDialog()
+                {
+                    Title = title,
+                    Content = new TDialog { DataContext = content }
+                };
 
-            await ShowAndWaitForClosedAsync(dialog);
+                await ShowAndWaitForClosedAsync(dialog).ConfigureAwait(false);
 
+            }).ConfigureAwait(false);
             return content;
         }
     }

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -47,7 +48,7 @@ namespace Cooking
                     exceptionDescription.AppendLine(exception.Message);
                     exceptionDescription.AppendLine(exception.StackTrace);
                 }
-                Trace.TraceError($"[{DateTime.Now.ToString(dateTimeFormat)}] {exceptionDescription.ToString()}");
+                Trace.TraceError($"[{DateTime.Now.ToString(dateTimeFormat, CultureInfo.InvariantCulture)}] {exceptionDescription.ToString()}");
             }
         }
     }

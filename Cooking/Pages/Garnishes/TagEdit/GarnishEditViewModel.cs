@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cooking.Pages.Garnishes
 {
@@ -36,7 +37,7 @@ namespace Cooking.Pages.Garnishes
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected override async void Ok()
+        protected override async Task Ok()
         {
             if (NameChanged)
             {

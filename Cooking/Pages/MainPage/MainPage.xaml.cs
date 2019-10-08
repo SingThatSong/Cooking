@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Cooking.Pages.MainPage
+namespace Cooking.Pages
 {
     /// <summary>
     /// Логика взаимодействия для MainPage.xaml

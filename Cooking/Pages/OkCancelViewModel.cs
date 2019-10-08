@@ -1,25 +1,26 @@
 ﻿using Cooking.Commands;
 using MahApps.Metro.Controls.Dialogs;
 using PropertyChanged;
+using System.Threading.Tasks;
 
 namespace Cooking.Pages.Recepies
 {
     public partial class OkCancelViewModel : DialogViewModel
     {
         public bool DialogResultOk { get; private set; }
-        public DelegateCommand OkCommand { get; protected set; }
+        public AsyncDelegateCommand OkCommand { get; protected set; }
 
         public OkCancelViewModel() : base()
         {
-            OkCommand = new DelegateCommand(Ok, CanOk, executeOnce: true);
+            OkCommand = new AsyncDelegateCommand(Ok, CanOk, executeOnce: true, freezeWhenBusy: true);
         }
 
         protected virtual bool CanOk() => true;
 
-        protected virtual void Ok()
+        protected virtual async Task Ok()
         {
             DialogResultOk = true;
-            Close();
+            await Close().ConfigureAwait(false);
         }
     }
 }

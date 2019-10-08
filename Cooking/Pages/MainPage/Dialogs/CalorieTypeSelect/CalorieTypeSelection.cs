@@ -1,7 +1,7 @@
 ﻿using Cooking.Helpers;
 using Data.Model;
 
-namespace Cooking.Pages.MainPage.Dialogs
+namespace Cooking.Pages.Dialogs
 {
     public class CalorieTypeSelection
     {

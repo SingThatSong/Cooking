@@ -1,6 +1,7 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
 using System;
+using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -39,7 +40,7 @@ namespace Cooking.Pages.Ingredients
                 if (String.IsNullOrEmpty(Ingredient.Text)) return true;
                 else
                 {
-                    if (((IngredientMain)o).Name.Contains(Ingredient.Text)) return true;
+                    if (((IngredientMain)o).Name.Contains(Ingredient.Text, StringComparison.OrdinalIgnoreCase)) return true;
                     else return false;
                 }
             });

@@ -1,4 +1,4 @@
-﻿using Cooking.Pages.MainPage.Dialogs;
+﻿using Cooking.Pages.Dialogs;
 using Data.Model;
 using System;
 using System.Collections.Generic;

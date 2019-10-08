@@ -1,6 +1,6 @@
 ﻿using Cooking.Pages.Garnishes;
 using Cooking.Pages.Ingredients;
-using Cooking.Pages.MainPage;
+using Cooking.Pages;
 using Cooking.Pages.Recepies;
 using Cooking.Pages.Tags;
 using MahApps.Metro.Controls;
@@ -18,7 +18,7 @@ namespace Cooking
             SelectedMenuItem = MenuItems[0] as HamburgerMenuIconItem;
         }
 
-        public HamburgerMenuIconItem SelectedMenuItem { get; set; }
+        public HamburgerMenuIconItem? SelectedMenuItem { get; set; }
 
         public HamburgerMenuItemCollection MenuItems { get; } = new HamburgerMenuItemCollection()
         {

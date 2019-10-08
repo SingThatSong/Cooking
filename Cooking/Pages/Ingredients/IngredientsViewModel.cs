@@ -45,6 +45,7 @@ namespace Cooking.Pages.Ingredients
             if (Application.Current.MainWindow.DataContext is MainWindowViewModel mainWindowViewModel)
             {
                 mainWindowViewModel.SelectedMenuItem = mainWindowViewModel.MenuItems[1] as HamburgerMenuIconItem;
+
                 ((mainWindowViewModel.SelectedMenuItem.Tag as RecepiesView).DataContext as RecepiesViewModel).FilterText = $"#{ingredient.Name}";
             }
         }

@@ -17,19 +17,19 @@ namespace Cooking.DTO
                                 ? Path.GetFullPath(ImagePath) 
                                 : null;
 
-        public ObservableCollection<IngredientGroupMain> IngredientGroups { get; set; }
-        public ObservableCollection<RecipeIngredientMain> Ingredients { get; set; }
-        public ObservableCollection<TagDTO> Tags { get; set; }
+        public ObservableCollection<IngredientGroupMain>? IngredientGroups { get; set; }
+        public ObservableCollection<RecipeIngredientMain>? Ingredients { get; set; }
+        public ObservableCollection<TagDTO>? Tags { get; set; }
 
         public int LastCooked => RecipeService.DaysFromLasCook(ID);
 
-        public string SourceUrl { get; set; }
-        public string Description { get; set; }
+        public Uri? SourceUrl { get; set; }
+        public string? Description { get; set; }
         public int PortionsCount { get; set; }
         public int? Difficulty { get; set; }
         public int? Rating { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public CalorieType CalorieType { get; set; }
         public Guid ID { get; set; }
     }

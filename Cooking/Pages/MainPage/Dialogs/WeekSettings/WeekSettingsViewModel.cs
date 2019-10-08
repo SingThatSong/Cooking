@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages.MainPage.Dialogs
+namespace Cooking.Pages.Dialogs
 {
     public class WeekSettingsViewModel : OkCancelViewModel
     {
@@ -24,7 +24,10 @@ namespace Cooking.Pages.MainPage.Dialogs
         public DelegateCommand<DayPlan> AddMainIngredientCommand { get; }
         public DelegateCommand<DayPlan> AddDishTypesCommand { get; }
         public DelegateCommand<DayPlan> AddCalorieTypesCommand { get; }
-        public WeekSettingsViewModel() { }
+        public WeekSettingsViewModel() 
+        {
+            throw new NotImplementedException();
+        }
 
         public WeekSettingsViewModel(DateTime weekStart, DateTime weekEnd, DialogUtils dialogUtils)
         {

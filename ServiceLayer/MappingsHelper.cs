@@ -41,7 +41,7 @@ namespace ServiceLayer
             {
                 for (int i = 0; i < recipe.Tags.Count; i++)
                 {
-                    var dbValue = context.Tags.Find(recipe.Tags[i].Tag.ID);
+                    var dbValue = context.Tags.Find(recipe.Tags[i].TagId);
                     if (dbValue != null)
                     {
                         recipe.Tags[i].Tag = dbValue;

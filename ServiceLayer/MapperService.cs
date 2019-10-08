@@ -31,19 +31,43 @@ namespace ServiceLayer
                 cfg.CreateMap<Week, WeekMainPage>();
                 cfg.CreateMap<Day, DayMainPage>();
 
-                cfg.CreateMap<Recipe, RecipeSlim>();
+                cfg.CreateMap<Recipe, Recipe>();
+                cfg.CreateMap<Recipe, TEST.Recipe>();
+
+                cfg.CreateMap<RecipeTag, RecipeTag>();
+                cfg.CreateMap<RecipeTag, TEST.RecipeTag>();
+
+                cfg.CreateMap<Tag, Tag>();
+                cfg.CreateMap<Tag, TEST.Tag>();
+                //.ForMember(x => x.IngredientGroups, op => op.Ignore())
+                //.ForMember(x => x.Ingredients, op => op.Ignore())
+                //.ForMember(x => x.Tags, op => op.Ignore());
+
+                cfg.CreateMap<Recipe, RecipeSlim>().ReverseMap();
                 cfg.CreateMap<Recipe, RecipeFull>()
                    .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags.Select(t => t.Tag)));
 
+                cfg.CreateMap<RecipeFull, Recipe>()
+                   .ForMember(x => x.Tags, opt => opt.Ignore())
+                   .AfterMap((src, dest, context) => dest.Tags = src.Tags.Select(x => new RecipeTag() 
+                                                                                      {  
+                                                                                          //Recipe = dest,
+                                                                                          RecipeId = dest.ID,
+                                                                                          //Tag = context.Mapper.Map<Tag>(x),
+                                                                                          TagId = x.ID
+                                                                                      }).ToList()
+                   );
+
                 cfg.CreateMap<IngredientsGroup, IngredientGroupData>();
                 cfg.CreateMap<RecipeIngredient, RecipeIngredientData>();
-                cfg.CreateMap<Tag, TagData>();
+                cfg.CreateMap<Tag, TagData>().ReverseMap();
 
                 cfg.CreateMap<Ingredient, Ingredient>();
                 cfg.CreateMap<Ingredient, IngredientData>();
 
                 cfg.CreateMap<Garnish, GarnishDTO>();
                 cfg.CreateMap<Garnish, Garnish>();
+
 
                 //cfg.CreateMap<IngredientDTO, IngredientDTO>();
 

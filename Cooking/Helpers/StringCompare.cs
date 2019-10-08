@@ -14,7 +14,7 @@ namespace Cooking.Helpers
             str1 = str1.ToUpperInvariant();
             str2 = str2.ToUpperInvariant();
 
-            if (str1.Equals(str2)) return 0;
+            if (str1.Equals(str2, StringComparison.OrdinalIgnoreCase)) return 0;
 
             int m = str1.Length, n = str2.Length;
 

@@ -2,6 +2,7 @@
 using Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq.Expressions;
 
 namespace Data.Context
 {
@@ -20,8 +21,8 @@ namespace Data.Context
         {
             optionsBuilder.UseSqlite($"Data Source={DbFilename}")
 #if DEBUG
-                          //.UseLoggerFactory(new ConsoleLoggerFactory())
-                          //.EnableSensitiveDataLogging()
+                          .UseLoggerFactory(new ConsoleLoggerFactory())
+                          .EnableSensitiveDataLogging()
 #endif
                           ;
 
@@ -56,11 +57,6 @@ namespace Data.Context
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Recipe>()
-                .Property(e => e.ID)
-                .HasConversion(
-                    g => g.ToByteArray(),
-                    b => new Guid(b));
 
 
             modelBuilder.Entity<RecipeIngredient>()
@@ -86,6 +82,58 @@ namespace Data.Context
                 .HasOne(bc => bc.Tag)
                 .WithMany(b => b.Recipies)
                 .HasForeignKey(bc => bc.TagId);
+
+            SetGuidType<Day>(modelBuilder);
+            SetGuidType<Garnish>(modelBuilder);
+            SetGuidType<Week>(modelBuilder);
+
+            SetGuidType<Recipe>(modelBuilder);
+            //SetGuidType<Tag>(modelBuilder);
+            modelBuilder.Entity<Tag>()
+                .Property(x => x.ID)
+                .HasConversion(
+                    g => g.ToByteArray(),
+                    b => new Guid(b));
+            SetGuidType<Ingredient>(modelBuilder);
+            SetGuidType<IngredientsGroup>(modelBuilder);
+            SetGuidType<RecipeIngredient>(modelBuilder);
+
+            // FKs
+            SetPropertyGuidType<RecipeTag>(modelBuilder, e => e.RecipeId);
+            SetPropertyGuidType<RecipeTag>(modelBuilder, e => e.TagId);
+            SetPropertyGuidType<Day>(modelBuilder, e => e.WeekID);
+            SetPropertyGuidType<Day>(modelBuilder, e => e.DinnerID);
+            SetPropertyGuidType<RecipeIngredient>(modelBuilder, e => e.IngredientId);
+
+        }
+
+        private void SetPropertyGuidType<T>(ModelBuilder modelBuilder, Expression<Func<T, Guid?>> propertyExpression)
+            where T : class
+        {
+            modelBuilder.Entity<T>()
+                .Property(propertyExpression)
+                .HasConversion(
+                    g => g.Value.ToByteArray(),
+                    b => new Guid(b));
+        }
+
+        private void SetPropertyGuidType<T>(ModelBuilder modelBuilder, Expression<Func<T, Guid>> propertyExpression)
+            where T : class
+        {
+            modelBuilder.Entity<T>()
+                .Property(propertyExpression)
+                .HasConversion(
+                    g => g.ToByteArray(),
+                    b => new Guid(b));
+        }
+
+        private void SetGuidType<T>(ModelBuilder modelBuilder) where T : Entity
+        {
+            modelBuilder.Entity<T>()
+                .Property(e => e.ID)
+                .HasConversion(
+                    g => g.ToByteArray(),
+                    b => new Guid(b));
         }
 
         public DbSet<Week> Weeks { get; set; }

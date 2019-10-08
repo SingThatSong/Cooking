@@ -23,7 +23,7 @@ namespace Cooking.Pages.Recepies
         {
             if (e.Changes.Count > 1 && e.UndoAction != UndoAction.Clear)
             {
-                RecipeScroll.ScrollToEnd();
+                RecipeEdit.ScrollToEnd();
             }
         }
 

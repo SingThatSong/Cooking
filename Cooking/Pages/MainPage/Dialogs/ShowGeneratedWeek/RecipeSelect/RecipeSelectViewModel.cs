@@ -1,6 +1,6 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
-using Cooking.Pages.MainPage.Dialogs;
+using Cooking.Pages.Dialogs;
 using MahApps.Metro.Controls.Dialogs;
 using Plafi;
 using ServiceLayer;
@@ -95,9 +95,9 @@ namespace Cooking.Pages.Recepies
             }
         }
 
-        private string filterText;
+        private string? filterText;
         private FilterContext<RecipeMain> FilterContext { get; set; }
-        public string FilterText
+        public string? FilterText
         {
             get => filterText;
             set

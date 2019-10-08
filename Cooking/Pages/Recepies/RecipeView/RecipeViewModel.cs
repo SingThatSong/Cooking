@@ -11,8 +11,12 @@ using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cooking.Pages.Recepies
 {
@@ -39,18 +43,18 @@ namespace Cooking.Pages.Recepies
 
         public DelegateCommand ImageSearchCommand { get; }
         public DelegateCommand RemoveImageCommand { get; }
-        public DelegateCommand AddIngredientCommand { get; }
-        public DelegateCommand AddTagCommand { get; }
-        public DelegateCommand AddIngredientGroupCommand { get; }
+        public AsyncDelegateCommand AddIngredientCommand { get; }
+        public AsyncDelegateCommand AddTagCommand { get; }
+        public AsyncDelegateCommand AddIngredientGroupCommand { get; }
 
         public DelegateCommand<TagDTO> RemoveTagCommand { get; }
 
         public DelegateCommand<IngredientGroupMain> AddIngredientToGroupCommand { get; }
         public DelegateCommand<IngredientGroupMain> RemoveIngredientGroupCommand { get; }
-        public DelegateCommand<IngredientGroupMain> EditIngredientGroupCommand { get; }
-        public DelegateCommand<RecipeIngredientMain> EditIngredientCommand { get; }
+        public AsyncDelegateCommand<IngredientGroupMain> EditIngredientGroupCommand { get; }
+        public AsyncDelegateCommand<RecipeIngredientMain> EditIngredientCommand { get; }
         public DelegateCommand<RecipeIngredientMain> RemoveIngredientCommand { get; }
-        public DelegateCommand<Guid> DeleteRecipeCommand { get; }
+        public AsyncDelegateCommand<Guid> DeleteRecipeCommand { get; }
 
         public RecipeViewModel() : this(null) { }
 
@@ -58,8 +62,7 @@ namespace Cooking.Pages.Recepies
         {
             if (recipeId.HasValue)
             {
-                var recipeDb = RecipeService.GetRecipe<RecipeFull>(recipeId.Value);
-
+                var recipeDb = RecipeService.GetProjection<RecipeFull>(recipeId.Value);
                 Recipe = recipeDb.MapTo<RecipeMain>();
             }
             else
@@ -67,111 +70,104 @@ namespace Cooking.Pages.Recepies
                 Recipe = new RecipeMain();
             }
 
-            OkCommand = new DelegateCommand(Ok);
-            DeleteRecipeCommand = new DelegateCommand<Guid>(DeleteRecipe);
+            DeleteRecipeCommand         = new AsyncDelegateCommand<Guid>(DeleteRecipe);
 
-            ImageSearchCommand = new DelegateCommand(ImageSearch);
-            RemoveImageCommand = new DelegateCommand(
-                () => Recipe.ImagePath = null,
-                canExecute: () => Recipe?.ImagePath != null
-            );
+            ImageSearchCommand          = new DelegateCommand(ImageSearch);
+            RemoveImageCommand          = new DelegateCommand(RemoveImage, canExecute: CanRemoveImage);
 
+            AddTagCommand               = new AsyncDelegateCommand(AddTag);
+            RemoveTagCommand            = new DelegateCommand<TagDTO>(RemoveTag);
+
+            AddIngredientGroupCommand   = new AsyncDelegateCommand(AddIngredientGroup);
+            EditIngredientGroupCommand  = new AsyncDelegateCommand<IngredientGroupMain>(EditIngredientGroup);
             AddIngredientToGroupCommand = new DelegateCommand<IngredientGroupMain>(AddIngredientToGroup);
-            AddIngredientCommand = new DelegateCommand(AddIngredient);
-            EditIngredientGroupCommand = new DelegateCommand<IngredientGroupMain>(async (group) => {
+            RemoveIngredientGroupCommand = new DelegateCommand<IngredientGroupMain>(RemoveIngredientGroup);
 
-                var viewModel = new IngredientGroupEditViewModel(group.MapTo<IngredientGroupMain>());
-                await new DialogUtils(this).ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Редактирование группы ингредиентов", viewModel);
-
-                if (viewModel.DialogResultOk)
-                {
-                    viewModel.IngredientGroup.MapTo(group);
-                }
-            });
-
-
-            AddIngredientGroupCommand = new DelegateCommand(async () => {
-                var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Добавление группы ингредиентов");
-
-                if (viewModel.DialogResultOk)
-                {
-                    Recipe.IngredientGroups = Recipe.IngredientGroups ?? new ObservableCollection<IngredientGroupMain>();
-                    Recipe.IngredientGroups.Add(viewModel.IngredientGroup);
-                }
-            });
-
-            AddTagCommand = new DelegateCommand(async () => {
-                var dialogUtils = new DialogUtils(this);
-                var viewModel = await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectEditViewModel>("Добавление тегов", new TagSelectEditViewModel(Recipe.Tags, dialogUtils));
-
-                if (viewModel.DialogResultOk)
-                {
-                    IEnumerable<TagDTO> tags = new List<TagDTO>();
-                    if (viewModel.MainIngredients != null)
-                    {
-                        tags = tags.Union(viewModel.MainIngredients.Where(x => x.IsChecked));
-                    }
-
-                    if (viewModel.DishTypes != null)
-                    {
-                        tags = tags.Union(viewModel.DishTypes.Where(x => x.IsChecked));
-                    }
-
-                    if (viewModel.Occasions != null)
-                    {
-                        tags = tags.Union(viewModel.Occasions.Where(x => x.IsChecked));
-                    }
-
-                    if (viewModel.Sources != null)
-                    {
-                        tags = tags.Union(viewModel.Sources.Where(x => x.IsChecked));
-                    }
-
-                    Recipe.Tags = new ObservableCollection<TagDTO>(tags);
-                }
-            });
-
-            RemoveTagCommand = new DelegateCommand<TagDTO>(tag =>
-            {
-                Recipe.Tags.Remove(tag);
-            });
-
-            EditIngredientCommand = new DelegateCommand<RecipeIngredientMain>(async (ingredient) => {
-                var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Изменение ингредиента", new RecipeIngredientEditViewModel(ingredient.MapTo<RecipeIngredientMain>()));
-
-                if (viewModel.DialogResultOk)
-                {
-                    viewModel.Ingredient.MapTo(ingredient);
-                }
-            });
-
-            RemoveIngredientCommand = new DelegateCommand<RecipeIngredientMain>(ingredient => {
-
-                if (Recipe.Ingredients != null && Recipe.Ingredients.Contains(ingredient))
-                {
-                    Recipe.Ingredients.Remove(ingredient);
-                    return;
-                }
-
-                if (Recipe.IngredientGroups != null)
-                {
-                    foreach (var group in Recipe.IngredientGroups)
-                    {
-                        if (group.Ingredients.Contains(ingredient))
-                        {
-                            group.Ingredients.Remove(ingredient);
-                            return;
-                        }
-                    }
-                }
-            });
-
+            AddIngredientCommand        = new AsyncDelegateCommand(AddIngredient);
+            EditIngredientCommand       = new AsyncDelegateCommand<RecipeIngredientMain>(EditIngredient);
+            RemoveIngredientCommand     = new DelegateCommand<RecipeIngredientMain>(RemoveIngredient);
         }
 
-        public async void AddIngredient()
+        private void RemoveIngredientGroup(IngredientGroupMain arg) => Recipe.IngredientGroups!.Remove(arg);
+
+        private void RemoveIngredient(RecipeIngredientMain ingredient)
         {
 
-            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", new RecipeIngredientEditViewModel() { IsCreation = true });
+            if (Recipe.Ingredients != null && Recipe.Ingredients.Contains(ingredient))
+            {
+                Recipe.Ingredients.Remove(ingredient);
+                return;
+            }
+
+            if (Recipe.IngredientGroups != null)
+            {
+                foreach (var group in Recipe.IngredientGroups)
+                {
+                    if (group.Ingredients.Contains(ingredient))
+                    {
+                        group.Ingredients.Remove(ingredient);
+                        return;
+                    }
+                }
+            }
+        }
+
+        private async Task EditIngredient(RecipeIngredientMain ingredient)
+        {
+            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Изменение ингредиента", new RecipeIngredientEditViewModel(ingredient.MapTo<RecipeIngredientMain>()))
+                                                       .ConfigureAwait(false);
+
+            if (viewModel.DialogResultOk)
+            {
+                viewModel.Ingredient.MapTo(ingredient);
+            }
+        }
+
+        private async Task AddTag()
+        {
+            var dialogUtils = new DialogUtils(this);
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectEditViewModel>("Добавление тегов", new TagSelectEditViewModel(Recipe.Tags, dialogUtils))
+                                             .ConfigureAwait(false);
+
+            if (viewModel.DialogResultOk)
+            {
+                Recipe.Tags = new ObservableCollection<TagDTO>(viewModel.AllTags.Where(x => x.IsChecked));
+            }
+        }
+
+        private async Task AddIngredientGroup()
+        {
+            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Добавление группы ингредиентов")
+                                                       .ConfigureAwait(true);
+
+            if (viewModel.DialogResultOk)
+            {
+                Recipe.IngredientGroups = Recipe.IngredientGroups ?? new ObservableCollection<IngredientGroupMain>();
+                Recipe.IngredientGroups.Add(viewModel.IngredientGroup);
+            }
+        }
+
+        private async Task EditIngredientGroup(IngredientGroupMain group)
+        {
+            var viewModel = new IngredientGroupEditViewModel(group.MapTo<IngredientGroupMain>());
+            await new DialogUtils(this).ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Редактирование группы ингредиентов", viewModel)
+                                       .ConfigureAwait(true);
+
+            if (viewModel.DialogResultOk)
+            {
+                viewModel.IngredientGroup.MapTo(group);
+            }
+        }
+
+        private void RemoveTag(TagDTO tag) => Recipe.Tags!.Remove(tag);
+        private void RemoveImage() => Recipe.ImagePath = null;
+        private bool CanRemoveImage() => Recipe?.ImagePath != null;
+
+        public async Task AddIngredient()
+        {
+            var viewModel = await new DialogUtils(this)
+                                        .ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", new RecipeIngredientEditViewModel() { IsCreation = true })
+                                        .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
@@ -193,7 +189,10 @@ namespace Cooking.Pages.Recepies
 
         public async void AddIngredientToGroup(IngredientGroupMain group)
         {
-            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", new RecipeIngredientEditViewModel() { IsCreation = true });
+            var vm = new RecipeIngredientEditViewModel() { IsCreation = true };
+            var viewModel = await new DialogUtils(this)
+                                    .ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", vm)
+                                    .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
@@ -220,7 +219,9 @@ namespace Cooking.Pages.Recepies
                 Title = "Поиск изображения для рецепта"
             };
 
-            if (openFileDialog.ShowDialog() == true)
+            var dialogResult = openFileDialog.ShowDialog();
+
+            if (dialogResult.HasValue && dialogResult.Value)
             {
                 if (File.Exists(openFileDialog.FileName))
                 {
@@ -231,11 +232,41 @@ namespace Cooking.Pages.Recepies
                     {
                         File.Delete(newFilePath);
                     }
+                    
+                    using var img = new Bitmap(openFileDialog.FileName);
+                    var result = ResizeImage(img, 300);
+                    result.Save(newFilePath);
 
-                    File.Copy(openFileDialog.FileName, newFilePath);
                     Recipe.ImagePath = $@"Images/{file.Name}";
                 }
             }
+        }
+
+        /// <summary>
+        /// https://stackoverflow.com/a/24199315
+        /// </summary>
+        private static Bitmap ResizeImage(Image image, int height)
+        {
+            var newWidth = image.Width * height / image.Height;
+            var destRect = new Rectangle(0, 0, newWidth, height);
+            var destImage = new Bitmap(newWidth, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.Low;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using var wrapMode = new ImageAttributes();
+                wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+            }
+
+            return destImage;
         }
 
         public void DragOver(IDropInfo dropInfo)
@@ -306,17 +337,21 @@ namespace Cooking.Pages.Recepies
             }
         }
 
-
-        protected override async void Ok()
+        protected override async Task Ok()
         {
-            await RecipeService.UpdateAsync(Recipe.MapTo<Recipe>());
+            try
+            {
+                await RecipeService.UpdateAsync(Recipe.MapTo<Recipe>());
+            }
+            catch (Exception e)
+            {
 
+            }
             RecipeBackup = null;
             IsEditing = false;
         }
 
-
-        public async void DeleteRecipe(Guid recipeId)
+        public async Task DeleteRecipe(Guid recipeId)
         {
             var result = await DialogCoordinator.Instance.ShowMessageAsync(
                 this,
@@ -327,11 +362,11 @@ namespace Cooking.Pages.Recepies
                 {
                     AffirmativeButtonText = "Да",
                     NegativeButtonText = "Нет"
-                });
+                }).ConfigureAwait(false);
 
             if (result == MessageDialogResult.Affirmative)
             {
-                await RecipeService.DeleteRecipe(recipeId);
+                await RecipeService.Delete(recipeId).ConfigureAwait(false);
                 CloseCommand.Execute();
             }
         }

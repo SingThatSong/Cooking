@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace Cooking.Pages.MainPage.Dialogs
+namespace Cooking.Pages.Dialogs
 {
     public class DayPlan : INotifyPropertyChanged
     {

@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 
-namespace Cooking.Pages.MainPage.Dialogs
+namespace Cooking.Pages.Dialogs
 {
     public class ShowGeneratedWeekViewModel : OkCancelViewModel
     {
@@ -59,7 +59,7 @@ namespace Cooking.Pages.MainPage.Dialogs
                 if (viewModel.DialogResultOk)
                 {
                     var recipeId = viewModel.SelectedRecipeID;
-                    day.SpecificRecipe = RecipeService.GetRecipe<RecipeSlim>(recipeId);
+                    day.SpecificRecipe = RecipeService.GetProjection<RecipeSlim>(recipeId);
                 }
             });
 

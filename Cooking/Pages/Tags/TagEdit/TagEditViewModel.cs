@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cooking.Pages.Tags
 {
@@ -34,7 +35,7 @@ namespace Cooking.Pages.Tags
             }
         }
 
-        protected override async void Ok()
+        protected override async Task Ok()
         {
             if (NameChanged)
             {

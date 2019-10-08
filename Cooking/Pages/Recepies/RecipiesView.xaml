@@ -53,14 +53,16 @@
       VirtualizingStackPanel.IsVirtualizing="True">
       <ListView.ItemTemplate>
         <DataTemplate>
-          <StackPanel Width="150" Margin="3">
+          <StackPanel Width="150" Margin="3 14 3 3">
             <TextBlock
-              Width="150"
               HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              TextAlignment="Center"
               FontSize="20"
               Text="{Binding Name}"
+              Height="60"
               TextTrimming="CharacterEllipsis"
-              TextWrapping="NoWrap"
+              TextWrapping="Wrap"
               ToolTip="{Binding Name}">
               <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseUp">
@@ -84,12 +86,12 @@
       </ListView.ItemTemplate>
       <ListView.ItemsPanel>
         <ItemsPanelTemplate>
-          <wpftk:VirtualizingWrapPanel Orientation="Vertical" />
+          <wpftk:VirtualizingWrapPanel Orientation="Vertical"/>
         </ItemsPanelTemplate>
       </ListView.ItemsPanel>
 
       <ListView.Template>
-        <ControlTemplate TargetType="{x:Type ItemsControl}">
+        <ControlTemplate TargetType="{x:Type ListView}">
           <ScrollViewer VerticalScrollBarVisibility="Auto">
             <ItemsPresenter />
           </ScrollViewer>

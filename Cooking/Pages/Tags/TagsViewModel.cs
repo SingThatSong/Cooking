@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using Cooking.Commands;
+﻿using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Recepies;
-using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -12,6 +10,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Cooking.Pages.Tags
@@ -24,7 +23,7 @@ namespace Cooking.Pages.Tags
 
         public DelegateCommand AddTagCommand { get; }
         public DelegateCommand<TagDTO> ViewTagCommand { get; }
-        public DelegateCommand<TagDTO> EditTagCommand { get; }
+        public AsyncDelegateCommand<TagDTO> EditTagCommand { get; }
         public DelegateCommand<Guid> DeleteTagCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
@@ -35,7 +34,7 @@ namespace Cooking.Pages.Tags
             AddTagCommand = new DelegateCommand(AddTag);
             DeleteTagCommand = new DelegateCommand<Guid>(DeleteTag);
             ViewTagCommand = new DelegateCommand<TagDTO>(ViewTag);
-            EditTagCommand = new DelegateCommand<TagDTO>(EditTag);
+            EditTagCommand = new AsyncDelegateCommand<TagDTO>(EditTag);
         }
 
         private void OnLoaded()
@@ -50,18 +49,23 @@ namespace Cooking.Pages.Tags
             if (Application.Current.MainWindow.DataContext is MainWindowViewModel mainWindowViewModel)
             {
                 mainWindowViewModel.SelectedMenuItem = mainWindowViewModel.MenuItems[1] as HamburgerMenuIconItem;
-                ((mainWindowViewModel.SelectedMenuItem.Tag as RecepiesView).DataContext as RecepiesViewModel).FilterText = $"~{tag.Name}";
+                if (mainWindowViewModel.SelectedMenuItem != null 
+                    && mainWindowViewModel.SelectedMenuItem.Tag is RecepiesView recepiesView
+                    && recepiesView.DataContext is RecepiesViewModel recepiesViewModel)
+                {
+                    recepiesViewModel.FilterText = $"~{tag.Name}";
+                }
             }
         }
 
-        private async void EditTag(TagDTO tag)
+        private async Task EditTag(TagDTO tag)
         {
             var viewModel = new TagEditViewModel(tag.MapTo<TagDTO>());
-            await new DialogUtils(this).ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Редактирование тега", viewModel);
+            await new DialogUtils(this).ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Редактирование тега", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                await TagService.UpdateTagAsync(viewModel.Tag.MapTo<Tag>());
+                await TagService.UpdateTagAsync(viewModel.Tag.MapTo<Tag>()).ConfigureAwait(false);
                 var existingTag = Tags.Single(x => x.ID == tag.ID);
                 viewModel.Tag.MapTo(existingTag);
             }

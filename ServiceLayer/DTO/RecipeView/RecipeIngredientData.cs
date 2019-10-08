@@ -2,7 +2,7 @@
 
 namespace Cooking.ServiceLayer
 {
-    public class RecipeIngredientData : Entity
+    public sealed class RecipeIngredientData : Entity
     {
         public IngredientData Ingredient { get; set; }
         public double? Amount { get; set; }

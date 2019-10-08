@@ -15,11 +15,11 @@ namespace Cooking.Converters
             if (values == null || values.Length == 0) 
                 return Binding.DoNothing;
 
-            var result = System.Convert.ToDouble(values[0]);
+            var result = System.Convert.ToDouble(values[0], CultureInfo.InvariantCulture);
 
             foreach (var val in values.Skip(1))
             {
-                result *= System.Convert.ToDouble(val);
+                result *= System.Convert.ToDouble(val, CultureInfo.InvariantCulture);
             }
 
             return result;

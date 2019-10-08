@@ -296,7 +296,7 @@
     </Grid>
 
     <ScrollViewer
-      x:Name="RecipeScroll"
+      x:Name="RecipeEdit"
       VerticalScrollBarVisibility="Auto"
       Visibility="{Binding IsEditing, Converter={StaticResource visibleCollapsedConverter}}">
       <StackPanel Orientation="Vertical">
@@ -311,7 +311,7 @@
           <Button
             Width="24"
             Height="24"
-            Command="{Binding ImageSearchCommand.Value}"
+            Command="{Binding ImageSearchCommand}"
             Foreground="Green"
             Style="{DynamicResource MahApps.Styles.Button.Circle}">
             <icons:PackIconModern
@@ -323,7 +323,7 @@
             Width="24"
             Height="24"
             Margin="10,0,0,0"
-            Command="{Binding RemoveImageCommand.Value}"
+            Command="{Binding RemoveImageCommand}"
             Foreground="Red"
             Style="{DynamicResource MahApps.Styles.Button.Circle}">
             <icons:PackIconModern
@@ -380,7 +380,7 @@
             Margin="5,0,0,0"
             VerticalAlignment="Center"
             BorderThickness="0"
-            Command="{Binding AddIngredientGroupCommand.Value}"
+            Command="{Binding AddIngredientGroupCommand}"
             Foreground="Green"
             Style="{DynamicResource MahApps.Styles.Button.Circle}">
             <icons:PackIconModern
@@ -394,7 +394,7 @@
             Margin="5,0,0,0"
             VerticalAlignment="Center"
             BorderThickness="0"
-            Command="{Binding AddIngredientCommand.Value}"
+            Command="{Binding AddIngredientCommand}"
             Foreground="Green"
             Style="{DynamicResource MahApps.Styles.Button.Circle}">
             <icons:PackIconModern
@@ -420,7 +420,7 @@
                     Margin="5,0,0,0"
                     VerticalAlignment="Center"
                     BorderThickness="0"
-                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.AddIngredientToGroupCommand.Value}"
+                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.AddIngredientToGroupCommand}"
                     CommandParameter="{Binding}"
                     Foreground="Green"
                     Style="{DynamicResource MahApps.Styles.Button.Circle}">
@@ -435,7 +435,7 @@
                     Margin="5,0,0,0"
                     VerticalAlignment="Center"
                     BorderThickness="0"
-                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientGroupCommand.Value}"
+                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientGroupCommand}"
                     CommandParameter="{Binding}"
                     Foreground="Gray"
                     Style="{DynamicResource MahApps.Styles.Button.Circle}">
@@ -450,7 +450,7 @@
                     Margin="2,0,0,0"
                     VerticalAlignment="Center"
                     BorderThickness="0"
-                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientGroupCommand.Value}"
+                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientGroupCommand}"
                     CommandParameter="{Binding}"
                     Foreground="Red"
                     Style="{DynamicResource MahApps.Styles.Button.Circle}">
@@ -481,7 +481,7 @@
                           Height="24"
                           Margin="5,0,0,0"
                           VerticalAlignment="Center"
-                          Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientCommand.Value}"
+                          Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientCommand}"
                           CommandParameter="{Binding}"
                           Foreground="Gray"
                           Style="{DynamicResource MahApps.Styles.Button.Circle}">
@@ -495,7 +495,7 @@
                           Height="24"
                           Margin="2,0,0,0"
                           VerticalAlignment="Center"
-                          Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientCommand.Value}"
+                          Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientCommand}"
                           CommandParameter="{Binding}"
                           Foreground="Red"
                           Style="{DynamicResource MahApps.Styles.Button.Circle}">
@@ -544,7 +544,7 @@
                   Height="24"
                   Margin="5,0,0,0"
                   VerticalAlignment="Center"
-                  Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.EditIngredientCommand.Value}"
+                  Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.EditIngredientCommand}"
                   CommandParameter="{Binding}"
                   Foreground="Gray"
                   Style="{DynamicResource MahApps.Styles.Button.Circle}">
@@ -558,7 +558,7 @@
                   Height="24"
                   Margin="2,0,0,0"
                   VerticalAlignment="Center"
-                  Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.RemoveIngredientCommand.Value}"
+                  Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.RemoveIngredientCommand}"
                   CommandParameter="{Binding}"
                   Foreground="Red"
                   Style="{DynamicResource MahApps.Styles.Button.Circle}">
@@ -601,7 +601,7 @@
             Margin="5,0,0,0"
             VerticalAlignment="Center"
             BorderThickness="0"
-            Command="{Binding AddTagCommand.Value}"
+            Command="{Binding AddTagCommand}"
             Foreground="Green"
             Style="{DynamicResource MahApps.Styles.Button.Circle}">
             <icons:PackIconModern
@@ -633,7 +633,7 @@
                   Margin="2,0,0,0"
                   VerticalAlignment="Center"
                   BorderThickness="0"
-                  Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveTagCommand.Value}"
+                  Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveTagCommand}"
                   CommandParameter="{Binding}"
                   Foreground="Red"
                   Style="{DynamicResource MahApps.Styles.Button.Circle}">
