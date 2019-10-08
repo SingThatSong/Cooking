@@ -113,10 +113,7 @@ namespace ServiceLayer
             var recipe = MapperService.Mapper.ProjectTo<TEST.Recipe>(context.Recipies);
             var recipe2 = MapperService.Mapper.ProjectTo<Recipe>(context.Recipies);
 
-            return context.Recipies
-                          .Include(x => x.Tags)
-                            .ThenInclude(x => x.Tag)
-                          .Single(x => x.ID == recipeId);
+            return recipe2.Single(x => x.ID == recipeId);
         }
 
         public static TRecipe GetProjection<TRecipe>(Guid recipeId) where TRecipe : RecipeSlim

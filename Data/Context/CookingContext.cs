@@ -41,10 +41,10 @@ namespace Data.Context
                 .WithMany()
                 .OnDelete(DeleteBehavior.SetNull);
 
-            modelBuilder.Entity<Recipe>()
-                .HasMany(x => x.IngredientGroups)
-                .WithOne()
-                .OnDelete(DeleteBehavior.SetNull);
+            //modelBuilder.Entity<Recipe>()
+            //    .HasMany(x => x.IngredientGroups)
+            //    .WithOne()
+            //    .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<IngredientsGroup>()
                 .HasMany(x => x.Ingredients)
@@ -52,10 +52,10 @@ namespace Data.Context
                 .OnDelete(DeleteBehavior.Cascade);
 
 
-            modelBuilder.Entity<Recipe>()
-                .HasMany(x => x.Ingredients)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
+            //modelBuilder.Entity<Recipe>()
+            //    .HasMany(x => x.Ingredients)
+            //    .WithOne()
+            //    .OnDelete(DeleteBehavior.Cascade);
 
 
 
@@ -88,12 +88,7 @@ namespace Data.Context
             SetGuidType<Week>(modelBuilder);
 
             SetGuidType<Recipe>(modelBuilder);
-            //SetGuidType<Tag>(modelBuilder);
-            modelBuilder.Entity<Tag>()
-                .Property(x => x.ID)
-                .HasConversion(
-                    g => g.ToByteArray(),
-                    b => new Guid(b));
+            SetGuidType<Tag>(modelBuilder);
             SetGuidType<Ingredient>(modelBuilder);
             SetGuidType<IngredientsGroup>(modelBuilder);
             SetGuidType<RecipeIngredient>(modelBuilder);

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Data.Model;
+using System.Collections.Generic;
 
-namespace Data.Model
+namespace TEST
 {
     public class Tag : Entity
     {

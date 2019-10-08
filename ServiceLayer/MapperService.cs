@@ -30,15 +30,25 @@ namespace ServiceLayer
 
                 cfg.CreateMap<Week, WeekMainPage>();
                 cfg.CreateMap<Day, DayMainPage>();
+                
+                cfg.CreateMap<Entity, Entity>();
+                cfg.CreateMap<Entity, TEST.Entity>();
 
-                cfg.CreateMap<Recipe, Recipe>();
-                cfg.CreateMap<Recipe, TEST.Recipe>();
+                cfg.CreateMap<Recipe, Recipe>().IncludeBase<Entity, Entity>();
+                cfg.CreateMap<Recipe, TEST.Recipe>().IncludeBase<Entity, TEST.Entity>();
 
                 cfg.CreateMap<RecipeTag, RecipeTag>();
                 cfg.CreateMap<RecipeTag, TEST.RecipeTag>();
 
-                cfg.CreateMap<Tag, Tag>();
-                cfg.CreateMap<Tag, TEST.Tag>();
+                cfg.CreateMap<Tag, Tag>().IncludeBase<Entity, Entity>();
+                cfg.CreateMap<Tag, TEST.Tag>().IncludeBase<Entity, TEST.Entity>();
+
+                cfg.CreateMap<IngredientsGroup, IngredientsGroup>().IncludeBase<Entity, Entity>();
+                cfg.CreateMap<IngredientsGroup, TEST.IngredientsGroup>().IncludeBase<Entity, TEST.Entity>();
+
+                cfg.CreateMap<RecipeIngredient, RecipeIngredient>().IncludeBase<Entity, Entity>();
+                cfg.CreateMap<RecipeIngredient, TEST.RecipeIngredient>().IncludeBase<Entity, TEST.Entity>();
+
                 //.ForMember(x => x.IngredientGroups, op => op.Ignore())
                 //.ForMember(x => x.Ingredients, op => op.Ignore())
                 //.ForMember(x => x.Tags, op => op.Ignore());
@@ -46,6 +56,8 @@ namespace ServiceLayer
                 cfg.CreateMap<Recipe, RecipeSlim>().ReverseMap();
                 cfg.CreateMap<Recipe, RecipeFull>()
                    .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags.Select(t => t.Tag)));
+
+
 
                 cfg.CreateMap<RecipeFull, Recipe>()
                    .ForMember(x => x.Tags, opt => opt.Ignore())
