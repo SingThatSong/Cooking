@@ -22,7 +22,7 @@ namespace Cooking.Commands
             ExecuteOnce = executeOnce;
         }
 
-        protected override void ExecuteInternal(object parameter) => _execute();
-        protected override bool CanExecuteInternal(object parameter) => _canExecute != null ? _canExecute() : true;
+        protected override void ExecuteInternal(object? parameter) => _execute();
+        protected override bool CanExecuteInternal(object? parameter) => _canExecute != null ? _canExecute() : true;
     }
 }
