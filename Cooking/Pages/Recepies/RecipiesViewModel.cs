@@ -2,6 +2,7 @@
 using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.ServiceLayer;
+using Cooking.ServiceLayer.Projections;
 using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
@@ -10,6 +11,7 @@ using Plafi;
 using PropertyChanged;
 using ServiceLayer;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -22,7 +24,7 @@ namespace Cooking.Pages.Recepies
     public partial class RecepiesViewModel
     {
         public CollectionViewSource RecipiesSource { get; set; }
-        public ObservableCollection<RecipeSelect>? Recipies { get; set; }
+        public ObservableCollection<RecipeSelect>? Recipies { get; private set; }
 
         public DelegateCommand AddRecipeCommand { get; }
         public DelegateCommand<Guid> ViewRecipeCommand { get; }
@@ -32,8 +34,8 @@ namespace Cooking.Pages.Recepies
         public RecepiesViewModel()
         {
             FilterContext = new FilterContext<RecipeSelect>().AddFilter("name", HasName, isDefault:true)
-                                                             .AddFilter("#", HasIngredient)
-                                                             .AddFilter("$", HasTag);
+                                                             .AddFilter(Consts.IngredientSymbol, HasIngredient)
+                                                             .AddFilter(Consts.TagSymbol, HasTag);
 
             dialogUtils = new DialogUtils(this);
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
@@ -100,15 +102,38 @@ namespace Cooking.Pages.Recepies
             return recipe.Name.ToUpperInvariant().Contains(name.ToUpperInvariant(), StringComparison.Ordinal);
         }
 
+
+        private Dictionary<Guid, RecipeFull> recipeCache = new Dictionary<Guid, RecipeFull>();
         private bool HasTag(RecipeSelect recipe, string category)
         {
-            var recipeDb = RecipeService.GetProjection<RecipeFull>(recipe.ID);
+            RecipeFull recipeDb;
+
+            if (recipeCache.ContainsKey(recipe.ID))
+            {
+                recipeDb = recipeCache[recipe.ID];
+            }
+            else
+            {
+                recipeDb = RecipeService.GetProjection<RecipeFull>(recipe.ID);
+                recipeCache.Add(recipe.ID, recipeDb);
+            }
+
             return recipeDb.Tags != null && recipeDb.Tags.Any(x => x.Name.ToUpperInvariant() == category.ToUpperInvariant());
         }
 
         private bool HasIngredient(RecipeSelect recipe, string category)
         {
-            var recipeDb = RecipeService.GetProjection<RecipeFull>(recipe.ID);
+            RecipeFull recipeDb;
+
+            if (recipeCache.ContainsKey(recipe.ID))
+            {
+                recipeDb = recipeCache[recipe.ID];
+            }
+            else
+            {
+                recipeDb = RecipeService.GetProjection<RecipeFull>(recipe.ID);
+                recipeCache.Add(recipe.ID, recipeDb);
+            }
 
             // Ищем среди ингредиентов
             if (recipeDb.Ingredients != null
@@ -134,16 +159,16 @@ namespace Cooking.Pages.Recepies
 
         public async void ViewRecipe(Guid recipeId)
         {
-            await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: new RecipeViewModel(recipeId));
+            await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: new RecipeViewModel(recipeId)).ConfigureAwait(false);
         }
 
         public async void AddRecipe()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>("Новый рецепт", content: new RecipeViewModel() { IsEditing = true }); ;
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>("Новый рецепт", content: new RecipeViewModel() { IsEditing = true }).ConfigureAwait(false); ;
 
             if (viewModel.DialogResultOk)
             {
-                var id = await RecipeService.CreateAsync(viewModel.Recipe.MapTo<Recipe>());
+                var id = await RecipeService.CreateAsync(viewModel.Recipe.MapTo<Recipe>()).ConfigureAwait(false);
                 viewModel.Recipe.ID = id;
                 Recipies.Add(viewModel.Recipe.MapTo<RecipeSelect>());
             }

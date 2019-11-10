@@ -32,28 +32,12 @@
       HorizontalAlignment="Center"
       Orientation="Horizontal">
       <Button
-        Width="48"
-        Height="48"
-        Command="{Binding OkCommand.Value}"
-        Foreground="Green"
-        Style="{DynamicResource MahApps.Styles.Button.Circle}">
-        <icons:PackIconModern
-          Width="20"
-          Height="20"
-          Kind="Check" />
-      </Button>
+        Command="{Binding OkCommand}"
+        Style="{StaticResource OkButton}" />
       <Button
-        Width="48"
-        Height="48"
-        Margin="10,0,0,0"
-        Command="{Binding CloseCommand.Value}"
-        Foreground="Red"
-        Style="{DynamicResource MahApps.Styles.Button.Circle}">
-        <icons:PackIconModern
-          Width="20"
-          Height="20"
-          Kind="Close" />
-      </Button>
+        Margin="10 0 0 0"
+        Command="{Binding CloseCommand}"
+        Style="{StaticResource CancelButton}" />
     </StackPanel>
   </Grid>
 </UserControl>

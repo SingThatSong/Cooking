@@ -50,7 +50,7 @@ namespace Cooking.Pages.Dialogs
             Days[0].PropertyChanged += OnHeaderValueChanged;
             
             AddMainIngredientCommand = new DelegateCommand<DayPlan>(async (day) => {
-                var tags = await GetTags(TagType.MainIngredient, day.NeededMainIngredients);
+                var tags = await GetTags(TagType.MainIngredient, day.NeededMainIngredients).ConfigureAwait(false);
 
                 if (tags != null)
                 {
@@ -60,7 +60,7 @@ namespace Cooking.Pages.Dialogs
 
             AddDishTypesCommand = new DelegateCommand<DayPlan>(async (day) => {
 
-                var tags = await GetTags(TagType.DishType, day.NeededDishTypes);
+                var tags = await GetTags(TagType.DishType, day.NeededDishTypes).ConfigureAwait(false);
 
                 if (tags != null)
                 {
@@ -71,7 +71,7 @@ namespace Cooking.Pages.Dialogs
             AddCalorieTypesCommand = new DelegateCommand<DayPlan>(async (day) => {
 
                 var viewModel = new CalorieTypeSelectEditViewModel(day.CalorieTypes);
-                await dialogUtils.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectEditViewModel>("Категории калорийности", viewModel);
+                await dialogUtils.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectEditViewModel>("Категории калорийности", viewModel).ConfigureAwait(false);
 
                 if (viewModel.DialogResultOk)
                 {
@@ -102,7 +102,7 @@ namespace Cooking.Pages.Dialogs
             allTags.ForEach(x => x.Type = type);
 
             var viewModel = new TagSelectEditViewModel(current, allTags, dialogUtils);
-            await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectEditViewModel>($"Категории {type}", viewModel);
+            await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectEditViewModel>($"Категории {type}", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {

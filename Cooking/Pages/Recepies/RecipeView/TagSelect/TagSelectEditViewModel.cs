@@ -24,7 +24,7 @@ namespace Cooking.Pages.Recepies
             throw new NotImplementedException();
         }
 
-        public TagSelectEditViewModel(IEnumerable<TagDTO> currentTags, DialogUtils dialogUtils)
+        public TagSelectEditViewModel(IEnumerable<TagDTO>? currentTags, DialogUtils dialogUtils)
         {
             this.dialogUtils = dialogUtils;
             AddTagCommand = new DelegateCommand(AddTag);
@@ -32,7 +32,7 @@ namespace Cooking.Pages.Recepies
             CtorInternal(currentTags);
         }
 
-        public TagSelectEditViewModel(IEnumerable<TagDTO> currentTags, IEnumerable<TagDTO> allTags, DialogUtils dialogUtils)
+        public TagSelectEditViewModel(IEnumerable<TagDTO>? currentTags, IEnumerable<TagDTO> allTags, DialogUtils dialogUtils)
         {
             this.dialogUtils = dialogUtils;
             AddTagCommand = new DelegateCommand(AddTag);
@@ -40,7 +40,7 @@ namespace Cooking.Pages.Recepies
             CtorInternal(currentTags);
         }
 
-        private void CtorInternal(IEnumerable<TagDTO> currentTags)
+        private void CtorInternal(IEnumerable<TagDTO>? currentTags)
         {
             if (currentTags != null)
             {
@@ -55,11 +55,11 @@ namespace Cooking.Pages.Recepies
 
         public async void AddTag()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Новый тег");
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Новый тег").ConfigureAwait(false);
             
             if (viewModel.DialogResultOk)
             {
-                var id = await TagService.CreateAsync(viewModel.Tag.MapTo<Tag>());
+                var id = await TagService.CreateAsync(viewModel.Tag.MapTo<Tag>()).ConfigureAwait(false);
                 viewModel.Tag.ID = id;
                 AllTags.Add(viewModel.Tag);
             }

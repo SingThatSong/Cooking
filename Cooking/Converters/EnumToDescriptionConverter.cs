@@ -10,7 +10,7 @@ namespace Cooking.Converters
     /// Converter for displaying <see cref="System.ComponentModel.DescriptionAttribute"/> values from enums
     public class EnumToDescriptionConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is Enum @enum)
             {
@@ -24,7 +24,11 @@ namespace Cooking.Converters
                 {
                     if(val is Enum @enumValue)
                     {
-                        list.Add(@enumValue.Description());
+                        var description = @enumValue.Description();
+                        if (description != null)
+                        {
+                            list.Add(description);
+                        }
                     }
                 }
 
@@ -36,16 +40,19 @@ namespace Cooking.Converters
             }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type? targetType, object parameter, CultureInfo culture)
         {
-            if (value != null)
+            if (value != null && targetType != null)
             {
-                return targetType.Enum(value.ToString());
+                var valAsString = value.ToString();
+
+                if (valAsString != null)
+                {
+                    return targetType.Enum(valAsString);
+                }
             }
-            else
-            {
-                return Binding.DoNothing;
-            }
+            
+            return Binding.DoNothing;
         }
     }
 }

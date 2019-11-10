@@ -29,7 +29,7 @@ namespace WebApplication1.Controllers
             }
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            foreach (var res in result)
+            foreach (var res in result.Where(x => x.Description != null))
             {
                 res.Description = Rtf.ToHtml(res.Description);
             }

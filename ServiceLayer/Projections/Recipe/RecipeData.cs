@@ -2,7 +2,7 @@
 using ServiceLayer.DTO.MainPage;
 using System.Collections.Generic;
 
-namespace Cooking.ServiceLayer
+namespace Cooking.ServiceLayer.Projections
 {
     public class RecipeFull : RecipeSlim
     {

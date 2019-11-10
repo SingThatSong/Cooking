@@ -12,7 +12,7 @@ namespace Cooking.Helpers
         /// <summary>
         /// Get DescriptionAttribute from enum
         /// </summary>
-        public static string Description(this Enum value)
+        public static string? Description(this Enum value)
         {
             var enumType = value.GetType();
             var field = enumType.GetField(value.ToString());

@@ -1,9 +1,8 @@
 ﻿using Data.Model;
-using System.Collections.Generic;
 
-namespace Cooking.ServiceLayer
+namespace Cooking.ServiceLayer.Projections
 {
-    public class RecipeSlim : Entity
+    public class RecipeSlim : RecipeProjection
     {
         public string Name { get; set; }
         public string ImagePath { get; set; }

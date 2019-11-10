@@ -54,7 +54,7 @@ namespace Cooking.Pages
         private async Task<WeekMain?> GetWeekAsync(DateTime dayOfWeek)
         {
             Debug.WriteLine("MainPageViewModel.GetWeekAsync");
-            var weekData = await WeekService.GetWeekAsync(dayOfWeek);
+            var weekData = await WeekService.GetWeekAsync(dayOfWeek).ConfigureAwait(false);
             if (weekData == null)
             {
                 return null;
@@ -86,13 +86,13 @@ namespace Cooking.Pages
         private async void ShowRecipeAsync(Guid recipeId)
         {
             Debug.WriteLine("MainPageViewModel.ShowRecipeAsync");
-            await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: new RecipeViewModel(recipeId));
+            await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: new RecipeViewModel(recipeId)).ConfigureAwait(false);
         }
 
         private async void SelectDinner(string dayName)
         {
             Debug.WriteLine("MainPageViewModel.SelectDinner");
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeSelectView, RecipeSelectViewModel>();
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeSelectView, RecipeSelectViewModel>().ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
@@ -101,26 +101,26 @@ namespace Cooking.Pages
 
                 if (day != null)
                 {
-                    await DayService.SetDinner(day.ID, viewModel.SelectedRecipeID);
+                    await DayService.SetDinner(day.ID, viewModel.SelectedRecipeID).ConfigureAwait(false);
                 }
                 else
                 {
-                    await DayService.CreateDinner(CurrentWeek.ID, viewModel.SelectedRecipeID, dayOfWeek);
+                    await DayService.CreateDinner(CurrentWeek.ID, viewModel.SelectedRecipeID, dayOfWeek).ConfigureAwait(false);
                 }
 
-                await ReloadCurrentWeek();
+                await ReloadCurrentWeek().ConfigureAwait(false);
             }
         }
 
         private async Task ReloadCurrentWeek()
         {
-            CurrentWeek = await GetWeekAsync(CurrentWeek.Start);
+            CurrentWeek = await GetWeekAsync(CurrentWeek.Start).ConfigureAwait(false);
         }
 
         private async void OnLoadedAsync()
         {
             Debug.WriteLine("MainPageViewModel.OnLoadedAsync");
-            await SetWeekByDay(DateTime.Now);
+            await SetWeekByDay(DateTime.Now).ConfigureAwait(false);
 
             var dayOnPreviousWeek = WeekService.FirstDayOfWeek(DateTime.Now).AddDays(-1);
             var prevWeekFilled    = WeekService.IsWeekFilled(dayOnPreviousWeek);
@@ -136,7 +136,7 @@ namespace Cooking.Pages
                       {
                           AffirmativeButtonText = "Перейти к предыдущей неделе",
                           NegativeButtonText = "Закрыть"
-                      });
+                      }).ConfigureAwait(false);
 
                 if (result == MessageDialogResult.Affirmative)
                 {
@@ -148,13 +148,13 @@ namespace Cooking.Pages
         private async void MoveRecipe(Guid dayId)
         {
             Debug.WriteLine("MainPageViewModel.MoveRecipe");
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<MoveRecipe, MoveRecipeViewModel>();
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<MoveRecipe, MoveRecipeViewModel>().ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
                 var selectedDay = viewModel.DaysOfWeek.Single(x => x.IsSelected);
-                await WeekService.MoveDayToNextWeek(CurrentWeek.ID, dayId, selectedDay.WeekDay);
-                await ReloadCurrentWeek();
+                await WeekService.MoveDayToNextWeek(CurrentWeek.ID, dayId, selectedDay.WeekDay).ConfigureAwait(false);
+                await ReloadCurrentWeek().ConfigureAwait(false);
             }
         }
 
@@ -162,20 +162,20 @@ namespace Cooking.Pages
         {
             Debug.WriteLine("MainPageViewModel.SelectPreviousWeekAsync");
             var dayOnPreviousWeek = WeekStart.AddDays(-1);
-            await SetWeekByDay(dayOnPreviousWeek);
+            await SetWeekByDay(dayOnPreviousWeek).ConfigureAwait(false);
         }
 
         private async void SelectNextWeekAsync()
         {
             Debug.WriteLine("MainPageViewModel.SelectNextWeekAsync");
             var dayOnNextWeek = WeekEnd.AddDays(1);
-            await SetWeekByDay(dayOnNextWeek);
+            await SetWeekByDay(dayOnNextWeek).ConfigureAwait(false);
         }
 
         private async Task SetWeekByDay(DateTime date)
         {
             Debug.WriteLine("MainPageViewModel.SetWeekByDay");
-            CurrentWeek = await GetWeekAsync(date);
+            CurrentWeek = await GetWeekAsync(date).ConfigureAwait(false);
             WeekStart = WeekService.FirstDayOfWeek(date);
             WeekEnd = WeekService.LastDayOfWeek(date);
         }
@@ -185,7 +185,7 @@ namespace Cooking.Pages
             Debug.WriteLine("MainPageViewModel.CreateShoppingListAsync");
             var allProducts = WeekService.GetWeekIngredients(CurrentWeek.ID);
 
-            await dialogUtils.ShowCustomMessageAsync<ShoppingCartView, ShoppingCartViewModel>(content: new ShoppingCartViewModel(allProducts));
+            await dialogUtils.ShowCustomMessageAsync<ShoppingCartView, ShoppingCartViewModel>(content: new ShoppingCartViewModel(allProducts)).ConfigureAwait(false);
         }
 
         private async void DeleteDayAsync(Guid dayId)
@@ -199,12 +199,12 @@ namespace Cooking.Pages
                     {
                         AffirmativeButtonText = "Да",
                         NegativeButtonText = "Отмена"
-                    });
+                    }).ConfigureAwait(false);
 
             if (result == MessageDialogResult.Affirmative)
             {
-                await DayService.DeleteDay(dayId);
-                await ReloadCurrentWeek();
+                await DayService.DeleteDay(dayId).ConfigureAwait(false);
+                await ReloadCurrentWeek().ConfigureAwait(false);
             }
         }
 
@@ -219,11 +219,11 @@ namespace Cooking.Pages
                     {
                         AffirmativeButtonText = "Да",
                         NegativeButtonText = "Отмена"
-                    });
+                    }).ConfigureAwait(false);
 
             if (result == MessageDialogResult.Affirmative)
             {
-                await WeekService.DeleteWeekAsync(CurrentWeek.ID);
+                await WeekService.DeleteWeekAsync(CurrentWeek.ID).ConfigureAwait(false);
                 CurrentWeek = null;
             }
         }
@@ -238,7 +238,7 @@ namespace Cooking.Pages
                 var viewModel = await dialogUtils.ShowCustomMessageAsync<WeekSettings, WeekSettingsViewModel>(
                                         "Фильтр для блюд на неделю", 
                                         weekSettingsViewModel
-                                      );
+                                      ).ConfigureAwait(false);
                 
                 if (!weekSettingsViewModel.DialogResultOk) return;
 
@@ -248,14 +248,14 @@ namespace Cooking.Pages
                 showGeneratedWeekViewModel = await dialogUtils.ShowCustomMessageAsync<ShowGeneratedWeekView, ShowGeneratedWeekViewModel>(
                                                     "Сгенерированные рецепты",
                                                     new ShowGeneratedWeekViewModel(WeekStart, WeekEnd, selectedDays)
-                                                  );
+                                                  ).ConfigureAwait(false);
 
                 if (showGeneratedWeekViewModel.DialogResultOk)
                 {
                     var daysDictionary = showGeneratedWeekViewModel.Days.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
 
-                    await WeekService.CreateWeekAsync(WeekStart, daysDictionary);
-                    CurrentWeek = await GetWeekAsync(WeekStart);
+                    await WeekService.CreateWeekAsync(WeekStart, daysDictionary).ConfigureAwait(false);
+                    CurrentWeek = await GetWeekAsync(WeekStart).ConfigureAwait(false);
                 }
             }
             while (showGeneratedWeekViewModel.ReturnBack);

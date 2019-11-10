@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.1-ci-01604" />
+    <PackageReference Include="AutoMapper.Collection" Version="6.0.0-ci-00096" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Cooking.Data.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -16,6 +16,7 @@ namespace WebApplication1
         {
             DatabaseService.DbFileName = @"C:\Cooking\publish\cooking.db";
             Configuration = configuration;
+            DatabaseService.InitDatabase();
         }
 
         public IConfiguration Configuration { get; }

@@ -151,16 +151,9 @@
 
     <Button
       Grid.Column="5"
-      Width="36"
-      Height="36"
-      Margin="10,0,0,0"
+      Margin="10 0 0 0"
       Command="{Binding AddTagCommand}"
-      Style="{DynamicResource MahApps.Styles.Button.Circle}">
-      <icons:PackIconModern
-        Width="15"
-        Height="15"
-        Kind="Add" />
-    </Button>
+      Style="{StaticResource MediumAddButton}" />
 
     <StackPanel
       Grid.Row="2"
@@ -169,28 +162,18 @@
       HorizontalAlignment="Center"
       Orientation="Horizontal">
       <Button
-        Width="48"
-        Height="48"
         Command="{Binding OkCommand}"
         Foreground="Green"
-        Style="{DynamicResource MahApps.Styles.Button.Circle}">
+        Style="{StaticResource BigButton}">
         <icons:PackIconModern
-          Width="20"
-          Height="20"
+          Style="{StaticResource BigIcon}"
           Kind="Check" />
       </Button>
       <Button
-        Width="48"
-        Height="48"
-        Margin="10,0,0,0"
+        Margin="10 0 0 0"
         Command="{Binding CloseCommand}"
-        Foreground="Red"
-        Style="{DynamicResource MahApps.Styles.Button.Circle}">
-        <icons:PackIconModern
-          Width="20"
-          Height="20"
-          Kind="Close" />
-      </Button>
+        Style="{StaticResource CancelButton}" />
+        
     </StackPanel>
   </Grid>
 </UserControl>

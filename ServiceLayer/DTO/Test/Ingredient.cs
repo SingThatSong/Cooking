@@ -1,4 +1,4 @@
-﻿using System;
+﻿using AutoMapper;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -8,16 +8,16 @@ namespace TEST
     {
         public string Name { get; set; }
 
-        [NotMapped]
-        public IngredientType Type { get; set; }
+        //[NotMapped, IgnoreMap]
+        //public IngredientType Type { get; set; }
 
-        public int? TypeID
-        {
-            get => Type?.ID;
-            set
-            {
-                Type = IngredientType.AllValues.SingleOrDefault(x => x.ID == value);
-            }
-        }
+        //public int? TypeID
+        //{
+        //    get => Type?.ID;
+        //    set
+        //    {
+        //        Type = IngredientType.AllValues.SingleOrDefault(x => x.ID == value);
+        //    }
+        //}
     }
 }

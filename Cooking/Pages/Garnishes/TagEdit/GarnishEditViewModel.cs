@@ -52,7 +52,7 @@ namespace Cooking.Pages.Garnishes
                                         {
                                             AffirmativeButtonText = "Да",
                                             NegativeButtonText = "Нет"
-                                        });
+                                        }).ConfigureAwait(false);
 
                     if (result == MessageDialogResult.Negative)
                     {
@@ -61,12 +61,12 @@ namespace Cooking.Pages.Garnishes
                 }
             }
 
-            base.Ok();
+            await base.Ok().ConfigureAwait(false);
         }
         
         private List<string> AllGarnishNames { get; set; }
 
-        public IEnumerable<string> SimilarGarnishes => string.IsNullOrWhiteSpace(Garnish?.Name)
+        public IEnumerable<string>? SimilarGarnishes => string.IsNullOrWhiteSpace(Garnish?.Name)
             ? null 
             : AllGarnishNames.OrderBy(x => GarnishCompare(x, Garnish.Name)).Take(3);
 

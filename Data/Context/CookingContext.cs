@@ -21,8 +21,8 @@ namespace Data.Context
         {
             optionsBuilder.UseSqlite($"Data Source={DbFilename}")
 #if DEBUG
-                          .UseLoggerFactory(new ConsoleLoggerFactory())
-                          .EnableSensitiveDataLogging()
+                          //.UseLoggerFactory(new ConsoleLoggerFactory())
+                          //.EnableSensitiveDataLogging()
 #endif
                           ;
 
@@ -41,10 +41,10 @@ namespace Data.Context
                 .WithMany()
                 .OnDelete(DeleteBehavior.SetNull);
 
-            //modelBuilder.Entity<Recipe>()
-            //    .HasMany(x => x.IngredientGroups)
-            //    .WithOne()
-            //    .OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<Recipe>()
+                .HasMany(x => x.IngredientGroups)
+                .WithOne()
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<IngredientsGroup>()
                 .HasMany(x => x.Ingredients)
@@ -52,10 +52,10 @@ namespace Data.Context
                 .OnDelete(DeleteBehavior.Cascade);
 
 
-            //modelBuilder.Entity<Recipe>()
-            //    .HasMany(x => x.Ingredients)
-            //    .WithOne()
-            //    .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Recipe>()
+                .HasMany(x => x.Ingredients)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
 
 
 
@@ -107,6 +107,7 @@ namespace Data.Context
         {
             modelBuilder.Entity<T>()
                 .Property(propertyExpression)
+                .ValueGeneratedNever()
                 .HasConversion(
                     g => g.Value.ToByteArray(),
                     b => new Guid(b));
@@ -117,6 +118,7 @@ namespace Data.Context
         {
             modelBuilder.Entity<T>()
                 .Property(propertyExpression)
+                .ValueGeneratedNever()
                 .HasConversion(
                     g => g.ToByteArray(),
                     b => new Guid(b));
@@ -126,6 +128,7 @@ namespace Data.Context
         {
             modelBuilder.Entity<T>()
                 .Property(e => e.ID)
+                .ValueGeneratedNever()
                 .HasConversion(
                     g => g.ToByteArray(),
                     b => new Guid(b));

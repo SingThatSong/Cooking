@@ -1,4 +1,5 @@
 ﻿using Cooking.ServiceLayer;
+using Cooking.ServiceLayer.Projections;
 using Data.Model;
 using PropertyChanged;
 using System;

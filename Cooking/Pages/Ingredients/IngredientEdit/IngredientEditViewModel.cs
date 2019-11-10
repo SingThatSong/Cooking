@@ -51,7 +51,7 @@ namespace Cooking.Pages.Ingredients
                                         {
                                             AffirmativeButtonText = "Да",
                                             NegativeButtonText = "Нет"
-                                        });
+                                        }).ConfigureAwait(false);
 
                     if (result == MessageDialogResult.Negative)
                     {
@@ -69,7 +69,7 @@ namespace Cooking.Pages.Ingredients
 
         public event PropertyChangedEventHandler PropertyChanged;
         
-        public IEnumerable<string> SimilarIngredients => string.IsNullOrWhiteSpace(Ingredient?.Name)
+        public IEnumerable<string>? SimilarIngredients => string.IsNullOrWhiteSpace(Ingredient?.Name)
                                                         ? null
                                                         : AllIngredientNames.OrderBy(x => IngredientCompare(x, Ingredient.Name)).Take(3);
 

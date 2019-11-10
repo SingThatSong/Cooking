@@ -8,7 +8,7 @@
   xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
   xmlns:local="clr-namespace:Cooking.Pages"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  xmlns:model="clr-namespace:Data.Model;assembly=Data"
+  xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
   d:DesignHeight="450"
   d:DesignWidth="800"
   mc:Ignorable="d">
@@ -108,7 +108,7 @@
         Margin="5,5,0,0"
         Foreground="LightGray"
         IsChecked="{Binding DinnerWasCooked}"
-        Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+        Style="{StaticResource MahApps.Styles.ToggleButton.Circle}">
         <icons:PackIconModern
           Width="15"
           Height="10"
@@ -169,30 +169,16 @@
           </Style>
         </StackPanel.Style>
         <Button
-          Width="24"
-          Height="24"
           Command="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, Path=DataContext.SelectDinnerCommand}"
           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DayName}"
-          Foreground="LightGray"
-          Style="{DynamicResource MahApps.Styles.Button.Circle}">
-          <icons:PackIconModern
-            Width="10"
-            Height="10"
-            Kind="DrawPen" />
-        </Button>
+          Style="{StaticResource SmallEditButton}" />
+          
         <Button
-          Width="24"
-          Height="24"
-          Margin="5,0,0,0"
+          Margin="5 0 0 0"
           Command="{Binding RelativeSource={RelativeSource AncestorType=local:MainPage}, Path=DataContext.DeleteDinnerCommand}"
           CommandParameter="{Binding ID}"
-          Foreground="Red"
-          Style="{DynamicResource MahApps.Styles.Button.Circle}">
-          <icons:PackIconModern
-            Width="10"
-            Height="10"
-            Kind="Delete" />
-        </Button>
+          Style="{StaticResource SmallDeleteButton}" />
+
       </StackPanel>
     </StackPanel>
   </StackPanel>

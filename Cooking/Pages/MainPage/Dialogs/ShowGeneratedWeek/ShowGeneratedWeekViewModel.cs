@@ -1,6 +1,7 @@
 ﻿using Cooking.Commands;
 using Cooking.Pages.Recepies;
 using Cooking.ServiceLayer;
+using Cooking.ServiceLayer.Projections;
 using MahApps.Metro.Controls.Dialogs;
 using ServiceLayer;
 using System;
@@ -25,8 +26,8 @@ namespace Cooking.Pages.Dialogs
 
             ReturnCommand = new DelegateCommand(async () => {
                     ReturnBack = true;
-                    var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
-                    await DialogCoordinator.Instance.HideMetroDialogAsync(this, current);
+                    var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this).ConfigureAwait(false);
+                    await DialogCoordinator.Instance.HideMetroDialogAsync(this, current).ConfigureAwait(false);
                 });
 
             DeleteRecipeManuallyCommand = new DelegateCommand<DayPlan>(day =>
@@ -46,15 +47,15 @@ namespace Cooking.Pages.Dialogs
                     }
                 };
 
-                var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this);
+                var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this).ConfigureAwait(false);
 
-                await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
+                await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog).ConfigureAwait(false);
 
                 do
                 {
-                    await dialog.WaitUntilUnloadedAsync();
+                    await dialog.WaitUntilUnloadedAsync().ConfigureAwait(false);
                 }
-                while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this));
+                while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this).ConfigureAwait(false));
 
                 if (viewModel.DialogResultOk)
                 {
@@ -79,7 +80,7 @@ namespace Cooking.Pages.Dialogs
 
             ShowRecipe = new DelegateCommand<DayPlan>(async (day) => {
                 var viewModel = new RecipeViewModel(day.Recipe.ID);
-                await new DialogUtils(this).ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: viewModel);
+                await new DialogUtils(this).ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: viewModel).ConfigureAwait(false);
             });
         }
 

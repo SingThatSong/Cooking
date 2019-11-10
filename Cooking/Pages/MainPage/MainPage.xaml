@@ -52,7 +52,7 @@
       Orientation="Horizontal"
       TextBlock.FontSize="15">
       <TextBlock Text="Неделя" />
-      <TextBlock Margin="5,0,0,0" Text="{Binding WeekStart, StringFormat={}dd.MM}" />
+      <TextBlock Margin="5 0 0 0" Text="{Binding WeekStart, StringFormat={}dd.MM}" />
       <TextBlock Margin="5,0" Text="-" />
       <TextBlock Text="{Binding WeekEnd, StringFormat={}dd.MM.yyyy}" />
       <TextBlock Margin="10,0" Text="Ужины" />
@@ -68,7 +68,7 @@
       <TextBlock FontSize="25" Text="Для этой недели нет расписания" />
       <Button
         Width="200"
-        Margin="0,20,0,0"
+        Margin="0 20 0 0"
         Command="{Binding CreateNewWeekCommand}"
         Content="Создать расписание на неделю" />
     </StackPanel>
@@ -121,11 +121,9 @@
       Orientation="Horizontal"
       Visibility="{Binding CurrentWeek, Converter={StaticResource isNotNullConverter}}">
       <Button
-        Width="48"
-        Height="48"
         Command="{Binding CreateShoppingListCommand}"
         Foreground="Teal"
-        Style="{DynamicResource MahApps.Styles.Button.Circle}">
+        Style="{StaticResource BigButton}">
         <icons:FontAwesome
           Width="20"
           Height="20"
@@ -134,37 +132,27 @@
       <ToggleButton
         Width="48"
         Height="48"
-        Margin="10,0,0,0"
+        Margin="10 0 0 0"
         Foreground="LightGray"
         IsChecked="{Binding WeekEdit}"
-        Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+        Style="{StaticResource MahApps.Styles.ToggleButton.Circle}">
         <icons:PackIconModern
           Width="20"
           Height="20"
           Kind="Edit" />
       </ToggleButton>
       <Button
-        Width="48"
-        Height="48"
-        Margin="10,0,0,0"
+        Margin="10 0 0 0"
         Command="{Binding DeleteCommand}"
-        Foreground="Red"
-        Style="{DynamicResource MahApps.Styles.Button.Circle}">
-        <icons:PackIconModern
-          Width="20"
-          Height="20"
-          Kind="Delete" />
-      </Button>
+        Style="{StaticResource DeleteButton}" />
     </StackPanel>
 
     <Button
       Grid.Row="1"
-      Width="48"
-      Height="48"
       VerticalAlignment="Center"
       Command="{Binding SelectPreviousWeekCommand}"
       Foreground="Gray"
-      Style="{DynamicResource MahApps.Styles.Button.Circle}">
+      Style="{StaticResource BigButton}">
       <icons:FontAwesome
         Width="20"
         Height="20"
@@ -174,12 +162,10 @@
     <Button
       Grid.Row="1"
       Grid.Column="3"
-      Width="48"
-      Height="48"
       VerticalAlignment="Center"
       Command="{Binding SelectNextWeekCommand}"
       Foreground="Gray"
-      Style="{DynamicResource MahApps.Styles.Button.Circle}">
+      Style="{StaticResource BigButton}">
       <icons:FontAwesome
         Width="20"
         Height="20"

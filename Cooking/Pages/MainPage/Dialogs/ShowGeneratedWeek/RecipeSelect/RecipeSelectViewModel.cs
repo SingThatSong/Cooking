@@ -24,8 +24,8 @@ namespace Cooking.Pages.Recepies
 
         public RecipeSelectViewModel(DayPlan? day = null)
         {
-            FilterContext = new FilterContext<RecipeMain>().AddFilter("#", HasIngredient)
-                                                           .AddFilter("$", HasTag);
+            FilterContext = new FilterContext<RecipeMain>().AddFilter(Consts.IngredientSymbol, HasIngredient)
+                                                           .AddFilter(Consts.TagSymbol, HasTag);
 
             var dbRecipies = RecipeService.GetRecipies();
 
@@ -52,7 +52,7 @@ namespace Cooking.Pages.Recepies
 
                 if (day.NeededDishTypes != null && day.NeededDishTypes.Any(x => x.IsChecked && x.CanBeRemoved))
                 {
-                    sb.Append("~");
+                    sb.Append(Consts.TagSymbol);
                     foreach (var dishType in day.NeededDishTypes)
                     {
                         sb.Append(dishType.Name + ",");
@@ -68,7 +68,7 @@ namespace Cooking.Pages.Recepies
 
                 if (day.NeededMainIngredients != null && day.NeededMainIngredients.Any(x => x.IsChecked && x.CanBeRemoved))
                 {
-                    sb.Append("#");
+                    sb.Append(Consts.IngredientSymbol);
                     foreach (var mainIngredient in day.NeededMainIngredients)
                     {
                         sb.Append(mainIngredient.Name + ",");
@@ -152,8 +152,8 @@ namespace Cooking.Pages.Recepies
                 }
             };
 
-            await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog);
-            await dialog.WaitUntilUnloadedAsync();
+            await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog).ConfigureAwait(false);
+            await dialog.WaitUntilUnloadedAsync().ConfigureAwait(false);
         }
 
         private readonly List<RecipeSelect> _recipies;

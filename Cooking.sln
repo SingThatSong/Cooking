@@ -5,13 +5,13 @@ VisualStudioVersion = 16.0.28516.95
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking", "Cooking\Cooking.csproj", "{0229C63F-BE7E-4C03-963F-5BFE87C25E7F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{1AD0ACAC-D704-48A6-9D17-171D3886FE0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking.Data", "Data\Cooking.Data.csproj", "{1AD0ACAC-D704-48A6-9D17-171D3886FE0A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseTests", "DatabaseTests\DatabaseTests.csproj", "{217A3CDB-8B64-4C13-9F69-11F43AB11347}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{229C1943-2C28-4157-BF89-7C226083547B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking.Web", "WebApplication1\Cooking.Web.csproj", "{229C1943-2C28-4157-BF89-7C226083547B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{5D916B69-F617-41E7-91CD-FAEF483E48A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking.ServiceLayer", "ServiceLayer\Cooking.ServiceLayer.csproj", "{5D916B69-F617-41E7-91CD-FAEF483E48A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

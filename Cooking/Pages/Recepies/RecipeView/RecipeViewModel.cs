@@ -1,20 +1,13 @@
-﻿using AutoMapper;
-using Cooking.Commands;
+﻿using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Ingredients;
-using Cooking.ServiceLayer;
+using Cooking.ServiceLayer.Projections;
 using Data.Model;
 using GongSolutions.Wpf.DragDrop;
 using MahApps.Metro.Controls.Dialogs;
-using Microsoft.Win32;
 using ServiceLayer;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,6 +15,8 @@ namespace Cooking.Pages.Recepies
 {
     public partial class RecipeViewModel : OkCancelViewModel, IDropTarget
     {
+        private readonly DialogUtils dialogUtils;
+
         public bool IsEditing { get; set; }
         public void OnIsEditingChanged()
         {
@@ -40,6 +35,8 @@ namespace Cooking.Pages.Recepies
 
         public RecipeMain Recipe { get; set; }
         private RecipeMain? RecipeBackup { get; set; }
+
+        public AsyncDelegateCommand ApplyChangesCommand { get; }
 
         public DelegateCommand ImageSearchCommand { get; }
         public DelegateCommand RemoveImageCommand { get; }
@@ -70,6 +67,9 @@ namespace Cooking.Pages.Recepies
                 Recipe = new RecipeMain();
             }
 
+            dialogUtils = new DialogUtils(this);
+
+            ApplyChangesCommand         = new AsyncDelegateCommand(ApplyChanges);
             DeleteRecipeCommand         = new AsyncDelegateCommand<Guid>(DeleteRecipe);
 
             ImageSearchCommand          = new DelegateCommand(ImageSearch);
@@ -114,7 +114,7 @@ namespace Cooking.Pages.Recepies
 
         private async Task EditIngredient(RecipeIngredientMain ingredient)
         {
-            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Изменение ингредиента", new RecipeIngredientEditViewModel(ingredient.MapTo<RecipeIngredientMain>()))
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Изменение ингредиента", new RecipeIngredientEditViewModel(ingredient.MapTo<RecipeIngredientMain>()))
                                                        .ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
@@ -125,7 +125,6 @@ namespace Cooking.Pages.Recepies
 
         private async Task AddTag()
         {
-            var dialogUtils = new DialogUtils(this);
             var viewModel = await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectEditViewModel>("Добавление тегов", new TagSelectEditViewModel(Recipe.Tags, dialogUtils))
                                              .ConfigureAwait(false);
 
@@ -137,8 +136,8 @@ namespace Cooking.Pages.Recepies
 
         private async Task AddIngredientGroup()
         {
-            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Добавление группы ингредиентов")
-                                                       .ConfigureAwait(true);
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Добавление группы ингредиентов")
+                                             .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
@@ -150,8 +149,8 @@ namespace Cooking.Pages.Recepies
         private async Task EditIngredientGroup(IngredientGroupMain group)
         {
             var viewModel = new IngredientGroupEditViewModel(group.MapTo<IngredientGroupMain>());
-            await new DialogUtils(this).ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Редактирование группы ингредиентов", viewModel)
-                                       .ConfigureAwait(true);
+            await dialogUtils.ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Редактирование группы ингредиентов", viewModel)
+                             .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
@@ -165,9 +164,8 @@ namespace Cooking.Pages.Recepies
 
         public async Task AddIngredient()
         {
-            var viewModel = await new DialogUtils(this)
-                                        .ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", new RecipeIngredientEditViewModel() { IsCreation = true })
-                                        .ConfigureAwait(true);
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", new RecipeIngredientEditViewModel() { IsCreation = true })
+                                             .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
@@ -190,9 +188,8 @@ namespace Cooking.Pages.Recepies
         public async void AddIngredientToGroup(IngredientGroupMain group)
         {
             var vm = new RecipeIngredientEditViewModel() { IsCreation = true };
-            var viewModel = await new DialogUtils(this)
-                                    .ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", vm)
-                                    .ConfigureAwait(true);
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", vm)
+                                             .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
@@ -214,138 +211,23 @@ namespace Cooking.Pages.Recepies
 
         public void ImageSearch()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog()
+            var image = ImageService.ImageSearch();
+
+            if (image != null)
             {
-                Title = "Поиск изображения для рецепта"
-            };
-
-            var dialogResult = openFileDialog.ShowDialog();
-
-            if (dialogResult.HasValue && dialogResult.Value)
-            {
-                if (File.Exists(openFileDialog.FileName))
-                {
-                    var dir = Directory.CreateDirectory("Images");
-                    var file = new FileInfo(openFileDialog.FileName);
-                    var newFilePath = Path.Combine(dir.FullName, file.Name);
-                    if (File.Exists(newFilePath))
-                    {
-                        File.Delete(newFilePath);
-                    }
-                    
-                    using var img = new Bitmap(openFileDialog.FileName);
-                    var result = ResizeImage(img, 300);
-                    result.Save(newFilePath);
-
-                    Recipe.ImagePath = $@"Images/{file.Name}";
-                }
+                Recipe.ImagePath = image;
             }
         }
 
-        /// <summary>
-        /// https://stackoverflow.com/a/24199315
-        /// </summary>
-        private static Bitmap ResizeImage(Image image, int height)
+        protected async Task ApplyChanges()
         {
-            var newWidth = image.Width * height / image.Height;
-            var destRect = new Rectangle(0, 0, newWidth, height);
-            var destImage = new Bitmap(newWidth, height);
-
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
-            using (var graphics = Graphics.FromImage(destImage))
+            if (Recipe.ID == Guid.Empty)
             {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.Low;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-                using var wrapMode = new ImageAttributes();
-                wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
-            }
-
-            return destImage;
-        }
-
-        public void DragOver(IDropInfo dropInfo)
-        {
-            dropInfo.Effects = System.Windows.DragDropEffects.Move;
-            dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
-        }
-
-        public void Drop(IDropInfo dropInfo)
-        {
-            if (dropInfo.TargetCollection != dropInfo.DragInfo.SourceCollection) return;
-            if (!(dropInfo.Data is RecipeIngredientMain ingredient)) return;
-            if (!(dropInfo.TargetItem is RecipeIngredientMain targetIngredient)) return;
-            if (!(dropInfo.TargetCollection is ObservableCollection<RecipeIngredientMain> targetCollection)) return;
-            if (dropInfo.Data == dropInfo.TargetItem) return;
-
-            var oldOrder = ingredient.Order;
-
-            if (dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.AfterTargetItem))
-            {
-                if (targetIngredient.Order < oldOrder)
-                {
-                    ingredient.Order = targetIngredient.Order + 1;
-                }
-                else
-                {
-                    ingredient.Order = targetIngredient.Order;
-                }
-            }
-            else if (dropInfo.InsertPosition.HasFlag(RelativeInsertPosition.BeforeTargetItem))
-            {
-                if (targetIngredient.Order > oldOrder)
-                {
-                    ingredient.Order = targetIngredient.Order - 1;
-                }
-                else
-                {
-                    ingredient.Order = targetIngredient.Order;
-                }
-            }
-
-            var backup = targetCollection.MapTo<List<RecipeIngredientMain>>();
-            if (ingredient.Order < oldOrder)
-            {
-                foreach (var item in backup)
-                {
-                    if (ingredient != item && ingredient.Order <= item.Order && item.Order < oldOrder)
-                    {
-                        item.Order++;
-                    }
-                }
+                Recipe.ID = await RecipeService.CreateAsync(Recipe.MapTo<Recipe>()).ConfigureAwait(false);
             }
             else
             {
-                foreach (var item in backup)
-                {
-                    if (ingredient != item && item.Order > oldOrder && item.Order <= ingredient.Order)
-                    {
-                        item.Order--;
-                    }
-                }
-            }
-
-            targetCollection.Clear();
-            foreach (var item in backup.OrderBy(x => x.Order))
-            {
-                targetCollection.Add(item);
-            }
-        }
-
-        protected override async Task Ok()
-        {
-            try
-            {
-                await RecipeService.UpdateAsync(Recipe.MapTo<Recipe>());
-            }
-            catch (Exception e)
-            {
-
+                await RecipeService.UpdateAsync(Recipe.MapTo<Recipe>()).ConfigureAwait(false);
             }
             RecipeBackup = null;
             IsEditing = false;

@@ -54,32 +54,18 @@
                 </i:Interaction.Triggers>
               </TextBlock>
               <Button
-                Width="36"
-                Height="36"
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding ElementName=IngredientsList, Path=DataContext.EditCategoryCommand}"
                 CommandParameter="{Binding}"
-                Style="{DynamicResource MahApps.Styles.Button.Circle}"
-                Visibility="{Binding ElementName=IngredientsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}">
-                <icons:PackIconModern
-                  Width="15"
-                  Height="15"
-                  Kind="Edit" />
-              </Button>
+                Style="{StaticResource MediumEditButton}"
+                Visibility="{Binding ElementName=IngredientsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" />
               <Button
                 Grid.Column="4"
-                Width="36"
-                Height="36"
-                Margin="5,0,0,0"
+                Margin="5 0 0 0"
                 Command="{Binding ElementName=IngredientsList, Path=DataContext.DeleteCategoryCommand}"
                 CommandParameter="{Binding ID}"
-                Style="{DynamicResource MahApps.Styles.Button.Circle}"
-                Visibility="{Binding ElementName=IngredientsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}">
-                <icons:PackIconModern
-                  Width="15"
-                  Height="15"
-                  Kind="Delete" />
-              </Button>
+                Style="{StaticResource MediumDeleteButton}"
+                Visibility="{Binding ElementName=IngredientsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" />
             </StackPanel>
           </DataTemplate>
         </ItemsControl.ItemTemplate>
@@ -95,27 +81,18 @@
       HorizontalAlignment="Center"
       Orientation="Horizontal">
       <ToggleButton
-        Width="48"
-        Height="48"
         Foreground="LightGray"
         IsChecked="{Binding IsEditing}"
-        Style="{DynamicResource MahApps.Styles.ToggleButton.Circle}">
+        Style="{StaticResource BigToggleButton}">
         <icons:PackIconModern
           Width="20"
           Height="20"
           Kind="Edit" />
       </ToggleButton>
       <Button
-        Width="48"
-        Height="48"
-        Margin="10,0,0,0"
+        Margin="10 0 0 0"
         Command="{Binding AddIngredientCommand}"
-        Style="{DynamicResource MahApps.Styles.Button.Circle}">
-        <icons:PackIconModern
-          Width="20"
-          Height="20"
-          Kind="Add" />
-      </Button>
+        Style="{StaticResource AddButton}" />
     </StackPanel>
 
   </Grid>

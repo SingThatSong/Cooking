@@ -46,18 +46,18 @@ namespace Cooking.Pages.Ingredients
             {
                 mainWindowViewModel.SelectedMenuItem = mainWindowViewModel.MenuItems[1] as HamburgerMenuIconItem;
 
-                ((mainWindowViewModel.SelectedMenuItem.Tag as RecepiesView).DataContext as RecepiesViewModel).FilterText = $"#{ingredient.Name}";
+                ((mainWindowViewModel.SelectedMenuItem.Tag as RecepiesView).DataContext as RecepiesViewModel).FilterText = $"{Consts.IngredientSymbol}{ingredient.Name}";
             }
         }
 
         private async void EditIngredient(IngredientMain ingredient)
         {
             var viewModel = new IngredientEditViewModel(ingredient.MapTo<IngredientMain>());
-            await new DialogUtils(this).ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Редактирование ингредиента", viewModel);
+            await new DialogUtils(this).ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Редактирование ингредиента", viewModel).ConfigureAwait(false);
             
             if (viewModel.DialogResultOk)
             {
-                await IngredientService.UpdateIngredientAsync(viewModel.Ingredient.MapTo<Ingredient>());
+                await IngredientService.UpdateIngredientAsync(viewModel.Ingredient.MapTo<Ingredient>()).ConfigureAwait(false);
                 var existingRecipe = Ingredients.Single(x => x.ID == ingredient.ID);
                 viewModel.Ingredient.MapTo(existingRecipe);
             }
@@ -81,22 +81,22 @@ namespace Cooking.Pages.Ingredients
                 {
                     AffirmativeButtonText = "Да",
                     NegativeButtonText = "Нет"
-                });
+                }).ConfigureAwait(true);
 
             if (result == MessageDialogResult.Affirmative)
             {
-                await IngredientService.DeleteAsync(id);
+                await IngredientService.DeleteAsync(id).ConfigureAwait(true);
                 Ingredients.Remove(Ingredients.Single(x => x.ID == id));
             }
         }
 
         public async void AddRecipe()
         {
-            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Новый ингредиент");
+            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Новый ингредиент").ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                var id = await IngredientService.CreateAsync(viewModel.Ingredient.MapTo<Ingredient>());
+                var id = await IngredientService.CreateAsync(viewModel.Ingredient.MapTo<Ingredient>()).ConfigureAwait(false);
                 viewModel.Ingredient.ID = id;
                 Ingredients.Add(viewModel.Ingredient);
             }

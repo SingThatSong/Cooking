@@ -41,7 +41,7 @@
                         <DataTemplate>
                           <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Amount}" />
-                            <TextBlock Margin="5,0,0,0" Text="{Binding Name}" />
+                            <TextBlock Margin="5 0 0 0" Text="{Binding Name}" />
                           </StackPanel>
                         </DataTemplate>
                       </ItemsControl.ItemTemplate>
@@ -88,18 +88,11 @@
                                           Height="20"
                                           Kind="SocialEvernote" />
             </Button>-->
+
       <Button
-        Width="48"
-        Height="48"
-        Margin="10,0,0,0"
-        Command="{Binding CloseCommand}"
         Foreground="Red"
-        Style="{DynamicResource MahApps.Styles.Button.Circle}">
-        <icons:PackIconModern
-          Width="20"
-          Height="20"
-          Kind="Close" />
-      </Button>
+        Command="{Binding CloseCommand}"
+        Style="{StaticResource CancelButton}" />
     </StackPanel>
   </Grid>
 </UserControl>

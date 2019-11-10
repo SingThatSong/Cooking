@@ -50,7 +50,7 @@ namespace Cooking.Pages.Tags
                                         {
                                             AffirmativeButtonText = "Да",
                                             NegativeButtonText = "Нет"
-                                        });
+                                        }).ConfigureAwait(false);
 
                     if (result == MessageDialogResult.Negative)
                     {
@@ -66,7 +66,7 @@ namespace Cooking.Pages.Tags
         public TagDTO Tag { get; set; }
         private List<string> AllTagNames { get; set; }
 
-        public IEnumerable<string> SimilarTags => string.IsNullOrWhiteSpace(Tag?.Name)
+        public IEnumerable<string>? SimilarTags => string.IsNullOrWhiteSpace(Tag?.Name)
             ? null 
             : AllTagNames.OrderBy(x => TagCompare(x, Tag.Name)).Take(3);
 

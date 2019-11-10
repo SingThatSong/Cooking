@@ -19,10 +19,8 @@ namespace DatabaseTests
         public void Setup()
         {
             File.Delete("cooking.db");
-            using (var context = new CookingContext())
-            {
-                context.Database.EnsureCreated();
-            }
+            using var context = new CookingContext();
+            context.Database.EnsureCreated();
         }
 
         [TestCleanup]
@@ -54,10 +52,12 @@ namespace DatabaseTests
             using (var context = new CookingContext())
             {
                 context.Recipies.Add(recipe);
-                var week = new Week();
-                week.Days = new List<Day>()
+                var week = new Week
                 {
-                    new Day() { Dinner = recipe }
+                    Days = new List<Day>()
+                    {
+                        new Day() { Dinner = recipe }
+                    }
                 };
 
                 context.Weeks.Add(week);
@@ -211,7 +211,61 @@ namespace DatabaseTests
             var get2 = RecipeService.Get(recipe.ID);
 
             Assert.IsNotNull(get2.Tags.First().Tag);
-            //Assert.AreEqual(tag.Name, get2.Tags.First().Tag.Name);
+            Assert.AreEqual(tag.Name, get2.Tags.First().Tag.Name);
+        }
+
+        [DataTestMethod]
+        public void AddIngredientToRecipe()
+        {
+            var ingredient = new Ingredient() { Name = "hi" };
+            IngredientService.CreateAsync(ingredient).Wait();
+
+            var recipe = new Recipe();
+            RecipeService.CreateAsync(recipe).Wait();
+
+            var get = RecipeService.Get(recipe.ID);
+
+            get.Ingredients = new List<RecipeIngredient> { new RecipeIngredient() { IngredientId = ingredient.ID } };
+
+            RecipeService.UpdateAsync(get).Wait();
+
+            var get2 = RecipeService.Get(recipe.ID);
+
+            Assert.IsNotNull(get2.Ingredients.First().Ingredient);
+            Assert.AreEqual(ingredient.Name, get2.Ingredients.First().Ingredient.Name);
+        }
+
+        [DataTestMethod]
+        public void AddIngredientGroupToRecipe()
+        {
+            var ingredient = new Ingredient() { Name = "hi" };
+            IngredientService.CreateAsync(ingredient).Wait();
+
+            var recipe = new Recipe();
+            RecipeService.CreateAsync(recipe).Wait();
+
+            var get = RecipeService.Get(recipe.ID);
+
+            get.IngredientGroups = new List<IngredientsGroup>()
+            {
+                new IngredientsGroup()
+                {
+                    Ingredients = new List<RecipeIngredient>
+                    {
+                        new RecipeIngredient()
+                        {
+                            IngredientId = ingredient.ID
+                        }
+                    }
+                }
+            };
+            
+            RecipeService.UpdateAsync(get).Wait();
+
+            var get2 = RecipeService.Get(recipe.ID);
+
+            Assert.IsNotNull(get2.IngredientGroups.First().Ingredients.First().Ingredient);
+            Assert.AreEqual(ingredient.Name, get2.IngredientGroups.First().Ingredients.First().Ingredient.Name);
         }
     }
 }

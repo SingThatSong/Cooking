@@ -40,11 +40,11 @@ namespace Cooking.Pages.Garnishes
         private async void EditGarnish(GarnishDTO garnish)
         {
             var viewModel = new GarnishEditViewModel(garnish.MapTo<GarnishDTO>());
-            await new DialogUtils(this).ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Редактирование гарнира", viewModel);
+            await new DialogUtils(this).ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Редактирование гарнира", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                await GarnishService.UpdateGarnishAsync(viewModel.Garnish.MapTo<Garnish>());
+                await GarnishService.UpdateGarnishAsync(viewModel.Garnish.MapTo<Garnish>()).ConfigureAwait(false);
                 var existingGarnish = Garnishes.Single(x => x.ID == garnish.ID);
                 viewModel.Garnish.MapTo(existingGarnish);
             }
@@ -65,18 +65,18 @@ namespace Cooking.Pages.Garnishes
 
             if (result == MessageDialogResult.Affirmative)
             {
-                await GarnishService.DeleteAsync(recipeId);
+                await GarnishService.DeleteAsync(recipeId).ConfigureAwait(false);
                 Garnishes.Remove(Garnishes.Single(x => x.ID == recipeId));
             }
         }
 
         public async void AddGarnish()
         {
-            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Новый гарнир");
+            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Новый гарнир").ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                var id = await GarnishService.CreateGarnishAsync(viewModel.Garnish.MapTo<Garnish>());
+                var id = await GarnishService.CreateGarnishAsync(viewModel.Garnish.MapTo<Garnish>()).ConfigureAwait(false);
                 viewModel.Garnish.ID = id;
                 Garnishes.Add(viewModel.Garnish);
             }

@@ -1,0 +1,195 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:LifeIT.UI.Styles"
+                    xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+                    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks">
+
+    <Style x:Key="SmallButton" TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button.Circle}">
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+    </Style>
+
+    <Style x:Key="MediumButton" TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button.Circle}">
+        <Setter Property="Width" Value="36" />
+        <Setter Property="Height" Value="36" />
+    </Style>
+
+    <Style x:Key="BigButton" TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button.Circle}">
+        <Setter Property="Width" Value="48" />
+        <Setter Property="Height" Value="48" />
+    </Style>
+
+    <Style x:Key="BigToggleButton" TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource MahApps.Styles.ToggleButton.Circle}">
+        <Setter Property="Width" Value="48" />
+        <Setter Property="Height" Value="48" />
+    </Style>
+    
+    <Style x:Key="SmallIcon" TargetType="{x:Type icons:PackIconControlBase}">
+        <Setter Property="Width" Value="10" />
+        <Setter Property="Height" Value="10" />
+    </Style>
+
+    <Style x:Key="MediumIcon" TargetType="{x:Type icons:PackIconControlBase}">
+        <Setter Property="Width" Value="15" />
+        <Setter Property="Height" Value="15" />
+    </Style>
+    
+    <Style x:Key="BigIcon" TargetType="{x:Type icons:PackIconControlBase}">
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+    </Style>
+    
+    <Style x:Key="SmallEditButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SmallButton}">
+        <Setter Property="Foreground" Value="LightGray" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <icons:PackIconModern
+                          Style="{StaticResource SmallIcon}"
+                          Kind="DrawPen" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SmallAddButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SmallButton}">
+        <Setter Property="Foreground" Value="Green" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <icons:PackIconModern
+                  Style="{StaticResource SmallIcon}"
+                  Kind="Add" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="SmallDeleteButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SmallButton}">
+        <Setter Property="Foreground" Value="Red" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <icons:PackIconModern
+                  Style="{StaticResource SmallIcon}"
+                  Kind="Delete" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SmallSearchButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SmallButton}">
+        <Setter Property="Foreground" Value="Green" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <icons:PackIconModern
+                      Style="{StaticResource SmallIcon}"
+                      Kind="Magnify" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="SmallCancelButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SmallButton}">
+        <Setter Property="Foreground" Value="Red" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <icons:PackIconModern
+                  Style="{StaticResource SmallIcon}"
+                  Kind="Close" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MediumAddButton" TargetType="{x:Type Button}" BasedOn="{StaticResource MediumButton}">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <icons:PackIconModern
+                      Style="{StaticResource MediumIcon}"
+                      Kind="Add" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="MediumEditButton" TargetType="{x:Type Button}" BasedOn="{StaticResource MediumButton}">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <icons:PackIconModern
+                      Style="{StaticResource MediumIcon}"
+                      Kind="Edit" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="MediumDeleteButton" TargetType="{x:Type Button}" BasedOn="{StaticResource MediumButton}">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <icons:PackIconModern
+                      Style="{StaticResource MediumIcon}"
+                      Kind="Delete" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="CancelButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BigButton}">
+        <Setter Property="Foreground" Value="Red" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <icons:PackIconModern
+                      Style="{StaticResource BigIcon}"
+                      Kind="Close" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="OkButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BigButton}">
+        <Setter Property="Foreground" Value="Green" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <icons:PackIconModern
+                      Style="{StaticResource BigIcon}"
+                      Kind="Check" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DeleteButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BigButton}">
+        <Setter Property="Foreground" Value="Red" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <icons:PackIconModern
+                  Style="{StaticResource BigIcon}"
+                  Kind="Delete" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AddButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BigButton}">
+        <Setter Property="Foreground" Value="Green" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <icons:PackIconModern
+                  Style="{StaticResource BigIcon}"
+                  Kind="Add" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

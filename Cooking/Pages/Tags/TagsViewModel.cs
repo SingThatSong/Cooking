@@ -53,7 +53,7 @@ namespace Cooking.Pages.Tags
                     && mainWindowViewModel.SelectedMenuItem.Tag is RecepiesView recepiesView
                     && recepiesView.DataContext is RecepiesViewModel recepiesViewModel)
                 {
-                    recepiesViewModel.FilterText = $"~{tag.Name}";
+                    recepiesViewModel.FilterText = $"{Consts.TagSymbol}{tag.Name}";
                 }
             }
         }
@@ -83,22 +83,22 @@ namespace Cooking.Pages.Tags
                 {
                     AffirmativeButtonText = "Да",
                     NegativeButtonText = "Нет"
-                });
+                }).ConfigureAwait(true);
 
             if (result == MessageDialogResult.Affirmative)
             {
-                await TagService.DeleteAsync(recipeId);
-                Tags.Remove(Tags.Single(x => x.ID == recipeId));
+                await TagService.DeleteAsync(recipeId).ConfigureAwait(true);
+                Tags!.Remove(Tags.Single(x => x.ID == recipeId));
             }
         }
 
         public async void AddTag()
         {
-            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Новый тег");
+            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Новый тег").ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                var id = await TagService.CreateAsync(viewModel.Tag.MapTo<Tag>());
+                var id = await TagService.CreateAsync(viewModel.Tag.MapTo<Tag>()).ConfigureAwait(false);
                 viewModel.Tag.ID = id;
                 Tags.Add(viewModel.Tag);
             }

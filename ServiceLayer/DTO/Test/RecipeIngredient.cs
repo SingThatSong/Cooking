@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -11,7 +12,7 @@ namespace TEST
         public virtual Ingredient Ingredient { get; set; }
         public double? Amount { get; set; }
 
-        [NotMapped]
+        [NotMapped, IgnoreMap]
         public MeasureUnit MeasureUnit { get; set; }
 
         public int? MeasureUnitID

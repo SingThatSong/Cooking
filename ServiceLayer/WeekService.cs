@@ -24,11 +24,9 @@ namespace ServiceLayer
         public static async Task<WeekMainPage> GetWeekAsync(DateTime dayOfWeek)
          {
             Debug.WriteLine("WeekService.GetWeek(DateTime)");
-            using (var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true))
-            {
-                return await MapperService.Mapper.ProjectTo<WeekMainPage>(context.Weeks)
-                                    .SingleOrDefaultAsync(x => x.Start.Date <= dayOfWeek.Date && dayOfWeek.Date <= x.End.Date);
-            }
+            using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
+            return await MapperService.Mapper.ProjectTo<WeekMainPage>(context.Weeks)
+.SingleOrDefaultAsync(x => x.Start.Date <= dayOfWeek.Date && dayOfWeek.Date <= x.End.Date);
         }
 
         /// <summary>
@@ -39,105 +37,97 @@ namespace ServiceLayer
         public static async Task<WeekMainPage> GetWeekAsync(Guid id)
         {
             Debug.WriteLine("WeekService.GetWeek(Guid)");
-            using (var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true))
-            {
-                return await MapperService.Mapper.ProjectTo<WeekMainPage>(context.Weeks)
-                                                 .SingleOrDefaultAsync(x => x.ID == id);
-            }
+            using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
+            return await MapperService.Mapper.ProjectTo<WeekMainPage>(context.Weeks)
+.SingleOrDefaultAsync(x => x.ID == id);
         }
 
         public static async Task CreateWeekAsync(DateTime weekStart, Dictionary<DayOfWeek, Guid?> selectedRecepies)
         {
             Debug.WriteLine("WeekService.CreateWeekAsync");
-            using (var context = new CookingContext())
+            using var context = new CookingContext();
+            var newWeek = new Week()
             {
-                var newWeek = new Week()
+                Start = weekStart,
+                End = LastDayOfWeek(weekStart)
+            };
+
+            var days = new List<Day>();
+
+            foreach (var recepie in selectedRecepies.Where(x => x.Value != null))
+            {
+                days.Add(new Day()
                 {
-                    Start = weekStart,
-                    End = LastDayOfWeek(weekStart)
-                };
-
-                var days = new List<Day>();
-
-                foreach (var recepie in selectedRecepies.Where(x => x.Value != null))
-                {
-                    days.Add(new Day()
-                    {
-                        DinnerID = recepie.Value,
-                        Date = weekStart.AddDays(DaysFromMonday(recepie.Key)),
-                        DayOfWeek = recepie.Key
-                    });
-                }
-
-                newWeek.Days = days;
-                await context.AddAsync(newWeek);
-                await context.SaveChangesAsync();
+                    DinnerID = recepie.Value,
+                    Date = weekStart.AddDays(DaysFromMonday(recepie.Key)),
+                    DayOfWeek = recepie.Key
+                });
             }
+
+            newWeek.Days = days;
+            await context.AddAsync(newWeek);
+            await context.SaveChangesAsync();
         }
 
         public static List<ShoppongListItem> GetWeekIngredients(Guid id)
         {
             Debug.WriteLine("WeekService.GetWeekIngredients");
-            using (var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true))
+            using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
+            var week = context.Weeks.Find(id);
+
+            var ingredients = from dinner in week.Days.Where(x => x.Dinner?.Ingredients != null)
+                              from ingredient in dinner.Dinner.Ingredients
+                              select new { dinner.Dinner, Ingredient = ingredient };
+
+            var ingredientsInGroupds = from dinner in week.Days.Where(x => x.Dinner?.IngredientGroups != null)
+                                       from ingredient in dinner.Dinner.IngredientGroups.SelectMany(g => g.Ingredients)
+                                       select new { dinner.Dinner, Ingredient = ingredient };
+
+            var allIngredients = ingredients.Union(ingredientsInGroupds);
+
+            var ingredientGroups = allIngredients.GroupBy(x => x.Ingredient.Ingredient.Type?.Name).OrderBy(x => x.Key);
+
+            var result = new List<ShoppongListItem>();
+
+            foreach (var ingredientGroup in ingredientGroups)
             {
-                var week = context.Weeks.Find(id);
+                var item = new ShoppongListItem();
+                item.IngredientGroupName = ingredientGroup.Key ?? "Без категории";
 
-                var ingredients = from dinner in week.Days.Where(x => x.Dinner?.Ingredients != null)
-                                  from ingredient in dinner.Dinner.Ingredients
-                                  select new { dinner.Dinner, Ingredient = ingredient };
-
-                var ingredientsInGroupds = from dinner in week.Days.Where(x => x.Dinner?.IngredientGroups != null)
-                                           from ingredient in dinner.Dinner.IngredientGroups.SelectMany(g => g.Ingredients)
-                                           select new { dinner.Dinner, Ingredient = ingredient };
-
-                var allIngredients       = ingredients.Union(ingredientsInGroupds);
-
-                var ingredientGroups = allIngredients.GroupBy(x => x.Ingredient.Ingredient.Type?.Name).OrderBy(x => x.Key);
-
-                var result = new List<ShoppongListItem>();
-
-                foreach (var ingredientGroup in ingredientGroups)
+                foreach (var ingredient in ingredientGroup.GroupBy(x => x.Ingredient.Ingredient.Name))
                 {
-                    var item = new ShoppongListItem();
-                    item.IngredientGroupName = ingredientGroup.Key ?? "Без категории";
-
-                    foreach (var ingredient in ingredientGroup.GroupBy(x => x.Ingredient.Ingredient.Name))
+                    var measures = ingredient.GroupBy(x => x.Ingredient.MeasureUnit?.FullName);
+                    item.Ingredients.Add(new IngredientItem()
                     {
-                        var measures = ingredient.GroupBy(x => x.Ingredient.MeasureUnit?.FullName);
-                        item.Ingredients.Add(new IngredientItem()
-                        {
-                            Name = ingredient.Key,
-                            IngredientAmounts = measures.Where(x => x.Key != null)
-                                                        .Select(x => new IngredientAmount()
-                            {
-                                Name = x.Key,
-                                Amount = x.Where(a => a.Ingredient.Amount.HasValue).Sum(a => a.Ingredient.Amount.Value)
-                            }).ToList(),
-                            RecipiesSources = ingredient.Select(x => x.Dinner.Name).Distinct().ToList()
-                        });
-                    }
-
-                    result.Add(item);
+                        Name = ingredient.Key,
+                        IngredientAmounts = measures.Where(x => x.Key != null)
+                                                    .Select(x => new IngredientAmount()
+                                                    {
+                                                        Name = x.Key,
+                                                        Amount = x.Where(a => a.Ingredient.Amount.HasValue).Sum(a => a.Ingredient.Amount.Value)
+                                                    }).ToList(),
+                        RecipiesSources = ingredient.Select(x => x.Dinner.Name).Distinct().ToList()
+                    });
                 }
 
-                return result;
+                result.Add(item);
             }
+
+            return result;
         }
 
         public static bool IsWeekFilled(DateTime dayOfWeek)
         {
             Debug.WriteLine("WeekService.IsWeekFilled");
-            using (var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true))
-            {
-                var week = GetWeekInternal(dayOfWeek, context);
+            using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
+            var week = GetWeekInternal(dayOfWeek, context);
 
-                if (week == null || week.Days == null)
-                {
-                    return true;
-                }
-                
-                return week.Days.All(x => x.DinnerWasCooked);
+            if (week == null || week.Days == null)
+            {
+                return true;
             }
+
+            return week.Days.All(x => x.DinnerWasCooked);
         }
 
         public static DayOfWeek GetDayOfWeek(string name)
@@ -166,12 +156,10 @@ namespace ServiceLayer
         public static async Task DeleteWeekAsync(Guid id)
         {
             Debug.WriteLine("WeekService.DeleteWeekAsync");
-            using (var context = new CookingContext(DatabaseService.DbFileName))
-            {
-                var entity = await context.Weeks.FindAsync(id);
-                context.Remove(entity);
-                await context.SaveChangesAsync();
-            }
+            using var context = new CookingContext(DatabaseService.DbFileName);
+            var entity = await context.Weeks.FindAsync(id);
+            context.Remove(entity);
+            await context.SaveChangesAsync();
         }
 
         public static int DaysFromMonday(DayOfWeek day)
@@ -205,36 +193,34 @@ namespace ServiceLayer
         public static async Task MoveDayToNextWeek(Guid currentWeekId, Guid dayId, DayOfWeek selectedWeekday)
         {
             Debug.WriteLine("WeekService.MoveDayToNextWeek");
-            using (var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true))
+            using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
+            var day = context.Days.First(x => x.ID == dayId);
+
+            // Удаление дня на этой неделе
+            var week = context.Weeks.First(x => x.ID == currentWeekId);
+            week.Days.Remove(day);
+
+            // Перенос дня на неделю вперёд
+            var dayOnNextWeek = week.End.AddDays(1);
+            var nextWeek = GetWeekInternal(dayOnNextWeek, context);
+
+            if (nextWeek == null)
             {
-                var day = context.Days.First(x => x.ID == dayId);
-
-                // Удаление дня на этой неделе
-                var week = context.Weeks.First(x => x.ID == currentWeekId);
-                week.Days.Remove(day);
-
-                // Перенос дня на неделю вперёд
-                var dayOnNextWeek = week.End.AddDays(1);
-                var nextWeek = GetWeekInternal(dayOnNextWeek, context);
-
-                if (nextWeek == null)
-                {
-                    nextWeek = CreateWeekInternal(dayOnNextWeek, context);
-                    nextWeek.Days = new List<Day>();
-                }
-                else
-                {
-                    nextWeek.Days.RemoveAll(x => x.DayOfWeek == selectedWeekday);
-                }
-
-                day.Date = nextWeek.Start.AddDays(DaysFromMonday(selectedWeekday));
-                day.DayOfWeek = selectedWeekday;
-
-                nextWeek.Days.Add(day);
-                day.WeekID = nextWeek.ID;
-
-                await context.SaveChangesAsync();
+                nextWeek = CreateWeekInternal(dayOnNextWeek, context);
+                nextWeek.Days = new List<Day>();
             }
+            else
+            {
+                nextWeek.Days.RemoveAll(x => x.DayOfWeek == selectedWeekday);
+            }
+
+            day.Date = nextWeek.Start.AddDays(DaysFromMonday(selectedWeekday));
+            day.DayOfWeek = selectedWeekday;
+
+            nextWeek.Days.Add(day);
+            day.WeekID = nextWeek.ID;
+
+            await context.SaveChangesAsync();
         }
 
 

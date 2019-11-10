@@ -33,7 +33,7 @@
       mahapps:TextBoxHelper.UseFloatingWatermark="True"
       mahapps:TextBoxHelper.Watermark="Поиск..."
       Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-      ToolTip="Название #ингредиент1, ингредиент2 ~тег1, тег2" />
+      ToolTip="Название $ингредиент1, ингредиент2 #тег1, тег2" />
     <ItemsControl
       Name="RecipiesList"
       Grid.Row="1"
@@ -105,28 +105,12 @@
       HorizontalAlignment="Center"
       Orientation="Horizontal">
       <Button
-        Width="48"
-        Height="48"
         Command="{Binding OkCommand}"
-        Foreground="Green"
-        Style="{DynamicResource MahApps.Styles.Button.Circle}">
-        <icons:PackIconModern
-          Width="20"
-          Height="20"
-          Kind="Check" />
-      </Button>
+        Style="{StaticResource OkButton}" />
       <Button
-        Width="48"
-        Height="48"
-        Margin="10,0,0,0"
+        Margin="10 0 0 0"
         Command="{Binding CloseCommand}"
-        Foreground="Red"
-        Style="{DynamicResource MahApps.Styles.Button.Circle}">
-        <icons:PackIconModern
-          Width="20"
-          Height="20"
-          Kind="Close" />
-      </Button>
+        Style="{StaticResource CancelButton}" />
     </StackPanel>
   </Grid>
 </UserControl>

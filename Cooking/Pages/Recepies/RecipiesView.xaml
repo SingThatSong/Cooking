@@ -40,7 +40,7 @@
     <TextBox
       mahapps:TextBoxHelper.ClearTextButton="True"
       mahapps:TextBoxHelper.UseFloatingWatermark="True"
-      mahapps:TextBoxHelper.Watermark="Поиск... Пример: Название #ингредиент1, ингредиент2 ~тег1, тег2"
+      mahapps:TextBoxHelper.Watermark="Поиск... Пример: Название $ингредиент1, ингредиент2 #тег1, тег2"
       Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
     <ListView
       Name="RecipiesList"
@@ -104,16 +104,9 @@
       HorizontalAlignment="Center"
       Orientation="Horizontal">
       <Button
-        Width="48"
-        Height="48"
-        Margin="10,0,0,0"
+        Margin="10 0 0 0"
         Command="{Binding AddRecipeCommand}"
-        Style="{DynamicResource MahApps.Styles.Button.Circle}">
-        <icons:PackIconModern
-          Width="20"
-          Height="20"
-          Kind="Add" />
-      </Button>
+        Style="{StaticResource AddButton}" />
     </StackPanel>
   </Grid>
 </UserControl>

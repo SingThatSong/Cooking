@@ -9,7 +9,7 @@
   xmlns:local="clr-namespace:Cooking.Pages.Dialogs"
   xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-  xmlns:model="clr-namespace:Data.Model;assembly=Data"
+  xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
   Margin="-100,0"
   d:DesignHeight="450"
   d:DesignWidth="800"
@@ -60,20 +60,13 @@
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <Button
-                  Width="24"
-                  Height="24"
-                  Margin="5,0,0,0"
+                  Margin="5 0 0 0"
                   VerticalAlignment="Center"
                   BorderThickness="0"
                   Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.AddMainIngredientCommand}"
                   CommandParameter="{Binding}"
-                  Foreground="Green"
-                  Style="{DynamicResource MahApps.Styles.Button.Circle}">
-                  <icons:PackIconModern
-                    Width="10"
-                    Height="10"
-                    Kind="Magnify" />
-                </Button>
+                  Style="{StaticResource SmallSearchButton}" />
+                  
               </StackPanel>
             </DataTemplate>
           </DataGridTemplateColumn.CellTemplate>
@@ -97,20 +90,12 @@
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <Button
-                  Width="24"
-                  Height="24"
-                  Margin="5,0,0,0"
+                  Margin="5 0 0 0"
                   VerticalAlignment="Center"
                   BorderThickness="0"
                   Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.AddDishTypesCommand}"
                   CommandParameter="{Binding}"
-                  Foreground="Green"
-                  Style="{DynamicResource MahApps.Styles.Button.Circle}">
-                  <icons:PackIconModern
-                    Width="10"
-                    Height="10"
-                    Kind="Magnify" />
-                </Button>
+                  Style="{StaticResource SmallSearchButton}" />
               </StackPanel>
             </DataTemplate>
           </DataGridTemplateColumn.CellTemplate>
@@ -163,20 +148,12 @@
                   </ItemsControl.ItemsPanel>
                 </ItemsControl>
                 <Button
-                  Width="24"
-                  Height="24"
-                  Margin="5,0,0,0"
+                  Margin="5 0 0 0"
                   VerticalAlignment="Center"
                   BorderThickness="0"
                   Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.AddCalorieTypesCommand}"
                   CommandParameter="{Binding}"
-                  Foreground="Green"
-                  Style="{DynamicResource MahApps.Styles.Button.Circle}">
-                  <icons:PackIconModern
-                    Width="10"
-                    Height="10"
-                    Kind="Magnify" />
-                </Button>
+                  Style="{StaticResource SmallSearchButton}" />
               </StackPanel>
             </DataTemplate>
           </DataGridTemplateColumn.CellTemplate>
@@ -213,28 +190,12 @@
       HorizontalAlignment="Center"
       Orientation="Horizontal">
       <Button
-        Width="48"
-        Height="48"
         Command="{Binding OkCommand}"
-        Foreground="Green"
-        Style="{DynamicResource MahApps.Styles.Button.Circle}">
-        <icons:PackIconModern
-          Width="20"
-          Height="20"
-          Kind="Check" />
-      </Button>
+        Style="{StaticResource OkButton}" />
       <Button
-        Width="48"
-        Height="48"
-        Margin="10,0,0,0"
+        Margin="10 0 0 0"
         Command="{Binding CloseCommand}"
-        Foreground="Red"
-        Style="{DynamicResource MahApps.Styles.Button.Circle}">
-        <icons:PackIconModern
-          Width="20"
-          Height="20"
-          Kind="Close" />
-      </Button>
+        Style="{StaticResource CancelButton}" />
     </StackPanel>
   </Grid>
 </UserControl>

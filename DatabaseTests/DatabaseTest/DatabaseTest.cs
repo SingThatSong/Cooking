@@ -21,10 +21,8 @@ namespace DatabaseTests
             File.Delete(dbName);
             File.Move($@"DatabaseTest\{dbName}", dbName);
 
-            using (var context = new CookingContext(dbName))
-            {
-                context.Database.Migrate();
-            }
+            using var context = new CookingContext(dbName);
+            context.Database.Migrate();
         }
 
         [TestMethod]

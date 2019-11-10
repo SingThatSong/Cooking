@@ -1,5 +1,6 @@
 ﻿using Cooking.DTO;
 using Cooking.ServiceLayer;
+using Cooking.ServiceLayer.Projections;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

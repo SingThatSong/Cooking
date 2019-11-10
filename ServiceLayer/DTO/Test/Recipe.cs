@@ -14,6 +14,7 @@ namespace TEST
         public int Rating { get; set; }
 
         public int PortionsCount { get; set; }
-        public virtual List<RecipeTag> Tags { get; set; }
+        public virtual IEnumerable<RecipeIngredient> Ingredients { get; set; }
+        public virtual IEnumerable<RecipeTag> Tags { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Data.Model;
+﻿using Cooking.ServiceLayer.Projections;
+using Data.Model;
 using System;
 
 namespace Cooking.ServiceLayer.MainPage
