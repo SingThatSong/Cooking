@@ -11,7 +11,7 @@ namespace Cooking.DTO
     public class RecipeSelect : RecipeSlim
     {        
         [AlsoNotifyFor(nameof(FullPath))]
-        public new string ImagePath { get; set; }
+        public new string? ImagePath { get; set; }
 
         public string? FullPath => ImagePath != null 
                                 ? Path.GetFullPath(ImagePath) 

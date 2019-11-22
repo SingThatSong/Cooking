@@ -59,7 +59,7 @@ namespace Cooking.Pages.Tags
                 }
             }
 
-            base.Ok();
+            await base.Ok().ConfigureAwait(false);
         }
 
         [AlsoNotifyFor(nameof(SimilarTags))]

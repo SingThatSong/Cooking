@@ -5,9 +5,9 @@ namespace Cooking.DTO
 {
     public class DayMain : DayMainPage, INotifyPropertyChanged
     {
-        public new RecipeSelect Dinner { get; set; }
+        public new RecipeSelect? Dinner { get; set; }
         public new bool DinnerWasCooked { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

@@ -16,6 +16,6 @@ namespace Cooking.Pages
 
         public bool Edit { get; set; }
 
-        public string DayName { get; set; }
+        public string? DayName { get; set; }
     }
 }

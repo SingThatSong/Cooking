@@ -7,6 +7,7 @@ using ServiceLayer;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Cooking.Pages.Garnishes
@@ -14,7 +15,8 @@ namespace Cooking.Pages.Garnishes
     [AddINotifyPropertyChangedInterface]
     public partial class GarnishesViewModel
     {
-        public ObservableCollection<GarnishDTO> Garnishes { get; set; }
+        [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения", Justification = "<Ожидание>")]
+        public ObservableCollection<GarnishDTO>? Garnishes { get; set; }
         public bool IsEditing { get; set; }
 
         public DelegateCommand AddGarnishCommand { get; }
@@ -66,7 +68,7 @@ namespace Cooking.Pages.Garnishes
             if (result == MessageDialogResult.Affirmative)
             {
                 await GarnishService.DeleteAsync(recipeId).ConfigureAwait(false);
-                Garnishes.Remove(Garnishes.Single(x => x.ID == recipeId));
+                Garnishes!.Remove(Garnishes.Single(x => x.ID == recipeId));
             }
         }
 
@@ -78,7 +80,7 @@ namespace Cooking.Pages.Garnishes
             {
                 var id = await GarnishService.CreateGarnishAsync(viewModel.Garnish.MapTo<Garnish>()).ConfigureAwait(false);
                 viewModel.Garnish.ID = id;
-                Garnishes.Add(viewModel.Garnish);
+                Garnishes!.Add(viewModel.Garnish);
             }
         }
     }

@@ -20,7 +20,7 @@ namespace Cooking.Pages.Dialogs
                 Name = value.Description();
             }
         }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public bool IsSelected { get; set; }
     }
 }

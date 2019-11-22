@@ -8,5 +8,6 @@ namespace Cooking
     {
         public const string TagSymbol = "#";
         public const string IngredientSymbol = "$";
+        public const string ImageFolder = "Images";
     }
 }

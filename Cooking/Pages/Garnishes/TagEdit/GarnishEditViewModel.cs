@@ -35,7 +35,7 @@ namespace Cooking.Pages.Garnishes
             };
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected override async Task Ok()
         {

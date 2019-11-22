@@ -6,7 +6,7 @@ namespace Cooking.DTO
 {
     public class GarnishDTO : Entity, INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
+        public string? Name { get; set; }
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

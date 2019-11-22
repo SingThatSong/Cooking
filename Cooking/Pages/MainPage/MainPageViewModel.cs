@@ -60,24 +60,22 @@ namespace Cooking.Pages
                 return null;
             }
 
-            var weekMain = MapperService.Mapper.Map<WeekMain>(weekData);
-            if (weekMain == null)
+            var weekMain = weekData.MapTo<WeekMain>();
+            if (weekMain.Days != null)
             {
-                return null;
-            }
-
-            foreach (var day in weekMain.Days)
-            {
-                day.PropertyChanged += (sender, e) =>
+                foreach (var day in weekMain.Days)
                 {
-                    if (e.PropertyName == nameof(DayMain.DinnerWasCooked))
+                    day.PropertyChanged += (sender, e) =>
                     {
-                        if (sender is DayMain dayChanged)
+                        if (e.PropertyName == nameof(DayMain.DinnerWasCooked))
                         {
-                            DayService.SetDinnerWasCooked(dayChanged.ID, dayChanged.DinnerWasCooked);
+                            if (sender is DayMain dayChanged)
+                            {
+                                DayService.SetDinnerWasCooked(dayChanged.ID, dayChanged.DinnerWasCooked);
+                            }
                         }
-                    }
-                };
+                    };
+                }
             }
             
             return weekMain;
@@ -97,7 +95,7 @@ namespace Cooking.Pages
             if (viewModel.DialogResultOk)
             {
                 var dayOfWeek = WeekService.GetDayOfWeek(dayName);
-                var day = CurrentWeek.Days.FirstOrDefault(x => x.DayOfWeek == dayOfWeek);
+                var day = CurrentWeek!.Days.FirstOrDefault(x => x.DayOfWeek == dayOfWeek);
 
                 if (day != null)
                 {
@@ -105,7 +103,7 @@ namespace Cooking.Pages
                 }
                 else
                 {
-                    await DayService.CreateDinner(CurrentWeek.ID, viewModel.SelectedRecipeID, dayOfWeek).ConfigureAwait(false);
+                    await DayService.CreateDinner(CurrentWeek!.ID, viewModel.SelectedRecipeID, dayOfWeek).ConfigureAwait(false);
                 }
 
                 await ReloadCurrentWeek().ConfigureAwait(false);
@@ -114,7 +112,7 @@ namespace Cooking.Pages
 
         private async Task ReloadCurrentWeek()
         {
-            CurrentWeek = await GetWeekAsync(CurrentWeek.Start).ConfigureAwait(false);
+            CurrentWeek = await GetWeekAsync(CurrentWeek!.Start).ConfigureAwait(false);
         }
 
         private async void OnLoadedAsync()
@@ -153,7 +151,7 @@ namespace Cooking.Pages
             if (viewModel.DialogResultOk)
             {
                 var selectedDay = viewModel.DaysOfWeek.Single(x => x.IsSelected);
-                await WeekService.MoveDayToNextWeek(CurrentWeek.ID, dayId, selectedDay.WeekDay).ConfigureAwait(false);
+                await WeekService.MoveDayToNextWeek(CurrentWeek!.ID, dayId, selectedDay.WeekDay).ConfigureAwait(false);
                 await ReloadCurrentWeek().ConfigureAwait(false);
             }
         }
@@ -183,7 +181,7 @@ namespace Cooking.Pages
         private async void CreateShoppingListAsync()
         {
             Debug.WriteLine("MainPageViewModel.CreateShoppingListAsync");
-            var allProducts = WeekService.GetWeekIngredients(CurrentWeek.ID);
+            var allProducts = WeekService.GetWeekIngredients(CurrentWeek!.ID);
 
             await dialogUtils.ShowCustomMessageAsync<ShoppingCartView, ShoppingCartViewModel>(content: new ShoppingCartViewModel(allProducts)).ConfigureAwait(false);
         }
@@ -223,7 +221,7 @@ namespace Cooking.Pages
 
             if (result == MessageDialogResult.Affirmative)
             {
-                await WeekService.DeleteWeekAsync(CurrentWeek.ID).ConfigureAwait(false);
+                await WeekService.DeleteWeekAsync(CurrentWeek!.ID).ConfigureAwait(false);
                 CurrentWeek = null;
             }
         }
@@ -287,7 +285,7 @@ namespace Cooking.Pages
                 day.RecipeAlternatives = RecipeService.GetRecipiesByParameters(requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
 
                 var selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
-                var recipiesNotSelectedYet = day.RecipeAlternatives.Where(x => !selectedRecipies.Any(selected => selected.ID == x.ID)).ToList();
+                var recipiesNotSelectedYet = day.RecipeAlternatives.Where(x => !selectedRecipies.Any(selected => selected!.ID == x.ID)).ToList();
 
                 if (recipiesNotSelectedYet.Count > 0)
                 { 

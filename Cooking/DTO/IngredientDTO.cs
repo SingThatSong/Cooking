@@ -11,6 +11,6 @@ namespace Cooking.DTO
         public string Name { get; set; }
         public IngredientType Type { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

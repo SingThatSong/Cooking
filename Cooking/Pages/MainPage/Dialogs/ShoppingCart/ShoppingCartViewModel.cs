@@ -17,6 +17,6 @@ namespace Cooking.Pages.Recepies
             List = list;
         }
 
-        public List<ShoppongListItem> List { get; }
+        public List<ShoppongListItem>? List { get; }
     }
 }

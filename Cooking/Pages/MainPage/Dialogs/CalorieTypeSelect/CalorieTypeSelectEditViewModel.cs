@@ -9,10 +9,10 @@ namespace Cooking.Pages.Recepies
 {
     public partial class CalorieTypeSelectEditViewModel : OkCancelViewModel
     {
-        public ObservableCollection<CalorieTypeSelection> AllValues { get; set; }
-        public CalorieTypeSelectEditViewModel() : base() { }
+        public ObservableCollection<CalorieTypeSelection> AllValues { get; }
+        public CalorieTypeSelectEditViewModel() : this(null) { }
 
-        public CalorieTypeSelectEditViewModel(IEnumerable<CalorieTypeSelection> selectedTypes) : base()
+        public CalorieTypeSelectEditViewModel(IEnumerable<CalorieTypeSelection>? selectedTypes) : base()
         {
             AllValues = new ObservableCollection<CalorieTypeSelection>(
                 Enum.GetValues(typeof(CalorieType))

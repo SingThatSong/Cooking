@@ -5,21 +5,24 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Cooking.Pages.Dialogs
 {
+    [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения", Justification = "<Ожидание>")]
     public class DayPlan : INotifyPropertyChanged
     {
         // Рецепт, указанный вручную
         public RecipeSlim? SpecificRecipe { get; set; }
-        public RecipeSlim Recipe { get; set; }
-        public List<RecipeSlim> RecipeAlternatives { get; set; }
+        public RecipeSlim? Recipe { get; set; }
+
+        public List<RecipeSlim>? RecipeAlternatives { get; set; }
 
         public int? MinRating { get; set; }
         public int? MaxComplexity { get; set; }
         public bool OnlyNewRecipies { get; set; }
         public bool IsSelected { get; set; } = true;
-        public string DayName { get; set; }
+        public string? DayName { get; set; }
         public DayOfWeek DayOfWeek { get; set; }
         public ObservableCollection<TagDTO> NeededMainIngredients { get; set; } = new ObservableCollection<TagDTO>() { TagDTO.Any };
         public ObservableCollection<TagDTO> NeededDishTypes { get; set; } = new ObservableCollection<TagDTO>() { TagDTO.Any };
@@ -29,6 +32,6 @@ namespace Cooking.Pages.Dialogs
                 CalorieTypeSelection.Any
             };
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

@@ -21,7 +21,7 @@ namespace Cooking.Pages.Ingredients
     [AddINotifyPropertyChangedInterface]
     public partial class IngredientsViewModel
     {
-        public ObservableCollection<IngredientMain> Ingredients { get; private set; }
+        public ObservableCollection<IngredientMain>? Ingredients { get; private set; }
         public bool IsEditing { get; set; }
 
         public DelegateCommand AddIngredientCommand { get; }
@@ -44,9 +44,17 @@ namespace Cooking.Pages.Ingredients
         {
             if (Application.Current.MainWindow.DataContext is MainWindowViewModel mainWindowViewModel)
             {
-                mainWindowViewModel.SelectedMenuItem = mainWindowViewModel.MenuItems[1] as HamburgerMenuIconItem;
-
-                ((mainWindowViewModel.SelectedMenuItem.Tag as RecepiesView).DataContext as RecepiesViewModel).FilterText = $"{Consts.IngredientSymbol}{ingredient.Name}";
+                if (mainWindowViewModel.MenuItems[1] is HamburgerMenuIconItem hamburgerMenuIconItem)
+                {
+                    mainWindowViewModel.SelectedMenuItem = hamburgerMenuIconItem;
+                    if (mainWindowViewModel.SelectedMenuItem.Tag is RecepiesView recepiesView)
+                    {
+                        if (recepiesView.DataContext is RecepiesViewModel recepiesViewModel)
+                        {
+                            recepiesViewModel.FilterText = $"{Consts.IngredientSymbol}{ingredient.Name}";
+                        }
+                    }
+                }
             }
         }
 
@@ -86,7 +94,7 @@ namespace Cooking.Pages.Ingredients
             if (result == MessageDialogResult.Affirmative)
             {
                 await IngredientService.DeleteAsync(id).ConfigureAwait(true);
-                Ingredients.Remove(Ingredients.Single(x => x.ID == id));
+                Ingredients!.Remove(Ingredients.Single(x => x.ID == id));
             }
         }
 
@@ -98,7 +106,7 @@ namespace Cooking.Pages.Ingredients
             {
                 var id = await IngredientService.CreateAsync(viewModel.Ingredient.MapTo<Ingredient>()).ConfigureAwait(false);
                 viewModel.Ingredient.ID = id;
-                Ingredients.Add(viewModel.Ingredient);
+                Ingredients!.Add(viewModel.Ingredient);
             }
         }
     }

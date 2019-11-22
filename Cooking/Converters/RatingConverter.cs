@@ -17,9 +17,9 @@ namespace Cooking.Converters
     /// </summary>
     public class RatingConverter : IMultiValueConverter
     {
-        public Brush PreviewBrush { get; set; }
-        public Brush OnBrush { get; set; }
-        public Brush OffBrush { get; set; }
+        public Brush? PreviewBrush { get; set; }
+        public Brush? OnBrush { get; set; }
+        public Brush? OffBrush { get; set; }
 
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {

@@ -60,14 +60,14 @@ namespace Cooking.Pages.Ingredients
                 }
             }
 
-            base.Ok();
+            await base.Ok().ConfigureAwait(false);
         }
         
         private List<string> AllIngredientNames { get; set; }
 
         public ReadOnlyCollection<IngredientType> IngredientTypes => IngredientType.AllValues;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         
         public IEnumerable<string>? SimilarIngredients => string.IsNullOrWhiteSpace(Ingredient?.Name)
                                                         ? null

@@ -20,8 +20,6 @@ namespace Cooking
 {
     public static class ImageService
     {
-        private const string ImageFolder = "Images";
-
         public static string? ImageSearch()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog()
@@ -35,7 +33,7 @@ namespace Cooking
             {
                 if (File.Exists(openFileDialog.FileName))
                 {
-                    var dir = Directory.CreateDirectory(ImageFolder);
+                    var dir = Directory.CreateDirectory(Consts.ImageFolder);
                     var file = new FileInfo(openFileDialog.FileName);
                     var newFilePath = Path.Combine(dir.FullName, file.Name);
                     if (File.Exists(newFilePath))
@@ -47,7 +45,7 @@ namespace Cooking
                     using var result = ResizeImage(img, 300);
                     result.Save(newFilePath);
 
-                    return $@"{ImageFolder}/{file.Name}";
+                    return $@"{Consts.ImageFolder}/{file.Name}";
                 }
             }
 

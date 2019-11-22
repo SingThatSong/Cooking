@@ -18,7 +18,7 @@ namespace Cooking.Pages.Tags
     [AddINotifyPropertyChangedInterface]
     public partial class TagsViewModel
     {
-        public ObservableCollection<TagDTO>? Tags { get; set; }
+        public ObservableCollection<TagDTO>? Tags { get; private set; }
         public bool IsEditing { get; set; }
 
         public DelegateCommand AddTagCommand { get; }
@@ -100,7 +100,7 @@ namespace Cooking.Pages.Tags
             {
                 var id = await TagService.CreateAsync(viewModel.Tag.MapTo<Tag>()).ConfigureAwait(false);
                 viewModel.Tag.ID = id;
-                Tags.Add(viewModel.Tag);
+                Tags!.Add(viewModel.Tag);
             }
         }
 

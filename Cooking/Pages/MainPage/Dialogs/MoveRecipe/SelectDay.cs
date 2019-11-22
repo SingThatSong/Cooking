@@ -7,7 +7,7 @@ namespace Cooking.Pages.Recepies
     public class SelectDay
     {
         public DayOfWeek WeekDay { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public bool IsSelected { get; set; }
     }
 }

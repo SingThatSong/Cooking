@@ -103,7 +103,7 @@ namespace Cooking.Pages.Recepies
         }
 
 
-        private Dictionary<Guid, RecipeFull> recipeCache = new Dictionary<Guid, RecipeFull>();
+        private readonly Dictionary<Guid, RecipeFull> recipeCache = new Dictionary<Guid, RecipeFull>();
         private bool HasTag(RecipeSelect recipe, string category)
         {
             RecipeFull recipeDb;
@@ -170,7 +170,7 @@ namespace Cooking.Pages.Recepies
             {
                 var id = await RecipeService.CreateAsync(viewModel.Recipe.MapTo<Recipe>()).ConfigureAwait(false);
                 viewModel.Recipe.ID = id;
-                Recipies.Add(viewModel.Recipe.MapTo<RecipeSelect>());
+                Recipies!.Add(viewModel.Recipe.MapTo<RecipeSelect>());
             }
         }
     }

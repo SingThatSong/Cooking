@@ -113,14 +113,14 @@ namespace Cooking.Pages.Recepies
 
         private bool HasTag(RecipeMain recipe, string category)
         {
-            return recipe.Tags != null && recipe.Tags.Any(x => x.Name.ToUpperInvariant() == category.ToUpperInvariant());
+            return recipe.Tags != null && recipe.Tags.Any(x => x.Name?.ToUpperInvariant() == category.ToUpperInvariant());
         }
 
         private bool HasIngredient(RecipeMain recipe, string category)
         {
             // Ищем среди ингредиентов
             if (recipe.Ingredients != null
-                && recipe.Ingredients.Any(x => x.Ingredient.Name.ToUpperInvariant() == category.ToUpperInvariant()))
+                && recipe.Ingredients.Any(x => x.Ingredient?.Name?.ToUpperInvariant() == category.ToUpperInvariant()))
             {
                 return true;
             }
@@ -130,7 +130,7 @@ namespace Cooking.Pages.Recepies
             {
                 foreach (var group in recipe.IngredientGroups)
                 {
-                    if (group.Ingredients.Any(x => x.Ingredient.Name.ToUpperInvariant() == category.ToUpperInvariant()))
+                    if (group.Ingredients.Any(x => x.Ingredient?.Name?.ToUpperInvariant() == category.ToUpperInvariant()))
                     {
                         return true;
                     }

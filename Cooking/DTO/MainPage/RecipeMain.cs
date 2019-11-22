@@ -3,11 +3,13 @@ using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace Cooking.DTO
 {
     [AddINotifyPropertyChangedInterface]
+    [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения")]
     public class RecipeMain
     {        
         [AlsoNotifyFor(nameof(FullPath))]
@@ -16,6 +18,7 @@ namespace Cooking.DTO
         public string? FullPath => ImagePath != null 
                                 ? Path.GetFullPath(ImagePath) 
                                 : null;
+
 
         public ObservableCollection<IngredientGroupMain>? IngredientGroups { get; set; }
         public ObservableCollection<RecipeIngredientMain>? Ingredients { get; set; }

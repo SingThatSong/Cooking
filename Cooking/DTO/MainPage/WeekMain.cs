@@ -2,15 +2,17 @@
 using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Cooking.DTO
 {
     [AddINotifyPropertyChangedInterface]
+    [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения")]
     public class WeekMain : WeekMainPage
     {
         [AlsoNotifyFor(nameof(Monday), nameof(Tuesday), nameof(Wednesday), nameof(Thursday), nameof(Friday), nameof(Saturday), nameof(Sunday))]
-        public new ObservableCollection<DayMain> Days { get; set; }
+        public new ObservableCollection<DayMain>? Days { get; set; }
         public DayMain? Monday => Days?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Monday);
         public DayMain? Tuesday => Days?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Tuesday);
         public DayMain? Wednesday => Days?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Wednesday);

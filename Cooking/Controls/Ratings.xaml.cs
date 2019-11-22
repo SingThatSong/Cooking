@@ -25,7 +25,7 @@ namespace Cooking.Controls
         /// <summary>
         /// Internal representation of ratings. List of all possible rating values, based on MaxRating
         /// </summary>
-        [DependencyProperty] public List<int> RatingsInternal { get; set; }
+        [DependencyProperty] public List<int> RatingsInternal { get; private set; }
 
         /// <summary>
         /// Integer value of rating for visual representation. Equals to RatingValue when idle or RatingValuePreview when MouseOver
@@ -60,8 +60,10 @@ namespace Cooking.Controls
         public int? RatingValue { get; set; }
         private static void OnRatingChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            var obj = dependencyObject as Ratings;
-            obj.IntegerValue = (int?)dependencyPropertyChangedEventArgs.NewValue;
+            if (dependencyObject is Ratings obj)
+            {
+                obj.IntegerValue = (int?)dependencyPropertyChangedEventArgs.NewValue;
+            }
         }
 
         /// <summary>
@@ -72,9 +74,9 @@ namespace Cooking.Controls
         private static void OnMaxRatingChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             // Only control initialization
-            if (dependencyPropertyChangedEventArgs.OldValue == null)
+            if (dependencyPropertyChangedEventArgs.OldValue == null
+             && dependencyObject is Ratings obj)
             {
-                var obj = dependencyObject as Ratings;
                 obj.RatingsInternal = Enumerable.Range(1, (int)dependencyPropertyChangedEventArgs.NewValue).ToList();
                 var height = obj.GetValue(HeightProperty);
                 obj.HeightStep = (double)height / obj.RatingsInternal.Count;

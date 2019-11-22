@@ -9,9 +9,9 @@ namespace Cooking.DTO
     public class RecipeIngredientMain
     {
         public Guid ID { get; set; }
-        public IngredientMain Ingredient { get; set; }
+        public IngredientMain? Ingredient { get; set; }
         public double? Amount { get; set; }
-        public MeasureUnit MeasureUnit { get; set; }
+        public MeasureUnit? MeasureUnit { get; set; }
         public int Order { get; set; }
     }
 }

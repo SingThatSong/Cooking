@@ -154,7 +154,7 @@
     ItemInvoked="HamburgerMenuControl_OnItemInvoked"
     ItemTemplate="{StaticResource MenuItemTemplate}"
     ItemsSource="{Binding MenuItems}"
-    OpenPaneLength="150"
+    OpenPaneLength="160"
     OptionsItemTemplate="{StaticResource MenuItemTemplate}"
     SelectedIndex="0"
     SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
