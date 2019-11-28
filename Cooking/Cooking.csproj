@@ -22,10 +22,10 @@
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0479" />
     <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha0212" />
     <PackageReference Include="AutoMapper">
-      <Version>9.1.0-ci-01609</Version>
+      <Version>9.1.0-ci-01610</Version>
     </PackageReference>
     <PackageReference Include="Extended.Wpf.Toolkit">
-      <Version>3.6.0</Version>
+      <Version>3.7.0</Version>
     </PackageReference>
     <PackageReference Include="Fody">
       <Version>6.0.5</Version>
@@ -39,15 +39,15 @@
       <Version>2.0.0-alpha0605</Version>
     </PackageReference>
     <PackageReference Include="MahApps.Metro.IconPacks">
-      <Version>3.0.0-alpha0261</Version>
+      <Version>3.0.0-alpha0270</Version>
     </PackageReference>
     <PackageReference Include="MaterialDesignColors">
-      <Version>1.2.1-ci783</Version>
+      <Version>1.2.1-ci808</Version>
     </PackageReference>
     <PackageReference Include="MaterialDesignThemes">
-      <Version>3.0.0-ci783</Version>
+      <Version>3.0.0-ci802</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
