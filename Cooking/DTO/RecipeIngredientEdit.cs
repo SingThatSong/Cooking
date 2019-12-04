@@ -6,10 +6,10 @@ using System;
 namespace Cooking.DTO
 {
     [AddINotifyPropertyChangedInterface]
-    public class RecipeIngredientMain
+    public class RecipeIngredientEdit
     {
         public Guid ID { get; set; }
-        public IngredientMain? Ingredient { get; set; }
+        public IngredientEdit? Ingredient { get; set; }
         public double? Amount { get; set; }
         public MeasureUnit? MeasureUnit { get; set; }
         public int Order { get; set; }

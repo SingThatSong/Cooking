@@ -21,26 +21,26 @@ namespace Cooking.Pages.Ingredients
     [AddINotifyPropertyChangedInterface]
     public partial class IngredientsViewModel
     {
-        public ObservableCollection<IngredientMain>? Ingredients { get; private set; }
+        public ObservableCollection<IngredientEdit>? Ingredients { get; private set; }
         public bool IsEditing { get; set; }
 
         public DelegateCommand AddIngredientCommand { get; }
 
-        public DelegateCommand<IngredientMain> ViewIngredientCommand { get; }
-        public DelegateCommand<IngredientMain> EditCategoryCommand { get; }
+        public DelegateCommand<IngredientEdit> ViewIngredientCommand { get; }
+        public DelegateCommand<IngredientEdit> EditCategoryCommand { get; }
         public DelegateCommand<Guid> DeleteCategoryCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
         public IngredientsViewModel()
         {
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
-            ViewIngredientCommand = new DelegateCommand<IngredientMain>(ViewIngredient);
+            ViewIngredientCommand = new DelegateCommand<IngredientEdit>(ViewIngredient);
             AddIngredientCommand = new DelegateCommand(AddRecipe);
             DeleteCategoryCommand = new DelegateCommand<Guid>(DeleteIngredient);
-            EditCategoryCommand = new DelegateCommand<IngredientMain>(EditIngredient);
+            EditCategoryCommand = new DelegateCommand<IngredientEdit>(EditIngredient);
         }
 
-        private void ViewIngredient(IngredientMain ingredient)
+        private void ViewIngredient(IngredientEdit ingredient)
         {
             if (Application.Current.MainWindow.DataContext is MainWindowViewModel mainWindowViewModel)
             {
@@ -58,9 +58,9 @@ namespace Cooking.Pages.Ingredients
             }
         }
 
-        private async void EditIngredient(IngredientMain ingredient)
+        private async void EditIngredient(IngredientEdit ingredient)
         {
-            var viewModel = new IngredientEditViewModel(ingredient.MapTo<IngredientMain>());
+            var viewModel = new IngredientEditViewModel(ingredient.MapTo<IngredientEdit>());
             await new DialogUtils(this).ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Редактирование ингредиента", viewModel).ConfigureAwait(false);
             
             if (viewModel.DialogResultOk)
@@ -75,7 +75,7 @@ namespace Cooking.Pages.Ingredients
         {
             Debug.WriteLine("IngredientsViewModel.OnLoaded");
             Ingredients = IngredientService.GetIngredients<IngredientData>()
-                                           .MapTo<ObservableCollection<IngredientMain>>();
+                                           .MapTo<ObservableCollection<IngredientEdit>>();
         }
 
         public async void DeleteIngredient(Guid id)

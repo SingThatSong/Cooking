@@ -6,9 +6,9 @@ using System.ComponentModel;
 namespace Cooking.DTO
 {
     [AddINotifyPropertyChangedInterface]
-    public class TagDTO : INotifyPropertyChanged
+    public class TagEdit : INotifyPropertyChanged
     {
-        public static readonly TagDTO Any = new TagDTO()
+        public static readonly TagEdit Any = new TagEdit()
         {
             Name = "Любой",
             CanBeRemoved = false

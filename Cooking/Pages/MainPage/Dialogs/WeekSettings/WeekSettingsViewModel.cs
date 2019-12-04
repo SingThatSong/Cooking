@@ -91,13 +91,13 @@ namespace Cooking.Pages.Dialogs
             });
         }
 
-        private async Task<ObservableCollection<TagDTO>> GetTags(TagType type, ObservableCollection<TagDTO> current)
+        private async Task<ObservableCollection<TagEdit>> GetTags(TagType type, ObservableCollection<TagEdit> current)
         {
             var dbTags = TagService.GetTagsByType(type);
 
-            var allTags = dbTags.Select(x => MapperService.Mapper.Map<TagDTO>(x)).ToList();
+            var allTags = dbTags.Select(x => MapperService.Mapper.Map<TagEdit>(x)).ToList();
 
-            allTags.Insert(0, TagDTO.Any);
+            allTags.Insert(0, TagEdit.Any);
             allTags[0].IsChecked = false;
             allTags.ForEach(x => x.Type = type);
 
@@ -108,20 +108,20 @@ namespace Cooking.Pages.Dialogs
             {
                 var list = viewModel.AllTags.Where(x => x.IsChecked).ToList();
 
-                if (list.Any(x => x != TagDTO.Any))
+                if (list.Any(x => x != TagEdit.Any))
                 {
-                    list.Remove(TagDTO.Any);
+                    list.Remove(TagEdit.Any);
                 }
                 else if (!list.Any())
                 {
-                    list.Add(TagDTO.Any);
+                    list.Add(TagEdit.Any);
                 }
 
-                return new ObservableCollection<TagDTO>(list);
+                return new ObservableCollection<TagEdit>(list);
             }
             else
             {
-                return new ObservableCollection<TagDTO>();
+                return new ObservableCollection<TagEdit>();
             }
         }
 

@@ -16,14 +16,14 @@ namespace Cooking.Pages.Garnishes
 {
     public partial class GarnishEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {
-        public GarnishDTO Garnish { get; set; }
+        public GarnishEdit Garnish { get; set; }
         private bool NameChanged { get; set; }
 
         public GarnishEditViewModel() : this(null) { }
 
-        public GarnishEditViewModel(GarnishDTO? category)
+        public GarnishEditViewModel(GarnishEdit? category)
         {
-            Garnish = category ?? new GarnishDTO();
+            Garnish = category ?? new GarnishEdit();
             AllGarnishNames = GarnishService.GetSearchNames();
             Garnish.PropertyChanged += (src, e) =>
             {

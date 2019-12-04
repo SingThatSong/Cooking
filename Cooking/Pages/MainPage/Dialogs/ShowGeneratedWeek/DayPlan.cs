@@ -24,8 +24,8 @@ namespace Cooking.Pages.Dialogs
         public bool IsSelected { get; set; } = true;
         public string? DayName { get; set; }
         public DayOfWeek DayOfWeek { get; set; }
-        public ObservableCollection<TagDTO> NeededMainIngredients { get; set; } = new ObservableCollection<TagDTO>() { TagDTO.Any };
-        public ObservableCollection<TagDTO> NeededDishTypes { get; set; } = new ObservableCollection<TagDTO>() { TagDTO.Any };
+        public ObservableCollection<TagEdit> NeededMainIngredients { get; set; } = new ObservableCollection<TagEdit>() { TagEdit.Any };
+        public ObservableCollection<TagEdit> NeededDishTypes { get; set; } = new ObservableCollection<TagEdit>() { TagEdit.Any };
         public ObservableCollection<CalorieTypeSelection> CalorieTypes { get; set; } 
             = new ObservableCollection<CalorieTypeSelection>()
             {

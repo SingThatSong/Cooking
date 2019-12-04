@@ -18,12 +18,12 @@ namespace Cooking.Pages.Tags
     [AddINotifyPropertyChangedInterface]
     public partial class TagsViewModel
     {
-        public ObservableCollection<TagDTO>? Tags { get; private set; }
+        public ObservableCollection<TagEdit>? Tags { get; private set; }
         public bool IsEditing { get; set; }
 
         public DelegateCommand AddTagCommand { get; }
-        public DelegateCommand<TagDTO> ViewTagCommand { get; }
-        public AsyncDelegateCommand<TagDTO> EditTagCommand { get; }
+        public DelegateCommand<TagEdit> ViewTagCommand { get; }
+        public AsyncDelegateCommand<TagEdit> EditTagCommand { get; }
         public DelegateCommand<Guid> DeleteTagCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
@@ -33,18 +33,18 @@ namespace Cooking.Pages.Tags
 
             AddTagCommand = new DelegateCommand(AddTag);
             DeleteTagCommand = new DelegateCommand<Guid>(DeleteTag);
-            ViewTagCommand = new DelegateCommand<TagDTO>(ViewTag);
-            EditTagCommand = new AsyncDelegateCommand<TagDTO>(EditTag);
+            ViewTagCommand = new DelegateCommand<TagEdit>(ViewTag);
+            EditTagCommand = new AsyncDelegateCommand<TagEdit>(EditTag);
         }
 
         private void OnLoaded()
         {
             Debug.WriteLine("TagsViewModel.OnLoaded");
             Tags = TagService.GetTags()
-                             .MapTo<ObservableCollection<TagDTO>>();
+                             .MapTo<ObservableCollection<TagEdit>>();
         }
 
-        private void ViewTag(TagDTO tag)
+        private void ViewTag(TagEdit tag)
         {
             if (Application.Current.MainWindow.DataContext is MainWindowViewModel mainWindowViewModel)
             {
@@ -58,9 +58,9 @@ namespace Cooking.Pages.Tags
             }
         }
 
-        private async Task EditTag(TagDTO tag)
+        private async Task EditTag(TagEdit tag)
         {
-            var viewModel = new TagEditViewModel(tag.MapTo<TagDTO>());
+            var viewModel = new TagEditViewModel(tag.MapTo<TagEdit>());
             await new DialogUtils(this).ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Редактирование тега", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)

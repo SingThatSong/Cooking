@@ -10,7 +10,7 @@ namespace Cooking.DTO
 {
     [AddINotifyPropertyChangedInterface]
     [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения")]
-    public class RecipeMain
+    public class RecipeEdit
     {        
         [AlsoNotifyFor(nameof(FullPath))]
         public string? ImagePath { get; set; }
@@ -20,9 +20,9 @@ namespace Cooking.DTO
                                 : null;
 
 
-        public ObservableCollection<IngredientGroupMain>? IngredientGroups { get; set; }
-        public ObservableCollection<RecipeIngredientMain>? Ingredients { get; set; }
-        public ObservableCollection<TagDTO>? Tags { get; set; }
+        public ObservableCollection<IngredientGroupEdit>? IngredientGroups { get; set; }
+        public ObservableCollection<RecipeIngredientEdit>? Ingredients { get; set; }
+        public ObservableCollection<TagEdit>? Tags { get; set; }
 
         public int LastCooked => RecipeService.DaysFromLasCook(ID);
 

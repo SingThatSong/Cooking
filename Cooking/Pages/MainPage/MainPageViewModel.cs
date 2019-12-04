@@ -22,7 +22,7 @@ namespace Cooking.Pages
         public DateTime WeekStart { get; set; }
         public DateTime WeekEnd { get; set; }
         public bool WeekEdit { get; set; }
-        public WeekMain? CurrentWeek { get; set; }
+        public WeekEdit? CurrentWeek { get; set; }
 
         public DelegateCommand LoadedCommand { get; }
         public DelegateCommand CreateShoppingListCommand { get; }
@@ -51,7 +51,7 @@ namespace Cooking.Pages
             MoveRecipeCommand           = new DelegateCommand<Guid>(MoveRecipe);
         }
 
-        private async Task<WeekMain?> GetWeekAsync(DateTime dayOfWeek)
+        private async Task<WeekEdit?> GetWeekAsync(DateTime dayOfWeek)
         {
             Debug.WriteLine("MainPageViewModel.GetWeekAsync");
             var weekData = await WeekService.GetWeekAsync(dayOfWeek).ConfigureAwait(false);
@@ -60,16 +60,16 @@ namespace Cooking.Pages
                 return null;
             }
 
-            var weekMain = weekData.MapTo<WeekMain>();
+            var weekMain = weekData.MapTo<WeekEdit>();
             if (weekMain.Days != null)
             {
                 foreach (var day in weekMain.Days)
                 {
                     day.PropertyChanged += (sender, e) =>
                     {
-                        if (e.PropertyName == nameof(DayMain.DinnerWasCooked))
+                        if (e.PropertyName == nameof(DayEdit.DinnerWasCooked))
                         {
-                            if (sender is DayMain dayChanged)
+                            if (sender is DayEdit dayChanged)
                             {
                                 DayService.SetDinnerWasCooked(dayChanged.ID, dayChanged.DinnerWasCooked);
                             }
@@ -266,12 +266,12 @@ namespace Cooking.Pages
             {
                 var requiredTags = new List<Guid>();
 
-                if (!day.NeededDishTypes.Contains(TagDTO.Any))
+                if (!day.NeededDishTypes.Contains(TagEdit.Any))
                 {
                     requiredTags.AddRange(day.NeededDishTypes.Select(x => x.ID));
                 }
 
-                if (!day.NeededMainIngredients.Contains(TagDTO.Any))
+                if (!day.NeededMainIngredients.Contains(TagEdit.Any))
                 {
                     requiredTags.AddRange(day.NeededMainIngredients.Select(x => x.ID));
                 }

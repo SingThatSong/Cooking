@@ -26,39 +26,39 @@ namespace Cooking.Pages.Ingredients
         public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
 
         public DelegateCommand AddMultipleCommand { get; }
-        public DelegateCommand<RecipeIngredientMain> RemoveIngredientCommand { get; }
+        public DelegateCommand<RecipeIngredientEdit> RemoveIngredientCommand { get; }
 
         public AsyncDelegateCommand AddCategoryCommand { get; }
 
 
-        public RecipeIngredientMain Ingredient { get; set; }
-        public ObservableCollection<RecipeIngredientMain>? Ingredients { get; private set; }
+        public RecipeIngredientEdit Ingredient { get; set; }
+        public ObservableCollection<RecipeIngredientEdit>? Ingredients { get; private set; }
 
-        public List<IngredientMain> AllIngredients { get; }
+        public List<IngredientEdit> AllIngredients { get; }
 
         public RecipeIngredientEditViewModel() : this(null) { }
 
-        public RecipeIngredientEditViewModel(RecipeIngredientMain? ingredient = null)
+        public RecipeIngredientEditViewModel(RecipeIngredientEdit? ingredient = null)
         {
             dialogUtils = new DialogUtils(this);
-            Ingredient = ingredient ?? new RecipeIngredientMain();
+            Ingredient = ingredient ?? new RecipeIngredientEdit();
 
             AddMultipleCommand = new DelegateCommand(AddMultiple, canExecute: () => IsCreation);
-            RemoveIngredientCommand = new DelegateCommand<RecipeIngredientMain>(RemoveIngredient);
+            RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
             AddCategoryCommand = new AsyncDelegateCommand(AddRecipe);
 
             AllIngredients = IngredientService.GetIngredients<IngredientData>()
-                                              .MapTo<List<IngredientMain>>();
+                                              .MapTo<List<IngredientEdit>>();
         }
 
-        private void RemoveIngredient(RecipeIngredientMain i) => Ingredients!.Remove(i);
+        private void RemoveIngredient(RecipeIngredientEdit i) => Ingredients!.Remove(i);
 
         private void AddMultiple()
         {
-            Ingredients ??= new ObservableCollection<RecipeIngredientMain>();
+            Ingredients ??= new ObservableCollection<RecipeIngredientEdit>();
             Ingredient.Order = Ingredients.Count + 1;
             Ingredients.Add(Ingredient);
-            Ingredient = new RecipeIngredientMain();
+            Ingredient = new RecipeIngredientEdit();
         }
 
         private async Task AddRecipe()

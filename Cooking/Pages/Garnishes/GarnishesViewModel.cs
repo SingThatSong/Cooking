@@ -16,11 +16,11 @@ namespace Cooking.Pages.Garnishes
     public partial class GarnishesViewModel
     {
         [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения", Justification = "<Ожидание>")]
-        public ObservableCollection<GarnishDTO>? Garnishes { get; set; }
+        public ObservableCollection<GarnishEdit>? Garnishes { get; set; }
         public bool IsEditing { get; set; }
 
         public DelegateCommand AddGarnishCommand { get; }
-        public DelegateCommand<GarnishDTO> EditGarnishCommand { get; }
+        public DelegateCommand<GarnishEdit> EditGarnishCommand { get; }
         public DelegateCommand<Guid> DeleteGarnishCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
@@ -29,19 +29,19 @@ namespace Cooking.Pages.Garnishes
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
             AddGarnishCommand = new DelegateCommand(AddGarnish);
             DeleteGarnishCommand = new DelegateCommand<Guid>(DeleteGarnish);
-            EditGarnishCommand = new DelegateCommand<GarnishDTO>(EditGarnish);
+            EditGarnishCommand = new DelegateCommand<GarnishEdit>(EditGarnish);
         }
 
         private void OnLoaded()
         {
             Debug.WriteLine("GarnishesViewModel.OnLoaded");
             Garnishes = GarnishService.GetGarnishes<ServiceLayer.GarnishDTO>()
-                                      .MapTo<ObservableCollection<GarnishDTO>>();
+                                      .MapTo<ObservableCollection<GarnishEdit>>();
         }
 
-        private async void EditGarnish(GarnishDTO garnish)
+        private async void EditGarnish(GarnishEdit garnish)
         {
-            var viewModel = new GarnishEditViewModel(garnish.MapTo<GarnishDTO>());
+            var viewModel = new GarnishEditViewModel(garnish.MapTo<GarnishEdit>());
             await new DialogUtils(this).ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Редактирование гарнира", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)

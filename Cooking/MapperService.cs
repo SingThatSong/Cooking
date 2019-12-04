@@ -24,30 +24,30 @@ namespace Cooking
                 cfg.AllowNullDestinationValues = true;
 
                 
-                cfg.CreateMap<DTO.GarnishDTO, DTO.GarnishDTO>();
-                cfg.CreateMap<ServiceLayer.GarnishDTO, DTO.GarnishDTO>();
-                cfg.CreateMap<DTO.GarnishDTO, Garnish>();
-                cfg.CreateMap<WeekMainPage, WeekMain>();
-                cfg.CreateMap<DayMainPage, DayMain>();
+                cfg.CreateMap<DTO.GarnishEdit, DTO.GarnishEdit>();
+                cfg.CreateMap<ServiceLayer.GarnishDTO, DTO.GarnishEdit>();
+                cfg.CreateMap<DTO.GarnishEdit, Garnish>();
+                cfg.CreateMap<WeekMainPage, WeekEdit>();
+                cfg.CreateMap<DayMainPage, DayEdit>();
                 cfg.CreateMap<RecipeSlim, RecipeSelect>();
-                cfg.CreateMap<RecipeFull, RecipeMain>()
+                cfg.CreateMap<RecipeFull, RecipeEdit>()
                 .AfterMap((src, dest) =>
                 {
                     if (dest.Ingredients != null)
                     {
-                        dest.Ingredients = new ObservableCollection<RecipeIngredientMain>(dest.Ingredients.OrderBy(x => x.Order));
+                        dest.Ingredients = new ObservableCollection<RecipeIngredientEdit>(dest.Ingredients.OrderBy(x => x.Order));
                     }
 
                     if (dest.IngredientGroups != null)
                     {
                         foreach (var group in dest.IngredientGroups)
                         {
-                            group.Ingredients = new ObservableCollection<RecipeIngredientMain>(group.Ingredients.OrderBy(x => x.Order));
+                            group.Ingredients = new ObservableCollection<RecipeIngredientEdit>(group.Ingredients.OrderBy(x => x.Order));
                         }
                     }
                 });
-                cfg.CreateMap<RecipeMain, RecipeMain>();
-                cfg.CreateMap<RecipeMain, Recipe>().AfterMap((src, dest) =>
+                cfg.CreateMap<RecipeEdit, RecipeEdit>();
+                cfg.CreateMap<RecipeEdit, Recipe>().AfterMap((src, dest) =>
                 {
                     if (dest.Tags != null)
                     {
@@ -58,24 +58,24 @@ namespace Cooking
                     }
                 });
 
-                cfg.CreateMap<RecipeIngredientMain, RecipeIngredientMain>();
-                cfg.CreateMap<RecipeIngredientMain, RecipeIngredient>()
+                cfg.CreateMap<RecipeIngredientEdit, RecipeIngredientEdit>();
+                cfg.CreateMap<RecipeIngredientEdit, RecipeIngredient>()
                    .ForMember(x => x.ID, opts => opts.MapFrom(_ => Guid.NewGuid()))
                    .ForMember(x => x.Ingredient, opts => opts.Ignore());
 
-                cfg.CreateMap<RecipeIngredientData, RecipeIngredientMain>();
-                cfg.CreateMap<TagServiceDto, TagDTO>();
-                cfg.CreateMap<TagData, TagDTO>();
-                cfg.CreateMap<TagDTO, Tag>();
-                cfg.CreateMap<TagDTO, RecipeTag>()
+                cfg.CreateMap<RecipeIngredientData, RecipeIngredientEdit>();
+                cfg.CreateMap<TagServiceDto, TagEdit>();
+                cfg.CreateMap<TagData, TagEdit>();
+                cfg.CreateMap<TagEdit, Tag>();
+                cfg.CreateMap<TagEdit, RecipeTag>()
                     .ForMember(x => x.TagId, opt => opt.MapFrom(x => x.ID));
 
-                cfg.CreateMap<IngredientGroupMain, IngredientGroupMain>();
-                cfg.CreateMap<IngredientGroupMain, IngredientsGroup>();
-                cfg.CreateMap<IngredientGroupData, IngredientGroupMain>();
-                cfg.CreateMap<IngredientData, IngredientMain>();
-                cfg.CreateMap<IngredientMain, IngredientMain>();
-                cfg.CreateMap<IngredientMain, Ingredient>();
+                cfg.CreateMap<IngredientGroupEdit, IngredientGroupEdit>();
+                cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>();
+                cfg.CreateMap<IngredientGroupData, IngredientGroupEdit>();
+                cfg.CreateMap<IngredientData, IngredientEdit>();
+                cfg.CreateMap<IngredientEdit, IngredientEdit>();
+                cfg.CreateMap<IngredientEdit, Ingredient>();
             });
 
             return config.CreateMapper();

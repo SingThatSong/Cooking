@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace Cooking.DTO
 {
-    public class IngredientMain : INotifyPropertyChanged
+    public class IngredientEdit : INotifyPropertyChanged
     {
         public Guid ID { get; set; }
         public string Name { get; set; }

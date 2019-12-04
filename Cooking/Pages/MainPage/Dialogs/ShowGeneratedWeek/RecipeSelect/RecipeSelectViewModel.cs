@@ -24,7 +24,7 @@ namespace Cooking.Pages.Recepies
 
         public RecipeSelectViewModel(DayPlan? day = null)
         {
-            FilterContext = new FilterContext<RecipeMain>().AddFilter(Consts.IngredientSymbol, HasIngredient)
+            FilterContext = new FilterContext<RecipeEdit>().AddFilter(Consts.IngredientSymbol, HasIngredient)
                                                            .AddFilter(Consts.TagSymbol, HasTag);
 
             var dbRecipies = RecipeService.GetRecipies();
@@ -44,7 +44,7 @@ namespace Cooking.Pages.Recepies
                     SelectedRecipeID = recipe.ID;
                 });
 
-            ViewRecipeCommand = new DelegateCommand<RecipeMain>(ViewRecipe);
+            ViewRecipeCommand = new DelegateCommand<RecipeEdit>(ViewRecipe);
 
             if (day != null)
             {
@@ -89,14 +89,14 @@ namespace Cooking.Pages.Recepies
             if (FilterContext == null)
                 return;
 
-            if (e.Item is RecipeMain recipe)
+            if (e.Item is RecipeEdit recipe)
             {
                 e.Accepted = FilterContext.Filter(recipe);
             }
         }
 
         private string? filterText;
-        private FilterContext<RecipeMain> FilterContext { get; set; }
+        private FilterContext<RecipeEdit> FilterContext { get; set; }
         public string? FilterText
         {
             get => filterText;
@@ -111,12 +111,12 @@ namespace Cooking.Pages.Recepies
             }
         }
 
-        private bool HasTag(RecipeMain recipe, string category)
+        private bool HasTag(RecipeEdit recipe, string category)
         {
             return recipe.Tags != null && recipe.Tags.Any(x => x.Name?.ToUpperInvariant() == category.ToUpperInvariant());
         }
 
-        private bool HasIngredient(RecipeMain recipe, string category)
+        private bool HasIngredient(RecipeEdit recipe, string category)
         {
             // Ищем среди ингредиентов
             if (recipe.Ingredients != null
@@ -140,7 +140,7 @@ namespace Cooking.Pages.Recepies
             return false;
         }
 
-        public async void ViewRecipe(RecipeMain recipe)
+        public async void ViewRecipe(RecipeEdit recipe)
         {
             var viewModel = new RecipeViewModel(recipe.ID);
 
@@ -163,6 +163,6 @@ namespace Cooking.Pages.Recepies
         public CollectionViewSource RecipiesSource { get; }
 
         public DelegateCommand<RecipeSelect> SelectRecipeCommand { get; }
-        public DelegateCommand<RecipeMain> ViewRecipeCommand { get; }
+        public DelegateCommand<RecipeEdit> ViewRecipeCommand { get; }
     }
 }

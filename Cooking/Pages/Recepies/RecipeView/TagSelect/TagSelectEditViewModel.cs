@@ -24,23 +24,23 @@ namespace Cooking.Pages.Recepies
             throw new NotImplementedException();
         }
 
-        public TagSelectEditViewModel(IEnumerable<TagDTO>? currentTags, DialogUtils dialogUtils)
+        public TagSelectEditViewModel(IEnumerable<TagEdit>? currentTags, DialogUtils dialogUtils)
         {
             this.dialogUtils = dialogUtils;
             AddTagCommand = new DelegateCommand(AddTag);
-            AllTags = new ObservableCollection<TagDTO>(TagService.GetTags().Select(x => MapperService.Mapper.Map<TagDTO>(x)));
+            AllTags = new ObservableCollection<TagEdit>(TagService.GetTags().Select(x => MapperService.Mapper.Map<TagEdit>(x)));
             CtorInternal(currentTags);
         }
 
-        public TagSelectEditViewModel(IEnumerable<TagDTO>? currentTags, IEnumerable<TagDTO> allTags, DialogUtils dialogUtils)
+        public TagSelectEditViewModel(IEnumerable<TagEdit>? currentTags, IEnumerable<TagEdit> allTags, DialogUtils dialogUtils)
         {
             this.dialogUtils = dialogUtils;
             AddTagCommand = new DelegateCommand(AddTag);
-            AllTags = new ObservableCollection<TagDTO>(allTags);
+            AllTags = new ObservableCollection<TagEdit>(allTags);
             CtorInternal(currentTags);
         }
 
-        private void CtorInternal(IEnumerable<TagDTO>? currentTags)
+        private void CtorInternal(IEnumerable<TagEdit>? currentTags)
         {
             if (currentTags != null)
             {
@@ -69,12 +69,12 @@ namespace Cooking.Pages.Recepies
 
         public DelegateCommand AddTagCommand { get; }
 
-        public ObservableCollection<TagDTO> AllTags { get; }
+        public ObservableCollection<TagEdit> AllTags { get; }
 
-        public IEnumerable<TagDTO> MainIngredients => AllTags.Where(x => x.Type == TagType.MainIngredient);
-        public IEnumerable<TagDTO> DishTypes => AllTags.Where(x => x.Type == TagType.DishType);
-        public IEnumerable<TagDTO> Occasions => AllTags.Where(x => x.Type == TagType.Occasion);
-        public IEnumerable<TagDTO> Sources => AllTags.Where(x => x.Type == TagType.Source);
+        public IEnumerable<TagEdit> MainIngredients => AllTags.Where(x => x.Type == TagType.MainIngredient);
+        public IEnumerable<TagEdit> DishTypes => AllTags.Where(x => x.Type == TagType.DishType);
+        public IEnumerable<TagEdit> Occasions => AllTags.Where(x => x.Type == TagType.Occasion);
+        public IEnumerable<TagEdit> Sources => AllTags.Where(x => x.Type == TagType.Source);
 
     }
 }

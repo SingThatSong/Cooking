@@ -40,7 +40,7 @@ namespace Cooking.Pages.Ingredients
                 if (String.IsNullOrEmpty(Ingredient.Text)) return true;
                 else
                 {
-                    if (((IngredientMain)o).Name.Contains(Ingredient.Text, StringComparison.OrdinalIgnoreCase)) return true;
+                    if (((IngredientEdit)o).Name.Contains(Ingredient.Text, StringComparison.OrdinalIgnoreCase)) return true;
                     else return false;
                 }
             });

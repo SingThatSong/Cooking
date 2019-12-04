@@ -17,14 +17,14 @@ namespace Cooking.Pages.Ingredients
 {
     public partial class IngredientEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {
-        public IngredientMain Ingredient { get; set; }
+        public IngredientEdit Ingredient { get; set; }
         private bool NameChanged { get; set; }
 
         public IngredientEditViewModel() : this(null) { }
 
-        public IngredientEditViewModel(IngredientMain? category = null)
+        public IngredientEditViewModel(IngredientEdit? category = null)
         {
-            Ingredient = category ?? new IngredientMain();
+            Ingredient = category ?? new IngredientEdit();
             AllIngredientNames = IngredientService.GetSearchNames();
             Ingredient.PropertyChanged += (src, e) =>
             {

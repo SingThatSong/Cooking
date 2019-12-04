@@ -20,9 +20,9 @@ namespace Cooking.Pages.Tags
 
         public TagEditViewModel() : this(null) { }
 
-        public TagEditViewModel(TagDTO? category = null)
+        public TagEditViewModel(TagEdit? category = null)
         {
-            Tag = category ?? new TagDTO();
+            Tag = category ?? new TagEdit();
             AllTagNames = TagService.GetTagNames();
             Tag.PropertyChanged += Tag_PropertyChanged;
         }
@@ -63,7 +63,7 @@ namespace Cooking.Pages.Tags
         }
 
         [AlsoNotifyFor(nameof(SimilarTags))]
-        public TagDTO Tag { get; set; }
+        public TagEdit Tag { get; set; }
         private List<string> AllTagNames { get; set; }
 
         public IEnumerable<string>? SimilarTags => string.IsNullOrWhiteSpace(Tag?.Name)

@@ -16,9 +16,9 @@ namespace Cooking.Pages.Recepies
         {
             if (dropInfo.TargetCollection != dropInfo.DragInfo.SourceCollection) return;
             if (dropInfo.Data == dropInfo.TargetItem) return;
-            if (!(dropInfo.Data is RecipeIngredientMain ingredient)) return;
-            if (!(dropInfo.TargetItem is RecipeIngredientMain targetIngredient)) return;
-            if (!(dropInfo.TargetCollection is ObservableCollection<RecipeIngredientMain> targetCollection)) return;
+            if (!(dropInfo.Data is RecipeIngredientEdit ingredient)) return;
+            if (!(dropInfo.TargetItem is RecipeIngredientEdit targetIngredient)) return;
+            if (!(dropInfo.TargetCollection is ObservableCollection<RecipeIngredientEdit> targetCollection)) return;
 
             var oldIndex = targetCollection.IndexOf(ingredient);
             var targetIndex = targetCollection.IndexOf(targetIngredient);

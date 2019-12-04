@@ -14,11 +14,11 @@ namespace Cooking.Pages.Recepies
     public partial class IngredientGroupEditViewModel : OkCancelViewModel
     {
         public IngredientGroupEditViewModel() : this(null) { }
-        public IngredientGroupEditViewModel(IngredientGroupMain? ingredientGroup = null)
+        public IngredientGroupEditViewModel(DTO.IngredientGroupEdit? ingredientGroup = null)
         {
-            IngredientGroup = ingredientGroup ?? new IngredientGroupMain();
+            IngredientGroup = ingredientGroup ?? new DTO.IngredientGroupEdit();
         }
 
-        public IngredientGroupMain IngredientGroup { get; }
+        public DTO.IngredientGroupEdit IngredientGroup { get; }
     }
 }
