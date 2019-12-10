@@ -53,7 +53,7 @@ namespace Cooking.Pages.Tags
                     && mainWindowViewModel.SelectedMenuItem.Tag is RecepiesView recepiesView
                     && recepiesView.DataContext is RecepiesViewModel recepiesViewModel)
                 {
-                    recepiesViewModel.FilterText = $"{Consts.TagSymbol}{tag.Name}";
+                    recepiesViewModel.FilterText = $"{Consts.TagSymbol}\"{tag.Name}\"";
                 }
             }
         }

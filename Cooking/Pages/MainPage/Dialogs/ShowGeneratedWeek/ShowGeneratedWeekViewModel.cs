@@ -39,23 +39,7 @@ namespace Cooking.Pages.Dialogs
             {
                 var viewModel = new RecipeSelectViewModel(day);
 
-                var dialog = new CustomDialog()
-                {
-                    Content = new RecipeSelectView()
-                    {
-                        DataContext = viewModel
-                    }
-                };
-
-                var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this).ConfigureAwait(false);
-
-                await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog).ConfigureAwait(false);
-
-                do
-                {
-                    await dialog.WaitUntilUnloadedAsync().ConfigureAwait(false);
-                }
-                while (current != await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this).ConfigureAwait(false));
+                await new DialogUtils(this).ShowCustomMessageAsync<RecipeSelectView, RecipeSelectViewModel>(content: viewModel).ConfigureAwait(false);
 
                 if (viewModel.DialogResultOk)
                 {

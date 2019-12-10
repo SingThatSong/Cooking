@@ -51,7 +51,7 @@ namespace Cooking.Pages.Ingredients
                     {
                         if (recepiesView.DataContext is RecepiesViewModel recepiesViewModel)
                         {
-                            recepiesViewModel.FilterText = $"{Consts.IngredientSymbol}{ingredient.Name}";
+                            recepiesViewModel.FilterText = $"{Consts.IngredientSymbol}\"{ingredient.Name}\"";
                         }
                     }
                 }

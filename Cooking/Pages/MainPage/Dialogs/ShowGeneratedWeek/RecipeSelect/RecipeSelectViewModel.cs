@@ -1,6 +1,7 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Dialogs;
+using Cooking.ServiceLayer.Projections;
 using MahApps.Metro.Controls.Dialogs;
 using Plafi;
 using ServiceLayer;
@@ -24,7 +25,7 @@ namespace Cooking.Pages.Recepies
 
         public RecipeSelectViewModel(DayPlan? day = null)
         {
-            FilterContext = new FilterContext<RecipeEdit>().AddFilter(Consts.IngredientSymbol, HasIngredient)
+            FilterContext = new FilterContext<RecipeSelect>().AddFilter(Consts.IngredientSymbol, HasIngredient)
                                                            .AddFilter(Consts.TagSymbol, HasTag);
 
             var dbRecipies = RecipeService.GetRecipies();
@@ -52,85 +53,137 @@ namespace Cooking.Pages.Recepies
 
                 if (day.NeededDishTypes != null && day.NeededDishTypes.Any(x => x.IsChecked && x.CanBeRemoved))
                 {
-                    sb.Append(Consts.TagSymbol);
                     foreach (var dishType in day.NeededDishTypes)
                     {
-                        sb.Append(dishType.Name + ",");
+                        sb.Append($"{Consts.TagSymbol}\"{dishType.Name}\"");
+
+                        if (dishType != day.NeededDishTypes.Last())
+                        {
+                            sb.Append($" or ");
+                        }
                     }
                 }
-
-                if (sb.Length > 0)
-                {
-                    sb.Remove(sb.Length - 1, 1);
-                    sb.Append(" ");
-                }
-                
 
                 if (day.NeededMainIngredients != null && day.NeededMainIngredients.Any(x => x.IsChecked && x.CanBeRemoved))
                 {
-                    sb.Append(Consts.IngredientSymbol);
+                    var needEnd = false;
+                    if (sb.Length > 0)
+                    {
+                        if (day.NeededDishTypes != null && day.NeededDishTypes.Count > 1)
+                        {
+                            sb.Insert(0, '(');
+                            sb.Append(")");
+                        }
+
+                        sb.Append(" and ");
+
+                        if (day.NeededMainIngredients.Count > 1)
+                        {
+                            sb.Append("(");
+                            needEnd = true;
+                        }
+                    }
+
                     foreach (var mainIngredient in day.NeededMainIngredients)
                     {
-                        sb.Append(mainIngredient.Name + ",");
-                    }
-                }
+                        sb.Append($"{Consts.TagSymbol}\"{mainIngredient.Name}\"");
 
-                if (sb.Length > 0)
-                {
-                    sb.Remove(sb.Length - 1, 1);
+                        if (mainIngredient != day.NeededMainIngredients.Last())
+                        {
+                            sb.Append($" or ");
+                        }
+                    }
+
+                    if (needEnd)
+                    {
+                        sb.Append(')');
+                    }
                 }
 
                 FilterText = sb.ToString();
             }
         }
 
+        private bool built = false;
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)
         {
-            if (FilterContext == null)
+            if (FilterContext == null || !built)
                 return;
 
-            if (e.Item is RecipeEdit recipe)
+            if (e.Item is RecipeSelect recipe)
             {
                 e.Accepted = FilterContext.Filter(recipe);
             }
         }
 
         private string? filterText;
-        private FilterContext<RecipeEdit> FilterContext { get; set; }
+        private FilterContext<RecipeSelect> FilterContext { get; set; }
         public string? FilterText
         {
             get => filterText;
             set
             {
-                if (filterText != value && string.IsNullOrEmpty(value))
+                if (filterText != value && !string.IsNullOrEmpty(value))
                 {
-                    filterText = value;
+                    built = true;
                     FilterContext.BuildExpression(value);
                     RecipiesSource.View.Refresh();
                 }
+                else
+                {
+                    built = false;
+                }
+
+                filterText = value;
             }
         }
 
-        private bool HasTag(RecipeEdit recipe, string category)
+        // TODO: duplicate from RecipiesViewModel.cs
+        private readonly Dictionary<Guid, RecipeFull> recipeCache = new Dictionary<Guid, RecipeFull>();
+        private bool HasTag(RecipeSelect recipe, string category)
         {
-            return recipe.Tags != null && recipe.Tags.Any(x => x.Name?.ToUpperInvariant() == category.ToUpperInvariant());
+            RecipeFull recipeDb;
+
+            if (recipeCache.ContainsKey(recipe.ID))
+            {
+                recipeDb = recipeCache[recipe.ID];
+            }
+            else
+            {
+                recipeDb = RecipeService.GetProjection<RecipeFull>(recipe.ID);
+                recipeCache.Add(recipe.ID, recipeDb);
+            }
+
+            return recipeDb.Tags != null && recipeDb.Tags.Any(x => x.Name.ToUpperInvariant() == category.ToUpperInvariant());
         }
 
-        private bool HasIngredient(RecipeEdit recipe, string category)
+        private bool HasIngredient(RecipeSelect recipe, string category)
         {
+            RecipeFull recipeDb;
+
+            if (recipeCache.ContainsKey(recipe.ID))
+            {
+                recipeDb = recipeCache[recipe.ID];
+            }
+            else
+            {
+                recipeDb = RecipeService.GetProjection<RecipeFull>(recipe.ID);
+                recipeCache.Add(recipe.ID, recipeDb);
+            }
+
             // Ищем среди ингредиентов
-            if (recipe.Ingredients != null
-                && recipe.Ingredients.Any(x => x.Ingredient?.Name?.ToUpperInvariant() == category.ToUpperInvariant()))
+            if (recipeDb.Ingredients != null
+                && recipeDb.Ingredients.Any(x => x.Ingredient.Name.ToUpperInvariant() == category.ToUpperInvariant()))
             {
                 return true;
             }
 
             // Ищем среди групп ингредиентов
-            if (recipe.IngredientGroups != null)
+            if (recipeDb.IngredientGroups != null)
             {
-                foreach (var group in recipe.IngredientGroups)
+                foreach (var group in recipeDb.IngredientGroups)
                 {
-                    if (group.Ingredients.Any(x => x.Ingredient?.Name?.ToUpperInvariant() == category.ToUpperInvariant()))
+                    if (group.Ingredients.Any(x => x.Ingredient.Name.ToUpperInvariant() == category.ToUpperInvariant()))
                     {
                         return true;
                     }
