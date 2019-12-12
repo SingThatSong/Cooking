@@ -26,13 +26,13 @@ namespace Cooking.Pages
 
         public DelegateCommand LoadedCommand { get; }
 
-        public RecepiesViewModel()
+        public RecepiesViewModel(DialogUtils dialogUtils)
         {
             FilterContext = new FilterContext<RecipeSelectDto>().AddFilter("name", HasName, isDefault:true)
                                                              .AddFilter(Consts.IngredientSymbol, HasIngredient)
                                                              .AddFilter(Consts.TagSymbol, HasTag);
 
-            dialogUtils = new DialogUtils(this);
+            this.dialogUtils = dialogUtils;
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
 
 
@@ -154,12 +154,12 @@ namespace Cooking.Pages
 
         public async void ViewRecipe(Guid recipeId)
         {
-            await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: new RecipeViewModel(recipeId)).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: new RecipeViewModel(recipeId, dialogUtils)).ConfigureAwait(false);
         }
 
         public async void AddRecipe()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>("Новый рецепт", content: new RecipeViewModel() { IsEditing = true }).ConfigureAwait(false); ;
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>("Новый рецепт", content: new RecipeViewModel(dialogUtils) { IsEditing = true }).ConfigureAwait(false); ;
 
             if (viewModel.DialogResultOk)
             {

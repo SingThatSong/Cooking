@@ -7,6 +7,7 @@ using Plafi;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
@@ -15,15 +16,15 @@ namespace Cooking.Pages
 {
     public partial class RecipeSelectViewModel : OkCancelViewModel
     {
-        public RecipeSelectViewModel() : this(null)
-        {
-
-        }
 
         public Guid SelectedRecipeID { get; set; }
 
-        public RecipeSelectViewModel(DayPlan? day = null)
+        public RecipeSelectViewModel(DialogUtils dialogUtils, DayPlan? day = null)
         {
+            Debug.Assert(dialogUtils != null);
+
+            this.dialogUtils = dialogUtils;
+
             FilterContext = new FilterContext<RecipeSelectDto>().AddFilter(Consts.IngredientSymbol, HasIngredient)
                                                                 .AddFilter(Consts.TagSymbol, HasTag);
 
@@ -101,6 +102,7 @@ namespace Cooking.Pages
 
                 FilterText = sb.ToString();
             }
+
         }
 
         private bool built = false;
@@ -194,7 +196,7 @@ namespace Cooking.Pages
 
         public async void ViewRecipe(RecipeEdit recipe)
         {
-            var viewModel = new RecipeViewModel(recipe.ID);
+            var viewModel = new RecipeViewModel(recipe.ID, dialogUtils);
 
             var dialog = new CustomDialog()
             {
@@ -209,6 +211,7 @@ namespace Cooking.Pages
         }
 
         private readonly List<RecipeSelectDto> _recipies;
+        private readonly DialogUtils dialogUtils;
 
         public RecipeSelectDto? SelectedRecipe => _recipies.FirstOrDefault(x => x.IsSelected);
 

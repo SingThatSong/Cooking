@@ -2,6 +2,7 @@
 
 using Cooking.Pages.Ingredients;
 using Cooking.Pages.Tags;
+using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Unity;
@@ -54,11 +55,21 @@ namespace Cooking
         {
             // Top-level pages are constant
             containerRegistry.RegisterSingleton<MainWindow>();
+            containerRegistry.RegisterSingleton<MainWindowViewModel>();
             containerRegistry.RegisterSingleton<MainPage>();
             containerRegistry.RegisterSingleton<Recepies>();
             containerRegistry.RegisterSingleton<IngredientsView>();
             containerRegistry.RegisterSingleton<TagsView>();
             containerRegistry.RegisterSingleton<GarnishesView>();
+
+            containerRegistry.RegisterInstance(new DialogUtils(
+                                                        Container.Resolve<MainWindowViewModel>(),
+                                                        DialogCoordinator.Instance,
+                                                        Container.Resolve<IContainerExtension>()
+                                                   )
+                                              );
+
+            containerRegistry.RegisterForNavigation<WeekSettings>();
         }
 
         protected override Window CreateShell()

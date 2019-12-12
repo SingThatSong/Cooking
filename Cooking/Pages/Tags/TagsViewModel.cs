@@ -21,6 +21,7 @@ namespace Cooking.Pages
     public partial class TagsViewModel
     {
         private readonly IContainerExtension container;
+        private readonly DialogUtils dialogUtils;
 
         public ObservableCollection<TagEdit>? Tags { get; private set; }
         public bool IsEditing { get; set; }
@@ -31,15 +32,19 @@ namespace Cooking.Pages
         public DelegateCommand<Guid> DeleteTagCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public TagsViewModel(IContainerExtension container)
+        public TagsViewModel(IContainerExtension container, DialogUtils dialogUtils)
         {
-            LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
+            Debug.Assert(container != null);
+            Debug.Assert(dialogUtils != null);
 
+            this.container = container;
+            this.dialogUtils = dialogUtils;
+
+            LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
             AddTagCommand = new DelegateCommand(AddTag);
             DeleteTagCommand = new DelegateCommand<Guid>(DeleteTag);
             ViewTagCommand = new DelegateCommand<TagEdit>(ViewTag);
             EditTagCommand = new AsyncDelegateCommand<TagEdit>(EditTag);
-            this.container = container;
         }
 
         private void OnLoaded()
@@ -64,7 +69,7 @@ namespace Cooking.Pages
         private async Task EditTag(TagEdit tag)
         {
             var viewModel = new TagEditViewModel(tag.MapTo<TagEdit>());
-            await new DialogUtils(this).ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Редактирование тега", viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Редактирование тега", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
@@ -97,7 +102,7 @@ namespace Cooking.Pages
 
         public async void AddTag()
         {
-            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Новый тег").ConfigureAwait(false);
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Новый тег").ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {

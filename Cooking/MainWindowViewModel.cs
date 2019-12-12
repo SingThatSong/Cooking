@@ -13,6 +13,7 @@ namespace Cooking
     [AddINotifyPropertyChangedInterface]
     public class MainWindowViewModel
     {
+        private Guid t = Guid.NewGuid();
         public MainWindowViewModel()
         {
             SelectedMenuItem = MenuItems[0] as HamburgerMenuIconItem;

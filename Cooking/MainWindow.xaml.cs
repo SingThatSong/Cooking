@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using Prism.Regions;
 using System;
@@ -18,6 +19,9 @@ namespace Cooking
             InitializeComponent();
             this.container = container;
             this.regionManager = regionManager;
+
+
+            DialogParticipation.SetRegister(this, DataContext);
         }
 
         private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
@@ -25,7 +29,7 @@ namespace Cooking
             var viewType = ((HamburgerMenuItem)e.InvokedItem).Tag as Type;
             var view = container.Resolve(viewType);
 
-            IRegion region = regionManager.Regions["PageDataRegion"];
+            IRegion region = regionManager.Regions[Consts.MainContentRegion];
             if (!region.Views.Contains(view))
             {
                 region.Add(view);

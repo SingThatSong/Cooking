@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Cooking.Pages.Dialogs
+namespace Cooking.Pages
 {
     /// <summary>
     /// Логика взаимодействия для WeekSettings.xaml
@@ -11,11 +11,6 @@ namespace Cooking.Pages.Dialogs
         public WeekSettings()
         {
             InitializeComponent();
-
-            // Для того, чтобы окно могло работать с нажатием клавиш на клавиатуре
-            // https://stackoverflow.com/a/21352864
-            Focusable = true;
-            Loaded += (s, e) => Keyboard.Focus(this);
         }
     }
 }

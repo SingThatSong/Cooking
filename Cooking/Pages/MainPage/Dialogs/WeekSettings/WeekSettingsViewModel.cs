@@ -3,6 +3,7 @@ using Cooking.DTO;
 using Cooking.Pages.Dialogs;
 using Cooking.Pages.ViewModel;
 using Data.Model;
+using Prism.Regions;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -12,29 +13,18 @@ using System.Threading.Tasks;
 
 namespace Cooking.Pages
 {
-    public class WeekSettingsViewModel : OkCancelViewModel
+    public class WeekSettingsViewModel : INavigationAware
     {
-        readonly DialogUtils dialogUtils;
-
-        public DateTime WeekStart { get; }
-        public DateTime WeekEnd { get; }
+        private readonly DialogUtils dialogUtils;
 
         public List<DayPlan> Days { get; }
 
         public DelegateCommand<DayPlan> AddMainIngredientCommand { get; }
         public DelegateCommand<DayPlan> AddDishTypesCommand { get; }
         public DelegateCommand<DayPlan> AddCalorieTypesCommand { get; }
-        public WeekSettingsViewModel() 
-        {
-            throw new NotImplementedException();
-        }
 
-        public WeekSettingsViewModel(DateTime weekStart, DateTime weekEnd, DialogUtils dialogUtils)
+        public WeekSettingsViewModel(DialogUtils dialogUtils)
         {
-            WeekStart = weekStart;
-            WeekEnd = weekEnd;
-            this.dialogUtils = dialogUtils;
-
             Days = new List<DayPlan>()
             {
                 new DayPlan(),
@@ -89,6 +79,7 @@ namespace Cooking.Pages
                     day.CalorieTypes = new ObservableCollection<CalorieTypeSelection>(list);
                 }
             });
+            this.dialogUtils = dialogUtils;
         }
 
         private async Task<ObservableCollection<TagEdit>> GetTags(TagType type, ObservableCollection<TagEdit> current)
@@ -155,5 +146,13 @@ namespace Cooking.Pages
                 }
             }
         }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+
+        public void OnNavigatedFrom(NavigationContext navigationContext) { }
     }
 }

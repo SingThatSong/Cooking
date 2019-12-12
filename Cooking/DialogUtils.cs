@@ -1,8 +1,6 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Prism.Ioc;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,12 +9,19 @@ namespace Cooking
 {
     public class DialogUtils
     {
+        private readonly IContainerProvider containerProvider;
+
         public IDialogCoordinator DialogCoordinator { get; }
         public object ViewModel { get; }
 
-        public DialogUtils(object viewModel)
+        public DialogUtils(object viewModel, IDialogCoordinator dialogCoordinator, IContainerExtension containerProvider)
         {
-            DialogCoordinator = MahApps.Metro.Controls.Dialogs.DialogCoordinator.Instance;
+            Debug.Assert(viewModel != null);
+            Debug.Assert(dialogCoordinator != null);
+            Debug.Assert(containerProvider != null);
+
+            DialogCoordinator = dialogCoordinator;
+            this.containerProvider = containerProvider;
             ViewModel = viewModel;
         }
 
@@ -52,9 +57,12 @@ namespace Cooking
         /// <returns>Объект ViewModel, который может нести значения, введённые пользователем</returns>
         public virtual async Task<TDialogContent> ShowCustomMessageAsync<TDialog, TDialogContent>(string? title = null, TDialogContent? content = null)
             where TDialog : UserControl, new()
-            where TDialogContent : class, new()
+            where TDialogContent : class
         {
-            content ??= new TDialogContent();
+            if (content == null)
+            {
+                content = containerProvider.Resolve<TDialogContent>();
+            }
 
             await Application.Current.Dispatcher.Invoke(async () =>
             {

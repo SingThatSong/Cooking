@@ -8,6 +8,7 @@
   xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:prism="http://prismlibrary.com/"
+  xmlns:local="clr-namespace:Cooking"
   Title="Кулинарная книжка"
   Width="1000"
   Height="650"
@@ -160,6 +161,6 @@
      SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
      Style="{StaticResource HamburgerMenuCreatorsStyle}"
      VerticalScrollBarOnLeftSide="False" 
-     prism:RegionManager.RegionName="PageDataRegion" />
+     prism:RegionManager.RegionName="{x:Static local:Consts.MainContentRegion}" />
 
 </mahapps:MetroWindow>

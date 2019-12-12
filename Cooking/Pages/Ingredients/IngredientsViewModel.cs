@@ -21,6 +21,7 @@ namespace Cooking.Pages
     public partial class IngredientsViewModel
     {
         private readonly IContainerExtension container;
+        private readonly DialogUtils dialogUtils;
 
         public ObservableCollection<IngredientEdit>? Ingredients { get; private set; }
         public bool IsEditing { get; set; }
@@ -32,14 +33,19 @@ namespace Cooking.Pages
         public DelegateCommand<Guid> DeleteCategoryCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public IngredientsViewModel(IContainerExtension container)
+        public IngredientsViewModel(IContainerExtension container, DialogUtils dialogUtils)
         {
+            Debug.Assert(container != null);
+            Debug.Assert(dialogUtils != null);
+
+            this.container = container;
+            this.dialogUtils = dialogUtils;
+
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
             ViewIngredientCommand = new DelegateCommand<IngredientEdit>(ViewIngredient);
             AddIngredientCommand = new DelegateCommand(AddRecipe);
             DeleteCategoryCommand = new DelegateCommand<Guid>(DeleteIngredient);
             EditCategoryCommand = new DelegateCommand<IngredientEdit>(EditIngredient);
-            this.container = container;
         }
 
         private void ViewIngredient(IngredientEdit ingredient)
@@ -57,7 +63,7 @@ namespace Cooking.Pages
         private async void EditIngredient(IngredientEdit ingredient)
         {
             var viewModel = new IngredientEditViewModel(ingredient.MapTo<IngredientEdit>());
-            await new DialogUtils(this).ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Редактирование ингредиента", viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Редактирование ингредиента", viewModel).ConfigureAwait(false);
             
             if (viewModel.DialogResultOk)
             {
@@ -96,7 +102,7 @@ namespace Cooking.Pages
 
         public async void AddRecipe()
         {
-            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Новый ингредиент").ConfigureAwait(false);
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Новый ингредиент").ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {

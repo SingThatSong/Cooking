@@ -7,6 +7,7 @@ using PropertyChanged;
 using ServiceLayer;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Cooking.Pages.Ingredients
@@ -30,11 +31,11 @@ namespace Cooking.Pages.Ingredients
 
         public List<IngredientEdit> AllIngredients { get; }
 
-        public RecipeIngredientEditViewModel() : this(null) { }
-
-        public RecipeIngredientEditViewModel(RecipeIngredientEdit? ingredient = null)
+        public RecipeIngredientEditViewModel(DialogUtils dialogUtils, RecipeIngredientEdit? ingredient = null)
         {
-            dialogUtils = new DialogUtils(this);
+            Debug.Assert(dialogUtils != null);
+
+            this.dialogUtils = dialogUtils;
             Ingredient = ingredient ?? new RecipeIngredientEdit();
 
             AddMultipleCommand = new DelegateCommand(AddMultiple, canExecute: () => IsCreation);

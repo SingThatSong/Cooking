@@ -5,23 +5,27 @@ using MahApps.Metro.Controls.Dialogs;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Cooking.Pages
 {
     public class ShowGeneratedWeekViewModel : OkCancelViewModel
     {
-        public ShowGeneratedWeekViewModel() : base()
-        {
-        }
+        private readonly DialogUtils dialogUtils;
 
-        public ShowGeneratedWeekViewModel(DateTime weekStart, DateTime weekEnd, IEnumerable<DayPlan> days) : base()
+        public ShowGeneratedWeekViewModel(DateTime weekStart, 
+                                          DateTime weekEnd, 
+                                          IEnumerable<DayPlan> days,
+                                          DialogUtils dialogUtils) : base()
         {
+            Debug.Assert(dialogUtils != null);
+
             WeekStart = weekStart;
             WeekEnd = weekEnd;
 
             Days = days;
-
+            this.dialogUtils = dialogUtils;
             ReturnCommand = new DelegateCommand(async () => {
                     ReturnBack = true;
                     var current = await DialogCoordinator.Instance.GetCurrentDialogAsync<BaseMetroDialog>(this).ConfigureAwait(false);
@@ -35,9 +39,9 @@ namespace Cooking.Pages
 
             SetRecipeManuallyCommand = new DelegateCommand<DayPlan>(async (day) =>
             {
-                var viewModel = new RecipeSelectViewModel(day);
+                var viewModel = new RecipeSelectViewModel(dialogUtils, day);
 
-                await new DialogUtils(this).ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>(content: viewModel).ConfigureAwait(false);
+                await dialogUtils.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>(content: viewModel).ConfigureAwait(false);
 
                 if (viewModel.DialogResultOk)
                 {
@@ -61,8 +65,8 @@ namespace Cooking.Pages
                  day?.RecipeAlternatives?.Count > 1);
 
             ShowRecipe = new DelegateCommand<DayPlan>(async (day) => {
-                var viewModel = new RecipeViewModel(day.Recipe.ID);
-                await new DialogUtils(this).ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: viewModel).ConfigureAwait(false);
+                var viewModel = new RecipeViewModel(day.Recipe.ID, dialogUtils);
+                await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: viewModel).ConfigureAwait(false);
             });
         }
 

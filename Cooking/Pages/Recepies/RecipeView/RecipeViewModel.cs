@@ -8,6 +8,7 @@ using MahApps.Metro.Controls.Dialogs;
 using ServiceLayer;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -53,10 +54,12 @@ namespace Cooking.Pages
         public DelegateCommand<RecipeIngredientEdit> RemoveIngredientCommand { get; }
         public AsyncDelegateCommand<Guid> DeleteRecipeCommand { get; }
 
-        public RecipeViewModel() : this(null) { }
+        public RecipeViewModel(DialogUtils dialogUtils) : this(null, dialogUtils) { }
 
-        public RecipeViewModel(Guid? recipeId)
+        public RecipeViewModel(Guid? recipeId, DialogUtils dialogUtils)
         {
+            Debug.Assert(dialogUtils != null);
+
             if (recipeId.HasValue)
             {
                 var recipeDb = RecipeService.GetProjection<RecipeFull>(recipeId.Value);
@@ -67,7 +70,7 @@ namespace Cooking.Pages
                 Recipe = new RecipeEdit();
             }
 
-            dialogUtils = new DialogUtils(this);
+            this.dialogUtils            = dialogUtils;
 
             ApplyChangesCommand         = new AsyncDelegateCommand(ApplyChanges);
             DeleteRecipeCommand         = new AsyncDelegateCommand<Guid>(DeleteRecipe);
@@ -114,7 +117,7 @@ namespace Cooking.Pages
 
         private async Task EditIngredient(RecipeIngredientEdit ingredient)
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Изменение ингредиента", new RecipeIngredientEditViewModel(ingredient.MapTo<RecipeIngredientEdit>()))
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Изменение ингредиента", new RecipeIngredientEditViewModel(dialogUtils, ingredient.MapTo<RecipeIngredientEdit>()))
                                                        .ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
@@ -164,7 +167,7 @@ namespace Cooking.Pages
 
         public async Task AddIngredient()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", new RecipeIngredientEditViewModel() { IsCreation = true })
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", new RecipeIngredientEditViewModel(dialogUtils) { IsCreation = true })
                                              .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
@@ -187,7 +190,7 @@ namespace Cooking.Pages
 
         public async void AddIngredientToGroup(DTO.IngredientGroupEdit group)
         {
-            var vm = new RecipeIngredientEditViewModel() { IsCreation = true };
+            var vm = new RecipeIngredientEditViewModel(dialogUtils) { IsCreation = true };
             var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", vm)
                                              .ConfigureAwait(true);
 

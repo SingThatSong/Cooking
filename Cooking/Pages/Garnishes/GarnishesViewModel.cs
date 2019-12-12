@@ -1,6 +1,5 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
-
 using Data.Model.Plan;
 using MahApps.Metro.Controls.Dialogs;
 using PropertyChanged;
@@ -16,6 +15,8 @@ namespace Cooking.Pages
     [AddINotifyPropertyChangedInterface]
     public partial class GarnishesViewModel
     {
+        private readonly DialogUtils dialogUtils;
+
         [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения", Justification = "<Ожидание>")]
         public ObservableCollection<GarnishEdit>? Garnishes { get; set; }
         public bool IsEditing { get; set; }
@@ -25,8 +26,11 @@ namespace Cooking.Pages
         public DelegateCommand<Guid> DeleteGarnishCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public GarnishesViewModel()
+        public GarnishesViewModel(DialogUtils dialogUtils)
         {
+            Debug.Assert(dialogUtils != null);
+
+            this.dialogUtils = dialogUtils;
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
             AddGarnishCommand = new DelegateCommand(AddGarnish);
             DeleteGarnishCommand = new DelegateCommand<Guid>(DeleteGarnish);
@@ -43,7 +47,7 @@ namespace Cooking.Pages
         private async void EditGarnish(GarnishEdit garnish)
         {
             var viewModel = new GarnishEditViewModel(garnish.MapTo<GarnishEdit>());
-            await new DialogUtils(this).ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Редактирование гарнира", viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Редактирование гарнира", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
@@ -75,7 +79,7 @@ namespace Cooking.Pages
 
         public async void AddGarnish()
         {
-            var viewModel = await new DialogUtils(this).ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Новый гарнир").ConfigureAwait(false);
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Новый гарнир").ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
