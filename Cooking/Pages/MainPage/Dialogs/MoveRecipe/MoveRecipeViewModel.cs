@@ -3,7 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Cooking.Pages.Recepies
+namespace Cooking.Pages
 {
     public partial class MoveRecipeViewModel : OkCancelViewModel
     {

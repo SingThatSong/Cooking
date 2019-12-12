@@ -7,11 +7,13 @@
   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
   xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:prism="http://prismlibrary.com/"
   Title="Кулинарная книжка"
   Width="1000"
   Height="650"
   ShowDialogsOverTitleBar="False"
-  mc:Ignorable="d">
+  mc:Ignorable="d"
+  prism:ViewModelLocator.AutoWireViewModel="True">
   <mahapps:MetroWindow.Resources>
     <ResourceDictionary>
       <!--  This is the template for the menu items.  -->
@@ -38,7 +40,7 @@
 
       <materialDesignConverters:BrushRoundConverter x:Key="BrushRoundConverter" />
 
-            <Style x:Key="HamburgerMenuCreatorsItemStyle"
+      <Style x:Key="HamburgerMenuCreatorsItemStyle"
                    BasedOn="{StaticResource MahApps.Styles.ListBoxItem.HamburgerMenuItem}"
                    TargetType="{x:Type ListBoxItem}">
                 <Setter Property="mahapps:ItemHelper.ActiveSelectionBackgroundBrush" Value="Transparent" />
@@ -147,23 +149,17 @@
   </mahapps:MetroWindow.WindowButtonCommands>
 
   <mahapps:HamburgerMenu
-    x:Name="HamburgerMenuControl"
-    Content="{Binding SelectedMenuItem, Mode=TwoWay}"
-    HamburgerWidth="48"
-    IsPaneOpen="False"
-    ItemInvoked="HamburgerMenuControl_OnItemInvoked"
-    ItemTemplate="{StaticResource MenuItemTemplate}"
-    ItemsSource="{Binding MenuItems}"
-    OpenPaneLength="160"
-    OptionsItemTemplate="{StaticResource MenuItemTemplate}"
-    SelectedIndex="0"
-    SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
-    Style="{StaticResource HamburgerMenuCreatorsStyle}"
-    VerticalScrollBarOnLeftSide="False">
-    <mahapps:HamburgerMenu.ContentTemplate>
-      <DataTemplate DataType="{x:Type mahapps:HamburgerMenuIconItem}">
-        <ContentControl Content="{Binding Tag}" Focusable="True" />
-      </DataTemplate>
-    </mahapps:HamburgerMenu.ContentTemplate>
-  </mahapps:HamburgerMenu>
+     x:Name="HamburgerMenuControl"
+     HamburgerWidth="48"
+     IsPaneOpen="False"
+     ItemInvoked="HamburgerMenuControl_OnItemInvoked"
+     ItemTemplate="{StaticResource MenuItemTemplate}"
+     ItemsSource="{Binding MenuItems}"
+     OpenPaneLength="160"
+     OptionsItemTemplate="{StaticResource MenuItemTemplate}"
+     SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
+     Style="{StaticResource HamburgerMenuCreatorsStyle}"
+     VerticalScrollBarOnLeftSide="False" 
+     prism:RegionManager.RegionName="PageDataRegion" />
+
 </mahapps:MetroWindow>

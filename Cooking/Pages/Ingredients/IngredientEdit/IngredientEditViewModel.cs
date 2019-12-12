@@ -1,8 +1,5 @@
-﻿using Cooking.Commands;
-using Cooking.DTO;
+﻿using Cooking.DTO;
 using Cooking.Helpers;
-using Cooking.Pages.Recepies;
-using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
 using ServiceLayer;
@@ -13,7 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages.Ingredients
+namespace Cooking.Pages
 {
     public partial class IngredientEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {

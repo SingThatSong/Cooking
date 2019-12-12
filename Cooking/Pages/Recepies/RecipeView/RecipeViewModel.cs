@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages.Recepies
+namespace Cooking.Pages
 {
     public partial class RecipeViewModel : OkCancelViewModel, IDropTarget
     {
@@ -125,7 +125,7 @@ namespace Cooking.Pages.Recepies
 
         private async Task AddTag()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectEditViewModel>("Добавление тегов", new TagSelectEditViewModel(Recipe.Tags, dialogUtils))
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>("Добавление тегов", new TagSelectViewModel(Recipe.Tags, dialogUtils))
                                              .ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)

@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using MahApps.Metro.Controls;
+using Prism.Ioc;
+using Prism.Regions;
+using System;
 
 namespace Cooking
 {
@@ -20,15 +10,28 @@ namespace Cooking
     /// </summary>
     public partial class MainWindow
     {
-        public MainWindow()
+        private readonly IContainerExtension container;
+        private readonly IRegionManager regionManager;
+
+        public MainWindow(IContainerExtension container, IRegionManager regionManager)
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
+            this.container = container;
+            this.regionManager = regionManager;
         }
 
-        private void HamburgerMenuControl_OnItemInvoked(object sender, MahApps.Metro.Controls.HamburgerMenuItemInvokedEventArgs e)
+        private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
         {
-            HamburgerMenuControl.Content = e.InvokedItem;
+            var viewType = ((HamburgerMenuItem)e.InvokedItem).Tag as Type;
+            var view = container.Resolve(viewType);
+
+            IRegion region = regionManager.Regions["PageDataRegion"];
+            if (!region.Views.Contains(view))
+            {
+                region.Add(view);
+            }
+
+            region.Activate(view);
         }
     }
 }

@@ -1,17 +1,15 @@
-﻿using AutoMapper;
-using Cooking.DTO;
-using Data.Context;
-using Data.Model;
-using Data.Model.Plan;
-using Microsoft.EntityFrameworkCore;
+﻿using Cooking.Pages;
+
+using Cooking.Pages.Ingredients;
+using Cooking.Pages.Tags;
+using Prism.Ioc;
+using Prism.Mvvm;
+using Prism.Unity;
 using ServiceLayer;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
-using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 
@@ -20,7 +18,7 @@ namespace Cooking
     /// <summary>
     /// Логика взаимодействия для App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
         public App()
         {
@@ -50,6 +48,46 @@ namespace Cooking
                 }
                 Trace.TraceError($"[{DateTime.Now.ToString(dateTimeFormat, CultureInfo.InvariantCulture)}] {exceptionDescription.ToString()}");
             }
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            // Top-level pages are constant
+            containerRegistry.RegisterSingleton<MainWindow>();
+            containerRegistry.RegisterSingleton<MainPage>();
+            containerRegistry.RegisterSingleton<Recepies>();
+            containerRegistry.RegisterSingleton<IngredientsView>();
+            containerRegistry.RegisterSingleton<TagsView>();
+            containerRegistry.RegisterSingleton<GarnishesView>();
+        }
+
+        protected override Window CreateShell()
+        {
+            return Container.Resolve<MainWindow>();
+        }
+
+        protected override void ConfigureViewModelLocator()
+        {
+            base.ConfigureViewModelLocator();
+
+            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
+            {
+                var viewName = viewType.FullName;
+                var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+
+                string viewModelName;
+
+                if (viewName != null && viewName.EndsWith("View", StringComparison.OrdinalIgnoreCase))
+                {
+                    viewModelName = $"{viewName}Model, {viewAssemblyName}";
+                }
+                else
+                {
+                    viewModelName = $"{viewName}ViewModel, {viewAssemblyName}";
+                }
+
+                return Type.GetType(viewModelName);
+            });
         }
     }
 }

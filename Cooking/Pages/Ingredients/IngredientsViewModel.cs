@@ -1,26 +1,27 @@
-﻿using AutoMapper;
-using Cooking.Commands;
+﻿using Cooking.Commands;
 using Cooking.DTO;
-using Cooking.Pages.Recepies;
+using Cooking.Pages.Ingredients;
 using Cooking.ServiceLayer;
-using Data.Context;
 using Data.Model;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Prism.Ioc;
+using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 
-namespace Cooking.Pages.Ingredients
+namespace Cooking.Pages
 {
     [AddINotifyPropertyChangedInterface]
     public partial class IngredientsViewModel
     {
+        private readonly IContainerExtension container;
+
         public ObservableCollection<IngredientEdit>? Ingredients { get; private set; }
         public bool IsEditing { get; set; }
 
@@ -31,30 +32,25 @@ namespace Cooking.Pages.Ingredients
         public DelegateCommand<Guid> DeleteCategoryCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public IngredientsViewModel()
+        public IngredientsViewModel(IContainerExtension container)
         {
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
             ViewIngredientCommand = new DelegateCommand<IngredientEdit>(ViewIngredient);
             AddIngredientCommand = new DelegateCommand(AddRecipe);
             DeleteCategoryCommand = new DelegateCommand<Guid>(DeleteIngredient);
             EditCategoryCommand = new DelegateCommand<IngredientEdit>(EditIngredient);
+            this.container = container;
         }
 
         private void ViewIngredient(IngredientEdit ingredient)
         {
-            if (Application.Current.MainWindow.DataContext is MainWindowViewModel mainWindowViewModel)
+            var recepiesView = container.Resolve<Recepies>();
+            if (recepiesView.DataContext is RecepiesViewModel recepiesViewModel)
             {
-                if (mainWindowViewModel.MenuItems[1] is HamburgerMenuIconItem hamburgerMenuIconItem)
-                {
-                    mainWindowViewModel.SelectedMenuItem = hamburgerMenuIconItem;
-                    if (mainWindowViewModel.SelectedMenuItem.Tag is RecepiesView recepiesView)
-                    {
-                        if (recepiesView.DataContext is RecepiesViewModel recepiesViewModel)
-                        {
-                            recepiesViewModel.FilterText = $"{Consts.IngredientSymbol}\"{ingredient.Name}\"";
-                        }
-                    }
-                }
+                recepiesViewModel.FilterText = $"{Consts.IngredientSymbol}\"{ingredient.Name}\"";
+
+                var mainWindowViewModel = container.Resolve<MainWindow>().DataContext as MainWindowViewModel;
+                mainWindowViewModel!.SelectMenuItemByViewType(recepiesView.GetType());
             }
         }
 

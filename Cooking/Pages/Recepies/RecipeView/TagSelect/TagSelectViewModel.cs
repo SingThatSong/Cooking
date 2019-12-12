@@ -1,30 +1,25 @@
-﻿using AutoMapper;
-using Cooking.Commands;
+﻿using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Tags;
-using Data.Context;
 using Data.Model;
-using MahApps.Metro.Controls.Dialogs;
-using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 
-namespace Cooking.Pages.Recepies
+namespace Cooking.Pages
 {
-    public partial class TagSelectEditViewModel : OkCancelViewModel
+    public partial class TagSelectViewModel : OkCancelViewModel
     {
         private readonly DialogUtils dialogUtils;
 
-        public TagSelectEditViewModel()
+        public TagSelectViewModel()
         {
             throw new NotImplementedException();
         }
 
-        public TagSelectEditViewModel(IEnumerable<TagEdit>? currentTags, DialogUtils dialogUtils)
+        public TagSelectViewModel(IEnumerable<TagEdit>? currentTags, DialogUtils dialogUtils)
         {
             this.dialogUtils = dialogUtils;
             AddTagCommand = new DelegateCommand(AddTag);
@@ -32,7 +27,7 @@ namespace Cooking.Pages.Recepies
             CtorInternal(currentTags);
         }
 
-        public TagSelectEditViewModel(IEnumerable<TagEdit>? currentTags, IEnumerable<TagEdit> allTags, DialogUtils dialogUtils)
+        public TagSelectViewModel(IEnumerable<TagEdit>? currentTags, IEnumerable<TagEdit> allTags, DialogUtils dialogUtils)
         {
             this.dialogUtils = dialogUtils;
             AddTagCommand = new DelegateCommand(AddTag);

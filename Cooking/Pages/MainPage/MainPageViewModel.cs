@@ -1,7 +1,7 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Dialogs;
-using Cooking.Pages.Recepies;
+
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
 using PropertyChanged;
@@ -90,7 +90,7 @@ namespace Cooking.Pages
         private async void SelectDinner(string dayName)
         {
             Debug.WriteLine("MainPageViewModel.SelectDinner");
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeSelectView, RecipeSelectViewModel>().ConfigureAwait(false);
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>().ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {

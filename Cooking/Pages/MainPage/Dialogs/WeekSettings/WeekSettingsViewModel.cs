@@ -1,8 +1,8 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
-using Cooking.Pages.Recepies;
+using Cooking.Pages.Dialogs;
+using Cooking.Pages.ViewModel;
 using Data.Model;
-using MahApps.Metro.Controls.Dialogs;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages.Dialogs
+namespace Cooking.Pages
 {
     public class WeekSettingsViewModel : OkCancelViewModel
     {
@@ -101,8 +101,8 @@ namespace Cooking.Pages.Dialogs
             allTags[0].IsChecked = false;
             allTags.ForEach(x => x.Type = type);
 
-            var viewModel = new TagSelectEditViewModel(current, allTags, dialogUtils);
-            await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectEditViewModel>($"Категории {type}", viewModel).ConfigureAwait(false);
+            var viewModel = new TagSelectViewModel(current, allTags, dialogUtils);
+            await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>($"Категории {type}", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {

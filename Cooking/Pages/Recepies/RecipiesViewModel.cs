@@ -1,12 +1,7 @@
-﻿using AutoMapper;
-using Cooking.Commands;
+﻿using Cooking.Commands;
 using Cooking.DTO;
-using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
-using Data.Context;
 using Data.Model;
-using MahApps.Metro.Controls.Dialogs;
-using Microsoft.EntityFrameworkCore;
 using Plafi;
 using PropertyChanged;
 using ServiceLayer;
@@ -18,13 +13,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows.Data;
 
-namespace Cooking.Pages.Recepies
+namespace Cooking.Pages
 {
     [AddINotifyPropertyChangedInterface]
     public partial class RecepiesViewModel
     {
         public CollectionViewSource RecipiesSource { get; set; }
-        public ObservableCollection<RecipeSelect>? Recipies { get; private set; }
+        public ObservableCollection<RecipeSelectDto>? Recipies { get; private set; }
 
         public DelegateCommand AddRecipeCommand { get; }
         public DelegateCommand<Guid> ViewRecipeCommand { get; }
@@ -33,7 +28,7 @@ namespace Cooking.Pages.Recepies
 
         public RecepiesViewModel()
         {
-            FilterContext = new FilterContext<RecipeSelect>().AddFilter("name", HasName, isDefault:true)
+            FilterContext = new FilterContext<RecipeSelectDto>().AddFilter("name", HasName, isDefault:true)
                                                              .AddFilter(Consts.IngredientSymbol, HasIngredient)
                                                              .AddFilter(Consts.TagSymbol, HasTag);
 
@@ -47,7 +42,7 @@ namespace Cooking.Pages.Recepies
             RecipiesSource = new CollectionViewSource();
             RecipiesSource.Filter += RecipiesSource_Filter;
             RecipiesSource.IsLiveSortingRequested = true;
-            RecipiesSource.SortDescriptions.Add(new SortDescription() { PropertyName = nameof(RecipeSelect.Name) });
+            RecipiesSource.SortDescriptions.Add(new SortDescription() { PropertyName = nameof(RecipeSelectDto.Name) });
         }
 
         private void OnLoaded()
@@ -55,7 +50,7 @@ namespace Cooking.Pages.Recepies
             Debug.WriteLine("RecepiesViewModel.OnLoaded");
 
             Recipies = RecipeService.GetRecipies()
-                                    .MapTo<ObservableCollection<RecipeSelect>>();
+                                    .MapTo<ObservableCollection<RecipeSelectDto>>();
 
             RecipiesSource.Source = Recipies;
         }
@@ -65,7 +60,7 @@ namespace Cooking.Pages.Recepies
             if (FilterContext == null || !expressionBuilt)
                 return;
 
-            if (e.Item is RecipeSelect recipe)
+            if (e.Item is RecipeSelectDto recipe)
             {
                 e.Accepted = FilterContext.Filter(recipe);
             }
@@ -74,7 +69,7 @@ namespace Cooking.Pages.Recepies
         private string? filterText;
         private readonly DialogUtils dialogUtils;
         private bool expressionBuilt = false;
-        private FilterContext<RecipeSelect> FilterContext { get; set; }
+        private FilterContext<RecipeSelectDto> FilterContext { get; set; }
         public string? FilterText
         {
             get => filterText;
@@ -97,14 +92,14 @@ namespace Cooking.Pages.Recepies
                 }
             }
         }
-        private bool HasName(RecipeSelect recipe, string name)
+        private bool HasName(RecipeSelectDto recipe, string name)
         {
             return recipe.Name.ToUpperInvariant().Contains(name.ToUpperInvariant(), StringComparison.Ordinal);
         }
 
 
         private readonly Dictionary<Guid, RecipeFull> recipeCache = new Dictionary<Guid, RecipeFull>();
-        private bool HasTag(RecipeSelect recipe, string category)
+        private bool HasTag(RecipeSelectDto recipe, string category)
         {
             RecipeFull recipeDb;
 
@@ -121,7 +116,7 @@ namespace Cooking.Pages.Recepies
             return recipeDb.Tags != null && recipeDb.Tags.Any(x => x.Name.ToUpperInvariant() == category.ToUpperInvariant());
         }
 
-        private bool HasIngredient(RecipeSelect recipe, string category)
+        private bool HasIngredient(RecipeSelectDto recipe, string category)
         {
             RecipeFull recipeDb;
 
@@ -170,7 +165,7 @@ namespace Cooking.Pages.Recepies
             {
                 var id = await RecipeService.CreateAsync(viewModel.Recipe.MapTo<Recipe>()).ConfigureAwait(false);
                 viewModel.Recipe.ID = id;
-                Recipies!.Add(viewModel.Recipe.MapTo<RecipeSelect>());
+                Recipies!.Add(viewModel.Recipe.MapTo<RecipeSelectDto>());
             }
         }
     }

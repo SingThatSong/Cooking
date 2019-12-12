@@ -1,10 +1,6 @@
-﻿using Cooking.Commands;
-using Cooking.DTO;
+﻿using Cooking.DTO;
 using Cooking.Helpers;
-using Cooking.Pages.Recepies;
-using Data.Context;
 using MahApps.Metro.Controls.Dialogs;
-using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -12,7 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages.Garnishes
+namespace Cooking.Pages
 {
     public partial class GarnishEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {

@@ -1,9 +1,11 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
-using Cooking.Pages.Recepies;
+using Cooking.Pages.Tags;
+
 using Data.Model;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Prism.Ioc;
 using PropertyChanged;
 using ServiceLayer;
 using System;
@@ -13,11 +15,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Cooking.Pages.Tags
+namespace Cooking.Pages
 {
     [AddINotifyPropertyChangedInterface]
     public partial class TagsViewModel
     {
+        private readonly IContainerExtension container;
+
         public ObservableCollection<TagEdit>? Tags { get; private set; }
         public bool IsEditing { get; set; }
 
@@ -27,7 +31,7 @@ namespace Cooking.Pages.Tags
         public DelegateCommand<Guid> DeleteTagCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public TagsViewModel()
+        public TagsViewModel(IContainerExtension container)
         {
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
 
@@ -35,6 +39,7 @@ namespace Cooking.Pages.Tags
             DeleteTagCommand = new DelegateCommand<Guid>(DeleteTag);
             ViewTagCommand = new DelegateCommand<TagEdit>(ViewTag);
             EditTagCommand = new AsyncDelegateCommand<TagEdit>(EditTag);
+            this.container = container;
         }
 
         private void OnLoaded()
@@ -46,15 +51,13 @@ namespace Cooking.Pages.Tags
 
         private void ViewTag(TagEdit tag)
         {
-            if (Application.Current.MainWindow.DataContext is MainWindowViewModel mainWindowViewModel)
+            var recepiesView = container.Resolve<Recepies>();
+            if (recepiesView.DataContext is RecepiesViewModel recepiesViewModel)
             {
-                mainWindowViewModel.SelectedMenuItem = mainWindowViewModel.MenuItems[1] as HamburgerMenuIconItem;
-                if (mainWindowViewModel.SelectedMenuItem != null 
-                    && mainWindowViewModel.SelectedMenuItem.Tag is RecepiesView recepiesView
-                    && recepiesView.DataContext is RecepiesViewModel recepiesViewModel)
-                {
-                    recepiesViewModel.FilterText = $"{Consts.TagSymbol}\"{tag.Name}\"";
-                }
+                recepiesViewModel.FilterText = $"{Consts.TagSymbol}\"{tag.Name}\"";
+
+                var mainWindowViewModel = container.Resolve<MainWindow>().DataContext as MainWindowViewModel;
+                mainWindowViewModel!.SelectMenuItemByViewType(recepiesView.GetType());
             }
         }
 

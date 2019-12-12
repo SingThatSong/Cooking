@@ -1,7 +1,7 @@
 ﻿using PropertyChanged;
 using System;
 
-namespace Cooking.Pages.Recepies
+namespace Cooking.Pages
 {
     [AddINotifyPropertyChangedInterface]
     public class SelectDay

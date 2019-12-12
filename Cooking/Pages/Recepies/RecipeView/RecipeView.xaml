@@ -1,5 +1,5 @@
 ﻿<UserControl
-  x:Class="Cooking.Pages.Recepies.RecipeView"
+  x:Class="Cooking.Pages.RecipeView"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:System="clr-namespace:System;assembly=mscorlib"

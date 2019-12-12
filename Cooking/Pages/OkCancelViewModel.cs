@@ -1,9 +1,7 @@
 ﻿using Cooking.Commands;
-using MahApps.Metro.Controls.Dialogs;
-using PropertyChanged;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages.Recepies
+namespace Cooking.Pages
 {
     public partial class OkCancelViewModel : DialogViewModel
     {

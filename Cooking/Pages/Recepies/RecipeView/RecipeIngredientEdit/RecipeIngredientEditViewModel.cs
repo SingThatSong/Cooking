@@ -1,18 +1,12 @@
-﻿using AutoMapper;
-using Cooking.Commands;
+﻿using Cooking.Commands;
 using Cooking.DTO;
-using Cooking.Pages.Recepies;
+
 using Cooking.ServiceLayer;
-using Data.Context;
 using Data.Model;
-using MahApps.Metro.Controls.Dialogs;
 using PropertyChanged;
 using ServiceLayer;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cooking.Pages.Ingredients

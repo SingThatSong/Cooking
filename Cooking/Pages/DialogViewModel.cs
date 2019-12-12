@@ -1,10 +1,9 @@
 ﻿using Cooking.Commands;
 using MahApps.Metro.Controls.Dialogs;
-using System.ComponentModel;
 using PropertyChanged;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages.Recepies
+namespace Cooking.Pages
 {
     [AddINotifyPropertyChangedInterface]
     public partial class DialogViewModel

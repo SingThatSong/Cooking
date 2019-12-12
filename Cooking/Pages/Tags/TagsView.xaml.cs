@@ -1,4 +1,4 @@
-﻿namespace Cooking.Pages.Tags
+﻿namespace Cooking.Pages
 {
     /// <summary>
     /// Логика взаимодействия для UserControl1.xaml

@@ -1,13 +1,13 @@
 ﻿using System.Windows.Input;
 
-namespace Cooking.Pages.Recepies
+namespace Cooking.Pages
 {
     /// <summary>
     /// Логика взаимодействия для UserControl1.xaml
     /// </summary>
-    public partial class TagSelectView
+    public partial class TagSelect
     {
-        public TagSelectView()
+        public TagSelect()
         {
             InitializeComponent();
 

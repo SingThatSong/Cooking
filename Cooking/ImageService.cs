@@ -1,20 +1,8 @@
-﻿using Cooking.Commands;
-using Cooking.DTO;
-using Cooking.Pages.Ingredients;
-using Cooking.ServiceLayer.Projections;
-using Data.Model;
-using GongSolutions.Wpf.DragDrop;
-using MahApps.Metro.Controls.Dialogs;
-using Microsoft.Win32;
-using ServiceLayer;
-using System;
-using System.Collections.ObjectModel;
+﻿using Microsoft.Win32;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Cooking
 {

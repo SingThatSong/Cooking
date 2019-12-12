@@ -83,7 +83,7 @@
 
     <!--  Integer rating value  -->
     <TextBlock
-      Margin="5,0"
+      Margin="5 0"
       FontSize="20"
       Text="{Binding IntegerValue, ElementName=RatingControl, Mode=OneWay}" />
 

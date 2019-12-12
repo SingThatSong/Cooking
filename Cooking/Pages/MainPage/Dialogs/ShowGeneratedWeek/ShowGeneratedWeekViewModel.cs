@@ -1,15 +1,13 @@
 ﻿using Cooking.Commands;
-using Cooking.Pages.Recepies;
-using Cooking.ServiceLayer;
+using Cooking.Pages.Dialogs;
 using Cooking.ServiceLayer.Projections;
 using MahApps.Metro.Controls.Dialogs;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 
-namespace Cooking.Pages.Dialogs
+namespace Cooking.Pages
 {
     public class ShowGeneratedWeekViewModel : OkCancelViewModel
     {
@@ -39,7 +37,7 @@ namespace Cooking.Pages.Dialogs
             {
                 var viewModel = new RecipeSelectViewModel(day);
 
-                await new DialogUtils(this).ShowCustomMessageAsync<RecipeSelectView, RecipeSelectViewModel>(content: viewModel).ConfigureAwait(false);
+                await new DialogUtils(this).ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>(content: viewModel).ConfigureAwait(false);
 
                 if (viewModel.DialogResultOk)
                 {

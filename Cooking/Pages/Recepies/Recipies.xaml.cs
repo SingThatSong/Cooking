@@ -3,9 +3,9 @@
     /// <summary>
     /// Логика взаимодействия для UserControl1.xaml
     /// </summary>
-    public partial class GarnishesView
+    public partial class Recepies
     {
-        public GarnishesView()
+        public Recepies()
         {
             InitializeComponent();
         }

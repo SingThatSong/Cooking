@@ -1,12 +1,12 @@
-﻿using Cooking.Pages.Garnishes;
+﻿using Cooking.Pages;
+
 using Cooking.Pages.Ingredients;
-using Cooking.Pages;
-using Cooking.Pages.Recepies;
 using Cooking.Pages.Tags;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using PropertyChanged;
-using System.ComponentModel;
+using System;
+using System.Linq;
 
 namespace Cooking
 {
@@ -26,33 +26,39 @@ namespace Cooking
             {
                 Label = "Главная",
                 Icon = new PackIconModern() { Kind = PackIconModernKind.Page },
-                Tag = new MainPage()
+                Tag = typeof(MainPage)
             },
             new HamburgerMenuIconItem()
             {
                 Label = "Рецепты",
                 Icon = new PackIconModern() { Kind = PackIconModernKind.FoodCupcake },
-                Tag = new RecepiesView()
+                Tag = typeof(Recepies)
             },
             new HamburgerMenuIconItem()
             {
                 Label = "Ингредиенты",
                 Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.PuzzlePieceSolid },
-                Tag = new IngredientsView()
+                Tag = typeof(IngredientsView)
             },
             new HamburgerMenuIconItem()
             {
                 Label = "Теги",
                 Icon = new PackIconModern() { Kind = PackIconModernKind.Tag },
-                Tag = new TagsView()
+                Tag = typeof(TagsView)
             },
             new HamburgerMenuIconItem()
             {
                 Label = "Гарниры",
                 Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.FoodVariant },
-                Tag = new GarnishesView(),
-                ToolTip = "Гарниры"
+                Tag = typeof(GarnishesView)
             },
         };
+
+        public void SelectMenuItemByViewType(Type type)
+        {
+#pragma warning disable CS0252
+            SelectedMenuItem = MenuItems.FirstOrDefault(x => x.Tag == type) as HamburgerMenuIconItem;
+#pragma warning restore CS0252
+        }
     }
 }

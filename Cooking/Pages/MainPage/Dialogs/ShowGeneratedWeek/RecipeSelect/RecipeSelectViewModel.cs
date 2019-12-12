@@ -7,12 +7,11 @@ using Plafi;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
-namespace Cooking.Pages.Recepies
+namespace Cooking.Pages
 {
     public partial class RecipeSelectViewModel : OkCancelViewModel
     {
@@ -25,17 +24,17 @@ namespace Cooking.Pages.Recepies
 
         public RecipeSelectViewModel(DayPlan? day = null)
         {
-            FilterContext = new FilterContext<RecipeSelect>().AddFilter(Consts.IngredientSymbol, HasIngredient)
-                                                           .AddFilter(Consts.TagSymbol, HasTag);
+            FilterContext = new FilterContext<RecipeSelectDto>().AddFilter(Consts.IngredientSymbol, HasIngredient)
+                                                                .AddFilter(Consts.TagSymbol, HasTag);
 
             var dbRecipies = RecipeService.GetRecipies();
 
-            _recipies = dbRecipies.Select(x => MapperService.Mapper.Map<RecipeSelect>(x)).ToList();
+            _recipies = dbRecipies.Select(x => MapperService.Mapper.Map<RecipeSelectDto>(x)).ToList();
 
             RecipiesSource = new CollectionViewSource() { Source = _recipies };
             RecipiesSource.Filter += RecipiesSource_Filter;
 
-            SelectRecipeCommand = new DelegateCommand<RecipeSelect>(recipe => {
+            SelectRecipeCommand = new DelegateCommand<RecipeSelectDto>(recipe => {
                     foreach(var r in _recipies.Where(x => x.IsSelected))
                     {
                         r.IsSelected = false;
@@ -110,14 +109,14 @@ namespace Cooking.Pages.Recepies
             if (FilterContext == null || !built)
                 return;
 
-            if (e.Item is RecipeSelect recipe)
+            if (e.Item is RecipeSelectDto recipe)
             {
                 e.Accepted = FilterContext.Filter(recipe);
             }
         }
 
         private string? filterText;
-        private FilterContext<RecipeSelect> FilterContext { get; set; }
+        private FilterContext<RecipeSelectDto> FilterContext { get; set; }
         public string? FilterText
         {
             get => filterText;
@@ -140,7 +139,7 @@ namespace Cooking.Pages.Recepies
 
         // TODO: duplicate from RecipiesViewModel.cs
         private readonly Dictionary<Guid, RecipeFull> recipeCache = new Dictionary<Guid, RecipeFull>();
-        private bool HasTag(RecipeSelect recipe, string category)
+        private bool HasTag(RecipeSelectDto recipe, string category)
         {
             RecipeFull recipeDb;
 
@@ -157,7 +156,7 @@ namespace Cooking.Pages.Recepies
             return recipeDb.Tags != null && recipeDb.Tags.Any(x => x.Name.ToUpperInvariant() == category.ToUpperInvariant());
         }
 
-        private bool HasIngredient(RecipeSelect recipe, string category)
+        private bool HasIngredient(RecipeSelectDto recipe, string category)
         {
             RecipeFull recipeDb;
 
@@ -209,13 +208,13 @@ namespace Cooking.Pages.Recepies
             await dialog.WaitUntilUnloadedAsync().ConfigureAwait(false);
         }
 
-        private readonly List<RecipeSelect> _recipies;
+        private readonly List<RecipeSelectDto> _recipies;
 
-        public RecipeSelect? SelectedRecipe => _recipies.FirstOrDefault(x => x.IsSelected);
+        public RecipeSelectDto? SelectedRecipe => _recipies.FirstOrDefault(x => x.IsSelected);
 
         public CollectionViewSource RecipiesSource { get; }
 
-        public DelegateCommand<RecipeSelect> SelectRecipeCommand { get; }
+        public DelegateCommand<RecipeSelectDto> SelectRecipeCommand { get; }
         public DelegateCommand<RecipeEdit> ViewRecipeCommand { get; }
     }
 }

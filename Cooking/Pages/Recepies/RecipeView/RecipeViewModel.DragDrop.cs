@@ -2,7 +2,7 @@
 using GongSolutions.Wpf.DragDrop;
 using System.Collections.ObjectModel;
 
-namespace Cooking.Pages.Recepies
+namespace Cooking.Pages
 {
     public partial class RecipeViewModel
     {

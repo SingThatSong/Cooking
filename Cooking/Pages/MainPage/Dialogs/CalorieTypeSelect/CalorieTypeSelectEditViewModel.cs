@@ -1,11 +1,12 @@
 ﻿using Cooking.Pages.Dialogs;
+
 using Data.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Cooking.Pages.Recepies
+namespace Cooking.Pages.ViewModel
 {
     public partial class CalorieTypeSelectEditViewModel : OkCancelViewModel
     {

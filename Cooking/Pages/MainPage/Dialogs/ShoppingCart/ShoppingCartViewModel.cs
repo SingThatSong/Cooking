@@ -1,12 +1,7 @@
-﻿using Cooking.Commands;
-using Microsoft.Win32;
-using ServiceLayer;
-using System;
+﻿using ServiceLayer;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 
-namespace Cooking.Pages.Recepies
+namespace Cooking.Pages
 {
     public partial class ShoppingCartViewModel : DialogViewModel
     {

@@ -1,5 +1,6 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
+
 using Data.Model.Plan;
 using MahApps.Metro.Controls.Dialogs;
 using PropertyChanged;
@@ -10,7 +11,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Cooking.Pages.Garnishes
+namespace Cooking.Pages
 {
     [AddINotifyPropertyChangedInterface]
     public partial class GarnishesViewModel
