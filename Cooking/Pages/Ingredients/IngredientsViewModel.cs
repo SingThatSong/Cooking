@@ -20,7 +20,7 @@ namespace Cooking.Pages
     [AddINotifyPropertyChangedInterface]
     public partial class IngredientsViewModel
     {
-        private readonly IContainerExtension container;
+        private readonly IRegionManager regionManager;
         private readonly DialogUtils dialogUtils;
 
         public ObservableCollection<IngredientEdit>? Ingredients { get; private set; }
@@ -33,12 +33,12 @@ namespace Cooking.Pages
         public DelegateCommand<Guid> DeleteCategoryCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public IngredientsViewModel(IContainerExtension container, DialogUtils dialogUtils)
+        public IngredientsViewModel(IRegionManager regionManager, DialogUtils dialogUtils)
         {
-            Debug.Assert(container != null);
+            Debug.Assert(regionManager != null);
             Debug.Assert(dialogUtils != null);
 
-            this.container = container;
+            this.regionManager = regionManager;
             this.dialogUtils = dialogUtils;
 
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
@@ -50,14 +50,11 @@ namespace Cooking.Pages
 
         private void ViewIngredient(IngredientEdit ingredient)
         {
-            var recepiesView = container.Resolve<Recepies>();
-            if (recepiesView.DataContext is RecepiesViewModel recepiesViewModel)
+            var parameters = new NavigationParameters()
             {
-                recepiesViewModel.FilterText = $"{Consts.IngredientSymbol}\"{ingredient.Name}\"";
-
-                var mainWindowViewModel = container.Resolve<MainWindow>().DataContext as MainWindowViewModel;
-                mainWindowViewModel!.SelectMenuItemByViewType(recepiesView.GetType());
-            }
+                { nameof(RecepiesViewModel.FilterText), $"{Consts.IngredientSymbol}\"{ingredient.Name}\"" }
+            };
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(Recepies), parameters);
         }
 
         private async void EditIngredient(IngredientEdit ingredient)

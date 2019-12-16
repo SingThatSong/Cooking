@@ -20,22 +20,12 @@ namespace Cooking
             this.container = container;
             this.regionManager = regionManager;
 
-
             DialogParticipation.SetRegister(this, DataContext);
         }
 
         private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
         {
-            var viewType = ((HamburgerMenuItem)e.InvokedItem).Tag as Type;
-            var view = container.Resolve(viewType);
-
-            IRegion region = regionManager.Regions[Consts.MainContentRegion];
-            if (!region.Views.Contains(view))
-            {
-                region.Add(view);
-            }
-
-            region.Activate(view);
+            regionManager.RequestNavigate(Consts.MainContentRegion, (((HamburgerMenuItem)e.InvokedItem).Tag as Type).Name);
         }
     }
 }

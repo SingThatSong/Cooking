@@ -3,6 +3,8 @@ using Cooking.DTO;
 using Cooking.ServiceLayer.Projections;
 using Data.Model;
 using Plafi;
+using Prism.Ioc;
+using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
 using System;
@@ -16,7 +18,7 @@ using System.Windows.Data;
 namespace Cooking.Pages
 {
     [AddINotifyPropertyChangedInterface]
-    public partial class RecepiesViewModel
+    public partial class RecepiesViewModel : INavigationAware
     {
         public CollectionViewSource RecipiesSource { get; set; }
         public ObservableCollection<RecipeSelectDto>? Recipies { get; private set; }
@@ -26,13 +28,17 @@ namespace Cooking.Pages
 
         public DelegateCommand LoadedCommand { get; }
 
-        public RecepiesViewModel(DialogUtils dialogUtils)
+        public RecepiesViewModel(DialogUtils dialogUtils, IContainerExtension container)
         {
+            Debug.Assert(dialogUtils != null);
+            Debug.Assert(container != null);
+
             FilterContext = new FilterContext<RecipeSelectDto>().AddFilter("name", HasName, isDefault:true)
                                                              .AddFilter(Consts.IngredientSymbol, HasIngredient)
                                                              .AddFilter(Consts.TagSymbol, HasTag);
 
             this.dialogUtils = dialogUtils;
+            this.container = container;
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
 
 
@@ -68,6 +74,7 @@ namespace Cooking.Pages
 
         private string? filterText;
         private readonly DialogUtils dialogUtils;
+        private readonly IContainerExtension container;
         private bool expressionBuilt = false;
         private FilterContext<RecipeSelectDto> FilterContext { get; set; }
         public string? FilterText
@@ -168,5 +175,19 @@ namespace Cooking.Pages
                 Recipies!.Add(viewModel.Recipe.MapTo<RecipeSelectDto>());
             }
         }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            if (navigationContext.Parameters[nameof(FilterText)] != null)
+            {
+                FilterText = (string)navigationContext.Parameters[nameof(FilterText)];
+            }
+
+            var mainVM = container.Resolve<MainWindowViewModel>();
+            mainVM.SelectMenuItemByViewType(typeof(Recepies));
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+        public void OnNavigatedFrom(NavigationContext navigationContext) { }
     }
 }

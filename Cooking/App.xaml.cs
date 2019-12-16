@@ -53,14 +53,8 @@ namespace Cooking
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // Top-level pages are constant
-            containerRegistry.RegisterSingleton<MainWindow>();
+            containerRegistry.Register<MainWindow>();
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
-            containerRegistry.RegisterSingleton<MainPage>();
-            containerRegistry.RegisterSingleton<Recepies>();
-            containerRegistry.RegisterSingleton<IngredientsView>();
-            containerRegistry.RegisterSingleton<TagsView>();
-            containerRegistry.RegisterSingleton<GarnishesView>();
 
             containerRegistry.RegisterInstance(new DialogUtils(
                                                         Container.Resolve<MainWindowViewModel>(),
@@ -69,7 +63,14 @@ namespace Cooking
                                                    )
                                               );
 
+
             containerRegistry.RegisterForNavigation<WeekSettings>();
+
+            containerRegistry.RegisterForNavigation<MainPage>();
+            containerRegistry.RegisterForNavigation<Recepies>();
+            containerRegistry.RegisterForNavigation<IngredientsView>();
+            containerRegistry.RegisterForNavigation<TagsView>();
+            containerRegistry.RegisterForNavigation<GarnishesView>();
         }
 
         protected override Window CreateShell()

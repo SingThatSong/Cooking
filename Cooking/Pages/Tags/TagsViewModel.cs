@@ -6,6 +6,7 @@ using Data.Model;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
+using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
 using System;
@@ -20,7 +21,7 @@ namespace Cooking.Pages
     [AddINotifyPropertyChangedInterface]
     public partial class TagsViewModel
     {
-        private readonly IContainerExtension container;
+        private readonly IRegionManager regionManager;
         private readonly DialogUtils dialogUtils;
 
         public ObservableCollection<TagEdit>? Tags { get; private set; }
@@ -32,12 +33,12 @@ namespace Cooking.Pages
         public DelegateCommand<Guid> DeleteTagCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public TagsViewModel(IContainerExtension container, DialogUtils dialogUtils)
+        public TagsViewModel(IRegionManager regionManager, DialogUtils dialogUtils)
         {
-            Debug.Assert(container != null);
+            Debug.Assert(regionManager != null);
             Debug.Assert(dialogUtils != null);
 
-            this.container = container;
+            this.regionManager = regionManager;
             this.dialogUtils = dialogUtils;
 
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
@@ -56,14 +57,11 @@ namespace Cooking.Pages
 
         private void ViewTag(TagEdit tag)
         {
-            var recepiesView = container.Resolve<Recepies>();
-            if (recepiesView.DataContext is RecepiesViewModel recepiesViewModel)
+            var parameters = new NavigationParameters()
             {
-                recepiesViewModel.FilterText = $"{Consts.TagSymbol}\"{tag.Name}\"";
-
-                var mainWindowViewModel = container.Resolve<MainWindow>().DataContext as MainWindowViewModel;
-                mainWindowViewModel!.SelectMenuItemByViewType(recepiesView.GetType());
-            }
+                { nameof(RecepiesViewModel.FilterText), $"{Consts.TagSymbol}\"{tag.Name}\"" }
+            };
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(Recepies), parameters);
         }
 
         private async Task EditTag(TagEdit tag)
