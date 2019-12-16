@@ -151,8 +151,6 @@
 
   <mahapps:HamburgerMenu
      x:Name="HamburgerMenuControl"
-     HamburgerWidth="48"
-     IsPaneOpen="False"
      ItemInvoked="HamburgerMenuControl_OnItemInvoked"
      ItemTemplate="{StaticResource MenuItemTemplate}"
      ItemsSource="{Binding MenuItems}"
@@ -160,7 +158,6 @@
      OptionsItemTemplate="{StaticResource MenuItemTemplate}"
      SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
      Style="{StaticResource HamburgerMenuCreatorsStyle}"
-     VerticalScrollBarOnLeftSide="False" 
      prism:RegionManager.RegionName="{x:Static local:Consts.MainContentRegion}" />
 
 </mahapps:MetroWindow>
