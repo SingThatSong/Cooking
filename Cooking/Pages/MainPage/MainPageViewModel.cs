@@ -1,15 +1,11 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
-using Cooking.Pages.Dialogs;
-
-using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +13,7 @@ using System.Threading.Tasks;
 namespace Cooking.Pages
 {
     [AddINotifyPropertyChangedInterface]
-    public class MainPageViewModel
+    public class MainPageViewModel : INavigationAware
     {
         private readonly DialogUtils dialogUtils;
         private readonly IRegionManager regionManager;
@@ -234,13 +230,14 @@ namespace Cooking.Pages
             }
         }
 
-        private async void CreateNewWeekAsync()
+        private void CreateNewWeekAsync()
         {
             Debug.WriteLine("MainPageViewModel.CreateNewWeekAsync");
 
-            var parameters = new NavigationParameters();
-            parameters.Add("WeekStart", WeekStart);
-            parameters.Add("WeekEnd", WeekEnd);
+            var parameters = new NavigationParameters
+            {
+                { nameof(WeekSettingsViewModel.WeekStart), WeekStart }
+            };
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(WeekSettings), parameters);
 
 
@@ -275,39 +272,19 @@ namespace Cooking.Pages
             //while (showGeneratedWeekViewModel.ReturnBack);
         }
 
-        private void GenerateRecipies(IEnumerable<DayPlan> selectedDays)
+        public async void OnNavigatedTo(NavigationContext navigationContext)
         {
-            Debug.WriteLine("MainPageViewModel.GenerateRecipies");
-            foreach (var day in selectedDays)
+            var reloadWeek = navigationContext.Parameters[Consts.ReloadWeekParameter] as bool?;
+            if (reloadWeek.HasValue && reloadWeek.Value)
             {
-                var requiredTags = new List<Guid>();
-
-                if (!day.NeededDishTypes.Contains(TagEdit.Any))
-                {
-                    requiredTags.AddRange(day.NeededDishTypes.Select(x => x.ID));
-                }
-
-                if (!day.NeededMainIngredients.Contains(TagEdit.Any))
-                {
-                    requiredTags.AddRange(day.NeededMainIngredients.Select(x => x.ID));
-                }
-
-                var requiredCalorieTyoes = new List<CalorieType>();
-                if (!day.CalorieTypes.Contains(CalorieTypeSelection.Any))
-                {
-                    requiredCalorieTyoes.AddRange(day.CalorieTypes.Select(x => x.CalorieType));
-                }
-
-                day.RecipeAlternatives = RecipeService.GetRecipiesByParameters(requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
-
-                var selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
-                var recipiesNotSelectedYet = day.RecipeAlternatives.Where(x => !selectedRecipies.Any(selected => selected!.ID == x.ID)).ToList();
-
-                if (recipiesNotSelectedYet.Count > 0)
-                { 
-                    day.Recipe = recipiesNotSelectedYet.OrderByDescending(x => RecipeService.DaysFromLasCook(x.ID)).First();
-                }
+                CurrentWeek = await GetWeekAsync(WeekStart).ConfigureAwait(false);
             }
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
         }
     }
 }

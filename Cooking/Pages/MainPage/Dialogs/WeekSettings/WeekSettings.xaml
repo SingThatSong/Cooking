@@ -20,14 +20,17 @@
     <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
   </UserControl.Resources>
 
-  <Grid Margin="20">
+  <Grid Margin="20 10">
     <Grid.RowDefinitions>
+      <RowDefinition Height="50" />
       <RowDefinition />
       <RowDefinition Height="70" />
     </Grid.RowDefinitions>
 
+    <TextBlock Text="Фильтр для блюд на неделю" FontSize="24" />
     <DataGrid
       mahapps:ItemHelper.SelectedBackgroundBrush="Transparent"
+      Grid.Row="1"
       AutoGenerateColumns="False"
       BorderThickness="0"
       CanUserAddRows="False"
@@ -182,9 +185,8 @@
       </DataGrid.Columns>
     </DataGrid>
 
-
     <StackPanel
-      Grid.Row="1"
+      Grid.Row="2"
       HorizontalAlignment="Center"
       Orientation="Horizontal">
       <Button

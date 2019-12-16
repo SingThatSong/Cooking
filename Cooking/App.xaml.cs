@@ -66,6 +66,7 @@ namespace Cooking
 
             containerRegistry.RegisterForNavigation<WeekSettings>();
 
+            containerRegistry.RegisterForNavigation<ShowGeneratedWeekView>();
             containerRegistry.RegisterForNavigation<MainPage>();
             containerRegistry.RegisterForNavigation<Recepies>();
             containerRegistry.RegisterForNavigation<IngredientsView>();

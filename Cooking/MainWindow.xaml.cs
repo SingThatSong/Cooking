@@ -11,13 +11,11 @@ namespace Cooking
     /// </summary>
     public partial class MainWindow
     {
-        private readonly IContainerExtension container;
         private readonly IRegionManager regionManager;
 
-        public MainWindow(IContainerExtension container, IRegionManager regionManager)
+        public MainWindow(IRegionManager regionManager)
         {
             InitializeComponent();
-            this.container = container;
             this.regionManager = regionManager;
 
             DialogParticipation.SetRegister(this, DataContext);

@@ -11,5 +11,7 @@ namespace Cooking
         public const string ImageFolder = "Images";
 
         public const string MainContentRegion = "PageDataRegion";
+
+        public const string ReloadWeekParameter = "ReloadWeek";
     }
 }

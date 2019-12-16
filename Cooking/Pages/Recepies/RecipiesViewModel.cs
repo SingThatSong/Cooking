@@ -63,7 +63,7 @@ namespace Cooking.Pages
 
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)
         {
-            if (FilterContext == null || !expressionBuilt)
+            if (FilterContext == null)
                 return;
 
             if (e.Item is RecipeSelectDto recipe)
@@ -75,7 +75,6 @@ namespace Cooking.Pages
         private string? filterText;
         private readonly DialogUtils dialogUtils;
         private readonly IContainerExtension container;
-        private bool expressionBuilt = false;
         private FilterContext<RecipeSelectDto> FilterContext { get; set; }
         public string? FilterText
         {
@@ -85,16 +84,7 @@ namespace Cooking.Pages
                 if (filterText != value)
                 {
                     filterText = value;
-                    try
-                    {
-                        FilterContext.BuildExpression(value);
-                        expressionBuilt = true;
-                    }
-                    catch 
-                    {
-                        expressionBuilt = false;
-                    }
-
+                    FilterContext.BuildExpression(value);
                     RecipiesSource.View?.Refresh();
                 }
             }

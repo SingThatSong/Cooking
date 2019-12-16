@@ -4,27 +4,40 @@ using Cooking.Pages.Dialogs;
 using Cooking.Pages.ViewModel;
 using Data.Model;
 using Prism.Regions;
+using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cooking.Pages
 {
+    [AddINotifyPropertyChangedInterface]
     public class WeekSettingsViewModel : INavigationAware
     {
         private readonly DialogUtils dialogUtils;
+        private readonly IRegionManager regionManager;
+        private NavigationContext? navigationContext;
 
+        public DateTime WeekStart { get; private set; }
         public List<DayPlan> Days { get; }
 
         public DelegateCommand<DayPlan> AddMainIngredientCommand { get; }
         public DelegateCommand<DayPlan> AddDishTypesCommand { get; }
         public DelegateCommand<DayPlan> AddCalorieTypesCommand { get; }
+        public DelegateCommand OkCommand { get; }
+        public DelegateCommand CloseCommand { get; }
 
-        public WeekSettingsViewModel(DialogUtils dialogUtils)
+        public WeekSettingsViewModel(DialogUtils dialogUtils, IRegionManager regionManager)
         {
+            Debug.Assert(dialogUtils != null);
+            Debug.Assert(regionManager != null);
+
+            this.dialogUtils = dialogUtils;
+            this.regionManager = regionManager;
             Days = new List<DayPlan>()
             {
                 new DayPlan(),
@@ -38,48 +51,110 @@ namespace Cooking.Pages
             };
 
             Days[0].PropertyChanged += OnHeaderValueChanged;
-            
-            AddMainIngredientCommand = new DelegateCommand<DayPlan>(async (day) => {
-                var tags = await GetTags(TagType.MainIngredient, day.NeededMainIngredients).ConfigureAwait(false);
+            AddMainIngredientCommand = new DelegateCommand<DayPlan>(AddMainIngredient);
+            AddDishTypesCommand = new DelegateCommand<DayPlan>(AddDishTypes);
+            AddCalorieTypesCommand = new DelegateCommand<DayPlan>(AddCalorieTypes);
+            CloseCommand = new DelegateCommand(Close, CanClose);
+            OkCommand = new DelegateCommand(Ok);
+        }
 
-                if (tags != null)
+        private void Ok()
+        {
+            var selectedDays = Days.Skip(1).Where(x => x.IsSelected);
+            GenerateRecipies(selectedDays);
+
+            var parameters = new NavigationParameters
+            {
+                { nameof(ShowGeneratedWeekViewModel.Days), selectedDays },
+                { nameof(ShowGeneratedWeekViewModel.WeekStart), WeekStart }
+            };
+
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(ShowGeneratedWeekView), parameters);
+        }
+
+        private void GenerateRecipies(IEnumerable<DayPlan> selectedDays)
+        {
+            Debug.WriteLine("MainPageViewModel.GenerateRecipies");
+            foreach (var day in selectedDays)
+            {
+                var requiredTags = new List<Guid>();
+
+                if (!day.NeededDishTypes.Contains(TagEdit.Any))
                 {
-                    day.NeededMainIngredients = tags;
+                    requiredTags.AddRange(day.NeededDishTypes.Select(x => x.ID));
                 }
-            });
 
-            AddDishTypesCommand = new DelegateCommand<DayPlan>(async (day) => {
-
-                var tags = await GetTags(TagType.DishType, day.NeededDishTypes).ConfigureAwait(false);
-
-                if (tags != null)
+                if (!day.NeededMainIngredients.Contains(TagEdit.Any))
                 {
-                    day.NeededDishTypes = tags;
+                    requiredTags.AddRange(day.NeededMainIngredients.Select(x => x.ID));
                 }
-            });
 
-            AddCalorieTypesCommand = new DelegateCommand<DayPlan>(async (day) => {
-
-                var viewModel = new CalorieTypeSelectEditViewModel(day.CalorieTypes);
-                await dialogUtils.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectEditViewModel>("Категории калорийности", viewModel).ConfigureAwait(false);
-
-                if (viewModel.DialogResultOk)
+                var requiredCalorieTyoes = new List<CalorieType>();
+                if (!day.CalorieTypes.Contains(CalorieTypeSelection.Any))
                 {
-                    var list = viewModel.AllValues.Where(x => x.IsSelected).ToList();
-
-                    if (list.Any(x => x != CalorieTypeSelection.Any))
-                    {
-                        list.Remove(CalorieTypeSelection.Any);
-                    }
-                    else if (!list.Any())
-                    {
-                        list.Add(CalorieTypeSelection.Any);
-                    }
-
-                    day.CalorieTypes = new ObservableCollection<CalorieTypeSelection>(list);
+                    requiredCalorieTyoes.AddRange(day.CalorieTypes.Select(x => x.CalorieType));
                 }
-            });
-            this.dialogUtils = dialogUtils;
+
+                day.RecipeAlternatives = RecipeService.GetRecipiesByParameters(requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
+
+                var selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
+                var recipiesNotSelectedYet = day.RecipeAlternatives.Where(x => !selectedRecipies.Any(selected => selected!.ID == x.ID)).ToList();
+
+                if (recipiesNotSelectedYet.Count > 0)
+                {
+                    day.Recipe = recipiesNotSelectedYet.OrderByDescending(x => RecipeService.DaysFromLasCook(x.ID)).First();
+                }
+            }
+        }
+
+        private bool CanClose() => navigationContext?.NavigationService.Journal.CanGoBack ?? false;
+
+        private void Close()
+        {
+            navigationContext!.NavigationService.Journal.GoBack();
+        }
+
+        private async void AddCalorieTypes(DayPlan day)
+        {
+            var viewModel = new CalorieTypeSelectEditViewModel(day.CalorieTypes);
+            await dialogUtils.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectEditViewModel>("Категории калорийности", viewModel).ConfigureAwait(false);
+
+            if (viewModel.DialogResultOk)
+            {
+                var list = viewModel.AllValues.Where(x => x.IsSelected).ToList();
+
+                if (list.Any(x => x != CalorieTypeSelection.Any))
+                {
+                    list.Remove(CalorieTypeSelection.Any);
+                }
+                else if (!list.Any())
+                {
+                    list.Add(CalorieTypeSelection.Any);
+                }
+
+                day.CalorieTypes = new ObservableCollection<CalorieTypeSelection>(list);
+            }
+        }
+
+        private async void AddDishTypes(DayPlan day)
+        {
+
+            var tags = await GetTags(TagType.DishType, day.NeededDishTypes).ConfigureAwait(false);
+
+            if (tags != null)
+            {
+                day.NeededDishTypes = tags;
+            }
+        }
+
+        private async void AddMainIngredient(DayPlan day)
+        {
+            var tags = await GetTags(TagType.MainIngredient, day.NeededMainIngredients).ConfigureAwait(false);
+
+            if (tags != null)
+            {
+                day.NeededMainIngredients = tags;
+            }
         }
 
         private async Task<ObservableCollection<TagEdit>> GetTags(TagType type, ObservableCollection<TagEdit> current)
@@ -149,6 +224,8 @@ namespace Cooking.Pages
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+            this.navigationContext = navigationContext;
+            WeekStart = (DateTime)navigationContext.Parameters[nameof(WeekStart)];
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext) => true;
