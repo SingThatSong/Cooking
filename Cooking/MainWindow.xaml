@@ -17,7 +17,7 @@
   prism:ViewModelLocator.AutoWireViewModel="True">
   <mahapps:MetroWindow.Resources>
     <ResourceDictionary>
-      <!--  This is the template for the menu items.  -->
+      <!-- From https://github.com/MahApps/MahApps.Metro/blob/develop/src/MahApps.Metro.Samples/MahApps.Metro.Demo/HamburgerMenuRipple/HamburgerMenuRipple.xaml -->
       <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mahapps:HamburgerMenuIconItem}">
         <Grid Height="48">
           <Grid.ColumnDefinitions>
