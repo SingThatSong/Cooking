@@ -91,8 +91,10 @@ namespace ServiceLayer
 
             foreach (var ingredientGroup in ingredientGroups)
             {
-                var item = new ShoppongListItem();
-                item.IngredientGroupName = ingredientGroup.Key ?? "Без категории";
+                var item = new ShoppongListItem
+                {
+                    IngredientGroupName = ingredientGroup.Key ?? "Без категории"
+                };
 
                 foreach (var ingredient in ingredientGroup.GroupBy(x => x.Ingredient.Ingredient.Name))
                 {
@@ -103,8 +105,8 @@ namespace ServiceLayer
                         IngredientAmounts = measures.Where(x => x.Key != null)
                                                     .Select(x => new IngredientAmount()
                                                     {
-                                                        Name = x.Key,
-                                                        Amount = x.Where(a => a.Ingredient.Amount.HasValue).Sum(a => a.Ingredient.Amount.Value)
+                                                        Name = x.Key!,
+                                                        Amount = x.Where(a => a.Ingredient.Amount.HasValue).Sum(a => a.Ingredient.Amount!.Value)
                                                     }).ToList(),
                         RecipiesSources = ingredient.Select(x => x.Dinner.Name).Distinct().ToList()
                     });
@@ -133,25 +135,17 @@ namespace ServiceLayer
         public static DayOfWeek GetDayOfWeek(string name)
         {
             Debug.WriteLine("WeekService.GetDayOfWeek");
-            switch (name)
+            return name switch
             {
-                case "Понедельник":
-                    return DayOfWeek.Monday;
-                case "Вторник":
-                    return DayOfWeek.Tuesday;
-                case "Среда":
-                    return DayOfWeek.Wednesday;
-                case "Четверг":
-                    return DayOfWeek.Thursday;
-                case "Пятница":
-                    return DayOfWeek.Friday;
-                case "Суббота":
-                    return DayOfWeek.Saturday;
-                case "Воскресенье":
-                    return DayOfWeek.Sunday;
-                default:
-                    throw new InvalidOperationException();
-            }
+                "Понедельник" => DayOfWeek.Monday,
+                "Вторник" => DayOfWeek.Tuesday,
+                "Среда" => DayOfWeek.Wednesday,
+                "Четверг" => DayOfWeek.Thursday,
+                "Пятница" => DayOfWeek.Friday,
+                "Суббота" => DayOfWeek.Saturday,
+                "Воскресенье" => DayOfWeek.Sunday,
+                _ => throw new InvalidOperationException(),
+            };
         }
         public static async Task DeleteWeekAsync(Guid id)
         {

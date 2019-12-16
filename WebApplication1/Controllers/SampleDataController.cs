@@ -38,7 +38,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet("[action]/{id}")]
-        public async Task<Recipe> WeatherForecasts(Guid id)
+        public async Task<Recipe?> WeatherForecasts(Guid id)
         {
             Recipe result;
             using (var context = new CookingContext(Database))
