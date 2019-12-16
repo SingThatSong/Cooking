@@ -27,7 +27,7 @@ namespace ServiceLayer
         {
             using var context = new CookingContext(DatabaseService.DbFileName);
             await context.Ingredients.AddAsync(item);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
             return item.ID;
         }
 
@@ -35,7 +35,7 @@ namespace ServiceLayer
         {
             using var context = new CookingContext(DatabaseService.DbFileName);
             context.Ingredients.Remove(new Ingredient() { ID = id });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public static async Task UpdateIngredientAsync(Ingredient ingredient)
@@ -43,7 +43,7 @@ namespace ServiceLayer
             using var context = new CookingContext(DatabaseService.DbFileName);
             var existing = await context.Ingredients.FindAsync(ingredient.ID);
             MapperService.Mapper.Map(ingredient, existing);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public static List<string> GetSearchNames()

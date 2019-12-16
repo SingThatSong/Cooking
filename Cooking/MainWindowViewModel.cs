@@ -1,7 +1,4 @@
 ﻿using Cooking.Pages;
-
-using Cooking.Pages.Ingredients;
-using Cooking.Pages.Tags;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using PropertyChanged;

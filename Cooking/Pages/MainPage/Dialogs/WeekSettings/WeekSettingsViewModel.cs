@@ -191,6 +191,7 @@ namespace Cooking.Pages
             }
         }
 
+        [SuppressPropertyChangedWarnings]
         private void OnHeaderValueChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (sender is DayPlan dayPlan)

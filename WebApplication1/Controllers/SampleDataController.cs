@@ -25,7 +25,7 @@ namespace WebApplication1.Controllers
             List<Recipe> result;
             using (var context = new CookingContext(Database))
             {
-                result = await context.Recipies.OrderBy(x => x.Name).ToListAsync();
+                result = await context.Recipies.OrderBy(x => x.Name).ToListAsync().ConfigureAwait(false);
             }
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -46,7 +46,7 @@ namespace WebApplication1.Controllers
                 result = await context.Recipies.Include(x => x.Ingredients)
                                                   .ThenInclude(x => x.Ingredient)
                                                .Where(x => x.ID == id)
-                                               .FirstOrDefaultAsync();
+                                               .FirstOrDefaultAsync().ConfigureAwait(false);
             }
 
             if (result != null)
@@ -61,7 +61,7 @@ namespace WebApplication1.Controllers
         [HttpGet("[action]/currentweek")]
         public async Task<WeekMainPage> CurrentWeek()
         {
-            return await WeekService.GetWeekAsync(DateTime.Now);
+            return await WeekService.GetWeekAsync(DateTime.Now).ConfigureAwait(false);
         }
     }
 }

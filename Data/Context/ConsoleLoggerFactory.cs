@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace Data.Context
 {
-    public class ConsoleLoggerFactory : ILoggerFactory
+    public sealed class ConsoleLoggerFactory : ILoggerFactory
     {
         public void AddProvider(ILoggerProvider provider) { }
 

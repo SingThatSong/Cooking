@@ -11,6 +11,12 @@
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;CA1062;CA1303;CA1822</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

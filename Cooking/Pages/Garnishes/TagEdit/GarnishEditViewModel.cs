@@ -35,7 +35,7 @@ namespace Cooking.Pages
 
         protected override async Task Ok()
         {
-            if (NameChanged)
+            if (NameChanged && Garnish.Name != null)
             {
                 if (AllGarnishNames.Any(x => x.ToUpperInvariant() == Garnish.Name.ToUpperInvariant()))
                 {

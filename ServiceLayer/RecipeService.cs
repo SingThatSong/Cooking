@@ -45,7 +45,7 @@ namespace ServiceLayer
             return GetRecipiesByParameters(null, null, null, null, false);
         }
 
-        public static List<RecipeSlim> GetRecipiesByParameters(List<Guid> requiredTags, List<CalorieType> calorieTypes, int? maxComplexity, int? minRating, bool onlyNew)
+        public static List<RecipeSlim> GetRecipiesByParameters(List<Guid>? requiredTags, List<CalorieType>? calorieTypes, int? maxComplexity, int? minRating, bool onlyNew)
         {
             Debug.WriteLine("RecipeService.GetRecipies");
 
@@ -128,7 +128,7 @@ namespace ServiceLayer
         {
             using CookingContext context = new CookingContext(DatabaseService.DbFileName);
             context.Recipies.Remove(new Recipe { ID = id });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public static async Task UpdateAsync<TRecipe>(TRecipe recipe) where TRecipe : RecipeProjection
@@ -137,7 +137,7 @@ namespace ServiceLayer
             Recipe existingRecipe = await context.Recipies.FindAsync(recipe.ID);
 
             MapperService.Mapper.Map(recipe, existingRecipe);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public static async Task UpdateAsync(Recipe recipe)
@@ -146,7 +146,7 @@ namespace ServiceLayer
             Recipe existingRecipe = await context.Recipies.FindAsync(recipe.ID);
 
             MapperService.Mapper.Map(recipe, existingRecipe);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public static async Task<Guid> CreateAsync(Recipe recipe)
@@ -155,7 +155,7 @@ namespace ServiceLayer
             Recipe recipeNew = MappingsHelper.MapToRecipe(recipe, context);
 
             await context.Recipies.AddAsync(recipeNew);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
             return recipeNew.ID;
         }
     }

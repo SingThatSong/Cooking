@@ -20,7 +20,7 @@ namespace ServiceLayer
         {
             using var context = new CookingContext(DatabaseService.DbFileName);
             await context.Garnishes.AddAsync(garnish);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
             return garnish.ID;
         }
 
@@ -36,7 +36,7 @@ namespace ServiceLayer
             using var context = new CookingContext(DatabaseService.DbFileName);
             var existing = await context.Garnishes.FindAsync(garnish.ID);
             MapperService.Mapper.Map(garnish, existing);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public static List<string> GetSearchNames()

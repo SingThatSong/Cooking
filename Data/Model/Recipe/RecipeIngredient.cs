@@ -12,7 +12,7 @@ namespace Data.Model
         public double? Amount { get; set; }
 
         [NotMapped]
-        public MeasureUnit MeasureUnit { get; set; }
+        public MeasureUnit? MeasureUnit { get; set; }
 
         public int? MeasureUnitID
         {

@@ -2,7 +2,7 @@
 
 namespace Data.Context
 {
-    public class Scope : IDisposable
+    public sealed class Scope : IDisposable
     {
         public void Dispose()
         {

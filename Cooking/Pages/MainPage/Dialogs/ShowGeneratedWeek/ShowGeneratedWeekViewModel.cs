@@ -71,7 +71,7 @@ namespace Cooking.Pages
 
         private static void GetAlternativeRecipe(DayPlan day)
         {
-            if (day.Recipe.Name == day.RecipeAlternatives.Last().Name)
+            if (day.Recipe!.Name == day.RecipeAlternatives.Last().Name)
             {
                 day.Recipe = day.RecipeAlternatives.First();
             }

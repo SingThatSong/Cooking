@@ -106,7 +106,7 @@ namespace Cooking.Pages
             {
                 foreach (var group in Recipe.IngredientGroups)
                 {
-                    if (group.Ingredients.Contains(ingredient))
+                    if (group.Ingredients != null && group.Ingredients.Contains(ingredient))
                     {
                         group.Ingredients.Remove(ingredient);
                         return;

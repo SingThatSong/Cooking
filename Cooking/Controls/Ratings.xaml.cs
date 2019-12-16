@@ -25,7 +25,7 @@ namespace Cooking.Controls
         /// <summary>
         /// Internal representation of ratings. List of all possible rating values, based on MaxRating
         /// </summary>
-        [DependencyProperty] public List<int> RatingsInternal { get; private set; }
+        [DependencyProperty] public List<int>? RatingsInternal { get; private set; }
 
         /// <summary>
         /// Integer value of rating for visual representation. Equals to RatingValue when idle or RatingValuePreview when MouseOver

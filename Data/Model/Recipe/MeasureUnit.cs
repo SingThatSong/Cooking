@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace Data.Model
 {
+#pragma warning disable CA2211 // Поля, не являющиеся константами, не должны быть видимыми
     public class MeasureUnit
     {
         private MeasureUnit() { }
@@ -43,4 +44,5 @@ namespace Data.Model
             Bundle
         });
     }
+#pragma warning restore CA2211 // Поля, не являющиеся константами, не должны быть видимыми
 }

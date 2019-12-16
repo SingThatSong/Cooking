@@ -34,7 +34,7 @@ namespace Cooking.Pages
 
         protected override async Task Ok()
         {
-            if (NameChanged)
+            if (NameChanged && Tag.Name != null)
             {
                 if (AllTagNames.Any(x => TagCompare(Tag.Name, x) == 0))
                 {

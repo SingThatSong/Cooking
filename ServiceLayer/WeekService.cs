@@ -26,7 +26,7 @@ namespace ServiceLayer
             Debug.WriteLine("WeekService.GetWeek(DateTime)");
             using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
             return await MapperService.Mapper.ProjectTo<WeekMainPage>(context.Weeks)
-.SingleOrDefaultAsync(x => x.Start.Date <= dayOfWeek.Date && dayOfWeek.Date <= x.End.Date);
+.SingleOrDefaultAsync(x => x.Start.Date <= dayOfWeek.Date && dayOfWeek.Date <= x.End.Date).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace ServiceLayer
             Debug.WriteLine("WeekService.GetWeek(Guid)");
             using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
             return await MapperService.Mapper.ProjectTo<WeekMainPage>(context.Weeks)
-.SingleOrDefaultAsync(x => x.ID == id);
+.SingleOrDefaultAsync(x => x.ID == id).ConfigureAwait(false);
         }
 
         public static async Task CreateWeekAsync(DateTime weekStart, Dictionary<DayOfWeek, Guid?> selectedRecepies)
@@ -66,7 +66,7 @@ namespace ServiceLayer
 
             newWeek.Days = days;
             await context.AddAsync(newWeek);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public static List<ShoppongListItem> GetWeekIngredients(Guid id)
@@ -159,7 +159,7 @@ namespace ServiceLayer
             using var context = new CookingContext(DatabaseService.DbFileName);
             var entity = await context.Weeks.FindAsync(id);
             context.Remove(entity);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public static int DaysFromMonday(DayOfWeek day)
@@ -220,7 +220,7 @@ namespace ServiceLayer
             nextWeek.Days.Add(day);
             day.WeekID = nextWeek.ID;
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
 

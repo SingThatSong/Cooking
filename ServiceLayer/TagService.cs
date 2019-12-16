@@ -21,7 +21,7 @@ namespace ServiceLayer
         {
             using var context = new CookingContext(DatabaseService.DbFileName);
             await context.Tags.AddAsync(tag);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
             return tag.ID;
         }
 
@@ -42,7 +42,7 @@ namespace ServiceLayer
             using var context = new CookingContext(DatabaseService.DbFileName);
             var existing = await context.Tags.FindAsync(tag.ID);
             MapperService.Mapper.Map(tag, existing);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public static async Task DeleteAsync(Guid id)

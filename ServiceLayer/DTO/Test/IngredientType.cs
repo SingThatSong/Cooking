@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace TEST
 {
+#pragma warning disable CA2211 // Поля, не являющиеся константами, не должны быть видимыми
     public class IngredientType
     {
         private IngredientType() { }
@@ -49,4 +50,5 @@ namespace TEST
             Ready
         }.OrderBy(x => x.Name).ToList());
     }
+#pragma warning restore CA2211
 }
