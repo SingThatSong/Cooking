@@ -65,12 +65,12 @@ namespace Cooking.Pages
 
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)
         {
-            if (FilterContext == null)
+            if (FilterContext == null || !FilterContext.IsExpressionBuilt)
                 return;
 
             if (e.Item is RecipeSelectDto recipe)
             {
-                e.Accepted = true;// FilterContext.Filter(recipe);
+                e.Accepted = FilterContext.Filter(recipe);
             }
         }
 
