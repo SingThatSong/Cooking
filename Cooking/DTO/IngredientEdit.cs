@@ -1,5 +1,4 @@
 ﻿using Data.Model;
-using PropertyChanged;
 using System;
 using System.ComponentModel;
 

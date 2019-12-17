@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Windows.Input;
 
 namespace Cooking.Commands
-{    
+{
     /// <summary>
     /// Generic DelegateCommand where T is a parameter type
     /// </summary>

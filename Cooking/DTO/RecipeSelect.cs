@@ -1,8 +1,5 @@
-﻿using Cooking.ServiceLayer;
-using Cooking.ServiceLayer.Projections;
-using Data.Model;
+﻿using Cooking.ServiceLayer.Projections;
 using PropertyChanged;
-using System;
 using System.IO;
 
 namespace Cooking.DTO

@@ -1,7 +1,4 @@
 ﻿using Cooking.Pages;
-
-using Cooking.Pages.Ingredients;
-using Cooking.Pages.Tags;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using Prism.Mvvm;

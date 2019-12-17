@@ -1,7 +1,5 @@
-﻿using Cooking.Commands;
-using Cooking.DTO;
+﻿using Cooking.DTO;
 using System;
-using System.Globalization;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;

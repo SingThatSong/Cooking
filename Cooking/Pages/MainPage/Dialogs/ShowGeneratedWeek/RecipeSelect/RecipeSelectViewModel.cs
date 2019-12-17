@@ -2,7 +2,6 @@
 using Cooking.DTO;
 using Cooking.Pages.Dialogs;
 using Cooking.ServiceLayer.Projections;
-using MahApps.Metro.Controls.Dialogs;
 using Plafi;
 using ServiceLayer;
 using System;

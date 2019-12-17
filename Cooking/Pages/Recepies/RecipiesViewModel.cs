@@ -1,7 +1,6 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.ServiceLayer.Projections;
-using Data.Model;
 using Plafi;
 using Prism.Ioc;
 using Prism.Regions;

@@ -1,6 +1,5 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using Prism.Ioc;
 using Prism.Regions;
 using System;
 

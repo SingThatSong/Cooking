@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Cooking
+﻿namespace Cooking
 {
     public static class Consts
     {

@@ -3,9 +3,7 @@ using Cooking.DTO;
 using Cooking.Pages.Ingredients;
 using Cooking.ServiceLayer;
 using Data.Model;
-using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
@@ -13,7 +11,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows;
 
 namespace Cooking.Pages
 {

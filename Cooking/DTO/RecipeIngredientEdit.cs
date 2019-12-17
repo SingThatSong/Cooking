@@ -1,5 +1,4 @@
-﻿using Cooking.ServiceLayer;
-using Data.Model;
+﻿using Data.Model;
 using PropertyChanged;
 using System;
 
