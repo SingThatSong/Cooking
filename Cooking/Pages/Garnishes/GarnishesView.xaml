@@ -44,7 +44,6 @@
               Width="350"
               Margin="5"
               Padding="5,0"
-              Background="{Binding Color}"
               BorderThickness="0"
               CornerRadius="3">
               <TextBlock
