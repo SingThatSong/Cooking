@@ -2,7 +2,7 @@
 
 namespace ServiceLayer
 {
-    public class ShoppongListItem
+    public class ShoppingListItem
     {
         public string IngredientGroupName { get; internal set; }
 

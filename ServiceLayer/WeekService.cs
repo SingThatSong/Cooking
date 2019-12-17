@@ -69,7 +69,7 @@ namespace ServiceLayer
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        public static List<ShoppongListItem> GetWeekIngredients(Guid id)
+        public static List<ShoppingListItem> GetWeekIngredients(Guid id)
         {
             Debug.WriteLine("WeekService.GetWeekIngredients");
             using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
@@ -87,11 +87,11 @@ namespace ServiceLayer
 
             var ingredientGroups = allIngredients.GroupBy(x => x.Ingredient.Ingredient.Type?.Name).OrderBy(x => x.Key);
 
-            var result = new List<ShoppongListItem>();
+            var result = new List<ShoppingListItem>();
 
             foreach (var ingredientGroup in ingredientGroups)
             {
-                var item = new ShoppongListItem
+                var item = new ShoppingListItem
                 {
                     IngredientGroupName = ingredientGroup.Key ?? "Без категории"
                 };

@@ -189,9 +189,13 @@ namespace Cooking.Pages
         private async void CreateShoppingListAsync()
         {
             Debug.WriteLine("MainPageViewModel.CreateShoppingListAsync");
-            var allProducts = WeekService.GetWeekIngredients(CurrentWeek!.ID);
 
-            await dialogUtils.ShowCustomMessageAsync<ShoppingCartView, ShoppingCartViewModel>(content: new ShoppingCartViewModel(allProducts)).ConfigureAwait(false);
+            var allProducts = WeekService.GetWeekIngredients(CurrentWeek!.ID);
+            var parameters = new NavigationParameters()
+            {
+                { nameof(ShoppingCartViewModel.List), allProducts }
+            };
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(ShoppingCartView), parameters);
         }
 
         private async void DeleteDayAsync(Guid dayId)
