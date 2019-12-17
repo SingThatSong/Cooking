@@ -15,7 +15,7 @@ namespace Cooking.Pages.Ingredients
     [AddINotifyPropertyChangedInterface]
     public partial class RecipeIngredientEditViewModel : OkCancelViewModel
     {
-        private readonly DialogUtils dialogUtils;
+        private readonly DialogService dialogUtils;
 
         public bool IsCreation { get; set; }
         public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
@@ -31,7 +31,7 @@ namespace Cooking.Pages.Ingredients
 
         public List<IngredientEdit> AllIngredients { get; }
 
-        public RecipeIngredientEditViewModel(DialogUtils dialogUtils, RecipeIngredientEdit? ingredient = null)
+        public RecipeIngredientEditViewModel(DialogService dialogUtils, RecipeIngredientEdit? ingredient = null)
         {
             Debug.Assert(dialogUtils != null);
 

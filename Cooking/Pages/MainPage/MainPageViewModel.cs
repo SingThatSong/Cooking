@@ -15,7 +15,7 @@ namespace Cooking.Pages
     [AddINotifyPropertyChangedInterface]
     public class MainPageViewModel : INavigationAware
     {
-        private readonly DialogUtils dialogUtils;
+        private readonly DialogService dialogUtils;
         private readonly IRegionManager regionManager;
         private readonly IContainerExtension container;
 
@@ -35,7 +35,7 @@ namespace Cooking.Pages
         public DelegateCommand<string> SelectDinnerCommand { get; }
         public DelegateCommand<Guid> DeleteDinnerCommand { get; }
 
-        public MainPageViewModel(DialogUtils dialogUtils, IRegionManager regionManager, IContainerExtension container)
+        public MainPageViewModel(DialogService dialogUtils, IRegionManager regionManager, IContainerExtension container)
         {
             Debug.Assert(dialogUtils != null);
             Debug.WriteLine("MainPageViewModel.ctor");
@@ -49,7 +49,7 @@ namespace Cooking.Pages
             DeleteCommand               = new DelegateCommand(DeleteCurrentWeekAsync);
             SelectNextWeekCommand       = new DelegateCommand(SelectNextWeekAsync);
             SelectPreviousWeekCommand   = new DelegateCommand(SelectPreviousWeekAsync);
-            ShowRecipeCommand           = new DelegateCommand<Guid>(ShowRecipeAsync);
+            ShowRecipeCommand           = new DelegateCommand<Guid>(ShowRecipe);
             DeleteDinnerCommand         = new DelegateCommand<Guid>(DeleteDayAsync);
             SelectDinnerCommand         = new DelegateCommand<string>(SelectDinner);
             MoveRecipeCommand           = new DelegateCommand<Guid>(MoveRecipe);
@@ -85,10 +85,14 @@ namespace Cooking.Pages
             return weekMain;
         }
         
-        private async void ShowRecipeAsync(Guid recipeId)
+        private void ShowRecipe(Guid recipeId)
         {
-            Debug.WriteLine("MainPageViewModel.ShowRecipeAsync");
-            await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: new RecipeViewModel(recipeId, dialogUtils)).ConfigureAwait(false);
+            Debug.WriteLine("MainPageViewModel.ShowRecipe"); 
+            var parameters = new NavigationParameters()
+            {
+                { nameof(RecipeViewModel.Recipe), recipeId }
+            };
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
         }
 
         private async void SelectDinner(string dayName)

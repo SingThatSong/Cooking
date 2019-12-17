@@ -7,14 +7,14 @@ using System.Windows.Controls;
 
 namespace Cooking
 {
-    public class DialogUtils
+    public class DialogService
     {
         private readonly IContainerProvider containerProvider;
+        private object viewModel { get; }
 
         public IDialogCoordinator DialogCoordinator { get; }
-        public object ViewModel { get; }
 
-        public DialogUtils(object viewModel, IDialogCoordinator dialogCoordinator, IContainerExtension containerProvider)
+        public DialogService(object viewModel, IDialogCoordinator dialogCoordinator, IContainerExtension containerProvider)
         {
             Debug.Assert(viewModel != null);
             Debug.Assert(dialogCoordinator != null);
@@ -22,7 +22,7 @@ namespace Cooking
 
             DialogCoordinator = dialogCoordinator;
             this.containerProvider = containerProvider;
-            ViewModel = viewModel;
+            this.viewModel = viewModel;
         }
 
         // Баг mahapps - ожидаем закрытия именно этого окна, а не дочерних
@@ -31,9 +31,9 @@ namespace Cooking
             await Application.Current.Dispatcher.Invoke(async () =>
             {
                 // Перед отображением запоминаем родителя
-                BaseMetroDialog parentDialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel).ConfigureAwait(false);
+                BaseMetroDialog parentDialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(viewModel).ConfigureAwait(false);
 
-                await DialogCoordinator.ShowMetroDialogAsync(ViewModel, dialog).ConfigureAwait(false);
+                await DialogCoordinator.ShowMetroDialogAsync(viewModel, dialog).ConfigureAwait(false);
 
                 BaseMetroDialog currentDialog;
                 do
@@ -41,7 +41,7 @@ namespace Cooking
                     // Unloaded срабатывает в том числе при переключении на дочерние окна
                     // Ждём, пока активным не станет родитель
                     await dialog.WaitUntilUnloadedAsync().ConfigureAwait(false);
-                    currentDialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel).ConfigureAwait(false);
+                    currentDialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(viewModel).ConfigureAwait(false);
                 }
                 while (currentDialog != parentDialog);
             }).ConfigureAwait(false);

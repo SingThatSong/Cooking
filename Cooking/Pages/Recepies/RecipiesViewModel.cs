@@ -28,10 +28,11 @@ namespace Cooking.Pages
 
         public DelegateCommand LoadedCommand { get; }
 
-        public RecepiesViewModel(DialogUtils dialogUtils, IContainerExtension container)
+        public RecepiesViewModel(DialogService dialogUtils, IContainerExtension container, IRegionManager regionManager)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(container != null);
+            Debug.Assert(regionManager != null);
 
             FilterContext = new FilterContext<RecipeSelectDto>().AddFilter("name", HasName, isDefault:true)
                                                              .AddFilter(Consts.IngredientSymbol, HasIngredient)
@@ -39,6 +40,7 @@ namespace Cooking.Pages
 
             this.dialogUtils = dialogUtils;
             this.container = container;
+            this.regionManager = regionManager;
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
 
 
@@ -68,13 +70,15 @@ namespace Cooking.Pages
 
             if (e.Item is RecipeSelectDto recipe)
             {
-                e.Accepted = FilterContext.Filter(recipe);
+                e.Accepted = true;// FilterContext.Filter(recipe);
             }
         }
 
         private string? filterText;
-        private readonly DialogUtils dialogUtils;
+        private readonly DialogService dialogUtils;
         private readonly IContainerExtension container;
+        private readonly IRegionManager regionManager;
+
         private FilterContext<RecipeSelectDto> FilterContext { get; set; }
         public string? FilterText
         {
@@ -91,7 +95,7 @@ namespace Cooking.Pages
         }
         private bool HasName(RecipeSelectDto recipe, string name)
         {
-            return recipe.Name.ToUpperInvariant().Contains(name.ToUpperInvariant(), StringComparison.Ordinal);
+            return recipe.Name != null && recipe.Name.ToUpperInvariant().Contains(name.ToUpperInvariant(), StringComparison.Ordinal);
         }
 
 
@@ -151,19 +155,30 @@ namespace Cooking.Pages
 
         public async void ViewRecipe(Guid recipeId)
         {
-            await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: new RecipeViewModel(recipeId, dialogUtils)).ConfigureAwait(false);
+            var parameters = new NavigationParameters()
+            {
+                { nameof(RecipeViewModel.Recipe), recipeId }
+            };
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
         }
 
         public async void AddRecipe()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>("Новый рецепт", content: new RecipeViewModel(dialogUtils) { IsEditing = true }).ConfigureAwait(false); ;
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), Callback);
 
-            if (viewModel.DialogResultOk)
-            {
-                var id = await RecipeService.CreateAsync(viewModel.Recipe.MapTo<Recipe>()).ConfigureAwait(false);
-                viewModel.Recipe.ID = id;
-                Recipies!.Add(viewModel.Recipe.MapTo<RecipeSelectDto>());
-            }
+            //var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>("Новый рецепт", content: new RecipeViewModel(dialogUtils) { IsEditing = true }).ConfigureAwait(false); ;
+
+            //if (viewModel.DialogResultOk)
+            //{
+            //    var id = await RecipeService.CreateAsync(viewModel.Recipe.MapTo<Recipe>()).ConfigureAwait(false);
+            //    viewModel.Recipe.ID = id;
+            //    Recipies!.Add(viewModel.Recipe.MapTo<RecipeSelectDto>());
+            //}
+        }
+
+        private void Callback(NavigationResult navigationResult)
+        {
+
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

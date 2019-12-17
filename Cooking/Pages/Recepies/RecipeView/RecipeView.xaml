@@ -12,11 +12,14 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
   xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-  Margin="-100,0"
+  Margin="20 0"
   d:DesignHeight="450"
   d:DesignWidth="800"
   mahapps:DialogParticipation.Register="{Binding}"
-  mc:Ignorable="d">
+  mc:Ignorable="d"
+  MaxWidth="500"
+  xmlns:prism="http://prismlibrary.com/"
+  prism:ViewModelLocator.AutoWireViewModel="True">
 
   <UserControl.InputBindings>
     <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />

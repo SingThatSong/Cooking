@@ -100,7 +100,7 @@
                   <TextBlock VerticalAlignment="Center" Text="{Binding Recipe.Name}">
                     <i:Interaction.Triggers>
                       <i:EventTrigger EventName="MouseUp">
-                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ShowRecipe}" CommandParameter="{Binding}" />
+                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ShowRecipeCommand}" CommandParameter="{Binding}" />
                       </i:EventTrigger>
                     </i:Interaction.Triggers>
                   </TextBlock>

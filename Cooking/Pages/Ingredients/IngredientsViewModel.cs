@@ -21,7 +21,7 @@ namespace Cooking.Pages
     public partial class IngredientsViewModel
     {
         private readonly IRegionManager regionManager;
-        private readonly DialogUtils dialogUtils;
+        private readonly DialogService dialogUtils;
 
         public ObservableCollection<IngredientEdit>? Ingredients { get; private set; }
         public bool IsEditing { get; set; }
@@ -33,7 +33,7 @@ namespace Cooking.Pages
         public DelegateCommand<Guid> DeleteCategoryCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public IngredientsViewModel(IRegionManager regionManager, DialogUtils dialogUtils)
+        public IngredientsViewModel(IRegionManager regionManager, DialogService dialogUtils)
         {
             Debug.Assert(regionManager != null);
             Debug.Assert(dialogUtils != null);

@@ -18,7 +18,7 @@ namespace Cooking.Pages
     [AddINotifyPropertyChangedInterface]
     public class WeekSettingsViewModel : INavigationAware
     {
-        private readonly DialogUtils dialogUtils;
+        private readonly DialogService dialogUtils;
         private readonly IRegionManager regionManager;
         private NavigationContext? navigationContext;
 
@@ -31,7 +31,7 @@ namespace Cooking.Pages
         public DelegateCommand OkCommand { get; }
         public DelegateCommand CloseCommand { get; }
 
-        public WeekSettingsViewModel(DialogUtils dialogUtils, IRegionManager regionManager)
+        public WeekSettingsViewModel(DialogService dialogUtils, IRegionManager regionManager)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(regionManager != null);

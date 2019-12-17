@@ -15,7 +15,7 @@ namespace Cooking.Pages
     [AddINotifyPropertyChangedInterface]
     public class ShowGeneratedWeekViewModel : INavigationAware
     {
-        private readonly DialogUtils dialogUtils;
+        private readonly DialogService dialogUtils;
         private readonly IRegionManager regionManager;
         private NavigationContext? navigationContext;
 
@@ -30,7 +30,7 @@ namespace Cooking.Pages
         public AsyncDelegateCommand OkCommand { get; }
         public DelegateCommand CloseCommand { get; }
 
-        public ShowGeneratedWeekViewModel(DialogUtils dialogUtils, IRegionManager regionManager) : base()
+        public ShowGeneratedWeekViewModel(DialogService dialogUtils, IRegionManager regionManager) : base()
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(regionManager != null);
@@ -65,8 +65,11 @@ namespace Cooking.Pages
 
         private async void ShowRecipe(DayPlan day)
         {
-            var viewModel = new RecipeViewModel(day.Recipe.ID, dialogUtils);
-            await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: viewModel).ConfigureAwait(false);
+            var parameters = new NavigationParameters()
+            {
+                { nameof(RecipeViewModel.Recipe), day.Recipe?.ID }
+            };
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
         }
 
         private static void GetAlternativeRecipe(DayPlan day)

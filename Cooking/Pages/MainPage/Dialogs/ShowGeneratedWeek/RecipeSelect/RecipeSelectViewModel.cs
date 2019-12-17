@@ -19,7 +19,7 @@ namespace Cooking.Pages
 
         public Guid SelectedRecipeID { get; set; }
 
-        public RecipeSelectViewModel(DialogUtils dialogUtils, DayPlan? day = null)
+        public RecipeSelectViewModel(DialogService dialogUtils, DayPlan? day = null)
         {
             Debug.Assert(dialogUtils != null);
 
@@ -196,22 +196,12 @@ namespace Cooking.Pages
 
         public async void ViewRecipe(RecipeEdit recipe)
         {
-            var viewModel = new RecipeViewModel(recipe.ID, dialogUtils);
-
-            var dialog = new CustomDialog()
-            {
-                Content = new RecipeView()
-                {
-                    DataContext = viewModel
-                }
-            };
-
-            await DialogCoordinator.Instance.ShowMetroDialogAsync(this, dialog).ConfigureAwait(false);
-            await dialog.WaitUntilUnloadedAsync().ConfigureAwait(false);
+            //var viewModel = new RecipeViewModel(recipe.ID, dialogUtils);
+            //await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: viewModel);
         }
 
         private readonly List<RecipeSelectDto> _recipies;
-        private readonly DialogUtils dialogUtils;
+        private readonly DialogService dialogUtils;
 
         public RecipeSelectDto? SelectedRecipe => _recipies.FirstOrDefault(x => x.IsSelected);
 

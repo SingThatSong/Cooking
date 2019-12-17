@@ -5,6 +5,8 @@ using Cooking.ServiceLayer.Projections;
 using Data.Model;
 using GongSolutions.Wpf.DragDrop;
 using MahApps.Metro.Controls.Dialogs;
+using Prism.Regions;
+using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.ObjectModel;
@@ -14,9 +16,12 @@ using System.Threading.Tasks;
 
 namespace Cooking.Pages
 {
-    public partial class RecipeViewModel : OkCancelViewModel, IDropTarget
+    [AddINotifyPropertyChangedInterface]
+    public partial class RecipeViewModel : IDropTarget, INavigationAware
     {
-        private readonly DialogUtils dialogUtils;
+        private readonly DialogService dialogUtils;
+        private readonly ImageService imageService;
+        private NavigationContext navigationContext;
 
         public bool IsEditing { get; set; }
         public void OnIsEditingChanged()
@@ -34,11 +39,12 @@ namespace Cooking.Pages
             }
         }
 
-        public RecipeEdit Recipe { get; set; }
+        public RecipeEdit? Recipe { get; set; }
         private RecipeEdit? RecipeBackup { get; set; }
 
         public AsyncDelegateCommand ApplyChangesCommand { get; }
 
+        public DelegateCommand CloseCommand { get; }
         public DelegateCommand ImageSearchCommand { get; }
         public DelegateCommand RemoveImageCommand { get; }
         public AsyncDelegateCommand AddIngredientCommand { get; }
@@ -54,24 +60,16 @@ namespace Cooking.Pages
         public DelegateCommand<RecipeIngredientEdit> RemoveIngredientCommand { get; }
         public AsyncDelegateCommand<Guid> DeleteRecipeCommand { get; }
 
-        public RecipeViewModel(DialogUtils dialogUtils) : this(null, dialogUtils) { }
-
-        public RecipeViewModel(Guid? recipeId, DialogUtils dialogUtils)
+        public RecipeViewModel(DialogService dialogUtils, ImageService imageService)
         {
             Debug.Assert(dialogUtils != null);
+            Debug.Assert(imageService != null);
 
-            if (recipeId.HasValue)
-            {
-                var recipeDb = RecipeService.GetProjection<RecipeFull>(recipeId.Value);
-                Recipe = recipeDb.MapTo<RecipeEdit>();
-            }
-            else
-            {
-                Recipe = new RecipeEdit();
-            }
 
             this.dialogUtils            = dialogUtils;
+            this.imageService           = imageService;
 
+            CloseCommand                = new DelegateCommand(Close);
             ApplyChangesCommand         = new AsyncDelegateCommand(ApplyChanges);
             DeleteRecipeCommand         = new AsyncDelegateCommand<Guid>(DeleteRecipe);
 
@@ -89,6 +87,11 @@ namespace Cooking.Pages
             AddIngredientCommand        = new AsyncDelegateCommand(AddIngredient);
             EditIngredientCommand       = new AsyncDelegateCommand<RecipeIngredientEdit>(EditIngredient);
             RemoveIngredientCommand     = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
+        }
+
+        private void Close()
+        {
+            navigationContext.NavigationService.Journal.GoBack();
         }
 
         private void RemoveIngredientGroup(DTO.IngredientGroupEdit arg) => Recipe.IngredientGroups!.Remove(arg);
@@ -214,7 +217,7 @@ namespace Cooking.Pages
 
         public void ImageSearch()
         {
-            var image = ImageService.ImageSearch();
+            var image = imageService.ImageSearch();
 
             if (image != null)
             {
@@ -254,6 +257,27 @@ namespace Cooking.Pages
                 await RecipeService.Delete(recipeId).ConfigureAwait(false);
                 CloseCommand.Execute();
             }
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            this.navigationContext = navigationContext;
+            var recipeId = navigationContext.Parameters[nameof(Recipe)] as Guid?;
+            if (recipeId.HasValue)
+            {
+                var recipeDb = RecipeService.GetProjection<RecipeFull>(recipeId.Value);
+                Recipe = recipeDb.MapTo<RecipeEdit>();
+            }
+            else
+            {
+                Recipe = new RecipeEdit();
+            }
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
         }
     }
 }

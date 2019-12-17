@@ -22,7 +22,7 @@ namespace Cooking.Pages
     public partial class TagsViewModel
     {
         private readonly IRegionManager regionManager;
-        private readonly DialogUtils dialogUtils;
+        private readonly DialogService dialogUtils;
 
         public ObservableCollection<TagEdit>? Tags { get; private set; }
         public bool IsEditing { get; set; }
@@ -33,7 +33,7 @@ namespace Cooking.Pages
         public DelegateCommand<Guid> DeleteTagCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public TagsViewModel(IRegionManager regionManager, DialogUtils dialogUtils)
+        public TagsViewModel(IRegionManager regionManager, DialogService dialogUtils)
         {
             Debug.Assert(regionManager != null);
             Debug.Assert(dialogUtils != null);

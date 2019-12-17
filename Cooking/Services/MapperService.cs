@@ -23,7 +23,7 @@ namespace Cooking
             {
                 cfg.AllowNullDestinationValues = true;
 
-                
+
                 cfg.CreateMap<GarnishEdit, GarnishEdit>();
                 cfg.CreateMap<GarnishDTO, GarnishEdit>();
                 cfg.CreateMap<GarnishEdit, Garnish>();

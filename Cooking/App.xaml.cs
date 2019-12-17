@@ -54,9 +54,10 @@ namespace Cooking
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<MainWindow>();
+            containerRegistry.RegisterSingleton<ImageService>();
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
 
-            containerRegistry.RegisterInstance(new DialogUtils(
+            containerRegistry.RegisterInstance(new DialogService(
                                                         Container.Resolve<MainWindowViewModel>(),
                                                         DialogCoordinator.Instance,
                                                         Container.Resolve<IContainerExtension>()
@@ -69,6 +70,7 @@ namespace Cooking
             containerRegistry.RegisterForNavigation<ShowGeneratedWeekView>();
             containerRegistry.RegisterForNavigation<MainPage>();
             containerRegistry.RegisterForNavigation<Recepies>();
+            containerRegistry.RegisterForNavigation<RecipeView>();
             containerRegistry.RegisterForNavigation<IngredientsView>();
             containerRegistry.RegisterForNavigation<TagsView>();
             containerRegistry.RegisterForNavigation<GarnishesView>();

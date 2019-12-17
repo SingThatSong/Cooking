@@ -6,9 +6,9 @@ using System.IO;
 
 namespace Cooking
 {
-    public static class ImageService
+    public class ImageService
     {
-        public static string? ImageSearch()
+        public string? ImageSearch()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog()
             {
@@ -43,7 +43,7 @@ namespace Cooking
         /// <summary>
         /// https://stackoverflow.com/a/24199315
         /// </summary>
-        public static Bitmap ResizeImage(Image image, int height)
+        public Bitmap ResizeImage(Image image, int height)
         {
             var newWidth = image.Width * height / image.Height;
             var destRect = new Rectangle(0, 0, newWidth, height);

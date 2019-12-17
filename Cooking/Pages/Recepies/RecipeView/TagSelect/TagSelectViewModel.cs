@@ -12,14 +12,14 @@ namespace Cooking.Pages
 {
     public partial class TagSelectViewModel : OkCancelViewModel
     {
-        private readonly DialogUtils dialogUtils;
+        private readonly DialogService dialogUtils;
 
         public TagSelectViewModel()
         {
             throw new NotImplementedException();
         }
 
-        public TagSelectViewModel(IEnumerable<TagEdit>? currentTags, DialogUtils dialogUtils)
+        public TagSelectViewModel(IEnumerable<TagEdit>? currentTags, DialogService dialogUtils)
         {
             this.dialogUtils = dialogUtils;
             AddTagCommand = new DelegateCommand(AddTag);
@@ -27,7 +27,7 @@ namespace Cooking.Pages
             CtorInternal(currentTags);
         }
 
-        public TagSelectViewModel(IEnumerable<TagEdit>? currentTags, IEnumerable<TagEdit> allTags, DialogUtils dialogUtils)
+        public TagSelectViewModel(IEnumerable<TagEdit>? currentTags, IEnumerable<TagEdit> allTags, DialogService dialogUtils)
         {
             this.dialogUtils = dialogUtils;
             AddTagCommand = new DelegateCommand(AddTag);

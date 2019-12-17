@@ -15,7 +15,7 @@ namespace Cooking.Pages
     [AddINotifyPropertyChangedInterface]
     public partial class GarnishesViewModel
     {
-        private readonly DialogUtils dialogUtils;
+        private readonly DialogService dialogUtils;
 
         [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения", Justification = "<Ожидание>")]
         public ObservableCollection<GarnishEdit>? Garnishes { get; set; }
@@ -26,7 +26,7 @@ namespace Cooking.Pages
         public DelegateCommand<Guid> DeleteGarnishCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public GarnishesViewModel(DialogUtils dialogUtils)
+        public GarnishesViewModel(DialogService dialogUtils)
         {
             Debug.Assert(dialogUtils != null);
 
