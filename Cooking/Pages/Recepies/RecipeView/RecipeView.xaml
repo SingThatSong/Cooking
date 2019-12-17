@@ -5,20 +5,15 @@
   xmlns:System="clr-namespace:System;assembly=mscorlib"
   xmlns:controls="clr-namespace:Cooking.Controls"
   xmlns:converters="clr-namespace:Cooking.Converters"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:dd="urn:gong-wpf-dragdrop"
   xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
   xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
-  xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-  Margin="20 0"
-  d:DesignHeight="450"
-  d:DesignWidth="800"
-  mahapps:DialogParticipation.Register="{Binding}"
-  mc:Ignorable="d"
-  MaxWidth="500"
   xmlns:prism="http://prismlibrary.com/"
+  xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+  MaxWidth="500"
+  Margin="20 0"
+  mahapps:DialogParticipation.Register="{Binding}"
   prism:ViewModelLocator.AutoWireViewModel="True">
 
   <UserControl.InputBindings>
@@ -68,7 +63,7 @@
           <Ellipse
             Width="15"
             Height="15"
-            Margin="10,8,0,0"
+            Margin="10 8 0 0"
             VerticalAlignment="Center">
             <Ellipse.Style>
               <Style TargetType="Ellipse">
@@ -120,7 +115,7 @@
         </TextBlock>
       </StackPanel>
       <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-        <Grid Margin="0,10,0,0">
+        <Grid Margin="0 10 0 0">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
@@ -132,7 +127,7 @@
 
           <Image
             MaxHeight="150"
-            Margin="0,0,25,0"
+            Margin="0 0 25 0"
             VerticalAlignment="Top"
             Source="{Binding Recipe.FullPath}"
             Stretch="Uniform" />
@@ -147,7 +142,7 @@
 
 
             <TextBlock
-              Margin="0,10,0,0"
+              Margin="0 10 0 0"
               VerticalAlignment="Center"
               FontSize="20"
               Text="Ингредиенты" />
@@ -155,7 +150,7 @@
             <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                  <StackPanel Margin="0,0,0,20" Orientation="Vertical">
+                  <StackPanel Margin="0 0 0 20" Orientation="Vertical">
                     <StackPanel
                       VerticalAlignment="Center"
                       Orientation="Horizontal"
@@ -233,21 +228,21 @@
           <StackPanel
             Grid.Row="1"
             Grid.ColumnSpan="2"
-            Margin="0,20,0,0"
+            Margin="0 20 0 0"
             Orientation="Vertical">
             <StackPanel Orientation="Horizontal">
               <StackPanel Orientation="Vertical">
                 <TextBlock FontSize="15" Text="Сложность" />
                 <controls:Ratings
-                  Margin="0,10,0,0"
+                  Margin="0 10 0 0"
                   IsEnabled="False"
                   MaxRating="5"
                   RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
               </StackPanel>
-              <StackPanel Margin="30,0,0,0" Orientation="Vertical">
+              <StackPanel Margin="30 0 0 0" Orientation="Vertical">
                 <TextBlock FontSize="15" Text="Рейтинг" />
                 <controls:Ratings
-                  Margin="0,10,0,0"
+                  Margin="0 10 0 0"
                   IsEnabled="False"
                   MaxRating="10"
                   RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
@@ -255,7 +250,7 @@
             </StackPanel>
 
             <TextBlock
-              Margin="0,10,0,0"
+              Margin="0 10 0 0"
               FontSize="20"
               Text="Описание" />
             <xctk:RichTextBox
@@ -264,7 +259,7 @@
               Text="{Binding Recipe.Description}" />
 
             <TextBlock
-              Margin="0,10,0,0"
+              Margin="0 10 0 0"
               FontSize="20"
               Text="Теги" />
 
@@ -273,7 +268,7 @@
                 <DataTemplate>
                   <Border
                     Margin="5"
-                    Padding="5,0"
+                    Padding="5 0"
                     Background="{Binding Color}"
                     BorderThickness="0"
                     CornerRadius="3">
@@ -308,16 +303,14 @@
           Source="{Binding Recipe.FullPath}"
           Stretch="Uniform" />
         <StackPanel
-          Margin="0,10,0,0"
+          Margin="0 10 0 0"
           HorizontalAlignment="Center"
           Orientation="Horizontal">
           <Button
             Command="{Binding ImageSearchCommand}"
             Foreground="Green"
             Style="{StaticResource SmallButton}">
-            <icons:PackIconModern
-              Style="{StaticResource SmallIcon}"
-              Kind="Image" />
+            <icons:PackIconModern Kind="Image" Style="{StaticResource SmallIcon}" />
           </Button>
           <Button
             Margin="10 0 0 0"
@@ -347,7 +340,7 @@
 
 
         <TextBlock
-          Margin="0,5,0,0"
+          Margin="0 5 0 0"
           FontSize="15"
           Text="Тип" />
         <ComboBox
@@ -356,12 +349,12 @@
           Text="Выбор типа рецепта по калорийности" />
 
         <TextBlock
-          Margin="0,5,0,0"
+          Margin="0 5 0 0"
           FontSize="15"
           Text="Количество порций" />
         <TextBox Text="{Binding Recipe.PortionsCount}" />
 
-        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+        <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
           <TextBlock
             VerticalAlignment="Center"
             FontSize="15"
@@ -373,9 +366,7 @@
             Command="{Binding AddIngredientGroupCommand}"
             Foreground="Green"
             Style="{StaticResource SmallButton}">
-            <icons:PackIconModern
-              Style="{StaticResource SmallIcon}"
-              Kind="TableAdd" />
+            <icons:PackIconModern Kind="TableAdd" Style="{StaticResource SmallIcon}" />
           </Button>
           <Button
             Margin="5 0 0 0"
@@ -384,16 +375,14 @@
             Command="{Binding AddIngredientCommand}"
             Foreground="Green"
             Style="{StaticResource SmallButton}">
-            <icons:PackIconModern
-              Style="{StaticResource SmallIcon}"
-              Kind="Add" />
+            <icons:PackIconModern Kind="Add" Style="{StaticResource SmallIcon}" />
           </Button>
         </StackPanel>
 
         <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <StackPanel Margin="0,0,0,20" Orientation="Vertical">
+              <StackPanel Margin="0 0 0 20" Orientation="Vertical">
                 <StackPanel
                   VerticalAlignment="Center"
                   Orientation="Horizontal"
@@ -407,22 +396,21 @@
                     Command="{Binding ElementName=RecipeEdit, Path=DataContext.AddIngredientToGroupCommand}"
                     CommandParameter="{Binding}"
                     Style="{StaticResource SmallAddButton}" />
-                    
+
                   <Button
                     Margin="5 0 0 0"
                     VerticalAlignment="Center"
                     BorderThickness="0"
                     Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientGroupCommand}"
                     CommandParameter="{Binding}"
-                    Style="{StaticResource SmallEditButton}"/>
+                    Style="{StaticResource SmallEditButton}" />
                   <Button
                     Margin="2 0 0 0"
                     VerticalAlignment="Center"
                     BorderThickness="0"
                     Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientGroupCommand}"
                     CommandParameter="{Binding}"
-                    Style="{StaticResource SmallCancelButton}">
-                  </Button>
+                    Style="{StaticResource SmallCancelButton}" />
                 </StackPanel>
                 <ItemsControl
                   Name="IngredientsList"
@@ -446,14 +434,13 @@
                           Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientCommand}"
                           CommandParameter="{Binding}"
                           Style="{StaticResource SmallEditButton}" />
-                          
+
                         <Button
                           Margin="2 0 0 0"
                           VerticalAlignment="Center"
                           Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientCommand}"
                           CommandParameter="{Binding}"
-                          Style="{StaticResource SmallCancelButton}">
-                        </Button>
+                          Style="{StaticResource SmallCancelButton}" />
                       </StackPanel>
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
@@ -512,7 +499,7 @@
         </ItemsControl>
 
         <TextBlock
-          Margin="0,10,0,0"
+          Margin="0 10 0 0"
           FontSize="15"
           Text="Описание" />
         <xctk:RichTextBox
@@ -524,7 +511,7 @@
           </xctk:RichTextBoxFormatBarManager.FormatBar>
         </xctk:RichTextBox>
 
-        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+        <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
           <TextBlock
             VerticalAlignment="Center"
             FontSize="15"
@@ -543,7 +530,7 @@
               <StackPanel Orientation="Horizontal">
                 <Border
                   Margin="5"
-                  Padding="5,0"
+                  Padding="5 0"
                   Background="{Binding Color}"
                   BorderThickness="0"
                   CornerRadius="3">
@@ -583,9 +570,7 @@
         Foreground="Green"
         Style="{StaticResource BigButton}"
         Visibility="{Binding IsEditing, Converter={StaticResource visibleHiddenConverter}}">
-        <icons:PackIconModern
-          Style="{StaticResource BigIcon}"
-          Kind="Check" />
+        <icons:PackIconModern Kind="Check" Style="{StaticResource BigIcon}" />
       </Button>
       <Button
         Grid.Column="4"
@@ -594,7 +579,7 @@
         CommandParameter="{Binding Recipe.ID}"
         Style="{StaticResource DeleteButton}"
         Visibility="{Binding IsEditing, Converter={StaticResource visibleHiddenConverter}}" />
-        
+
       <ToggleButton
         Margin="10 0 0 0"
         Foreground="LightGray"

@@ -4,16 +4,11 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:System="clr-namespace:System;assembly=mscorlib"
   xmlns:converters="clr-namespace:Cooking.Converters"
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
   xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:model="clr-namespace:Data.Model;assembly=Data"
   xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-  d:DesignHeight="450"
-  d:DesignWidth="800"
-  mahapps:DialogParticipation.Register="{Binding}"
-  mc:Ignorable="d">
+  mahapps:DialogParticipation.Register="{Binding}">
 
   <UserControl.Resources>
     <ObjectDataProvider
@@ -64,7 +59,7 @@
 
     <ItemsControl
       Grid.Column="1"
-      Margin="20,0,0,0"
+      Margin="20 0 0 0"
       ItemsSource="{Binding SimilarTags}" />
 
 
@@ -77,9 +72,7 @@
         Command="{Binding OkCommand}"
         Foreground="Green"
         Style="{StaticResource BigButton}">
-        <icons:PackIconModern
-          Style="{StaticResource BigIcon}"
-          Kind="Check" />
+        <icons:PackIconModern Kind="Check" Style="{StaticResource BigIcon}" />
       </Button>
       <Button
         Margin="10 0 0 0"
