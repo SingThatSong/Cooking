@@ -134,7 +134,7 @@ namespace Cooking.Pages
             if (!prevWeekFilled)
             {
                 // Нужно напомнить о рецептах на прошедшей неделе
-                var result = await DialogCoordinator.Instance.ShowMessageAsync(this,
+                var result = await dialogUtils.DialogCoordinator.ShowMessageAsync(dialogUtils.ViewModel,
                       "Кстати",
                       "За прошлую неделю есть рецепты, которые не были приготовлены. Рекомендуем их удалить или перенести",
                       MessageDialogStyle.AffirmativeAndNegative,
@@ -201,7 +201,7 @@ namespace Cooking.Pages
         private async void DeleteDayAsync(Guid dayId)
         {
             Debug.WriteLine("MainPageViewModel.DeleteDayAsync");
-            var result = await DialogCoordinator.Instance.ShowMessageAsync(this,
+            var result = await dialogUtils.DialogCoordinator.ShowMessageAsync(dialogUtils.ViewModel,
                     "Точно?",
                     "Удаляем день?",
                     MessageDialogStyle.AffirmativeAndNegative,
@@ -221,7 +221,7 @@ namespace Cooking.Pages
         private async void DeleteCurrentWeekAsync()
         {
             Debug.WriteLine("MainPageViewModel.DeleteCurrentWeekAsync");
-            var result = await DialogCoordinator.Instance.ShowMessageAsync(this,
+            var result = await dialogUtils.DialogCoordinator.ShowMessageAsync(dialogUtils.ViewModel,
                     "Точно?",
                     "Удаляем неделю?",
                     MessageDialogStyle.AffirmativeAndNegative,
@@ -247,37 +247,6 @@ namespace Cooking.Pages
                 { nameof(WeekSettingsViewModel.WeekStart), WeekStart }
             };
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(WeekSettings), parameters);
-
-
-            //ShowGeneratedWeekViewModel showGeneratedWeekViewModel;
-            //WeekSettingsViewModel weekSettingsViewModel = new WeekSettingsViewModel(WeekStart, WeekEnd, dialogUtils);
-            //do
-            //{
-
-            //    var viewModel = await dialogUtils.ShowCustomMessageAsync<WeekSettings, WeekSettingsViewModel>(
-            //                            "Фильтр для блюд на неделю", 
-            //                            weekSettingsViewModel
-            //                          ).ConfigureAwait(false);
-
-            //    if (!weekSettingsViewModel.DialogResultOk) return;
-
-            //    var selectedDays = weekSettingsViewModel.Days.Skip(1).Where(x => x.IsSelected);
-            //    GenerateRecipies(selectedDays);
-
-            //    showGeneratedWeekViewModel = await dialogUtils.ShowCustomMessageAsync<ShowGeneratedWeekView, ShowGeneratedWeekViewModel>(
-            //                                        "Сгенерированные рецепты",
-            //                                        new ShowGeneratedWeekViewModel(WeekStart, WeekEnd, selectedDays, dialogUtils)
-            //                                      ).ConfigureAwait(false);
-
-            //    if (showGeneratedWeekViewModel.DialogResultOk)
-            //    {
-            //        var daysDictionary = showGeneratedWeekViewModel.Days.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
-
-            //        await WeekService.CreateWeekAsync(WeekStart, daysDictionary).ConfigureAwait(false);
-            //        CurrentWeek = await GetWeekAsync(WeekStart).ConfigureAwait(false);
-            //    }
-            //}
-            //while (showGeneratedWeekViewModel.ReturnBack);
         }
 
         public async void OnNavigatedTo(NavigationContext navigationContext)
