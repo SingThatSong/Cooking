@@ -34,15 +34,16 @@ namespace Cooking.Pages
             RecipiesSource = new CollectionViewSource() { Source = _recipies };
             RecipiesSource.Filter += RecipiesSource_Filter;
 
-            SelectRecipeCommand = new DelegateCommand<RecipeSelectDto>(recipe => {
-                    foreach(var r in _recipies.Where(x => x.IsSelected))
-                    {
-                        r.IsSelected = false;
-                    }
+            SelectRecipeCommand = new DelegateCommand<RecipeSelectDto>(recipe =>
+            {
+                foreach (var r in _recipies.Where(x => x.IsSelected))
+                {
+                    r.IsSelected = false;
+                }
 
-                    recipe.IsSelected = true;
-                    SelectedRecipeID = recipe.ID;
-                });
+                recipe.IsSelected = true;
+                SelectedRecipeID = recipe.ID;
+            });
 
             ViewRecipeCommand = new DelegateCommand<RecipeEdit>(ViewRecipe);
 

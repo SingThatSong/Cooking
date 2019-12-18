@@ -1,14 +1,10 @@
-﻿using AutoMapper.QueryableExtensions;
-using Cooking.ServiceLayer;
-using Cooking.ServiceLayer.MainPage;
+﻿using Cooking.ServiceLayer.MainPage;
 using Data.Context;
-using Data.Model;
 using Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,7 +18,7 @@ namespace ServiceLayer
         /// <param name="dayOfWeek"></param>
         /// <returns></returns>
         public static async Task<WeekMainPage> GetWeekAsync(DateTime dayOfWeek)
-         {
+        {
             Debug.WriteLine("WeekService.GetWeek(DateTime)");
             using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
             return await MapperService.Mapper.ProjectTo<WeekMainPage>(context.Weeks)

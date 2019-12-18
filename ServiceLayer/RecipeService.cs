@@ -1,5 +1,4 @@
-﻿using Cooking.ServiceLayer;
-using Cooking.ServiceLayer.Projections;
+﻿using Cooking.ServiceLayer.Projections;
 using Data.Context;
 using Data.Model;
 using Microsoft.EntityFrameworkCore;

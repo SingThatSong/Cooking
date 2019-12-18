@@ -1,7 +1,6 @@
 ﻿using Cooking.ServiceLayer;
 using Data.Context;
 using Data.Model;
-using Data.Model.Plan;
 using System;
 using System.Collections.Generic;
 using System.Linq;

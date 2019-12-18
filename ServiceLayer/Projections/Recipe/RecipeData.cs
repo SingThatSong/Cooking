@@ -1,6 +1,4 @@
-﻿using Data.Model;
-using ServiceLayer.DTO.MainPage;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Cooking.ServiceLayer.Projections
 {

@@ -33,7 +33,7 @@ namespace Cooking.Pages
             Debug.Assert(container != null);
             Debug.Assert(regionManager != null);
 
-            FilterContext = new FilterContext<RecipeSelectDto>().AddFilter("name", HasName, isDefault:true)
+            FilterContext = new FilterContext<RecipeSelectDto>().AddFilter("name", HasName, isDefault: true)
                                                              .AddFilter(Consts.IngredientSymbol, HasIngredient)
                                                              .AddFilter(Consts.TagSymbol, HasTag);
 

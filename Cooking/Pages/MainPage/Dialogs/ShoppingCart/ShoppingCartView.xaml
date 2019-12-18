@@ -1,9 +1,9 @@
 ﻿<UserControl
   x:Class="Cooking.Pages.ShoppingCartView"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
   xmlns:prism="http://prismlibrary.com/"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   Margin="20 0"
   mahapps:DialogParticipation.Register="{Binding}"
   prism:ViewModelLocator.AutoWireViewModel="True">

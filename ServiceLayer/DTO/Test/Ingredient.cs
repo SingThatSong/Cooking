@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-
-namespace TEST
+﻿namespace TEST
 {
     public class Ingredient : Entity
     {

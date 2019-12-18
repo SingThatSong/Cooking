@@ -1,7 +1,6 @@
 using Cooking.ServiceLayer.MainPage;
 using Data.Context;
 using Data.Model;
-using Data.Model.Plan;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RtfPipe;

@@ -3,12 +3,10 @@ using AutoMapper.EquivalencyExpression;
 using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.MainPage;
 using Cooking.ServiceLayer.Projections;
-using Data.Context;
 using Data.Model;
 using Data.Model.Plan;
 using ServiceLayer.DTO.MainPage;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -35,7 +33,7 @@ namespace ServiceLayer
 
                 cfg.CreateMap<Week, WeekMainPage>();
                 cfg.CreateMap<Day, DayMainPage>();
-                
+
                 cfg.CreateMap<Entity, Entity>();
 
                 cfg.CreateMap<Recipe, Recipe>().IncludeBase<Entity, Entity>();
@@ -52,13 +50,13 @@ namespace ServiceLayer
 
                 cfg.CreateMap<RecipeFull, Recipe>()
                    .ForMember(x => x.Tags, opt => opt.Ignore())
-                   .AfterMap((src, dest, context) => dest.Tags = src.Tags.Select(x => new RecipeTag() 
-                                                                                      {  
-                                                                                          //Recipe = dest,
-                                                                                          RecipeId = dest.ID,
-                                                                                          //Tag = context.Mapper.Map<Tag>(x),
-                                                                                          TagId = x.ID
-                                                                                      }).ToList()
+                   .AfterMap((src, dest, context) => dest.Tags = src.Tags.Select(x => new RecipeTag()
+                   {
+                       //Recipe = dest,
+                       RecipeId = dest.ID,
+                       //Tag = context.Mapper.Map<Tag>(x),
+                       TagId = x.ID
+                   }).ToList()
                    );
 
                 cfg.CreateMap<IngredientsGroup, IngredientGroupData>();

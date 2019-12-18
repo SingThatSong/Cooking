@@ -21,7 +21,8 @@ namespace Cooking.Pages
 
         public MoveRecipeViewModel()
         {
-            SelectDayCommand = new DelegateCommand<SelectDay>(recipe => {
+            SelectDayCommand = new DelegateCommand<SelectDay>(recipe =>
+            {
                 foreach (var d in DaysOfWeek)
                 {
                     d.IsSelected = false;

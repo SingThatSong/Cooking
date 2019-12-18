@@ -20,9 +20,9 @@ namespace Cooking.Converters
             {
                 List<string> list = new List<string>();
 
-                foreach(var val in collection)
+                foreach (var val in collection)
                 {
-                    if(val is Enum @enumValue)
+                    if (val is Enum @enumValue)
                     {
                         var description = @enumValue.Description();
                         if (description != null)
@@ -51,7 +51,7 @@ namespace Cooking.Converters
                     return targetType.Enum(valAsString);
                 }
             }
-            
+
             return Binding.DoNothing;
         }
     }

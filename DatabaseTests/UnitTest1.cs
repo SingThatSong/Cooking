@@ -1,11 +1,8 @@
-using Cooking.ServiceLayer;
 using Data.Context;
 using Data.Model;
 using Data.Model.Plan;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ServiceLayer;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -259,7 +256,7 @@ namespace DatabaseTests
                     }
                 }
             };
-            
+
             RecipeService.UpdateAsync(get).Wait();
 
             var get2 = RecipeService.Get(recipe.ID);

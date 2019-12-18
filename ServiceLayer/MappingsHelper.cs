@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Data.Context;
+﻿using Data.Context;
 using Data.Model;
 namespace ServiceLayer
 {
