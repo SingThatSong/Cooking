@@ -22,7 +22,7 @@ namespace Cooking.Pages
         public IEnumerable<DayPlan>? Days { get; private set; }
         public DateTime WeekStart { get; private set; }
 
-        public DelegateCommand<DayPlan> ShowRecipeCommand { get; }
+        public DelegateCommand<Guid> ShowRecipeCommand { get; }
         public DelegateCommand<DayPlan> GetAlternativeRecipeCommand { get; }
         public DelegateCommand<DayPlan> DeleteRecipeManuallyCommand { get; }
         public DelegateCommand<DayPlan> SetRecipeManuallyCommand { get; }
@@ -41,7 +41,7 @@ namespace Cooking.Pages
             DeleteRecipeManuallyCommand = new DelegateCommand<DayPlan>(DeleteRecipeManually);
             SetRecipeManuallyCommand    = new DelegateCommand<DayPlan>(SetRecipeManually);
             GetAlternativeRecipeCommand = new DelegateCommand<DayPlan>(GetAlternativeRecipe, canExecute: (day) => day?.RecipeAlternatives?.Count > 1);
-            ShowRecipeCommand           = new DelegateCommand<DayPlan>(ShowRecipe);
+            ShowRecipeCommand           = new DelegateCommand<Guid>(ShowRecipe);
             CloseCommand                = new DelegateCommand(Close);
             OkCommand                   = new AsyncDelegateCommand(Ok, freezeWhenBusy: true);
         }
@@ -63,11 +63,11 @@ namespace Cooking.Pages
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(MainPage), parameters);
         }
 
-        private async void ShowRecipe(DayPlan day)
+        private async void ShowRecipe(Guid recipeId)
         {
             var parameters = new NavigationParameters()
             {
-                { nameof(RecipeViewModel.Recipe), day.Recipe?.ID }
+                { nameof(RecipeViewModel.Recipe), recipeId }
             };
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
         }
