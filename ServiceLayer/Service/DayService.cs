@@ -1,14 +1,15 @@
 ﻿using Data.Context;
 using Data.Model.Plan;
+using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ServiceLayer
+namespace Cooking.ServiceLayer
 {
-    public static class DayService
+    public class DayService : CRUDService<Day>
     {
-        public static void SetDinnerWasCooked(Guid dayId, bool wasCooked)
+        public void SetDinnerWasCooked(Guid dayId, bool wasCooked)
         {
             using var context = new CookingContext(DatabaseService.DbFileName);
             var dayDb = context.Days.Find(dayId);
@@ -16,7 +17,7 @@ namespace ServiceLayer
             context.SaveChanges();
         }
 
-        public static async Task SetDinner(Guid dayId, Guid dinnerId)
+        public async Task SetDinner(Guid dayId, Guid dinnerId)
         {
             using var context = new CookingContext(DatabaseService.DbFileName);
             var dayDb = await context.Days.FindAsync(dayId);
@@ -24,7 +25,7 @@ namespace ServiceLayer
             context.SaveChanges();
         }
 
-        public static async Task CreateDinner(Guid weekId, Guid dinnerId, DayOfWeek dayOfWeek)
+        public async Task CreateDinner(Guid weekId, Guid dinnerId, DayOfWeek dayOfWeek)
         {
             using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
             var weekDb = await context.Weeks.FindAsync(weekId);
@@ -40,14 +41,6 @@ namespace ServiceLayer
                 DayOfWeek = dayOfWeek
             });
 
-            context.SaveChanges();
-        }
-
-        public static async Task DeleteDay(Guid id)
-        {
-            using var context = new CookingContext(DatabaseService.DbFileName);
-            var dayDb = await context.Days.FindAsync(id);
-            context.Days.Remove(dayDb);
             context.SaveChanges();
         }
     }

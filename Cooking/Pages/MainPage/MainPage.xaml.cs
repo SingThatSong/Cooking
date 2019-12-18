@@ -6,9 +6,9 @@ namespace Cooking.Pages
     /// <summary>
     /// Логика взаимодействия для MainPage.xaml
     /// </summary>
-    public partial class MainPage : UserControl, IRegionMemberLifetime
+    public partial class MainView : UserControl, IRegionMemberLifetime
     {
-        public MainPage()
+        public MainView()
         {
             InitializeComponent();
         }

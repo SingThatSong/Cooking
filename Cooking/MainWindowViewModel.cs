@@ -23,7 +23,7 @@ namespace Cooking
             {
                 Label = "Главная",
                 Icon = new PackIconModern() { Kind = PackIconModernKind.Page },
-                Tag = typeof(MainPage)
+                Tag = typeof(MainView)
             },
             new HamburgerMenuIconItem()
             {

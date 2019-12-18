@@ -1,4 +1,5 @@
 ﻿using Cooking.Pages;
+using Cooking.ServiceLayer;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using Prism.Mvvm;
@@ -50,10 +51,14 @@ namespace Cooking
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // Register main page and main vm - they are constant
             containerRegistry.Register<MainWindow>();
-            containerRegistry.RegisterSingleton<ImageService>();
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
 
+            // Register services
+            containerRegistry.Register<DayService>();
+            containerRegistry.RegisterSingleton<ImageService>();
+            // Dialog service is constant - we have only one window
             containerRegistry.RegisterInstance(new DialogService(
                                                         Container.Resolve<MainWindowViewModel>(),
                                                         DialogCoordinator.Instance,
@@ -61,11 +66,11 @@ namespace Cooking
                                                    )
                                               );
 
-
+            // Register pages
             containerRegistry.RegisterForNavigation<WeekSettings>();
 
             containerRegistry.RegisterForNavigation<ShowGeneratedWeekView>();
-            containerRegistry.RegisterForNavigation<MainPage>();
+            containerRegistry.RegisterForNavigation<MainView>();
             containerRegistry.RegisterForNavigation<ShoppingCartView>();
             containerRegistry.RegisterForNavigation<Recepies>();
             containerRegistry.RegisterForNavigation<RecipeView>();
@@ -74,6 +79,10 @@ namespace Cooking
             containerRegistry.RegisterForNavigation<GarnishesView>();
         }
 
+        /// <summary>
+        /// Creating Prism shell (main window)
+        /// </summary>
+        /// <returns></returns>
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();

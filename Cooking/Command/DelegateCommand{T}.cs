@@ -21,7 +21,18 @@ namespace Cooking.Commands
             ExecuteOnce = executeOnce;
         }
 
-        protected override void ExecuteInternal(object? parameter) => _execute((T)parameter);
-        protected override bool CanExecuteInternal(object? parameter) => _canExecute != null && parameter != null ? _canExecute((T)parameter) : true;
+        protected override void ExecuteInternal(object? parameter)
+        {
+            if (parameter is T tParameter)
+            {
+                _execute(tParameter);
+            }
+            else
+            {
+                throw new InvalidCastException("Command parameter is not T");
+            }
+        }
+
+        protected override bool CanExecuteInternal(object? parameter) => _canExecute != null && parameter is T tParameter ? _canExecute(tParameter) : true;
     }
 }

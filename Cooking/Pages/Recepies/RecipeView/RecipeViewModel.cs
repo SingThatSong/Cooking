@@ -94,12 +94,11 @@ namespace Cooking.Pages
             navigationContext.NavigationService.Journal.GoBack();
         }
 
-        private void RemoveIngredientGroup(DTO.IngredientGroupEdit arg) => Recipe.IngredientGroups!.Remove(arg);
+        private void RemoveIngredientGroup(DTO.IngredientGroupEdit arg) => Recipe!.IngredientGroups!.Remove(arg);
 
         private void RemoveIngredient(RecipeIngredientEdit ingredient)
         {
-
-            if (Recipe.Ingredients != null && Recipe.Ingredients.Contains(ingredient))
+            if (Recipe!.Ingredients != null && Recipe.Ingredients.Contains(ingredient))
             {
                 Recipe.Ingredients.Remove(ingredient);
                 return;

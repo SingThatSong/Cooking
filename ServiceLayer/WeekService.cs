@@ -17,12 +17,15 @@ namespace ServiceLayer
         /// </summary>
         /// <param name="dayOfWeek"></param>
         /// <returns></returns>
-        public static async Task<WeekMainPage> GetWeekAsync(DateTime dayOfWeek)
+        public static async Task<Week> GetWeekAsync(DateTime dayOfWeek)
         {
             Debug.WriteLine("WeekService.GetWeek(DateTime)");
-            using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
-            return await MapperService.Mapper.ProjectTo<WeekMainPage>(context.Weeks)
-.SingleOrDefaultAsync(x => x.Start.Date <= dayOfWeek.Date && dayOfWeek.Date <= x.End.Date).ConfigureAwait(false);
+            using var context = new CookingContext(DatabaseService.DbFileName);
+            return await context.Weeks    
+                                .Include(x => x.Days)     
+                                    .ThenInclude(x => x.Dinner)
+                                .SingleOrDefaultAsync(x => x.Start.Date <= dayOfWeek.Date 
+                                                        && dayOfWeek.Date <= x.End.Date).ConfigureAwait(false);
         }
 
         /// <summary>

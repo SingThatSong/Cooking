@@ -48,7 +48,7 @@ namespace Cooking.Pages
 
         private void Close()
         {
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(MainPage));
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(MainView));
         }
 
         private async Task Ok()
@@ -60,7 +60,7 @@ namespace Cooking.Pages
             {
                 { Consts.ReloadWeekParameter, true }
             };
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(MainPage), parameters);
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(MainView), parameters);
         }
 
         private async void ShowRecipe(Guid recipeId)

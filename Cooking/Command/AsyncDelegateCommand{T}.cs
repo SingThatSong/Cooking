@@ -20,8 +20,18 @@ namespace Cooking.Commands
             FreezeWhenBusy = freezeWhenBusy;
         }
 
-        protected override bool CanExecuteAsyncInternal(object? parameter) => _canExecute != null ? _canExecute((T)parameter) : true;
+        protected override bool CanExecuteAsyncInternal(object? parameter) => _canExecute != null && parameter is T tParameter ? _canExecute(tParameter) : true;
 
-        protected override async Task ExecuteAsyncInternal(object? parameter) => await _execute((T)parameter).ConfigureAwait(false);
+        protected override async Task ExecuteAsyncInternal(object? parameter)
+        {
+            if (parameter is T tParameter)
+            {
+                await _execute(tParameter).ConfigureAwait(false);
+            }
+            else
+            {
+                throw new InvalidCastException("Command parameter is not T");
+            }
+        }
     }
 }

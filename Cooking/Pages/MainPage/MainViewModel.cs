@@ -1,5 +1,6 @@
 ﻿using Cooking.Commands;
 using Cooking.DTO;
+using Cooking.ServiceLayer;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using Prism.Regions;
@@ -13,11 +14,12 @@ using System.Threading.Tasks;
 namespace Cooking.Pages
 {
     [AddINotifyPropertyChangedInterface]
-    public class MainPageViewModel : INavigationAware
+    public class MainViewModel : INavigationAware
     {
         private readonly DialogService dialogUtils;
         private readonly IRegionManager regionManager;
         private readonly IContainerExtension container;
+        private readonly DayService dayService;
 
         public DateTime WeekStart { get; set; }
         public DateTime WeekEnd { get; set; }
@@ -35,14 +37,21 @@ namespace Cooking.Pages
         public DelegateCommand<string> SelectDinnerCommand { get; }
         public DelegateCommand<Guid> DeleteDinnerCommand { get; }
 
-        public MainPageViewModel(DialogService dialogUtils, IRegionManager regionManager, IContainerExtension container)
+        public MainViewModel(DialogService dialogUtils, 
+                                 IRegionManager regionManager, 
+                                 IContainerExtension container,
+                                 DayService dayService)
         {
             Debug.Assert(dialogUtils != null);
+            Debug.Assert(regionManager != null);
+            Debug.Assert(container != null);
+            Debug.Assert(dayService != null);
             Debug.WriteLine("MainPageViewModel.ctor");
 
             this.dialogUtils            = dialogUtils;
-            this.regionManager = regionManager;
-            this.container = container;
+            this.regionManager          = regionManager;
+            this.container              = container;
+            this.dayService             = dayService;
             LoadedCommand               = new DelegateCommand(OnLoadedAsync, executeOnce: true);
             CreateNewWeekCommand        = new DelegateCommand(CreateNewWeekAsync);
             CreateShoppingListCommand   = new DelegateCommand(CreateShoppingListAsync);
@@ -75,7 +84,7 @@ namespace Cooking.Pages
                         {
                             if (sender is DayEdit dayChanged)
                             {
-                                DayService.SetDinnerWasCooked(dayChanged.ID, dayChanged.DinnerWasCooked);
+                                dayService.SetDinnerWasCooked(dayChanged.ID, dayChanged.DinnerWasCooked);
                             }
                         }
                     };
@@ -107,11 +116,11 @@ namespace Cooking.Pages
 
                 if (day != null)
                 {
-                    await DayService.SetDinner(day.ID, viewModel.SelectedRecipeID).ConfigureAwait(false);
+                    await dayService.SetDinner(day.ID, viewModel.SelectedRecipeID).ConfigureAwait(false);
                 }
                 else
                 {
-                    await DayService.CreateDinner(CurrentWeek!.ID, viewModel.SelectedRecipeID, dayOfWeek).ConfigureAwait(false);
+                    await dayService.CreateDinner(CurrentWeek!.ID, viewModel.SelectedRecipeID, dayOfWeek).ConfigureAwait(false);
                 }
 
                 await ReloadCurrentWeek().ConfigureAwait(false);
@@ -213,7 +222,7 @@ namespace Cooking.Pages
 
             if (result == MessageDialogResult.Affirmative)
             {
-                await DayService.DeleteDay(dayId).ConfigureAwait(false);
+                dayService.Delete(dayId);
                 await ReloadCurrentWeek().ConfigureAwait(false);
             }
         }
