@@ -190,26 +190,26 @@ namespace DatabaseTests
         }
 
 
-        [DataTestMethod]
-        public void AddTagToRecipe()
-        {
-            var tag = new Tag() { Name = "hi" };
-            TagService.CreateAsync(tag).Wait();
+        //[DataTestMethod]
+        //public void AddTagToRecipe()
+        //{
+        //    var tag = new Tag() { Name = "hi" };
+        //    TagService.CreateAsync(tag).Wait();
 
-            var recipe = new Recipe();
-            RecipeService.CreateAsync(recipe).Wait();
+        //    var recipe = new Recipe();
+        //    RecipeService.CreateAsync(recipe).Wait();
 
-            var get = RecipeService.Get(recipe.ID);
+        //    var get = RecipeService.Get(recipe.ID);
 
-            get.Tags = new List<RecipeTag> { new RecipeTag() { TagId = tag.ID, RecipeId = get.ID } };
+        //    get.Tags = new List<RecipeTag> { new RecipeTag() { TagId = tag.ID, RecipeId = get.ID } };
 
-            RecipeService.UpdateAsync(get).Wait();
+        //    RecipeService.UpdateAsync(get).Wait();
 
-            var get2 = RecipeService.Get(recipe.ID);
+        //    var get2 = RecipeService.Get(recipe.ID);
 
-            Assert.IsNotNull(get2.Tags.First().Tag);
-            Assert.AreEqual(tag.Name, get2.Tags.First().Tag.Name);
-        }
+        //    Assert.IsNotNull(get2.Tags.First().Tag);
+        //    Assert.AreEqual(tag.Name, get2.Tags.First().Tag.Name);
+        //}
 
         //[DataTestMethod]
         //public void AddIngredientToRecipe()

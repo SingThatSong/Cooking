@@ -135,8 +135,9 @@ namespace Cooking.Pages
 
         private async Task AddTag()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>("Добавление тегов", new TagSelectViewModel(Recipe.Tags, dialogUtils))
-                                             .ConfigureAwait(false);
+            var viewModel = container.Resolve<TagSelectViewModel>();
+            viewModel.SetTags(Recipe.Tags, null);
+            await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>("Добавление тегов", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {

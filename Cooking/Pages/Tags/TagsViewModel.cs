@@ -1,12 +1,12 @@
-﻿using Cooking.Commands;
+﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Tags;
-
+using Cooking.ServiceLayer;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Regions;
 using PropertyChanged;
-using ServiceLayer;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -20,6 +20,8 @@ namespace Cooking.Pages
     {
         private readonly IRegionManager regionManager;
         private readonly DialogService dialogUtils;
+        private readonly TagService tagService;
+        private readonly IMapper mapper;
 
         public ObservableCollection<TagEdit>? Tags { get; private set; }
         public bool IsEditing { get; set; }
@@ -30,14 +32,17 @@ namespace Cooking.Pages
         public DelegateCommand<Guid> DeleteTagCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public TagsViewModel(IRegionManager regionManager, DialogService dialogUtils)
+        public TagsViewModel(IRegionManager regionManager, DialogService dialogUtils, TagService tagService, IMapper mapper)
         {
             Debug.Assert(regionManager != null);
             Debug.Assert(dialogUtils != null);
+            Debug.Assert(tagService != null);
+            Debug.Assert(mapper != null);
 
             this.regionManager = regionManager;
             this.dialogUtils = dialogUtils;
-
+            this.tagService = tagService;
+            this.mapper = mapper;
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
             AddTagCommand = new DelegateCommand(AddTag);
             DeleteTagCommand = new DelegateCommand<Guid>(DeleteTag);
@@ -48,8 +53,8 @@ namespace Cooking.Pages
         private void OnLoaded()
         {
             Debug.WriteLine("TagsViewModel.OnLoaded");
-            Tags = TagService.GetTags()
-                             .MapTo<ObservableCollection<TagEdit>>();
+            var dbVals = tagService.GetProjected<TagEdit>(mapper);
+            Tags = new ObservableCollection<TagEdit>(dbVals);
         }
 
         private void ViewTag(TagEdit tag)
@@ -63,12 +68,12 @@ namespace Cooking.Pages
 
         private async Task EditTag(TagEdit tag)
         {
-            var viewModel = new TagEditViewModel(tag.MapTo<TagEdit>());
+            var viewModel = new TagEditViewModel(tagService, tag.MapTo<TagEdit>());
             await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Редактирование тега", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                await TagService.UpdateTagAsync(viewModel.Tag.MapTo<Tag>()).ConfigureAwait(false);
+                await tagService.UpdateAsync(viewModel.Tag.MapTo<Tag>()).ConfigureAwait(false);
                 var existingTag = Tags.Single(x => x.ID == tag.ID);
                 viewModel.Tag.MapTo(existingTag);
             }
@@ -90,7 +95,7 @@ namespace Cooking.Pages
 
             if (result == MessageDialogResult.Affirmative)
             {
-                await TagService.DeleteAsync(recipeId).ConfigureAwait(true);
+                await tagService.DeleteAsync(recipeId).ConfigureAwait(true);
                 Tags!.Remove(Tags.Single(x => x.ID == recipeId));
             }
         }
@@ -101,7 +106,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                var id = await TagService.CreateAsync(viewModel.Tag.MapTo<Tag>()).ConfigureAwait(false);
+                var id = await tagService.CreateAsync(viewModel.Tag.MapTo<Tag>()).ConfigureAwait(false);
                 viewModel.Tag.ID = id;
                 Tags!.Add(viewModel.Tag);
             }

@@ -28,19 +28,6 @@ namespace ServiceLayer
                                                         && dayOfWeek.Date <= x.End.Date).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Загрузка недели поп id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public static async Task<WeekMainPage> GetWeekAsync(Guid id)
-        {
-            Debug.WriteLine("WeekService.GetWeek(Guid)");
-            using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
-            return await MapperService.Mapper.ProjectTo<WeekMainPage>(context.Weeks)
-.SingleOrDefaultAsync(x => x.ID == id).ConfigureAwait(false);
-        }
-
         public static async Task CreateWeekAsync(DateTime weekStart, Dictionary<DayOfWeek, Guid?> selectedRecepies)
         {
             Debug.WriteLine("WeekService.CreateWeekAsync");
@@ -75,11 +62,11 @@ namespace ServiceLayer
             var week = context.Weeks.Find(id);
 
             var ingredients = from dinner in week.Days.Where(x => x.Dinner?.Ingredients != null)
-                              from ingredient in dinner.Dinner.Ingredients
+                              from ingredient in dinner.Dinner!.Ingredients
                               select new { dinner.Dinner, Ingredient = ingredient };
 
             var ingredientsInGroupds = from dinner in week.Days.Where(x => x.Dinner?.IngredientGroups != null)
-                                       from ingredient in dinner.Dinner.IngredientGroups.SelectMany(g => g.Ingredients)
+                                       from ingredient in dinner.Dinner!.IngredientGroups.SelectMany(g => g.Ingredients)
                                        select new { dinner.Dinner, Ingredient = ingredient };
 
             var allIngredients = ingredients.Union(ingredientsInGroupds);
@@ -107,7 +94,10 @@ namespace ServiceLayer
                                                         Name = x.Key!,
                                                         Amount = x.Where(a => a.Ingredient.Amount.HasValue).Sum(a => a.Ingredient.Amount!.Value)
                                                     }).ToList(),
-                        RecipiesSources = ingredient.Select(x => x.Dinner.Name).Distinct().ToList()
+                        RecipiesSources = ingredient.Where(x => x.Dinner.Name != null)
+                                                    .Select(x => x.Dinner.Name!)
+                                                    .Distinct()
+                                                    .ToList()
                     });
                 }
 

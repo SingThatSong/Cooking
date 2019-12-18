@@ -2,7 +2,9 @@
 using Cooking.DTO;
 using Cooking.Pages.Dialogs;
 using Cooking.Pages.ViewModel;
+using Cooking.ServiceLayer;
 using Data.Model;
+using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
@@ -20,6 +22,8 @@ namespace Cooking.Pages
     {
         private readonly DialogService dialogUtils;
         private readonly IRegionManager regionManager;
+        private readonly TagService tagService;
+        private readonly IContainerExtension container;
         private NavigationContext? navigationContext;
 
         public DateTime WeekStart { get; private set; }
@@ -31,13 +35,18 @@ namespace Cooking.Pages
         public DelegateCommand OkCommand { get; }
         public DelegateCommand CloseCommand { get; }
 
-        public WeekSettingsViewModel(DialogService dialogUtils, IRegionManager regionManager)
+        public WeekSettingsViewModel(DialogService dialogUtils, IRegionManager regionManager, TagService tagService, IContainerExtension container)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(regionManager != null);
+            Debug.Assert(tagService != null);
+            Debug.Assert(tagService != null);
 
             this.dialogUtils = dialogUtils;
             this.regionManager = regionManager;
+            this.tagService = tagService;
+            this.container = container;
+
             Days = new List<DayPlan>()
             {
                 new DayPlan(),
@@ -159,7 +168,7 @@ namespace Cooking.Pages
 
         private async Task<ObservableCollection<TagEdit>> GetTags(TagType type, ObservableCollection<TagEdit> current)
         {
-            var dbTags = TagService.GetTagsByType(type);
+            var dbTags = tagService.GetTagsByType(type);
 
             var allTags = dbTags.Select(x => MapperService.Mapper.Map<TagEdit>(x)).ToList();
 
@@ -167,7 +176,9 @@ namespace Cooking.Pages
             allTags[0].IsChecked = false;
             allTags.ForEach(x => x.Type = type);
 
-            var viewModel = new TagSelectViewModel(current, allTags, dialogUtils);
+            
+            var viewModel = container.Resolve<TagSelectViewModel>();
+            viewModel.SetTags(current, allTags);
             await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>($"Категории {type}", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)

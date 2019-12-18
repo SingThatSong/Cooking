@@ -61,6 +61,7 @@ namespace Cooking
             containerRegistry.Register<DayService>();
             containerRegistry.Register<GarnishService>();
             containerRegistry.Register<IngredientService>();
+            containerRegistry.Register<TagService>();
             containerRegistry.RegisterSingleton<ImageService>(); 
             // Dialog service is constant - we have only one window
             containerRegistry.RegisterInstance(new DialogService(

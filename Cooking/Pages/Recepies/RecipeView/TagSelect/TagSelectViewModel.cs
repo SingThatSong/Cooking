@@ -1,11 +1,14 @@
-﻿using Cooking.Commands;
+﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Tags;
+using Cooking.ServiceLayer;
 using Data.Model;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Cooking.Pages
@@ -13,30 +16,33 @@ namespace Cooking.Pages
     public partial class TagSelectViewModel : OkCancelViewModel
     {
         private readonly DialogService dialogUtils;
+        private readonly TagService tagService;
+        private readonly IMapper mapper;
 
-        public TagSelectViewModel()
+        public TagSelectViewModel(DialogService dialogUtils, TagService tagService, IMapper mapper)
         {
-            throw new NotImplementedException();
-        }
+            Debug.Assert(dialogUtils != null);
+            Debug.Assert(tagService != null);
+            Debug.Assert(mapper != null);
 
-        public TagSelectViewModel(IEnumerable<TagEdit>? currentTags, DialogService dialogUtils)
-        {
             this.dialogUtils = dialogUtils;
+            this.tagService = tagService;
+            this.mapper = mapper;
+
             AddTagCommand = new DelegateCommand(AddTag);
-            AllTags = new ObservableCollection<TagEdit>(TagService.GetTags().Select(x => MapperService.Mapper.Map<TagEdit>(x)));
-            CtorInternal(currentTags);
         }
 
-        public TagSelectViewModel(IEnumerable<TagEdit>? currentTags, IEnumerable<TagEdit> allTags, DialogService dialogUtils)
+        public void SetTags(IEnumerable<TagEdit>? currentTags, IEnumerable<TagEdit>? allTags)
         {
-            this.dialogUtils = dialogUtils;
-            AddTagCommand = new DelegateCommand(AddTag);
-            AllTags = new ObservableCollection<TagEdit>(allTags);
-            CtorInternal(currentTags);
-        }
+            if (allTags == null)
+            {
+                AllTags = new ObservableCollection<TagEdit>(tagService.GetProjected<TagEdit>(mapper));
+            }
+            else
+            {
+                AllTags = new ObservableCollection<TagEdit>(allTags);
+            }
 
-        private void CtorInternal(IEnumerable<TagEdit>? currentTags)
-        {
             if (currentTags != null)
             {
                 var tagsSelected = AllTags.Where(x => currentTags.Any(ct => ct.ID == x.ID));
@@ -54,7 +60,7 @@ namespace Cooking.Pages
             
             if (viewModel.DialogResultOk)
             {
-                var id = await TagService.CreateAsync(viewModel.Tag.MapTo<Tag>()).ConfigureAwait(false);
+                var id = await tagService.CreateAsync(viewModel.Tag.MapTo<Tag>()).ConfigureAwait(false);
                 viewModel.Tag.ID = id;
                 AllTags.Add(viewModel.Tag);
             }
@@ -64,12 +70,12 @@ namespace Cooking.Pages
 
         public DelegateCommand AddTagCommand { get; }
 
-        public ObservableCollection<TagEdit> AllTags { get; }
+        public ObservableCollection<TagEdit>? AllTags { get; private set; }
 
-        public IEnumerable<TagEdit> MainIngredients => AllTags.Where(x => x.Type == TagType.MainIngredient);
-        public IEnumerable<TagEdit> DishTypes => AllTags.Where(x => x.Type == TagType.DishType);
-        public IEnumerable<TagEdit> Occasions => AllTags.Where(x => x.Type == TagType.Occasion);
-        public IEnumerable<TagEdit> Sources => AllTags.Where(x => x.Type == TagType.Source);
+        public IEnumerable<TagEdit>? MainIngredients => AllTags?.Where(x => x.Type == TagType.MainIngredient);
+        public IEnumerable<TagEdit>? DishTypes => AllTags?.Where(x => x.Type == TagType.DishType);
+        public IEnumerable<TagEdit>? Occasions => AllTags?.Where(x => x.Type == TagType.Occasion);
+        public IEnumerable<TagEdit>? Sources => AllTags?.Where(x => x.Type == TagType.Source);
 
     }
 }

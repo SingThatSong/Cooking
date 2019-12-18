@@ -1,5 +1,6 @@
 ﻿using Cooking.DTO;
 using Cooking.Helpers;
+using Cooking.ServiceLayer;
 using MahApps.Metro.Controls.Dialogs;
 using PropertyChanged;
 using ServiceLayer;
@@ -15,12 +16,10 @@ namespace Cooking.Pages
     {
         private bool NameChanged { get; set; }
 
-        public TagEditViewModel() : this(null) { }
-
-        public TagEditViewModel(TagEdit? category = null)
+        public TagEditViewModel(TagService tagService, TagEdit? category = null)
         {
             Tag = category ?? new TagEdit();
-            AllTagNames = TagService.GetTagNames();
+            AllTagNames = tagService.GetTagNames();
             Tag.PropertyChanged += Tag_PropertyChanged;
         }
 
