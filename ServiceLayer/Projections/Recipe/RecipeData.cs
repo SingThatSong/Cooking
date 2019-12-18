@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Cooking.ServiceLayer.Projections
 {
     public class RecipeFull : RecipeSlim
     {
-        public string SourceUrl { get; set; }
+        public Uri SourceUrl { get; set; }
         public string Description { get; set; }
         public int PortionsCount { get; set; }
         public int? Difficulty { get; set; }

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TEST
 {
     public class Recipe : Entity
     {
         public string Name { get; set; }
-        public string SourceUrl { get; set; }
+        public Uri SourceUrl { get; set; }
         public string ImagePath { get; set; }
         public string Description { get; set; }
 
