@@ -24,12 +24,13 @@ namespace Cooking
                 cfg.AllowNullDestinationValues = true;
 
 
-                cfg.CreateMap<GarnishEdit, GarnishEdit>();
-                cfg.CreateMap<GarnishDTO, GarnishEdit>();
-                cfg.CreateMap<GarnishEdit, Garnish>();
+                cfg.CreateMap<Garnish, GarnishEdit>().ReverseMap();
                 cfg.CreateMap<Week, WeekEdit>();
                 cfg.CreateMap<Day, DayEdit>();
+                cfg.CreateMap<Ingredient, IngredientEdit>();
                 cfg.CreateMap<Recipe, RecipeSelectDto>();
+
+
                 cfg.CreateMap<RecipeSlim, RecipeSelectDto>();
                 cfg.CreateMap<RecipeFull, RecipeEdit>()
                 .AfterMap((src, dest) =>

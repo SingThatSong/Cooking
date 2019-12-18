@@ -1,4 +1,5 @@
-﻿using Cooking.Commands;
+﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Ingredients;
 using Cooking.ServiceLayer;
@@ -19,6 +20,8 @@ namespace Cooking.Pages
     {
         private readonly IRegionManager regionManager;
         private readonly DialogService dialogUtils;
+        private readonly IngredientService ingredientService;
+        private readonly IMapper mapper;
 
         public ObservableCollection<IngredientEdit>? Ingredients { get; private set; }
         public bool IsEditing { get; set; }
@@ -30,14 +33,20 @@ namespace Cooking.Pages
         public DelegateCommand<Guid> DeleteCategoryCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public IngredientsViewModel(IRegionManager regionManager, DialogService dialogUtils)
+        public IngredientsViewModel(IRegionManager regionManager, 
+                                    DialogService dialogUtils, 
+                                    IngredientService ingredientService,
+                                    IMapper mapper)
         {
             Debug.Assert(regionManager != null);
             Debug.Assert(dialogUtils != null);
+            Debug.Assert(ingredientService != null);
+            Debug.Assert(mapper != null);
 
             this.regionManager = regionManager;
             this.dialogUtils = dialogUtils;
-
+            this.ingredientService = ingredientService;
+            this.mapper = mapper;
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
             ViewIngredientCommand = new DelegateCommand<IngredientEdit>(ViewIngredient);
             AddIngredientCommand = new DelegateCommand(AddRecipe);
@@ -56,12 +65,12 @@ namespace Cooking.Pages
 
         private async void EditIngredient(IngredientEdit ingredient)
         {
-            var viewModel = new IngredientEditViewModel(ingredient.MapTo<IngredientEdit>());
+            var viewModel = new IngredientEditViewModel(ingredientService, ingredient.MapTo<IngredientEdit>());
             await dialogUtils.ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Редактирование ингредиента", viewModel).ConfigureAwait(false);
             
             if (viewModel.DialogResultOk)
             {
-                await IngredientService.UpdateIngredientAsync(viewModel.Ingredient.MapTo<Ingredient>()).ConfigureAwait(false);
+                await ingredientService.UpdateAsync(viewModel.Ingredient.MapTo<Ingredient>()).ConfigureAwait(false);
                 var existingRecipe = Ingredients.Single(x => x.ID == ingredient.ID);
                 viewModel.Ingredient.MapTo(existingRecipe);
             }
@@ -70,8 +79,8 @@ namespace Cooking.Pages
         private void OnLoaded()
         {
             Debug.WriteLine("IngredientsViewModel.OnLoaded");
-            Ingredients = IngredientService.GetIngredients<IngredientData>()
-                                           .MapTo<ObservableCollection<IngredientEdit>>();
+            var dataDb = ingredientService.GetProjected<IngredientEdit>(mapper);
+            Ingredients = new ObservableCollection<IngredientEdit>(dataDb);
         }
 
         public async void DeleteIngredient(Guid id)
@@ -89,7 +98,7 @@ namespace Cooking.Pages
 
             if (result == MessageDialogResult.Affirmative)
             {
-                await IngredientService.DeleteAsync(id).ConfigureAwait(true);
+                await ingredientService.DeleteAsync(id).ConfigureAwait(true);
                 Ingredients!.Remove(Ingredients.Single(x => x.ID == id));
             }
         }
@@ -100,7 +109,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                var id = await IngredientService.CreateAsync(viewModel.Ingredient.MapTo<Ingredient>()).ConfigureAwait(false);
+                var id = await ingredientService.CreateAsync(viewModel.Ingredient.MapTo<Ingredient>()).ConfigureAwait(false);
                 viewModel.Ingredient.ID = id;
                 Ingredients!.Add(viewModel.Ingredient);
             }

@@ -11,6 +11,12 @@ namespace Cooking.ServiceLayer
 {
     public class CRUDService<T> where T : Entity, new()
     {
+        public virtual List<T> GetAll()
+        {
+            using var context = new CookingContext(DatabaseService.DbFileName);
+            return context.Set<T>().ToList();
+        }
+
         public List<TProjection> GetProjected<TProjection>(IMapper mapper)
         {
             using var context = new CookingContext(DatabaseService.DbFileName);
@@ -25,10 +31,11 @@ namespace Cooking.ServiceLayer
             return entity.ID;
         }
 
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             using var context = new CookingContext(DatabaseService.DbFileName);
             context.Set<T>().Remove(new T { ID = id });
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task UpdateAsync(T garnish)

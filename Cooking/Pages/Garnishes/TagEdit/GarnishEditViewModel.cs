@@ -15,12 +15,10 @@ namespace Cooking.Pages
         public GarnishEdit Garnish { get; set; }
         private bool NameChanged { get; set; }
 
-        public GarnishEditViewModel() : this(null) { }
-
-        public GarnishEditViewModel(GarnishEdit? category)
+        public GarnishEditViewModel(GarnishEdit? category, GarnishService garnishService)
         {
             Garnish = category ?? new GarnishEdit();
-            AllGarnishNames = GarnishService.GetSearchNames();
+            AllGarnishNames = garnishService.GetSearchNames();
             Garnish.PropertyChanged += (src, e) =>
             {
                 if (e.PropertyName == nameof(Garnish.Name))

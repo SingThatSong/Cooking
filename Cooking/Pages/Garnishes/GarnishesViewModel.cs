@@ -1,4 +1,5 @@
-﻿using Cooking.Commands;
+﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Data.Model.Plan;
 using MahApps.Metro.Controls.Dialogs;
@@ -16,6 +17,8 @@ namespace Cooking.Pages
     public partial class GarnishesViewModel
     {
         private readonly DialogService dialogUtils;
+        private readonly GarnishService garnishService;
+        private readonly IMapper mapper;
 
         [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения", Justification = "<Ожидание>")]
         public ObservableCollection<GarnishEdit>? Garnishes { get; set; }
@@ -26,32 +29,35 @@ namespace Cooking.Pages
         public DelegateCommand<Guid> DeleteGarnishCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public GarnishesViewModel(DialogService dialogUtils)
+        public GarnishesViewModel(DialogService dialogUtils, GarnishService garnishService, IMapper mapper)
         {
             Debug.Assert(dialogUtils != null);
+            Debug.Assert(garnishService != null);
 
-            this.dialogUtils = dialogUtils;
-            LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
-            AddGarnishCommand = new DelegateCommand(AddGarnish);
+            this.dialogUtils     = dialogUtils;
+            this.garnishService  = garnishService;
+            this.mapper          = mapper;
+            LoadedCommand        = new DelegateCommand(OnLoaded, executeOnce: true);
+            AddGarnishCommand    = new DelegateCommand(AddGarnish);
             DeleteGarnishCommand = new DelegateCommand<Guid>(DeleteGarnish);
-            EditGarnishCommand = new DelegateCommand<GarnishEdit>(EditGarnish);
+            EditGarnishCommand   = new DelegateCommand<GarnishEdit>(EditGarnish);
         }
 
         private void OnLoaded()
         {
             Debug.WriteLine("GarnishesViewModel.OnLoaded");
-            Garnishes = GarnishService.GetGarnishes<ServiceLayer.GarnishDTO>()
-                                      .MapTo<ObservableCollection<GarnishEdit>>();
+            var dbValues = garnishService.GetProjected<GarnishEdit>(mapper);
+            Garnishes = new ObservableCollection<GarnishEdit>(dbValues);
         }
 
         private async void EditGarnish(GarnishEdit garnish)
         {
-            var viewModel = new GarnishEditViewModel(garnish.MapTo<GarnishEdit>());
+            var viewModel = new GarnishEditViewModel(garnish.MapTo<GarnishEdit>(), garnishService);
             await dialogUtils.ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Редактирование гарнира", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                await GarnishService.UpdateGarnishAsync(viewModel.Garnish.MapTo<Garnish>()).ConfigureAwait(false);
+                await garnishService.UpdateAsync(viewModel.Garnish.MapTo<Garnish>()).ConfigureAwait(false);
                 var existingGarnish = Garnishes.Single(x => x.ID == garnish.ID);
                 viewModel.Garnish.MapTo(existingGarnish);
             }
@@ -68,22 +74,22 @@ namespace Cooking.Pages
                 {
                     AffirmativeButtonText = "Да",
                     NegativeButtonText = "Нет"
-                }).ConfigureAwait(false);
+                }).ConfigureAwait(true);
 
             if (result == MessageDialogResult.Affirmative)
             {
-                await GarnishService.DeleteAsync(recipeId).ConfigureAwait(false);
+                await garnishService.DeleteAsync(recipeId).ConfigureAwait(true);
                 Garnishes!.Remove(Garnishes.Single(x => x.ID == recipeId));
             }
         }
 
         public async void AddGarnish()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Новый гарнир").ConfigureAwait(false);
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Новый гарнир").ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
-                var id = await GarnishService.CreateGarnishAsync(viewModel.Garnish.MapTo<Garnish>()).ConfigureAwait(false);
+                var id = await garnishService.CreateAsync(viewModel.Garnish.MapTo<Garnish>()).ConfigureAwait(true);
                 viewModel.Garnish.ID = id;
                 Garnishes!.Add(viewModel.Garnish);
             }

@@ -1,4 +1,5 @@
-﻿using Cooking.Commands;
+﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 
 using Cooking.ServiceLayer;
@@ -8,6 +9,7 @@ using ServiceLayer;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cooking.Pages.Ingredients
@@ -16,6 +18,7 @@ namespace Cooking.Pages.Ingredients
     public partial class RecipeIngredientEditViewModel : OkCancelViewModel
     {
         private readonly DialogService dialogUtils;
+        private readonly IngredientService ingredientService;
 
         public bool IsCreation { get; set; }
         public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
@@ -27,23 +30,31 @@ namespace Cooking.Pages.Ingredients
 
 
         public RecipeIngredientEdit Ingredient { get; set; }
+        public void OnIngredientChanged()
+        {
+            Ingredient.Ingredient = AllIngredients?.FirstOrDefault(x => x.ID == Ingredient.Ingredient?.ID);
+        }
         public ObservableCollection<RecipeIngredientEdit>? Ingredients { get; private set; }
 
         public List<IngredientEdit> AllIngredients { get; }
 
-        public RecipeIngredientEditViewModel(DialogService dialogUtils, RecipeIngredientEdit? ingredient = null)
+        public RecipeIngredientEditViewModel(DialogService dialogUtils, 
+                                             IngredientService ingredientService, 
+                                             IMapper mapper,
+                                             RecipeIngredientEdit? ingredient = null)
         {
             Debug.Assert(dialogUtils != null);
+            Debug.Assert(ingredientService != null);
 
             this.dialogUtils = dialogUtils;
+            this.ingredientService = ingredientService;
             Ingredient = ingredient ?? new RecipeIngredientEdit();
 
             AddMultipleCommand = new DelegateCommand(AddMultiple, canExecute: () => IsCreation);
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
             AddCategoryCommand = new AsyncDelegateCommand(AddRecipe);
 
-            AllIngredients = IngredientService.GetIngredients<IngredientData>()
-                                              .MapTo<List<IngredientEdit>>();
+            AllIngredients = ingredientService.GetProjected<IngredientEdit>(mapper);
         }
 
         private void RemoveIngredient(RecipeIngredientEdit i) => Ingredients!.Remove(i);
@@ -63,7 +74,7 @@ namespace Cooking.Pages.Ingredients
 
             if (viewModel.DialogResultOk)
             {
-                var id = await IngredientService.CreateAsync(viewModel.Ingredient.MapTo<Ingredient>())
+                var id = await ingredientService.CreateAsync(viewModel.Ingredient.MapTo<Ingredient>())
                                                 .ConfigureAwait(false);
                 viewModel.Ingredient.ID = id;
                 AllIngredients.Add(viewModel.Ingredient);

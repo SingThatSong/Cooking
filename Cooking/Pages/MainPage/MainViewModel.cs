@@ -222,7 +222,7 @@ namespace Cooking.Pages
 
             if (result == MessageDialogResult.Affirmative)
             {
-                dayService.Delete(dayId);
+                await dayService.DeleteAsync(dayId).ConfigureAwait(false);
                 await ReloadCurrentWeek().ConfigureAwait(false);
             }
         }

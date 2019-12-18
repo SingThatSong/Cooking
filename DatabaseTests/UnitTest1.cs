@@ -211,58 +211,58 @@ namespace DatabaseTests
             Assert.AreEqual(tag.Name, get2.Tags.First().Tag.Name);
         }
 
-        [DataTestMethod]
-        public void AddIngredientToRecipe()
-        {
-            var ingredient = new Ingredient() { Name = "hi" };
-            IngredientService.CreateAsync(ingredient).Wait();
+        //[DataTestMethod]
+        //public void AddIngredientToRecipe()
+        //{
+        //    var ingredient = new Ingredient() { Name = "hi" };
+        //    IngredientService.CreateAsync(ingredient).Wait();
 
-            var recipe = new Recipe();
-            RecipeService.CreateAsync(recipe).Wait();
+        //    var recipe = new Recipe();
+        //    RecipeService.CreateAsync(recipe).Wait();
 
-            var get = RecipeService.Get(recipe.ID);
+        //    var get = RecipeService.Get(recipe.ID);
 
-            get.Ingredients = new List<RecipeIngredient> { new RecipeIngredient() { IngredientId = ingredient.ID } };
+        //    get.Ingredients = new List<RecipeIngredient> { new RecipeIngredient() { IngredientId = ingredient.ID } };
 
-            RecipeService.UpdateAsync(get).Wait();
+        //    RecipeService.UpdateAsync(get).Wait();
 
-            var get2 = RecipeService.Get(recipe.ID);
+        //    var get2 = RecipeService.Get(recipe.ID);
 
-            Assert.IsNotNull(get2.Ingredients.First().Ingredient);
-            Assert.AreEqual(ingredient.Name, get2.Ingredients.First().Ingredient.Name);
-        }
+        //    Assert.IsNotNull(get2.Ingredients.First().Ingredient);
+        //    Assert.AreEqual(ingredient.Name, get2.Ingredients.First().Ingredient.Name);
+        //}
 
-        [DataTestMethod]
-        public void AddIngredientGroupToRecipe()
-        {
-            var ingredient = new Ingredient() { Name = "hi" };
-            IngredientService.CreateAsync(ingredient).Wait();
+        //[DataTestMethod]
+        //public void AddIngredientGroupToRecipe()
+        //{
+        //    var ingredient = new Ingredient() { Name = "hi" };
+        //    IngredientService.CreateAsync(ingredient).Wait();
 
-            var recipe = new Recipe();
-            RecipeService.CreateAsync(recipe).Wait();
+        //    var recipe = new Recipe();
+        //    RecipeService.CreateAsync(recipe).Wait();
 
-            var get = RecipeService.Get(recipe.ID);
+        //    var get = RecipeService.Get(recipe.ID);
 
-            get.IngredientGroups = new List<IngredientsGroup>()
-            {
-                new IngredientsGroup()
-                {
-                    Ingredients = new List<RecipeIngredient>
-                    {
-                        new RecipeIngredient()
-                        {
-                            IngredientId = ingredient.ID
-                        }
-                    }
-                }
-            };
+        //    get.IngredientGroups = new List<IngredientsGroup>()
+        //    {
+        //        new IngredientsGroup()
+        //        {
+        //            Ingredients = new List<RecipeIngredient>
+        //            {
+        //                new RecipeIngredient()
+        //                {
+        //                    IngredientId = ingredient.ID
+        //                }
+        //            }
+        //        }
+        //    };
 
-            RecipeService.UpdateAsync(get).Wait();
+        //    RecipeService.UpdateAsync(get).Wait();
 
-            var get2 = RecipeService.Get(recipe.ID);
+        //    var get2 = RecipeService.Get(recipe.ID);
 
-            Assert.IsNotNull(get2.IngredientGroups.First().Ingredients.First().Ingredient);
-            Assert.AreEqual(ingredient.Name, get2.IngredientGroups.First().Ingredients.First().Ingredient.Name);
-        }
+        //    Assert.IsNotNull(get2.IngredientGroups.First().Ingredients.First().Ingredient);
+        //    Assert.AreEqual(ingredient.Name, get2.IngredientGroups.First().Ingredients.First().Ingredient.Name);
+        //}
     }
 }

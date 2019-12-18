@@ -39,10 +39,9 @@
             IsEditable="True"
             IsTextSearchEnabled="False"
             ItemsSource="{Binding AllIngredients}"
-            SelectedValue="{Binding Ingredient.Ingredient}"
+            SelectedValue="{Binding Ingredient.Ingredient, Mode=TwoWay}"
             StaysOpenOnEdit="True"
-            Style="{StaticResource VirtualisedMetroComboBox}"
-            Text="{Binding Ingredient}"
+            Style="{StaticResource MahApps.Styles.ComboBox.Virtualized}"
             TextBoxBase.TextChanged="Ingredient_TextChanged" />
 
           <Button

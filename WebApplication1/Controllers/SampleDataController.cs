@@ -1,6 +1,7 @@
 using Cooking.ServiceLayer.MainPage;
 using Data.Context;
 using Data.Model;
+using Data.Model.Plan;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RtfPipe;
@@ -58,7 +59,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet("[action]/currentweek")]
-        public async Task<WeekMainPage> CurrentWeek()
+        public async Task<Week> CurrentWeek()
         {
             return await WeekService.GetWeekAsync(DateTime.Now).ConfigureAwait(false);
         }

@@ -1,4 +1,5 @@
-﻿using Cooking.Pages;
+﻿using AutoMapper;
+using Cooking.Pages;
 using Cooking.ServiceLayer;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
@@ -56,8 +57,11 @@ namespace Cooking
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
 
             // Register services
+            containerRegistry.RegisterInstance(MapperService.Mapper);
             containerRegistry.Register<DayService>();
-            containerRegistry.RegisterSingleton<ImageService>();
+            containerRegistry.Register<GarnishService>();
+            containerRegistry.Register<IngredientService>();
+            containerRegistry.RegisterSingleton<ImageService>(); 
             // Dialog service is constant - we have only one window
             containerRegistry.RegisterInstance(new DialogService(
                                                         Container.Resolve<MainWindowViewModel>(),

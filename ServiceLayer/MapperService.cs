@@ -66,7 +66,6 @@ namespace ServiceLayer
                 cfg.CreateMap<Ingredient, Ingredient>();
                 cfg.CreateMap<Ingredient, IngredientData>();
 
-                cfg.CreateMap<Garnish, GarnishDTO>();
                 cfg.CreateMap<Garnish, Garnish>();
             }).CreateMapper();
         }

@@ -17,12 +17,10 @@ namespace Cooking.Pages
         public IngredientEdit Ingredient { get; set; }
         private bool NameChanged { get; set; }
 
-        public IngredientEditViewModel() : this(null) { }
-
-        public IngredientEditViewModel(IngredientEdit? category = null)
+        public IngredientEditViewModel(IngredientService ingredientService, IngredientEdit? category = null)
         {
             Ingredient = category ?? new IngredientEdit();
-            AllIngredientNames = IngredientService.GetSearchNames();
+            AllIngredientNames = ingredientService.GetSearchNames();
             Ingredient.PropertyChanged += (src, e) =>
             {
                 if (e.PropertyName == nameof(Ingredient.Name))
