@@ -1,599 +1,600 @@
 ﻿<UserControl
-  x:Class="Cooking.Pages.RecipeView"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:System="clr-namespace:System;assembly=mscorlib"
-  xmlns:controls="clr-namespace:Cooking.Controls"
-  xmlns:converters="clr-namespace:Cooking.Converters"
-  xmlns:dd="urn:gong-wpf-dragdrop"
-  xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-  xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
-  xmlns:prism="http://prismlibrary.com/"
-  xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-  MaxWidth="500"
-  Margin="20 0"
-  mahapps:DialogParticipation.Register="{Binding}"
-  prism:ViewModelLocator.AutoWireViewModel="True">
+    x:Class="Cooking.Pages.RecipeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:controls="clr-namespace:Cooking.Controls"
+    xmlns:converters="clr-namespace:Cooking.Converters"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    MaxWidth="500"
+    Margin="20 0"
+    mahapps:DialogParticipation.Register="{Binding}"
+    prism:ViewModelLocator.AutoWireViewModel="True">
 
-  <UserControl.InputBindings>
-    <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
-  </UserControl.InputBindings>
+    <UserControl.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
+    </UserControl.InputBindings>
 
-  <UserControl.Resources>
-    <converters:BooleanToVisibilityConverter
-      x:Key="visibleHiddenConverter"
-      False="Hidden"
-      True="Visible" />
-    <converters:BooleanToVisibilityConverter
-      x:Key="visibleCollapsedConverter"
-      False="Collapsed"
-      True="Visible" />
-    <converters:BooleanToVisibilityConverter
-      x:Key="collapsedVisibleConverter"
-      False="Visible"
-      True="Collapsed" />
+    <UserControl.Resources>
+        <converters:NullImageConverter x:Key="nullConverter" />
+        <converters:BooleanToVisibilityConverter
+            x:Key="visibleHiddenConverter"
+            False="Hidden"
+            True="Visible" />
+        <converters:BooleanToVisibilityConverter
+            x:Key="visibleCollapsedConverter"
+            False="Collapsed"
+            True="Visible" />
+        <converters:BooleanToVisibilityConverter
+            x:Key="collapsedVisibleConverter"
+            False="Visible"
+            True="Collapsed" />
 
-    <ObjectDataProvider
-      x:Key="calorieTypes"
-      MethodName="GetValues"
-      ObjectType="{x:Type System:Enum}">
-      <ObjectDataProvider.MethodParameters>
-        <x:Type TypeName="model:CalorieType" />
-      </ObjectDataProvider.MethodParameters>
-    </ObjectDataProvider>
-    <converters:EnumToDescriptionConverter x:Key="enumToDescriptionConverter" />
+        <ObjectDataProvider
+            x:Key="calorieTypes"
+            MethodName="GetValues"
+            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:CalorieType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <converters:EnumToDescriptionConverter x:Key="enumToDescriptionConverter" />
 
-  </UserControl.Resources>
+    </UserControl.Resources>
 
-  <Grid MinHeight="500">
-    <Grid.RowDefinitions>
-      <RowDefinition />
-      <RowDefinition Height="100" />
-    </Grid.RowDefinitions>
-
-    <Grid Visibility="{Binding IsEditing, Converter={StaticResource collapsedVisibleConverter}}">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition />
-      </Grid.RowDefinitions>
-      <StackPanel Orientation="Vertical">
-        <StackPanel Orientation="Horizontal">
-          <TextBlock FontSize="26" Text="{Binding Recipe.Name}" />
-          <Ellipse
-            Width="15"
-            Height="15"
-            Margin="10 8 0 0"
-            VerticalAlignment="Center">
-            <Ellipse.Style>
-              <Style TargetType="Ellipse">
-                <Style.Triggers>
-                  <DataTrigger Binding="{Binding Recipe.CalorieType}" Value="{x:Static model:CalorieType.Fitness}">
-                    <Setter Property="Fill" Value="Green" />
-                  </DataTrigger>
-                  <DataTrigger Binding="{Binding Recipe.CalorieType}" Value="{x:Static model:CalorieType.Protein}">
-                    <Setter Property="Fill" Value="Yellow" />
-                  </DataTrigger>
-                  <DataTrigger Binding="{Binding Recipe.CalorieType}" Value="{x:Static model:CalorieType.Bad}">
-                    <Setter Property="Fill" Value="Orange" />
-                  </DataTrigger>
-                  <DataTrigger Binding="{Binding Recipe.CalorieType}" Value="{x:Static model:CalorieType.Sweets}">
-                    <Setter Property="Fill" Value="Red" />
-                  </DataTrigger>
-                </Style.Triggers>
-              </Style>
-            </Ellipse.Style>
-          </Ellipse>
-        </StackPanel>
-        <TextBlock>
-          <Hyperlink NavigateUri="{Binding Recipe.SourceUrl}" RequestNavigate="Hyperlink_RequestNavigate">
-            <Hyperlink.Inlines>
-              <Run Text="{Binding Recipe.SourceUrl}" />
-            </Hyperlink.Inlines>
-          </Hyperlink>
-          <TextBlock.Style>
-            <Style TargetType="TextBlock">
-              <Style.Triggers>
-                <DataTrigger Binding="{Binding Recipe.SourceUrl}" Value="{x:Null}">
-                  <Setter Property="Visibility" Value="Collapsed" />
-                </DataTrigger>
-              </Style.Triggers>
-            </Style>
-          </TextBlock.Style>
-        </TextBlock>
-        <TextBlock TextWrapping="Wrap">
-          <TextBlock.Style>
-            <Style TargetType="TextBlock">
-              <Setter Property="Text" Value="{Binding Recipe.LastCooked, StringFormat={}Последнее приготовление: {0} дней назад}" />
-              <Style.Triggers>
-                <DataTrigger Binding="{Binding Recipe.LastCooked}" Value="-1">
-                  <Setter Property="Text" Value="Новый рецепт" />
-                </DataTrigger>
-              </Style.Triggers>
-            </Style>
-          </TextBlock.Style>
-        </TextBlock>
-      </StackPanel>
-      <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-        <Grid Margin="0 10 0 0">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+    <Grid MinHeight="500">
+        <Grid.RowDefinitions>
             <RowDefinition />
-          </Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
 
-          <Image
-            MaxHeight="150"
-            Margin="0 0 25 0"
-            VerticalAlignment="Top"
-            Source="{Binding Recipe.FullPath}"
-            Stretch="Uniform" />
-
-          <StackPanel Grid.Column="1" Orientation="Vertical">
-
-
-            <TextBlock
-              FontSize="20"
-              Text="{Binding Recipe.PortionsCount, StringFormat='Количество порций: {0}'}"
-              TextWrapping="Wrap" />
-
-
-            <TextBlock
-              Margin="0 10 0 0"
-              VerticalAlignment="Center"
-              FontSize="20"
-              Text="Ингредиенты" />
-
-            <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
-              <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                  <StackPanel Margin="0 0 0 20" Orientation="Vertical">
-                    <StackPanel
-                      VerticalAlignment="Center"
-                      Orientation="Horizontal"
-                      TextElement.FontSize="15"
-                      TextElement.FontWeight="Bold">
-                      <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
-                    <ItemsControl Name="IngredientsList" ItemsSource="{Binding Ingredients}">
-                      <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                          <StackPanel
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal"
-                            TextElement.FontSize="15">
-                            <BulletDecorator>
-                              <BulletDecorator.Bullet>
-                                <Ellipse
-                                  Width="5"
-                                  Height="5"
-                                  Fill="Gray" />
-                              </BulletDecorator.Bullet>
-                              <TextBlock Margin="5 0 0 0" Text="{Binding Ingredient.Name}" />
-                            </BulletDecorator>
-                            <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
-                            <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.Name}" />
-                          </StackPanel>
-                        </DataTemplate>
-                      </ItemsControl.ItemTemplate>
-                      <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                          <StackPanel Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                      </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                  </StackPanel>
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-              <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                  <StackPanel Orientation="Vertical" />
-                </ItemsPanelTemplate>
-              </ItemsControl.ItemsPanel>
-            </ItemsControl>
-
-            <ItemsControl Name="IngredientsList" ItemsSource="{Binding Recipe.Ingredients}">
-              <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                  <StackPanel
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal"
-                    TextElement.FontSize="15">
-                    <BulletDecorator>
-                      <BulletDecorator.Bullet>
-                        <Ellipse
-                          Width="5"
-                          Height="5"
-                          Fill="Gray" />
-                      </BulletDecorator.Bullet>
-                      <TextBlock Margin="5 0 0 0" Text="{Binding Ingredient.Name}" />
-                    </BulletDecorator>
-
-                    <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
-                    <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.FullName}" />
-                  </StackPanel>
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-              <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                  <StackPanel Orientation="Vertical" />
-                </ItemsPanelTemplate>
-              </ItemsControl.ItemsPanel>
-            </ItemsControl>
-          </StackPanel>
-
-          <StackPanel
-            Grid.Row="1"
-            Grid.ColumnSpan="2"
-            Margin="0 20 0 0"
-            Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-              <StackPanel Orientation="Vertical">
-                <TextBlock FontSize="15" Text="Сложность" />
-                <controls:Ratings
-                  Margin="0 10 0 0"
-                  IsEnabled="False"
-                  MaxRating="5"
-                  RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
-              </StackPanel>
-              <StackPanel Margin="30 0 0 0" Orientation="Vertical">
-                <TextBlock FontSize="15" Text="Рейтинг" />
-                <controls:Ratings
-                  Margin="0 10 0 0"
-                  IsEnabled="False"
-                  MaxRating="10"
-                  RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
-              </StackPanel>
-            </StackPanel>
-
-            <TextBlock
-              Margin="0 10 0 0"
-              FontSize="20"
-              Text="Описание" />
-            <xctk:RichTextBox
-              BorderThickness="0"
-              IsReadOnly="True"
-              Text="{Binding Recipe.Description}" />
-
-            <TextBlock
-              Margin="0 10 0 0"
-              FontSize="20"
-              Text="Теги" />
-
-            <ItemsControl ItemsSource="{Binding Recipe.Tags}">
-              <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                  <Border
-                    Margin="5"
-                    Padding="5 0"
-                    Background="{Binding Color}"
-                    BorderThickness="0"
-                    CornerRadius="3">
-                    <TextBlock
-                      VerticalAlignment="Center"
-                      mahapps:ControlsHelper.CornerRadius="5"
-                      FontSize="15"
-                      Text="{Binding Name}" />
-                  </Border>
-                </DataTemplate>
-              </ItemsControl.ItemTemplate>
-              <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                  <WrapPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-              </ItemsControl.ItemsPanel>
-            </ItemsControl>
-
-          </StackPanel>
-
-        </Grid>
-      </ScrollViewer>
-    </Grid>
-
-    <ScrollViewer
-      x:Name="RecipeEdit"
-      VerticalScrollBarVisibility="Auto"
-      Visibility="{Binding IsEditing, Converter={StaticResource visibleCollapsedConverter}}">
-      <StackPanel Orientation="Vertical">
-        <Image
-          MaxHeight="150"
-          Source="{Binding Recipe.FullPath}"
-          Stretch="Uniform" />
-        <StackPanel
-          Margin="0 10 0 0"
-          HorizontalAlignment="Center"
-          Orientation="Horizontal">
-          <Button
-            Command="{Binding ImageSearchCommand}"
-            Foreground="Green"
-            Style="{StaticResource SmallButton}">
-            <icons:PackIconModern Kind="Image" Style="{StaticResource SmallIcon}" />
-          </Button>
-          <Button
-            Margin="10 0 0 0"
-            Command="{Binding RemoveImageCommand}"
-            Style="{StaticResource SmallCancelButton}" />
-        </StackPanel>
-        <TextBlock FontSize="15" Text="Название" />
-        <TextBox Name="Focused" Text="{Binding Recipe.Name}" />
-
-        <TextBlock FontSize="15" Text="Источник" />
-        <TextBox Text="{Binding Recipe.SourceUrl}" />
-
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-          </Grid.ColumnDefinitions>
-          <StackPanel Orientation="Vertical">
-            <TextBlock FontSize="15" Text="Сложность" />
-            <controls:Ratings MaxRating="5" RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
-          </StackPanel>
-          <StackPanel Grid.Column="1" Orientation="Vertical">
-            <TextBlock FontSize="15" Text="Рейтинг" />
-            <controls:Ratings MaxRating="10" RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
-          </StackPanel>
-        </Grid>
-
-
-        <TextBlock
-          Margin="0 5 0 0"
-          FontSize="15"
-          Text="Тип" />
-        <ComboBox
-          ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}"
-          SelectedValue="{Binding Recipe.CalorieType, Converter={StaticResource enumToDescriptionConverter}}"
-          Text="Выбор типа рецепта по калорийности" />
-
-        <TextBlock
-          Margin="0 5 0 0"
-          FontSize="15"
-          Text="Количество порций" />
-        <TextBox Text="{Binding Recipe.PortionsCount}" />
-
-        <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
-          <TextBlock
-            VerticalAlignment="Center"
-            FontSize="15"
-            Text="Ингредиенты" />
-          <Button
-            Margin="5 0 0 0"
-            VerticalAlignment="Center"
-            BorderThickness="0"
-            Command="{Binding AddIngredientGroupCommand}"
-            Foreground="Green"
-            Style="{StaticResource SmallButton}">
-            <icons:PackIconModern Kind="TableAdd" Style="{StaticResource SmallIcon}" />
-          </Button>
-          <Button
-            Margin="5 0 0 0"
-            VerticalAlignment="Center"
-            BorderThickness="0"
-            Command="{Binding AddIngredientCommand}"
-            Foreground="Green"
-            Style="{StaticResource SmallButton}">
-            <icons:PackIconModern Kind="Add" Style="{StaticResource SmallIcon}" />
-          </Button>
-        </StackPanel>
-
-        <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
-          <ItemsControl.ItemTemplate>
-            <DataTemplate>
-              <StackPanel Margin="0 0 0 20" Orientation="Vertical">
-                <StackPanel
-                  VerticalAlignment="Center"
-                  Orientation="Horizontal"
-                  TextElement.FontSize="18"
-                  TextElement.FontWeight="Bold">
-                  <TextBlock Text="{Binding Name}" />
-                  <Button
-                    Margin="5 0 0 0"
-                    VerticalAlignment="Center"
-                    BorderThickness="0"
-                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.AddIngredientToGroupCommand}"
-                    CommandParameter="{Binding}"
-                    Style="{StaticResource SmallAddButton}" />
-
-                  <Button
-                    Margin="5 0 0 0"
-                    VerticalAlignment="Center"
-                    BorderThickness="0"
-                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientGroupCommand}"
-                    CommandParameter="{Binding}"
-                    Style="{StaticResource SmallEditButton}" />
-                  <Button
-                    Margin="2 0 0 0"
-                    VerticalAlignment="Center"
-                    BorderThickness="0"
-                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientGroupCommand}"
-                    CommandParameter="{Binding}"
-                    Style="{StaticResource SmallCancelButton}" />
+        <Grid Visibility="{Binding IsEditing, Converter={StaticResource collapsedVisibleConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="26" Text="{Binding Recipe.Name}" />
+                    <Ellipse
+                        Width="15"
+                        Height="15"
+                        Margin="10 8 0 0"
+                        VerticalAlignment="Center">
+                        <Ellipse.Style>
+                            <Style TargetType="Ellipse">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Recipe.CalorieType}" Value="{x:Static model:CalorieType.Fitness}">
+                                        <Setter Property="Fill" Value="Green" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Recipe.CalorieType}" Value="{x:Static model:CalorieType.Protein}">
+                                        <Setter Property="Fill" Value="Yellow" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Recipe.CalorieType}" Value="{x:Static model:CalorieType.Bad}">
+                                        <Setter Property="Fill" Value="Orange" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Recipe.CalorieType}" Value="{x:Static model:CalorieType.Sweets}">
+                                        <Setter Property="Fill" Value="Red" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
                 </StackPanel>
-                <ItemsControl
-                  Name="IngredientsList"
-                  dd:DragDrop.DragHandler="{Binding ElementName=RecipeEdit, Path=DataContext}"
-                  dd:DragDrop.DropHandler="{Binding ElementName=RecipeEdit, Path=DataContext}"
-                  dd:DragDrop.IsDragSource="True"
-                  dd:DragDrop.IsDropTarget="True"
-                  ItemsSource="{Binding Ingredients}">
-                  <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                      <StackPanel
+                <TextBlock>
+                    <Hyperlink NavigateUri="{Binding Recipe.SourceUrl}" RequestNavigate="Hyperlink_RequestNavigate">
+                        <Hyperlink.Inlines>
+                            <Run Text="{Binding Recipe.SourceUrl}" />
+                        </Hyperlink.Inlines>
+                    </Hyperlink>
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Recipe.SourceUrl}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="{Binding Recipe.LastCooked, StringFormat={}Последнее приготовление: {0} дней назад}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Recipe.LastCooked}" Value="-1">
+                                    <Setter Property="Text" Value="Новый рецепт" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+            </StackPanel>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <Grid Margin="0 10 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Image
+                        MaxHeight="150"
+                        Margin="0 0 25 0"
+                        VerticalAlignment="Top"
+                        Source="{Binding Recipe.FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
+                        Stretch="Uniform" />
+
+                    <StackPanel Grid.Column="1" Orientation="Vertical">
+
+
+                        <TextBlock
+                            FontSize="20"
+                            Text="{Binding Recipe.PortionsCount, StringFormat='Количество порций: {0}'}"
+                            TextWrapping="Wrap" />
+
+
+                        <TextBlock
+                            Margin="0 10 0 0"
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                            Text="Ингредиенты" />
+
+                        <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0 0 0 20" Orientation="Vertical">
+                                        <StackPanel
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            TextElement.FontSize="15"
+                                            TextElement.FontWeight="Bold">
+                                            <TextBlock Text="{Binding Name}" />
+                                        </StackPanel>
+                                        <ItemsControl Name="IngredientsList" ItemsSource="{Binding Ingredients}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal"
+                                                        TextElement.FontSize="15">
+                                                        <BulletDecorator>
+                                                            <BulletDecorator.Bullet>
+                                                                <Ellipse
+                                                                    Width="5"
+                                                                    Height="5"
+                                                                    Fill="Gray" />
+                                                            </BulletDecorator.Bullet>
+                                                            <TextBlock Margin="5 0 0 0" Text="{Binding Ingredient.Name}" />
+                                                        </BulletDecorator>
+                                                        <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
+                                                        <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.Name}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Vertical" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+
+                        <ItemsControl Name="IngredientsList" ItemsSource="{Binding Recipe.Ingredients}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        TextElement.FontSize="15">
+                                        <BulletDecorator>
+                                            <BulletDecorator.Bullet>
+                                                <Ellipse
+                                                    Width="5"
+                                                    Height="5"
+                                                    Fill="Gray" />
+                                            </BulletDecorator.Bullet>
+                                            <TextBlock Margin="5 0 0 0" Text="{Binding Ingredient.Name}" />
+                                        </BulletDecorator>
+
+                                        <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
+                                        <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.FullName}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="0 20 0 0"
+                        Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock FontSize="15" Text="Сложность" />
+                                <controls:Ratings
+                                    Margin="0 10 0 0"
+                                    IsEnabled="False"
+                                    MaxRating="5"
+                                    RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
+                            </StackPanel>
+                            <StackPanel Margin="30 0 0 0" Orientation="Vertical">
+                                <TextBlock FontSize="15" Text="Рейтинг" />
+                                <controls:Ratings
+                                    Margin="0 10 0 0"
+                                    IsEnabled="False"
+                                    MaxRating="10"
+                                    RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <TextBlock
+                            Margin="0 10 0 0"
+                            FontSize="20"
+                            Text="Описание" />
+                        <xctk:RichTextBox
+                            BorderThickness="0"
+                            IsReadOnly="True"
+                            Text="{Binding Recipe.Description}" />
+
+                        <TextBlock
+                            Margin="0 10 0 0"
+                            FontSize="20"
+                            Text="Теги" />
+
+                        <ItemsControl ItemsSource="{Binding Recipe.Tags}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Margin="5"
+                                        Padding="5 0"
+                                        Background="{Binding Color}"
+                                        BorderThickness="0"
+                                        CornerRadius="3">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            mahapps:ControlsHelper.CornerRadius="5"
+                                            FontSize="15"
+                                            Text="{Binding Name}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+
+                    </StackPanel>
+
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+
+        <ScrollViewer
+            x:Name="RecipeEdit"
+            VerticalScrollBarVisibility="Auto"
+            Visibility="{Binding IsEditing, Converter={StaticResource visibleCollapsedConverter}}">
+            <StackPanel Orientation="Vertical">
+                <Image
+                    MaxHeight="150"
+                    Source="{Binding Recipe.FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
+                    Stretch="Uniform" />
+                <StackPanel
+                    Margin="0 10 0 0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Command="{Binding ImageSearchCommand}"
+                        Foreground="Green"
+                        Style="{StaticResource SmallButton}">
+                        <icons:PackIconModern Kind="Image" Style="{StaticResource SmallIcon}" />
+                    </Button>
+                    <Button
+                        Margin="10 0 0 0"
+                        Command="{Binding RemoveImageCommand}"
+                        Style="{StaticResource SmallCancelButton}" />
+                </StackPanel>
+                <TextBlock FontSize="15" Text="Название" />
+                <TextBox Name="Focused" Text="{Binding Recipe.Name}" />
+
+                <TextBlock FontSize="15" Text="Источник" />
+                <TextBox Text="{Binding Recipe.SourceUrl}" />
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock FontSize="15" Text="Сложность" />
+                        <controls:Ratings MaxRating="5" RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Vertical">
+                        <TextBlock FontSize="15" Text="Рейтинг" />
+                        <controls:Ratings MaxRating="10" RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
+                    </StackPanel>
+                </Grid>
+
+
+                <TextBlock
+                    Margin="0 5 0 0"
+                    FontSize="15"
+                    Text="Тип" />
+                <ComboBox
+                    ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}"
+                    SelectedValue="{Binding Recipe.CalorieType, Converter={StaticResource enumToDescriptionConverter}}"
+                    Text="Выбор типа рецепта по калорийности" />
+
+                <TextBlock
+                    Margin="0 5 0 0"
+                    FontSize="15"
+                    Text="Количество порций" />
+                <TextBox Text="{Binding Recipe.PortionsCount}" />
+
+                <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+                    <TextBlock
                         VerticalAlignment="Center"
-                        Orientation="Horizontal"
-                        TextElement.FontSize="15">
-                        <TextBlock Text="{Binding Ingredient.Name}" />
-                        <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
-                        <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.Name}" />
-                        <Button
-                          Margin="5 0 0 0"
-                          VerticalAlignment="Center"
-                          Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientCommand}"
-                          CommandParameter="{Binding}"
-                          Style="{StaticResource SmallEditButton}" />
+                        FontSize="15"
+                        Text="Ингредиенты" />
+                    <Button
+                        Margin="5 0 0 0"
+                        VerticalAlignment="Center"
+                        BorderThickness="0"
+                        Command="{Binding AddIngredientGroupCommand}"
+                        Foreground="Green"
+                        Style="{StaticResource SmallButton}">
+                        <icons:PackIconModern Kind="TableAdd" Style="{StaticResource SmallIcon}" />
+                    </Button>
+                    <Button
+                        Margin="5 0 0 0"
+                        VerticalAlignment="Center"
+                        BorderThickness="0"
+                        Command="{Binding AddIngredientCommand}"
+                        Foreground="Green"
+                        Style="{StaticResource SmallButton}">
+                        <icons:PackIconModern Kind="Add" Style="{StaticResource SmallIcon}" />
+                    </Button>
+                </StackPanel>
 
-                        <Button
-                          Margin="2 0 0 0"
-                          VerticalAlignment="Center"
-                          Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientCommand}"
-                          CommandParameter="{Binding}"
-                          Style="{StaticResource SmallCancelButton}" />
-                      </StackPanel>
-                    </DataTemplate>
-                  </ItemsControl.ItemTemplate>
-                  <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                      <StackPanel Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                  </ItemsControl.ItemsPanel>
+                <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0 0 0 20" Orientation="Vertical">
+                                <StackPanel
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal"
+                                    TextElement.FontSize="18"
+                                    TextElement.FontWeight="Bold">
+                                    <TextBlock Text="{Binding Name}" />
+                                    <Button
+                                        Margin="5 0 0 0"
+                                        VerticalAlignment="Center"
+                                        BorderThickness="0"
+                                        Command="{Binding ElementName=RecipeEdit, Path=DataContext.AddIngredientToGroupCommand}"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource SmallAddButton}" />
+
+                                    <Button
+                                        Margin="5 0 0 0"
+                                        VerticalAlignment="Center"
+                                        BorderThickness="0"
+                                        Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientGroupCommand}"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource SmallEditButton}" />
+                                    <Button
+                                        Margin="2 0 0 0"
+                                        VerticalAlignment="Center"
+                                        BorderThickness="0"
+                                        Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientGroupCommand}"
+                                        CommandParameter="{Binding}"
+                                        Style="{StaticResource SmallCancelButton}" />
+                                </StackPanel>
+                                <ItemsControl
+                                    Name="IngredientsList"
+                                    dd:DragDrop.DragHandler="{Binding ElementName=RecipeEdit, Path=DataContext}"
+                                    dd:DragDrop.DropHandler="{Binding ElementName=RecipeEdit, Path=DataContext}"
+                                    dd:DragDrop.IsDragSource="True"
+                                    dd:DragDrop.IsDropTarget="True"
+                                    ItemsSource="{Binding Ingredients}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel
+                                                VerticalAlignment="Center"
+                                                Orientation="Horizontal"
+                                                TextElement.FontSize="15">
+                                                <TextBlock Text="{Binding Ingredient.Name}" />
+                                                <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
+                                                <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.Name}" />
+                                                <Button
+                                                    Margin="5 0 0 0"
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource SmallEditButton}" />
+
+                                                <Button
+                                                    Margin="2 0 0 0"
+                                                    VerticalAlignment="Center"
+                                                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Style="{StaticResource SmallCancelButton}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
                 </ItemsControl>
-              </StackPanel>
-            </DataTemplate>
-          </ItemsControl.ItemTemplate>
-          <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-              <StackPanel Orientation="Vertical" />
-            </ItemsPanelTemplate>
-          </ItemsControl.ItemsPanel>
-        </ItemsControl>
 
-        <ItemsControl
-          Name="IngredientsListEdit"
-          dd:DragDrop.DragHandler="{Binding}"
-          dd:DragDrop.DropHandler="{Binding}"
-          dd:DragDrop.IsDragSource="True"
-          dd:DragDrop.IsDropTarget="True"
-          ItemsSource="{Binding Recipe.Ingredients}">
-          <ItemsControl.ItemTemplate>
-            <DataTemplate>
-              <StackPanel
-                VerticalAlignment="Center"
-                Orientation="Horizontal"
-                TextElement.FontSize="15">
-                <TextBlock Text="{Binding Ingredient.Name}" />
-                <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
-                <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.Name}" />
-                <Button
-                  Margin="5 0 0 0"
-                  VerticalAlignment="Center"
-                  Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.EditIngredientCommand}"
-                  CommandParameter="{Binding}"
-                  Style="{StaticResource SmallEditButton}" />
-                <Button
-                  Margin="2 0 0 0"
-                  VerticalAlignment="Center"
-                  Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.RemoveIngredientCommand}"
-                  CommandParameter="{Binding}"
-                  Style="{StaticResource SmallCancelButton}" />
-              </StackPanel>
-            </DataTemplate>
-          </ItemsControl.ItemTemplate>
-          <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-              <StackPanel Orientation="Vertical" />
-            </ItemsPanelTemplate>
-          </ItemsControl.ItemsPanel>
-        </ItemsControl>
+                <ItemsControl
+                    Name="IngredientsListEdit"
+                    dd:DragDrop.DragHandler="{Binding}"
+                    dd:DragDrop.DropHandler="{Binding}"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    ItemsSource="{Binding Recipe.Ingredients}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal"
+                                TextElement.FontSize="15">
+                                <TextBlock Text="{Binding Ingredient.Name}" />
+                                <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
+                                <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.Name}" />
+                                <Button
+                                    Margin="5 0 0 0"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.EditIngredientCommand}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource SmallEditButton}" />
+                                <Button
+                                    Margin="2 0 0 0"
+                                    VerticalAlignment="Center"
+                                    Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.RemoveIngredientCommand}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource SmallCancelButton}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
 
-        <TextBlock
-          Margin="0 10 0 0"
-          FontSize="15"
-          Text="Описание" />
-        <xctk:RichTextBox
-          MinHeight="100"
-          Text="{Binding Recipe.Description}"
-          TextChanged="RichTextBox_TextChanged">
-          <xctk:RichTextBoxFormatBarManager.FormatBar>
-            <xctk:RichTextBoxFormatBar />
-          </xctk:RichTextBoxFormatBarManager.FormatBar>
-        </xctk:RichTextBox>
+                <TextBlock
+                    Margin="0 10 0 0"
+                    FontSize="15"
+                    Text="Описание" />
+                <xctk:RichTextBox
+                    MinHeight="100"
+                    Text="{Binding Recipe.Description}"
+                    TextChanged="RichTextBox_TextChanged">
+                    <xctk:RichTextBoxFormatBarManager.FormatBar>
+                        <xctk:RichTextBoxFormatBar />
+                    </xctk:RichTextBoxFormatBarManager.FormatBar>
+                </xctk:RichTextBox>
 
-        <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
-          <TextBlock
-            VerticalAlignment="Center"
-            FontSize="15"
-            Text="Теги" />
-          <Button
-            Margin="5 0 0 0"
-            VerticalAlignment="Center"
-            BorderThickness="0"
-            Command="{Binding AddTagCommand}"
-            Style="{StaticResource SmallAddButton}" />
+                <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        Text="Теги" />
+                    <Button
+                        Margin="5 0 0 0"
+                        VerticalAlignment="Center"
+                        BorderThickness="0"
+                        Command="{Binding AddTagCommand}"
+                        Style="{StaticResource SmallAddButton}" />
+                </StackPanel>
+
+                <ItemsControl ItemsSource="{Binding Recipe.Tags}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Border
+                                    Margin="5"
+                                    Padding="5 0"
+                                    Background="{Binding Color}"
+                                    BorderThickness="0"
+                                    CornerRadius="3">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        mahapps:ControlsHelper.CornerRadius="5"
+                                        FontSize="20"
+                                        Text="{Binding Name}" />
+                                </Border>
+                                <Button
+                                    Margin="2 0 0 0"
+                                    VerticalAlignment="Center"
+                                    BorderThickness="0"
+                                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveTagCommand}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource SmallCancelButton}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel
+            Grid.Row="2"
+            Margin="20"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                Command="{Binding ApplyChangesCommand}"
+                Foreground="Green"
+                Style="{StaticResource BigButton}"
+                Visibility="{Binding IsEditing, Converter={StaticResource visibleHiddenConverter}}">
+                <icons:PackIconModern Kind="Check" Style="{StaticResource BigIcon}" />
+            </Button>
+            <Button
+                Grid.Column="4"
+                Margin="10 0 0 0"
+                Command="{Binding Path=DeleteRecipeCommand}"
+                CommandParameter="{Binding Recipe.ID}"
+                Style="{StaticResource DeleteButton}"
+                Visibility="{Binding IsEditing, Converter={StaticResource visibleHiddenConverter}}" />
+
+            <ToggleButton
+                Margin="10 0 0 0"
+                Foreground="LightGray"
+                IsChecked="{Binding IsEditing}"
+                Style="{StaticResource BigToggleButton}">
+                <icons:PackIconModern
+                    Width="20"
+                    Height="20"
+                    Kind="Edit" />
+            </ToggleButton>
+            <Button
+                Margin="10 0 0 0"
+                Command="{Binding CloseCommand}"
+                Style="{StaticResource CancelButton}" />
         </StackPanel>
-
-        <ItemsControl ItemsSource="{Binding Recipe.Tags}">
-          <ItemsControl.ItemTemplate>
-            <DataTemplate>
-              <StackPanel Orientation="Horizontal">
-                <Border
-                  Margin="5"
-                  Padding="5 0"
-                  Background="{Binding Color}"
-                  BorderThickness="0"
-                  CornerRadius="3">
-                  <TextBlock
-                    VerticalAlignment="Center"
-                    mahapps:ControlsHelper.CornerRadius="5"
-                    FontSize="20"
-                    Text="{Binding Name}" />
-                </Border>
-                <Button
-                  Margin="2 0 0 0"
-                  VerticalAlignment="Center"
-                  BorderThickness="0"
-                  Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveTagCommand}"
-                  CommandParameter="{Binding}"
-                  Style="{StaticResource SmallCancelButton}" />
-              </StackPanel>
-            </DataTemplate>
-          </ItemsControl.ItemTemplate>
-          <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-              <StackPanel Orientation="Vertical" />
-            </ItemsPanelTemplate>
-          </ItemsControl.ItemsPanel>
-        </ItemsControl>
-
-      </StackPanel>
-    </ScrollViewer>
-
-    <StackPanel
-      Grid.Row="2"
-      Margin="20"
-      HorizontalAlignment="Center"
-      Orientation="Horizontal">
-      <Button
-        Command="{Binding ApplyChangesCommand}"
-        Foreground="Green"
-        Style="{StaticResource BigButton}"
-        Visibility="{Binding IsEditing, Converter={StaticResource visibleHiddenConverter}}">
-        <icons:PackIconModern Kind="Check" Style="{StaticResource BigIcon}" />
-      </Button>
-      <Button
-        Grid.Column="4"
-        Margin="10 0 0 0"
-        Command="{Binding Path=DeleteRecipeCommand}"
-        CommandParameter="{Binding Recipe.ID}"
-        Style="{StaticResource DeleteButton}"
-        Visibility="{Binding IsEditing, Converter={StaticResource visibleHiddenConverter}}" />
-
-      <ToggleButton
-        Margin="10 0 0 0"
-        Foreground="LightGray"
-        IsChecked="{Binding IsEditing}"
-        Style="{StaticResource BigToggleButton}">
-        <icons:PackIconModern
-          Width="20"
-          Height="20"
-          Kind="Edit" />
-      </ToggleButton>
-      <Button
-        Margin="10 0 0 0"
-        Command="{Binding CloseCommand}"
-        Style="{StaticResource CancelButton}" />
-    </StackPanel>
-  </Grid>
+    </Grid>
 </UserControl>

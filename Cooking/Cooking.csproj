@@ -67,4 +67,10 @@
     <ProjectReference Include="..\Data\Cooking.Data.csproj" />
     <ProjectReference Include="..\ServiceLayer\Cooking.ServiceLayer.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="defaultRecipe.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
