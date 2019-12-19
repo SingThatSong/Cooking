@@ -1,4 +1,5 @@
-﻿using Cooking.Commands;
+﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.ServiceLayer;
 using MahApps.Metro.Controls.Dialogs;
@@ -20,6 +21,7 @@ namespace Cooking.Pages
         private readonly IRegionManager regionManager;
         private readonly IContainerExtension container;
         private readonly DayService dayService;
+        private readonly IMapper mapper;
 
         public DateTime WeekStart { get; set; }
         public DateTime WeekEnd { get; set; }
@@ -38,20 +40,24 @@ namespace Cooking.Pages
         public DelegateCommand<Guid> DeleteDinnerCommand { get; }
 
         public MainViewModel(DialogService dialogUtils, 
-                                 IRegionManager regionManager, 
-                                 IContainerExtension container,
-                                 DayService dayService)
+                             IRegionManager regionManager, 
+                             IContainerExtension container,
+                             DayService dayService,
+                             IMapper mapper)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(regionManager != null);
             Debug.Assert(container != null);
             Debug.Assert(dayService != null);
+            Debug.Assert(mapper != null);
             Debug.WriteLine("MainPageViewModel.ctor");
 
             this.dialogUtils            = dialogUtils;
             this.regionManager          = regionManager;
             this.container              = container;
             this.dayService             = dayService;
+            this.mapper                 = mapper;
+
             LoadedCommand               = new DelegateCommand(OnLoadedAsync, executeOnce: true);
             CreateNewWeekCommand        = new DelegateCommand(CreateNewWeekAsync);
             CreateShoppingListCommand   = new DelegateCommand(CreateShoppingListAsync);
@@ -73,7 +79,7 @@ namespace Cooking.Pages
                 return null;
             }
 
-            var weekMain = weekData.MapTo<WeekEdit>();
+            var weekMain = mapper.Map<WeekEdit>(weekData);
             if (weekMain.Days != null)
             {
                 foreach (var day in weekMain.Days)

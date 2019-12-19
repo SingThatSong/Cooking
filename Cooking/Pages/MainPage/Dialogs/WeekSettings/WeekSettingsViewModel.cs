@@ -1,4 +1,5 @@
-﻿using Cooking.Commands;
+﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Dialogs;
 using Cooking.Pages.ViewModel;
@@ -24,6 +25,7 @@ namespace Cooking.Pages
         private readonly IRegionManager regionManager;
         private readonly TagService tagService;
         private readonly IContainerExtension container;
+        private readonly RecipeService recipeService;
         private NavigationContext? navigationContext;
 
         public DateTime WeekStart { get; private set; }
@@ -35,18 +37,19 @@ namespace Cooking.Pages
         public DelegateCommand OkCommand { get; }
         public DelegateCommand CloseCommand { get; }
 
-        public WeekSettingsViewModel(DialogService dialogUtils, IRegionManager regionManager, TagService tagService, IContainerExtension container)
+        public WeekSettingsViewModel(DialogService dialogUtils, IRegionManager regionManager, TagService tagService, IContainerExtension container, RecipeService recipeService)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(regionManager != null);
             Debug.Assert(tagService != null);
-            Debug.Assert(tagService != null);
+            Debug.Assert(container != null);
+            Debug.Assert(recipeService != null);
 
             this.dialogUtils = dialogUtils;
             this.regionManager = regionManager;
             this.tagService = tagService;
             this.container = container;
-
+            this.recipeService = recipeService;
             Days = new List<DayPlan>()
             {
                 new DayPlan(),
@@ -104,14 +107,14 @@ namespace Cooking.Pages
                     requiredCalorieTyoes.AddRange(day.CalorieTypes.Select(x => x.CalorieType));
                 }
 
-                day.RecipeAlternatives = RecipeService.GetRecipiesByParameters(requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
+                day.RecipeAlternatives = recipeService.GetRecipiesByParameters(requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
 
                 var selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
                 var recipiesNotSelectedYet = day.RecipeAlternatives.Where(x => !selectedRecipies.Any(selected => selected!.ID == x.ID)).ToList();
 
                 if (recipiesNotSelectedYet.Count > 0)
                 {
-                    day.Recipe = recipiesNotSelectedYet.OrderByDescending(x => RecipeService.DaysFromLasCook(x.ID)).First();
+                    day.Recipe = recipiesNotSelectedYet.OrderByDescending(x => recipeService.DaysFromLasCook(x.ID)).First();
                 }
             }
         }
@@ -168,15 +171,12 @@ namespace Cooking.Pages
 
         private async Task<ObservableCollection<TagEdit>> GetTags(TagType type, ObservableCollection<TagEdit> current)
         {
-            var dbTags = tagService.GetTagsByType(type);
-
-            var allTags = dbTags.Select(x => MapperService.Mapper.Map<TagEdit>(x)).ToList();
+            var allTags = tagService.GetTagsByType<TagEdit>(type, container.Resolve<IMapper>());
 
             allTags.Insert(0, TagEdit.Any);
             allTags[0].IsChecked = false;
             allTags.ForEach(x => x.Type = type);
 
-            
             var viewModel = container.Resolve<TagSelectViewModel>();
             viewModel.SetTags(current, allTags);
             await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>($"Категории {type}", viewModel).ConfigureAwait(false);

@@ -1,34 +1,54 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Cooking.DTO;
 using Cooking.ServiceLayer;
-using Cooking.ServiceLayer.MainPage;
 using Cooking.ServiceLayer.Projections;
+using Cooking.Services;
 using Data.Model;
 using Data.Model.Plan;
 using ServiceLayer.DTO.MainPage;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Cooking
 {
     internal static class MapperService
     {
-        private static readonly Lazy<IMapper> mapper = new Lazy<IMapper>(CreateMapper);
-        public static IMapper Mapper => mapper.Value;
-
-        private static IMapper CreateMapper()
+        public static IConfigurationProvider CreateMapper()
         {
-            var config = new MapperConfiguration(cfg =>
+            return new MapperConfiguration(cfg =>
             {
                 cfg.AllowNullDestinationValues = true;
-
 
                 cfg.CreateMap<Garnish, GarnishEdit>().ReverseMap();
                 cfg.CreateMap<Week, WeekEdit>();
                 cfg.CreateMap<Day, DayEdit>();
+                cfg.CreateMap<Tag, TagEdit>();
                 cfg.CreateMap<Ingredient, IngredientEdit>();
+                cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>()
+                    .ForMember(x => x.MeasureUnit, opt => opt.Ignore())
+                    .ForMember(x => x.Amount, opt => opt.Ignore())
+                    .ForMember(x => x.Ingredient, opt => opt.Ignore())
+                    .ForMember(x => x.Order, opt => opt.Ignore())
+                    ;
+                cfg.CreateMap<IngredientsGroup, IngredientGroupEdit>()
+                   .ForMember(x => x.Ingredients, opt => opt.Ignore())
+                   .AfterMap((src, dest, context) => 
+                   { 
+                       if (src.Ingredients != null)
+                       {
+                           dest.Ingredients = new ObservableCollection<RecipeIngredientEdit>();
+                       }
+                   });
+
                 cfg.CreateMap<Recipe, RecipeSelectDto>();
+                cfg.CreateMap<Recipe, RecipeEdit>()
+                   .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags.Select(t => t.Tag)))
+                   .AfterMap<RecipeConverter>();
 
 
                 cfg.CreateMap<RecipeSlim, RecipeSelectDto>();
@@ -37,7 +57,7 @@ namespace Cooking
                 {
                     if (dest.Ingredients != null)
                     {
-                        dest.Ingredients = new ObservableCollection<RecipeIngredientEdit>(dest.Ingredients.OrderBy(x => x.Order));
+                        dest.Ingredients = new List<RecipeIngredientEdit>(dest.Ingredients.OrderBy(x => x.Order));
                     }
 
                     if (dest.IngredientGroups != null)
@@ -48,6 +68,7 @@ namespace Cooking
                         }
                     }
                 });
+
                 cfg.CreateMap<RecipeEdit, RecipeEdit>();
                 cfg.CreateMap<RecipeEdit, Recipe>().AfterMap((src, dest) =>
                 {
@@ -79,18 +100,8 @@ namespace Cooking
                 cfg.CreateMap<IngredientEdit, IngredientEdit>();
                 cfg.CreateMap<IngredientEdit, Ingredient>();
             });
-
-            return config.CreateMapper();
-        }
-
-        public static T MapTo<T>(this object src)
-        {
-            return Mapper.Map<T>(src);
-        }
-
-        public static void MapTo(this object src, object dest)
-        {
-            Mapper.Map(src, dest);
         }
     }
+
+
 }

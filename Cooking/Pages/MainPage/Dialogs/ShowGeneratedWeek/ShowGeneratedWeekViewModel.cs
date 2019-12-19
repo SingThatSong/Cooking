@@ -1,6 +1,9 @@
-﻿using Cooking.Commands;
+﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.Pages.Dialogs;
+using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
+using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
@@ -17,6 +20,8 @@ namespace Cooking.Pages
     {
         private readonly DialogService dialogUtils;
         private readonly IRegionManager regionManager;
+        private readonly RecipeService recipeService;
+        private readonly IContainerExtension container;
         private NavigationContext? navigationContext;
 
         public IEnumerable<DayPlan>? Days { get; private set; }
@@ -30,13 +35,18 @@ namespace Cooking.Pages
         public AsyncDelegateCommand OkCommand { get; }
         public DelegateCommand CloseCommand { get; }
 
-        public ShowGeneratedWeekViewModel(DialogService dialogUtils, IRegionManager regionManager) : base()
+        public ShowGeneratedWeekViewModel(DialogService dialogUtils, IRegionManager regionManager, RecipeService recipeService, IContainerExtension container) : base()
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(regionManager != null);
+            Debug.Assert(recipeService != null);
+            Debug.Assert(container != null);
 
             this.dialogUtils            = dialogUtils;
             this.regionManager          = regionManager;
+            this.recipeService          = recipeService;
+            this.container              = container;
+
             ReturnCommand               = new DelegateCommand(Return);
             DeleteRecipeManuallyCommand = new DelegateCommand<DayPlan>(DeleteRecipeManually);
             SetRecipeManuallyCommand    = new DelegateCommand<DayPlan>(SetRecipeManually);
@@ -86,14 +96,14 @@ namespace Cooking.Pages
 
         private async void SetRecipeManually(DayPlan day)
         {
-            var viewModel = new RecipeSelectViewModel(dialogUtils, day);
+            var viewModel = new RecipeSelectViewModel(dialogUtils, recipeService, container.Resolve<IMapper>(), day);
 
             await dialogUtils.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>(content: viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
                 var recipeId = viewModel.SelectedRecipeID;
-                day.SpecificRecipe = RecipeService.GetProjection<RecipeSlim>(recipeId);
+                day.SpecificRecipe = recipeService.GetProjected<RecipeSlim>(recipeId);
             }
         }
 

@@ -60,7 +60,7 @@ namespace Cooking.Pages
             
             if (viewModel.DialogResultOk)
             {
-                var id = await tagService.CreateAsync(viewModel.Tag.MapTo<Tag>()).ConfigureAwait(false);
+                var id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag)).ConfigureAwait(false);
                 viewModel.Tag.ID = id;
                 AllTags.Add(viewModel.Tag);
             }

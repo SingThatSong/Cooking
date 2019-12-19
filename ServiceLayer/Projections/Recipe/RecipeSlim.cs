@@ -2,7 +2,7 @@
 
 namespace Cooking.ServiceLayer.Projections
 {
-    public class RecipeSlim : RecipeProjection
+    public class RecipeSlim : Entity
     {
         public string? Name { get; set; }
         public string? ImagePath { get; set; }

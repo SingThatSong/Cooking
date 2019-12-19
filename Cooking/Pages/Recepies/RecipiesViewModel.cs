@@ -1,5 +1,7 @@
-﻿using Cooking.Commands;
+﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
+using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
 using Plafi;
 using Prism.Ioc;
@@ -27,11 +29,15 @@ namespace Cooking.Pages
 
         public DelegateCommand LoadedCommand { get; }
 
-        public RecepiesViewModel(DialogService dialogUtils, IContainerExtension container, IRegionManager regionManager)
+        public RecepiesViewModel(DialogService dialogUtils, 
+                                 IContainerExtension container, 
+                                 IRegionManager regionManager, 
+                                 RecipeService recipeService)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(container != null);
             Debug.Assert(regionManager != null);
+            Debug.Assert(recipeService != null);
 
             FilterContext = new FilterContext<RecipeSelectDto>().AddFilter("name", HasName, isDefault: true)
                                                              .AddFilter(Consts.IngredientSymbol, HasIngredient)
@@ -40,6 +46,8 @@ namespace Cooking.Pages
             this.dialogUtils = dialogUtils;
             this.container = container;
             this.regionManager = regionManager;
+            this.recipeService = recipeService;
+
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
 
 
@@ -55,9 +63,8 @@ namespace Cooking.Pages
         private void OnLoaded()
         {
             Debug.WriteLine("RecepiesViewModel.OnLoaded");
-
-            Recipies = RecipeService.GetRecipies()
-                                    .MapTo<ObservableCollection<RecipeSelectDto>>();
+            var recipies = recipeService.GetProjected<RecipeSelectDto>(container.Resolve<IMapper>());
+            Recipies = new ObservableCollection<RecipeSelectDto>(recipies);
 
             RecipiesSource.Source = Recipies;
         }
@@ -77,6 +84,7 @@ namespace Cooking.Pages
         private readonly DialogService dialogUtils;
         private readonly IContainerExtension container;
         private readonly IRegionManager regionManager;
+        private readonly RecipeService recipeService;
 
         private FilterContext<RecipeSelectDto> FilterContext { get; set; }
         public string? FilterText
@@ -109,7 +117,7 @@ namespace Cooking.Pages
             }
             else
             {
-                recipeDb = RecipeService.GetProjection<RecipeFull>(recipe.ID);
+                recipeDb = recipeService.GetProjected<RecipeFull>(recipe.ID);
                 recipeCache.Add(recipe.ID, recipeDb);
             }
 
@@ -126,7 +134,7 @@ namespace Cooking.Pages
             }
             else
             {
-                recipeDb = RecipeService.GetProjection<RecipeFull>(recipe.ID);
+                recipeDb = recipeService.GetProjected<RecipeFull>(recipe.ID);
                 recipeCache.Add(recipe.ID, recipeDb);
             }
 

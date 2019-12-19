@@ -17,6 +17,16 @@ namespace Cooking.ServiceLayer
             return context.Set<T>().ToList();
         }
 
+        public TProjection GetProjected<TProjection>(Guid id) where TProjection : Entity => GetProjected<TProjection>(id, MapperService.Mapper);
+
+        public TProjection GetProjected<TProjection>(Guid id, IMapper mapper) where TProjection : Entity
+        {
+            using var context = new CookingContext(DatabaseService.DbFileName);
+            return mapper.ProjectTo<TProjection>(context.Set<T>()).FirstOrDefault(x => x.ID == id);
+        }
+
+        public List<TProjection> GetProjected<TProjection>() => GetProjected<TProjection>(MapperService.Mapper);
+
         public List<TProjection> GetProjected<TProjection>(IMapper mapper)
         {
             using var context = new CookingContext(DatabaseService.DbFileName);

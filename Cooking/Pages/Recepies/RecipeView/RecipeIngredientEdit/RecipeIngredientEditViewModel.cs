@@ -19,6 +19,7 @@ namespace Cooking.Pages.Ingredients
     {
         private readonly DialogService dialogUtils;
         private readonly IngredientService ingredientService;
+        private readonly IMapper mapper;
 
         public bool IsCreation { get; set; }
         public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
@@ -45,9 +46,11 @@ namespace Cooking.Pages.Ingredients
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(ingredientService != null);
+            Debug.Assert(mapper != null);
 
             this.dialogUtils = dialogUtils;
             this.ingredientService = ingredientService;
+            this.mapper = mapper;
             Ingredient = ingredient ?? new RecipeIngredientEdit();
 
             AddMultipleCommand = new DelegateCommand(AddMultiple, canExecute: () => IsCreation);
@@ -74,7 +77,7 @@ namespace Cooking.Pages.Ingredients
 
             if (viewModel.DialogResultOk)
             {
-                var id = await ingredientService.CreateAsync(viewModel.Ingredient.MapTo<Ingredient>())
+                var id = await ingredientService.CreateAsync(mapper.Map<Ingredient>(viewModel.Ingredient))
                                                 .ConfigureAwait(false);
                 viewModel.Ingredient.ID = id;
                 AllIngredients.Add(viewModel.Ingredient);

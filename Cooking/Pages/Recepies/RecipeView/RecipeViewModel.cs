@@ -1,6 +1,8 @@
-﻿using Cooking.Commands;
+﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Ingredients;
+using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
 using Data.Model;
 using GongSolutions.Wpf.DragDrop;
@@ -10,6 +12,7 @@ using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -23,6 +26,8 @@ namespace Cooking.Pages
         private readonly DialogService dialogUtils;
         private readonly ImageService imageService;
         private readonly IContainerExtension container;
+        private readonly RecipeService recipeService;
+        private readonly IMapper mapper;
         private NavigationContext navigationContext;
 
         public bool IsEditing { get; set; }
@@ -30,13 +35,13 @@ namespace Cooking.Pages
         {
             if (IsEditing)
             {
-                RecipeBackup = Recipe.MapTo<RecipeEdit>();
+                RecipeBackup = mapper.Map<RecipeEdit>(Recipe);
             }
             else
             {
                 if (RecipeBackup != null)
                 {
-                    Recipe = RecipeBackup.MapTo<RecipeEdit>();
+                    Recipe = mapper.Map<RecipeEdit>(RecipeBackup);
                 }
             }
         }
@@ -62,15 +67,23 @@ namespace Cooking.Pages
         public DelegateCommand<RecipeIngredientEdit> RemoveIngredientCommand { get; }
         public AsyncDelegateCommand<Guid> DeleteRecipeCommand { get; }
 
-        public RecipeViewModel(DialogService dialogUtils, ImageService imageService, IContainerExtension container)
+        public RecipeViewModel(DialogService dialogUtils, 
+                               ImageService imageService, 
+                               IContainerExtension container, 
+                               RecipeService recipeService, 
+                               IMapper mapper)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(imageService != null);
             Debug.Assert(container != null);
+            Debug.Assert(recipeService != null);
+            Debug.Assert(mapper != null);
 
             this.dialogUtils            = dialogUtils;
             this.imageService           = imageService;
             this.container              = container;
+            this.recipeService          = recipeService;
+            this.mapper                 = mapper;
 
             CloseCommand                = new DelegateCommand(Close);
             ApplyChangesCommand         = new AsyncDelegateCommand(ApplyChanges);
@@ -129,7 +142,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                viewModel.Ingredient.MapTo(ingredient);
+                mapper.Map(viewModel.Ingredient, ingredient);
             }
         }
 
@@ -141,7 +154,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                Recipe.Tags = new ObservableCollection<TagEdit>(viewModel.AllTags.Where(x => x.IsChecked));
+                Recipe.Tags = new List<TagEdit>(viewModel.AllTags.Where(x => x.IsChecked));
             }
         }
 
@@ -152,20 +165,20 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                Recipe.IngredientGroups = Recipe.IngredientGroups ?? new ObservableCollection<DTO.IngredientGroupEdit>();
+                Recipe.IngredientGroups = Recipe.IngredientGroups ?? new List<DTO.IngredientGroupEdit>();
                 Recipe.IngredientGroups.Add(viewModel.IngredientGroup);
             }
         }
 
         private async Task EditIngredientGroup(DTO.IngredientGroupEdit group)
         {
-            var viewModel = new IngredientGroupEditViewModel(group.MapTo<DTO.IngredientGroupEdit>());
+            var viewModel = new IngredientGroupEditViewModel(mapper.Map<DTO.IngredientGroupEdit>(group));
             await dialogUtils.ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Редактирование группы ингредиентов", viewModel)
                              .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
-                viewModel.IngredientGroup.MapTo(group);
+                mapper.Map(viewModel.IngredientGroup, group);
             }
         }
 
@@ -182,7 +195,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                Recipe.Ingredients ??= new ObservableCollection<RecipeIngredientEdit>();
+                Recipe.Ingredients ??= new List<RecipeIngredientEdit>();
 
                 if (viewModel.Ingredients != null)
                 {
@@ -237,11 +250,11 @@ namespace Cooking.Pages
         {
             if (Recipe.ID == Guid.Empty)
             {
-                Recipe.ID = await RecipeService.CreateAsync(Recipe.MapTo<Recipe>()).ConfigureAwait(false);
+                Recipe.ID = await recipeService.CreateAsync(mapper.Map<Recipe>(Recipe)).ConfigureAwait(false);
             }
             else
             {
-                await RecipeService.UpdateAsync(Recipe.MapTo<Recipe>()).ConfigureAwait(false);
+                await recipeService.UpdateAsync(mapper.Map<Recipe>(Recipe)).ConfigureAwait(false);
             }
             RecipeBackup = null;
             IsEditing = false;
@@ -262,7 +275,7 @@ namespace Cooking.Pages
 
             if (result == MessageDialogResult.Affirmative)
             {
-                await RecipeService.Delete(recipeId).ConfigureAwait(false);
+                await recipeService.DeleteAsync(recipeId).ConfigureAwait(false);
                 CloseCommand.Execute();
             }
         }
@@ -273,8 +286,7 @@ namespace Cooking.Pages
             var recipeId = navigationContext.Parameters[nameof(Recipe)] as Guid?;
             if (recipeId.HasValue)
             {
-                var recipeDb = RecipeService.GetProjection<RecipeFull>(recipeId.Value);
-                Recipe = recipeDb.MapTo<RecipeEdit>();
+                Recipe = recipeService.GetProjected<RecipeEdit>(recipeId.Value, container.Resolve<IMapper>());
             }
             else
             {

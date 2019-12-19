@@ -33,6 +33,7 @@ namespace Cooking.Pages
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(garnishService != null);
+            Debug.Assert(mapper != null);
 
             this.dialogUtils     = dialogUtils;
             this.garnishService  = garnishService;
@@ -52,14 +53,14 @@ namespace Cooking.Pages
 
         private async void EditGarnish(GarnishEdit garnish)
         {
-            var viewModel = new GarnishEditViewModel(garnish.MapTo<GarnishEdit>(), garnishService);
+            var viewModel = new GarnishEditViewModel(mapper.Map<GarnishEdit>(garnish), garnishService);
             await dialogUtils.ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Редактирование гарнира", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                await garnishService.UpdateAsync(viewModel.Garnish.MapTo<Garnish>()).ConfigureAwait(false);
+                await garnishService.UpdateAsync(mapper.Map<Garnish>(viewModel.Garnish)).ConfigureAwait(false);
                 var existingGarnish = Garnishes.Single(x => x.ID == garnish.ID);
-                viewModel.Garnish.MapTo(existingGarnish);
+                mapper.Map(viewModel.Garnish, existingGarnish);
             }
         }
 
@@ -89,7 +90,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                var id = await garnishService.CreateAsync(viewModel.Garnish.MapTo<Garnish>()).ConfigureAwait(true);
+                var id = await garnishService.CreateAsync(mapper.Map<Garnish>(viewModel.Garnish)).ConfigureAwait(true);
                 viewModel.Garnish.ID = id;
                 Garnishes!.Add(viewModel.Garnish);
             }

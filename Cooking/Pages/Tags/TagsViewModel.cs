@@ -68,14 +68,14 @@ namespace Cooking.Pages
 
         private async Task EditTag(TagEdit tag)
         {
-            var viewModel = new TagEditViewModel(tagService, tag.MapTo<TagEdit>());
+            var viewModel = new TagEditViewModel(tagService, mapper.Map<TagEdit>(tag));
             await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Редактирование тега", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                await tagService.UpdateAsync(viewModel.Tag.MapTo<Tag>()).ConfigureAwait(false);
+                await tagService.UpdateAsync(mapper.Map<Tag>(viewModel.Tag)).ConfigureAwait(false);
                 var existingTag = Tags.Single(x => x.ID == tag.ID);
-                viewModel.Tag.MapTo(existingTag);
+                mapper.Map(viewModel.Tag, existingTag);
             }
         }
 
@@ -106,7 +106,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                var id = await tagService.CreateAsync(viewModel.Tag.MapTo<Tag>()).ConfigureAwait(false);
+                var id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag)).ConfigureAwait(false);
                 viewModel.Tag.ID = id;
                 Tags!.Add(viewModel.Tag);
             }

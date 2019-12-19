@@ -57,11 +57,12 @@ namespace Cooking
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
 
             // Register services
-            containerRegistry.RegisterInstance(MapperService.Mapper);
+            containerRegistry.RegisterInstance<IMapper>(new Mapper(MapperService.CreateMapper(), Container.Resolve<IContainerExtension>().Resolve));
             containerRegistry.Register<DayService>();
             containerRegistry.Register<GarnishService>();
             containerRegistry.Register<IngredientService>();
             containerRegistry.Register<TagService>();
+            containerRegistry.Register<RecipeService>();
             containerRegistry.RegisterSingleton<ImageService>(); 
             // Dialog service is constant - we have only one window
             containerRegistry.RegisterInstance(new DialogService(

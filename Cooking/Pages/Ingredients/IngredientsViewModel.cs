@@ -65,14 +65,14 @@ namespace Cooking.Pages
 
         private async void EditIngredient(IngredientEdit ingredient)
         {
-            var viewModel = new IngredientEditViewModel(ingredientService, ingredient.MapTo<IngredientEdit>());
+            var viewModel = new IngredientEditViewModel(ingredientService, mapper.Map<IngredientEdit>(ingredient));
             await dialogUtils.ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Редактирование ингредиента", viewModel).ConfigureAwait(false);
             
             if (viewModel.DialogResultOk)
             {
-                await ingredientService.UpdateAsync(viewModel.Ingredient.MapTo<Ingredient>()).ConfigureAwait(false);
+                await ingredientService.UpdateAsync(mapper.Map<Ingredient>(viewModel.Ingredient)).ConfigureAwait(false);
                 var existingRecipe = Ingredients.Single(x => x.ID == ingredient.ID);
-                viewModel.Ingredient.MapTo(existingRecipe);
+                mapper.Map(viewModel.Ingredient, existingRecipe);
             }
         }
 
@@ -109,7 +109,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                var id = await ingredientService.CreateAsync(viewModel.Ingredient.MapTo<Ingredient>()).ConfigureAwait(false);
+                var id = await ingredientService.CreateAsync(mapper.Map<Ingredient>(viewModel.Ingredient)).ConfigureAwait(false);
                 viewModel.Ingredient.ID = id;
                 Ingredients!.Add(viewModel.Ingredient);
             }

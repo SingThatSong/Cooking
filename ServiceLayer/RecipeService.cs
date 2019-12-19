@@ -2,19 +2,20 @@
 using Data.Context;
 using Data.Model;
 using Microsoft.EntityFrameworkCore;
+using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ServiceLayer
+namespace Cooking.ServiceLayer
 {
-    public static class RecipeService
+    public class RecipeService : CRUDService<Recipe>
     {
         private static readonly Dictionary<Guid, DateTime?> lastCookedId = new Dictionary<Guid, DateTime?>();
 
-        public static int DaysFromLasCook(Guid recipeId)
+        public int DaysFromLasCook(Guid recipeId)
         {
             DateTime? date = DayWhenLasWasCooked(recipeId);
 
@@ -28,7 +29,7 @@ namespace ServiceLayer
             }
         }
 
-        public static DateTime? DayWhenLasWasCooked(Guid recipeId)
+        public DateTime? DayWhenLasWasCooked(Guid recipeId)
         {
             if (lastCookedId.ContainsKey(recipeId))
             {
@@ -39,12 +40,12 @@ namespace ServiceLayer
             return lastCookedId[recipeId] = context.Days.Where(x => x.DinnerID == recipeId && x.DinnerWasCooked && x.Date != null).OrderByDescending(x => x.Date).FirstOrDefault()?.Date;
         }
 
-        public static List<RecipeSlim> GetRecipies()
+        public List<RecipeSlim> GetRecipies()
         {
             return GetRecipiesByParameters(null, null, null, null, false);
         }
 
-        public static List<RecipeSlim> GetRecipiesByParameters(List<Guid>? requiredTags, List<CalorieType>? calorieTypes, int? maxComplexity, int? minRating, bool onlyNew)
+        public List<RecipeSlim> GetRecipiesByParameters(List<Guid>? requiredTags, List<CalorieType>? calorieTypes, int? maxComplexity, int? minRating, bool onlyNew)
         {
             Debug.WriteLine("RecipeService.GetRecipies");
 
@@ -101,7 +102,7 @@ namespace ServiceLayer
             return queryResult.OrderByDescending(x => DaysFromLasCook(x.ID)).ToList();
         }
 
-        public static Recipe Get(Guid recipeId)
+        public Recipe Get(Guid recipeId)
         {
             using CookingContext context = new CookingContext();
             return context.Recipies
@@ -115,47 +116,12 @@ namespace ServiceLayer
                           .Single(x => x.ID == recipeId);
         }
 
-        public static TRecipe GetProjection<TRecipe>(Guid recipeId) where TRecipe : RecipeProjection
-        {
-            using CookingContext context = new CookingContext();
-
-            return MapperService.Mapper.ProjectTo<TRecipe>(context.Recipies)
-                                       .Single(x => x.ID == recipeId);
-        }
-
-        public static async Task Delete(Guid id)
-        {
-            using CookingContext context = new CookingContext(DatabaseService.DbFileName);
-            context.Recipies.Remove(new Recipe { ID = id });
-            await context.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public static async Task UpdateAsync<TRecipe>(TRecipe recipe) where TRecipe : RecipeProjection
+        public async Task<Guid> CreateAsync(Recipe recipe)
         {
             using CookingContext context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
-            Recipe existingRecipe = await context.Recipies.FindAsync(recipe.ID);
-
-            MapperService.Mapper.Map(recipe, existingRecipe);
+            await context.Recipies.AddAsync(recipe);
             await context.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public static async Task UpdateAsync(Recipe recipe)
-        {
-            using CookingContext context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
-            Recipe existingRecipe = await context.Recipies.FindAsync(recipe.ID);
-
-            MapperService.Mapper.Map(recipe, existingRecipe);
-            await context.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public static async Task<Guid> CreateAsync(Recipe recipe)
-        {
-            using CookingContext context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
-            Recipe recipeNew = MappingsHelper.MapToRecipe(recipe, context);
-
-            await context.Recipies.AddAsync(recipeNew);
-            await context.SaveChangesAsync().ConfigureAwait(false);
-            return recipeNew.ID;
+            return recipe.ID;
         }
     }
 }

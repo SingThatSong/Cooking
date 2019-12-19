@@ -1,4 +1,5 @@
-﻿using Data.Context;
+﻿using AutoMapper;
+using Data.Context;
 using Data.Model;
 using ServiceLayer;
 using ServiceLayer.DTO.MainPage;
@@ -11,10 +12,10 @@ namespace Cooking.ServiceLayer
 {
     public class TagService : CRUDService<Tag>
     {
-        public List<Tag> GetTagsByType(TagType tagType)
+        public List<T> GetTagsByType<T>(TagType tagType, IMapper mapper)
         {
             using var context = new CookingContext(DatabaseService.DbFileName);
-            return context.Tags.Where(x => x.Type == tagType).ToList();
+            return mapper.ProjectTo<T>(context.Tags.Where(x => x.Type == tagType)).ToList();
         }
 
         public List<string> GetTagNames()

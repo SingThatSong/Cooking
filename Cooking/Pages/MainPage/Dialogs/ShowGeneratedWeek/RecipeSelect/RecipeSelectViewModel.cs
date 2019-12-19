@@ -1,6 +1,8 @@
-﻿using Cooking.Commands;
+﻿using AutoMapper;
+using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Dialogs;
+using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
 using Plafi;
 using ServiceLayer;
@@ -18,18 +20,19 @@ namespace Cooking.Pages
 
         public Guid SelectedRecipeID { get; set; }
 
-        public RecipeSelectViewModel(DialogService dialogUtils, DayPlan? day = null)
+        public RecipeSelectViewModel(DialogService dialogUtils, RecipeService recipeService, IMapper mapper, DayPlan? day = null)
         {
             Debug.Assert(dialogUtils != null);
+            Debug.Assert(recipeService != null);
+            Debug.Assert(mapper != null);
 
             this.dialogUtils = dialogUtils;
+            this.recipeService = recipeService;
 
             FilterContext = new FilterContext<RecipeSelectDto>().AddFilter(Consts.IngredientSymbol, HasIngredient)
                                                                 .AddFilter(Consts.TagSymbol, HasTag);
 
-            var dbRecipies = RecipeService.GetRecipies();
-
-            _recipies = dbRecipies.Select(x => MapperService.Mapper.Map<RecipeSelectDto>(x)).ToList();
+            _recipies = recipeService.GetProjected<RecipeSelectDto>(mapper);
 
             RecipiesSource = new CollectionViewSource() { Source = _recipies };
             RecipiesSource.Filter += RecipiesSource_Filter;
@@ -151,7 +154,7 @@ namespace Cooking.Pages
             }
             else
             {
-                recipeDb = RecipeService.GetProjection<RecipeFull>(recipe.ID);
+                recipeDb = recipeService.GetProjected<RecipeFull>(recipe.ID);
                 recipeCache.Add(recipe.ID, recipeDb);
             }
 
@@ -168,7 +171,7 @@ namespace Cooking.Pages
             }
             else
             {
-                recipeDb = RecipeService.GetProjection<RecipeFull>(recipe.ID);
+                recipeDb = recipeService.GetProjected<RecipeFull>(recipe.ID);
                 recipeCache.Add(recipe.ID, recipeDb);
             }
 
@@ -202,6 +205,7 @@ namespace Cooking.Pages
 
         private readonly List<RecipeSelectDto> _recipies;
         private readonly DialogService dialogUtils;
+        private readonly RecipeService recipeService;
 
         public RecipeSelectDto? SelectedRecipe => _recipies.FirstOrDefault(x => x.IsSelected);
 
