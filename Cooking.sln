@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28516.95
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking", "Cooking\Cooking.csproj", "{0229C63F-BE7E-4C03-963F-5BFE87C25E7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking.WPF", "Cooking\Cooking.WPF.csproj", "{0229C63F-BE7E-4C03-963F-5BFE87C25E7F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking.Data", "Data\Cooking.Data.csproj", "{1AD0ACAC-D704-48A6-9D17-171D3886FE0A}"
 EndProject
@@ -12,6 +12,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking.Web", "WebApplication1\Cooking.Web.csproj", "{229C1943-2C28-4157-BF89-7C226083547B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking.ServiceLayer", "ServiceLayer\Cooking.ServiceLayer.csproj", "{5D916B69-F617-41E7-91CD-FAEF483E48A2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking.Avalonia", "Cooking.Avalonia\Cooking.Avalonia.csproj", "{911E3DCC-F2CC-400A-98C3-2025F4BF469D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{A64C8754-ED61-4AEF-AAA4-700835BE2491}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CCD6C829-63AA-4ADF-831C-50CF7DAA828D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +45,18 @@ Global
 		{5D916B69-F617-41E7-91CD-FAEF483E48A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D916B69-F617-41E7-91CD-FAEF483E48A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D916B69-F617-41E7-91CD-FAEF483E48A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{911E3DCC-F2CC-400A-98C3-2025F4BF469D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{911E3DCC-F2CC-400A-98C3-2025F4BF469D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{911E3DCC-F2CC-400A-98C3-2025F4BF469D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{911E3DCC-F2CC-400A-98C3-2025F4BF469D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1AD0ACAC-D704-48A6-9D17-171D3886FE0A} = {A64C8754-ED61-4AEF-AAA4-700835BE2491}
+		{217A3CDB-8B64-4C13-9F69-11F43AB11347} = {CCD6C829-63AA-4ADF-831C-50CF7DAA828D}
+		{5D916B69-F617-41E7-91CD-FAEF483E48A2} = {A64C8754-ED61-4AEF-AAA4-700835BE2491}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9BA0DA67-F628-4FB6-BDDC-D8ED386771D9}
