@@ -12,6 +12,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Windows;
+using Serilog;
 
 namespace Cooking
 {
@@ -22,36 +23,30 @@ namespace Cooking
     {
         public App()
         {
-            Trace.Listeners.Add(new TextWriterTraceListener("Log.log"));
-            Trace.AutoFlush = true;
             AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;
-
             DatabaseService.InitDatabase();
         }
 
-        private const string dateTimeFormat = "dd.MM.yyyy hh:mm";
-
         private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            if (e.ExceptionObject is Exception exception)
-            {
-                var exceptionDescription = new StringBuilder();
-
-                exceptionDescription.AppendLine(exception.Message);
-                exceptionDescription.AppendLine(exception.StackTrace);
-
-                while (exception.InnerException != null)
-                {
-                    exception = exception.InnerException;
-                    exceptionDescription.AppendLine(exception.Message);
-                    exceptionDescription.AppendLine(exception.StackTrace);
-                }
-                Trace.TraceError($"[{DateTime.Now.ToString(dateTimeFormat, CultureInfo.InvariantCulture)}] {exceptionDescription.ToString()}");
-            }
+            var logger = Container.Resolve<ILogger>();
+            logger.Error(e.ExceptionObject as Exception, "Critical error");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // Register logging
+            var logger = new LoggerConfiguration()
+                             .MinimumLevel.Information()
+                             .WriteTo.Console()
+                             .WriteTo.File("Log.txt",
+                                 rollingInterval: RollingInterval.Infinite,
+                                 rollOnFileSizeLimit: true, 
+                                 fileSizeLimitBytes: 1024 * 1024 * 5)
+                             .CreateLogger();
+
+            containerRegistry.RegisterInstance<ILogger>(logger);
+
             // Register main page and main vm - they are constant
             containerRegistry.Register<MainWindow>();
             containerRegistry.RegisterSingleton<MainWindowViewModel>();

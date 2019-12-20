@@ -76,10 +76,9 @@
             </ListView.ItemTemplate>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <wpftk:VirtualizingWrapPanel Orientation="Vertical" />
+                    <wpftk:VirtualizingWrapPanel />
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
-
             <ListView.Template>
                 <ControlTemplate TargetType="{x:Type ListView}">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">

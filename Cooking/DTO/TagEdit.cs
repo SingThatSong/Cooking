@@ -23,6 +23,8 @@ namespace Cooking.DTO
         public bool IsChecked { get; set; }
         public bool CanBeRemoved { get; set; } = true;
 
+#pragma warning disable CS0067 // Событие не используется
         public event PropertyChangedEventHandler? PropertyChanged;
+#pragma warning restore CS0067
     }
 }

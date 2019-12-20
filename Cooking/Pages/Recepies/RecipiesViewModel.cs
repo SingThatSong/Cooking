@@ -160,7 +160,7 @@ namespace Cooking.Pages
             return false;
         }
 
-        public async void ViewRecipe(Guid recipeId)
+        public void ViewRecipe(Guid recipeId)
         {
             var parameters = new NavigationParameters()
             {
@@ -169,9 +169,9 @@ namespace Cooking.Pages
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
         }
 
-        public async void AddRecipe()
+        public void AddRecipe()
         {
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), Callback);
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView));
 
             //var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>("Новый рецепт", content: new RecipeViewModel(dialogUtils) { IsEditing = true }).ConfigureAwait(false); ;
 
@@ -181,11 +181,6 @@ namespace Cooking.Pages
             //    viewModel.Recipe.ID = id;
             //    Recipies!.Add(viewModel.Recipe.MapTo<RecipeSelectDto>());
             //}
-        }
-
-        private void Callback(NavigationResult navigationResult)
-        {
-
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

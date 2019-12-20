@@ -21,9 +21,9 @@ namespace Cooking.DTO
                                 : null;
 
 
-        public List<IngredientGroupEdit>? IngredientGroups { get; set; }
-        public List<RecipeIngredientEdit>? Ingredients { get; set; }
-        public List<TagEdit>? Tags { get; set; }
+        public ObservableCollection<IngredientGroupEdit>? IngredientGroups { get; set; }
+        public ObservableCollection<RecipeIngredientEdit>? Ingredients { get; set; }
+        public ObservableCollection<TagEdit>? Tags { get; set; }
 
         public int LastCooked { get; set; } // => RecipeService.DaysFromLasCook(ID);
 

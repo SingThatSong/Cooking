@@ -1,4 +1,5 @@
-﻿using Cooking.ServiceLayer.Projections;
+﻿using AutoMapper;
+using Cooking.ServiceLayer.Projections;
 using Data.Context;
 using Data.Model;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,12 @@ namespace Cooking.ServiceLayer
             {
                 return -1;
             }
+        }
+
+        public override TProjection GetProjected<TProjection>(Guid id, IMapper mapper)
+        {
+            var recipe = Get(id);
+            return mapper.Map<TProjection>(recipe);
         }
 
         public DateTime? DayWhenLasWasCooked(Guid recipeId)
@@ -114,14 +121,6 @@ namespace Cooking.ServiceLayer
                              .ThenInclude(x => x.Ingredients)
                                 .ThenInclude(x => x.Ingredient)
                           .Single(x => x.ID == recipeId);
-        }
-
-        public async Task<Guid> CreateAsync(Recipe recipe)
-        {
-            using CookingContext context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
-            await context.Recipies.AddAsync(recipe);
-            await context.SaveChangesAsync().ConfigureAwait(false);
-            return recipe.ID;
         }
     }
 }

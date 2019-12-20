@@ -60,7 +60,7 @@ namespace Cooking.Pages
 
             LoadedCommand               = new DelegateCommand(OnLoadedAsync, executeOnce: true);
             CreateNewWeekCommand        = new DelegateCommand(CreateNewWeekAsync);
-            CreateShoppingListCommand   = new DelegateCommand(CreateShoppingListAsync);
+            CreateShoppingListCommand   = new DelegateCommand(CreateShoppingList);
             DeleteCommand               = new DelegateCommand(DeleteCurrentWeekAsync);
             SelectNextWeekCommand       = new DelegateCommand(SelectNextWeekAsync);
             SelectPreviousWeekCommand   = new DelegateCommand(SelectPreviousWeekAsync);
@@ -201,9 +201,9 @@ namespace Cooking.Pages
             WeekEnd = WeekService.LastDayOfWeek(date);
         }
 
-        private async void CreateShoppingListAsync()
+        private void CreateShoppingList()
         {
-            Debug.WriteLine("MainPageViewModel.CreateShoppingListAsync");
+            Debug.WriteLine("MainPageViewModel.CreateShoppingList");
 
             var allProducts = WeekService.GetWeekIngredients(CurrentWeek!.ID);
             var parameters = new NavigationParameters()

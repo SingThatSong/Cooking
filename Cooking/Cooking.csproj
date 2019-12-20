@@ -43,12 +43,16 @@
       <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="MaterialDesignColors">
-      <Version>1.2.2-ci873</Version>
+      <Version>1.2.2-ci879</Version>
     </PackageReference>
     <PackageReference Include="MaterialDesignThemes">
-      <Version>3.0.1-ci873</Version>
+      <Version>3.0.1-ci879</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -60,6 +64,9 @@
     <PackageReference Include="PropertyChanged.Fody">
       <Version>3.2.1</Version>
     </PackageReference>
+    <PackageReference Include="Serilog" Version="2.9.1-dev-01154" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00834" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
     <PackageReference Include="VirtualizingWrapPanel.NETCore" Version="1.4.0" />
   </ItemGroup>

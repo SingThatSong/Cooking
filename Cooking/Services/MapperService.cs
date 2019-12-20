@@ -29,21 +29,8 @@ namespace Cooking
                 cfg.CreateMap<Day, DayEdit>();
                 cfg.CreateMap<Tag, TagEdit>();
                 cfg.CreateMap<Ingredient, IngredientEdit>();
-                cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>()
-                    .ForMember(x => x.MeasureUnit, opt => opt.Ignore())
-                    .ForMember(x => x.Amount, opt => opt.Ignore())
-                    .ForMember(x => x.Ingredient, opt => opt.Ignore())
-                    .ForMember(x => x.Order, opt => opt.Ignore())
-                    ;
-                cfg.CreateMap<IngredientsGroup, IngredientGroupEdit>()
-                   .ForMember(x => x.Ingredients, opt => opt.Ignore())
-                   .AfterMap((src, dest, context) => 
-                   { 
-                       if (src.Ingredients != null)
-                       {
-                           dest.Ingredients = new ObservableCollection<RecipeIngredientEdit>();
-                       }
-                   });
+                cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>();
+                cfg.CreateMap<IngredientsGroup, IngredientGroupEdit>();
 
                 cfg.CreateMap<Recipe, RecipeSelectDto>();
                 cfg.CreateMap<Recipe, RecipeEdit>()
@@ -57,7 +44,7 @@ namespace Cooking
                 {
                     if (dest.Ingredients != null)
                     {
-                        dest.Ingredients = new List<RecipeIngredientEdit>(dest.Ingredients.OrderBy(x => x.Order));
+                        dest.Ingredients = new ObservableCollection<RecipeIngredientEdit>(dest.Ingredients.OrderBy(x => x.Order));
                     }
 
                     if (dest.IngredientGroups != null)
@@ -70,19 +57,21 @@ namespace Cooking
                 });
 
                 cfg.CreateMap<RecipeEdit, RecipeEdit>();
-                cfg.CreateMap<RecipeEdit, Recipe>().AfterMap((src, dest) =>
-                {
-                    if (dest.Tags != null)
-                    {
-                        foreach (var tag in dest.Tags)
-                        {
-                            tag.RecipeId = dest.ID;
-                        }
-                    }
-                });
+                cfg.CreateMap<RecipeEdit, Recipe>()
+                   .AfterMap((src, dest) =>
+                   {
+                       if (dest.Tags != null)
+                       {
+                           foreach (var tag in dest.Tags)
+                           {
+                               tag.RecipeId = dest.ID;
+                           }
+                       }
+                   });
 
                 cfg.CreateMap<RecipeIngredientEdit, RecipeIngredientEdit>();
                 cfg.CreateMap<RecipeIngredientEdit, RecipeIngredient>()
+                    // TODO: ???
                    .ForMember(x => x.ID, opts => opts.MapFrom(_ => Guid.NewGuid()))
                    .ForMember(x => x.Ingredient, opts => opts.Ignore());
 

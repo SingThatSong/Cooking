@@ -73,7 +73,7 @@ namespace Cooking.Pages
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(MainView), parameters);
         }
 
-        private async void ShowRecipe(Guid recipeId)
+        private void ShowRecipe(Guid recipeId)
         {
             var parameters = new NavigationParameters()
             {
@@ -96,7 +96,7 @@ namespace Cooking.Pages
 
         private async void SetRecipeManually(DayPlan day)
         {
-            var viewModel = new RecipeSelectViewModel(dialogUtils, recipeService, container.Resolve<IMapper>(), day);
+            var viewModel = new RecipeSelectViewModel(recipeService, container.Resolve<IMapper>(), day);
 
             await dialogUtils.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>(content: viewModel).ConfigureAwait(false);
 

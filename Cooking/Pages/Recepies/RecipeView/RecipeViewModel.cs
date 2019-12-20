@@ -154,7 +154,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                Recipe.Tags = new List<TagEdit>(viewModel.AllTags.Where(x => x.IsChecked));
+                Recipe.Tags = new ObservableCollection<TagEdit>(viewModel.AllTags.Where(x => x.IsChecked));
             }
         }
 
@@ -165,7 +165,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                Recipe.IngredientGroups = Recipe.IngredientGroups ?? new List<DTO.IngredientGroupEdit>();
+                Recipe.IngredientGroups = Recipe.IngredientGroups ?? new ObservableCollection<DTO.IngredientGroupEdit>();
                 Recipe.IngredientGroups.Add(viewModel.IngredientGroup);
             }
         }
@@ -195,7 +195,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                Recipe.Ingredients ??= new List<RecipeIngredientEdit>();
+                Recipe.Ingredients ??= new ObservableCollection<RecipeIngredientEdit>();
 
                 if (viewModel.Ingredients != null)
                 {
@@ -291,6 +291,7 @@ namespace Cooking.Pages
             else
             {
                 Recipe = new RecipeEdit();
+                IsEditing = true;
             }
         }
 

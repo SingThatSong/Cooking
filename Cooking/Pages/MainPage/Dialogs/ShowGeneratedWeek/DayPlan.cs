@@ -31,6 +31,8 @@ namespace Cooking.Pages.Dialogs
                 CalorieTypeSelection.Any
             };
 
+#pragma warning disable CS0067 // Событие не используется
         public event PropertyChangedEventHandler? PropertyChanged;
+#pragma warning restore CS0067
     }
 }

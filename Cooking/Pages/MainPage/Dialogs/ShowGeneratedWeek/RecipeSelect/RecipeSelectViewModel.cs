@@ -20,13 +20,11 @@ namespace Cooking.Pages
 
         public Guid SelectedRecipeID { get; set; }
 
-        public RecipeSelectViewModel(DialogService dialogUtils, RecipeService recipeService, IMapper mapper, DayPlan? day = null)
+        public RecipeSelectViewModel(RecipeService recipeService, IMapper mapper, DayPlan? day = null)
         {
-            Debug.Assert(dialogUtils != null);
             Debug.Assert(recipeService != null);
             Debug.Assert(mapper != null);
 
-            this.dialogUtils = dialogUtils;
             this.recipeService = recipeService;
 
             FilterContext = new FilterContext<RecipeSelectDto>().AddFilter(Consts.IngredientSymbol, HasIngredient)
@@ -47,8 +45,6 @@ namespace Cooking.Pages
                 recipe.IsSelected = true;
                 SelectedRecipeID = recipe.ID;
             });
-
-            ViewRecipeCommand = new DelegateCommand<RecipeEdit>(ViewRecipe);
 
             if (day != null)
             {
@@ -197,14 +193,7 @@ namespace Cooking.Pages
             return false;
         }
 
-        public async void ViewRecipe(RecipeEdit recipe)
-        {
-            //var viewModel = new RecipeViewModel(recipe.ID, dialogUtils);
-            //await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>(content: viewModel);
-        }
-
         private readonly List<RecipeSelectDto> _recipies;
-        private readonly DialogService dialogUtils;
         private readonly RecipeService recipeService;
 
         public RecipeSelectDto? SelectedRecipe => _recipies.FirstOrDefault(x => x.IsSelected);
@@ -212,6 +201,5 @@ namespace Cooking.Pages
         public CollectionViewSource RecipiesSource { get; }
 
         public DelegateCommand<RecipeSelectDto> SelectRecipeCommand { get; }
-        public DelegateCommand<RecipeEdit> ViewRecipeCommand { get; }
     }
 }
