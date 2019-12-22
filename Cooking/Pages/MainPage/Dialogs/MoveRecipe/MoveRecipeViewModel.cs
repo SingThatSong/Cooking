@@ -19,7 +19,7 @@ namespace Cooking.Pages
             new SelectDay { Name = "Воскресенье", WeekDay = DayOfWeek.Sunday }
         };
 
-        public MoveRecipeViewModel()
+        public MoveRecipeViewModel(DialogService dialogService) : base(dialogService)
         {
             SelectDayCommand = new DelegateCommand<SelectDay>(recipe =>
             {

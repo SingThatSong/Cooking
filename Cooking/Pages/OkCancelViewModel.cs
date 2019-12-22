@@ -8,9 +8,9 @@ namespace Cooking.Pages
         public bool DialogResultOk { get; private set; }
         public AsyncDelegateCommand OkCommand { get; protected set; }
 
-        public OkCancelViewModel() : base()
+        public OkCancelViewModel(DialogService dialogService) : base(dialogService)
         {
-            OkCommand = new AsyncDelegateCommand(Ok, CanOk, executeOnce: true, freezeWhenBusy: true);
+            OkCommand = new AsyncDelegateCommand(Ok, CanOk);
         }
 
         protected virtual bool CanOk() => true;
@@ -18,7 +18,7 @@ namespace Cooking.Pages
         protected virtual async Task Ok()
         {
             DialogResultOk = true;
-            await Close().ConfigureAwait(false);
+            Close();
         }
     }
 }

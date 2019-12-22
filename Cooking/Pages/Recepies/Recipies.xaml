@@ -7,7 +7,6 @@
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
-    mahapps:DialogParticipation.Register="{Binding}"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>

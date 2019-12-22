@@ -20,7 +20,7 @@ namespace Cooking.Pages
 
         public Guid SelectedRecipeID { get; set; }
 
-        public RecipeSelectViewModel(RecipeService recipeService, IMapper mapper, DayPlan? day = null)
+        public RecipeSelectViewModel(DialogService dialogService, RecipeService recipeService, IMapper mapper, DayPlan? day = null) : base(dialogService)
         {
             Debug.Assert(recipeService != null);
             Debug.Assert(mapper != null);

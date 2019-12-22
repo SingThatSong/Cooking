@@ -11,9 +11,8 @@ namespace Cooking.Pages.ViewModel
     public partial class CalorieTypeSelectEditViewModel : OkCancelViewModel
     {
         public ObservableCollection<CalorieTypeSelection> AllValues { get; }
-        public CalorieTypeSelectEditViewModel() : this(null) { }
 
-        public CalorieTypeSelectEditViewModel(IEnumerable<CalorieTypeSelection>? selectedTypes) : base()
+        public CalorieTypeSelectEditViewModel(DialogService dialogService, IEnumerable<CalorieTypeSelection>? selectedTypes) : base(dialogService)
         {
             AllValues = new ObservableCollection<CalorieTypeSelection>(
                 Enum.GetValues(typeof(CalorieType))

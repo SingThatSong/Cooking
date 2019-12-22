@@ -15,7 +15,7 @@ namespace Cooking.Pages
         public GarnishEdit Garnish { get; set; }
         private bool NameChanged { get; set; }
 
-        public GarnishEditViewModel(GarnishEdit? category, GarnishService garnishService)
+        public GarnishEditViewModel(GarnishEdit? category, GarnishService garnishService, DialogService dialogService) : base (dialogService)
         {
             Garnish = category ?? new GarnishEdit();
             AllGarnishNames = garnishService.GetSearchNames();

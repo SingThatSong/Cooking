@@ -7,7 +7,6 @@
   xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
   xmlns:prism="http://prismlibrary.com/"
   xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-  mahapps:DialogParticipation.Register="{Binding}"
   prism:ViewModelLocator.AutoWireViewModel="True">
 
   <i:Interaction.Triggers>

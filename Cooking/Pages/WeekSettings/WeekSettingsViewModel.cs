@@ -128,7 +128,7 @@ namespace Cooking.Pages
 
         private async void AddCalorieTypes(DayPlan day)
         {
-            var viewModel = new CalorieTypeSelectEditViewModel(day.CalorieTypes);
+            var viewModel = new CalorieTypeSelectEditViewModel(dialogUtils, day.CalorieTypes);
             await dialogUtils.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectEditViewModel>("Категории калорийности", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)

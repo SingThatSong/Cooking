@@ -12,11 +12,6 @@ namespace Cooking.Pages
         public RecipeView()
         {
             InitializeComponent();
-
-            // Для того, чтобы окно могло работать с нажатием клавиш на клавиатуре
-            // https://stackoverflow.com/a/21352864
-            Focusable = true;
-            Loaded += (s, e) => Keyboard.Focus(this);
         }
 
         private void RichTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)

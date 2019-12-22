@@ -19,7 +19,7 @@ namespace Cooking.Pages
         private readonly TagService tagService;
         private readonly IMapper mapper;
 
-        public TagSelectViewModel(DialogService dialogUtils, TagService tagService, IMapper mapper)
+        public TagSelectViewModel(DialogService dialogUtils, TagService tagService, IMapper mapper) : base(dialogUtils)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(tagService != null);

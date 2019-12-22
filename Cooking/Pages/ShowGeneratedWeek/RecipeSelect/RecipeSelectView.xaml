@@ -5,8 +5,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
-    Margin="-100 0"
-    mahapps:DialogParticipation.Register="{Binding}">
+    Margin="-100 0">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />

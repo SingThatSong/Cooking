@@ -13,7 +13,6 @@
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     MaxWidth="500"
     Margin="20 0"
-    mahapps:DialogParticipation.Register="{Binding}"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.InputBindings>

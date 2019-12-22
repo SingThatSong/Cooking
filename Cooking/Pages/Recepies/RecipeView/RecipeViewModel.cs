@@ -21,13 +21,14 @@ using System.Threading.Tasks;
 namespace Cooking.Pages
 {
     [AddINotifyPropertyChangedInterface]
-    public partial class RecipeViewModel : IDropTarget, INavigationAware
+    public partial class RecipeViewModel : IDropTarget, INavigationAware, IRegionMemberLifetime
     {
         private readonly DialogService dialogUtils;
         private readonly ImageService imageService;
         private readonly IContainerExtension container;
         private readonly RecipeService recipeService;
         private readonly IMapper mapper;
+        private readonly IRegionManager regionManager;
         private NavigationContext navigationContext;
 
         public bool IsEditing { get; set; }
@@ -71,7 +72,8 @@ namespace Cooking.Pages
                                ImageService imageService, 
                                IContainerExtension container, 
                                RecipeService recipeService, 
-                               IMapper mapper)
+                               IMapper mapper,
+                               IRegionManager regionManager)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(imageService != null);
@@ -84,7 +86,7 @@ namespace Cooking.Pages
             this.container              = container;
             this.recipeService          = recipeService;
             this.mapper                 = mapper;
-
+            this.regionManager          = regionManager;
             CloseCommand                = new DelegateCommand(Close);
             ApplyChangesCommand         = new AsyncDelegateCommand(ApplyChanges);
             DeleteRecipeCommand         = new AsyncDelegateCommand<Guid>(DeleteRecipe);
@@ -172,7 +174,7 @@ namespace Cooking.Pages
 
         private async Task EditIngredientGroup(DTO.IngredientGroupEdit group)
         {
-            var viewModel = new IngredientGroupEditViewModel(mapper.Map<DTO.IngredientGroupEdit>(group));
+            var viewModel = new IngredientGroupEditViewModel(dialogUtils, mapper.Map<DTO.IngredientGroupEdit>(group));
             await dialogUtils.ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Редактирование группы ингредиентов", viewModel)
                              .ConfigureAwait(true);
 
@@ -184,31 +186,40 @@ namespace Cooking.Pages
 
         private void RemoveTag(TagEdit tag) => Recipe.Tags!.Remove(tag);
         private void RemoveImage() => Recipe.ImagePath = null;
-        private bool CanRemoveImage() => Recipe?.ImagePath != null;
+
+
+        public bool KeepAlive => false;
+
+        private bool CanRemoveImage()
+        {
+            return Recipe?.ImagePath != null;
+        }
 
         public async Task AddIngredient()
         {
-            var viewModel = container.Resolve<RecipeIngredientEditViewModel>();
-            viewModel.IsCreation = true;
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeIngredientEditView));
 
-            await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", viewModel).ConfigureAwait(true);
+            //var viewModel = container.Resolve<RecipeIngredientEditViewModel>();
+            //viewModel.IsCreation = true;
 
-            if (viewModel.DialogResultOk)
-            {
-                Recipe.Ingredients ??= new ObservableCollection<RecipeIngredientEdit>();
+            //await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", viewModel).ConfigureAwait(true);
 
-                if (viewModel.Ingredients != null)
-                {
-                    foreach (var ingredient in viewModel.Ingredients)
-                    {
-                        ingredient.Order += Recipe.Ingredients.Count;
-                        Recipe.Ingredients.Add(ingredient);
-                    }
-                }
+            //if (viewModel.DialogResultOk)
+            //{
+            //    Recipe.Ingredients ??= new ObservableCollection<RecipeIngredientEdit>();
 
-                viewModel.Ingredient.Order = Recipe.Ingredients.Count + 1;
-                Recipe.Ingredients.Add(viewModel.Ingredient);
-            }
+            //    if (viewModel.Ingredients != null)
+            //    {
+            //        foreach (var ingredient in viewModel.Ingredients)
+            //        {
+            //            ingredient.Order += Recipe.Ingredients.Count;
+            //            Recipe.Ingredients.Add(ingredient);
+            //        }
+            //    }
+
+            //    viewModel.Ingredient.Order = Recipe.Ingredients.Count + 1;
+            //    Recipe.Ingredients.Add(viewModel.Ingredient);
+            //}
         }
 
         public async void AddIngredientToGroup(DTO.IngredientGroupEdit group)
@@ -282,6 +293,9 @@ namespace Cooking.Pages
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+            GC.Collect(0, GCCollectionMode.Forced, true);
+            GC.Collect(1, GCCollectionMode.Forced, true);
+            GC.Collect(2, GCCollectionMode.Forced, true);
             this.navigationContext = navigationContext;
             var recipeId = navigationContext.Parameters[nameof(Recipe)] as Guid?;
             if (recipeId.HasValue)

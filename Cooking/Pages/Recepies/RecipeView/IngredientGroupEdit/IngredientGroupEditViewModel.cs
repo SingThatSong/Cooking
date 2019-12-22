@@ -2,8 +2,7 @@
 {
     public partial class IngredientGroupEditViewModel : OkCancelViewModel
     {
-        public IngredientGroupEditViewModel() : this(null) { }
-        public IngredientGroupEditViewModel(DTO.IngredientGroupEdit? ingredientGroup = null)
+        public IngredientGroupEditViewModel(DialogService dialogService, DTO.IngredientGroupEdit? ingredientGroup = null) : base(dialogService)
         {
             IngredientGroup = ingredientGroup ?? new DTO.IngredientGroupEdit();
         }

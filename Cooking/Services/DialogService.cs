@@ -77,5 +77,22 @@ namespace Cooking
             }).ConfigureAwait(false);
             return content;
         }
+
+        public virtual async Task HideCurrentDialogAsync()
+        {
+            await Application.Current.Dispatcher.Invoke(async () =>
+            {
+                var dialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel);
+                if (dialog != null)
+                {
+                    await HideDialogAsync(dialog);
+                }
+            }).ConfigureAwait(false);
+        }
+
+        public virtual async Task HideDialogAsync(BaseMetroDialog dialog)
+        {
+            await DialogCoordinator.HideMetroDialogAsync(ViewModel, dialog, new MetroDialogSettings() { AnimateHide = false }).ConfigureAwait(false);
+        }
     }
 }

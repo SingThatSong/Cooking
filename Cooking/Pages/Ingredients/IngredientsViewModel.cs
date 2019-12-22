@@ -65,7 +65,7 @@ namespace Cooking.Pages
 
         private async void EditIngredient(IngredientEdit ingredient)
         {
-            var viewModel = new IngredientEditViewModel(ingredientService, mapper.Map<IngredientEdit>(ingredient));
+            var viewModel = new IngredientEditViewModel(ingredientService, dialogUtils, mapper.Map<IngredientEdit>(ingredient));
             await dialogUtils.ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Редактирование ингредиента", viewModel).ConfigureAwait(false);
             
             if (viewModel.DialogResultOk)

@@ -5,7 +5,6 @@
   xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
   xmlns:prism="http://prismlibrary.com/"
   Margin="20 0"
-  mahapps:DialogParticipation.Register="{Binding}"
   prism:ViewModelLocator.AutoWireViewModel="True">
 
   <UserControl.InputBindings>

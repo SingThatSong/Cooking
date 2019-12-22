@@ -4,8 +4,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
   xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-  mahapps:DialogParticipation.Register="{Binding}">
+  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls">
 
   <UserControl.InputBindings>
     <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />

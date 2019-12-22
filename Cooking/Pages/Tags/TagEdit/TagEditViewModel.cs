@@ -16,7 +16,7 @@ namespace Cooking.Pages
     {
         private bool NameChanged { get; set; }
 
-        public TagEditViewModel(TagService tagService, TagEdit? category = null)
+        public TagEditViewModel(DialogService dialogService, TagService tagService, TagEdit? category = null) : base(dialogService)
         {
             Tag = category ?? new TagEdit();
             AllTagNames = tagService.GetTagNames();

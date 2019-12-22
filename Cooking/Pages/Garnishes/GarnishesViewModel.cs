@@ -53,7 +53,7 @@ namespace Cooking.Pages
 
         private async void EditGarnish(GarnishEdit garnish)
         {
-            var viewModel = new GarnishEditViewModel(mapper.Map<GarnishEdit>(garnish), garnishService);
+            var viewModel = new GarnishEditViewModel(mapper.Map<GarnishEdit>(garnish), garnishService, dialogUtils);
             await dialogUtils.ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Редактирование гарнира", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)

@@ -17,7 +17,7 @@ namespace Cooking.Pages
         public IngredientEdit Ingredient { get; set; }
         private bool NameChanged { get; set; }
 
-        public IngredientEditViewModel(IngredientService ingredientService, IngredientEdit? category = null)
+        public IngredientEditViewModel(IngredientService ingredientService, DialogService dialogService, IngredientEdit? category = null) : base(dialogService)
         {
             Ingredient = category ?? new IngredientEdit();
             AllIngredientNames = ingredientService.GetSearchNames();

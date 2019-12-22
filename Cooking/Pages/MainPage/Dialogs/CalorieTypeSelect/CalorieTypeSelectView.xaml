@@ -2,8 +2,7 @@
   x:Class="Cooking.Pages.CalorieTypeSelectView"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-  mahapps:DialogParticipation.Register="{Binding}">
+  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls">
 
   <UserControl.InputBindings>
     <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
