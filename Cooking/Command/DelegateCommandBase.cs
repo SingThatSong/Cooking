@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace Cooking.Commands
@@ -17,8 +18,20 @@ namespace Cooking.Commands
         /// </summary>
         public event EventHandler CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            add 
+            {
+                if (CanExecuteSpecified)
+                {
+                    CommandManager.RequerySuggested += value;
+                }
+            }
+            remove
+            {
+                if (CanExecuteSpecified)
+                {
+                    CommandManager.RequerySuggested -= value;
+                }
+            }
         }
 
         /// <summary>
