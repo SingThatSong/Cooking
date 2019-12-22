@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows;
 using Serilog;
+using Cooking.Pages.Ingredients;
 
 namespace Cooking
 {
@@ -69,7 +70,8 @@ namespace Cooking
 
             // Register pages
             containerRegistry.RegisterForNavigation<WeekSettings>();
-
+            
+            containerRegistry.RegisterForNavigation<RecipeIngredientEditView>();
             containerRegistry.RegisterForNavigation<ShowGeneratedWeekView>();
             containerRegistry.RegisterForNavigation<MainView>();
             containerRegistry.RegisterForNavigation<ShoppingCartView>();

@@ -4,10 +4,13 @@ using Cooking.DTO;
 
 using Cooking.ServiceLayer;
 using Data.Model;
+using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,7 +18,7 @@ using System.Threading.Tasks;
 namespace Cooking.Pages.Ingredients
 {
     [AddINotifyPropertyChangedInterface]
-    public partial class RecipeIngredientEditViewModel : OkCancelViewModel
+    public partial class RecipeIngredientEditViewModel : OkCancelViewModel, IRegionMemberLifetime
     {
         private readonly DialogService dialogUtils;
         private readonly IngredientService ingredientService;
@@ -42,7 +45,7 @@ namespace Cooking.Pages.Ingredients
         public RecipeIngredientEditViewModel(DialogService dialogUtils, 
                                              IngredientService ingredientService, 
                                              IMapper mapper,
-                                             RecipeIngredientEdit? ingredient = null)
+                                             RecipeIngredientEdit? ingredient = null) : base(dialogUtils)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(ingredientService != null);
@@ -53,12 +56,30 @@ namespace Cooking.Pages.Ingredients
             this.mapper = mapper;
             Ingredient = ingredient ?? new RecipeIngredientEdit();
 
-            AddMultipleCommand = new DelegateCommand(AddMultiple, canExecute: () => IsCreation);
+            AddMultipleCommand = new DelegateCommand(AddMultiple, canExecute: CanMultipleOk);
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
             AddCategoryCommand = new AsyncDelegateCommand(AddRecipe);
 
             AllIngredients = ingredientService.GetProjected<IngredientEdit>(mapper);
         }
+
+        private Guid ID { get; } = Guid.NewGuid();
+
+        public bool KeepAlive => false;
+
+        protected override bool CanOk()
+        {
+            if (Ingredient is INotifyDataErrorInfo dataErrorInfo)
+            {
+                return !dataErrorInfo.HasErrors;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private bool CanMultipleOk() => CanOk() && IsCreation;
 
         private void RemoveIngredient(RecipeIngredientEdit i) => Ingredients!.Remove(i);
 
