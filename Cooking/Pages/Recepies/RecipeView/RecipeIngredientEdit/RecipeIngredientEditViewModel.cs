@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Cooking.Pages.Ingredients
 {
-    public partial class RecipeIngredientEditViewModel : OkCancelViewModel, IRegionMemberLifetime
+    public partial class RecipeIngredientEditViewModel : OkCancelViewModel
     {
         private readonly DialogService dialogUtils;
         private readonly IngredientService ingredientService;
@@ -73,8 +73,6 @@ namespace Cooking.Pages.Ingredients
             Ingredient.Ingredient = new IngredientEdit();
             Ingredient.Ingredient = backup;
         }
-
-        public bool KeepAlive => false;
 
         protected override bool CanOk()
         {

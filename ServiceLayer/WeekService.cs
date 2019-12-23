@@ -35,7 +35,8 @@ namespace ServiceLayer
             var newWeek = new Week()
             {
                 Start = weekStart,
-                End = LastDayOfWeek(weekStart)
+                End = LastDayOfWeek(weekStart),
+                ID = Guid.NewGuid()
             };
 
             var days = new List<Day>();
@@ -46,7 +47,8 @@ namespace ServiceLayer
                 {
                     DinnerID = recepie.Value,
                     Date = weekStart.AddDays(DaysFromMonday(recepie.Key)),
-                    DayOfWeek = recepie.Key
+                    DayOfWeek = recepie.Key,
+                    ID = Guid.NewGuid()
                 });
             }
 
