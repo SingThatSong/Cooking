@@ -4,10 +4,17 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
   xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:prism="http://prismlibrary.com/"
-    prism:ViewModelLocator.AutoWireViewModel="True">
+  xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+  xmlns:prism="http://prismlibrary.com/"
+  prism:ViewModelLocator.AutoWireViewModel="True">
 
-  <UserControl.InputBindings>
+  <i:Interaction.Triggers>
+      <i:EventTrigger EventName="Loaded">
+          <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+      </i:EventTrigger>
+  </i:Interaction.Triggers>
+    
+    <UserControl.InputBindings>
     <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
   </UserControl.InputBindings>
 

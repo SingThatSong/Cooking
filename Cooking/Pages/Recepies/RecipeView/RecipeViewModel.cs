@@ -197,29 +197,27 @@ namespace Cooking.Pages
 
         public async Task AddIngredient()
         {
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeIngredientEditView));
+            var viewModel = container.Resolve<RecipeIngredientEditViewModel>();
+            viewModel.IsCreation = true;
 
-            //var viewModel = container.Resolve<RecipeIngredientEditViewModel>();
-            //viewModel.IsCreation = true;
+            await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", viewModel).ConfigureAwait(true);
 
-            //await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", viewModel).ConfigureAwait(true);
+            if (viewModel.DialogResultOk)
+            {
+                Recipe.Ingredients ??= new ObservableCollection<RecipeIngredientEdit>();
 
-            //if (viewModel.DialogResultOk)
-            //{
-            //    Recipe.Ingredients ??= new ObservableCollection<RecipeIngredientEdit>();
+                if (viewModel.Ingredients != null)
+                {
+                    foreach (var ingredient in viewModel.Ingredients)
+                    {
+                        ingredient.Order += Recipe.Ingredients.Count;
+                        Recipe.Ingredients.Add(ingredient);
+                    }
+                }
 
-            //    if (viewModel.Ingredients != null)
-            //    {
-            //        foreach (var ingredient in viewModel.Ingredients)
-            //        {
-            //            ingredient.Order += Recipe.Ingredients.Count;
-            //            Recipe.Ingredients.Add(ingredient);
-            //        }
-            //    }
-
-            //    viewModel.Ingredient.Order = Recipe.Ingredients.Count + 1;
-            //    Recipe.Ingredients.Add(viewModel.Ingredient);
-            //}
+                viewModel.Ingredient.Order = Recipe.Ingredients.Count + 1;
+                Recipe.Ingredients.Add(viewModel.Ingredient);
+            }
         }
 
         public async void AddIngredientToGroup(DTO.IngredientGroupEdit group)

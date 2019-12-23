@@ -17,7 +17,6 @@ using System.Threading.Tasks;
 
 namespace Cooking.Pages.Ingredients
 {
-    [AddINotifyPropertyChangedInterface]
     public partial class RecipeIngredientEditViewModel : OkCancelViewModel, IRegionMemberLifetime
     {
         private readonly DialogService dialogUtils;
@@ -27,6 +26,7 @@ namespace Cooking.Pages.Ingredients
         public bool IsCreation { get; set; }
         public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
 
+        public DelegateCommand LoadedCommand { get; }
         public DelegateCommand AddMultipleCommand { get; }
         public DelegateCommand<RecipeIngredientEdit> RemoveIngredientCommand { get; }
 
@@ -61,9 +61,18 @@ namespace Cooking.Pages.Ingredients
             AddCategoryCommand = new AsyncDelegateCommand(AddRecipe);
 
             AllIngredients = ingredientService.GetProjected<IngredientEdit>(mapper);
+            LoadedCommand = new DelegateCommand(OnLoaded);
         }
 
-        private Guid ID { get; } = Guid.NewGuid();
+        // WARNING: this is a crunch
+        // When we open ingredient creation dialog second+ time, validation cannot see Ingredient being a required property, but when we change it's value - everything is ok
+        // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
+        private void OnLoaded()
+        {
+            var backup = Ingredient.Ingredient;
+            Ingredient.Ingredient = new IngredientEdit();
+            Ingredient.Ingredient = backup;
+        }
 
         public bool KeepAlive => false;
 
