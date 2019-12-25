@@ -19,8 +19,6 @@ namespace Cooking.Pages.Ingredients
             // https://stackoverflow.com/a/21352864
             Focusable = true;
             Loaded += (s, e) => Keyboard.Focus(Ingredient);
-
-
         }
 
         private void Ingredient_TextChanged(object sender, TextChangedEventArgs e)
@@ -38,8 +36,14 @@ namespace Cooking.Pages.Ingredients
                 if (String.IsNullOrEmpty(Ingredient.Text)) return true;
                 else
                 {
-                    if (((IngredientEdit)o).Name.Contains(Ingredient.Text, StringComparison.OrdinalIgnoreCase)) return true;
-                    else return false;
+                    if (o is IngredientEdit ingredient && ingredient.Name != null)
+                    {
+                        return ingredient.Name.Contains(Ingredient.Text, StringComparison.OrdinalIgnoreCase);
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             });
 

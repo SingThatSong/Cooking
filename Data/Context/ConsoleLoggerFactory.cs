@@ -7,7 +7,7 @@ namespace Data.Context
     {
         public void AddProvider(ILoggerProvider provider) { }
 
-        private ConsoleLogger logger;
+        private ConsoleLogger? logger;
 
         public ILogger CreateLogger(string categoryName)
         {

@@ -107,7 +107,7 @@ namespace Cooking.Pages
 
         private void Close()
         {
-            journal.GoBack();
+            journal?.GoBack();
         }
 
         private void RemoveIngredientGroup(DTO.IngredientGroupEdit arg) => Recipe!.IngredientGroups!.Remove(arg);

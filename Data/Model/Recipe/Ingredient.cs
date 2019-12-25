@@ -5,10 +5,10 @@ namespace Data.Model
 {
     public class Ingredient : Entity
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [NotMapped]
-        public IngredientType Type { get; set; }
+        public IngredientType? Type { get; set; }
 
         public int? TypeID
         {

@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Cooking.DTO
 {
-    public class RecipeIngredientEditValidator : AbstractValidator<RecipeIngredientEdit>
+    public class RecipeIngredientRules : AbstractValidator<RecipeIngredientEdit>
     {
-        public RecipeIngredientEditValidator()
+        public RecipeIngredientRules()
         {
             RuleFor(x => x.Ingredient)
                 .NotNull()

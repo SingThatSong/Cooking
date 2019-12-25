@@ -19,10 +19,5 @@ namespace Cooking.DTO
         public int Order { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

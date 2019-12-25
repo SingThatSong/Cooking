@@ -22,7 +22,11 @@ namespace Cooking
 
         private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
         {
-            regionManager.RequestNavigate(Consts.MainContentRegion, (((HamburgerMenuItem)e.InvokedItem).Tag as Type).Name);
+            if (e.InvokedItem is HamburgerMenuItem hamburgerMenuItem 
+             && hamburgerMenuItem.Tag is Type type)
+            {
+                regionManager.RequestNavigate(Consts.MainContentRegion, type.Name);
+            }
         }
     }
 }

@@ -62,7 +62,7 @@ namespace Cooking.Pages
             {
                 var id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag)).ConfigureAwait(false);
                 viewModel.Tag.ID = id;
-                AllTags.Add(viewModel.Tag);
+                AllTags?.Add(viewModel.Tag);
             }
         }
 

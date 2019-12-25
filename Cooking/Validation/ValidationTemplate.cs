@@ -16,7 +16,7 @@ namespace Cooking
         readonly INotifyPropertyChanged target;
         readonly IValidator? validator;
         ValidationResult? validationResult;
-        static ConcurrentDictionary<RuntimeTypeHandle, IValidator?> validators = new ConcurrentDictionary<RuntimeTypeHandle, IValidator?>();
+        static readonly ConcurrentDictionary<RuntimeTypeHandle, IValidator?> validators = new ConcurrentDictionary<RuntimeTypeHandle, IValidator?>();
 
         public ValidationTemplate(INotifyPropertyChanged target)
         {
