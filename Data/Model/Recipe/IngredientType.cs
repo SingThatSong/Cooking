@@ -3,25 +3,26 @@ using System.Linq;
 
 namespace Data.Model
 {
-#pragma warning disable CA2211 // Поля, не являющиеся константами, не должны быть видимыми
+    /// <summary>
+    /// Typesafe enum pattern
+    /// See https://www.infoworld.com/article/3198453/how-to-implement-a-type-safe-enum-pattern-in-c.html
+    /// </summary>
     public class IngredientType
     {
-        private IngredientType() { }
-
-        public static IngredientType Alcohol = new IngredientType(id: 1, name: "Алкоголь");
-        public static IngredientType Cereals = new IngredientType(id: 2, name: "Крупы, бобовые и мука");
-        public static IngredientType Seafood = new IngredientType(id: 3, name: "Рыба и морепродукты");
-        public static IngredientType Grocery = new IngredientType(id: 4, name: "Бакалея");
-        public static IngredientType Spice = new IngredientType(id: 5, name: "Специи и приправы");
-        public static IngredientType Dairy = new IngredientType(id: 6, name: "Молочные продукты и яйца");
-        public static IngredientType Cheese = new IngredientType(id: 7, name: "Сыры");
-        public static IngredientType Vegetables = new IngredientType(id: 8, name: "Овощи и корнеплоды");
-        public static IngredientType Fruits = new IngredientType(id: 9, name: "Фрукты и ягоды");
-        public static IngredientType Mushrooms = new IngredientType(id: 10, name: "Грибы");
-        public static IngredientType Herbs = new IngredientType(id: 11, name: "Зелень и травы");
-        public static IngredientType Meat = new IngredientType(id: 12, name: "Мясо и птица");
-        public static IngredientType Nuts = new IngredientType(id: 13, name: "Орехи");
-        public static IngredientType Ready = new IngredientType(id: 14, name: "Готовые продукты");
+        public static readonly IngredientType Alcohol = new IngredientType(id: 1, name: "Алкоголь");
+        public static readonly IngredientType Cereals = new IngredientType(id: 2, name: "Крупы, бобовые и мука");
+        public static readonly IngredientType Seafood = new IngredientType(id: 3, name: "Рыба и морепродукты");
+        public static readonly IngredientType Grocery = new IngredientType(id: 4, name: "Бакалея");
+        public static readonly IngredientType Spice = new IngredientType(id: 5, name: "Специи и приправы");
+        public static readonly IngredientType Dairy = new IngredientType(id: 6, name: "Молочные продукты и яйца");
+        public static readonly IngredientType Cheese = new IngredientType(id: 7, name: "Сыры");
+        public static readonly IngredientType Vegetables = new IngredientType(id: 8, name: "Овощи и корнеплоды");
+        public static readonly IngredientType Fruits = new IngredientType(id: 9, name: "Фрукты и ягоды");
+        public static readonly IngredientType Mushrooms = new IngredientType(id: 10, name: "Грибы");
+        public static readonly IngredientType Herbs = new IngredientType(id: 11, name: "Зелень и травы");
+        public static readonly IngredientType Meat = new IngredientType(id: 12, name: "Мясо и птица");
+        public static readonly IngredientType Nuts = new IngredientType(id: 13, name: "Орехи");
+        public static readonly IngredientType Ready = new IngredientType(id: 14, name: "Готовые продукты");
 
         private IngredientType(int id, string name)
         {
@@ -50,5 +51,4 @@ namespace Data.Model
             Ready
         }.OrderBy(x => x.Name).ToList());
     }
-#pragma warning restore CA2211 // Поля, не являющиеся константами, не должны быть видимыми
 }
