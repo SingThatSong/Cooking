@@ -16,7 +16,7 @@ namespace Cooking
         readonly INotifyPropertyChanged target;
         readonly IValidator? validator;
         ValidationResult? validationResult;
-        static ConcurrentDictionary<RuntimeTypeHandle, IValidator?> validators = new ConcurrentDictionary<RuntimeTypeHandle, IValidator>();
+        static ConcurrentDictionary<RuntimeTypeHandle, IValidator?> validators = new ConcurrentDictionary<RuntimeTypeHandle, IValidator?>();
 
         public ValidationTemplate(INotifyPropertyChanged target)
         {
@@ -47,35 +47,45 @@ namespace Cooking
 
         void Validate(object sender, PropertyChangedEventArgs e)
         {
-            validationResult = validator.Validate(target);
-            foreach (var error in validationResult.Errors)
+            validationResult = validator?.Validate(target);
+            if (validationResult != null)
             {
-                RaiseErrorsChanged(error.PropertyName);
+                foreach (var error in validationResult.Errors)
+                {
+                    RaiseErrorsChanged(error.PropertyName);
+                }
             }
         }
 
-        public IEnumerable GetErrors(string propertyName)
+        public IEnumerable? GetErrors(string propertyName)
         {
-            return validationResult.Errors
-                                   .Where(x => x.PropertyName == propertyName)
-                                   .Select(x => x.ErrorMessage);
+            return validationResult?.Errors
+                                    .Where(x => x.PropertyName == propertyName)
+                                    .Select(x => x.ErrorMessage);
         }
 
         public bool HasErrors
         {
             get 
             {
-                return validationResult.Errors.Count > 0; 
+                return validationResult?.Errors.Count > 0; 
             }
         }
 
-        public string Error
+        public string? Error
         {
             get
             {
-                var strings = validationResult.Errors.Select(x => x.ErrorMessage)
-                                              .ToArray();
-                return string.Join(Environment.NewLine, strings);
+                var strings = validationResult?.Errors.Select(x => x.ErrorMessage)
+                                               .ToArray();
+                if (strings != null)
+                {
+                    return string.Join(Environment.NewLine, strings);
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 

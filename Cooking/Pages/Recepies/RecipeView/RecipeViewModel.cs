@@ -28,8 +28,7 @@ namespace Cooking.Pages
         private readonly IContainerExtension container;
         private readonly RecipeService recipeService;
         private readonly IMapper mapper;
-        private readonly IRegionManager regionManager;
-        private NavigationContext navigationContext;
+        private IRegionNavigationJournal? journal;
 
         public bool IsEditing { get; set; }
         public void OnIsEditingChanged()
@@ -72,8 +71,7 @@ namespace Cooking.Pages
                                ImageService imageService, 
                                IContainerExtension container, 
                                RecipeService recipeService, 
-                               IMapper mapper,
-                               IRegionManager regionManager)
+                               IMapper mapper)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(imageService != null);
@@ -86,7 +84,7 @@ namespace Cooking.Pages
             this.container              = container;
             this.recipeService          = recipeService;
             this.mapper                 = mapper;
-            this.regionManager          = regionManager;
+
             CloseCommand                = new DelegateCommand(Close);
             ApplyChangesCommand         = new AsyncDelegateCommand(ApplyChanges);
             DeleteRecipeCommand         = new AsyncDelegateCommand<Guid>(DeleteRecipe);
@@ -109,7 +107,7 @@ namespace Cooking.Pages
 
         private void Close()
         {
-            navigationContext.NavigationService.Journal.GoBack();
+            journal.GoBack();
         }
 
         private void RemoveIngredientGroup(DTO.IngredientGroupEdit arg) => Recipe!.IngredientGroups!.Remove(arg);
@@ -291,10 +289,7 @@ namespace Cooking.Pages
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            GC.Collect(0, GCCollectionMode.Forced, true);
-            GC.Collect(1, GCCollectionMode.Forced, true);
-            GC.Collect(2, GCCollectionMode.Forced, true);
-            this.navigationContext = navigationContext;
+            this.journal = navigationContext.NavigationService.Journal;
             var recipeId = navigationContext.Parameters[nameof(Recipe)] as Guid?;
             if (recipeId.HasValue)
             {

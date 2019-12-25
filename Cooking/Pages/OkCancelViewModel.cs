@@ -18,7 +18,7 @@ namespace Cooking.Pages
         protected virtual async Task Ok()
         {
             DialogResultOk = true;
-            Close();
+            await Close();
         }
     }
 }

@@ -82,10 +82,10 @@ namespace Cooking
         {
             await Application.Current.Dispatcher.Invoke(async () =>
             {
-                var dialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel);
+                var dialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel).ConfigureAwait(false);
                 if (dialog != null)
                 {
-                    await HideDialogAsync(dialog);
+                    await HideDialogAsync(dialog).ConfigureAwait(false);
                 }
             }).ConfigureAwait(false);
         }
