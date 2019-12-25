@@ -249,13 +249,13 @@ namespace Cooking.Pages
 
             if (image != null)
             {
-                Recipe.ImagePath = image;
+                Recipe!.ImagePath = image;
             }
         }
 
         protected async Task ApplyChanges()
         {
-            if (Recipe.ID == Guid.Empty)
+            if (Recipe!.ID == Guid.Empty)
             {
                 Recipe.ID = await recipeService.CreateAsync(mapper.Map<Recipe>(Recipe)).ConfigureAwait(false);
             }
