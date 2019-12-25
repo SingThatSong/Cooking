@@ -21,13 +21,32 @@ namespace Cooking.Commands
             CanExecuteSpecified = canExecute != null || FreezeWhenBusy || ExecuteOnce;
         }
 
-        protected override bool CanExecuteAsyncInternal(object? parameter) => _canExecute != null && parameter is T tParameter ? _canExecute(tParameter) : true;
+        protected override bool CanExecuteAsyncInternal(object? parameter)
+        {
+            if (_canExecute != null)
+            {
+                if (parameter is T tParameter)
+                {
+                    return _canExecute(tParameter);
+                }
+                else if (parameter == null && typeof(T).IsClass)
+                {
+                    return _canExecute(default);
+                }
+            }
 
+            return true;
+        }
+            
         protected override async Task ExecuteAsyncInternal(object? parameter)
         {
             if (parameter is T tParameter)
             {
                 await _execute(tParameter).ConfigureAwait(false);
+            }
+            else if (parameter == null && typeof(T).IsClass)
+            {
+                await _execute(default).ConfigureAwait(false);
             }
             else
             {

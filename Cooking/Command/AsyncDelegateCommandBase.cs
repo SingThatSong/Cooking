@@ -38,6 +38,9 @@ namespace Cooking.Commands
             return CanExecuteAsyncInternal(parameter);
         }
 
+        /// <summary>
+        /// Async means internal implementation for Async* commands
+        /// </summary>
         protected abstract bool CanExecuteAsyncInternal(object? parameter);
 
         protected override sealed async void ExecuteInternal(object? parameter)
@@ -47,6 +50,9 @@ namespace Cooking.Commands
             IsBusy = false;
         }
 
+        /// <summary>
+        /// Async means internal implementation for Async* commands
+        /// </summary>
         protected abstract Task ExecuteAsyncInternal(object? parameter);
     }
 }
