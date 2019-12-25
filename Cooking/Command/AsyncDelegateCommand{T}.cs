@@ -9,15 +9,16 @@ namespace Cooking.Commands
         private readonly Func<T, Task> _execute;
                
         public AsyncDelegateCommand(Func<T, Task> execute,
-                       Func<T, bool>? canExecute = null,
-                       bool executeOnce = false, 
-                       bool freezeWhenBusy = false)
+                                    Func<T, bool>? canExecute = null,
+                                    bool executeOnce = false, 
+                                    bool freezeWhenBusy = false)
         {
             _execute = execute;
             _canExecute = canExecute;
             ExecuteOnce = executeOnce;
-            CanExecuteSpecified = canExecute != null;
             FreezeWhenBusy = freezeWhenBusy;
+
+            CanExecuteSpecified = canExecute != null || FreezeWhenBusy || ExecuteOnce;
         }
 
         protected override bool CanExecuteAsyncInternal(object? parameter) => _canExecute != null && parameter is T tParameter ? _canExecute(tParameter) : true;

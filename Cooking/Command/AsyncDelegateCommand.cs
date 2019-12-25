@@ -16,8 +16,9 @@ namespace Cooking.Commands
             _execute = execute;
             _canExecute = canExecute;
             ExecuteOnce = executeOnce;
-            CanExecuteSpecified = canExecute != null;
             FreezeWhenBusy = freezeWhenBusy;
+
+            CanExecuteSpecified = canExecute != null || FreezeWhenBusy || ExecuteOnce;
         }
 
         protected override bool CanExecuteAsyncInternal(object? parameter) => _canExecute != null ? _canExecute() : true;
