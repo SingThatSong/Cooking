@@ -5,7 +5,7 @@ namespace Cooking.ServiceLayer
 {
     public sealed class IngredientGroupData : Entity
     {
-        public string Name { get; set; }
-        public IEnumerable<RecipeIngredientData> Ingredients { get; set; }
+        public string? Name { get; set; }
+        public IEnumerable<RecipeIngredientData>? Ingredients { get; set; }
     }
 }

@@ -149,7 +149,7 @@ namespace Cooking.Pages
         private async Task AddTag()
         {
             var viewModel = container.Resolve<TagSelectViewModel>();
-            viewModel.SetTags(Recipe.Tags, null);
+            viewModel.SetTags(Recipe!.Tags, null);
             await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>("Добавление тегов", viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
@@ -165,7 +165,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                Recipe.IngredientGroups = Recipe.IngredientGroups ?? new ObservableCollection<DTO.IngredientGroupEdit>();
+                Recipe!.IngredientGroups = Recipe.IngredientGroups ?? new ObservableCollection<DTO.IngredientGroupEdit>();
                 Recipe.IngredientGroups.Add(viewModel.IngredientGroup);
             }
         }
@@ -182,8 +182,8 @@ namespace Cooking.Pages
             }
         }
 
-        private void RemoveTag(TagEdit tag) => Recipe.Tags!.Remove(tag);
-        private void RemoveImage() => Recipe.ImagePath = null;
+        private void RemoveTag(TagEdit tag) => Recipe!.Tags!.Remove(tag);
+        private void RemoveImage() => Recipe!.ImagePath = null;
 
 
         public bool KeepAlive => false;
@@ -202,7 +202,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                Recipe.Ingredients ??= new ObservableCollection<RecipeIngredientEdit>();
+                Recipe!.Ingredients ??= new ObservableCollection<RecipeIngredientEdit>();
 
                 if (viewModel.Ingredients != null)
                 {

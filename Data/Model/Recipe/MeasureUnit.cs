@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
 namespace Data.Model
-{    
+{
     /// <summary>
     /// Typesafe enum pattern
     /// See https://www.infoworld.com/article/3198453/how-to-implement-a-type-safe-enum-pattern-in-c.html

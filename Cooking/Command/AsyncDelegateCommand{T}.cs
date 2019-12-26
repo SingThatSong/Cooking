@@ -31,7 +31,9 @@ namespace Cooking.Commands
                 }
                 else if (parameter == null && typeof(T).IsClass)
                 {
+#pragma warning disable CS8653 // Выражение по умолчанию вводит значение NULL для параметра типа.
                     return _canExecute(default);
+#pragma warning restore CS8653
                 }
             }
 
@@ -46,7 +48,9 @@ namespace Cooking.Commands
             }
             else if (parameter == null && typeof(T).IsClass)
             {
+#pragma warning disable CS8653 // Выражение по умолчанию вводит значение NULL для параметра типа.
                 await _execute(default).ConfigureAwait(false);
+#pragma warning restore CS8653
             }
             else
             {

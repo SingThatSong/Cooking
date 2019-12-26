@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>if_pan_416389.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
+    <NeutralLanguage>ru</NeutralLanguage>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -15,6 +16,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <NoWarn>1701;1702;CA1062;CA1303;CA1822</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="AutoMapper.Collection" Version="6.0.0" />

@@ -5,7 +5,7 @@ using System;
 using System.Linq.Expressions;
 
 // NULL-warnings, not applicable to DbContext
-#pragma warning disable CS8618, CS8603, CS8629
+#pragma warning disable CS8618, CS8603, CS8629, CS8602
 
 namespace Data.Context
 {
@@ -148,7 +148,5 @@ namespace Data.Context
         public DbSet<Garnish> Garnishes { get; set; }
     }
 
-#pragma warning restore CS8618
-#pragma warning restore CS8603
-#pragma warning restore CS8629
+#pragma warning restore CS8618, CS8602, CS8603, CS8629
 }

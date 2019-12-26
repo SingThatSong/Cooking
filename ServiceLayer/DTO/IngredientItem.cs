@@ -4,7 +4,7 @@ namespace ServiceLayer
 {
     public sealed class IngredientItem
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public List<string> RecipiesSources { get; set; } = new List<string>();
 

@@ -14,7 +14,10 @@ namespace ServiceLayer
         public List<string> GetSearchNames()
         {
             using var context = new CookingContext(DatabaseService.DbFileName);
-            return context.Ingredients.Select(x => x.Name).ToList();
+            return context.Ingredients
+                          .Where(x => x.Name != null)
+                          .Select(x => x.Name!)
+                          .ToList();
         }
     }
 }

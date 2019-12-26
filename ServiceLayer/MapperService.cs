@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
 using Cooking.ServiceLayer;
-using Cooking.ServiceLayer.MainPage;
 using Cooking.ServiceLayer.Projections;
 using Data.Model;
 using Data.Model.Plan;
-using ServiceLayer.DTO.MainPage;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -28,11 +26,6 @@ namespace ServiceLayer
                 cfg.AddCollectionMappers();
 
                 cfg.AddMaps(Assembly.GetEntryAssembly());
-
-                cfg.CreateMap<Tag, TagServiceDto>();
-
-                cfg.CreateMap<Week, WeekMainPage>();
-                cfg.CreateMap<Day, DayMainPage>();
 
                 cfg.CreateMap<Entity, Entity>();
 

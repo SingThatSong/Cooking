@@ -74,7 +74,7 @@ namespace Cooking.Tests.Command
         [TestMethod]
         public void Execute_FunctionThrow_ExecutesFunction_ErrorSwallen()
         {
-            var asyncDelegate = new AsyncDelegateCommand<object>(async _ => throw new Exception());
+            var asyncDelegate = new AsyncDelegateCommand<object>(_ => throw new Exception());
             asyncDelegate.Execute();
         }
 
@@ -84,6 +84,22 @@ namespace Cooking.Tests.Command
             var funcMock = new Mock<Func<int, Task>>();
             var asyncDelegate = new AsyncDelegateCommand<int>(funcMock.Object, canExecute: _ => throw new Exception());
             asyncDelegate.Execute("hello");
+        }
+
+        [TestMethod]
+        public void Execute_IntParameter_NullParameterType_ErrorSwallen()
+        {
+            var funcMock = new Mock<Func<int, Task>>();
+            var asyncDelegate = new AsyncDelegateCommand<int>(funcMock.Object);
+            asyncDelegate.Execute(null);
+        }
+
+        [TestMethod]
+        public void Execute_ObjParameter_NullParameterType_NoError()
+        {
+            var funcMock = new Mock<Func<object, Task>>();
+            var asyncDelegate = new AsyncDelegateCommand<object>(funcMock.Object);
+            asyncDelegate.Execute(null);
         }
 
         // CanExecute is not async - so error is not swallen

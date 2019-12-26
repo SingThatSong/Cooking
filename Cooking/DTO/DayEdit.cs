@@ -1,12 +1,16 @@
-﻿using Cooking.ServiceLayer.MainPage;
+﻿using System;
 using System.ComponentModel;
 
 namespace Cooking.DTO
 {
-    public class DayEdit : DayMainPage, INotifyPropertyChanged
+    public class DayEdit : INotifyPropertyChanged
     {
-        public new RecipeSelectDto? Dinner { get; set; }
-        public new bool DinnerWasCooked { get; set; }
+        public Guid ID { get; set; }
+        public bool DinnerWasCooked { get; set; }
+        public DayOfWeek DayOfWeek { get; set; }
+        public RecipeSelectDto? Dinner { get; set; }
+#pragma warning disable CS0067
         public event PropertyChangedEventHandler? PropertyChanged;
+#pragma warning restore CS0067
     }
 }

@@ -8,7 +8,7 @@ namespace Data.Model
     {
         public int Order { get; set; }
         public Guid? IngredientId { get; set; }
-        public virtual Ingredient Ingredient { get; set; }
+        public virtual Ingredient? Ingredient { get; set; }
         public double? Amount { get; set; }
 
         [NotMapped]

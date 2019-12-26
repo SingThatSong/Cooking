@@ -8,6 +8,6 @@ namespace Data.Model.Plan
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
 
-        public virtual List<Day> Days { get; set; }
+        public virtual List<Day>? Days { get; set; }
     }
 }

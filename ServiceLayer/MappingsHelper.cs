@@ -12,12 +12,15 @@ namespace ServiceLayer
                 {
                     if (recipe.IngredientGroups[i].Ingredients != null)
                     {
-                        for (int j = 0; j < recipe.IngredientGroups[i].Ingredients.Count; j++)
+                        for (int j = 0; j < recipe.IngredientGroups[i].Ingredients!.Count; j++)
                         {
-                            var dbValue = context.RecipeIngredients.Find(recipe.IngredientGroups[i].Ingredients[j].ID);
-                            if (dbValue != null)
+                            if (recipe.IngredientGroups[i].Ingredients![j] != null)
                             {
-                                recipe.IngredientGroups[i].Ingredients[j] = dbValue;
+                                var dbValue = context.RecipeIngredients.Find(recipe.IngredientGroups[i].Ingredients![j]!.ID);
+                                if (dbValue != null)
+                                {
+                                    recipe.IngredientGroups[i].Ingredients![j] = dbValue;
+                                }
                             }
                         }
                     }

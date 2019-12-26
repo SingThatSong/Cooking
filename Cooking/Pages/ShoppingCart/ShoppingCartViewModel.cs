@@ -2,6 +2,7 @@
 using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -11,16 +12,28 @@ namespace Cooking.Pages
     public partial class ShoppingCartViewModel : INavigationAware
     {
         public DelegateCommand CloseCommand { get; }
-        private NavigationContext? navigationContext;
+        private IRegionNavigationJournal? navigationContext;
 
         public ShoppingCartViewModel() 
         {
-            CloseCommand = new DelegateCommand(Close);
+            CloseCommand = new DelegateCommand(Close, canExecute: CanClose);
+        }
+
+        private bool CanClose()
+        {
+            if (navigationContext == null)
+            {
+                return false;
+            }
+            else
+            {
+                return navigationContext.CanGoBack;
+            }
         }
 
         private void Close()
         {
-            navigationContext.NavigationService.Journal.GoBack();
+            navigationContext!.GoBack();
         }
 
         public ObservableCollection<ShoppingListItem>? List { get; private set; } = new ObservableCollection<ShoppingListItem>();
@@ -29,7 +42,7 @@ namespace Cooking.Pages
         public void OnNavigatedFrom(NavigationContext navigationContext) { }
         public void OnNavigatedTo(NavigationContext navigationContext) 
         {
-            this.navigationContext = navigationContext;
+            this.navigationContext = navigationContext.NavigationService.Journal;
             var list = navigationContext.Parameters[nameof(List)] as List<ShoppingListItem>;
             List.AddRange(list);
         }

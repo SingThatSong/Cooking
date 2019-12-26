@@ -121,7 +121,9 @@ namespace Cooking.Pages
                 recipeCache.Add(recipe.ID, recipeDb);
             }
 
-            return recipeDb.Tags != null && recipeDb.Tags.Any(x => x.Name.ToUpperInvariant() == category.ToUpperInvariant());
+            return recipeDb.Tags != null && recipeDb.Tags
+                                                    .Where(x => x.Name != null)
+                                                    .Any(x => x.Name!.ToUpperInvariant() == category.ToUpperInvariant());
         }
 
         private bool HasIngredient(RecipeSelectDto recipe, string category)
@@ -140,7 +142,8 @@ namespace Cooking.Pages
 
             // Ищем среди ингредиентов
             if (recipeDb.Ingredients != null
-                && recipeDb.Ingredients.Any(x => x.Ingredient.Name.ToUpperInvariant() == category.ToUpperInvariant()))
+                && recipeDb.Ingredients.Where(x => x.Ingredient?.Name != null)
+                                       .Any(x => x.Ingredient!.Name!.ToUpperInvariant() == category.ToUpperInvariant()))
             {
                 return true;
             }
@@ -150,7 +153,8 @@ namespace Cooking.Pages
             {
                 foreach (var group in recipeDb.IngredientGroups)
                 {
-                    if (group.Ingredients.Any(x => x.Ingredient.Name.ToUpperInvariant() == category.ToUpperInvariant()))
+                    if (group.Ingredients.Where(x => x.Ingredient?.Name != null)
+                                         .Any(x => x.Ingredient!.Name!.ToUpperInvariant() == category.ToUpperInvariant()))
                     {
                         return true;
                     }

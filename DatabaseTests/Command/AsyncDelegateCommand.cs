@@ -74,7 +74,7 @@ namespace Cooking.Tests.Command
         [TestMethod]
         public void Execute_FunctionThrow_ExecutesFunction_ErrorSwallen()
         {
-            var asyncDelegate = new AsyncDelegateCommand(async () => throw new Exception());
+            var asyncDelegate = new AsyncDelegateCommand(() => throw new Exception());
             asyncDelegate.Execute();
         }
 

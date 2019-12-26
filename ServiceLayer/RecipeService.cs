@@ -70,7 +70,9 @@ namespace Cooking.ServiceLayer
 
                 foreach (Guid tag in requiredTags)
                 {
+#pragma warning disable CS8602
                     predicate = predicate.Or(x => x.Tags.Any(t => t.Tag.ID == tag));
+#pragma warning restore CS8602
                 }
 
                 query = query.Where(predicate);

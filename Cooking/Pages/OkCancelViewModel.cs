@@ -18,7 +18,7 @@ namespace Cooking.Pages
         protected virtual async Task Ok()
         {
             DialogResultOk = true;
-            await Close();
+            await Close().ConfigureAwait(false);
         }
     }
 }

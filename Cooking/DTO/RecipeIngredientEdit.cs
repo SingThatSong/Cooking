@@ -1,13 +1,13 @@
 ﻿using Data.Model;
 using PropertyChanged;
 using System;
-using System.ComponentModel;
 using Validar;
 
 namespace Cooking.DTO
 {
     [InjectValidation]
-    public class RecipeIngredientEdit : INotifyPropertyChanged
+    [AddINotifyPropertyChangedInterface]
+    public class RecipeIngredientEdit
     {
         public Guid ID { get; set; }
         public IngredientEdit? Ingredient { get; set; }
@@ -19,7 +19,5 @@ namespace Cooking.DTO
         public MeasureUnit? MeasureUnit { get; set; }
 
         public int Order { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

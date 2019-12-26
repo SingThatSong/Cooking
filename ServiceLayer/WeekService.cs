@@ -1,5 +1,4 @@
-﻿using Cooking.ServiceLayer.MainPage;
-using Data.Context;
+﻿using Data.Context;
 using Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -73,7 +72,9 @@ namespace ServiceLayer
 
             var allIngredients = ingredients.Union(ingredientsInGroupds);
 
-            var ingredientGroups = allIngredients.GroupBy(x => x.Ingredient.Ingredient.Type?.Name).OrderBy(x => x.Key);
+            var ingredientGroups = allIngredients.Where(x => x.Ingredient.Ingredient != null)
+                                                 .GroupBy(x => x.Ingredient.Ingredient!.Type?.Name)
+                                                 .OrderBy(x => x.Key);
 
             var result = new List<ShoppingListItem>();
 
@@ -84,7 +85,7 @@ namespace ServiceLayer
                     IngredientGroupName = ingredientGroup.Key ?? "Без категории"
                 };
 
-                foreach (var ingredient in ingredientGroup.GroupBy(x => x.Ingredient.Ingredient.Name))
+                foreach (var ingredient in ingredientGroup.GroupBy(x => x.Ingredient.Ingredient!.Name))
                 {
                     var measures = ingredient.GroupBy(x => x.Ingredient.MeasureUnit?.FullName);
                     item.Ingredients.Add(new IngredientItem()
@@ -183,7 +184,7 @@ namespace ServiceLayer
 
             // Удаление дня на этой неделе
             var week = context.Weeks.First(x => x.ID == currentWeekId);
-            week.Days.Remove(day);
+            week.Days!.Remove(day);
 
             // Перенос дня на неделю вперёд
             var dayOnNextWeek = week.End.AddDays(1);
@@ -196,6 +197,7 @@ namespace ServiceLayer
             }
             else
             {
+                nextWeek.Days ??= new List<Day>();
                 nextWeek.Days.RemoveAll(x => x.DayOfWeek == selectedWeekday);
             }
 

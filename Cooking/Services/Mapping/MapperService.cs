@@ -1,18 +1,13 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Cooking.DTO;
 using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
 using Cooking.Services;
 using Data.Model;
 using Data.Model.Plan;
-using ServiceLayer.DTO.MainPage;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace Cooking
 {
@@ -76,7 +71,6 @@ namespace Cooking
                    .ForMember(x => x.Ingredient, opts => opts.Ignore());
 
                 cfg.CreateMap<RecipeIngredientData, RecipeIngredientEdit>();
-                cfg.CreateMap<TagServiceDto, TagEdit>();
                 cfg.CreateMap<TagData, TagEdit>();
                 cfg.CreateMap<TagEdit, Tag>();
                 cfg.CreateMap<TagEdit, RecipeTag>()

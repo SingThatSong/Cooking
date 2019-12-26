@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CA1710: Идентификаторы должны иметь правильные суффиксы
+dotnet_diagnostic.CA1710.severity = none

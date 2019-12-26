@@ -1,5 +1,4 @@
-﻿using Cooking.ServiceLayer.MainPage;
-using PropertyChanged;
+﻿using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
@@ -9,10 +8,15 @@ namespace Cooking.DTO
 {
     [AddINotifyPropertyChangedInterface]
     [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения")]
-    public class WeekEdit : WeekMainPage
+    public class WeekEdit
     {
+        public Guid ID { get; set; }
+
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+
         [AlsoNotifyFor(nameof(Monday), nameof(Tuesday), nameof(Wednesday), nameof(Thursday), nameof(Friday), nameof(Saturday), nameof(Sunday))]
-        public new ObservableCollection<DayEdit>? Days { get; set; }
+        public ObservableCollection<DayEdit>? Days { get; set; }
         public DayEdit? Monday => Days?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Monday);
         public DayEdit? Tuesday => Days?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Tuesday);
         public DayEdit? Wednesday => Days?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Wednesday);
