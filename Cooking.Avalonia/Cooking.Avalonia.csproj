@@ -14,11 +14,19 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Remove="SideBar.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.999-cibuild0005383-beta" />
     <PackageReference Include="Avalonia.Desktop" Version="0.9.999-cibuild0005383-beta" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.999-cibuild0005383-beta" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ServiceLayer\Cooking.ServiceLayer.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="SideBar.xaml">
+      <Generator></Generator>
+    </None>
   </ItemGroup>
 </Project>
