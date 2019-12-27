@@ -1,15 +1,15 @@
 ﻿using Data.Model;
 using PropertyChanged;
-using ServiceLayer;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using Validar;
 
 namespace Cooking.DTO
 {
     [AddINotifyPropertyChangedInterface]
+    [InjectValidation]
     [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения")]
     public class RecipeEdit : Entity
     {
@@ -25,7 +25,7 @@ namespace Cooking.DTO
         public ObservableCollection<RecipeIngredientEdit>? Ingredients { get; set; }
         public ObservableCollection<TagEdit>? Tags { get; set; }
 
-        public int LastCooked { get; set; } // => RecipeService.DaysFromLasCook(ID);
+        public int LastCooked { get; set; }
 
         public Uri? SourceUrl { get; set; }
         public string? Description { get; set; }

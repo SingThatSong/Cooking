@@ -37,14 +37,13 @@ namespace Cooking.Pages
             {
                 RecipeBackup = mapper.Map<RecipeEdit>(Recipe);
             }
-            else
+            else if (RecipeBackup != null)
             {
-                if (RecipeBackup != null)
-                {
-                    Recipe = mapper.Map<RecipeEdit>(RecipeBackup);
-                }
+                Recipe = mapper.Map<RecipeEdit>(RecipeBackup);
             }
         }
+
+        public bool IsRecipeCreation { get; set; }
 
         public RecipeEdit? Recipe { get; set; }
         private RecipeEdit? RecipeBackup { get; set; }
@@ -87,7 +86,7 @@ namespace Cooking.Pages
 
             CloseCommand                = new DelegateCommand(Close);
             ApplyChangesCommand         = new AsyncDelegateCommand(ApplyChanges);
-            DeleteRecipeCommand         = new AsyncDelegateCommand<Guid>(DeleteRecipe);
+            DeleteRecipeCommand         = new AsyncDelegateCommand<Guid>(DeleteRecipe, canExecute: CanDeleteRecipe);
 
             ImageSearchCommand          = new DelegateCommand(ImageSearch);
             RemoveImageCommand          = new DelegateCommand(RemoveImage, canExecute: CanRemoveImage);
@@ -104,6 +103,8 @@ namespace Cooking.Pages
             EditIngredientCommand       = new AsyncDelegateCommand<RecipeIngredientEdit>(EditIngredient);
             RemoveIngredientCommand     = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
         }
+
+        private bool CanDeleteRecipe(Guid arg) => !IsRecipeCreation;
 
         private void Close()
         {
@@ -160,8 +161,9 @@ namespace Cooking.Pages
 
         private async Task AddIngredientGroup()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Добавление группы ингредиентов")
-                                             .ConfigureAwait(true);
+            var viewModel = new IngredientGroupEditViewModel(dialogUtils, new DTO.IngredientGroupEdit());
+            await dialogUtils.ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Добавление группы ингредиентов", viewModel)
+                             .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
@@ -172,7 +174,7 @@ namespace Cooking.Pages
 
         private async Task EditIngredientGroup(DTO.IngredientGroupEdit group)
         {
-            var viewModel = new IngredientGroupEditViewModel(dialogUtils, mapper.Map<DTO.IngredientGroupEdit>(group));
+            var viewModel = new IngredientGroupEditViewModel(dialogUtils, group);
             await dialogUtils.ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Редактирование группы ингредиентов", viewModel)
                              .ConfigureAwait(true);
 
@@ -265,6 +267,7 @@ namespace Cooking.Pages
             }
             RecipeBackup = null;
             IsEditing = false;
+            IsRecipeCreation = false;
         }
 
         public async Task DeleteRecipe(Guid recipeId)
@@ -299,6 +302,7 @@ namespace Cooking.Pages
             {
                 Recipe = new RecipeEdit();
                 IsEditing = true;
+                IsRecipeCreation = true;
             }
         }
 

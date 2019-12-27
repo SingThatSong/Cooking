@@ -1,12 +1,13 @@
 ﻿using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
+using Validar;
 
 namespace Cooking.DTO
 {
     [AddINotifyPropertyChangedInterface]
+    [InjectValidation]
     [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения")]
     public class IngredientGroupEdit
     {

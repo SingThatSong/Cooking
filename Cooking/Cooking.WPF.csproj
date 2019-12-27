@@ -49,10 +49,10 @@
       <Version>3.0.1</Version>
     </PackageReference>
     <PackageReference Include="MaterialDesignColors">
-      <Version>1.2.2-ci882</Version>
+      <Version>1.2.2-ci901</Version>
     </PackageReference>
     <PackageReference Include="MaterialDesignThemes">
-      <Version>3.0.1-ci882</Version>
+      <Version>3.0.1-ci901</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
