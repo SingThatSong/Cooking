@@ -18,7 +18,7 @@ namespace Cooking.Pages
         private void OnLoaded()
         {
             var backup = IngredientGroup;
-            IngredientGroup = null;
+            IngredientGroup = new DTO.IngredientGroupEdit();
             IngredientGroup = backup;
         }
 
