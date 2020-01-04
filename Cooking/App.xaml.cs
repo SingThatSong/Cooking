@@ -14,6 +14,7 @@ using System.Text;
 using System.Windows;
 using Serilog;
 using Cooking.Pages.Ingredients;
+using Microsoft.Extensions.Configuration;
 
 namespace Cooking
 {
@@ -47,6 +48,12 @@ namespace Cooking
                              .CreateLogger();
 
             containerRegistry.RegisterInstance<ILogger>(logger);
+
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                                                    .AddJsonFile("appsettings.json", optional: false)
+                                                    .Build();
+
+            containerRegistry.RegisterInstance<IConfiguration>(configuration);
 
             // Register main page and main vm - they are constant
             containerRegistry.Register<MainWindow>();
