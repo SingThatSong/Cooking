@@ -40,8 +40,7 @@
                 mahapps:TextBoxHelper.UseFloatingWatermark="True"
                 mahapps:TextBoxHelper.Watermark="{x:Static local:Consts.SearchHelpText}"
                 Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                Margin="10 0 0 0"
-                Height="5" />
+                Margin="10 0 0 0"/>
         </DockPanel>
         <ListView 
             Visibility="{Binding IsTilesView, Converter={StaticResource booleanToVisibilityConverter}}"
