@@ -1,6 +1,5 @@
 ﻿using Cooking.DTO;
 using Cooking.Helpers;
-using MahApps.Metro.Controls.Dialogs;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -12,12 +11,17 @@ namespace Cooking.Pages
 {
     public partial class GarnishEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {
+        // State
         public GarnishEdit Garnish { get; set; }
         private bool NameChanged { get; set; }
+        public IEnumerable<string>? SimilarGarnishes => string.IsNullOrWhiteSpace(Garnish?.Name)
+            ? null
+            : AllGarnishNames.OrderBy(x => GarnishCompare(x, Garnish.Name)).Take(3);
+        private List<string> AllGarnishNames { get; set; }
 
-        public GarnishEditViewModel(GarnishEdit? category, GarnishService garnishService, DialogService dialogService) : base (dialogService)
+        public GarnishEditViewModel(GarnishEdit? garnish, GarnishService garnishService, DialogService dialogService) : base (dialogService)
         {
-            Garnish = category ?? new GarnishEdit();
+            Garnish = garnish ?? new GarnishEdit();
             AllGarnishNames = garnishService.GetSearchNames();
             Garnish.PropertyChanged += (src, e) =>
             {
@@ -33,36 +37,21 @@ namespace Cooking.Pages
 
         protected override async Task Ok()
         {
-            if (NameChanged && Garnish.Name != null)
+            if (NameChanged && Garnish.Name != null && AllGarnishNames.Any(x => x.ToUpperInvariant() == Garnish.Name.ToUpperInvariant()))
             {
-                if (AllGarnishNames.Any(x => x.ToUpperInvariant() == Garnish.Name.ToUpperInvariant()))
-                {
-                    var result = await DialogCoordinator.Instance.ShowMessageAsync(
-                                        this,
-                                        "Такой гарнир уже существует",
-                                        "Всё равно сохранить?",
-                                        MessageDialogStyle.AffirmativeAndNegative,
-                                        new MetroDialogSettings()
-                                        {
-                                            AffirmativeButtonText = "Да",
-                                            NegativeButtonText = "Нет"
-                                        }).ConfigureAwait(false);
+                bool saveAnyway = false;
+                await dialogService.ShowYesNoDialog("Такой гарнир уже существует",
+                                                    "Всё равно сохранить?", 
+                                                    successCallback: () => saveAnyway = true).ConfigureAwait(false);
 
-                    if (result == MessageDialogResult.Negative)
-                    {
-                        return;
-                    }
+                if (!saveAnyway)
+                {
+                    return;
                 }
             }
 
             await base.Ok().ConfigureAwait(false);
         }
-        
-        private List<string> AllGarnishNames { get; set; }
-
-        public IEnumerable<string>? SimilarGarnishes => string.IsNullOrWhiteSpace(Garnish?.Name)
-            ? null 
-            : AllGarnishNames.OrderBy(x => GarnishCompare(x, Garnish.Name)).Take(3);
 
         private int GarnishCompare(string str1, string str2)
          => StringCompare.DiffLength(

@@ -8,7 +8,7 @@ namespace Cooking.Pages
     [AddINotifyPropertyChangedInterface]
     public partial class DialogViewModel
     {
-        private readonly DialogService dialogService;
+        protected readonly DialogService dialogService;
 
         public AsyncDelegateCommand CloseCommand { get; }
         
