@@ -29,6 +29,19 @@ namespace Cooking.Pages
 
         public DelegateCommand LoadedCommand { get; }
 
+        public bool IsListView { get; set; }
+        public bool IsTilesView { get; set; } = true;
+
+        public void OnIsListViewChanged()
+        {
+            IsTilesView = !IsListView;
+        }
+
+        public void OnIsTilesViewChanged()
+        {
+            IsListView = !IsTilesView;
+        }
+
         public RecepiesViewModel(DialogService dialogUtils, 
                                  IContainerExtension container, 
                                  IRegionManager regionManager, 
@@ -71,7 +84,7 @@ namespace Cooking.Pages
 
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)
         {
-            if (FilterContext == null || !FilterContext.IsExpressionBuilt)
+            if (string.IsNullOrEmpty(filterText) || !FilterContext.IsExpressionBuilt)
                 return;
 
             if (e.Item is RecipeSelectDto recipe)
@@ -95,7 +108,10 @@ namespace Cooking.Pages
                 if (filterText != value)
                 {
                     filterText = value;
-                    FilterContext.BuildExpression(value);
+                    if (!string.IsNullOrEmpty(filterText))
+                    {
+                        FilterContext.BuildExpression(value);
+                    }
                     RecipiesSource.View?.Refresh();
                 }
             }

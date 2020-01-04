@@ -7,6 +7,8 @@
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
+    xmlns:local="clr-namespace:Cooking"
+    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
@@ -26,12 +28,23 @@
             <RowDefinition />
             <RowDefinition Height="55" />
         </Grid.RowDefinitions>
-        <TextBox
-            mahapps:TextBoxHelper.ClearTextButton="True"
-            mahapps:TextBoxHelper.UseFloatingWatermark="True"
-            mahapps:TextBoxHelper.Watermark="Поиск... Пример: Название $ингредиент1, ингредиент2 #тег1, тег2"
-            Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <ListView
+        <DockPanel>
+            <ToggleButton Style="{StaticResource MediumToggleButton}" IsChecked="{Binding IsTilesView}">
+                <icons:PackIconModern Kind="TilesNine" Style="{StaticResource MediumIcon}" />
+            </ToggleButton>
+            <ToggleButton Style="{StaticResource MediumToggleButton}" Margin="10 0 0 0" IsChecked="{Binding IsListView}">
+                <icons:PackIconModern Kind="List" Style="{StaticResource MediumIcon}" />
+            </ToggleButton>
+            <TextBox
+                mahapps:TextBoxHelper.ClearTextButton="True"
+                mahapps:TextBoxHelper.UseFloatingWatermark="True"
+                mahapps:TextBoxHelper.Watermark="{x:Static local:Consts.SearchHelpText}"
+                Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                Margin="10 0 0 0"
+                Height="5" />
+        </DockPanel>
+        <ListView 
+            Visibility="{Binding IsTilesView, Converter={StaticResource booleanToVisibilityConverter}}"
             Name="RecipiesList"
             Grid.Row="1"
             Margin="0 5 0 0"
@@ -86,6 +99,57 @@
                 </ControlTemplate>
             </ListView.Template>
         </ListView>
+        <DataGrid 
+            Visibility="{Binding IsListView, Converter={StaticResource booleanToVisibilityConverter}}" 
+            ItemsSource="{Binding RecipiesSource.View}" 
+            Grid.Row="1"
+            Margin="0 5 0 0"
+            ScrollViewer.CanContentScroll="True"
+            VirtualizingPanel.ScrollUnit="Pixel"
+            VirtualizingPanel.VirtualizationMode="Recycling"
+            VirtualizingStackPanel.IsVirtualizing="True"
+            AutoGenerateColumns="False"
+            IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image
+                            Width="50"
+                            Height="50"
+                            Source="{Binding FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
+                            Stretch="Uniform">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseUp">
+                                        <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand}" CommandParameter="{Binding ID}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Название">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseUp">
+                                        <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand}" CommandParameter="{Binding ID}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding Rating}" Header="Рейтинг">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+            <DataGrid.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </DataGrid.ItemsPanel>
+        </DataGrid>
         <StackPanel
             Grid.Row="2"
             Margin="0 5 0 0"
