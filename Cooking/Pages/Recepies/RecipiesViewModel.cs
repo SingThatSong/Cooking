@@ -111,6 +111,10 @@ namespace Cooking.Pages
                     if (!string.IsNullOrEmpty(filterText))
                     {
                         FilterContext.BuildExpression(value);
+                        if (recipeCache == null)
+                        {
+                            recipeCache = recipeService.GetProjected<RecipeFull>().ToDictionary(x => x.ID, x => x);
+                        }
                     }
                     RecipiesSource.View?.Refresh();
                 }
@@ -122,21 +126,10 @@ namespace Cooking.Pages
         }
 
 
-        private readonly Dictionary<Guid, RecipeFull> recipeCache = new Dictionary<Guid, RecipeFull>();
+        private Dictionary<Guid, RecipeFull> recipeCache { get; set; }
         private bool HasTag(RecipeSelectDto recipe, string category)
         {
-            RecipeFull recipeDb;
-
-            if (recipeCache.ContainsKey(recipe.ID))
-            {
-                recipeDb = recipeCache[recipe.ID];
-            }
-            else
-            {
-                recipeDb = recipeService.GetProjected<RecipeFull>(recipe.ID);
-                recipeCache.Add(recipe.ID, recipeDb);
-            }
-
+            RecipeFull recipeDb = recipeCache[recipe.ID];
             return recipeDb.Tags != null && recipeDb.Tags
                                                     .Where(x => x.Name != null)
                                                     .Any(x => x.Name!.ToUpperInvariant() == category.ToUpperInvariant());
@@ -144,17 +137,7 @@ namespace Cooking.Pages
 
         private bool HasIngredient(RecipeSelectDto recipe, string category)
         {
-            RecipeFull recipeDb;
-
-            if (recipeCache.ContainsKey(recipe.ID))
-            {
-                recipeDb = recipeCache[recipe.ID];
-            }
-            else
-            {
-                recipeDb = recipeService.GetProjected<RecipeFull>(recipe.ID);
-                recipeCache.Add(recipe.ID, recipeDb);
-            }
+            RecipeFull recipeDb = recipeCache[recipe.ID];
 
             // Ищем среди ингредиентов
             if (recipeDb.Ingredients != null
