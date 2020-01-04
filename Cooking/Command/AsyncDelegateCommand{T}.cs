@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Cooking.Commands
@@ -35,6 +36,11 @@ namespace Cooking.Commands
                     return _canExecute(default);
 #pragma warning restore CS8653
                 }
+                else
+                {
+                    Debug.Fail($"Wrong {nameof(AsyncDelegateCommand)} parameter type");
+                    return false;
+                }
             }
 
             return true;
@@ -54,7 +60,7 @@ namespace Cooking.Commands
             }
             else
             {
-                throw new InvalidCastException("Command parameter is not T");
+                Debug.Fail($"Wrong {nameof(AsyncDelegateCommand)} parameter type");
             }
         }
     }
