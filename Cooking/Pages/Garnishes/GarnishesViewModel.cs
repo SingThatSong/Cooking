@@ -2,13 +2,11 @@
 using Cooking.Commands;
 using Cooking.DTO;
 using Data.Model.Plan;
-using MahApps.Metro.Controls.Dialogs;
 using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Cooking.Pages
@@ -16,14 +14,16 @@ namespace Cooking.Pages
     [AddINotifyPropertyChangedInterface]
     public partial class GarnishesViewModel
     {
+        // Dependencies
         private readonly DialogService dialogUtils;
         private readonly GarnishService garnishService;
         private readonly IMapper mapper;
 
-        [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения", Justification = "<Ожидание>")]
-        public ObservableCollection<GarnishEdit>? Garnishes { get; set; }
+        // State
+        public ObservableCollection<GarnishEdit>? Garnishes { get; private set; }
         public bool IsEditing { get; set; }
 
+        // Commands
         public DelegateCommand AddGarnishCommand { get; }
         public DelegateCommand<GarnishEdit> EditGarnishCommand { get; }
         public DelegateCommand<Guid> DeleteGarnishCommand { get; }
@@ -44,6 +44,7 @@ namespace Cooking.Pages
             EditGarnishCommand   = new DelegateCommand<GarnishEdit>(EditGarnish);
         }
 
+        #region Top-level functions
         private void OnLoaded()
         {
             Debug.WriteLine("GarnishesViewModel.OnLoaded");
@@ -51,49 +52,45 @@ namespace Cooking.Pages
             Garnishes = new ObservableCollection<GarnishEdit>(dbValues);
         }
 
-        private async void EditGarnish(GarnishEdit garnish)
-        {
-            var viewModel = new GarnishEditViewModel(mapper.Map<GarnishEdit>(garnish), garnishService, dialogUtils);
-            await dialogUtils.ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Редактирование гарнира", viewModel).ConfigureAwait(false);
-
-            if (viewModel.DialogResultOk)
-            {
-                await garnishService.UpdateAsync(mapper.Map<Garnish>(viewModel.Garnish)).ConfigureAwait(false);
-                var existingGarnish = Garnishes.Single(x => x.ID == garnish.ID);
-                mapper.Map(viewModel.Garnish, existingGarnish);
-            }
-        }
-
         public async void DeleteGarnish(Guid recipeId)
         {
-            var result = await DialogCoordinator.Instance.ShowMessageAsync(
-                this, 
-                "Точно удалить?",
-                "Восстановить будет нельзя",
-                style: MessageDialogStyle.AffirmativeAndNegative,
-                settings: new MetroDialogSettings()
-                {
-                    AffirmativeButtonText = "Да",
-                    NegativeButtonText = "Нет"
-                }).ConfigureAwait(true);
-
-            if (result == MessageDialogResult.Affirmative)
-            {
-                await garnishService.DeleteAsync(recipeId).ConfigureAwait(true);
-                Garnishes!.Remove(Garnishes.Single(x => x.ID == recipeId));
-            }
+            await dialogUtils.ShowYesNoDialog("Точно удалить?", "Восстановить будет нельзя",  successCallback: () => OnRecipeDeleted(recipeId))
+                             .ConfigureAwait(false);
         }
 
         public async void AddGarnish()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<GarnishEditView, GarnishEditViewModel>("Новый гарнир").ConfigureAwait(true);
-
-            if (viewModel.DialogResultOk)
-            {
-                var id = await garnishService.CreateAsync(mapper.Map<Garnish>(viewModel.Garnish)).ConfigureAwait(true);
-                viewModel.Garnish.ID = id;
-                Garnishes!.Add(viewModel.Garnish);
-            }
+            await dialogUtils.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>("Новый гарнир", successCallback: OnNewGarnishCreated)
+                             .ConfigureAwait(false);
         }
+
+        public async void EditGarnish(GarnishEdit garnish)
+        {
+            var viewModel = new GarnishEditViewModel(mapper.Map<GarnishEdit>(garnish), garnishService, dialogUtils);
+            await dialogUtils.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>("Редактирование гарнира", viewModel, successCallback: OnGarnishEdited)
+                             .ConfigureAwait(false);
+        }
+        #endregion
+
+        #region Callbacks
+        private async void OnRecipeDeleted(Guid recipeId)
+        {
+            await garnishService.DeleteAsync(recipeId).ConfigureAwait(true);
+            Garnishes!.Remove(Garnishes.Single(x => x.ID == recipeId));
+        }
+
+        private async void OnGarnishEdited(GarnishEditViewModel viewModel)
+        {
+            await garnishService.UpdateAsync(mapper.Map<Garnish>(viewModel.Garnish)).ConfigureAwait(false);
+            var existingGarnish = Garnishes.Single(x => x.ID == viewModel.Garnish.ID);
+            mapper.Map(viewModel.Garnish, existingGarnish);
+        }
+
+        private async void OnNewGarnishCreated(GarnishEditViewModel viewModel)
+        {
+            var id = await garnishService.CreateAsync(mapper.Map<Garnish>(viewModel.Garnish)).ConfigureAwait(false);
+            Garnishes!.Add(viewModel.Garnish);
+        }
+        #endregion
     }
 }

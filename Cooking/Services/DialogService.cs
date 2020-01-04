@@ -1,5 +1,7 @@
-﻿using MahApps.Metro.Controls.Dialogs;
+﻿using Cooking.Pages;
+using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
@@ -76,6 +78,52 @@ namespace Cooking
 
             }).ConfigureAwait(false);
             return content;
+        }
+
+        public virtual async Task ShowOkCancelDialog<TDialog, TDialogContent>(string? title = null, TDialogContent? content = null, Action<TDialogContent>? successCallback = null)
+            where TDialog : UserControl, new()
+            where TDialogContent : OkCancelViewModel
+        {
+            if (content == null)
+            {
+                content = containerProvider.Resolve<TDialogContent>();
+            }
+
+            await Application.Current.Dispatcher.Invoke(async () =>
+            {
+                CustomDialog dialog = new CustomDialog()
+                {
+                    Title = title,
+                    Content = new TDialog { DataContext = content }
+                };
+
+                await ShowAndWaitForClosedAsync(dialog).ConfigureAwait(true);
+
+                if (content.DialogResultOk)
+                {
+                    successCallback?.Invoke(content);
+                }
+
+            }).ConfigureAwait(false);
+        }
+
+        public virtual async Task ShowYesNoDialog(string? title = null, string? content = null, Action? successCallback = null)
+        {
+            var result = await DialogCoordinator.ShowMessageAsync(
+                ViewModel,
+                title,
+                content,
+                style: MessageDialogStyle.AffirmativeAndNegative,
+                settings: new MetroDialogSettings()
+                {
+                    AffirmativeButtonText = "Да",
+                    NegativeButtonText = "Нет"
+                }).ConfigureAwait(true);
+
+            if (result == MessageDialogResult.Affirmative)
+            {
+                successCallback?.Invoke();
+            }
         }
 
         public virtual async Task HideCurrentDialogAsync()
