@@ -33,7 +33,9 @@ namespace ServiceLayer
 
                 cfg.CreateMap<RecipeTag, RecipeTag>();
                 cfg.CreateMap<Tag, Tag>().IncludeBase<Entity, Entity>();
-                cfg.CreateMap<IngredientsGroup, IngredientsGroup>().IncludeBase<Entity, Entity>();
+                cfg.CreateMap<IngredientsGroup, IngredientsGroup>()
+                   .IncludeBase<Entity, Entity>()
+                   .EqualityComparison((a, b) => a.ID == b.ID);
                 cfg.CreateMap<RecipeIngredient, RecipeIngredient>().IncludeBase<Entity, Entity>();
                 cfg.CreateMap<Ingredient, Ingredient>().IncludeBase<Entity, Entity>();
 

@@ -49,11 +49,11 @@ namespace Cooking.ServiceLayer
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        public async Task UpdateAsync(T garnish)
+        public async Task UpdateAsync(T entity)
         {
-            using var context = new CookingContext(DatabaseService.DbFileName);
-            var existing = await context.Set<T>().FindAsync(garnish.ID);
-            MapperService.Mapper.Map(garnish, existing);
+            using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
+            var existing = await context.Set<T>().FindAsync(entity.ID);
+            MapperService.Mapper.Map(entity, existing);
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
     }
