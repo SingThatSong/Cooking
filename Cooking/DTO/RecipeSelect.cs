@@ -14,5 +14,7 @@ namespace Cooking.DTO
                                 ? Path.GetFullPath(ImagePath) 
                                 : null;
         public bool IsSelected { get; set; }
+
+        public int Rating { get; set; }
     }
 }
