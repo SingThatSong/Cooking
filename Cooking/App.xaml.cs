@@ -1,20 +1,18 @@
 ﻿using AutoMapper;
+using Cooking.Data.Context;
 using Cooking.Pages;
 using Cooking.ServiceLayer;
+using Cooking.WPF;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Extensions.Configuration;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Unity;
+using Serilog;
 using ServiceLayer;
 using System;
-using System.Diagnostics;
-using System.Globalization;
 using System.Reflection;
-using System.Text;
 using System.Windows;
-using Serilog;
-using Cooking.Pages.Ingredients;
-using Microsoft.Extensions.Configuration;
 
 namespace Cooking
 {
@@ -66,7 +64,8 @@ namespace Cooking
             containerRegistry.Register<IngredientService>();
             containerRegistry.Register<TagService>();
             containerRegistry.Register<RecipeService>();
-            containerRegistry.RegisterSingleton<ImageService>(); 
+            containerRegistry.RegisterSingleton<ImageService>();
+            containerRegistry.RegisterSingleton<IContextFactory, ContextFactory>();
             // Dialog service is constant - we have only one window
             containerRegistry.RegisterInstance(new DialogService(
                                                         Container.Resolve<MainWindowViewModel>(),

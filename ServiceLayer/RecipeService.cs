@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Cooking.Data.Context;
 using Cooking.ServiceLayer.Projections;
 using Data.Context;
 using Data.Model;
@@ -8,12 +9,16 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Cooking.ServiceLayer
 {
     public class RecipeService : CRUDService<Recipe>
     {
+        public RecipeService(IContextFactory contextFactory) : base(contextFactory)
+        {
+
+        }
+
         private static readonly Dictionary<Guid, DateTime?> lastCookedId = new Dictionary<Guid, DateTime?>();
 
         public int DaysFromLasCook(Guid recipeId)
@@ -43,7 +48,7 @@ namespace Cooking.ServiceLayer
                 return lastCookedId[recipeId];
             }
 
-            using CookingContext context = new CookingContext(DatabaseService.DbFileName);
+            using CookingContext context = contextFactory.GetContext();
             return lastCookedId[recipeId] = context.Days.Where(x => x.DinnerID == recipeId && x.DinnerWasCooked && x.Date != null).OrderByDescending(x => x.Date).FirstOrDefault()?.Date;
         }
 
@@ -56,7 +61,7 @@ namespace Cooking.ServiceLayer
         {
             Debug.WriteLine("RecipeService.GetRecipies");
 
-            using CookingContext context = new CookingContext(DatabaseService.DbFileName);
+            using CookingContext context = contextFactory.GetContext();
             IQueryable<Recipe> query = context.Recipies
                                .Include(x => x.Tags)
                                    .ThenInclude(x => x.Tag)
@@ -113,7 +118,7 @@ namespace Cooking.ServiceLayer
 
         public Recipe Get(Guid recipeId)
         {
-            using CookingContext context = new CookingContext();
+            using CookingContext context = contextFactory.GetContext();
             return context.Recipies
                           .Include(x => x.Tags)
                              .ThenInclude(x => x.Tag)

@@ -1,18 +1,22 @@
-﻿using Cooking.ServiceLayer;
+﻿using Cooking.Data.Context;
+using Cooking.ServiceLayer;
 using Data.Context;
 using Data.Model.Plan;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ServiceLayer
 {
     public class GarnishService : CRUDService<Garnish>
     {
+        public GarnishService(IContextFactory contextFactory) : base(contextFactory)
+        {
+
+        }
+
         public List<string> GetSearchNames()
         {
-            using var context = new CookingContext(DatabaseService.DbFileName);
+            using var context = contextFactory.GetContext();
             return context.Garnishes
                           .Where(x => x.Name != null)
                           .Select(x => x.Name!)
