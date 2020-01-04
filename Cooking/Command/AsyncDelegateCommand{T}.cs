@@ -38,7 +38,6 @@ namespace Cooking.Commands
                 }
                 else
                 {
-                    Debug.Fail($"Wrong {nameof(AsyncDelegateCommand)} parameter type");
                     return false;
                 }
             }
