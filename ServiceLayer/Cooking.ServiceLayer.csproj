@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.1.0-ci-01615" />
+    <PackageReference Include="AutoMapper" Version="9.1.0-ci-01616" />
     <PackageReference Include="AutoMapper.Collection" Version="6.0.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
