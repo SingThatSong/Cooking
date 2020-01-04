@@ -112,7 +112,7 @@
           </Style.Triggers>
         </Style>
       </Button.Style>
-      <icons:Octicons Kind="X" />
+      <icons:Modern Kind="Close" />
     </Button>
 
   </StackPanel>

@@ -52,14 +52,14 @@
     </StackPanel.Style>
     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
       <TextBlock FontSize="20" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DayName}" />
-      <icons:PackIconMaterial
+      <icons:PackIconModern
         Width="15"
         Height="10"
         Margin="-3 0 0 0"
         Foreground="Lime"
-        Kind="AlertDecagram">
-        <icons:PackIconMaterial.Style>
-          <Style TargetType="icons:PackIconMaterial">
+        Kind="WarningCircle">
+        <icons:PackIconModern.Style>
+          <Style TargetType="icons:PackIconModern">
             <Setter Property="Visibility" Value="Collapsed" />
             <Style.Triggers>
               <DataTrigger Binding="{Binding Dinner.LastCooked}" Value="-1">
@@ -68,8 +68,8 @@
               </DataTrigger>
             </Style.Triggers>
           </Style>
-        </icons:PackIconMaterial.Style>
-      </icons:PackIconMaterial>
+        </icons:PackIconModern.Style>
+      </icons:PackIconModern>
       <Ellipse
         Width="15"
         Height="15"

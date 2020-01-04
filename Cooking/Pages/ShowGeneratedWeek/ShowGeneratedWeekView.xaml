@@ -209,10 +209,10 @@
                 Command="{Binding ReturnCommand}"
                 Foreground="White"
                 Style="{StaticResource BigButton}">
-                <icons:Octicons
+                <icons:Modern
                     Width="20"
                     Height="20"
-                    Kind="Reply" />
+                    Kind="Return" />
             </Button>
             <Button
                 Margin="10 0 0 0"

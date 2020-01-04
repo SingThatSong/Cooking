@@ -116,10 +116,10 @@
         Command="{Binding CreateShoppingListCommand}"
         Foreground="Teal"
         Style="{StaticResource BigButton}">
-        <icons:FontAwesome
+        <icons:Modern
           Width="20"
           Height="20"
-          Kind="ShoppingCartSolid" />
+          Kind="Shopping" />
       </Button>
       <ToggleButton
         Width="48"
@@ -145,10 +145,10 @@
       Command="{Binding SelectPreviousWeekCommand}"
       Foreground="Gray"
       Style="{StaticResource BigButton}">
-      <icons:FontAwesome
+      <icons:Modern
         Width="20"
         Height="20"
-        Kind="ArrowLeftSolid" />
+        Kind="ChevronLeft" />
     </Button>
 
     <Button
@@ -158,10 +158,10 @@
       Command="{Binding SelectNextWeekCommand}"
       Foreground="Gray"
       Style="{StaticResource BigButton}">
-      <icons:FontAwesome
+      <icons:Modern
         Width="20"
         Height="20"
-        Kind="ArrowRightSolid" />
+        Kind="ChevronRight" />
     </Button>
   </Grid>
 </UserControl>

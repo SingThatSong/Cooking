@@ -28,13 +28,13 @@ namespace Cooking
             new HamburgerMenuIconItem()
             {
                 Label = "Рецепты",
-                Icon = new PackIconModern() { Kind = PackIconModernKind.FoodCupcake },
+                Icon = new PackIconModern() { Kind = PackIconModernKind.Food },
                 Tag = typeof(Recepies)
             },
             new HamburgerMenuIconItem()
             {
                 Label = "Ингредиенты",
-                Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.PuzzlePieceSolid },
+                Icon = new PackIconModern() { Kind = PackIconModernKind.PuzzleRound },
                 Tag = typeof(IngredientsView)
             },
             new HamburgerMenuIconItem()
@@ -46,7 +46,7 @@ namespace Cooking
             new HamburgerMenuIconItem()
             {
                 Label = "Гарниры",
-                Icon = new PackIconMaterial() { Kind = PackIconMaterialKind.FoodVariant },
+                Icon = new PackIconModern() { Kind = PackIconModernKind.FoodCupcake },
                 Tag = typeof(GarnishesView)
             },
         };
