@@ -46,14 +46,14 @@
               </TextBlock>
               <Button
                 Margin="10 0 0 0"
-                Command="{Binding ElementName=IngredientsList, Path=DataContext.EditCategoryCommand}"
+                Command="{Binding ElementName=IngredientsList, Path=DataContext.EditIngredientCommand}"
                 CommandParameter="{Binding}"
                 Style="{StaticResource MediumEditButton}"
                 Visibility="{Binding ElementName=IngredientsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" />
               <Button
                 Grid.Column="4"
                 Margin="5 0 0 0"
-                Command="{Binding ElementName=IngredientsList, Path=DataContext.DeleteCategoryCommand}"
+                Command="{Binding ElementName=IngredientsList, Path=DataContext.DeleteIngredientCommand}"
                 CommandParameter="{Binding ID}"
                 Style="{StaticResource MediumDeleteButton}"
                 Visibility="{Binding ElementName=IngredientsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" />
