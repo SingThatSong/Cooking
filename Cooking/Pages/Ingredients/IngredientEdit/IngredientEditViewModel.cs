@@ -2,6 +2,7 @@
 using Cooking.Helpers;
 using Data.Model;
 using MahApps.Metro.Controls.Dialogs;
+using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,14 @@ namespace Cooking.Pages
 {
     public partial class IngredientEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {
-        public IngredientEdit Ingredient { get; set; }
+        // State
         private bool NameChanged { get; set; }
+        private List<string> AllIngredientNames { get; set; }
+        public IngredientEdit Ingredient { get; set; }
+        public IEnumerable<string>? SimilarIngredients => string.IsNullOrWhiteSpace(Ingredient?.Name)
+                                                        ? null
+                                                        : AllIngredientNames.OrderBy(x => IngredientCompare(x, Ingredient.Name)).Take(3);
+        public ReadOnlyCollection<IngredientType> IngredientTypes => IngredientType.AllValues;
 
         public IngredientEditViewModel(IngredientService ingredientService, DialogService dialogService, IngredientEdit? category = null) : base(dialogService)
         {
@@ -33,46 +40,30 @@ namespace Cooking.Pages
 
         protected override async Task Ok()
         {
-            if (NameChanged && Ingredient.Name != null)
+            if (NameChanged 
+             && Ingredient.Name != null 
+             && AllIngredientNames.Any(x => x.ToUpperInvariant() == Ingredient.Name.ToUpperInvariant()))
             {
-                if (AllIngredientNames.Any(x => x.ToUpperInvariant() == Ingredient.Name.ToUpperInvariant()))
-                {
-                    var result = await DialogCoordinator.Instance.ShowMessageAsync(
-                                        this,
-                                        "Такой ингредиент уже существует",
-                                        "Всё равно сохранить?",
-                                        MessageDialogStyle.AffirmativeAndNegative,
-                                        new MetroDialogSettings()
-                                        {
-                                            AffirmativeButtonText = "Да",
-                                            NegativeButtonText = "Нет"
-                                        }).ConfigureAwait(false);
+                bool saveAnyway = false;
+                await dialogService.ShowYesNoDialog("Такой ингредиент уже существует",
+                                                    "Всё равно сохранить?",
+                                                    successCallback: () => saveAnyway = true).ConfigureAwait(false);
 
-                    if (result == MessageDialogResult.Negative)
-                    {
-                        return;
-                    }
+                if (!saveAnyway)
+                {
+                    return;
                 }
             }
 
             await base.Ok().ConfigureAwait(false);
         }
-        
-        private List<string> AllIngredientNames { get; set; }
-
-        public ReadOnlyCollection<IngredientType> IngredientTypes => IngredientType.AllValues;
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        
-        public IEnumerable<string>? SimilarIngredients => string.IsNullOrWhiteSpace(Ingredient?.Name)
-                                                        ? null
-                                                        : AllIngredientNames.OrderBy(x => IngredientCompare(x, Ingredient.Name)).Take(3);
 
         private int IngredientCompare(string str1, string str2)
              => StringCompare.DiffLength(
                         string.Join(" ", str1.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name)),
                         string.Join(" ", str2.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name))
                 );
-
     }
 }
