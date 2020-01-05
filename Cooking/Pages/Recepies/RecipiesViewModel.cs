@@ -52,14 +52,15 @@ namespace Cooking.Pages
             Debug.Assert(regionManager != null);
             Debug.Assert(recipeService != null);
 
-            FilterContext = new FilterContext<RecipeSelectDto>().AddFilter("name", HasName, isDefault: true)
-                                                             .AddFilter(Consts.IngredientSymbol, HasIngredient)
-                                                             .AddFilter(Consts.TagSymbol, HasTag);
-
             this.dialogUtils = dialogUtils;
             this.container = container;
             this.regionManager = regionManager;
             this.recipeService = recipeService;
+
+            FilterContext = new FilterContext<RecipeSelectDto>().AddFilter("name", HasName, isDefault: true)
+                                                             .AddFilter(Consts.IngredientSymbol, HasIngredient)
+                                                             .AddFilter(Consts.TagSymbol, HasTag);
+
 
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
 
@@ -69,7 +70,6 @@ namespace Cooking.Pages
 
             RecipiesSource = new CollectionViewSource();
             RecipiesSource.Filter += RecipiesSource_Filter;
-            RecipiesSource.IsLiveSortingRequested = true;
             RecipiesSource.SortDescriptions.Add(new SortDescription() { PropertyName = nameof(RecipeSelectDto.Name) });
         }
 
@@ -126,10 +126,10 @@ namespace Cooking.Pages
         }
 
 
-        private Dictionary<Guid, RecipeFull> recipeCache { get; set; }
+        private Dictionary<Guid, RecipeFull>? recipeCache { get; set; }
         private bool HasTag(RecipeSelectDto recipe, string category)
         {
-            RecipeFull recipeDb = recipeCache[recipe.ID];
+            RecipeFull recipeDb = recipeCache![recipe.ID];
             return recipeDb.Tags != null && recipeDb.Tags
                                                     .Where(x => x.Name != null)
                                                     .Any(x => x.Name!.ToUpperInvariant() == category.ToUpperInvariant());
@@ -137,7 +137,7 @@ namespace Cooking.Pages
 
         private bool HasIngredient(RecipeSelectDto recipe, string category)
         {
-            RecipeFull recipeDb = recipeCache[recipe.ID];
+            RecipeFull recipeDb = recipeCache![recipe.ID];
 
             // Ищем среди ингредиентов
             if (recipeDb.Ingredients != null
