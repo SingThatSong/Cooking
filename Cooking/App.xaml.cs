@@ -24,7 +24,6 @@ namespace Cooking
         public App()
         {
             AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;
-            DatabaseService.InitDatabase();
         }
 
         private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)
