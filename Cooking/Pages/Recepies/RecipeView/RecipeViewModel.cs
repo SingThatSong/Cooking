@@ -272,22 +272,16 @@ namespace Cooking.Pages
 
         public async Task DeleteRecipe(Guid recipeId)
         {
-            var result = await DialogCoordinator.Instance.ShowMessageAsync(
-                this,
+            await dialogUtils.ShowYesNoDialog(
                 "Точно удалить?",
                 "Восстановить будет нельзя",
-                style: MessageDialogStyle.AffirmativeAndNegative,
-                settings: new MetroDialogSettings()
-                {
-                    AffirmativeButtonText = "Да",
-                    NegativeButtonText = "Нет"
-                }).ConfigureAwait(false);
+                successCallback: () => OnRecipeDeleted(recipeId)).ConfigureAwait(false);
+        }
 
-            if (result == MessageDialogResult.Affirmative)
-            {
-                await recipeService.DeleteAsync(recipeId).ConfigureAwait(false);
-                CloseCommand.Execute();
-            }
+        private async void OnRecipeDeleted(Guid recipeId)
+        {
+            await recipeService.DeleteAsync(recipeId).ConfigureAwait(false);
+            CloseCommand.Execute();
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

@@ -82,22 +82,16 @@ namespace Cooking.Pages
 
         public async void DeleteTag(Guid recipeId)
         {
-            var result = await DialogCoordinator.Instance.ShowMessageAsync(
-                this, 
-                "Точно удалить?",
-                "Восстановить будет нельзя",
-                style: MessageDialogStyle.AffirmativeAndNegative,
-                settings: new MetroDialogSettings()
-                {
-                    AffirmativeButtonText = "Да",
-                    NegativeButtonText = "Нет"
-                }).ConfigureAwait(true);
+            await dialogUtils.ShowYesNoDialog(
+                  "Точно удалить?",
+                  "Восстановить будет нельзя",
+                  successCallback: () => OnTagDeleted(recipeId)).ConfigureAwait(false);
+        }
 
-            if (result == MessageDialogResult.Affirmative)
-            {
-                await tagService.DeleteAsync(recipeId).ConfigureAwait(true);
-                Tags!.Remove(Tags.Single(x => x.ID == recipeId));
-            }
+        private async void OnTagDeleted(Guid recipeId)
+        {
+            await tagService.DeleteAsync(recipeId).ConfigureAwait(true);
+            Tags!.Remove(Tags.Single(x => x.ID == recipeId));
         }
 
         public async void AddTag()

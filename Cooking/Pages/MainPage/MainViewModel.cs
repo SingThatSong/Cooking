@@ -149,20 +149,11 @@ namespace Cooking.Pages
             if (!prevWeekFilled)
             {
                 // Нужно напомнить о рецептах на прошедшей неделе
-                var result = await dialogUtils.DialogCoordinator.ShowMessageAsync(dialogUtils.ViewModel,
+                await dialogUtils.ShowYesNoDialog(
                       "Кстати",
                       "За прошлую неделю есть рецепты, которые не были приготовлены. Рекомендуем их удалить или перенести",
-                      MessageDialogStyle.AffirmativeAndNegative,
-                      new MetroDialogSettings()
-                      {
-                          AffirmativeButtonText = "Перейти к предыдущей неделе",
-                          NegativeButtonText = "Закрыть"
-                      }).ConfigureAwait(false);
-
-                if (result == MessageDialogResult.Affirmative)
-                {
-                    SelectPreviousWeekCommand.Execute();
-                }
+                      successCallback: () => SelectPreviousWeekCommand.Execute()
+                ).ConfigureAwait(false);
             }
         }
 
@@ -216,41 +207,31 @@ namespace Cooking.Pages
         private async void DeleteDayAsync(Guid dayId)
         {
             Debug.WriteLine("MainPageViewModel.DeleteDayAsync");
-            var result = await dialogUtils.DialogCoordinator.ShowMessageAsync(dialogUtils.ViewModel,
-                    "Точно?",
-                    "Удаляем день?",
-                    MessageDialogStyle.AffirmativeAndNegative,
-                    new MetroDialogSettings()
-                    {
-                        AffirmativeButtonText = "Да",
-                        NegativeButtonText = "Отмена"
-                    }).ConfigureAwait(false);
+            await dialogUtils.ShowYesNoDialog(
+                  "Точно?",
+                  "Удаляем день?",
+                  successCallback: () => OnDayDeleted(dayId)).ConfigureAwait(false);
+        }
 
-            if (result == MessageDialogResult.Affirmative)
-            {
-                await dayService.DeleteAsync(dayId).ConfigureAwait(false);
-                await ReloadCurrentWeek().ConfigureAwait(false);
-            }
+        private async void OnDayDeleted(Guid dayId)
+        {
+            await dayService.DeleteAsync(dayId).ConfigureAwait(false);
+            await ReloadCurrentWeek().ConfigureAwait(false);
         }
 
         private async void DeleteCurrentWeekAsync()
         {
             Debug.WriteLine("MainPageViewModel.DeleteCurrentWeekAsync");
-            var result = await dialogUtils.DialogCoordinator.ShowMessageAsync(dialogUtils.ViewModel,
-                    "Точно?",
-                    "Удаляем неделю?",
-                    MessageDialogStyle.AffirmativeAndNegative,
-                    new MetroDialogSettings()
-                    {
-                        AffirmativeButtonText = "Да",
-                        NegativeButtonText = "Отмена"
-                    }).ConfigureAwait(false);
+            await dialogUtils.ShowYesNoDialog(
+                  "Точно?",
+                  "Удаляем неделю?",
+                  successCallback: OnCurrentWeekDeleted).ConfigureAwait(false);
+        }
 
-            if (result == MessageDialogResult.Affirmative)
-            {
-                await WeekService.DeleteWeekAsync(CurrentWeek!.ID).ConfigureAwait(false);
-                CurrentWeek = null;
-            }
+        private async void OnCurrentWeekDeleted()
+        {
+            await WeekService.DeleteWeekAsync(CurrentWeek!.ID).ConfigureAwait(false);
+            CurrentWeek = null;
         }
 
         private void CreateNewWeekAsync()

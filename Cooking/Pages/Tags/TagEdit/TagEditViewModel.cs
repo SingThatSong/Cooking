@@ -37,18 +37,14 @@ namespace Cooking.Pages
             {
                 if (AllTagNames.Any(x => TagCompare(Tag.Name, x) == 0))
                 {
-                    var result = await DialogCoordinator.Instance.ShowMessageAsync(
-                                        this,
-                                        "Такой тег уже существует",
-                                        "Всё равно сохранить?",
-                                        MessageDialogStyle.AffirmativeAndNegative,
-                                        new MetroDialogSettings()
-                                        {
-                                            AffirmativeButtonText = "Да",
-                                            NegativeButtonText = "Нет"
-                                        }).ConfigureAwait(false);
+                    bool okAnyway = false;
 
-                    if (result == MessageDialogResult.Negative)
+                    await dialogService.ShowYesNoDialog(
+                       "Точно удалить?",
+                       "Восстановить будет нельзя",
+                       successCallback: () => okAnyway = true).ConfigureAwait(false);
+
+                    if (!okAnyway)
                     {
                         return;
                     }
