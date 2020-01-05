@@ -22,6 +22,9 @@ namespace Cooking.Tests.Command
             var asyncDelegate = new AsyncDelegateCommand<object>(funcMock.Object);
             asyncDelegate.Execute(null);
 
+            // Waiting for async execution to end
+            Thread.Sleep(100);
+
             Assert.AreEqual(1, funcMock.Invocations.Count);
         }
 

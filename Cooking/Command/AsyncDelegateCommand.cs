@@ -23,6 +23,6 @@ namespace Cooking.Commands
 
         protected override bool CanExecuteAsyncInternal(object? parameter) => _canExecute != null ? _canExecute() : true;
 
-        protected override Task ExecuteAsyncInternal(object? parameter) => _execute();
+        protected override async Task ExecuteAsyncInternal(object? parameter) => await _execute();
     }
 }

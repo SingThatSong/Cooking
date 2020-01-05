@@ -59,7 +59,7 @@ namespace Cooking.Commands
             }
             else
             {
-                Debug.Fail($"Wrong {nameof(AsyncDelegateCommand)} parameter type");
+                throw new InvalidOperationException($"Wrong {nameof(AsyncDelegateCommand)} parameter type");
             }
         }
     }
