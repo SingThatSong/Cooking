@@ -3,11 +3,12 @@ using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
+using Cooking.WPF.Events;
 using Plafi;
+using Prism.Events;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
-using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,17 +46,28 @@ namespace Cooking.Pages
         public RecepiesViewModel(DialogService dialogUtils, 
                                  IContainerExtension container, 
                                  IRegionManager regionManager, 
-                                 RecipeService recipeService)
+                                 RecipeService recipeService,
+                                 IEventAggregator eventAggregator,
+                                 IMapper mapper)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(container != null);
             Debug.Assert(regionManager != null);
             Debug.Assert(recipeService != null);
+            Debug.Assert(eventAggregator != null);
+            Debug.Assert(mapper != null);
 
             this.dialogUtils = dialogUtils;
             this.container = container;
             this.regionManager = regionManager;
             this.recipeService = recipeService;
+            this.mapper = mapper;
+
+            // Subscribe to events
+
+            eventAggregator.GetEvent<RecipeCreatedEvent>().Subscribe(OnRecipeCreated, ThreadOption.UIThread);
+            eventAggregator.GetEvent<RecipeUpdatedEvent>().Subscribe(OnRecipeUpdated, ThreadOption.UIThread);
+            eventAggregator.GetEvent<RecipeDeletedEvent>().Subscribe(OnRecipeDeleted, ThreadOption.UIThread);
 
             FilterContext = new FilterContext<RecipeSelectDto>().AddFilter("name", HasName, isDefault: true)
                                                              .AddFilter(Consts.IngredientSymbol, HasIngredient)
@@ -71,6 +83,23 @@ namespace Cooking.Pages
             RecipiesSource = new CollectionViewSource();
             RecipiesSource.Filter += RecipiesSource_Filter;
             RecipiesSource.SortDescriptions.Add(new SortDescription() { PropertyName = nameof(RecipeSelectDto.Name) });
+        }
+
+        private void OnRecipeDeleted(Guid id)
+        {
+            var existingRecipe = Recipies!.First(x => x.ID == id);
+            Recipies!.Remove(existingRecipe);
+        }
+
+        private void OnRecipeUpdated(RecipeEdit obj)
+        {
+            var existingRecipe = Recipies!.First(x => x.ID == obj.ID);
+            mapper.Map(obj, existingRecipe);
+        }
+
+        private void OnRecipeCreated(RecipeEdit obj)
+        {
+            Recipies!.Add(mapper.Map<RecipeSelectDto>(obj));
         }
 
         private void OnLoaded()
@@ -98,6 +127,7 @@ namespace Cooking.Pages
         private readonly IContainerExtension container;
         private readonly IRegionManager regionManager;
         private readonly RecipeService recipeService;
+        private readonly IMapper mapper;
 
         private FilterContext<RecipeSelectDto> FilterContext { get; set; }
         public string? FilterText
@@ -175,15 +205,6 @@ namespace Cooking.Pages
         public void AddRecipe()
         {
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView));
-
-            //var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeView, RecipeViewModel>("Новый рецепт", content: new RecipeViewModel(dialogUtils) { IsEditing = true }).ConfigureAwait(false); ;
-
-            //if (viewModel.DialogResultOk)
-            //{
-            //    var id = await RecipeService.CreateAsync(viewModel.Recipe.MapTo<Recipe>()).ConfigureAwait(false);
-            //    viewModel.Recipe.ID = id;
-            //    Recipies!.Add(viewModel.Recipe.MapTo<RecipeSelectDto>());
-            //}
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

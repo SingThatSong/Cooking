@@ -1,14 +1,19 @@
-﻿using Cooking.ServiceLayer.Projections;
+﻿using Data.Model;
 using PropertyChanged;
+using System;
 using System.IO;
 
 namespace Cooking.DTO
 {
     [AddINotifyPropertyChangedInterface]
-    public class RecipeSelectDto : RecipeSlim
-    {        
+    public class RecipeSelectDto
+    {
+        public Guid ID { get; set; }
+        public string? Name { get; set; }
+        public CalorieType CalorieType { get; set; }
+
         [AlsoNotifyFor(nameof(FullPath))]
-        public new string? ImagePath { get; set; }
+        public string? ImagePath { get; set; }
 
         public string? FullPath => ImagePath != null && File.Exists(Path.GetFullPath(ImagePath))
                                 ? Path.GetFullPath(ImagePath) 

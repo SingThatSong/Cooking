@@ -3,20 +3,19 @@ using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Ingredients;
 using Cooking.ServiceLayer;
-using Cooking.ServiceLayer.Projections;
+using Cooking.WPF.Events;
 using Data.Model;
 using GongSolutions.Wpf.DragDrop;
-using MahApps.Metro.Controls.Dialogs;
+using Prism.Events;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
-using ServiceLayer;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Cooking.Pages
 {
@@ -28,6 +27,7 @@ namespace Cooking.Pages
         private readonly IContainerExtension container;
         private readonly RecipeService recipeService;
         private readonly IMapper mapper;
+        private readonly IEventAggregator eventAggregator;
         private IRegionNavigationJournal? journal;
 
         public bool IsEditing { get; set; }
@@ -70,19 +70,22 @@ namespace Cooking.Pages
                                ImageService imageService, 
                                IContainerExtension container, 
                                RecipeService recipeService, 
-                               IMapper mapper)
+                               IMapper mapper,
+                               IEventAggregator eventAggregator)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(imageService != null);
             Debug.Assert(container != null);
             Debug.Assert(recipeService != null);
             Debug.Assert(mapper != null);
+            Debug.Assert(eventAggregator != null);
 
             this.dialogUtils            = dialogUtils;
             this.imageService           = imageService;
             this.container              = container;
             this.recipeService          = recipeService;
             this.mapper                 = mapper;
+            this.eventAggregator        = eventAggregator;
 
             CloseCommand                = new DelegateCommand(Close);
             ApplyChangesCommand         = new AsyncDelegateCommand(ApplyChanges);
@@ -95,7 +98,7 @@ namespace Cooking.Pages
             RemoveTagCommand            = new DelegateCommand<TagEdit>(RemoveTag);
 
             AddIngredientGroupCommand   = new AsyncDelegateCommand(AddIngredientGroup);
-            EditIngredientGroupCommand = new AsyncDelegateCommand<DTO.IngredientGroupEdit>(this.EditIngredientGroup);
+            EditIngredientGroupCommand  = new AsyncDelegateCommand<DTO.IngredientGroupEdit>(this.EditIngredientGroup);
             AddIngredientToGroupCommand = new DelegateCommand<DTO.IngredientGroupEdit>(this.AddIngredientToGroup);
             RemoveIngredientGroupCommand = new DelegateCommand<DTO.IngredientGroupEdit>(this.RemoveIngredientGroup);
 
@@ -260,10 +263,12 @@ namespace Cooking.Pages
             if (Recipe!.ID == Guid.Empty)
             {
                 Recipe.ID = await recipeService.CreateAsync(mapper.Map<Recipe>(Recipe)).ConfigureAwait(false);
+                eventAggregator.GetEvent<RecipeCreatedEvent>().Publish(Recipe);
             }
             else
             {
                 await recipeService.UpdateAsync(mapper.Map<Recipe>(Recipe)).ConfigureAwait(false);
+                eventAggregator.GetEvent<RecipeUpdatedEvent>().Publish(Recipe);
             }
             RecipeBackup = null;
             IsEditing = false;
@@ -282,6 +287,12 @@ namespace Cooking.Pages
         {
             await recipeService.DeleteAsync(recipeId).ConfigureAwait(false);
             CloseCommand.Execute();
+            eventAggregator.GetEvent<RecipeDeletedEvent>().Publish(recipeId);
+            // Journal methods must be called from UI thread
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                journal?.GoBack();
+            });
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

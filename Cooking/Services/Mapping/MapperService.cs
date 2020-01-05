@@ -5,7 +5,6 @@ using Cooking.ServiceLayer.Projections;
 using Cooking.Services;
 using Data.Model;
 using Data.Model.Plan;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -18,6 +17,9 @@ namespace Cooking
             return new MapperConfiguration(cfg =>
             {
                 cfg.AllowNullDestinationValues = true;
+
+                // Map created recipe to displayed in list
+                cfg.CreateMap<RecipeEdit, RecipeSelectDto>();
 
                 cfg.CreateMap<Garnish, GarnishEdit>().ReverseMap();
                 cfg.CreateMap<Week, WeekEdit>();
