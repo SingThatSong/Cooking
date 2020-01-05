@@ -8,6 +8,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cooking.Pages
 {
@@ -24,10 +25,10 @@ namespace Cooking.Pages
         public bool IsEditing { get; set; }
 
         // Commands
+        public AsyncDelegateCommand LoadedCommand { get; }
         public DelegateCommand AddGarnishCommand { get; }
         public DelegateCommand<GarnishEdit> EditGarnishCommand { get; }
         public DelegateCommand<Guid> DeleteGarnishCommand { get; }
-        public DelegateCommand LoadedCommand { get; }
 
         public GarnishesViewModel(DialogService dialogUtils, GarnishService garnishService, IMapper mapper)
         {
@@ -38,18 +39,20 @@ namespace Cooking.Pages
             this.dialogUtils     = dialogUtils;
             this.garnishService  = garnishService;
             this.mapper          = mapper;
-            LoadedCommand        = new DelegateCommand(OnLoaded, executeOnce: true);
+            LoadedCommand        = new AsyncDelegateCommand(OnLoaded, executeOnce: true);
             AddGarnishCommand    = new DelegateCommand(AddGarnish);
             DeleteGarnishCommand = new DelegateCommand<Guid>(DeleteGarnish);
             EditGarnishCommand   = new DelegateCommand<GarnishEdit>(EditGarnish);
         }
 
         #region Top-level functions
-        private void OnLoaded()
+        private Task OnLoaded()
         {
             Debug.WriteLine("GarnishesViewModel.OnLoaded");
             var dbValues = garnishService.GetProjected<GarnishEdit>(mapper);
             Garnishes = new ObservableCollection<GarnishEdit>(dbValues);
+
+            return Task.CompletedTask;
         }
 
         public async void DeleteGarnish(Guid recipeId)

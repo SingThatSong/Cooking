@@ -10,6 +10,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cooking.Pages
 {
@@ -27,7 +28,7 @@ namespace Cooking.Pages
         public bool IsEditing { get; set; }
 
         // Commands
-        public DelegateCommand LoadedCommand { get; }
+        public AsyncDelegateCommand LoadedCommand { get; }
         public DelegateCommand AddIngredientCommand { get; }
         public DelegateCommand<Guid> DeleteCategoryCommand { get; }
         public DelegateCommand<IngredientEdit> ViewIngredientCommand { get; }
@@ -47,7 +48,7 @@ namespace Cooking.Pages
             this.dialogUtils       = dialogUtils;
             this.ingredientService = ingredientService;
             this.mapper            = mapper;
-            LoadedCommand          = new DelegateCommand(OnLoaded, executeOnce: true);
+            LoadedCommand          = new AsyncDelegateCommand(OnLoaded, executeOnce: true);
             AddIngredientCommand   = new DelegateCommand(AddIngredient);
             DeleteCategoryCommand  = new DelegateCommand<Guid>(DeleteIngredient);
             EditIngredientCommand  = new DelegateCommand<IngredientEdit>(EditIngredient);
@@ -55,11 +56,13 @@ namespace Cooking.Pages
         }
 
         #region Top-level functions
-        private void OnLoaded()
+        private Task OnLoaded()
         {
             Debug.WriteLine("IngredientsViewModel.OnLoaded");
             var dataDb = ingredientService.GetProjected<IngredientEdit>(mapper);
             Ingredients = new ObservableCollection<IngredientEdit>(dataDb);
+
+            return Task.CompletedTask;
         }
 
         private void ViewIngredient(IngredientEdit ingredient)

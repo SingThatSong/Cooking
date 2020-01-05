@@ -28,7 +28,7 @@ namespace Cooking.Pages
         public bool WeekEdit { get; set; }
         public WeekEdit? CurrentWeek { get; set; }
 
-        public DelegateCommand LoadedCommand { get; }
+        public AsyncDelegateCommand LoadedCommand { get; }
         public DelegateCommand CreateShoppingListCommand { get; }
         public DelegateCommand CreateNewWeekCommand { get; }
         public DelegateCommand DeleteCommand { get; }
@@ -58,7 +58,7 @@ namespace Cooking.Pages
             this.dayService             = dayService;
             this.mapper                 = mapper;
 
-            LoadedCommand               = new DelegateCommand(OnLoadedAsync, executeOnce: true);
+            LoadedCommand               = new AsyncDelegateCommand(OnLoadedAsync, executeOnce: true);
             CreateNewWeekCommand        = new DelegateCommand(CreateNewWeekAsync);
             CreateShoppingListCommand   = new DelegateCommand(CreateShoppingList);
             DeleteCommand               = new DelegateCommand(DeleteCurrentWeekAsync);
@@ -138,7 +138,7 @@ namespace Cooking.Pages
             CurrentWeek = await GetWeekAsync(CurrentWeek!.Start).ConfigureAwait(false);
         }
 
-        private async void OnLoadedAsync()
+        private async Task OnLoadedAsync()
         {
             Debug.WriteLine("MainPageViewModel.OnLoadedAsync");
             await SetWeekByDay(DateTime.Now).ConfigureAwait(false);
