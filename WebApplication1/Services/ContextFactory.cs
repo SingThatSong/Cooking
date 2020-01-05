@@ -1,8 +1,7 @@
 ﻿using Cooking.Data.Context;
-using Data.Context;
 using Microsoft.Extensions.Configuration;
 
-namespace Cooking.WPF
+namespace Cooking.Web
 {
     public class ContextFactory : IContextFactory
     {
@@ -13,6 +12,6 @@ namespace Cooking.WPF
             this.configuration = configuration;
         }
 
-        public CookingContext Create(bool useLazyLoading = false) => new CookingContext(configuration[Consts.DbFilenameConfigParameter], useLazyLoading);
+        public CookingContext Create(bool useLazyLoading = false) => new CookingContext(configuration["dbName"], useLazyLoading);
     }
 }

@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 // NULL-warnings, not applicable to DbContext
 #pragma warning disable CS8618, CS8603, CS8629, CS8602
 
-namespace Data.Context
+namespace Cooking.Data.Context
 {
     public class CookingContext : DbContext
     {

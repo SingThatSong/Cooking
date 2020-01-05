@@ -10,14 +10,16 @@ namespace Cooking.ServiceLayer
 {
     public class DayService : CRUDService<Day>
     {
-        public DayService(IContextFactory contextFactory) : base(contextFactory)
-        {
+        private readonly WeekService weekService;
 
+        public DayService(IContextFactory contextFactory, WeekService weekService) : base(contextFactory)
+        {
+            this.weekService = weekService;
         }
 
         public void SetDinnerWasCooked(Guid dayId, bool wasCooked)
         {
-            using var context = contextFactory.GetContext();
+            using var context = contextFactory.Create();
             var dayDb = context.Days.Find(dayId);
             dayDb.DinnerWasCooked = wasCooked;
             context.SaveChanges();
@@ -25,7 +27,7 @@ namespace Cooking.ServiceLayer
 
         public async Task SetDinner(Guid dayId, Guid dinnerId)
         {
-            using var context = contextFactory.GetContext();
+            using var context = contextFactory.Create();
             var dayDb = await context.Days.FindAsync(dayId);
             dayDb.DinnerID = dinnerId;
             context.SaveChanges();
@@ -33,7 +35,7 @@ namespace Cooking.ServiceLayer
 
         public async Task CreateDinner(Guid weekId, Guid dinnerId, DayOfWeek dayOfWeek)
         {
-            using var context = contextFactory.GetContext(useLazyLoading: true);
+            using var context = contextFactory.Create(useLazyLoading: true);
             var weekDb = await context.Weeks.FindAsync(weekId);
             if (weekDb.Days == null)
             {
@@ -43,7 +45,7 @@ namespace Cooking.ServiceLayer
             weekDb.Days.Add(new Day()
             {
                 DinnerID = dinnerId,
-                Date = weekDb.Start.AddDays(WeekService.DaysFromMonday(dayOfWeek)),
+                Date = weekDb.Start.AddDays(weekService.DaysFromMonday(dayOfWeek)),
                 DayOfWeek = dayOfWeek
             });
 

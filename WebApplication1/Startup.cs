@@ -15,7 +15,6 @@ namespace WebApplication1
         {
             DatabaseService.DbFileName = @"C:\Cooking\publish\cooking.db";
             Configuration = configuration;
-            DatabaseService.InitDatabase();
         }
 
         public IConfiguration Configuration { get; }
@@ -41,6 +40,8 @@ namespace WebApplication1
             {
                 options.AllowSynchronousIO = true;
             });
+
+            services.AddSingleton<WeekService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

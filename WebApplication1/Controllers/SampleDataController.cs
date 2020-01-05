@@ -1,4 +1,4 @@
-using Data.Context;
+using Cooking.Data.Context;
 using Data.Model;
 using Data.Model.Plan;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +16,13 @@ namespace WebApplication1.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
+        private readonly WeekService weekService;
+
+        public SampleDataController(WeekService weekService)
+        {
+            this.weekService = weekService;
+        }
+
         private string Database => @"C:\Cooking\publish\cooking.db";
 
         [HttpGet("[action]")]
@@ -60,7 +67,7 @@ namespace WebApplication1.Controllers
         [HttpGet("[action]/currentweek")]
         public async Task<Week> CurrentWeek()
         {
-            return await WeekService.GetWeekAsync(DateTime.Now).ConfigureAwait(false);
+            return await weekService.GetWeekAsync(DateTime.Now).ConfigureAwait(false);
         }
     }
 }

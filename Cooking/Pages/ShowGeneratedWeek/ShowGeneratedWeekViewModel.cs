@@ -22,6 +22,7 @@ namespace Cooking.Pages
         private readonly IRegionManager regionManager;
         private readonly RecipeService recipeService;
         private readonly IContainerExtension container;
+        private readonly WeekService weekService;
         private NavigationContext? navigationContext;
 
         public IEnumerable<DayPlan>? Days { get; private set; }
@@ -35,17 +36,23 @@ namespace Cooking.Pages
         public DelegateCommand OkCommand { get; }
         public DelegateCommand CloseCommand { get; }
 
-        public ShowGeneratedWeekViewModel(DialogService dialogUtils, IRegionManager regionManager, RecipeService recipeService, IContainerExtension container) : base()
+        public ShowGeneratedWeekViewModel(DialogService dialogUtils, 
+                                          IRegionManager regionManager, 
+                                          RecipeService recipeService, 
+                                          IContainerExtension container,
+                                          WeekService weekService) : base()
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(regionManager != null);
             Debug.Assert(recipeService != null);
             Debug.Assert(container != null);
+            Debug.Assert(weekService != null);
 
             this.dialogUtils            = dialogUtils;
             this.regionManager          = regionManager;
             this.recipeService          = recipeService;
             this.container              = container;
+            this.weekService            = weekService;
 
             ReturnCommand               = new DelegateCommand(Return);
             DeleteRecipeManuallyCommand = new DelegateCommand<DayPlan>(DeleteRecipeManually);
@@ -64,7 +71,7 @@ namespace Cooking.Pages
         private async void Ok()
         {            
             var daysDictionary = Days.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
-            await WeekService.CreateWeekAsync(WeekStart, daysDictionary).ConfigureAwait(false);
+            await weekService.CreateWeekAsync(WeekStart, daysDictionary).ConfigureAwait(false);
 
             var parameters = new NavigationParameters
             {

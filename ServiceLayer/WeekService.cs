@@ -1,4 +1,5 @@
-﻿using Data.Context;
+﻿using Cooking.Data.Context;
+using Data.Context;
 using Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,17 +10,24 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer
 {
-    public static class WeekService
+    public class WeekService
     {
+        private readonly IContextFactory contextFactory;
+
+        public WeekService(IContextFactory contextFactory)
+        {
+            this.contextFactory = contextFactory;
+        }
+
         /// <summary>
         /// Загрузка недели по любому из дней в ней
         /// </summary>
         /// <param name="dayOfWeek"></param>
         /// <returns></returns>
-        public static async Task<Week> GetWeekAsync(DateTime dayOfWeek)
+        public async Task<Week> GetWeekAsync(DateTime dayOfWeek)
         {
             Debug.WriteLine("WeekService.GetWeek(DateTime)");
-            using var context = new CookingContext(DatabaseService.DbFileName);
+            using var context = contextFactory.Create();
             return await context.Weeks    
                                 .Include(x => x.Days)     
                                     .ThenInclude(x => x.Dinner)
@@ -27,10 +35,10 @@ namespace ServiceLayer
                                                         && dayOfWeek.Date <= x.End.Date).ConfigureAwait(false);
         }
 
-        public static async Task CreateWeekAsync(DateTime weekStart, Dictionary<DayOfWeek, Guid?> selectedRecepies)
+        public async Task CreateWeekAsync(DateTime weekStart, Dictionary<DayOfWeek, Guid?> selectedRecepies)
         {
             Debug.WriteLine("WeekService.CreateWeekAsync");
-            using var context = new CookingContext();
+            using var context = contextFactory.Create();
             var newWeek = new Week()
             {
                 Start = weekStart,
@@ -56,10 +64,10 @@ namespace ServiceLayer
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        public static List<ShoppingListItem> GetWeekIngredients(Guid id)
+        public List<ShoppingListItem> GetWeekIngredients(Guid id)
         {
             Debug.WriteLine("WeekService.GetWeekIngredients");
-            using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
+            using var context = contextFactory.Create(useLazyLoading: true);
             var week = context.Weeks.Find(id);
 
             var ingredients = from dinner in week.Days.Where(x => x.Dinner?.Ingredients != null)
@@ -110,10 +118,10 @@ namespace ServiceLayer
             return result;
         }
 
-        public static bool IsWeekFilled(DateTime dayOfWeek)
+        public bool IsWeekFilled(DateTime dayOfWeek)
         {
             Debug.WriteLine("WeekService.IsWeekFilled");
-            using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
+            using var context = contextFactory.Create(useLazyLoading: true);
             var week = GetWeekInternal(dayOfWeek, context);
 
             if (week == null || week.Days == null)
@@ -124,7 +132,8 @@ namespace ServiceLayer
             return week.Days.All(x => x.DinnerWasCooked);
         }
 
-        public static DayOfWeek GetDayOfWeek(string name)
+        // TODO: Magic strings
+        public DayOfWeek GetDayOfWeek(string name)
         {
             Debug.WriteLine("WeekService.GetDayOfWeek");
             return name switch
@@ -139,18 +148,19 @@ namespace ServiceLayer
                 _ => throw new InvalidOperationException(),
             };
         }
-        public static async Task DeleteWeekAsync(Guid id)
+        public async Task DeleteWeekAsync(Guid id)
         {
             Debug.WriteLine("WeekService.DeleteWeekAsync");
-            using var context = new CookingContext(DatabaseService.DbFileName);
+            using var context = contextFactory.Create();
             var entity = await context.Weeks.FindAsync(id);
             context.Remove(entity);
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        public static int DaysFromMonday(DayOfWeek day)
+        public int DaysFromMonday(DayOfWeek day)
         {
             Debug.WriteLine("WeekService.DaysFromMonday");
+            // int value for sunday is 0, other weekdays ordered
             if (day == DayOfWeek.Sunday)
             {
                 return 6;
@@ -159,27 +169,27 @@ namespace ServiceLayer
             return day - DayOfWeek.Monday;
         }
 
-        public static DateTime FirstDayOfWeek(DateTime date)
+        public DateTime FirstDayOfWeek(DateTime date)
         {
             Debug.WriteLine("WeekService.FirstDayOfWeek");
-            DayOfWeek fdow = DayOfWeek.Monday;
+            DayOfWeek weekStart = DayOfWeek.Monday;
             int dayOfWeek = date.DayOfWeek != DayOfWeek.Sunday ? (int)date.DayOfWeek : 7;
-            int offset = (int)fdow - dayOfWeek;
+            int offset = (int)weekStart - dayOfWeek;
             DateTime fdowDate = date.AddDays(offset);
             return fdowDate;
         }
 
-        public static DateTime LastDayOfWeek(DateTime date)
+        public DateTime LastDayOfWeek(DateTime date)
         {
             Debug.WriteLine("WeekService.LastDayOfWeek");
             DateTime ldowDate = FirstDayOfWeek(date).AddDays(6);
             return ldowDate;
         }
 
-        public static async Task MoveDayToNextWeek(Guid currentWeekId, Guid dayId, DayOfWeek selectedWeekday)
+        public async Task MoveDayToNextWeek(Guid currentWeekId, Guid dayId, DayOfWeek selectedWeekday)
         {
             Debug.WriteLine("WeekService.MoveDayToNextWeek");
-            using var context = new CookingContext(DatabaseService.DbFileName, useLazyLoading: true);
+            using var context = contextFactory.Create(useLazyLoading: true);
             var day = context.Days.First(x => x.ID == dayId);
 
             // Удаление дня на этой неделе
@@ -210,14 +220,13 @@ namespace ServiceLayer
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-
-        private static Week GetWeekInternal(DateTime dayOnWeek, CookingContext context)
+        private Week GetWeekInternal(DateTime dayOnWeek, CookingContext context)
         {
             Debug.WriteLine("WeekService.GetWeekInternal");
             return context.Weeks.SingleOrDefault(x => x.Start.Date <= dayOnWeek.Date && dayOnWeek.Date <= x.End.Date);
         }
 
-        private static Week CreateWeekInternal(DateTime dayOnWeek, CookingContext context)
+        private Week CreateWeekInternal(DateTime dayOnWeek, CookingContext context)
         {
             Debug.WriteLine("WeekService.CreateWeekInternal");
             var week = new Week()

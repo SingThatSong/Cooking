@@ -22,7 +22,7 @@ namespace Cooking.ServiceLayer
 
         public virtual List<T> GetAll()
         {
-            using var context = contextFactory.GetContext();
+            using var context = contextFactory.Create();
             return context.Set<T>().ToList();
         }
 
@@ -30,7 +30,7 @@ namespace Cooking.ServiceLayer
 
         public virtual TProjection GetProjected<TProjection>(Guid id, IMapper mapper) where TProjection : Entity
         {
-            using var context = contextFactory.GetContext();
+            using var context = contextFactory.Create();
             return mapper.ProjectTo<TProjection>(context.Set<T>()).FirstOrDefault(x => x.ID == id);
         }
 
@@ -38,13 +38,13 @@ namespace Cooking.ServiceLayer
 
         public List<TProjection> GetProjected<TProjection>(IMapper mapper)
         {
-            using var context = contextFactory.GetContext();
+            using var context = contextFactory.Create();
             return mapper.ProjectTo<TProjection>(context.Set<T>()).ToList();
         }
 
         public async Task<Guid> CreateAsync(T entity)
         {
-            using var context = contextFactory.GetContext();
+            using var context = contextFactory.Create();
             entity.ID = Guid.NewGuid();
             await context.Set<T>().AddAsync(entity);
             await context.SaveChangesAsync().ConfigureAwait(false);
@@ -53,14 +53,14 @@ namespace Cooking.ServiceLayer
 
         public async Task DeleteAsync(Guid id)
         {
-            using var context = contextFactory.GetContext();
+            using var context = contextFactory.Create();
             context.Set<T>().Remove(new T { ID = id });
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task UpdateAsync(T entity)
         {
-            using var context = contextFactory.GetContext(useLazyLoading: true);
+            using var context = contextFactory.Create(useLazyLoading: true);
             var existing = await context.Set<T>().FindAsync(entity.ID);
             MapperService.Mapper.Map(entity, existing);
             await context.SaveChangesAsync().ConfigureAwait(false);

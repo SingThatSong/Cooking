@@ -57,7 +57,8 @@ namespace Cooking
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
 
             // Register services
-            containerRegistry.RegisterInstance<IMapper>(new Mapper(MapperService.CreateMapper(), Container.Resolve<IContainerExtension>().Resolve));
+            containerRegistry.RegisterInstance<IMapper>(new Mapper(MapperService.CreateMapper(), Container.Resolve<IContainerExtension>().Resolve)); 
+            containerRegistry.Register<WeekService>();
             containerRegistry.Register<DayService>();
             containerRegistry.Register<GarnishService>();
             containerRegistry.Register<IngredientService>();

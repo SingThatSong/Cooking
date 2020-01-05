@@ -110,7 +110,7 @@ namespace Cooking.Pages
 
         private async void OnNewIngredientCreated(IngredientEditViewModel viewModel)
         {
-            var id = await ingredientService.CreateAsync(mapper.Map<Ingredient>(viewModel.Ingredient)).ConfigureAwait(false);
+            await ingredientService.CreateAsync(mapper.Map<Ingredient>(viewModel.Ingredient)).ConfigureAwait(false);
             Ingredients!.Add(viewModel.Ingredient);
         }
         #endregion

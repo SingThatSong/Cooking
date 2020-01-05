@@ -17,17 +17,21 @@ namespace Cooking.Pages
     [AddINotifyPropertyChangedInterface]
     public class MainViewModel : INavigationAware
     {
+        // Dependencies
         private readonly DialogService dialogUtils;
+        private readonly DayService dayService;
         private readonly IRegionManager regionManager;
         private readonly IContainerExtension container;
-        private readonly DayService dayService;
         private readonly IMapper mapper;
+        private readonly WeekService weekService;
 
+        // State
         public DateTime WeekStart { get; set; }
         public DateTime WeekEnd { get; set; }
         public bool WeekEdit { get; set; }
         public WeekEdit? CurrentWeek { get; set; }
 
+        // Commands
         public AsyncDelegateCommand LoadedCommand { get; }
         public DelegateCommand CreateShoppingListCommand { get; }
         public DelegateCommand CreateNewWeekCommand { get; }
@@ -43,13 +47,15 @@ namespace Cooking.Pages
                              IRegionManager regionManager, 
                              IContainerExtension container,
                              DayService dayService,
-                             IMapper mapper)
+                             IMapper mapper,
+                             WeekService weekService)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(regionManager != null);
             Debug.Assert(container != null);
             Debug.Assert(dayService != null);
             Debug.Assert(mapper != null);
+            Debug.Assert(weekService != null);
             Debug.WriteLine("MainPageViewModel.ctor");
 
             this.dialogUtils            = dialogUtils;
@@ -57,6 +63,7 @@ namespace Cooking.Pages
             this.container              = container;
             this.dayService             = dayService;
             this.mapper                 = mapper;
+            this.weekService            = weekService;
 
             LoadedCommand               = new AsyncDelegateCommand(OnLoadedAsync, executeOnce: true);
             CreateNewWeekCommand        = new DelegateCommand(CreateNewWeekAsync);
@@ -73,7 +80,7 @@ namespace Cooking.Pages
         private async Task<WeekEdit?> GetWeekAsync(DateTime dayOfWeek)
         {
             Debug.WriteLine("MainPageViewModel.GetWeekAsync");
-            var weekData = await WeekService.GetWeekAsync(dayOfWeek).ConfigureAwait(false);
+            var weekData = await weekService.GetWeekAsync(dayOfWeek).ConfigureAwait(false);
             if (weekData == null)
             {
                 return null;
@@ -117,7 +124,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                var dayOfWeek = WeekService.GetDayOfWeek(dayName);
+                var dayOfWeek = weekService.GetDayOfWeek(dayName);
                 var day = CurrentWeek!.Days.FirstOrDefault(x => x.DayOfWeek == dayOfWeek);
 
                 if (day != null)
@@ -143,8 +150,8 @@ namespace Cooking.Pages
             Debug.WriteLine("MainPageViewModel.OnLoadedAsync");
             await SetWeekByDay(DateTime.Now).ConfigureAwait(false);
 
-            var dayOnPreviousWeek = WeekService.FirstDayOfWeek(DateTime.Now).AddDays(-1);
-            var prevWeekFilled    = WeekService.IsWeekFilled(dayOnPreviousWeek);
+            var dayOnPreviousWeek = weekService.FirstDayOfWeek(DateTime.Now).AddDays(-1);
+            var prevWeekFilled    = weekService.IsWeekFilled(dayOnPreviousWeek);
 
             if (!prevWeekFilled)
             {
@@ -165,7 +172,7 @@ namespace Cooking.Pages
             if (viewModel.DialogResultOk)
             {
                 var selectedDay = viewModel.DaysOfWeek.Single(x => x.IsSelected);
-                await WeekService.MoveDayToNextWeek(CurrentWeek!.ID, dayId, selectedDay.WeekDay).ConfigureAwait(false);
+                await weekService.MoveDayToNextWeek(CurrentWeek!.ID, dayId, selectedDay.WeekDay).ConfigureAwait(false);
                 await ReloadCurrentWeek().ConfigureAwait(false);
             }
         }
@@ -188,15 +195,15 @@ namespace Cooking.Pages
         {
             Debug.WriteLine("MainPageViewModel.SetWeekByDay");
             CurrentWeek = await GetWeekAsync(date).ConfigureAwait(false);
-            WeekStart = WeekService.FirstDayOfWeek(date);
-            WeekEnd = WeekService.LastDayOfWeek(date);
+            WeekStart = weekService.FirstDayOfWeek(date);
+            WeekEnd = weekService.LastDayOfWeek(date);
         }
 
         private void CreateShoppingList()
         {
             Debug.WriteLine("MainPageViewModel.CreateShoppingList");
 
-            var allProducts = WeekService.GetWeekIngredients(CurrentWeek!.ID);
+            var allProducts = weekService.GetWeekIngredients(CurrentWeek!.ID);
             var parameters = new NavigationParameters()
             {
                 { nameof(ShoppingCartViewModel.List), allProducts }
@@ -213,11 +220,6 @@ namespace Cooking.Pages
                   successCallback: () => OnDayDeleted(dayId)).ConfigureAwait(false);
         }
 
-        private async void OnDayDeleted(Guid dayId)
-        {
-            await dayService.DeleteAsync(dayId).ConfigureAwait(false);
-            await ReloadCurrentWeek().ConfigureAwait(false);
-        }
 
         private async void DeleteCurrentWeekAsync()
         {
@@ -226,12 +228,6 @@ namespace Cooking.Pages
                   "Точно?",
                   "Удаляем неделю?",
                   successCallback: OnCurrentWeekDeleted).ConfigureAwait(false);
-        }
-
-        private async void OnCurrentWeekDeleted()
-        {
-            await WeekService.DeleteWeekAsync(CurrentWeek!.ID).ConfigureAwait(false);
-            CurrentWeek = null;
         }
 
         private void CreateNewWeekAsync()
@@ -245,6 +241,23 @@ namespace Cooking.Pages
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(WeekSettings), parameters);
         }
 
+        #region Callbacks
+        private async void OnDayDeleted(Guid dayId)
+        {
+            await dayService.DeleteAsync(dayId).ConfigureAwait(false);
+            await ReloadCurrentWeek().ConfigureAwait(false);
+        }
+
+        private async void OnCurrentWeekDeleted()
+        {
+            // call buisness function
+            await weekService.DeleteWeekAsync(CurrentWeek!.ID).ConfigureAwait(false);
+            // update state
+            CurrentWeek = null;
+        }
+        #endregion
+
+        #region Navigation methods
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             var reloadWeek = navigationContext.Parameters[Consts.ReloadWeekParameter] as bool?;
@@ -259,5 +272,6 @@ namespace Cooking.Pages
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
+        #endregion
     }
 }

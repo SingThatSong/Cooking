@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 
-namespace Data.Context
+namespace Cooking.Data.Context
 {
     public class CookingContextFactory : IDesignTimeDbContextFactory<CookingContext>
     {

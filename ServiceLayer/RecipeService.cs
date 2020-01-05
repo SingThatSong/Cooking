@@ -48,7 +48,7 @@ namespace Cooking.ServiceLayer
                 return lastCookedId[recipeId];
             }
 
-            using CookingContext context = contextFactory.GetContext();
+            using CookingContext context = contextFactory.Create();
             return lastCookedId[recipeId] = context.Days.Where(x => x.DinnerID == recipeId && x.DinnerWasCooked && x.Date != null).OrderByDescending(x => x.Date).FirstOrDefault()?.Date;
         }
 
@@ -61,7 +61,7 @@ namespace Cooking.ServiceLayer
         {
             Debug.WriteLine("RecipeService.GetRecipies");
 
-            using CookingContext context = contextFactory.GetContext();
+            using CookingContext context = contextFactory.Create();
             IQueryable<Recipe> query = context.Recipies
                                .Include(x => x.Tags)
                                    .ThenInclude(x => x.Tag)
@@ -118,7 +118,7 @@ namespace Cooking.ServiceLayer
 
         public Recipe Get(Guid recipeId)
         {
-            using CookingContext context = contextFactory.GetContext();
+            using CookingContext context = contextFactory.Create();
             return context.Recipies
                           .Include(x => x.Tags)
                              .ThenInclude(x => x.Tag)

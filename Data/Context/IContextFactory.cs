@@ -4,6 +4,6 @@ namespace Cooking.Data.Context
 {
     public interface IContextFactory
     {
-        CookingContext GetContext(bool useLazyLoading = false);
+        CookingContext Create(bool useLazyLoading = false);
     }
 }

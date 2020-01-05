@@ -16,7 +16,7 @@ namespace ServiceLayer
 
         public List<string> GetSearchNames()
         {
-            using var context = contextFactory.GetContext();
+            using var context = contextFactory.Create();
             return context.Ingredients
                           .Where(x => x.Name != null)
                           .Select(x => x.Name!)
