@@ -64,13 +64,7 @@ namespace Cooking
                                     .Select(x => x.ErrorMessage);
         }
 
-        public bool HasErrors
-        {
-            get 
-            {
-                return validationResult?.Errors.Count > 0; 
-            }
-        }
+        public bool HasErrors => validationResult?.Errors.Count > 0; 
 
         public string? Error
         {

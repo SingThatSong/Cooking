@@ -21,11 +21,9 @@ namespace ServiceLayer
             return new MapperConfiguration(cfg =>
             {
                 cfg.AllowNullDestinationValues = true;
-                cfg.AllowNullCollections = null;
+                cfg.AllowNullCollections = true;
 
                 cfg.AddCollectionMappers();
-
-                cfg.AddMaps(Assembly.GetEntryAssembly());
 
                 cfg.CreateMap<Entity, Entity>();
 

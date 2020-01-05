@@ -66,8 +66,6 @@ namespace Cooking
 
                 cfg.CreateMap<RecipeIngredientEdit, RecipeIngredientEdit>();
                 cfg.CreateMap<RecipeIngredientEdit, RecipeIngredient>()
-                    // TODO: ???
-                   .ForMember(x => x.ID, opts => opts.MapFrom(_ => Guid.NewGuid()))
                    .ForMember(x => x.Ingredient, opts => opts.Ignore());
 
                 cfg.CreateMap<RecipeIngredientData, RecipeIngredientEdit>();
