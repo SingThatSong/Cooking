@@ -32,7 +32,7 @@ namespace Cooking.Pages
         public DelegateCommand<DayPlan> DeleteRecipeManuallyCommand { get; }
         public DelegateCommand<DayPlan> SetRecipeManuallyCommand { get; }
         public DelegateCommand ReturnCommand { get; }
-        public AsyncDelegateCommand OkCommand { get; }
+        public DelegateCommand OkCommand { get; }
         public DelegateCommand CloseCommand { get; }
 
         public ShowGeneratedWeekViewModel(DialogService dialogUtils, IRegionManager regionManager, RecipeService recipeService, IContainerExtension container) : base()
@@ -53,7 +53,7 @@ namespace Cooking.Pages
             GetAlternativeRecipeCommand = new DelegateCommand<DayPlan>(GetAlternativeRecipe, canExecute: (day) => day?.RecipeAlternatives?.Count > 1);
             ShowRecipeCommand           = new DelegateCommand<Guid>(ShowRecipe);
             CloseCommand                = new DelegateCommand(Close);
-            OkCommand                   = new AsyncDelegateCommand(Ok, freezeWhenBusy: true);
+            OkCommand                   = new DelegateCommand(Ok);
         }
 
         private void Close()
@@ -61,7 +61,7 @@ namespace Cooking.Pages
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(MainView));
         }
 
-        private async Task Ok()
+        private async void Ok()
         {            
             var daysDictionary = Days.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
             await WeekService.CreateWeekAsync(WeekStart, daysDictionary).ConfigureAwait(false);
