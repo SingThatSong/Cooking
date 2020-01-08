@@ -17,7 +17,6 @@
                 <ResourceDictionary Source="pack://application:,,,/Cooking.WPF;component/Styles/Button.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <properties:Settings x:Key="Settings" />
             <!--  Mahapps' variables  -->
             <sys:Double x:Key="HamburgerMenuSelectionIndicatorThemeWidth">3</sys:Double>
             <sys:Double x:Key="HamburgerMenuSelectionIndicatorThemeHeight">48</sys:Double>
