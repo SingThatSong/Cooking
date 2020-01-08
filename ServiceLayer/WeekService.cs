@@ -1,4 +1,5 @@
 ﻿using Cooking.Data.Context;
+using Cooking.ServiceLayer;
 using Data.Context;
 using Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
@@ -10,13 +11,10 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer
 {
-    public class WeekService
+    public class WeekService : CRUDService<Week>
     {
-        private readonly IContextFactory contextFactory;
-
-        public WeekService(IContextFactory contextFactory)
+        public WeekService(IContextFactory contextFactory) : base(contextFactory)
         {
-            this.contextFactory = contextFactory;
         }
 
         /// <summary>
@@ -124,7 +122,7 @@ namespace ServiceLayer
             using var context = contextFactory.Create(useLazyLoading: true);
             var week = GetWeekInternal(dayOfWeek, context);
 
-            if (week == null || week.Days == null)
+            if (week?.Days == null)
             {
                 return true;
             }
@@ -147,14 +145,6 @@ namespace ServiceLayer
                 "Воскресенье" => DayOfWeek.Sunday,
                 _ => throw new InvalidOperationException(),
             };
-        }
-        public async Task DeleteWeekAsync(Guid id)
-        {
-            Debug.WriteLine("WeekService.DeleteWeekAsync");
-            using var context = contextFactory.Create();
-            var entity = await context.Weeks.FindAsync(id);
-            context.Remove(entity);
-            await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public int DaysFromMonday(DayOfWeek day)
@@ -220,7 +210,7 @@ namespace ServiceLayer
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        private Week GetWeekInternal(DateTime dayOnWeek, CookingContext context)
+        private Week? GetWeekInternal(DateTime dayOnWeek, CookingContext context)
         {
             Debug.WriteLine("WeekService.GetWeekInternal");
             return context.Weeks.SingleOrDefault(x => x.Start.Date <= dayOnWeek.Date && dayOnWeek.Date <= x.End.Date);
