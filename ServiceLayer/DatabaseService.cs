@@ -1,4 +1,4 @@
-﻿using Data.Context;
+﻿using Cooking.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace ServiceLayer

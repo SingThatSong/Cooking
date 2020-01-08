@@ -251,7 +251,7 @@ namespace Cooking.Pages
         private async void OnCurrentWeekDeleted()
         {
             // call buisness function
-            await weekService.DeleteWeekAsync(CurrentWeek!.ID).ConfigureAwait(false);
+            await weekService.DeleteAsync(CurrentWeek!.ID).ConfigureAwait(false);
             // update state
             CurrentWeek = null;
         }
