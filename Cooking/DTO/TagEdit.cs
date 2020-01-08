@@ -5,7 +5,6 @@ using System.ComponentModel;
 
 namespace Cooking.DTO
 {
-    [AddINotifyPropertyChangedInterface]
     public class TagEdit : INotifyPropertyChanged
     {
         public static readonly TagEdit Any = new TagEdit()
