@@ -14,6 +14,14 @@ using System;
 using System.Reflection;
 using System.Windows;
 
+
+// TODO: Add localization
+// TODO: Cleanup DTOs
+// TODO: Cleanup mappings
+// TODO: Cleanup namespaces
+// TODO: Tests FTW
+// TODO: Form .editorconfig
+// TODO: Make one-file deploy
 namespace Cooking
 {
     /// <summary>
