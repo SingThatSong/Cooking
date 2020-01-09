@@ -250,12 +250,7 @@ namespace Cooking.Pages
 
         public void ImageSearch()
         {
-            var image = imageService.ImageSearch();
-
-            if (image != null)
-            {
-                Recipe!.ImagePath = image;
-            }
+            Recipe!.ImagePath = imageService.ImageSearch();
         }
 
         protected async Task ApplyChanges()

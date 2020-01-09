@@ -29,6 +29,7 @@ namespace Cooking
     /// </summary>
     public partial class App : PrismApplication
     {
+        // TODO: Use XamlStyler in git hooks
         public App()
         {
             AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;
