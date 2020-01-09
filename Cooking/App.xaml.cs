@@ -22,6 +22,7 @@ using System.Windows;
 // TODO: Tests FTW
 // TODO: Form .editorconfig
 // TODO: Make one-file deploy
+// TODO: Use XamlStyler in git hooks
 namespace Cooking
 {
     /// <summary>
@@ -29,7 +30,6 @@ namespace Cooking
     /// </summary>
     public partial class App : PrismApplication
     {
-        // TODO: Use XamlStyler in git hooks
         public App()
         {
             AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;

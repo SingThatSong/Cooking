@@ -46,10 +46,10 @@
     </PackageReference>
     <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="3.1.0" />
     <PackageReference Include="MaterialDesignColors">
-      <Version>1.2.3-ci936</Version>
+      <Version>1.2.3-ci939</Version>
     </PackageReference>
     <PackageReference Include="MaterialDesignThemes">
-      <Version>3.1.0-ci936</Version>
+      <Version>3.1.0-ci939</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
