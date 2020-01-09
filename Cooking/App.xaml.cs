@@ -23,6 +23,8 @@ using System.Windows;
 // TODO: Form .editorconfig
 // TODO: Make one-file deploy
 // TODO: Use XamlStyler in git hooks
+// TODO: App users
+// TODO: Dish garnishes select + generate
 namespace Cooking
 {
     /// <summary>
