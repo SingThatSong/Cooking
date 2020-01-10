@@ -50,7 +50,7 @@
                         <Image
                             Width="150"
                             Height="150"
-                            Source="{Binding FullPath}"
+                            Source="{Binding FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
                             Stretch="Uniform" />
                         <StackPanel.Style>
                             <Style TargetType="StackPanel">
