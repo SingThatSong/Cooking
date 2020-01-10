@@ -28,11 +28,15 @@ using WPFLocalizeExtension.Engine;
 // TODO: Tests FTW
 // TODO: Form .editorconfig
 // TODO: Make one-file deploy
+// TODO: Configure tests coverage
 // TODO: Use XamlStyler in git hooks
+// TODO: Remove usings in git hooks
 // TODO: App users
 // TODO: Dish garnishes select + generate
 // TODO: Make sure Cooking.WPF contains no buisness logic
 // TODO: Refactor ViewModels into scheme: dependencies, state, commands, constructor, methods
+// TODO: Placeholder for time when loading occurs (overhead?)
+// TODO: Use fluent assertions
 namespace Cooking
 {
     /// <summary>
