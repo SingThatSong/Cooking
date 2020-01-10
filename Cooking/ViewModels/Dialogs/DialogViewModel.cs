@@ -7,19 +7,19 @@ namespace Cooking.Pages
     [AddINotifyPropertyChangedInterface]
     public partial class DialogViewModel
     {
-        protected readonly DialogService dialogService;
+        protected DialogService DialogService { get; }
 
         public AsyncDelegateCommand CloseCommand { get; }
         
         public DialogViewModel(DialogService dialogService)
         {
             CloseCommand = new AsyncDelegateCommand(Close);
-            this.dialogService = dialogService;
+            DialogService = dialogService;
         }
 
         protected virtual async Task Close()
         {
-            await dialogService.HideCurrentDialogAsync().ConfigureAwait(false);
+            await DialogService.HideCurrentDialogAsync().ConfigureAwait(false);
         }
     }
 }

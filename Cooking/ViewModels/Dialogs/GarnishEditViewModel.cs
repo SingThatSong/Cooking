@@ -40,7 +40,7 @@ namespace Cooking.Pages
             if (NameChanged && Garnish.Name != null && AllGarnishNames.Any(x => x.ToUpperInvariant() == Garnish.Name.ToUpperInvariant()))
             {
                 bool saveAnyway = false;
-                await dialogService.ShowYesNoDialog("Такой гарнир уже существует",
+                await DialogService.ShowYesNoDialog("Такой гарнир уже существует",
                                                     "Всё равно сохранить?", 
                                                     successCallback: () => saveAnyway = true).ConfigureAwait(false);
 

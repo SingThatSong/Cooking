@@ -43,7 +43,7 @@ namespace Cooking.Pages
              && AllIngredientNames.Any(x => x.ToUpperInvariant() == Ingredient.Name.ToUpperInvariant()))
             {
                 bool saveAnyway = false;
-                await dialogService.ShowYesNoDialog("Такой ингредиент уже существует",
+                await DialogService.ShowYesNoDialog("Такой ингредиент уже существует",
                                                     "Всё равно сохранить?",
                                                     successCallback: () => saveAnyway = true).ConfigureAwait(false);
 

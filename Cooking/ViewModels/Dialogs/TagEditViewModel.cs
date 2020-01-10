@@ -37,7 +37,7 @@ namespace Cooking.Pages
                 {
                     bool okAnyway = false;
 
-                    await dialogService.ShowYesNoDialog(
+                    await DialogService.ShowYesNoDialog(
                        "Точно удалить?",
                        "Восстановить будет нельзя",
                        successCallback: () => okAnyway = true).ConfigureAwait(false);
