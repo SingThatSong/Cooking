@@ -3,6 +3,7 @@ using Cooking.Commands;
 using Cooking.Pages.Dialogs;
 using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
+using Cooking.WPF.Helpers;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
@@ -103,7 +104,7 @@ namespace Cooking.Pages
 
         private async void SetRecipeManually(DayPlan day)
         {
-            var viewModel = new RecipeSelectViewModel(dialogUtils, recipeService, container.Resolve<IMapper>(), day);
+            var viewModel = new RecipeSelectViewModel(dialogUtils, recipeService, container.Resolve<IMapper>(), container.Resolve<RecipeFiltrator>(), day);
 
             await dialogUtils.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>(content: viewModel).ConfigureAwait(false);
 

@@ -4,6 +4,7 @@ using Cooking.DTO;
 using Cooking.Pages.Dialogs;
 using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
+using Cooking.WPF.Helpers;
 using Plafi;
 using ServiceLayer;
 using System;
@@ -20,15 +21,17 @@ namespace Cooking.Pages
 
         public Guid SelectedRecipeID { get; set; }
 
-        public RecipeSelectViewModel(DialogService dialogService, RecipeService recipeService, IMapper mapper, DayPlan? day = null) : base(dialogService)
+        public RecipeSelectViewModel(DialogService dialogService, 
+                                     RecipeService recipeService, 
+                                     IMapper mapper, 
+                                     RecipeFiltrator recipeFiltrator,
+                                     DayPlan? day = null) : base(dialogService)
         {
             Debug.Assert(recipeService != null);
             Debug.Assert(mapper != null);
+            Debug.Assert(recipeFiltrator != null);
 
-            this.recipeService = recipeService;
-
-            FilterContext = new FilterContext<RecipeSelectDto>().AddFilter(Consts.IngredientSymbol, HasIngredient)
-                                                                .AddFilter(Consts.TagSymbol, HasTag);
+            this.recipeFiltrator = recipeFiltrator;
 
             _recipies = recipeService.GetProjected<RecipeSelectDto>(mapper);
 
@@ -104,101 +107,34 @@ namespace Cooking.Pages
 
         }
 
-        private bool built = false;
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)
         {
-            if (FilterContext == null || !built)
+            if (string.IsNullOrEmpty(filterText))
                 return;
 
             if (e.Item is RecipeSelectDto recipe)
             {
-                e.Accepted = FilterContext.Filter(recipe);
+                e.Accepted = recipeFiltrator.FilterObject(recipe);
             }
         }
 
         private string? filterText;
-        private FilterContext<RecipeSelectDto> FilterContext { get; set; }
         public string? FilterText
         {
             get => filterText;
             set
             {
-                if (filterText != value && !string.IsNullOrEmpty(value))
+                if (filterText != value)
                 {
-                    built = true;
-                    FilterContext.BuildExpression(value);
+                    filterText = value;
+                    recipeFiltrator.OnFilterTextChanged(value);
                     RecipiesSource.View.Refresh();
                 }
-                else
-                {
-                    built = false;
-                }
-
-                filterText = value;
             }
-        }
-
-        // TODO: duplicate from RecipiesViewModel.cs
-        private readonly Dictionary<Guid, RecipeFull> recipeCache = new Dictionary<Guid, RecipeFull>();
-        private bool HasTag(RecipeSelectDto recipe, string category)
-        {
-            RecipeFull recipeDb;
-
-            if (recipeCache.ContainsKey(recipe.ID))
-            {
-                recipeDb = recipeCache[recipe.ID];
-            }
-            else
-            {
-                recipeDb = recipeService.GetProjected<RecipeFull>(recipe.ID);
-                recipeCache.Add(recipe.ID, recipeDb);
-            }
-
-            return recipeDb.Tags != null && recipeDb.Tags
-                                                    .Where(x => x.Name != null)
-                                                    .Any(x => x.Name!.ToUpperInvariant() == category.ToUpperInvariant());
-        }
-
-        private bool HasIngredient(RecipeSelectDto recipe, string category)
-        {
-            RecipeFull recipeDb;
-
-            if (recipeCache.ContainsKey(recipe.ID))
-            {
-                recipeDb = recipeCache[recipe.ID];
-            }
-            else
-            {
-                recipeDb = recipeService.GetProjected<RecipeFull>(recipe.ID);
-                recipeCache.Add(recipe.ID, recipeDb);
-            }
-
-            // Ищем среди ингредиентов
-            if (recipeDb.Ingredients != null
-                && recipeDb.Ingredients.Where(x => x.Ingredient?.Name != null)
-                                       .Any(x => x.Ingredient!.Name!.ToUpperInvariant() == category.ToUpperInvariant()))
-            {
-                return true;
-            }
-
-            // Ищем среди групп ингредиентов
-            if (recipeDb.IngredientGroups != null)
-            {
-                foreach (var group in recipeDb.IngredientGroups)
-                {
-                    if (group.Ingredients.Where(x => x.Ingredient?.Name != null)
-                                         .Any(x => x.Ingredient!.Name!.ToUpperInvariant() == category.ToUpperInvariant()))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
         }
 
         private readonly List<RecipeSelectDto> _recipies;
-        private readonly RecipeService recipeService;
+        private readonly RecipeFiltrator recipeFiltrator;
 
         public RecipeSelectDto? SelectedRecipe => _recipies.FirstOrDefault(x => x.IsSelected);
 
