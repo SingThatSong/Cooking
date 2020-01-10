@@ -1,5 +1,4 @@
 ﻿using Cooking.Data.Context;
-using Data.Context;
 using Microsoft.Extensions.Configuration;
 
 namespace Cooking.WPF

@@ -1,9 +1,7 @@
 ﻿using Cooking.DTO;
 using Cooking.Helpers;
 using Cooking.ServiceLayer;
-using MahApps.Metro.Controls.Dialogs;
 using PropertyChanged;
-using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

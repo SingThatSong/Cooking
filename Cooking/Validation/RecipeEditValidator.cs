@@ -1,5 +1,4 @@
-﻿using Cooking.DTO;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Cooking.DTO
 {

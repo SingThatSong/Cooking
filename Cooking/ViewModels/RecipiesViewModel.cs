@@ -2,16 +2,13 @@
 using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.ServiceLayer;
-using Cooking.ServiceLayer.Projections;
 using Cooking.WPF.Events;
 using Cooking.WPF.Helpers;
-using Plafi;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;

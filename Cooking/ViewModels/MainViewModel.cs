@@ -2,7 +2,6 @@
 using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.ServiceLayer;
-using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;

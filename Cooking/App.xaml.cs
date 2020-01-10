@@ -3,6 +3,7 @@ using Cooking.Data.Context;
 using Cooking.Pages;
 using Cooking.ServiceLayer;
 using Cooking.WPF;
+using Cooking.WPF.Helpers;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.Configuration;
 using Prism.Ioc;
@@ -19,6 +20,7 @@ using System.Windows;
 // TODO: Cleanup DTOs
 // TODO: Cleanup mappings
 // TODO: Cleanup namespaces
+// TODO: Cleanup view and viewmodel names
 // TODO: Tests FTW
 // TODO: Form .editorconfig
 // TODO: Make one-file deploy
@@ -75,6 +77,7 @@ namespace Cooking
             containerRegistry.Register<IngredientService>();
             containerRegistry.Register<TagService>();
             containerRegistry.Register<RecipeService>();
+            containerRegistry.RegisterSingleton<RecipeFiltrator>();
             containerRegistry.RegisterSingleton<ImageService>();
             containerRegistry.RegisterSingleton<IContextFactory, ContextFactory>();
             // Dialog service is constant - we have only one window

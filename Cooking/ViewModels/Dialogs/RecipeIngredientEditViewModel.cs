@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
 using Cooking.Commands;
 using Cooking.DTO;
-
-using Cooking.ServiceLayer;
 using Data.Model;
-using Prism.Regions;
-using PropertyChanged;
 using ServiceLayer;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

@@ -4,7 +4,6 @@ using Cooking.DTO;
 using Cooking.Pages.Tags;
 using Cooking.ServiceLayer;
 using Data.Model;
-using MahApps.Metro.Controls.Dialogs;
 using Prism.Regions;
 using PropertyChanged;
 using System;

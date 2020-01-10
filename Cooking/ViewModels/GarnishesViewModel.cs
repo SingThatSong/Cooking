@@ -91,7 +91,7 @@ namespace Cooking.Pages
 
         private async void OnNewGarnishCreated(GarnishEditViewModel viewModel)
         {
-            var id = await garnishService.CreateAsync(mapper.Map<Garnish>(viewModel.Garnish)).ConfigureAwait(false);
+            await garnishService.CreateAsync(mapper.Map<Garnish>(viewModel.Garnish)).ConfigureAwait(false);
             Garnishes!.Add(viewModel.Garnish);
         }
         #endregion

@@ -4,8 +4,6 @@ using Cooking.DTO;
 using Cooking.Pages.Tags;
 using Cooking.ServiceLayer;
 using Data.Model;
-using ServiceLayer;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;

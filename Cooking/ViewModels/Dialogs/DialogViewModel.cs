@@ -1,5 +1,4 @@
 ﻿using Cooking.Commands;
-using MahApps.Metro.Controls.Dialogs;
 using PropertyChanged;
 using System.Threading.Tasks;
 

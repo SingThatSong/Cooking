@@ -1,8 +1,5 @@
 ﻿using Microsoft.Win32;
 using PhotoSauce.MagicScaler;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
 
 namespace Cooking

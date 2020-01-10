@@ -8,7 +8,6 @@ using Data.Model;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
-using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
