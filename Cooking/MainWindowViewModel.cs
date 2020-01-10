@@ -1,4 +1,5 @@
 ﻿using Cooking.Pages;
+using Cooking.WPF.Helpers;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using PropertyChanged;
@@ -14,6 +15,8 @@ namespace Cooking
         {
             SelectedMenuItem = MenuItems[0] as HamburgerMenuIconItem;
         }
+
+        public JsonLocalizationProvider LocalizationProvider { get; } = new JsonLocalizationProvider();
 
         public HamburgerMenuIconItem? SelectedMenuItem { get; set; }
 

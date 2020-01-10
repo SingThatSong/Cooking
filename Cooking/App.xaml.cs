@@ -12,8 +12,10 @@ using Prism.Unity;
 using Serilog;
 using ServiceLayer;
 using System;
+using System.Globalization;
 using System.Reflection;
 using System.Windows;
+using WPFLocalizeExtension.Engine;
 
 
 // TODO: Add localization
@@ -22,12 +24,15 @@ using System.Windows;
 // TODO: Cleanup namespaces
 // TODO: Cleanup view and viewmodel names
 // TODO: Cleanup lib dependencies
+// TODO: Cleanup binding errors
 // TODO: Tests FTW
 // TODO: Form .editorconfig
 // TODO: Make one-file deploy
 // TODO: Use XamlStyler in git hooks
 // TODO: App users
 // TODO: Dish garnishes select + generate
+// TODO: Make sure Cooking.WPF contains no buisness logic
+// TODO: Refactor ViewModels into scheme: dependencies, state, commands, constructor, methods
 namespace Cooking
 {
     /// <summary>
@@ -38,6 +43,7 @@ namespace Cooking
         public App()
         {
             AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;
+            LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo("ru-RU");
         }
 
         private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)
