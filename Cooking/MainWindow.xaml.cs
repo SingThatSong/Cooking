@@ -23,9 +23,9 @@ namespace Cooking
         private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
         {
             if (e.InvokedItem is HamburgerMenuItem hamburgerMenuItem 
-             && hamburgerMenuItem.Tag is Type type)
+             && hamburgerMenuItem.Tag is string typeName)
             {
-                regionManager.RequestNavigate(Consts.MainContentRegion, type.Name);
+                regionManager.RequestNavigate(Consts.MainContentRegion, typeName);
             }
         }
     }

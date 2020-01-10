@@ -23,31 +23,31 @@ namespace Cooking
             {
                 Label = "Главная",
                 Icon = new PackIconModern() { Kind = PackIconModernKind.Page },
-                Tag = typeof(MainView)
+                Tag = nameof(MainView)
             },
             new HamburgerMenuIconItem()
             {
                 Label = "Рецепты",
                 Icon = new PackIconModern() { Kind = PackIconModernKind.Food },
-                Tag = typeof(Recepies)
+                Tag = nameof(Recepies)
             },
             new HamburgerMenuIconItem()
             {
                 Label = "Ингредиенты",
                 Icon = new PackIconModern() { Kind = PackIconModernKind.PuzzleRound },
-                Tag = typeof(IngredientsView)
+                Tag = nameof(IngredientsView)
             },
             new HamburgerMenuIconItem()
             {
                 Label = "Теги",
                 Icon = new PackIconModern() { Kind = PackIconModernKind.Tag },
-                Tag = typeof(TagsView)
+                Tag = nameof(TagsView)
             },
             new HamburgerMenuIconItem()
             {
                 Label = "Гарниры",
                 Icon = new PackIconModern() { Kind = PackIconModernKind.FoodCupcake },
-                Tag = typeof(GarnishesView)
+                Tag = nameof(GarnishesView)
             },
         };
 
