@@ -7,6 +7,7 @@
     xmlns:converters="clr-namespace:Cooking.Converters"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
     xmlns:prism="http://prismlibrary.com/"
@@ -134,12 +135,10 @@
 
                     <StackPanel Grid.Column="1" Orientation="Vertical">
 
-
                         <TextBlock
                             FontSize="20"
                             Text="{Binding Recipe.PortionsCount, StringFormat='Количество порций: {0}'}"
                             TextWrapping="Wrap" />
-
 
                         <TextBlock
                             Margin="0 10 0 0"

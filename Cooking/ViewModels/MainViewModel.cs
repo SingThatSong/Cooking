@@ -39,7 +39,7 @@ namespace Cooking.Pages
         public DelegateCommand SelectPreviousWeekCommand { get; }
         public DelegateCommand<Guid> ShowRecipeCommand { get; }
         public DelegateCommand<Guid> MoveRecipeCommand { get; }
-        public DelegateCommand<string> SelectDinnerCommand { get; }
+        public DelegateCommand<DayOfWeek> SelectDinnerCommand { get; }
         public DelegateCommand<Guid> DeleteDinnerCommand { get; }
 
         public MainViewModel(DialogService dialogUtils, 
@@ -72,7 +72,7 @@ namespace Cooking.Pages
             SelectPreviousWeekCommand   = new DelegateCommand(SelectPreviousWeekAsync);
             ShowRecipeCommand           = new DelegateCommand<Guid>(ShowRecipe);
             DeleteDinnerCommand         = new DelegateCommand<Guid>(DeleteDayAsync);
-            SelectDinnerCommand         = new DelegateCommand<string>(SelectDinner);
+            SelectDinnerCommand         = new DelegateCommand<DayOfWeek>(SelectDinner);
             MoveRecipeCommand           = new DelegateCommand<Guid>(MoveRecipe);
         }
 
@@ -116,14 +116,13 @@ namespace Cooking.Pages
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
         }
 
-        private async void SelectDinner(string dayName)
+        private async void SelectDinner(DayOfWeek dayOfWeek)
         {
             Debug.WriteLine("MainPageViewModel.SelectDinner");
             var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>().ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                var dayOfWeek = weekService.GetDayOfWeek(dayName);
                 var day = CurrentWeek!.Days.FirstOrDefault(x => x.DayOfWeek == dayOfWeek);
 
                 if (day != null)

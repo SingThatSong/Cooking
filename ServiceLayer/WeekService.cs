@@ -130,23 +130,6 @@ namespace ServiceLayer
             return week.Days.All(x => x.DinnerWasCooked);
         }
 
-        // TODO: Magic strings
-        public DayOfWeek GetDayOfWeek(string name)
-        {
-            Debug.WriteLine("WeekService.GetDayOfWeek");
-            return name switch
-            {
-                "Понедельник" => DayOfWeek.Monday,
-                "Вторник" => DayOfWeek.Tuesday,
-                "Среда" => DayOfWeek.Wednesday,
-                "Четверг" => DayOfWeek.Thursday,
-                "Пятница" => DayOfWeek.Friday,
-                "Суббота" => DayOfWeek.Saturday,
-                "Воскресенье" => DayOfWeek.Sunday,
-                _ => throw new InvalidOperationException(),
-            };
-        }
-
         public int DaysFromMonday(DayOfWeek day)
         {
             Debug.WriteLine("WeekService.DaysFromMonday");

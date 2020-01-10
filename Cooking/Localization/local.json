@@ -1,3 +1,13 @@
 {
-  "NoScheduleForWeek": "b"
+  "NoScheduleForWeek": "No schedule for this week",
+  "DayOfWeek_Monday": "Monday",
+  "DayOfWeek_Tuesday": "Tuesday",
+  "DayOfWeek_Wednesday": "Wednesday",
+  "DayOfWeek_Thursday": "Thursday",
+  "DayOfWeek_Friday": "Friday",
+  "DayOfWeek_Saturday": "Saturday",
+  "DayOfWeek_Sunday": "Sunday",
+  "CreateSchedule": "Create schedule for this week",
+  "Week": "Week",
+  "Dinners": "Dinners"
 }

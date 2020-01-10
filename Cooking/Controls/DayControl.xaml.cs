@@ -1,4 +1,5 @@
 ﻿using Bindables;
+using System;
 using System.Windows.Controls;
 
 namespace Cooking.Pages
@@ -16,6 +17,6 @@ namespace Cooking.Pages
 
         public bool Edit { get; set; }
 
-        public string? DayName { get; set; }
+        public DayOfWeek? DayName { get; set; }
     }
 }

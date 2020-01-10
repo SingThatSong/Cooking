@@ -8,6 +8,7 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.Pages"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
@@ -44,11 +45,11 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal"
             TextBlock.FontSize="15">
-            <TextBlock Text="Неделя" />
+            <TextBlock Text="{lex:Loc Week}" />
             <TextBlock Margin="5 0 0 0" Text="{Binding WeekStart, StringFormat={}dd.MM}" />
             <TextBlock Margin="5 0" Text="-" />
             <TextBlock Text="{Binding WeekEnd, StringFormat={}dd.MM.yyyy}" />
-            <TextBlock Margin="10 0" Text="Ужины" />
+            <TextBlock Margin="10 0" Text="{lex:Loc Dinners}" />
         </StackPanel>
 
         <StackPanel
@@ -63,7 +64,7 @@
                 Width="200"
                 Margin="0 20 0 0"
                 Command="{Binding CreateNewWeekCommand}"
-                Content="Создать расписание на неделю" />
+                Content="{lex:Loc CreateSchedule}" />
         </StackPanel>
 
         <ScrollViewer
@@ -77,31 +78,31 @@
                 TextElement.FontSize="15">
                 <local:DayControl
                     DataContext="{Binding CurrentWeek.Monday}"
-                    DayName="Понедельник"
+                    DayName="{x:Static sys:DayOfWeek.Monday}"
                     Edit="{Binding WeekEdit}" />
                 <local:DayControl
                     DataContext="{Binding CurrentWeek.Tuesday}"
-                    DayName="Вторник"
+                    DayName="{x:Static sys:DayOfWeek.Tuesday}"
                     Edit="{Binding WeekEdit}" />
                 <local:DayControl
                     DataContext="{Binding CurrentWeek.Wednesday}"
-                    DayName="Среда"
+                    DayName="{x:Static sys:DayOfWeek.Wednesday}"
                     Edit="{Binding WeekEdit}" />
                 <local:DayControl
                     DataContext="{Binding CurrentWeek.Thursday}"
-                    DayName="Четверг"
+                    DayName="{x:Static sys:DayOfWeek.Thursday}"
                     Edit="{Binding WeekEdit}" />
                 <local:DayControl
                     DataContext="{Binding CurrentWeek.Friday}"
-                    DayName="Пятница"
+                    DayName="{x:Static sys:DayOfWeek.Friday}"
                     Edit="{Binding WeekEdit}" />
                 <local:DayControl
                     DataContext="{Binding CurrentWeek.Saturday}"
-                    DayName="Суббота"
+                    DayName="{x:Static sys:DayOfWeek.Saturday}"
                     Edit="{Binding WeekEdit}" />
                 <local:DayControl
                     DataContext="{Binding CurrentWeek.Sunday}"
-                    DayName="Воскресенье"
+                    DayName="{x:Static sys:DayOfWeek.Sunday}"
                     Edit="{Binding WeekEdit}" />
             </WrapPanel>
         </ScrollViewer>

@@ -1,3 +1,13 @@
 {
-  "NoScheduleForWeek": "Для этой недели нет расписания"
+  "NoScheduleForWeek": "Для этой недели нет расписания",
+  "DayOfWeek_Monday": "Понедельник",
+  "DayOfWeek_Tuesday": "Вторник",
+  "DayOfWeek_Wednesday": "Среда",
+  "DayOfWeek_Thursday": "Четверг",
+  "DayOfWeek_Friday": "Пятница",
+  "DayOfWeek_Saturday": "Суббота",
+  "DayOfWeek_Sunday": "Воскресенье",
+  "CreateSchedule": "Создать расписание на неделю",
+  "Week": "Неделя",
+  "Dinners": "Ужины"
 }
