@@ -21,6 +21,7 @@ using System.Windows;
 // TODO: Cleanup mappings
 // TODO: Cleanup namespaces
 // TODO: Cleanup view and viewmodel names
+// TODO: Cleanup lib dependencies
 // TODO: Tests FTW
 // TODO: Form .editorconfig
 // TODO: Make one-file deploy
