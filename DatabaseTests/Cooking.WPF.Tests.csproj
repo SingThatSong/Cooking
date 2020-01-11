@@ -10,12 +10,16 @@
     <NoWarn>1701;1702;CA1707;CA1062;CA1303;CA1822;CA1031</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;CA1707;CA1062;CA1303;CA1822;CA1031</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.CodeCoverage" Version="16.5.0-preview-20200102-01" />
+    <PackageReference Include="Microsoft.CodeCoverage" Version="16.5.0-preview-20200110-02" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0-preview-20200102-01" />
     <PackageReference Include="Moq" Version="4.13.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.0-beta2" />

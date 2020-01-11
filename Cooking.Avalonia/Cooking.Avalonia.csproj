@@ -17,9 +17,9 @@
     <AvaloniaResource Remove="SideBar.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.9.999-cibuild0005383-beta" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.9.999-cibuild0005383-beta" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.999-cibuild0005383-beta" />
+    <PackageReference Include="Avalonia" Version="0.9.999-cibuild0005522-beta" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.999-cibuild0005522-beta" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.999-cibuild0005522-beta" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ServiceLayer\Cooking.ServiceLayer.csproj" />
