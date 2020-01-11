@@ -10,6 +10,7 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
+    xmlns:local="clr-namespace:Cooking.WPF"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Margin="20 0"
@@ -102,13 +103,15 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
+                <local:StringFormatProxy x:Name="lastCookedStringFormat" Value="{Binding Recipe.LastCooked}" StringFormat="{lex:Loc LastCooked}" />
+                <local:StringFormatProxy x:Name="newRecipeProxy" Value="{lex:Loc NewRecipe}" />
                 <TextBlock TextWrapping="Wrap">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
-                            <Setter Property="Text" Value="{Binding Recipe.LastCooked, StringFormat={}Последнее приготовление: {0} дней назад}" />
+                            <Setter Property="Text" Value="{Binding Result, ElementName=lastCookedStringFormat}" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Recipe.LastCooked}" Value="-1">
-                                    <Setter Property="Text" Value="Новый рецепт" />
+                                    <Setter Property="Text" Value="{Binding Result, ElementName=newRecipeProxy}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>

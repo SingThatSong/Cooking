@@ -2,6 +2,7 @@
 using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.ServiceLayer;
+using Cooking.WPF.Helpers;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
@@ -23,6 +24,7 @@ namespace Cooking.Pages
         private readonly IContainerExtension container;
         private readonly IMapper mapper;
         private readonly WeekService weekService;
+        private readonly ILocalization localization;
 
         // State
         public DateTime WeekStart { get; set; }
@@ -47,7 +49,8 @@ namespace Cooking.Pages
                              IContainerExtension container,
                              DayService dayService,
                              IMapper mapper,
-                             WeekService weekService)
+                             WeekService weekService,
+                             ILocalization localization)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(regionManager != null);
@@ -55,6 +58,7 @@ namespace Cooking.Pages
             Debug.Assert(dayService != null);
             Debug.Assert(mapper != null);
             Debug.Assert(weekService != null);
+            Debug.Assert(localization != null);
             Debug.WriteLine("MainPageViewModel.ctor");
 
             this.dialogUtils            = dialogUtils;
@@ -63,6 +67,7 @@ namespace Cooking.Pages
             this.dayService             = dayService;
             this.mapper                 = mapper;
             this.weekService            = weekService;
+            this.localization           = localization;
 
             LoadedCommand               = new AsyncDelegateCommand(OnLoadedAsync, executeOnce: true);
             CreateNewWeekCommand        = new DelegateCommand(CreateNewWeekAsync);
@@ -155,8 +160,8 @@ namespace Cooking.Pages
             {
                 // Нужно напомнить о рецептах на прошедшей неделе
                 await dialogUtils.ShowYesNoDialog(
-                      "Кстати",
-                      "За прошлую неделю есть рецепты, которые не были приготовлены. Рекомендуем их удалить или перенести",
+                      localization.GetLocalizedString("ByTheWay"),
+                      localization.GetLocalizedString("YouNeedToMoveRecipies"),
                       successCallback: () => SelectPreviousWeekCommand.Execute()
                 ).ConfigureAwait(false);
             }

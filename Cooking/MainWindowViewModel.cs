@@ -5,18 +5,20 @@ using MahApps.Metro.IconPacks;
 using PropertyChanged;
 using System;
 using System.Linq;
+using WPFLocalizeExtension.Providers;
 
 namespace Cooking
 {
     [AddINotifyPropertyChangedInterface]
     public class MainWindowViewModel
     {
-        public MainWindowViewModel()
+        public MainWindowViewModel(ILocalizationProvider localizationProvider)
         {
             SelectedMenuItem = MenuItems[0] as HamburgerMenuIconItem;
+            LocalizationProvider = localizationProvider;
         }
 
-        public JsonLocalizationProvider LocalizationProvider { get; } = new JsonLocalizationProvider();
+        public ILocalizationProvider LocalizationProvider { get; }
 
         public HamburgerMenuIconItem? SelectedMenuItem { get; set; }
 

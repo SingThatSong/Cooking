@@ -1,21 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
 using System.Windows;
+using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
 namespace Cooking.WPF.Helpers
 {
-    public class JsonLocalizationProvider : ILocalizationProvider
+    public class JsonLocalizationProvider : ILocalization
     {
-        public ObservableCollection<CultureInfo> AvailableCultures => new ObservableCollection<CultureInfo>()
+        public ObservableCollection<CultureInfo> AvailableCultures
         {
-            CultureInfo.GetCultureInfo("ru-RU"),
-            CultureInfo.GetCultureInfo("en-US")
-        };
+            get
+            {
+                var result = new ObservableCollection<CultureInfo>();
+                foreach (var file in new DirectoryInfo("Localization").EnumerateFiles())
+                {
+                    var lang = file.Name.Replace("local", "", StringComparison.Ordinal)
+                                        .Replace(".",     "", StringComparison.Ordinal)
+                                        .Replace("json",  "", StringComparison.Ordinal);
+                    result.Add(CultureInfo.GetCultureInfo(lang));
+                }
+
+                return result;
+            }
+        }
 
         public event ProviderChangedEventHandler? ProviderChanged;
         public event ProviderErrorEventHandler? ProviderError;
@@ -29,7 +42,7 @@ namespace Cooking.WPF.Helpers
         // Cache for localizations: Culture - (key - value)
         private readonly Dictionary<string, Dictionary<string, string>> cache = new Dictionary<string, Dictionary<string, string>>();
 
-        public object? GetLocalizedObject(string key, DependencyObject target, CultureInfo culture)
+        public object? GetLocalizedObject(string key, DependencyObject? target, CultureInfo culture)
         {
             Debug.WriteLine("GetLocalizedObject");
             if (cache.ContainsKey(culture.Name))
@@ -70,6 +83,11 @@ namespace Cooking.WPF.Helpers
                     return null;
                 }
             }
+        }
+
+        public string? GetLocalizedString(string key)
+        {
+            return GetLocalizedObject(key, null, LocalizeDictionary.Instance.Culture) as string;
         }
     }
 }

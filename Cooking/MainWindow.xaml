@@ -8,7 +8,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
     xmlns:prism="http://prismlibrary.com/"
-    Title="Кулинарная книжка"
+    Title="{lex:Loc AppTitle}"
     Width="1000"
     Height="650"
     lex:LocalizeDictionary.DisableCache="False"

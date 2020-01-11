@@ -1,4 +1,5 @@
 ﻿using Cooking.Pages;
+using Cooking.WPF.Helpers;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using System;
@@ -12,18 +13,25 @@ namespace Cooking
     public class DialogService
     {
         private readonly IContainerProvider containerProvider;
+        private readonly ILocalization localization;
+
         public object ViewModel { get; }
 
         public IDialogCoordinator DialogCoordinator { get; }
 
-        public DialogService(object viewModel, IDialogCoordinator dialogCoordinator, IContainerExtension containerProvider)
+        public DialogService(object viewModel, 
+                             IDialogCoordinator dialogCoordinator, 
+                             IContainerExtension containerProvider,
+                             ILocalization localization)
         {
             Debug.Assert(viewModel != null);
             Debug.Assert(dialogCoordinator != null);
             Debug.Assert(containerProvider != null);
+            Debug.Assert(localization != null);
 
             DialogCoordinator = dialogCoordinator;
             this.containerProvider = containerProvider;
+            this.localization = localization;
             ViewModel = viewModel;
         }
 
@@ -116,8 +124,8 @@ namespace Cooking
                 style: MessageDialogStyle.AffirmativeAndNegative,
                 settings: new MetroDialogSettings()
                 {
-                    AffirmativeButtonText = "Да",
-                    NegativeButtonText = "Нет"
+                    AffirmativeButtonText = localization.GetLocalizedString("Yes"),
+                    NegativeButtonText = localization.GetLocalizedString("No")
                 }).ConfigureAwait(true);
 
             if (result == MessageDialogResult.Affirmative)

@@ -11,5 +11,12 @@
   "Week": "Week",
   "Dinners": "Dinners",
   "Settings": "Settings",
-  "Language": "Language"
+  "Language": "Language",
+  "AppTitle": "Cooking book",
+  "ByTheWay": "By the way",
+  "YouNeedToMoveRecipies": "There are recipies on last week which were not marked as cooked. Maybe it's better to move them or delete",
+  "Yes": "Yes",
+  "No": "No",
+  "LastCooked": "Last cooked: {0} days ago",
+  "NewRecipe": "New recipe"
 }

@@ -16,6 +16,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Windows;
 using WPFLocalizeExtension.Engine;
+using WPFLocalizeExtension.Providers;
 
 
 // TODO: Add localization
@@ -95,11 +96,19 @@ namespace Cooking
             containerRegistry.RegisterSingleton<RecipeFiltrator>();
             containerRegistry.RegisterSingleton<ImageService>();
             containerRegistry.RegisterSingleton<IContextFactory, ContextFactory>();
+
+            // Use instance of provider as singleton for different interfaces
+            var jsonProvider = new JsonLocalizationProvider();
+
+            containerRegistry.RegisterInstance<ILocalization>(jsonProvider);
+            containerRegistry.RegisterInstance<ILocalizationProvider>(jsonProvider);
+
             // Dialog service is constant - we have only one window
             containerRegistry.RegisterInstance(new DialogService(
                                                         Container.Resolve<MainWindowViewModel>(),
                                                         DialogCoordinator.Instance,
-                                                        Container.Resolve<IContainerExtension>()
+                                                        Container.Resolve<IContainerExtension>(),
+                                                        Container.Resolve<ILocalization>()
                                                    )
                                               );
 
