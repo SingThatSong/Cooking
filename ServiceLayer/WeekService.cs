@@ -25,7 +25,7 @@ namespace ServiceLayer
         public async Task<Week> GetWeekAsync(DateTime dayOfWeek)
         {
             Debug.WriteLine("WeekService.GetWeek(DateTime)");
-            using var context = contextFactory.Create();
+            using var context = ContextFactory.Create();
             return await context.Weeks    
                                 .Include(x => x.Days)     
                                     .ThenInclude(x => x.Dinner)
@@ -36,7 +36,7 @@ namespace ServiceLayer
         public async Task CreateWeekAsync(DateTime weekStart, Dictionary<DayOfWeek, Guid?> selectedRecepies)
         {
             Debug.WriteLine("WeekService.CreateWeekAsync");
-            using var context = contextFactory.Create();
+            using var context = ContextFactory.Create();
             var newWeek = new Week()
             {
                 Start = weekStart,
@@ -65,7 +65,7 @@ namespace ServiceLayer
         public List<ShoppingListItem> GetWeekIngredients(Guid id)
         {
             Debug.WriteLine("WeekService.GetWeekIngredients");
-            using var context = contextFactory.Create(useLazyLoading: true);
+            using var context = ContextFactory.Create(useLazyLoading: true);
             var week = context.Weeks.Find(id);
 
             var ingredients = from dinner in week.Days.Where(x => x.Dinner?.Ingredients != null)
@@ -119,7 +119,7 @@ namespace ServiceLayer
         public bool IsWeekFilled(DateTime dayOfWeek)
         {
             Debug.WriteLine("WeekService.IsWeekFilled");
-            using var context = contextFactory.Create(useLazyLoading: true);
+            using var context = ContextFactory.Create(useLazyLoading: true);
             var week = GetWeekInternal(dayOfWeek, context);
 
             if (week?.Days == null)
@@ -162,7 +162,7 @@ namespace ServiceLayer
         public async Task MoveDayToNextWeek(Guid currentWeekId, Guid dayId, DayOfWeek selectedWeekday)
         {
             Debug.WriteLine("WeekService.MoveDayToNextWeek");
-            using var context = contextFactory.Create(useLazyLoading: true);
+            using var context = ContextFactory.Create(useLazyLoading: true);
             var day = context.Days.First(x => x.ID == dayId);
 
             // Удаление дня на этой неделе

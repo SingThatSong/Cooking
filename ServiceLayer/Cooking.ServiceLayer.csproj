@@ -9,6 +9,10 @@
     <NoWarn>1701;1702;CA1062;CA1303;CA1822;CA2227</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;CA1062;CA1303;CA1822;CA2227</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.1.0-ci-01617" />
     <PackageReference Include="AutoMapper.Collection" Version="6.0.0" />
