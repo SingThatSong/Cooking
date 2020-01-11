@@ -9,5 +9,7 @@
   "DayOfWeek_Sunday": "Sunday",
   "CreateSchedule": "Create schedule for this week",
   "Week": "Week",
-  "Dinners": "Dinners"
+  "Dinners": "Dinners",
+  "Settings": "Settings",
+  "Language": "Language"
 }

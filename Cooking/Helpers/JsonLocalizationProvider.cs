@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
@@ -13,7 +14,7 @@ namespace Cooking.WPF.Helpers
         public ObservableCollection<CultureInfo> AvailableCultures => new ObservableCollection<CultureInfo>()
         {
             CultureInfo.GetCultureInfo("ru-RU"),
-            CultureInfo.GetCultureInfo("en")
+            CultureInfo.GetCultureInfo("en-US")
         };
 
         public event ProviderChangedEventHandler? ProviderChanged;
@@ -26,10 +27,11 @@ namespace Cooking.WPF.Helpers
         }
 
         // Cache for localizations: Culture - (key - value)
-        private Dictionary<string, Dictionary<string, string>> cache = new Dictionary<string, Dictionary<string, string>>();
+        private readonly Dictionary<string, Dictionary<string, string>> cache = new Dictionary<string, Dictionary<string, string>>();
 
         public object? GetLocalizedObject(string key, DependencyObject target, CultureInfo culture)
         {
+            Debug.WriteLine("GetLocalizedObject");
             if (cache.ContainsKey(culture.Name))
             {
                 if (cache[culture.Name].ContainsKey(key))
@@ -51,6 +53,8 @@ namespace Cooking.WPF.Helpers
                 }
 
                 filename += ".json";
+
+                if (!File.Exists(@"Localization\" + filename)) return null;
 
                 var json = File.ReadAllText(@"Localization\" + filename);
 

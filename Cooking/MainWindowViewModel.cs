@@ -54,6 +54,16 @@ namespace Cooking
             },
         };
 
+        public HamburgerMenuItemCollection OptionsMenuItems { get; } = new HamburgerMenuItemCollection()
+        {
+            new HamburgerMenuIconItem()
+            {
+                Label = "Настройки",
+                Icon = new PackIconModern() { Kind = PackIconModernKind.Settings },
+                Tag = nameof(Settings)
+            }
+        };
+
         public void SelectMenuItemByViewType(Type type)
         {
 #pragma warning disable CS0252
