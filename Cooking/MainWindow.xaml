@@ -12,12 +12,14 @@
     Width="1000"
     Height="650"
     lex:LocalizeDictionary.DisableCache="False"
+    lex:LocalizeDictionary.IncludeInvariantCulture="False"
     lex:LocalizeDictionary.Provider="{Binding LocalizationProvider}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     ShowDialogsOverTitleBar="False">
     <mahapps:MetroWindow.Resources>
         <ResourceDictionary>
-            <!--  From https://github.com/MahApps/MahApps.Metro/blob/develop/src/MahApps.Metro.Samples/MahApps.Metro.Demo/HamburgerMenuRipple/HamburgerMenuRipple.xaml  -->
+            <!-- From https://github.com/MahApps/MahApps.Metro/blob/develop/src/MahApps.Metro.Samples/MahApps.Metro.Demo/HamburgerMenuRipple/HamburgerMenuRipple.xaml -->
+            <!-- Latest commit 17.11.19 -->
             <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mahapps:HamburgerMenuIconItem}">
                 <Grid Height="48">
                     <Grid.ColumnDefinitions>
@@ -46,14 +48,14 @@
                 BasedOn="{StaticResource MahApps.Styles.ListBoxItem.HamburgerMenuItem}"
                 TargetType="{x:Type ListBoxItem}">
                 <Setter Property="mahapps:ItemHelper.ActiveSelectionBackgroundBrush" Value="Transparent" />
-                <Setter Property="mahapps:ItemHelper.ActiveSelectionForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
-                <Setter Property="mahapps:ItemHelper.DisabledForegroundBrush" Value="{DynamicResource MahApps.Brushes.GrayNormal}" />
+                <Setter Property="mahapps:ItemHelper.ActiveSelectionForegroundBrush" Value="{StaticResource MahApps.Brushes.AccentBase}" />
+                <Setter Property="mahapps:ItemHelper.DisabledForegroundBrush" Value="{StaticResource MahApps.Brushes.GrayNormal}" />
                 <Setter Property="mahapps:ItemHelper.DisabledSelectedBackgroundBrush" Value="Transparent" />
-                <Setter Property="mahapps:ItemHelper.DisabledSelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.GrayNormal}" />
-                <Setter Property="mahapps:ItemHelper.HoverBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
-                <Setter Property="mahapps:ItemHelper.HoverSelectedBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
+                <Setter Property="mahapps:ItemHelper.DisabledSelectedForegroundBrush" Value="{StaticResource MahApps.Brushes.GrayNormal}" />
+                <Setter Property="mahapps:ItemHelper.HoverBackgroundBrush" Value="{StaticResource MahApps.Brushes.Gray9}" />
+                <Setter Property="mahapps:ItemHelper.HoverSelectedBackgroundBrush" Value="{StaticResource MahApps.Brushes.Gray9}" />
                 <Setter Property="mahapps:ItemHelper.SelectedBackgroundBrush" Value="Transparent" />
-                <Setter Property="mahapps:ItemHelper.SelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
+                <Setter Property="mahapps:ItemHelper.SelectedForegroundBrush" Value="{StaticResource MahApps.Brushes.AccentBase}" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -63,7 +65,7 @@
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 <Grid Margin="{TemplateBinding BorderThickness}">
                                     <Grid
                                         HorizontalAlignment="Left"
@@ -71,8 +73,8 @@
                                         Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type mahapps:HamburgerMenu}}, Path=ShowSelectionIndicator, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                                         <Rectangle
                                             x:Name="SelectionIndicator"
-                                            Width="{DynamicResource HamburgerMenuSelectionIndicatorThemeWidth}"
-                                            Height="{DynamicResource HamburgerMenuSelectionIndicatorThemeHeight}"
+                                            Width="{StaticResource HamburgerMenuSelectionIndicatorThemeWidth}"
+                                            Height="{StaticResource HamburgerMenuSelectionIndicatorThemeHeight}"
                                             Fill="{TemplateBinding Foreground}"
                                             Focusable="False"
                                             Opacity="0.0" />
@@ -161,6 +163,7 @@
         ItemInvoked="HamburgerMenuControl_OnItemInvoked"
         ItemTemplate="{StaticResource MenuItemTemplate}"
         ItemsSource="{Binding MenuItems}"
+        OptionsItemsSource="{Binding OptionsMenuItems}"
         OpenPaneLength="160"
         OptionsItemTemplate="{StaticResource MenuItemTemplate}"
         SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
