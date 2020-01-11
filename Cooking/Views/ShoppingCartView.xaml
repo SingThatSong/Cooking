@@ -74,15 +74,6 @@
       Margin="20"
       HorizontalAlignment="Center"
       Orientation="Horizontal">
-      <!--<Button Style="{DynamicResource MahApps.Styles.Button.Circle}"
-                    Width="48"
-                    Height="48"
-                    Foreground="#FF2EBE60"
-                    Command="{Binding EvernoteExportCommand}">
-                <icons:PackIconModern Width="20"
-                                          Height="20"
-                                          Kind="SocialEvernote" />
-            </Button>-->
 
       <Button
         Command="{Binding CloseCommand}"
