@@ -15,8 +15,8 @@ namespace Cooking.Pages
 {
     public partial class RecipeSelectViewModel : OkCancelViewModel
     {
-
-        public Guid SelectedRecipeID { get; set; }
+        public RecipeSelectDto? SelectedRecipe { get; set; }
+        public Guid? SelectedRecipeID => SelectedRecipe?.ID;
 
         public RecipeSelectViewModel(DialogService dialogService, 
                                      RecipeService recipeService, 
@@ -34,17 +34,6 @@ namespace Cooking.Pages
 
             RecipiesSource = new CollectionViewSource() { Source = _recipies };
             RecipiesSource.Filter += RecipiesSource_Filter;
-
-            SelectRecipeCommand = new DelegateCommand<RecipeSelectDto>(recipe =>
-            {
-                foreach (var r in _recipies.Where(x => x.IsSelected))
-                {
-                    r.IsSelected = false;
-                }
-
-                recipe.IsSelected = true;
-                SelectedRecipeID = recipe.ID;
-            });
 
             if (day != null)
             {
@@ -104,6 +93,8 @@ namespace Cooking.Pages
 
         }
 
+        protected override bool CanOk() => SelectedRecipe != null;
+
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)
         {
             if (string.IsNullOrEmpty(filterText))
@@ -133,10 +124,6 @@ namespace Cooking.Pages
         private readonly List<RecipeSelectDto> _recipies;
         private readonly RecipeFiltrator recipeFiltrator;
 
-        public RecipeSelectDto? SelectedRecipe => _recipies.FirstOrDefault(x => x.IsSelected);
-
         public CollectionViewSource RecipiesSource { get; }
-
-        public DelegateCommand<RecipeSelectDto> SelectRecipeCommand { get; }
     }
 }

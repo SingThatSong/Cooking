@@ -18,8 +18,6 @@ namespace Cooking.DTO
         public string? FullPath => ImagePath != null && File.Exists(Path.GetFullPath(ImagePath))
                                 ? Path.GetFullPath(ImagePath) 
                                 : null;
-        public bool IsSelected { get; set; }
-
         public int Rating { get; set; }
     }
 }

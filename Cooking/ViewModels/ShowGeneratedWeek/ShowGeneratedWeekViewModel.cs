@@ -109,8 +109,7 @@ namespace Cooking.Pages
 
             if (viewModel.DialogResultOk)
             {
-                var recipeId = viewModel.SelectedRecipeID;
-                day.SpecificRecipe = recipeService.GetProjected<RecipeSlim>(recipeId);
+                day.SpecificRecipe = recipeService.GetProjected<RecipeSlim>(viewModel.SelectedRecipeID!.Value);
             }
         }
 

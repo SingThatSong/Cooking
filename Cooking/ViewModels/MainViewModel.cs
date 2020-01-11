@@ -127,11 +127,11 @@ namespace Cooking.Pages
 
                 if (day != null)
                 {
-                    await dayService.SetDinner(day.ID, viewModel.SelectedRecipeID).ConfigureAwait(false);
+                    await dayService.SetDinner(day.ID, viewModel.SelectedRecipeID!.Value).ConfigureAwait(false);
                 }
                 else
                 {
-                    await dayService.CreateDinner(CurrentWeek!.ID, viewModel.SelectedRecipeID, dayOfWeek).ConfigureAwait(false);
+                    await dayService.CreateDinner(CurrentWeek!.ID, viewModel.SelectedRecipeID!.Value, dayOfWeek).ConfigureAwait(false);
                 }
 
                 await ReloadCurrentWeek().ConfigureAwait(false);
