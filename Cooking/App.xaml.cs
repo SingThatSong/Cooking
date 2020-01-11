@@ -19,6 +19,7 @@ using WPFLocalizeExtension.Engine;
 
 
 // TODO: Add localization
+// TODO: Move Configuration to IOptions
 // TODO: Validate all forms
 // TODO: Cleanup DTOs
 // TODO: Cleanup mappings
