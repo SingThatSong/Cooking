@@ -19,6 +19,7 @@ using WPFLocalizeExtension.Engine;
 
 
 // TODO: Add localization
+// TODO: Validate all forms
 // TODO: Cleanup DTOs
 // TODO: Cleanup mappings
 // TODO: Cleanup namespaces
@@ -37,6 +38,7 @@ using WPFLocalizeExtension.Engine;
 // TODO: Refactor ViewModels into scheme: dependencies, state, commands, constructor, methods
 // TODO: Placeholder for time when loading occurs (overhead?)
 // TODO: Use fluent assertions
+// TODO: Add centralized configuration edit
 namespace Cooking
 {
     /// <summary>
@@ -47,7 +49,6 @@ namespace Cooking
         public App()
         {
             AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;
-            LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo("ru-RU");
         }
 
         private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -71,10 +72,12 @@ namespace Cooking
             containerRegistry.RegisterInstance<ILogger>(logger);
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                                                    .AddJsonFile("appsettings.json", optional: false)
+                                                    .AddJsonFile(Consts.SettingsFilename, optional: false)
                                                     .Build();
 
             containerRegistry.RegisterInstance<IConfiguration>(configuration);
+
+            LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(configuration[Consts.LanguageConfigParameter]);
 
             // Register main page and main vm - they are constant
             containerRegistry.Register<MainWindow>();
@@ -103,6 +106,7 @@ namespace Cooking
             containerRegistry.RegisterForNavigation<WeekSettings>();
             
             containerRegistry.RegisterForNavigation<ShowGeneratedWeekView>();
+            containerRegistry.RegisterForNavigation<Settings>();
             containerRegistry.RegisterForNavigation<MainView>();
             containerRegistry.RegisterForNavigation<ShoppingCartView>();
             containerRegistry.RegisterForNavigation<Recepies>();
