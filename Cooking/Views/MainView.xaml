@@ -28,7 +28,7 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid Background="Transparent">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition />
@@ -49,7 +49,7 @@
             <TextBlock Margin="5 0 0 0" Text="{Binding WeekStart, StringFormat={}dd.MM}" />
             <TextBlock Margin="5 0" Text="-" />
             <TextBlock Text="{Binding WeekEnd, StringFormat={}dd.MM.yyyy}" />
-            <TextBlock Margin="10 0" Text="{lex:Loc Dinners}" />
+            <TextBlock Margin="5 0" Text="{lex:Loc Dinners}" />
         </StackPanel>
 
         <StackPanel
