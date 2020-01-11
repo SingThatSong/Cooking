@@ -67,7 +67,7 @@
     <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
     <PackageReference Include="PropertyChanged.Fody">
-      <Version>3.2.2</Version>
+      <Version>3.2.3</Version>
     </PackageReference>
     <PackageReference Include="Serilog" Version="2.9.1-dev-01154" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00834" />
