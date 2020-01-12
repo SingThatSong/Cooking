@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
-using Data.Context;
 using Data.Model;
-using Microsoft.Extensions.Configuration;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cooking.ServiceLayer
@@ -23,7 +22,7 @@ namespace Cooking.ServiceLayer
         public virtual List<T> GetAll()
         {
             using var context = ContextFactory.Create();
-            return context.Set<T>().ToList();
+            return GetCultureSpecificSet(context).ToList();
         }
 
         public virtual TProjection GetProjected<TProjection>(Guid id) where TProjection : Entity => GetProjected<TProjection>(id, MapperService.Mapper);
@@ -31,7 +30,8 @@ namespace Cooking.ServiceLayer
         public virtual TProjection GetProjected<TProjection>(Guid id, IMapper mapper) where TProjection : Entity
         {
             using var context = ContextFactory.Create();
-            return mapper.ProjectTo<TProjection>(context.Set<T>()).FirstOrDefault(x => x.ID == id);
+            var cultureSpecificSet = GetCultureSpecificSet(context);
+            return mapper.ProjectTo<TProjection>(cultureSpecificSet).FirstOrDefault(x => x.ID == id);
         }
 
         public List<TProjection> GetProjected<TProjection>() => GetProjected<TProjection>(MapperService.Mapper);
@@ -39,13 +39,15 @@ namespace Cooking.ServiceLayer
         public List<TProjection> GetProjected<TProjection>(IMapper mapper)
         {
             using var context = ContextFactory.Create();
-            return mapper.ProjectTo<TProjection>(context.Set<T>()).ToList();
+            var cultureSpecificSet = GetCultureSpecificSet(context);
+            return mapper.ProjectTo<TProjection>(cultureSpecificSet).ToList();
         }
 
         public async Task<Guid> CreateAsync(T entity)
         {
             using var context = ContextFactory.Create();
             entity.ID = Guid.NewGuid();
+            entity.Culture = Thread.CurrentThread.CurrentUICulture.Name;
             await context.Set<T>().AddAsync(entity);
             await context.SaveChangesAsync().ConfigureAwait(false);
             return entity.ID;
@@ -64,6 +66,11 @@ namespace Cooking.ServiceLayer
             var existing = await context.Set<T>().FindAsync(entity.ID);
             MapperService.Mapper.Map(entity, existing);
             await context.SaveChangesAsync().ConfigureAwait(false);
+        }
+
+        private IQueryable<T> GetCultureSpecificSet(CookingContext context)
+        {
+            return context.Set<T>().Where(x => x.Culture == Thread.CurrentThread.CurrentUICulture.Name);
         }
     }
 }
