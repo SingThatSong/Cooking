@@ -32,5 +32,6 @@
   "ChooseCalorieType": "Выбор типа рецепта по калорийности",
   "PortionsCountHeader": "Количество порций",
   "GeneratedRecipies": "Сгенерированные рецепты",
-  "Day": "День"
+  "Day": "День",
+  "NoRecipeFitsFilter": "Под фильтр не попал ни один рецепт"
 }

@@ -67,7 +67,7 @@
                                 <TextBlock
                                     VerticalAlignment="Center"
                                     Foreground="Red"
-                                    Text="Под фильтр не попал ни один рецепт">
+                                    Text="{lex:Loc NoRecipeFitsFilter}">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Style.Triggers>

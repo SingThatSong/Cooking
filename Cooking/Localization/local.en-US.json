@@ -32,5 +32,6 @@
   "ChooseCalorieType": "Choose type by calories",
   "PortionsCountHeader": "Portions count",
   "GeneratedRecipies": "Generated recipies",
-  "Day": "Day"
+  "Day": "Day",
+  "NoRecipeFitsFilter": "No recipe fits filters"
 }
