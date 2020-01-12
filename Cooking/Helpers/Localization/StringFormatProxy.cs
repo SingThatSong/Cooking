@@ -24,6 +24,7 @@ namespace Cooking.WPF
         [DependencyProperty]
         public string? Result { get; set; }
 
+        [SuppressMessage("Стиль", "IDE0060:Удалите неиспользуемый параметр", Justification = "Event signature")]
         private static void DataChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             if (sender is StringFormatProxy sfp && sfp.StringFormat != null)

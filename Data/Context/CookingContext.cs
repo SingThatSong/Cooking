@@ -75,6 +75,7 @@ namespace Cooking.Data.Context
                 .HasForeignKey(x => x.WeekID)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // Recipe-Tag many-to-many relationship
             modelBuilder.Entity<RecipeTag>()
                 .HasKey(bc => new { bc.RecipeId, bc.TagId });
             modelBuilder.Entity<RecipeTag>()

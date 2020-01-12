@@ -1,4 +1,4 @@
-using Data.Context;
+using Cooking.Data.Context;
 using Data.Model;
 using Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
