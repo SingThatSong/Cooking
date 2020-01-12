@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Cooking.Pages
 {
@@ -114,6 +115,10 @@ namespace Cooking.Pages
                 if (recipiesNotSelectedYet.Count > 0)
                 {
                     day.Recipe = recipiesNotSelectedYet.OrderByDescending(x => recipeService.DaysFromLasCook(x.ID)).First();
+                }
+                else
+                {
+                    day.Recipe = null;
                 }
             }
         }
@@ -239,7 +244,23 @@ namespace Cooking.Pages
             WeekStart = (DateTime)navigationContext.Parameters[nameof(WeekStart)];
         }
 
-        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            var returned = navigationContext.NavigationService.Journal.CurrentEntry.Uri.OriginalString == "ShowGeneratedWeekView";
+
+            if (returned)
+            {
+                // if returned from ShowGeneratedWeekView - return old view, othrewise return new
+                return true;
+            }
+            else
+            {
+                // We started new week creation - cached view should be deleted from region
+                var view = navigationContext.NavigationService.Region.Views.Cast<UserControl>().FirstOrDefault(x => x.DataContext == this);
+                navigationContext.NavigationService.Region.Remove(view);
+                return false;
+            }
+        }
 
         public void OnNavigatedFrom(NavigationContext navigationContext) { }
     }
