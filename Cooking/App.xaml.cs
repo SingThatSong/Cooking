@@ -29,24 +29,30 @@ using WPFLocalizeExtension.Providers;
 // TODO: Cleanup lib dependencies
 // TODO: Cleanup binding errors
 // TODO: Configure tests coverage
+// TODO: Make one-file deploy
+
+// Tests-related
 // TODO: Use fluent assertions
 // TODO: Tests FTW
 // TODO: Form .editorconfig
-// TODO: Make one-file deploy
+
+// Git-related
+// TODO: Setup CI
 // TODO: Use XamlStyler in git hooks
 // TODO: Remove usings in git hooks
+
 // TODO: App users
 // TODO: Dish garnishes select + generate
 // TODO: Make sure Cooking.WPF contains no buisness logic
 // TODO: Refactor ViewModels into scheme: dependencies, state, commands, constructor, methods
 // TODO: Placeholder for time when loading occurs (overhead?)
-
 // TODO: Add centralized configuration edit
 // TODO: Add comments to cs
 // TODO: Add comments to XAML
 // TODO: Set Readme.md
 // TODO: Set folder names
-// TODO: Setup CI
+
+// Db-related
 // TODO: Create installer
 // TODO: Create db migrator for installer
 namespace Cooking
