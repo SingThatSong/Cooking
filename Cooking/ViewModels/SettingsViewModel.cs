@@ -26,6 +26,8 @@ namespace Cooking.Pages
 
             File.WriteAllText(Consts.SettingsFilename, JsonSerializer.Serialize(configParsed));
 
+            // If we cache views, there is no way to update culture in it
+            // We guess that lang change is too rare to give up caching, so we restart whole app
             Process.Start(Application.ResourceAssembly.Location.Replace("dll", "exe"));
             Application.Current.Shutdown();
         });
