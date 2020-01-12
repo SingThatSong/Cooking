@@ -8,6 +8,7 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
     xmlns:local="clr-namespace:Cooking"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
@@ -98,6 +99,7 @@
                 </ControlTemplate>
             </ListView.Template>
         </ListView>
+
         <DataGrid 
             Visibility="{Binding IsListView, Converter={StaticResource booleanToVisibilityConverter}}" 
             ItemsSource="{Binding RecipiesSource.View}" 
@@ -127,7 +129,12 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Название">
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{lex:Loc Name}"  />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}">
@@ -140,7 +147,12 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Rating}" Header="Рейтинг">
+                <DataGridTextColumn Binding="{Binding Rating}" >
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{lex:Loc Rating}"  />
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
             </DataGrid.Columns>
             <DataGrid.ItemsPanel>

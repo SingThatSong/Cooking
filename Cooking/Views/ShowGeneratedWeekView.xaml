@@ -8,6 +8,7 @@
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     mahapps:DialogParticipation.Register="{Binding}"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.InputBindings>
@@ -36,7 +37,7 @@
             <RowDefinition />
             <RowDefinition Height="70" />
         </Grid.RowDefinitions>
-        <TextBlock FontSize="24" Text="Сгенерированные рецепты" />
+        <TextBlock FontSize="24" Text="{lex:Loc GeneratedRecipies}" />
         <DataGrid
             Grid.Row="1"
             mahapps:ItemHelper.SelectedBackgroundBrush="Transparent"
@@ -47,8 +48,19 @@
             IsReadOnly="True"
             ItemsSource="{Binding Days}">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding DayName}" Header="День" />
-                <DataGridTemplateColumn Width="*" Header="Ужин">
+                <DataGridTextColumn Binding="{Binding DayName}">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{lex:Loc Day}" />
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{lex:Loc Dinner}"  />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>

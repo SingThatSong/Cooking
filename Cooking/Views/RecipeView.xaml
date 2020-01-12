@@ -138,16 +138,27 @@
 
                     <StackPanel Grid.Column="1" Orientation="Vertical">
 
+                        <local:StringFormatProxy x:Name="portionsCountProxy" Value="{Binding Recipe.PortionsCount}" StringFormat="{lex:Loc PortionsCount}" />
                         <TextBlock
                             FontSize="20"
-                            Text="{Binding Recipe.PortionsCount, StringFormat='Количество порций: {0}'}"
-                            TextWrapping="Wrap" />
+                            Text="{Binding Result, ElementName=portionsCountProxy}"
+                            TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Recipe.PortionsCount}" Value="0">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
 
                         <TextBlock
                             Margin="0 10 0 0"
                             VerticalAlignment="Center"
                             FontSize="20"
-                            Text="Ингредиенты" />
+                            Text="{lex:Loc Ingredients}" />
 
                         <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
                             <ItemsControl.ItemTemplate>
@@ -234,7 +245,7 @@
                         Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical">
-                                <TextBlock FontSize="15" Text="Сложность" />
+                                <TextBlock FontSize="15" Text="{lex:Loc Difficulty}" />
                                 <controls:Ratings
                                     Margin="0 10 0 0"
                                     IsEnabled="False"
@@ -242,7 +253,7 @@
                                     RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
                             </StackPanel>
                             <StackPanel Margin="30 0 0 0" Orientation="Vertical">
-                                <TextBlock FontSize="15" Text="Рейтинг" />
+                                <TextBlock FontSize="15" Text="{lex:Loc Rating}" />
                                 <controls:Ratings
                                     Margin="0 10 0 0"
                                     IsEnabled="False"
@@ -254,7 +265,7 @@
                         <TextBlock
                             Margin="0 10 0 0"
                             FontSize="20"
-                            Text="Описание" />
+                            Text="{lex:Loc Description}" />
                         <xctk:RichTextBox
                             BorderThickness="0"
                             IsReadOnly="True"
@@ -263,7 +274,7 @@
                         <TextBlock
                             Margin="0 10 0 0"
                             FontSize="20"
-                            Text="Теги" />
+                            Text="{lex:Loc Tags}" />
 
                         <ItemsControl ItemsSource="{Binding Recipe.Tags}">
                             <ItemsControl.ItemTemplate>
@@ -319,10 +330,10 @@
                         Command="{Binding RemoveImageCommand}"
                         Style="{StaticResource SmallCancelButton}" />
                 </StackPanel>
-                <TextBlock FontSize="15" Text="Название" />
+                <TextBlock FontSize="15" Text="{lex:Loc Name}" />
                 <TextBox Name="Focused" Text="{Binding Recipe.Name}" />
 
-                <TextBlock FontSize="15" Text="Источник" />
+                <TextBlock FontSize="15" Text="{lex:Loc Source}" />
                 <TextBox Text="{Binding Recipe.SourceUrl}" />
 
                 <Grid Margin="0 10" HorizontalAlignment="Center">
@@ -331,7 +342,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <StackPanel Orientation="Vertical">
-                        <TextBlock FontSize="15" Text="Сложность" />
+                        <TextBlock FontSize="15" Text="{lex:Loc Difficulty}" />
                         <controls:Ratings MaxRating="5" RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
                     </StackPanel>
                     <StackPanel
@@ -339,7 +350,7 @@
                         Width="130"
                         Margin="20 0 0 0"
                         Orientation="Vertical">
-                        <TextBlock FontSize="15" Text="Рейтинг" />
+                        <TextBlock FontSize="15" Text="{lex:Loc Rating}" />
                         <controls:Ratings MaxRating="10" RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
                     </StackPanel>
                 </Grid>
@@ -348,23 +359,23 @@
                 <TextBlock
                     Margin="0 5 0 0"
                     FontSize="15"
-                    Text="Тип" />
+                    Text="{lex:Loc Type}" />
                 <ComboBox
                     ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}"
                     SelectedValue="{Binding Recipe.CalorieType, Converter={StaticResource enumToDescriptionConverter}}"
-                    Text="Выбор типа рецепта по калорийности" />
+                    Text="{lex:Loc ChooseCalorieType}" />
 
                 <TextBlock
                     Margin="0 5 0 0"
                     FontSize="15"
-                    Text="Количество порций" />
+                    Text="{lex:Loc PortionsCountHeader}" />
                 <TextBox Text="{Binding Recipe.PortionsCount}" />
 
                 <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
                     <TextBlock
                         VerticalAlignment="Center"
                         FontSize="15"
-                        Text="Ингредиенты" />
+                        Text="{lex:Loc Ingredients}" />
                     <Button
                         Margin="5 0 0 0"
                         VerticalAlignment="Center"
@@ -507,7 +518,7 @@
                 <TextBlock
                     Margin="0 10 0 0"
                     FontSize="15"
-                    Text="Описание" />
+                    Text="{lex:Loc Description}" />
                 <xctk:RichTextBox
                     MinHeight="100"
                     Text="{Binding Recipe.Description}"
@@ -521,7 +532,7 @@
                     <TextBlock
                         VerticalAlignment="Center"
                         FontSize="15"
-                        Text="Теги" />
+                        Text="{lex:Loc Tags}" />
                     <Button
                         Margin="5 0 0 0"
                         VerticalAlignment="Center"

@@ -9,6 +9,7 @@
   "DayOfWeek_Sunday": "Sunday",
   "CreateSchedule": "Create schedule for this week",
   "Week": "Week",
+  "Dinner": "Dinner",
   "Dinners": "Dinners",
   "Settings": "Settings",
   "Language": "Language",
@@ -18,5 +19,18 @@
   "Yes": "Yes",
   "No": "No",
   "LastCooked": "Last cooked: {0} days ago",
-  "NewRecipe": "New recipe"
+  "NewRecipe": "New recipe",
+  "PortionsCount": "Portions count: {0}",
+  "Ingredients": "Ingredients",
+  "Difficulty": "Difficulty",
+  "Rating": "Rating",
+  "Description": "Description",
+  "Tags": "Tags",
+  "Name": "Name",
+  "Source": "Source",
+  "Type": "Type",
+  "ChooseCalorieType": "Choose type by calories",
+  "PortionsCountHeader": "Portions count",
+  "GeneratedRecipies": "Generated recipies",
+  "Day": "Day"
 }

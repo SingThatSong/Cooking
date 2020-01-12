@@ -9,6 +9,7 @@
   "DayOfWeek_Sunday": "Воскресенье",
   "CreateSchedule": "Создать расписание на неделю",
   "Week": "Неделя",
+  "Dinner": "Ужин",
   "Dinners": "Ужины",
   "Settings": "Настройки",
   "Language": "Язык",
@@ -18,5 +19,18 @@
   "Yes": "Да",
   "No": "Нет",
   "LastCooked": "Последнее приготовление: {0} дней назад",
-  "NewRecipe": "Новый рецепт"
+  "NewRecipe": "Новый рецепт",
+  "PortionsCount": "Количество порций: {0}",
+  "Ingredients": "Ингредиенты",
+  "Difficulty": "Сложность",
+  "Rating": "Рейтинг",
+  "Description": "Описание",
+  "Tags": "Теги",
+  "Name": "Название",
+  "Source": "Источник",
+  "Type": "Тип",
+  "ChooseCalorieType": "Выбор типа рецепта по калорийности",
+  "PortionsCountHeader": "Количество порций",
+  "GeneratedRecipies": "Сгенерированные рецепты",
+  "Day": "День"
 }
