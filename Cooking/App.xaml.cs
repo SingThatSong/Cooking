@@ -65,6 +65,8 @@ namespace Cooking
         public App()
         {
             AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;
+            // TODO: remove after introducing data migrator
+            DatabaseService.InitDatabase();
         }
 
         private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)
