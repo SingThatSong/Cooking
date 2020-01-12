@@ -41,6 +41,8 @@ using WPFLocalizeExtension.Providers;
 // TODO: Placeholder for time when loading occurs (overhead?)
 // TODO: Use fluent assertions
 // TODO: Add centralized configuration edit
+// TODO: Add comments to cs
+// TODO: Add comments to XAML
 namespace Cooking
 {
     /// <summary>
@@ -80,6 +82,7 @@ namespace Cooking
             containerRegistry.RegisterInstance<IConfiguration>(configuration);
 
             LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(configuration[Consts.LanguageConfigParameter]);
+            LocalizeDictionary.Instance.SetCurrentThreadCulture = false;
 
             // Register main page and main vm - they are constant
             containerRegistry.Register<MainWindow>();
