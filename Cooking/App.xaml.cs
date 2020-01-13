@@ -30,6 +30,16 @@ using WPFLocalizeExtension.Providers;
 // TODO: Cleanup binding errors
 // TODO: Configure tests coverage
 // TODO: Make one-file deploy
+// TODO: Make sure Cooking.WPF contains no buisness logic
+// TODO: Dish garnishes select + generate
+// TODO: App users
+// TODO: Refactor ViewModels into scheme: dependencies, state, commands, constructor, methods
+// TODO: Placeholder for time when loading occurs (overhead?)
+// TODO: Add centralized configuration edit
+// TODO: Add comments to cs
+// TODO: Add comments to XAML
+// TODO: Set Readme.md
+// TODO: Set folder names
 
 // Tests-related
 // TODO: Use fluent assertions
@@ -40,17 +50,6 @@ using WPFLocalizeExtension.Providers;
 // TODO: Setup CI
 // TODO: Use XamlStyler in git hooks
 // TODO: Remove usings in git hooks
-
-// TODO: App users
-// TODO: Dish garnishes select + generate
-// TODO: Make sure Cooking.WPF contains no buisness logic
-// TODO: Refactor ViewModels into scheme: dependencies, state, commands, constructor, methods
-// TODO: Placeholder for time when loading occurs (overhead?)
-// TODO: Add centralized configuration edit
-// TODO: Add comments to cs
-// TODO: Add comments to XAML
-// TODO: Set Readme.md
-// TODO: Set folder names
 
 // Db-related
 // TODO: Create installer
@@ -95,7 +94,16 @@ namespace Cooking
 
             containerRegistry.RegisterInstance<IConfiguration>(configuration);
 
-            LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(configuration[Consts.LanguageConfigParameter]);
+            var langSetting = configuration[Consts.LanguageConfigParameter];
+
+            if (langSetting != null)
+            {
+                LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(configuration[Consts.LanguageConfigParameter]);
+            }
+            else
+            {
+                LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(Consts.DefaultCulture);
+            }
             LocalizeDictionary.Instance.SetCurrentThreadCulture = false;
 
             // Register main page and main vm - they are constant
