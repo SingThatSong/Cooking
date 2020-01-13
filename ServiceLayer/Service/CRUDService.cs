@@ -19,6 +19,11 @@ namespace Cooking.ServiceLayer
             ContextFactory = contextFactory;
         }
 
+        protected string GetCurrentCulture()
+        {
+            return Thread.CurrentThread.CurrentUICulture.Name;
+        }
+
         public virtual List<T> GetAll()
         {
             using var context = ContextFactory.Create();
@@ -47,7 +52,7 @@ namespace Cooking.ServiceLayer
         {
             using var context = ContextFactory.Create();
             entity.ID = Guid.NewGuid();
-            entity.Culture = Thread.CurrentThread.CurrentUICulture.Name;
+            entity.Culture = GetCurrentCulture();
             await context.Set<T>().AddAsync(entity);
             await context.SaveChangesAsync().ConfigureAwait(false);
             return entity.ID;
@@ -68,9 +73,10 @@ namespace Cooking.ServiceLayer
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        private IQueryable<T> GetCultureSpecificSet(CookingContext context)
+        protected IQueryable<T> GetCultureSpecificSet(CookingContext context)
         {
-            return context.Set<T>().Where(x => x.Culture == Thread.CurrentThread.CurrentUICulture.Name);
+            var currentCulure = GetCurrentCulture();
+            return context.Set<T>().Where(x => x.Culture == currentCulure);
         }
     }
 }

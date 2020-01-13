@@ -26,7 +26,7 @@ namespace ServiceLayer
         {
             Debug.WriteLine("WeekService.GetWeek(DateTime)");
             using var context = ContextFactory.Create();
-            return await context.Weeks    
+            return await GetCultureSpecificSet(context)    
                                 .Include(x => x.Days)     
                                     .ThenInclude(x => x.Dinner)
                                 .SingleOrDefaultAsync(x => x.Start.Date <= dayOfWeek.Date 
@@ -41,7 +41,8 @@ namespace ServiceLayer
             {
                 Start = weekStart,
                 End = LastDayOfWeek(weekStart),
-                ID = Guid.NewGuid()
+                ID = Guid.NewGuid(),
+                Culture = GetCurrentCulture()
             };
 
             var days = new List<Day>();
@@ -53,7 +54,8 @@ namespace ServiceLayer
                     DinnerID = recepie.Value,
                     Date = weekStart.AddDays(DaysFromMonday(recepie.Key)),
                     DayOfWeek = recepie.Key,
-                    ID = Guid.NewGuid()
+                    ID = Guid.NewGuid(),
+                    Culture = GetCurrentCulture()
                 });
             }
 
@@ -66,15 +68,15 @@ namespace ServiceLayer
         {
             Debug.WriteLine("WeekService.GetWeekIngredients");
             using var context = ContextFactory.Create(useLazyLoading: true);
-            var week = context.Weeks.Find(id);
+            var week = GetCultureSpecificSet(context).First(x => x.ID == id);
 
             var ingredients = from dinner in week.Days.Where(x => x.Dinner?.Ingredients != null)
-                              from ingredient in dinner.Dinner!.Ingredients
-                              select new { dinner.Dinner, Ingredient = ingredient };
+                              from recipeIngredient in dinner.Dinner!.Ingredients
+                              select new { dinner.Dinner, Ingredient = recipeIngredient };
 
             var ingredientsInGroupds = from dinner in week.Days.Where(x => x.Dinner?.IngredientGroups != null)
-                                       from ingredient in dinner.Dinner!.IngredientGroups.SelectMany(g => g.Ingredients)
-                                       select new { dinner.Dinner, Ingredient = ingredient };
+                                       from recipeIngredient in dinner.Dinner!.IngredientGroups.SelectMany(g => g.Ingredients)
+                                       select new { dinner.Dinner, Ingredient = recipeIngredient };
 
             var allIngredients = ingredients.Union(ingredientsInGroupds);
 
@@ -196,7 +198,7 @@ namespace ServiceLayer
         private Week? GetWeekInternal(DateTime dayOnWeek, CookingContext context)
         {
             Debug.WriteLine("WeekService.GetWeekInternal");
-            return context.Weeks.SingleOrDefault(x => x.Start.Date <= dayOnWeek.Date && dayOnWeek.Date <= x.End.Date);
+            return GetCultureSpecificSet(context).SingleOrDefault(x => x.Start.Date <= dayOnWeek.Date && dayOnWeek.Date <= x.End.Date);
         }
 
         private Week CreateWeekInternal(DateTime dayOnWeek, CookingContext context)

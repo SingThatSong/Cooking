@@ -4,6 +4,7 @@ using Data.Model.Plan;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cooking.ServiceLayer
@@ -15,6 +16,15 @@ namespace Cooking.ServiceLayer
         public DayService(IContextFactory contextFactory, WeekService weekService) : base(contextFactory)
         {
             this.weekService = weekService;
+        }
+
+        public DateTime? GetLastCookedDate(Guid recipeId)
+        {
+            using CookingContext context = ContextFactory.Create();
+            return GetCultureSpecificSet(context).Where(x => x.DinnerID == recipeId && x.DinnerWasCooked && x.Date != null)
+                                                 .OrderByDescending(x => x.Date)
+                                                 .FirstOrDefault()?
+                                                 .Date;
         }
 
         public void SetDinnerWasCooked(Guid dayId, bool wasCooked)

@@ -14,6 +14,8 @@
 
         public const string DbFilenameConfigParameter = "dbName";
         public const string LanguageConfigParameter = "culture";
+        public const string DefaultCulture = "ru-RU";
+
 
         public const string SettingsFilename = "appsettings.json";
     }

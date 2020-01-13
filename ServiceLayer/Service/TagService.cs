@@ -18,13 +18,13 @@ namespace Cooking.ServiceLayer
         public List<T> GetTagsByType<T>(TagType tagType, IMapper mapper)
         {
             using var context = ContextFactory.Create();
-            return mapper.ProjectTo<T>(context.Tags.Where(x => x.Type == tagType)).ToList();
+            return mapper.ProjectTo<T>(GetCultureSpecificSet(context).Where(x => x.Type == tagType)).ToList();
         }
 
         public List<string> GetTagNames()
         {
             using var context = ContextFactory.Create();
-            return context.Tags
+            return GetCultureSpecificSet(context)
                           .Where(x => x.Name != null)
                           .Select(x => x.Name!)
                           .ToList();
