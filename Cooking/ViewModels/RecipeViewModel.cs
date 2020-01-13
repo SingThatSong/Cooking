@@ -4,6 +4,7 @@ using Cooking.DTO;
 using Cooking.Pages.Ingredients;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Events;
+using Cooking.WPF.Helpers;
 using Data.Model;
 using GongSolutions.Wpf.DragDrop;
 using Prism.Events;
@@ -28,6 +29,7 @@ namespace Cooking.Pages
         private readonly RecipeService recipeService;
         private readonly IMapper mapper;
         private readonly IEventAggregator eventAggregator;
+        private readonly ILocalization localization;
         private IRegionNavigationJournal? journal;
 
         public bool IsEditing { get; set; }
@@ -71,7 +73,8 @@ namespace Cooking.Pages
                                IContainerExtension container, 
                                RecipeService recipeService, 
                                IMapper mapper,
-                               IEventAggregator eventAggregator)
+                               IEventAggregator eventAggregator,
+                               ILocalization localization)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(imageService != null);
@@ -79,6 +82,7 @@ namespace Cooking.Pages
             Debug.Assert(recipeService != null);
             Debug.Assert(mapper != null);
             Debug.Assert(eventAggregator != null);
+            Debug.Assert(localization != null);
 
             this.dialogUtils            = dialogUtils;
             this.imageService           = imageService;
@@ -86,6 +90,7 @@ namespace Cooking.Pages
             this.recipeService          = recipeService;
             this.mapper                 = mapper;
             this.eventAggregator        = eventAggregator;
+            this.localization           = localization;
 
             CloseCommand                = new DelegateCommand(Close);
             ApplyChangesCommand         = new AsyncDelegateCommand(ApplyChanges);
@@ -142,7 +147,7 @@ namespace Cooking.Pages
             var viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.Ingredient = ingredient;
 
-            await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Изменение ингредиента", viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>(localization.GetLocalizedString("EditIngredient"), viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
@@ -154,7 +159,7 @@ namespace Cooking.Pages
         {
             var viewModel = container.Resolve<TagSelectViewModel>();
             viewModel.SetTags(Recipe!.Tags, null);
-            await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>("Добавление тегов", viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>(localization.GetLocalizedString("AddTags"), viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
@@ -165,7 +170,7 @@ namespace Cooking.Pages
         private async Task AddIngredientGroup()
         {
             var viewModel = new IngredientGroupEditViewModel(dialogUtils, new DTO.IngredientGroupEdit());
-            await dialogUtils.ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Добавление группы ингредиентов", viewModel)
+            await dialogUtils.ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>(localization.GetLocalizedString("AddIngredientsGroup"), viewModel)
                              .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
@@ -178,7 +183,7 @@ namespace Cooking.Pages
         private async Task EditIngredientGroup(DTO.IngredientGroupEdit group)
         {
             var viewModel = new IngredientGroupEditViewModel(dialogUtils, group);
-            await dialogUtils.ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>("Редактирование группы ингредиентов", viewModel)
+            await dialogUtils.ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>(localization.GetLocalizedString("EditIngredientsGroup"), viewModel)
                              .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
@@ -203,7 +208,7 @@ namespace Cooking.Pages
             var viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.IsCreation = true;
 
-            await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", viewModel).ConfigureAwait(true);
+            await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>(localization.GetLocalizedString("AddIngredient"), viewModel).ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
@@ -228,7 +233,7 @@ namespace Cooking.Pages
             var viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.IsCreation = true;
 
-            await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("Добавление ингредиента", viewModel).ConfigureAwait(true);
+            await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>(localization.GetLocalizedString("AddIngredient"), viewModel).ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
@@ -273,8 +278,8 @@ namespace Cooking.Pages
         public async Task DeleteRecipe(Guid recipeId)
         {
             await dialogUtils.ShowYesNoDialog(
-                "Точно удалить?",
-                "Восстановить будет нельзя",
+                localization.GetLocalizedString("SureDelete"),
+                localization.GetLocalizedString("CannotUndo"),
                 successCallback: () => OnRecipeDeleted(recipeId)).ConfigureAwait(false);
         }
 

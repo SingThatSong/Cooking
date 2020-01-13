@@ -2,6 +2,7 @@
 using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Ingredients;
+using Cooking.WPF.Helpers;
 using Data.Model;
 using Prism.Regions;
 using PropertyChanged;
@@ -22,6 +23,7 @@ namespace Cooking.Pages
         private readonly DialogService dialogUtils;
         private readonly IngredientService ingredientService;
         private readonly IMapper mapper;
+        private readonly ILocalization localization;
 
         // State
         public ObservableCollection<IngredientEdit>? Ingredients { get; private set; }
@@ -37,17 +39,20 @@ namespace Cooking.Pages
         public IngredientsViewModel(IRegionManager regionManager, 
                                     DialogService dialogUtils, 
                                     IngredientService ingredientService,
-                                    IMapper mapper)
+                                    IMapper mapper,
+                                    ILocalization localization)
         {
             Debug.Assert(regionManager != null);
             Debug.Assert(dialogUtils != null);
             Debug.Assert(ingredientService != null);
             Debug.Assert(mapper != null);
+            Debug.Assert(localization != null);
 
             this.regionManager     = regionManager;
             this.dialogUtils       = dialogUtils;
             this.ingredientService = ingredientService;
             this.mapper            = mapper;
+            this.localization      = localization;
             LoadedCommand          = new AsyncDelegateCommand(OnLoaded, executeOnce: true);
             AddIngredientCommand   = new DelegateCommand(AddIngredient);
             DeleteCategoryCommand  = new DelegateCommand<Guid>(DeleteIngredient);
@@ -76,20 +81,20 @@ namespace Cooking.Pages
 
         public async void DeleteIngredient(Guid recipeId)
         {
-            await dialogUtils.ShowYesNoDialog("Точно удалить?", "Восстановить будет нельзя", successCallback: () => OnIngredientDeleted(recipeId))
+            await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"), localization.GetLocalizedString("CannotUndo"), successCallback: () => OnIngredientDeleted(recipeId))
                              .ConfigureAwait(false);
         }
 
         public async void AddIngredient()
         {
-            await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>("Новый ингредиент", successCallback: OnNewIngredientCreated)
+            await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"), successCallback: OnNewIngredientCreated)
                              .ConfigureAwait(false);
         }
 
         public async void EditIngredient(IngredientEdit ingredient)
         {
             var viewModel = new IngredientEditViewModel(ingredientService, dialogUtils, mapper.Map<IngredientEdit>(ingredient));
-            await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>("Редактирование ингредиента", viewModel, successCallback: OnIngredientEdited)
+            await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("EditIngredient"), viewModel, successCallback: OnIngredientEdited)
                              .ConfigureAwait(false);
         }
         #endregion

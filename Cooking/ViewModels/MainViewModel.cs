@@ -218,8 +218,8 @@ namespace Cooking.Pages
         {
             Debug.WriteLine("MainPageViewModel.DeleteDayAsync");
             await dialogUtils.ShowYesNoDialog(
-                  "Точно?",
-                  "Удаляем день?",
+                  localization.GetLocalizedString("SureDelete"),
+                  localization.GetLocalizedString("CannotUndo"),
                   successCallback: () => OnDayDeleted(dayId)).ConfigureAwait(false);
         }
 
@@ -228,8 +228,8 @@ namespace Cooking.Pages
         {
             Debug.WriteLine("MainPageViewModel.DeleteCurrentWeekAsync");
             await dialogUtils.ShowYesNoDialog(
-                  "Точно?",
-                  "Удаляем неделю?",
+                  localization.GetLocalizedString("SureDelete"),
+                  localization.GetLocalizedString("CannotUndo"),
                   successCallback: OnCurrentWeekDeleted).ConfigureAwait(false);
         }
 

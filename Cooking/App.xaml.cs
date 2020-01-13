@@ -40,6 +40,8 @@ using WPFLocalizeExtension.Providers;
 // TODO: Add comments to XAML
 // TODO: Set Readme.md
 // TODO: Set folder names
+// TODO: Remove magic literals
+// TODO: Ensure startup time < 3s
 
 // Tests-related
 // TODO: Use fluent assertions

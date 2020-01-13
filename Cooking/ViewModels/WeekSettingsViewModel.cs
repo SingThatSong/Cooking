@@ -4,6 +4,7 @@ using Cooking.DTO;
 using Cooking.Pages.Dialogs;
 using Cooking.Pages.ViewModel;
 using Cooking.ServiceLayer;
+using Cooking.WPF.Helpers;
 using Data.Model;
 using Prism.Ioc;
 using Prism.Regions;
@@ -26,6 +27,7 @@ namespace Cooking.Pages
         private readonly TagService tagService;
         private readonly IContainerExtension container;
         private readonly RecipeService recipeService;
+        private readonly ILocalization localization;
         private NavigationContext? navigationContext;
 
         public DateTime WeekStart { get; private set; }
@@ -37,29 +39,36 @@ namespace Cooking.Pages
         public DelegateCommand OkCommand { get; }
         public DelegateCommand CloseCommand { get; }
 
-        public WeekSettingsViewModel(DialogService dialogUtils, IRegionManager regionManager, TagService tagService, IContainerExtension container, RecipeService recipeService)
+        public WeekSettingsViewModel(DialogService dialogUtils, 
+                                     IRegionManager regionManager, 
+                                     TagService tagService, 
+                                     IContainerExtension container, 
+                                     RecipeService recipeService,
+                                     ILocalization localization)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(regionManager != null);
             Debug.Assert(tagService != null);
             Debug.Assert(container != null);
             Debug.Assert(recipeService != null);
+            Debug.Assert(localization != null);
 
             this.dialogUtils = dialogUtils;
             this.regionManager = regionManager;
             this.tagService = tagService;
             this.container = container;
             this.recipeService = recipeService;
+            this.localization = localization;
             Days = new List<DayPlan>()
             {
                 new DayPlan(),
-                new DayPlan { DayName = "Пн", DayOfWeek = DayOfWeek.Monday },
-                new DayPlan { DayName = "Вт", DayOfWeek = DayOfWeek.Tuesday },
-                new DayPlan { DayName = "Ср", DayOfWeek = DayOfWeek.Wednesday },
-                new DayPlan { DayName = "Чт", DayOfWeek = DayOfWeek.Thursday },
-                new DayPlan { DayName = "Пт", DayOfWeek = DayOfWeek.Friday },
-                new DayPlan { DayName = "Сб", DayOfWeek = DayOfWeek.Saturday },
-                new DayPlan { DayName = "Вс", DayOfWeek = DayOfWeek.Sunday }
+                new DayPlan { DayName = localization.GetLocalizedString("Monday_Short"), DayOfWeek = DayOfWeek.Monday },
+                new DayPlan { DayName = localization.GetLocalizedString("Tuesday_Short"), DayOfWeek = DayOfWeek.Tuesday },
+                new DayPlan { DayName = localization.GetLocalizedString("Wednesday_Short"), DayOfWeek = DayOfWeek.Wednesday },
+                new DayPlan { DayName = localization.GetLocalizedString("Thursday_Short"), DayOfWeek = DayOfWeek.Thursday },
+                new DayPlan { DayName = localization.GetLocalizedString("Friday_Short"), DayOfWeek = DayOfWeek.Friday },
+                new DayPlan { DayName = localization.GetLocalizedString("Saturday_Short"), DayOfWeek = DayOfWeek.Saturday },
+                new DayPlan { DayName = localization.GetLocalizedString("Sunday_Short"), DayOfWeek = DayOfWeek.Sunday }
             };
 
             Days[0].PropertyChanged += OnHeaderValueChanged;
@@ -133,7 +142,7 @@ namespace Cooking.Pages
         private async void AddCalorieTypes(DayPlan day)
         {
             var viewModel = new CalorieTypeSelectEditViewModel(dialogUtils, day.CalorieTypes);
-            await dialogUtils.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectEditViewModel>("Категории калорийности", viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectEditViewModel>(localization.GetLocalizedString("CalorieTyoes"), viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {

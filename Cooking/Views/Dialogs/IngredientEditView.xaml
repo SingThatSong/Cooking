@@ -1,55 +1,55 @@
 ﻿<UserControl
-  x:Class="Cooking.Pages.Ingredients.IngredientEditView"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-  xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls">
+    x:Class="Cooking.Pages.Ingredients.IngredientEditView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls">
 
-  <UserControl.InputBindings>
-    <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
-  </UserControl.InputBindings>
+    <UserControl.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
+    </UserControl.InputBindings>
 
-  <Grid Height="200">
+    <Grid Height="200">
 
-    <Grid.RowDefinitions>
-      <RowDefinition />
-      <RowDefinition Height="100" />
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition />
-      <ColumnDefinition Width="80" />
-    </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="80" />
+        </Grid.ColumnDefinitions>
 
-    <StackPanel Orientation="Vertical">
-      <TextBlock Text="Название" />
-      <TextBox
-        Name="Focused"
-        Grid.Column="1"
-        Text="{Binding Ingredient.Name, UpdateSourceTrigger=PropertyChanged}" />
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="{lex:Loc Name}" />
+            <TextBox
+                Name="Focused"
+                Grid.Column="1"
+                Text="{Binding Ingredient.Name, UpdateSourceTrigger=PropertyChanged}" />
 
-      <TextBlock Margin="0 10 0 0" Text="Тип" />
-      <ComboBox
-        mahapps:TextBoxHelper.ClearTextButton="True"
-        DisplayMemberPath="Name"
-        ItemsSource="{Binding IngredientTypes}"
-        SelectedItem="{Binding Ingredient.Type}" />
-    </StackPanel>
-    <ItemsControl
-      Grid.Column="1"
-      Margin="10 10 0 0"
-      ItemsSource="{Binding SimilarIngredients}" />
+            <TextBlock Margin="0 10 0 0" Text="{lex:Loc Type}" />
+            <ComboBox
+                mahapps:TextBoxHelper.ClearTextButton="True"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding IngredientTypes}"
+                SelectedItem="{Binding Ingredient.Type}" />
+        </StackPanel>
+        <ItemsControl
+            Grid.Column="1"
+            Margin="10 10 0 0"
+            ItemsSource="{Binding SimilarIngredients}" />
 
-    <StackPanel
-      Grid.Row="2"
-      Grid.ColumnSpan="2"
-      Margin="0 20 0 0"
-      HorizontalAlignment="Center"
-      Orientation="Horizontal">
-      <Button Command="{Binding OkCommand}" Style="{StaticResource OkButton}" />
-      <Button
-        Margin="10 0 0 0"
-        Command="{Binding CloseCommand}"
-        Style="{StaticResource CancelButton}" />
-    </StackPanel>
-  </Grid>
+        <StackPanel
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            Margin="0 20 0 0"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button Command="{Binding OkCommand}" Style="{StaticResource OkButton}" />
+            <Button
+                Margin="10 0 0 0"
+                Command="{Binding CloseCommand}"
+                Style="{StaticResource CancelButton}" />
+        </StackPanel>
+    </Grid>
 </UserControl>

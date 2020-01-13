@@ -3,6 +3,7 @@ using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Tags;
 using Cooking.ServiceLayer;
+using Cooking.WPF.Helpers;
 using Data.Model;
 using Prism.Regions;
 using PropertyChanged;
@@ -21,6 +22,7 @@ namespace Cooking.Pages
         private readonly DialogService dialogUtils;
         private readonly TagService tagService;
         private readonly IMapper mapper;
+        private readonly ILocalization localization;
 
         public ObservableCollection<TagEdit>? Tags { get; private set; }
         public bool IsEditing { get; set; }
@@ -31,17 +33,19 @@ namespace Cooking.Pages
         public DelegateCommand<Guid> DeleteTagCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
-        public TagsViewModel(IRegionManager regionManager, DialogService dialogUtils, TagService tagService, IMapper mapper)
+        public TagsViewModel(IRegionManager regionManager, DialogService dialogUtils, TagService tagService, IMapper mapper, ILocalization localization)
         {
             Debug.Assert(regionManager != null);
             Debug.Assert(dialogUtils != null);
             Debug.Assert(tagService != null);
             Debug.Assert(mapper != null);
+            Debug.Assert(localization != null);
 
             this.regionManager = regionManager;
             this.dialogUtils = dialogUtils;
             this.tagService = tagService;
             this.mapper = mapper;
+            this.localization = localization;
             LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
             AddTagCommand = new DelegateCommand(AddTag);
             DeleteTagCommand = new DelegateCommand<Guid>(DeleteTag);
@@ -68,7 +72,7 @@ namespace Cooking.Pages
         private async Task EditTag(TagEdit tag)
         {
             var viewModel = new TagEditViewModel(dialogUtils, tagService, mapper.Map<TagEdit>(tag));
-            await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Редактирование тега", viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("EditTag"), viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
@@ -82,8 +86,8 @@ namespace Cooking.Pages
         public async void DeleteTag(Guid recipeId)
         {
             await dialogUtils.ShowYesNoDialog(
-                  "Точно удалить?",
-                  "Восстановить будет нельзя",
+                  localization.GetLocalizedString("SureDelete"),
+                  localization.GetLocalizedString("CannotUndo"),
                   successCallback: () => OnTagDeleted(recipeId)).ConfigureAwait(false);
         }
 

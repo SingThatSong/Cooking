@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
@@ -36,7 +37,7 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
 
-                <TextBlock Margin="0 10 0 0" Text="Ингредиент" />
+                <TextBlock Margin="0 10 0 0" Text="{lex:Loc Ingredient}" />
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -64,10 +65,10 @@
                         <icons:PackIconModern Kind="Add" Style="{StaticResource SmallIcon}" />
                     </Button>
                 </Grid>
-                <TextBlock Margin="0 10 0 0" Text="Количество" />
+                <TextBlock Margin="0 10 0 0" Text="{lex:Loc Count}" />
                 <TextBox Text="{Binding Ingredient.Amount}" />
 
-                <TextBlock Margin="0 10 0 0" Text="Единица измерения" />
+                <TextBlock Margin="0 10 0 0" Text="{lex:Loc MeasurementUnit}" />
                 <ComboBox
                     mahapps:TextBoxHelper.ClearTextButton="True"
                     DisplayMemberPath="FullName"
