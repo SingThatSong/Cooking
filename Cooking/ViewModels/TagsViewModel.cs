@@ -71,7 +71,7 @@ namespace Cooking.Pages
 
         private async Task EditTag(TagEdit tag)
         {
-            var viewModel = new TagEditViewModel(dialogUtils, tagService, mapper.Map<TagEdit>(tag));
+            var viewModel = new TagEditViewModel(dialogUtils, tagService, localization, mapper.Map<TagEdit>(tag));
             await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("EditTag"), viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)

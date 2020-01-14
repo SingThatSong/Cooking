@@ -18,8 +18,8 @@
     ShowDialogsOverTitleBar="False">
     <mahapps:MetroWindow.Resources>
         <ResourceDictionary>
-            <!-- From https://github.com/MahApps/MahApps.Metro/blob/develop/src/MahApps.Metro.Samples/MahApps.Metro.Demo/HamburgerMenuRipple/HamburgerMenuRipple.xaml -->
-            <!-- Latest commit 17.11.19 -->
+            <!--  From https://github.com/MahApps/MahApps.Metro/blob/develop/src/MahApps.Metro.Samples/MahApps.Metro.Demo/HamburgerMenuRipple/HamburgerMenuRipple.xaml  -->
+            <!--  Latest commit 17.11.19  -->
             <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mahapps:HamburgerMenuIconItem}">
                 <Grid Height="48">
                     <Grid.ColumnDefinitions>
@@ -65,7 +65,7 @@
                                     Background="{TemplateBinding Background}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                 <Grid Margin="{TemplateBinding BorderThickness}">
                                     <Grid
                                         HorizontalAlignment="Left"
@@ -163,9 +163,9 @@
         ItemInvoked="HamburgerMenuControl_OnItemInvoked"
         ItemTemplate="{StaticResource MenuItemTemplate}"
         ItemsSource="{Binding MenuItems}"
-        OptionsItemsSource="{Binding OptionsMenuItems}"
         OpenPaneLength="160"
         OptionsItemTemplate="{StaticResource MenuItemTemplate}"
+        OptionsItemsSource="{Binding OptionsMenuItems}"
         SelectedItem="{Binding SelectedMenuItem, Mode=TwoWay}"
         Style="{StaticResource HamburgerMenuCreatorsStyle}" />
 

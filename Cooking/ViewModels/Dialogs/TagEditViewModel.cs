@@ -1,6 +1,7 @@
 ﻿using Cooking.DTO;
 using Cooking.Helpers;
 using Cooking.ServiceLayer;
+using Cooking.WPF.Helpers;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,13 @@ namespace Cooking.Pages
 {
     public partial class TagEditViewModel : OkCancelViewModel
     {
+        private readonly ILocalization localization;
+
         private bool NameChanged { get; set; }
 
-        public TagEditViewModel(DialogService dialogService, TagService tagService, TagEdit? category = null) : base(dialogService)
+        public TagEditViewModel(DialogService dialogService, TagService tagService, ILocalization localization, TagEdit? category = null) : base(dialogService)
         {
+            this.localization = localization;
             Tag = category ?? new TagEdit();
             AllTagNames = tagService.GetTagNames();
             Tag.PropertyChanged += Tag_PropertyChanged;
