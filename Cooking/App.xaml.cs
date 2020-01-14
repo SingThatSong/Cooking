@@ -22,7 +22,6 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
 
-// TODO: Move Configuration to IOptions
 // TODO: Validate all forms
 // TODO: Cleanup DTOs
 // TODO: Cleanup mappings

@@ -1,17 +1,19 @@
 ﻿using Cooking.Data.Context;
+using Cooking.WPF.Helpers;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Cooking.WPF
 {
     public class ContextFactory : IContextFactory
     {
-        private readonly IConfiguration configuration;
+        private readonly IOptions<AppSettings> appSettings;
 
-        public ContextFactory(IConfiguration configuration)
+        public ContextFactory(IOptions<AppSettings> appSettings)
         {
-            this.configuration = configuration;
+            this.appSettings = appSettings;
         }
 
-        public CookingContext Create(bool useLazyLoading = false) => new CookingContext(configuration[Consts.DbFilenameConfigParameter], useLazyLoading);
+        public CookingContext Create(bool useLazyLoading = false) => new CookingContext(appSettings.Value.DbName, useLazyLoading);
     }
 }
