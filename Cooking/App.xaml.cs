@@ -20,7 +20,6 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
 
-// TODO: Use https://github.com/warappa/XamlCSS
 // TODO: Move Configuration to IOptions
 // TODO: Validate all forms
 // TODO: Cleanup DTOs
