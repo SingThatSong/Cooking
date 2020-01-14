@@ -7,6 +7,8 @@ using Cooking.WPF;
 using Cooking.WPF.Helpers;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Unity;
@@ -78,18 +80,8 @@ namespace Cooking
 
         private void SetStaticVariables()
         {
-            var configuration = Container.Resolve<IConfiguration>();
-            var langSetting = configuration[Consts.LanguageConfigParameter];
-
-            if (langSetting != null)
-            {
-                LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(configuration[Consts.LanguageConfigParameter]);
-            }
-            else
-            {
-                LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(Consts.DefaultCulture);
-            }
-            LocalizeDictionary.Instance.SetCurrentThreadCulture = false;
+            var configuration = Container.Resolve<IOptions<AppSettings>>();
+            LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(configuration.Value.Culture);
 
             var localization = Container.Resolve<ILocalization>();
             TagEdit.Any.Name = localization.GetLocalizedString("Any");
@@ -114,6 +106,13 @@ namespace Cooking
                                                     .Build();
 
             containerRegistry.RegisterInstance<IConfiguration>(configuration);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.Configure<AppSettings>(configuration);
+            var provider = serviceCollection.BuildServiceProvider();
+            var options = provider.GetRequiredService<IOptions<AppSettings>>();
+
+            containerRegistry.RegisterInstance(options);
 
             // Register main page and main vm - they are constant
             containerRegistry.Register<MainWindow>();
