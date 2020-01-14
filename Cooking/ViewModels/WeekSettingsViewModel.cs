@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using WPFLocalizeExtension.Engine;
 
 namespace Cooking.Pages
 {
@@ -192,7 +193,7 @@ namespace Cooking.Pages
 
             var viewModel = container.Resolve<TagSelectViewModel>();
             viewModel.SetTags(current, allTags);
-            await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>($"Категории {type}", viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>(string.Format(LocalizeDictionary.Instance.Culture, localization.GetLocalizedString("CategoriesOf") ?? "{0}", type), viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {

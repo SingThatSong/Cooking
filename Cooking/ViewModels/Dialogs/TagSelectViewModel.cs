@@ -3,6 +3,7 @@ using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Tags;
 using Cooking.ServiceLayer;
+using Cooking.WPF.Helpers;
 using Data.Model;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,17 +17,19 @@ namespace Cooking.Pages
         private readonly DialogService dialogUtils;
         private readonly TagService tagService;
         private readonly IMapper mapper;
+        private readonly ILocalization localization;
 
-        public TagSelectViewModel(DialogService dialogUtils, TagService tagService, IMapper mapper) : base(dialogUtils)
+        public TagSelectViewModel(DialogService dialogUtils, TagService tagService, IMapper mapper, ILocalization localization) : base(dialogUtils)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(tagService != null);
             Debug.Assert(mapper != null);
+            Debug.Assert(localization != null);
 
             this.dialogUtils = dialogUtils;
             this.tagService = tagService;
             this.mapper = mapper;
-
+            this.localization = localization;
             AddTagCommand = new DelegateCommand(AddTag);
         }
 
@@ -54,7 +57,7 @@ namespace Cooking.Pages
 
         public async void AddTag()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Новый тег").ConfigureAwait(false);
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag")).ConfigureAwait(false);
             
             if (viewModel.DialogResultOk)
             {

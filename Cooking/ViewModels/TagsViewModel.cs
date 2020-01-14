@@ -99,7 +99,7 @@ namespace Cooking.Pages
 
         public async void AddTag()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>("Новый тег").ConfigureAwait(false);
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag")).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {

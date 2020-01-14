@@ -8,7 +8,6 @@ namespace Cooking.DTO
     {
         public static readonly TagEdit Any = new TagEdit()
         {
-            Name = "Любой",
             CanBeRemoved = false
         };
 

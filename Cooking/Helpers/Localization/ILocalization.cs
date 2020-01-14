@@ -2,7 +2,7 @@
 
 namespace Cooking.WPF.Helpers
 {
-    public interface ILocalization : ILocalizationProvider
+    public interface ILocalization
     {
         string? GetLocalizedString(string key);
     }

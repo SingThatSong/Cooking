@@ -1,7 +1,7 @@
 ﻿using Bindables;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Windows;
+using WPFLocalizeExtension.Engine;
 
 namespace Cooking.WPF
 {
@@ -28,7 +28,7 @@ namespace Cooking.WPF
         private static void DataChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             if (sender is StringFormatProxy sfp && sfp.StringFormat != null)
-                sfp.Result = string.Format(CultureInfo.InvariantCulture, sfp.StringFormat, sfp.Value);
+                sfp.Result = string.Format(LocalizeDictionary.Instance.Culture, sfp.StringFormat, sfp.Value);
         }
     }
 }

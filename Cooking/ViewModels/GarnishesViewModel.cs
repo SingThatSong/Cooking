@@ -73,7 +73,7 @@ namespace Cooking.Pages
 
         public async void EditGarnish(GarnishEdit garnish)
         {
-            var viewModel = new GarnishEditViewModel(mapper.Map<GarnishEdit>(garnish), garnishService, dialogUtils);
+            var viewModel = new GarnishEditViewModel(mapper.Map<GarnishEdit>(garnish), garnishService, dialogUtils, localization);
             await dialogUtils.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("EditGarnish"), viewModel, successCallback: OnGarnishEdited)
                              .ConfigureAwait(false);
         }

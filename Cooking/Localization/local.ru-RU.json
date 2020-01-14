@@ -13,7 +13,7 @@
   "Thursday_Short": "Чт",
   "Friday_Short": "Пт",
   "Saturday_Short": "Сб",
-  "Sunday_Short" : "Вс",
+  "Sunday_Short": "Вс",
   "CreateSchedule": "Создать расписание на неделю",
   "Week": "Неделя",
   "Dinner": "Ужин",
@@ -59,9 +59,15 @@
   "NewIngredient": "Новый ингредиент",
   "EditIngredient": "Редактирование ингредиента",
   "AddTags": "Добавление тегов",
+  "NewTag": "Новый тег",
   "AddIngredientsGroup": "Добавление группы игредиентов",
   "EditIngredientsGroup": "Редактирование группы игредиентов",
   "AddIngredient": "Добавление ингредиента",
   "EditTag": "Редактирование тега",
-  "CalorieTyoes": "Категории калорийности"
+  "CalorieTyoes": "Категории калорийности",
+  "Any": "Любой",
+  "CategoriesOf": "Категории {0}",
+  "GarnishAlreadyExists": "Такой гарнир уже существует",
+  "IngredientAlreadyExists": "Такой ингредиент уже существует",
+  "SaveAnyway": "Всё равно сохранить?"
 }

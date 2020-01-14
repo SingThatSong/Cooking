@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Cooking.Commands;
 using Cooking.DTO;
+using Cooking.WPF.Helpers;
 using Data.Model;
 using ServiceLayer;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace Cooking.Pages.Ingredients
         private readonly DialogService dialogUtils;
         private readonly IngredientService ingredientService;
         private readonly IMapper mapper;
+        private readonly ILocalization localization;
 
         public bool IsCreation { get; set; }
         public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
@@ -40,15 +42,18 @@ namespace Cooking.Pages.Ingredients
         public RecipeIngredientEditViewModel(DialogService dialogUtils, 
                                              IngredientService ingredientService, 
                                              IMapper mapper,
+                                             ILocalization localization,
                                              RecipeIngredientEdit? ingredient = null) : base(dialogUtils)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(ingredientService != null);
             Debug.Assert(mapper != null);
+            Debug.Assert(localization != null);
 
             this.dialogUtils = dialogUtils;
             this.ingredientService = ingredientService;
             this.mapper = mapper;
+            this.localization = localization;
             Ingredient = ingredient ?? new RecipeIngredientEdit();
 
             AddMultipleCommand = new DelegateCommand(AddMultiple, canExecute: CanMultipleOk);
@@ -95,7 +100,7 @@ namespace Cooking.Pages.Ingredients
 
         private async Task AddRecipe()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>("Новый ингредиент")
+            var viewModel = await dialogUtils.ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"))
                                              .ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)

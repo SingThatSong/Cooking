@@ -59,8 +59,14 @@
   "NewIngredient": "New ingredient",
   "EditIngredient": "Edit ingredient",
   "AddTags": "Tags addition",
+  "NewTag": "New tag",
   "AddIngredientsGroup": "Ingredients group addition",
   "EditIngredientsGroup": "Ingredients group edit",
   "AddIngredient": "Ingredient addition",
-  "EditTag": "Tag edit"
+  "EditTag": "Tag edit",
+  "Any": "Any",
+  "CategoriesOf": "{0} categories",
+  "GarnishAlreadyExists": "Garnish with the same name already exists",
+  "IngredientAlreadyExists": "Ingredient with the same name already exists",
+  "SaveAnyway": "Save anyway?"
 }

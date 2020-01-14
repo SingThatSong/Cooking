@@ -93,7 +93,7 @@ namespace Cooking.Pages
 
         public async void EditIngredient(IngredientEdit ingredient)
         {
-            var viewModel = new IngredientEditViewModel(ingredientService, dialogUtils, mapper.Map<IngredientEdit>(ingredient));
+            var viewModel = new IngredientEditViewModel(ingredientService, dialogUtils, localization, mapper.Map<IngredientEdit>(ingredient));
             await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("EditIngredient"), viewModel, successCallback: OnIngredientEdited)
                              .ConfigureAwait(false);
         }

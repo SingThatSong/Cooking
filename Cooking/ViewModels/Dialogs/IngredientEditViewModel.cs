@@ -1,5 +1,6 @@
 ﻿using Cooking.DTO;
 using Cooking.Helpers;
+using Cooking.WPF.Helpers;
 using Data.Model;
 using ServiceLayer;
 using System;
@@ -13,6 +14,8 @@ namespace Cooking.Pages
 {
     public partial class IngredientEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {
+        private readonly ILocalization localization;
+
         // State
         private bool NameChanged { get; set; }
         private List<string> AllIngredientNames { get; set; }
@@ -22,8 +25,9 @@ namespace Cooking.Pages
                                                         : AllIngredientNames.OrderBy(x => IngredientCompare(x, Ingredient.Name)).Take(3);
         public ReadOnlyCollection<IngredientType> IngredientTypes => IngredientType.AllValues;
 
-        public IngredientEditViewModel(IngredientService ingredientService, DialogService dialogService, IngredientEdit? category = null) : base(dialogService)
+        public IngredientEditViewModel(IngredientService ingredientService, DialogService dialogService, ILocalization localization, IngredientEdit? category = null) : base(dialogService)
         {
+            this.localization = localization;
             Ingredient = category ?? new IngredientEdit();
             AllIngredientNames = ingredientService.GetSearchNames();
             Ingredient.PropertyChanged += (src, e) =>
@@ -43,8 +47,8 @@ namespace Cooking.Pages
              && AllIngredientNames.Any(x => x.ToUpperInvariant() == Ingredient.Name.ToUpperInvariant()))
             {
                 bool saveAnyway = false;
-                await DialogService.ShowYesNoDialog("Такой ингредиент уже существует",
-                                                    "Всё равно сохранить?",
+                await DialogService.ShowYesNoDialog(localization.GetLocalizedString("IngredientAlreadyExists"),
+                                                    localization.GetLocalizedString("SaveAnyway"),
                                                     successCallback: () => saveAnyway = true).ConfigureAwait(false);
 
                 if (!saveAnyway)

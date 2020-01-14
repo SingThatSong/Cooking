@@ -38,8 +38,8 @@ namespace Cooking.Pages
                     bool okAnyway = false;
 
                     await DialogService.ShowYesNoDialog(
-                       "Точно удалить?",
-                       "Восстановить будет нельзя",
+                       localization.GetLocalizedString("SureDelete"),
+                       localization.GetLocalizedString("CannotUndo"),
                        successCallback: () => okAnyway = true).ConfigureAwait(false);
 
                     if (!okAnyway)

@@ -11,7 +11,7 @@ using WPFLocalizeExtension.Providers;
 
 namespace Cooking.WPF.Helpers
 {
-    public class JsonLocalizationProvider : ILocalization
+    public class JsonLocalizationProvider : ILocalization, ILocalizationProvider
     {
         public ObservableCollection<CultureInfo> AvailableCultures
         {

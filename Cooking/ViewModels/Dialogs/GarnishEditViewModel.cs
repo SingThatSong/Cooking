@@ -1,5 +1,6 @@
 ﻿using Cooking.DTO;
 using Cooking.Helpers;
+using Cooking.WPF.Helpers;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace Cooking.Pages
 {
     public partial class GarnishEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {
+        private readonly ILocalization localization;
+
         // State
         public GarnishEdit Garnish { get; set; }
         private bool NameChanged { get; set; }
@@ -19,9 +22,13 @@ namespace Cooking.Pages
             : AllGarnishNames.OrderBy(x => GarnishCompare(x, Garnish.Name)).Take(3);
         private List<string> AllGarnishNames { get; set; }
 
-        public GarnishEditViewModel(GarnishEdit? garnish, GarnishService garnishService, DialogService dialogService) : base (dialogService)
+        public GarnishEditViewModel(GarnishEdit? garnish, 
+                                    GarnishService garnishService, 
+                                    DialogService dialogService,
+                                    ILocalization localization) : base (dialogService)
         {
             Garnish = garnish ?? new GarnishEdit();
+            this.localization = localization;
             AllGarnishNames = garnishService.GetSearchNames();
             Garnish.PropertyChanged += (src, e) =>
             {
@@ -40,8 +47,8 @@ namespace Cooking.Pages
             if (NameChanged && Garnish.Name != null && AllGarnishNames.Any(x => x.ToUpperInvariant() == Garnish.Name.ToUpperInvariant()))
             {
                 bool saveAnyway = false;
-                await DialogService.ShowYesNoDialog("Такой гарнир уже существует",
-                                                    "Всё равно сохранить?", 
+                await DialogService.ShowYesNoDialog(localization.GetLocalizedString("GarnishAlreadyExists"),
+                                                    localization.GetLocalizedString("SaveAnyway"), 
                                                     successCallback: () => saveAnyway = true).ConfigureAwait(false);
 
                 if (!saveAnyway)

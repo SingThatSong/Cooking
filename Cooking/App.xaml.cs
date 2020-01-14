@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
+using Cooking.DTO;
 using Cooking.Pages;
 using Cooking.ServiceLayer;
 using Cooking.WPF;
@@ -19,7 +20,7 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
 
-// TODO: Add localization
+// TODO: Use https://github.com/warappa/XamlCSS
 // TODO: Move Configuration to IOptions
 // TODO: Validate all forms
 // TODO: Cleanup DTOs
@@ -76,6 +77,25 @@ namespace Cooking
             logger.Error(e.ExceptionObject as Exception, "Critical error");
         }
 
+        private void SetStaticVariables()
+        {
+            var configuration = Container.Resolve<IConfiguration>();
+            var langSetting = configuration[Consts.LanguageConfigParameter];
+
+            if (langSetting != null)
+            {
+                LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(configuration[Consts.LanguageConfigParameter]);
+            }
+            else
+            {
+                LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(Consts.DefaultCulture);
+            }
+            LocalizeDictionary.Instance.SetCurrentThreadCulture = false;
+
+            var localization = Container.Resolve<ILocalization>();
+            TagEdit.Any.Name = localization.GetLocalizedString("Any");
+        }
+
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Register logging
@@ -96,18 +116,6 @@ namespace Cooking
 
             containerRegistry.RegisterInstance<IConfiguration>(configuration);
 
-            var langSetting = configuration[Consts.LanguageConfigParameter];
-
-            if (langSetting != null)
-            {
-                LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(configuration[Consts.LanguageConfigParameter]);
-            }
-            else
-            {
-                LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(Consts.DefaultCulture);
-            }
-            LocalizeDictionary.Instance.SetCurrentThreadCulture = false;
-
             // Register main page and main vm - they are constant
             containerRegistry.Register<MainWindow>();
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
@@ -126,7 +134,6 @@ namespace Cooking
 
             // Use instance of provider as singleton for different interfaces
             var jsonProvider = new JsonLocalizationProvider();
-
             containerRegistry.RegisterInstance<ILocalization>(jsonProvider);
             containerRegistry.RegisterInstance<ILocalizationProvider>(jsonProvider);
 
@@ -150,6 +157,8 @@ namespace Cooking
             containerRegistry.RegisterForNavigation<IngredientsView>();
             containerRegistry.RegisterForNavigation<TagsView>();
             containerRegistry.RegisterForNavigation<GarnishesView>();
+
+            SetStaticVariables();
         }
 
         /// <summary>
