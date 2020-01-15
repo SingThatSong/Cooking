@@ -59,6 +59,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Create installer (Inno setup)
 // TODO: Create db migrator for installer
 
+// TODO: Detect literals = https://stackoverflow.com/questions/29533905/how-to-find-all-the-hardcoded-values-in-a-c-sharp-projectsolution
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Ensure startup time < 3s
 namespace Cooking
