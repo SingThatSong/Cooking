@@ -21,9 +21,9 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-
+// TODO: Localize validation errors
 // TODO: Validate all forms
-// TODO: Cleanup DTOs
+// TODO: Form .editorconfig
 // TODO: Cleanup mappings
 // TODO: Cleanup namespaces
 // TODO: Cleanup view and viewmodel names
@@ -41,24 +41,26 @@ using WPFLocalizeExtension.Providers;
 // TODO: Set Readme.md
 // TODO: Set folder names
 // TODO: Remove magic literals
-// TODO: Ensure startup time < 3s
-// TODO: Form .editorconfig
-
-// Tests-related
-// TODO: Use fluent assertions
-// TODO: Tests FTW
-// TODO: Configure tests coverage
 
 // Git-related
 // TODO: Setup CI
 // TODO: Use XamlStyler in git hooks
 // TODO: Remove usings in git hooks
 
+// Tests-related
+// TODO: Use fluent assertions
+// TODO: Tests FTW
+// TODO: Configure tests coverage
+
+// Refactoring
+// TODO: Cleanup DTOs
+
 // Db-related
-// TODO: Create installer
+// TODO: Create installer (Inno setup)
 // TODO: Create db migrator for installer
 
 // TODO: Use static anylizers (PVS Studio)
+// TODO: Ensure startup time < 3s
 namespace Cooking
 {
     /// <summary>
