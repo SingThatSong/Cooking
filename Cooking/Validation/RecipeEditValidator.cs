@@ -1,14 +1,15 @@
-﻿using FluentValidation;
+﻿using Cooking.WPF.Helpers;
+using FluentValidation;
 
 namespace Cooking.DTO
 {
     public class RecipeEditValidator : AbstractValidator<RecipeEdit>
     {
-        public RecipeEditValidator()
+        public RecipeEditValidator(ILocalization localization)
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage("Нужно указать название");
+                .WithMessage(localization.GetLocalizedString("SpecifyName"));
         }
     }
 }

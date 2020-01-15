@@ -69,5 +69,9 @@
   "CategoriesOf": "Категории {0}",
   "GarnishAlreadyExists": "Такой гарнир уже существует",
   "IngredientAlreadyExists": "Такой ингредиент уже существует",
-  "SaveAnyway": "Всё равно сохранить?"
+  "SaveAnyway": "Всё равно сохранить?",
+  "SpecifyName": "Нужно указать название",
+  "SpecifyIngredient": "Ингредиент нужно указать",
+  "SpecifyAmountIfMeasureUnit": "Если указана единица измерения, нужно количество",
+  "SpecifyMeasureUnitIfAmount": "Если указано количество, нужна единица измерения"
 }

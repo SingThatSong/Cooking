@@ -1,10 +1,12 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using Prism.Unity;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 
 namespace Cooking
 {
@@ -29,9 +31,9 @@ namespace Cooking
             {
                 var typeName = $"{modelType.Namespace}.{modelType.Name}Validator";
                 var type = modelType.Assembly.GetType(typeName, true);
-                if (type != null)
+                if (type != null && Application.Current is PrismApplication app)
                 {
-                    validator = Activator.CreateInstance(type) as IValidator;
+                    validator = app.Container.Resolve(type) as IValidator;
                     validators[modelType.TypeHandle] = validator;
                 }
                 else

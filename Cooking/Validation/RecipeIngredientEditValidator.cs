@@ -1,24 +1,25 @@
-﻿using FluentValidation;
+﻿using Cooking.WPF.Helpers;
+using FluentValidation;
 
 namespace Cooking.DTO
 {
     public class RecipeIngredientEditValidator : AbstractValidator<RecipeIngredientEdit>
     {
-        public RecipeIngredientEditValidator()
+        public RecipeIngredientEditValidator(ILocalization localization)
         {
             RuleFor(x => x.Ingredient)
                 .NotNull()
-                .WithMessage("Ингредиент нужно указать");
+                .WithMessage(localization.GetLocalizedString("SpecifyIngredient"));
 
             RuleFor(x => x.Amount)
                 .NotNull()
                 .When(x => x.MeasureUnit != null)
-                .WithMessage("Если указана единица измерения, нужно количество");
+                .WithMessage(localization.GetLocalizedString("SpecifyAmountIfMeasureUnit"));
 
             RuleFor(x => x.MeasureUnit)
                 .NotNull()
                 .When(x => x.Amount != null)
-                .WithMessage("Если указано количество, нужна единица измерения");
+                .WithMessage(localization.GetLocalizedString("SpecifyMeasureUnitIfAmount"));
         }
     }
 }

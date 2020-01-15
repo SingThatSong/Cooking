@@ -68,5 +68,9 @@
   "CategoriesOf": "{0} categories",
   "GarnishAlreadyExists": "Garnish with the same name already exists",
   "IngredientAlreadyExists": "Ingredient with the same name already exists",
-  "SaveAnyway": "Save anyway?"
+  "SaveAnyway": "Save anyway?",
+  "SpecifyName": "Please specify name",
+  "SpecifyIngredient": "Please specify ingredient",
+  "SpecifyAmountIfMeasureUnit": "Since measure unit is specified, you need to input amount",
+  "SpecifyMeasureUnitIfAmount": "Since amount is specified, you need to specify measure unit"
 }

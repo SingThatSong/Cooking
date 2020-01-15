@@ -21,7 +21,6 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Localize validation errors
 // TODO: Validate all forms
 // TODO: Form .editorconfig
 // TODO: Cleanup mappings
@@ -159,6 +158,11 @@ namespace Cooking
             containerRegistry.RegisterForNavigation<IngredientsView>();
             containerRegistry.RegisterForNavigation<TagsView>();
             containerRegistry.RegisterForNavigation<GarnishesView>();
+
+            // Register validators
+            containerRegistry.Register<IngredientGroupEditValidator>();
+            containerRegistry.Register<RecipeEditValidator>();
+            containerRegistry.Register<RecipeIngredientEditValidator>();
 
             SetStaticVariables();
         }
