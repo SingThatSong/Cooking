@@ -70,6 +70,7 @@ namespace Cooking.ServiceLayer
             using var context = ContextFactory.Create(useLazyLoading: true);
             var existing = await context.Set<T>().FindAsync(entity.ID);
             MapperService.Mapper.Map(entity, existing);
+            existing.Culture = GetCurrentCulture();
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
