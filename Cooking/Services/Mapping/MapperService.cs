@@ -21,6 +21,14 @@ namespace Cooking
                 // Map created recipe to displayed in list
                 cfg.CreateMap<RecipeEdit, RecipeSelectDto>();
 
+                // Backup dto for editing
+                cfg.CreateMap<GarnishEdit, GarnishEdit>();
+                cfg.CreateMap<RecipeEdit, RecipeEdit>();
+                cfg.CreateMap<TagEdit, TagEdit>();
+
+                // Cleanup below
+                // -----------------------
+
                 cfg.CreateMap<Garnish, GarnishEdit>().ReverseMap();
                 cfg.CreateMap<Week, WeekEdit>();
                 cfg.CreateMap<Day, DayEdit>();
@@ -53,7 +61,6 @@ namespace Cooking
                     }
                 });
 
-                cfg.CreateMap<RecipeEdit, RecipeEdit>();
                 cfg.CreateMap<RecipeEdit, Recipe>()
                    .AfterMap((src, dest) =>
                    {
