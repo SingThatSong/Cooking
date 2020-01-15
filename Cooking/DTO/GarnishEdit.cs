@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using Validar;
 
 namespace Cooking.DTO
 {
+    [InjectValidation]
     public class GarnishEdit : INotifyPropertyChanged
     {
         public Guid ID { get; set; }
