@@ -29,25 +29,25 @@ using WPFLocalizeExtension.Providers;
 // TODO: Cleanup view and viewmodel names
 // TODO: Cleanup lib dependencies
 // TODO: Cleanup binding errors
-// TODO: Configure tests coverage
 // TODO: Make one-file deploy
 // TODO: Make sure Cooking.WPF contains no buisness logic
 // TODO: Dish garnishes select + generate
-// TODO: App users
 // TODO: Refactor ViewModels into scheme: dependencies, state, commands, constructor, methods
+// TODO: App users
 // TODO: Placeholder for time when loading occurs (overhead?)
-// TODO: Add centralized configuration edit
+// TODO: Add centralized configuration edit (now it's only in SettingsViewModel)
 // TODO: Add comments to cs
 // TODO: Add comments to XAML
 // TODO: Set Readme.md
 // TODO: Set folder names
 // TODO: Remove magic literals
 // TODO: Ensure startup time < 3s
+// TODO: Form .editorconfig
 
 // Tests-related
 // TODO: Use fluent assertions
 // TODO: Tests FTW
-// TODO: Form .editorconfig
+// TODO: Configure tests coverage
 
 // Git-related
 // TODO: Setup CI
@@ -57,6 +57,8 @@ using WPFLocalizeExtension.Providers;
 // Db-related
 // TODO: Create installer
 // TODO: Create db migrator for installer
+
+// TODO: Use static anylizers (PVS Studio)
 namespace Cooking
 {
     /// <summary>
