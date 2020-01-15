@@ -25,6 +25,7 @@ namespace Cooking
                 cfg.CreateMap<GarnishEdit, GarnishEdit>();
                 cfg.CreateMap<RecipeEdit, RecipeEdit>();
                 cfg.CreateMap<TagEdit, TagEdit>();
+                cfg.CreateMap<IngredientEdit, IngredientEdit>();
 
                 // Cleanup below
                 // -----------------------
@@ -33,7 +34,7 @@ namespace Cooking
                 cfg.CreateMap<Week, WeekEdit>();
                 cfg.CreateMap<Day, DayEdit>();
                 cfg.CreateMap<Tag, TagEdit>();
-                cfg.CreateMap<Ingredient, IngredientEdit>();
+                cfg.CreateMap<Ingredient, IngredientEdit>().ReverseMap();
                 cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>();
                 cfg.CreateMap<IngredientsGroup, IngredientGroupEdit>();
 
@@ -87,8 +88,6 @@ namespace Cooking
                 cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>();
                 cfg.CreateMap<IngredientGroupData, IngredientGroupEdit>();
                 cfg.CreateMap<IngredientData, IngredientEdit>();
-                cfg.CreateMap<IngredientEdit, IngredientEdit>();
-                cfg.CreateMap<IngredientEdit, Ingredient>();
             });
         }
     }
