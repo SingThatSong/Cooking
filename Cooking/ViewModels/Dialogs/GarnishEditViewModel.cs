@@ -16,6 +16,7 @@ namespace Cooking.Pages
 
         // State
         public GarnishEdit Garnish { get; set; }
+        public string? NameCaption => localization.GetLocalizedString("Name");
         private bool NameChanged { get; set; }
         public IEnumerable<string>? SimilarGarnishes => string.IsNullOrWhiteSpace(Garnish?.Name)
             ? null

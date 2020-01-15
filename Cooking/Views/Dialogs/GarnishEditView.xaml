@@ -21,7 +21,7 @@
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="{lex:Loc Name}" />
+                <TextBlock Text="{Binding NameCaption}" />
                 <TextBox
                     Name="Focused"
                     Grid.Column="1"

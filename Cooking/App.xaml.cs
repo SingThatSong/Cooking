@@ -163,7 +163,8 @@ namespace Cooking
             containerRegistry.Register<IngredientGroupEditValidator>();
             containerRegistry.Register<RecipeEditValidator>();
             containerRegistry.Register<RecipeIngredientEditValidator>();
-
+            containerRegistry.Register<GarnishEditValidator>();
+            
             SetStaticVariables();
         }
 
