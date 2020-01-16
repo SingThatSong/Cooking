@@ -1,9 +1,11 @@
 ﻿using Data.Model;
 using System;
 using System.ComponentModel;
+using Validar;
 
 namespace Cooking.DTO
 {
+    [InjectValidation]
     public class IngredientEdit : INotifyPropertyChanged
     {
         public Guid ID { get; set; }

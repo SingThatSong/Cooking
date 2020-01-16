@@ -23,6 +23,9 @@ namespace Cooking.Pages.Ingredients
         public bool IsCreation { get; set; }
         public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
 
+        public string? CountCaption => localization.GetLocalizedString("Count");
+        public string? IngredientCaption => localization.GetLocalizedString("Ingredient");
+        public string? MeasurementUnitCaption => localization.GetLocalizedString("MeasurementUnit");
         public DelegateCommand LoadedCommand { get; }
         public DelegateCommand AddMultipleCommand { get; }
         public DelegateCommand<RecipeIngredientEdit> RemoveIngredientCommand { get; }

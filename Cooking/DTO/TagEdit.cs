@@ -1,9 +1,11 @@
 ﻿using Data.Model;
 using System;
 using System.ComponentModel;
+using Validar;
 
 namespace Cooking.DTO
 {
+    [InjectValidation]
     public class TagEdit : INotifyPropertyChanged
     {
         public static readonly TagEdit Any = new TagEdit()

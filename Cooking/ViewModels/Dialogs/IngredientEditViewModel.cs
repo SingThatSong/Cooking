@@ -1,4 +1,5 @@
-﻿using Cooking.DTO;
+﻿using Cooking.Commands;
+using Cooking.DTO;
 using Cooking.Helpers;
 using Cooking.WPF.Helpers;
 using Data.Model;
@@ -24,6 +25,9 @@ namespace Cooking.Pages
                                                         ? null
                                                         : AllIngredientNames.OrderBy(x => IngredientCompare(x, Ingredient.Name)).Take(3);
         public ReadOnlyCollection<IngredientType> IngredientTypes => IngredientType.AllValues;
+        public DelegateCommand LoadedCommand { get; }
+        public string? NameCaption => localization.GetLocalizedString("Name");
+        public string? TypeCaption => localization.GetLocalizedString("Type");
 
         public IngredientEditViewModel(IngredientService ingredientService, DialogService dialogService, ILocalization localization, IngredientEdit? category = null) : base(dialogService)
         {
@@ -38,6 +42,21 @@ namespace Cooking.Pages
                     NameChanged = true;
                 }
             };
+            LoadedCommand = new DelegateCommand(OnLoaded);
+        }
+
+        // WARNING: this is a crunch
+        // When we open ingredient creation dialog second+ time, validation cannot see Ingredient being a required property, but when we change it's value - everything is ok
+        // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
+        private void OnLoaded()
+        {
+            var nameBackup = Ingredient.Name;
+            var typeBackup = Ingredient.Type;
+            Ingredient.Name = "123";
+            Ingredient.Name = nameBackup;
+            Ingredient.Type = IngredientType.Spice;
+            Ingredient.Type = IngredientType.Vegetables;
+            Ingredient.Type = typeBackup;
         }
 
         protected override async Task Ok()
@@ -58,6 +77,18 @@ namespace Cooking.Pages
             }
 
             await base.Ok().ConfigureAwait(false);
+        }
+
+        protected override bool CanOk()
+        {
+            if (Ingredient is INotifyDataErrorInfo dataErrorInfo)
+            {
+                return !dataErrorInfo.HasErrors;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

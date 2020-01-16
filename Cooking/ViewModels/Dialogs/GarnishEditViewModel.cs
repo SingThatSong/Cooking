@@ -1,4 +1,5 @@
-﻿using Cooking.DTO;
+﻿using Cooking.Commands;
+using Cooking.DTO;
 using Cooking.Helpers;
 using Cooking.WPF.Helpers;
 using ServiceLayer;
@@ -22,6 +23,7 @@ namespace Cooking.Pages
             ? null
             : AllGarnishNames.OrderBy(x => GarnishCompare(x, Garnish.Name)).Take(3);
         private List<string> AllGarnishNames { get; set; }
+        public DelegateCommand LoadedCommand { get; }
 
         public GarnishEditViewModel(GarnishEdit? garnish, 
                                     GarnishService garnishService, 
@@ -39,6 +41,17 @@ namespace Cooking.Pages
                     NameChanged = true;
                 }
             };
+            LoadedCommand = new DelegateCommand(OnLoaded);
+        }
+
+        // WARNING: this is a crunch
+        // When we open ingredient creation dialog second+ time, validation cannot see Ingredient being a required property, but when we change it's value - everything is ok
+        // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
+        private void OnLoaded()
+        {
+            var backup = Garnish.Name;
+            Garnish.Name = "123";
+            Garnish.Name = backup;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -59,6 +72,18 @@ namespace Cooking.Pages
             }
 
             await base.Ok().ConfigureAwait(false);
+        }
+
+        protected override bool CanOk()
+        {
+            if (Garnish is INotifyDataErrorInfo dataErrorInfo)
+            {
+                return !dataErrorInfo.HasErrors;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private int GarnishCompare(string str1, string str2)

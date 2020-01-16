@@ -1,7 +1,9 @@
-﻿using Cooking.DTO;
+﻿using Cooking.Commands;
+using Cooking.DTO;
 using Cooking.Helpers;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Helpers;
+using Data.Model;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -16,13 +18,31 @@ namespace Cooking.Pages
         private readonly ILocalization localization;
 
         private bool NameChanged { get; set; }
+        public string? CategoryCaption => localization.GetLocalizedString("Category");
+        public string? ColorCaption => localization.GetLocalizedString("Color");
+        public string? NameCaption => localization.GetLocalizedString("Name");
 
+        public DelegateCommand LoadedCommand { get; }
         public TagEditViewModel(DialogService dialogService, TagService tagService, ILocalization localization, TagEdit? category = null) : base(dialogService)
         {
             this.localization = localization;
             Tag = category ?? new TagEdit();
             AllTagNames = tagService.GetTagNames();
             Tag.PropertyChanged += Tag_PropertyChanged;
+            LoadedCommand = new DelegateCommand(OnLoaded);
+        }
+
+        // WARNING: this is a crunch
+        // When we open ingredient creation dialog second+ time, validation cannot see Ingredient being a required property, but when we change it's value - everything is ok
+        // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
+        private void OnLoaded()
+        {
+            var nameBackup = Tag.Name;
+            var typeBackup = Tag.Type;
+            Tag.Name = "123";
+            Tag.Type = TagType.DishType;
+            Tag.Name = nameBackup;
+            Tag.Type = typeBackup;
         }
 
         private void Tag_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -30,6 +50,17 @@ namespace Cooking.Pages
             if (e.PropertyName == nameof(Tag.Name))
             {
                 NameChanged = true;
+            }
+        }
+        protected override bool CanOk()
+        {
+            if (Tag is INotifyDataErrorInfo dataErrorInfo)
+            {
+                return !dataErrorInfo.HasErrors;
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -42,8 +73,8 @@ namespace Cooking.Pages
                     bool okAnyway = false;
 
                     await DialogService.ShowYesNoDialog(
-                       localization.GetLocalizedString("SureDelete"),
-                       localization.GetLocalizedString("CannotUndo"),
+                       localization.GetLocalizedString("TagAlreadyExists"),
+                       localization.GetLocalizedString("SaveAnyway"),
                        successCallback: () => okAnyway = true).ConfigureAwait(false);
 
                     if (!okAnyway)

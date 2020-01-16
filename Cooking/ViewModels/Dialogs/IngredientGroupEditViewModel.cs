@@ -1,4 +1,5 @@
 ﻿using Cooking.Commands;
+using System.ComponentModel;
 
 namespace Cooking.Pages
 {
@@ -16,9 +17,21 @@ namespace Cooking.Pages
         // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
         private void OnLoaded()
         {
-            var backup = IngredientGroup;
-            IngredientGroup = new DTO.IngredientGroupEdit();
-            IngredientGroup = backup;
+            var backup = IngredientGroup.Name;
+            IngredientGroup.Name = "123";
+            IngredientGroup.Name = backup;
+        }
+
+        protected override bool CanOk()
+        {
+            if (IngredientGroup is INotifyDataErrorInfo dataErrorInfo)
+            {
+                return !dataErrorInfo.HasErrors;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public DTO.IngredientGroupEdit IngredientGroup { get; private set; }

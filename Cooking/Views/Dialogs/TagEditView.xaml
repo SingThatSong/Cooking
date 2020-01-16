@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:converters="clr-namespace:Cooking.Converters"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
@@ -22,6 +22,12 @@
         </ObjectDataProvider>
         <converters:EnumToDescriptionConverter x:Key="enumToDescriptionConverter" />
     </UserControl.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <UserControl.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
@@ -40,18 +46,18 @@
 
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="{lex:Loc Name}" />
+                <TextBlock Text="{Binding NameCaption}" />
                 <TextBox
                     Name="Focused"
                     Grid.Column="1"
                     Text="{Binding Tag.Name, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBlock Text="{lex:Loc Color}" />
+                <TextBlock Text="{Binding ColorCaption}" />
                 <xctk:ColorPicker
                     DisplayColorAndName="True"
                     Foreground="Black"
                     SelectedColor="{Binding Tag.Color}" />
 
-                <TextBlock Text="{lex:Loc Category}" />
+                <TextBlock Text="{Binding CategoryCaption}" />
                 <ComboBox ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}" SelectedValue="{Binding Tag.Type, Converter={StaticResource enumToDescriptionConverter}}" />
 
 

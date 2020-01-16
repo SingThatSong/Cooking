@@ -69,11 +69,14 @@
   "CategoriesOf": "Категории {0}",
   "GarnishAlreadyExists": "Такой гарнир уже существует",
   "IngredientAlreadyExists": "Такой ингредиент уже существует",
+  "TagAlreadyExists": "Такой тег уже существует",
   "SaveAnyway": "Всё равно сохранить?",
   "SpecifyName": "Нужно указать название",
   "SpecifyIngredient": "Ингредиент нужно указать",
   "SpecifyAmountIfMeasureUnit": "Если указана единица измерения, нужно количество",
   "SpecifyMeasureUnitIfAmount": "Если указано количество, нужна единица измерения",
   "RecipeIconSearch": "Поиск изображения для рецепта",
-  "SearchHelpText": "Поиск... Пример: Название {0}\"ингредиент1\" and {0}\"ингредиент2\" and {1}\"тег1\" and {1}\"тег2\""
+  "SearchHelpText": "Поиск... Пример: Название {0}\"ингредиент1\" and {0}\"ингредиент2\" and {1}\"тег1\" and {1}\"тег2\"",
+  "SpecifyTagType": "Необходимо выбрать тип тега",
+  "SpecifyIngredientType": "Необходимо выбрать тип ингредиента"
 }
