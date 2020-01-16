@@ -1,6 +1,4 @@
 ﻿using Data.Model.Plan;
-using ServiceLayer;
-using System;
 using System.Collections.Generic;
 
 namespace avatest.ViewModels

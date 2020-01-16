@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
-using Data.Context;
 using Data.Model;
-using ServiceLayer;
 using System.Collections.Generic;
 using System.Linq;
 
