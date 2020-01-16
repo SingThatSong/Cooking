@@ -103,7 +103,12 @@ namespace Cooking.Pages
 
         private async void SetRecipeManually(DayPlan day)
         {
-            var viewModel = new RecipeSelectViewModel(dialogUtils, recipeService, container.Resolve<IMapper>(), container.Resolve<RecipeFiltrator>(), day);
+            var viewModel = new RecipeSelectViewModel(dialogUtils, 
+                                                      recipeService, 
+                                                      container.Resolve<IMapper>(), 
+                                                      container.Resolve<RecipeFiltrator>(),
+                                                      container.Resolve<ILocalization>(),
+                                                      day);
 
             await dialogUtils.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>(content: viewModel).ConfigureAwait(false);
 
