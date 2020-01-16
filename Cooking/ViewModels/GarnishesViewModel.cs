@@ -2,10 +2,11 @@
 using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.WPF.Helpers;
-using Data.Model.Plan;
+using Cooking.Data.Model.Plan;
 using PropertyChanged;
 using ServiceLayer;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -53,7 +54,7 @@ namespace Cooking.Pages
         private Task OnLoaded()
         {
             Debug.WriteLine("GarnishesViewModel.OnLoaded");
-            var dbValues = garnishService.GetProjected<GarnishEdit>(mapper);
+            List<GarnishEdit> dbValues = garnishService.GetProjected<GarnishEdit>(mapper);
             Garnishes = new ObservableCollection<GarnishEdit>(dbValues);
 
             return Task.CompletedTask;
@@ -89,7 +90,7 @@ namespace Cooking.Pages
         private async void OnGarnishEdited(GarnishEditViewModel viewModel)
         {
             await garnishService.UpdateAsync(mapper.Map<Garnish>(viewModel.Garnish)).ConfigureAwait(false);
-            var existingGarnish = Garnishes.Single(x => x.ID == viewModel.Garnish.ID);
+            GarnishEdit existingGarnish = Garnishes.Single(x => x.ID == viewModel.Garnish.ID);
             mapper.Map(viewModel.Garnish, existingGarnish);
         }
 

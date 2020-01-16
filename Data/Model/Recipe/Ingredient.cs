@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace Data.Model
+namespace Cooking.Data.Model
 {
     public class Ingredient : Entity
     {
@@ -13,10 +13,7 @@ namespace Data.Model
         public int? TypeID
         {
             get => Type?.ID;
-            set
-            {
-                Type = IngredientType.AllValues.SingleOrDefault(x => x.ID == value);
-            }
+            set => Type = IngredientType.AllValues.SingleOrDefault(x => x.ID == value);
         }
     }
 }

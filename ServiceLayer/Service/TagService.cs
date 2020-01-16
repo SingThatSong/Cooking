@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
-using Data.Model;
+using Cooking.Data.Model;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,13 +15,13 @@ namespace Cooking.ServiceLayer
 
         public List<T> GetTagsByType<T>(TagType tagType, IMapper mapper)
         {
-            using var context = ContextFactory.Create();
+            using CookingContext context = ContextFactory.Create();
             return mapper.ProjectTo<T>(GetCultureSpecificSet(context).Where(x => x.Type == tagType)).ToList();
         }
 
         public List<string> GetTagNames()
         {
-            using var context = ContextFactory.Create();
+            using CookingContext context = ContextFactory.Create();
             return GetCultureSpecificSet(context)
                           .Where(x => x.Name != null)
                           .Select(x => x.Name!)

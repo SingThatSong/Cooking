@@ -1,4 +1,4 @@
-﻿using Data.Model.Plan;
+﻿using Cooking.Data.Model.Plan;
 using System.Collections.Generic;
 
 namespace avatest.ViewModels

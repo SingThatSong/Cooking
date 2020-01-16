@@ -22,7 +22,7 @@ namespace Cooking.Pages
         {
             get
             {
-                var localizedText = localization.GetLocalizedString("SearchHelpText");
+                string? localizedText = localization.GetLocalizedString("SearchHelpText");
                 if (localizedText != null)
                 {
                     localizedText = string.Format(LocalizeDictionary.Instance.Culture, localizedText, Consts.IngredientSymbol, Consts.TagSymbol);
@@ -57,7 +57,7 @@ namespace Cooking.Pages
 
                 if (day.NeededDishTypes != null && day.NeededDishTypes.Any(x => x.IsChecked && x.CanBeRemoved))
                 {
-                    foreach (var dishType in day.NeededDishTypes)
+                    foreach (TagEdit dishType in day.NeededDishTypes)
                     {
                         sb.Append($"{Consts.TagSymbol}\"{dishType.Name}\"");
 
@@ -70,7 +70,7 @@ namespace Cooking.Pages
 
                 if (day.NeededMainIngredients != null && day.NeededMainIngredients.Any(x => x.IsChecked && x.CanBeRemoved))
                 {
-                    var needEnd = false;
+                    bool needEnd = false;
                     if (sb.Length > 0)
                     {
                         if (day.NeededDishTypes != null && day.NeededDishTypes.Count > 1)
@@ -88,7 +88,7 @@ namespace Cooking.Pages
                         }
                     }
 
-                    foreach (var mainIngredient in day.NeededMainIngredients)
+                    foreach (TagEdit mainIngredient in day.NeededMainIngredients)
                     {
                         sb.Append($"{Consts.TagSymbol}\"{mainIngredient.Name}\"");
 
@@ -114,7 +114,9 @@ namespace Cooking.Pages
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)
         {
             if (string.IsNullOrEmpty(filterText))
+            {
                 return;
+            }
 
             if (e.Item is RecipeSelectDto recipe)
             {

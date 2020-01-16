@@ -14,14 +14,16 @@ namespace Cooking.Pages
 
         public void Drop(IDropInfo dropInfo)
         {
+#pragma warning disable IDE0011 // Добавить фигурные скобки
             if (dropInfo.TargetCollection != dropInfo.DragInfo.SourceCollection) return;
             if (dropInfo.Data == dropInfo.TargetItem) return;
             if (!(dropInfo.Data is RecipeIngredientEdit ingredient)) return;
             if (!(dropInfo.TargetItem is RecipeIngredientEdit targetIngredient)) return;
             if (!(dropInfo.TargetCollection is ObservableCollection<RecipeIngredientEdit> targetCollection)) return;
+#pragma warning restore IDE0011
 
-            var oldIndex = targetCollection.IndexOf(ingredient);
-            var targetIndex = targetCollection.IndexOf(targetIngredient);
+            int oldIndex = targetCollection.IndexOf(ingredient);
+            int targetIndex = targetCollection.IndexOf(targetIngredient);
 
             // If we'll be inserting item before it's current position, it's previous position will change +1
             oldIndex = targetIndex < oldIndex ? oldIndex + 1 : oldIndex;

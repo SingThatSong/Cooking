@@ -1,4 +1,4 @@
-﻿namespace Data.Model.Plan
+﻿namespace Cooking.Data.Model.Plan
 {
     public class Garnish : Entity
     {

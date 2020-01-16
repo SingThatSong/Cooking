@@ -2,8 +2,8 @@
 using AutoMapper.EquivalencyExpression;
 using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
-using Data.Model;
-using Data.Model.Plan;
+using Cooking.Data.Model;
+using Cooking.Data.Model.Plan;
 using System;
 using System.Linq;
 

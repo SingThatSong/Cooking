@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Data.Model
+namespace Cooking.Data.Model
 {
     /// <summary>
     /// Typesafe enum pattern

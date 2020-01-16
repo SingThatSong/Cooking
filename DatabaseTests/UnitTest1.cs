@@ -1,6 +1,6 @@
 using Cooking.Data.Context;
-using Data.Model;
-using Data.Model.Plan;
+using Cooking.Data.Model;
+using Cooking.Data.Model.Plan;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +15,7 @@ namespace DatabaseTests
         public void Setup()
         {
             File.Delete("cooking.db");
-            using var context = new CookingContext();
+            using CookingContext context = new CookingContext();
             context.Database.EnsureCreated();
         }
 

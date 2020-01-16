@@ -5,10 +5,10 @@
     xmlns:converters="clr-namespace:Cooking.Converters"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
-    xmlns:prism="http://prismlibrary.com/"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
+    xmlns:prism="http://prismlibrary.com/"
     mahapps:DialogParticipation.Register="{Binding}"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.InputBindings>
@@ -58,7 +58,7 @@
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{lex:Loc Dinner}"  />
+                            <TextBlock Text="{lex:Loc Dinner}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>

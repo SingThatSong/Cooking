@@ -3,7 +3,7 @@ using Cooking.DTO;
 using Cooking.Helpers;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Helpers;
-using Data.Model;
+using Cooking.Data.Model;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -37,10 +37,12 @@ namespace Cooking.Pages
         // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
         private void OnLoaded()
         {
-            var nameBackup = Tag.Name;
-            var typeBackup = Tag.Type;
+            string? nameBackup = Tag.Name;
+            TagType typeBackup = Tag.Type;
+
             Tag.Name = "123";
             Tag.Type = TagType.DishType;
+
             Tag.Name = nameBackup;
             Tag.Type = typeBackup;
         }

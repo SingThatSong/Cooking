@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cooking.Commands;
+using Cooking.Data.Model.Plan;
 using Cooking.DTO;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Helpers;
@@ -8,6 +9,7 @@ using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -84,16 +86,16 @@ namespace Cooking.Pages
         private async Task<WeekEdit?> GetWeekAsync(DateTime dayOfWeek)
         {
             Debug.WriteLine("MainPageViewModel.GetWeekAsync");
-            var weekData = await weekService.GetWeekAsync(dayOfWeek).ConfigureAwait(false);
+            Week weekData = await weekService.GetWeekAsync(dayOfWeek).ConfigureAwait(false);
             if (weekData == null)
             {
                 return null;
             }
 
-            var weekMain = mapper.Map<WeekEdit>(weekData);
+            WeekEdit weekMain = mapper.Map<WeekEdit>(weekData);
             if (weekMain.Days != null)
             {
-                foreach (var day in weekMain.Days)
+                foreach (DayEdit day in weekMain.Days)
                 {
                     day.PropertyChanged += (sender, e) =>
                     {
@@ -124,11 +126,11 @@ namespace Cooking.Pages
         private async void SelectDinner(DayOfWeek dayOfWeek)
         {
             Debug.WriteLine("MainPageViewModel.SelectDinner");
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>().ConfigureAwait(false);
+            RecipeSelectViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>().ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                var day = CurrentWeek!.Days.FirstOrDefault(x => x.DayOfWeek == dayOfWeek);
+                DayEdit day = CurrentWeek!.Days.FirstOrDefault(x => x.DayOfWeek == dayOfWeek);
 
                 if (day != null)
                 {
@@ -153,8 +155,8 @@ namespace Cooking.Pages
             Debug.WriteLine("MainPageViewModel.OnLoadedAsync");
             await SetWeekByDay(DateTime.Now).ConfigureAwait(false);
 
-            var dayOnPreviousWeek = weekService.FirstDayOfWeek(DateTime.Now).AddDays(-1);
-            var prevWeekFilled    = weekService.IsWeekFilled(dayOnPreviousWeek);
+            DateTime dayOnPreviousWeek = weekService.FirstDayOfWeek(DateTime.Now).AddDays(-1);
+            bool prevWeekFilled    = weekService.IsWeekFilled(dayOnPreviousWeek);
 
             if (!prevWeekFilled)
             {
@@ -170,11 +172,11 @@ namespace Cooking.Pages
         private async void MoveRecipe(Guid dayId)
         {
             Debug.WriteLine("MainPageViewModel.MoveRecipe");
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<MoveRecipe, MoveRecipeViewModel>().ConfigureAwait(false);
+            MoveRecipeViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<MoveRecipe, MoveRecipeViewModel>().ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                var selectedDay = viewModel.DaysOfWeek.Single(x => x.IsSelected);
+                SelectDay selectedDay = viewModel.DaysOfWeek.Single(x => x.IsSelected);
                 await weekService.MoveDayToNextWeek(CurrentWeek!.ID, dayId, selectedDay.WeekDay).ConfigureAwait(false);
                 await ReloadCurrentWeek().ConfigureAwait(false);
             }
@@ -183,14 +185,14 @@ namespace Cooking.Pages
         private async void SelectPreviousWeekAsync()
         {
             Debug.WriteLine("MainPageViewModel.SelectPreviousWeekAsync");
-            var dayOnPreviousWeek = WeekStart.AddDays(-1);
+            DateTime dayOnPreviousWeek = WeekStart.AddDays(-1);
             await SetWeekByDay(dayOnPreviousWeek).ConfigureAwait(false);
         }
 
         private async void SelectNextWeekAsync()
         {
             Debug.WriteLine("MainPageViewModel.SelectNextWeekAsync");
-            var dayOnNextWeek = WeekEnd.AddDays(1);
+            DateTime dayOnNextWeek = WeekEnd.AddDays(1);
             await SetWeekByDay(dayOnNextWeek).ConfigureAwait(false);
         }
 
@@ -206,7 +208,7 @@ namespace Cooking.Pages
         {
             Debug.WriteLine("MainPageViewModel.CreateShoppingList");
 
-            var allProducts = weekService.GetWeekIngredients(CurrentWeek!.ID);
+            List<ShoppingListItem> allProducts = weekService.GetWeekIngredients(CurrentWeek!.ID);
             var parameters = new NavigationParameters()
             {
                 { nameof(ShoppingCartViewModel.List), allProducts }
@@ -263,7 +265,7 @@ namespace Cooking.Pages
         #region Navigation methods
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
-            var reloadWeek = navigationContext.Parameters[Consts.ReloadWeekParameter] as bool?;
+            bool? reloadWeek = navigationContext.Parameters[Consts.ReloadWeekParameter] as bool?;
             if (reloadWeek.HasValue && reloadWeek.Value)
             {
                 CurrentWeek = await GetWeekAsync(WeekStart).ConfigureAwait(false);

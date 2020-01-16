@@ -7,7 +7,7 @@
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.Pages"
-    xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data">
+    xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         <converters:IsNullToVisibilityConverter

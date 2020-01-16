@@ -1,0 +1,6 @@
+[*.cs]
+# top-most EditorConfig file
+root = false
+
+# Validator name is by convention
+dotnet_diagnostic.CA1710.severity = none

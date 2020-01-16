@@ -1,4 +1,4 @@
-﻿using Data.Model;
+﻿using Cooking.Data.Model;
 using System;
 using System.ComponentModel;
 using Validar;

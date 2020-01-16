@@ -5,7 +5,7 @@ using Cooking.Pages.Ingredients;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Events;
 using Cooking.WPF.Helpers;
-using Data.Model;
+using Cooking.Data.Model;
 using GongSolutions.Wpf.DragDrop;
 using Prism.Events;
 using Prism.Ioc;
@@ -103,9 +103,9 @@ namespace Cooking.Pages
             RemoveTagCommand            = new DelegateCommand<TagEdit>(RemoveTag);
 
             AddIngredientGroupCommand   = new AsyncDelegateCommand(AddIngredientGroup);
-            EditIngredientGroupCommand  = new AsyncDelegateCommand<DTO.IngredientGroupEdit>(this.EditIngredientGroup);
-            AddIngredientToGroupCommand = new DelegateCommand<DTO.IngredientGroupEdit>(this.AddIngredientToGroup);
-            RemoveIngredientGroupCommand = new DelegateCommand<DTO.IngredientGroupEdit>(this.RemoveIngredientGroup);
+            EditIngredientGroupCommand  = new AsyncDelegateCommand<DTO.IngredientGroupEdit>(EditIngredientGroup);
+            AddIngredientToGroupCommand = new DelegateCommand<DTO.IngredientGroupEdit>(AddIngredientToGroup);
+            RemoveIngredientGroupCommand = new DelegateCommand<DTO.IngredientGroupEdit>(RemoveIngredientGroup);
 
             AddIngredientCommand        = new AsyncDelegateCommand(AddIngredient);
             EditIngredientCommand       = new AsyncDelegateCommand<RecipeIngredientEdit>(EditIngredient);
@@ -114,10 +114,7 @@ namespace Cooking.Pages
 
         private bool CanDeleteRecipe(Guid arg) => !IsRecipeCreation;
 
-        private void Close()
-        {
-            journal?.GoBack();
-        }
+        private void Close() => journal?.GoBack();
 
         private void RemoveIngredientGroup(DTO.IngredientGroupEdit arg) => Recipe!.IngredientGroups!.Remove(arg);
 
@@ -131,7 +128,7 @@ namespace Cooking.Pages
 
             if (Recipe.IngredientGroups != null)
             {
-                foreach (var group in Recipe.IngredientGroups)
+                foreach (DTO.IngredientGroupEdit group in Recipe.IngredientGroups)
                 {
                     if (group.Ingredients != null && group.Ingredients.Contains(ingredient))
                     {
@@ -144,7 +141,7 @@ namespace Cooking.Pages
 
         private async Task EditIngredient(RecipeIngredientEdit ingredient)
         {
-            var viewModel = container.Resolve<RecipeIngredientEditViewModel>();
+            RecipeIngredientEditViewModel viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.Ingredient = ingredient;
 
             await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>(localization.GetLocalizedString("EditIngredient"), viewModel).ConfigureAwait(false);
@@ -157,7 +154,7 @@ namespace Cooking.Pages
 
         private async Task AddTag()
         {
-            var viewModel = container.Resolve<TagSelectViewModel>();
+            TagSelectViewModel viewModel = container.Resolve<TagSelectViewModel>();
             viewModel.SetTags(Recipe!.Tags, null);
             await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>(localization.GetLocalizedString("AddTags"), viewModel).ConfigureAwait(false);
 
@@ -205,7 +202,7 @@ namespace Cooking.Pages
 
         public async Task AddIngredient()
         {
-            var viewModel = container.Resolve<RecipeIngredientEditViewModel>();
+            RecipeIngredientEditViewModel viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.IsCreation = true;
 
             await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>(localization.GetLocalizedString("AddIngredient"), viewModel).ConfigureAwait(true);
@@ -216,7 +213,7 @@ namespace Cooking.Pages
 
                 if (viewModel.Ingredients != null)
                 {
-                    foreach (var ingredient in viewModel.Ingredients)
+                    foreach (RecipeIngredientEdit ingredient in viewModel.Ingredients)
                     {
                         ingredient.Order += Recipe.Ingredients.Count;
                         Recipe.Ingredients.Add(ingredient);
@@ -230,7 +227,7 @@ namespace Cooking.Pages
 
         public async void AddIngredientToGroup(DTO.IngredientGroupEdit group)
         {
-            var viewModel = container.Resolve<RecipeIngredientEditViewModel>();
+            RecipeIngredientEditViewModel viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.IsCreation = true;
 
             await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>(localization.GetLocalizedString("AddIngredient"), viewModel).ConfigureAwait(true);
@@ -241,7 +238,7 @@ namespace Cooking.Pages
 
                 if (viewModel.Ingredients != null)
                 {
-                    foreach (var ingredient in viewModel.Ingredients)
+                    foreach (RecipeIngredientEdit ingredient in viewModel.Ingredients)
                     {
                         ingredient.Order += group.Ingredients.Count;
                         group.Ingredients.Add(ingredient);

@@ -5,7 +5,7 @@ using Cooking.Pages.Dialogs;
 using Cooking.Pages.ViewModel;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Helpers;
-using Data.Model;
+using Cooking.Data.Model;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
@@ -82,7 +82,7 @@ namespace Cooking.Pages
 
         private void Ok()
         {
-            var selectedDays = Days.Skip(1).Where(x => x.IsSelected);
+            IEnumerable<DayPlan> selectedDays = Days.Skip(1).Where(x => x.IsSelected);
             GenerateRecipies(selectedDays);
 
             var parameters = new NavigationParameters
@@ -97,7 +97,7 @@ namespace Cooking.Pages
         private void GenerateRecipies(IEnumerable<DayPlan> selectedDays)
         {
             Debug.WriteLine("MainPageViewModel.GenerateRecipies");
-            foreach (var day in selectedDays)
+            foreach (DayPlan day in selectedDays)
             {
                 var requiredTags = new List<Guid>();
 
@@ -119,7 +119,7 @@ namespace Cooking.Pages
 
                 day.RecipeAlternatives = recipeService.GetRecipiesByParameters(requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
 
-                var selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
+                IEnumerable<ServiceLayer.Projections.RecipeSlim?> selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
                 var recipiesNotSelectedYet = day.RecipeAlternatives.Where(x => !selectedRecipies.Any(selected => selected!.ID == x.ID)).ToList();
 
                 if (recipiesNotSelectedYet.Count > 0)
@@ -164,8 +164,7 @@ namespace Cooking.Pages
 
         private async void AddDishTypes(DayPlan day)
         {
-
-            var tags = await GetTags(TagType.DishType, day.NeededDishTypes).ConfigureAwait(false);
+            ObservableCollection<TagEdit> tags = await GetTags(TagType.DishType, day.NeededDishTypes).ConfigureAwait(false);
 
             if (tags != null)
             {
@@ -175,7 +174,7 @@ namespace Cooking.Pages
 
         private async void AddMainIngredient(DayPlan day)
         {
-            var tags = await GetTags(TagType.MainIngredient, day.NeededMainIngredients).ConfigureAwait(false);
+            ObservableCollection<TagEdit> tags = await GetTags(TagType.MainIngredient, day.NeededMainIngredients).ConfigureAwait(false);
 
             if (tags != null)
             {
@@ -185,13 +184,13 @@ namespace Cooking.Pages
 
         private async Task<ObservableCollection<TagEdit>> GetTags(TagType type, ObservableCollection<TagEdit> current)
         {
-            var allTags = tagService.GetTagsByType<TagEdit>(type, container.Resolve<IMapper>());
+            List<TagEdit> allTags = tagService.GetTagsByType<TagEdit>(type, container.Resolve<IMapper>());
 
             allTags.Insert(0, TagEdit.Any);
             allTags[0].IsChecked = false;
             allTags.ForEach(x => x.Type = type);
 
-            var viewModel = container.Resolve<TagSelectViewModel>();
+            TagSelectViewModel viewModel = container.Resolve<TagSelectViewModel>();
             viewModel.SetTags(current, allTags);
             await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>(string.Format(LocalizeDictionary.Instance.Culture, localization.GetLocalizedString("CategoriesOf") ?? "{0}", type), viewModel).ConfigureAwait(false);
 
@@ -256,7 +255,7 @@ namespace Cooking.Pages
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            var returned = navigationContext.NavigationService.Journal.CurrentEntry.Uri.OriginalString == "ShowGeneratedWeekView";
+            bool returned = navigationContext.NavigationService.Journal.CurrentEntry.Uri.OriginalString == "ShowGeneratedWeekView";
 
             if (returned)
             {
@@ -266,7 +265,7 @@ namespace Cooking.Pages
             else
             {
                 // We started new week creation - cached view should be deleted from region
-                var view = navigationContext.NavigationService.Region.Views.Cast<UserControl>().FirstOrDefault(x => x.DataContext == this);
+                UserControl view = navigationContext.NavigationService.Region.Views.Cast<UserControl>().FirstOrDefault(x => x.DataContext == this);
                 navigationContext.NavigationService.Region.Remove(view);
                 return false;
             }

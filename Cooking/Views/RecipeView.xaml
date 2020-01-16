@@ -8,9 +8,9 @@
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
-    xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
     xmlns:local="clr-namespace:Cooking.WPF"
+    xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Margin="20 0"
@@ -103,7 +103,10 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-                <local:StringFormatProxy x:Name="lastCookedStringFormat" Value="{Binding Recipe.LastCooked}" StringFormat="{lex:Loc LastCooked}" />
+                <local:StringFormatProxy
+                    x:Name="lastCookedStringFormat"
+                    StringFormat="{lex:Loc LastCooked}"
+                    Value="{Binding Recipe.LastCooked}" />
                 <local:StringFormatProxy x:Name="newRecipeProxy" Value="{lex:Loc NewRecipe}" />
                 <TextBlock TextWrapping="Wrap">
                     <TextBlock.Style>
@@ -138,7 +141,10 @@
 
                     <StackPanel Grid.Column="1" Orientation="Vertical">
 
-                        <local:StringFormatProxy x:Name="portionsCountProxy" Value="{Binding Recipe.PortionsCount}" StringFormat="{lex:Loc PortionsCount}" />
+                        <local:StringFormatProxy
+                            x:Name="portionsCountProxy"
+                            StringFormat="{lex:Loc PortionsCount}"
+                            Value="{Binding Recipe.PortionsCount}" />
                         <TextBlock
                             FontSize="20"
                             Text="{Binding Result, ElementName=portionsCountProxy}"

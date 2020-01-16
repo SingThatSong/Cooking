@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Data.Model
+namespace Cooking.Data.Model
 {
     public class Tag : Entity
     {

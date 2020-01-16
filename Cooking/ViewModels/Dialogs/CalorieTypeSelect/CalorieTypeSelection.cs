@@ -1,5 +1,5 @@
 ﻿using Cooking.Helpers;
-using Data.Model;
+using Cooking.Data.Model;
 
 namespace Cooking.Pages.Dialogs
 {

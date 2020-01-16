@@ -1,6 +1,6 @@
 ﻿using Cooking.Data.Context;
 using Cooking.ServiceLayer;
-using Data.Model.Plan;
+using Cooking.Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace ServiceLayer
         public async Task<Week> GetWeekAsync(DateTime dayOfWeek)
         {
             Debug.WriteLine("WeekService.GetWeek(DateTime)");
-            using var context = ContextFactory.Create();
+            using CookingContext context = ContextFactory.Create();
             return await GetCultureSpecificSet(context)    
                                 .Include(x => x.Days)     
                                     .ThenInclude(x => x.Dinner)
@@ -35,7 +35,7 @@ namespace ServiceLayer
         public async Task CreateWeekAsync(DateTime weekStart, Dictionary<DayOfWeek, Guid?> selectedRecepies)
         {
             Debug.WriteLine("WeekService.CreateWeekAsync");
-            using var context = ContextFactory.Create();
+            using CookingContext context = ContextFactory.Create();
             var newWeek = new Week()
             {
                 Start = weekStart,
@@ -46,7 +46,7 @@ namespace ServiceLayer
 
             var days = new List<Day>();
 
-            foreach (var recepie in selectedRecepies.Where(x => x.Value != null))
+            foreach (KeyValuePair<DayOfWeek, Guid?> recepie in selectedRecepies.Where(x => x.Value != null))
             {
                 days.Add(new Day()
                 {
@@ -66,8 +66,8 @@ namespace ServiceLayer
         public List<ShoppingListItem> GetWeekIngredients(Guid id)
         {
             Debug.WriteLine("WeekService.GetWeekIngredients");
-            using var context = ContextFactory.Create(useLazyLoading: true);
-            var week = GetCultureSpecificSet(context).First(x => x.ID == id);
+            using CookingContext context = ContextFactory.Create(useLazyLoading: true);
+            Week week = GetCultureSpecificSet(context).First(x => x.ID == id);
 
             var ingredients = from dinner in week.Days.Where(x => x.Dinner?.Ingredients != null)
                               from recipeIngredient in dinner.Dinner!.Ingredients
@@ -120,8 +120,8 @@ namespace ServiceLayer
         public bool IsWeekFilled(DateTime dayOfWeek)
         {
             Debug.WriteLine("WeekService.IsWeekFilled");
-            using var context = ContextFactory.Create(useLazyLoading: true);
-            var week = GetWeekInternal(dayOfWeek, context);
+            using CookingContext context = ContextFactory.Create(useLazyLoading: true);
+            Week? week = GetWeekInternal(dayOfWeek, context);
 
             if (week?.Days == null)
             {
@@ -163,16 +163,16 @@ namespace ServiceLayer
         public async Task MoveDayToNextWeek(Guid currentWeekId, Guid dayId, DayOfWeek selectedWeekday)
         {
             Debug.WriteLine("WeekService.MoveDayToNextWeek");
-            using var context = ContextFactory.Create(useLazyLoading: true);
-            var day = context.Days.First(x => x.ID == dayId);
+            using CookingContext context = ContextFactory.Create(useLazyLoading: true);
+            Day day = context.Days.First(x => x.ID == dayId);
 
             // Удаление дня на этой неделе
-            var week = context.Weeks.First(x => x.ID == currentWeekId);
+            Week week = context.Weeks.First(x => x.ID == currentWeekId);
             week.Days!.Remove(day);
 
             // Перенос дня на неделю вперёд
-            var dayOnNextWeek = week.End.AddDays(1);
-            var nextWeek = GetWeekInternal(dayOnNextWeek, context);
+            DateTime dayOnNextWeek = week.End.AddDays(1);
+            Week? nextWeek = GetWeekInternal(dayOnNextWeek, context);
 
             if (nextWeek == null)
             {

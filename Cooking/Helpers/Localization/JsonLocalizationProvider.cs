@@ -18,11 +18,11 @@ namespace Cooking.WPF.Helpers
             get
             {
                 var result = new ObservableCollection<CultureInfo>();
-                foreach (var file in new DirectoryInfo("Localization").EnumerateFiles())
+                foreach (FileInfo file in new DirectoryInfo("Localization").EnumerateFiles())
                 {
-                    var lang = file.Name.Replace("local", "", StringComparison.Ordinal)
-                                        .Replace(".",     "", StringComparison.Ordinal)
-                                        .Replace("json",  "", StringComparison.Ordinal);
+                    string lang = file.Name.Replace("local", "", StringComparison.Ordinal)
+                                           .Replace(".",     "", StringComparison.Ordinal)
+                                           .Replace("json",  "", StringComparison.Ordinal);
                     result.Add(CultureInfo.GetCultureInfo(lang));
                 }
 
@@ -30,14 +30,13 @@ namespace Cooking.WPF.Helpers
             }
         }
 
+#pragma warning disable CS0067
         public event ProviderChangedEventHandler? ProviderChanged;
         public event ProviderErrorEventHandler? ProviderError;
         public event ValueChangedEventHandler? ValueChanged;
+#pragma warning restore CS0067
 
-        public FullyQualifiedResourceKeyBase GetFullyQualifiedResourceKey(string key, DependencyObject target)
-        {
-            return new FQAssemblyDictionaryKey(key);
-        }
+        public FullyQualifiedResourceKeyBase GetFullyQualifiedResourceKey(string key, DependencyObject target) => new FQAssemblyDictionaryKey(key);
 
         // Cache for localizations: Culture - (key - value)
         private readonly Dictionary<string, Dictionary<string, string>> cache = new Dictionary<string, Dictionary<string, string>>();
@@ -59,7 +58,7 @@ namespace Cooking.WPF.Helpers
             }
             else
             {
-                var filename = "local";
+                string filename = "local";
                 if (culture.Name.Length != 0)
                 {
                     filename += $".{culture.Name}";
@@ -67,9 +66,12 @@ namespace Cooking.WPF.Helpers
 
                 filename += ".json";
 
-                if (!File.Exists(@"Localization\" + filename)) return null;
+                if (!File.Exists(@"Localization\" + filename))
+                {
+                    return null;
+                }
 
-                var json = File.ReadAllText(@"Localization\" + filename);
+                string json = File.ReadAllText(@"Localization\" + filename);
 
                 cache[culture.Name] = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
 

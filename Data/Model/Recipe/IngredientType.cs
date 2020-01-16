@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Data.Model
+namespace Cooking.Data.Model
 {
     /// <summary>
     /// Typesafe enum pattern

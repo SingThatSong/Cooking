@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
+using System;
 
 namespace Cooking.Pages
 {
@@ -12,8 +13,8 @@ namespace Cooking.Pages
     {
         public DelegateCommand ChangedCommand { get; } = new DelegateCommand(() =>
         {
-            var currentConfig = File.ReadAllText(Consts.SettingsFilename);
-            var configParsed = JsonSerializer.Deserialize<Dictionary<string, string>>(currentConfig);
+            string currentConfig = File.ReadAllText(Consts.SettingsFilename);
+            Dictionary<string, string> configParsed = JsonSerializer.Deserialize<Dictionary<string, string>>(currentConfig);
 
             if (configParsed.ContainsKey(Consts.LanguageConfigParameter))
             {
@@ -28,7 +29,7 @@ namespace Cooking.Pages
 
             // If we cache views, there is no way to update culture in it
             // We guess that lang change is too rare to give up caching, so we restart whole app
-            Process.Start(Application.ResourceAssembly.Location.Replace("dll", "exe"));
+            Process.Start(Application.ResourceAssembly.Location.Replace("dll", "exe", StringComparison.OrdinalIgnoreCase));
             Application.Current.Shutdown();
         });
     }

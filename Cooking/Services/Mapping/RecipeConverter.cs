@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Cooking.DTO;
 using Cooking.ServiceLayer;
-using Data.Model;
+using Cooking.Data.Model;
 
 namespace Cooking.Services
 {

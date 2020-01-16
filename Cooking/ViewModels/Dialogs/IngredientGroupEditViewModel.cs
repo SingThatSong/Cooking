@@ -17,7 +17,7 @@ namespace Cooking.Pages
         // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
         private void OnLoaded()
         {
-            var backup = IngredientGroup.Name;
+            string? backup = IngredientGroup.Name;
             IngredientGroup.Name = "123";
             IngredientGroup.Name = backup;
         }

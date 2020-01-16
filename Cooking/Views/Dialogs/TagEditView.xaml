@@ -7,7 +7,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
+    xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     mahapps:DialogParticipation.Register="{Binding}">
 
@@ -17,7 +17,7 @@
             MethodName="GetValues"
             ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="model:TagType" />
+                <x:Type TypeName="model:" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <converters:EnumToDescriptionConverter x:Key="enumToDescriptionConverter" />

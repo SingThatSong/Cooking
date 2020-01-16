@@ -1,5 +1,5 @@
 ﻿using Cooking.Data.Context;
-using Data.Model.Plan;
+using Cooking.Data.Model.Plan;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace Cooking.ServiceLayer
 
         public void SetDinnerWasCooked(Guid dayId, bool wasCooked)
         {
-            using var context = ContextFactory.Create();
+            using CookingContext context = ContextFactory.Create();
             var dayDb = context.Days.Find(dayId);
             dayDb.DinnerWasCooked = wasCooked;
             context.SaveChanges();
@@ -36,7 +36,7 @@ namespace Cooking.ServiceLayer
 
         public async Task SetDinner(Guid dayId, Guid dinnerId)
         {
-            using var context = ContextFactory.Create();
+            using CookingContext context = ContextFactory.Create();
             var dayDb = await context.Days.FindAsync(dayId);
             dayDb.DinnerID = dinnerId;
             context.SaveChanges();
@@ -44,7 +44,7 @@ namespace Cooking.ServiceLayer
 
         public async Task CreateDinner(Guid weekId, Guid dinnerId, DayOfWeek dayOfWeek)
         {
-            using var context = ContextFactory.Create(useLazyLoading: true);
+            using CookingContext context = ContextFactory.Create(useLazyLoading: true);
             var weekDb = await context.Weeks.FindAsync(weekId);
             if (weekDb.Days == null)
             {

@@ -2,7 +2,7 @@
 using Cooking.DTO;
 using Cooking.Helpers;
 using Cooking.WPF.Helpers;
-using Data.Model;
+using Cooking.Data.Model;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -50,12 +50,14 @@ namespace Cooking.Pages
         // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
         private void OnLoaded()
         {
-            var nameBackup = Ingredient.Name;
-            var typeBackup = Ingredient.Type;
+            string? nameBackup = Ingredient.Name;
+            IngredientType? typeBackup = Ingredient.Type;
+
             Ingredient.Name = "123";
             Ingredient.Name = nameBackup;
             Ingredient.Type = IngredientType.Spice;
             Ingredient.Type = IngredientType.Vegetables;
+
             Ingredient.Type = typeBackup;
         }
 

@@ -1,6 +1,6 @@
 using Cooking.Data.Context;
-using Data.Model;
-using Data.Model.Plan;
+using Cooking.Data.Model;
+using Cooking.Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -20,7 +20,7 @@ namespace DatabaseTests
             File.Delete(dbName);
             File.Move($@"DatabaseTest\{dbName}", dbName);
 
-            using var context = new CookingContext(dbName);
+            using CookingContext context = new CookingContext(dbName);
             context.Database.Migrate();
         }
 

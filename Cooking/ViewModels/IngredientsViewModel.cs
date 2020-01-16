@@ -3,11 +3,12 @@ using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Ingredients;
 using Cooking.WPF.Helpers;
-using Data.Model;
+using Cooking.Data.Model;
 using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -64,7 +65,7 @@ namespace Cooking.Pages
         private Task OnLoaded()
         {
             Debug.WriteLine("IngredientsViewModel.OnLoaded");
-            var dataDb = ingredientService.GetProjected<IngredientEdit>(mapper);
+            List<IngredientEdit> dataDb = ingredientService.GetProjected<IngredientEdit>(mapper);
             Ingredients = new ObservableCollection<IngredientEdit>(dataDb);
 
             return Task.CompletedTask;
@@ -109,7 +110,7 @@ namespace Cooking.Pages
         private async void OnIngredientEdited(IngredientEditViewModel viewModel)
         {
             await ingredientService.UpdateAsync(mapper.Map<Ingredient>(viewModel.Ingredient)).ConfigureAwait(false);
-            var existing = Ingredients.Single(x => x.ID == viewModel.Ingredient.ID);
+            IngredientEdit existing = Ingredients.Single(x => x.ID == viewModel.Ingredient.ID);
             mapper.Map(viewModel.Ingredient, existing);
         }
 

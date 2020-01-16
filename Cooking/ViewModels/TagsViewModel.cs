@@ -4,7 +4,7 @@ using Cooking.DTO;
 using Cooking.Pages.Tags;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Helpers;
-using Data.Model;
+using Cooking.Data.Model;
 using Prism.Regions;
 using PropertyChanged;
 using System;
@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Cooking.Pages
 {
@@ -56,7 +57,7 @@ namespace Cooking.Pages
         private void OnLoaded()
         {
             Debug.WriteLine("TagsViewModel.OnLoaded");
-            var dbVals = tagService.GetProjected<TagEdit>(mapper);
+            List<TagEdit> dbVals = tagService.GetProjected<TagEdit>(mapper);
             Tags = new ObservableCollection<TagEdit>(dbVals);
         }
 
@@ -77,7 +78,7 @@ namespace Cooking.Pages
             if (viewModel.DialogResultOk)
             {
                 await tagService.UpdateAsync(mapper.Map<Tag>(viewModel.Tag)).ConfigureAwait(false);
-                var existingTag = Tags.Single(x => x.ID == tag.ID);
+                TagEdit existingTag = Tags.Single(x => x.ID == tag.ID);
                 mapper.Map(viewModel.Tag, existingTag);
             }
         }
@@ -99,11 +100,11 @@ namespace Cooking.Pages
 
         public async void AddTag()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag")).ConfigureAwait(false);
+            TagEditViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag")).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                var id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag)).ConfigureAwait(false);
+                Guid id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag)).ConfigureAwait(false);
                 viewModel.Tag.ID = id;
                 Tags!.Add(viewModel.Tag);
             }

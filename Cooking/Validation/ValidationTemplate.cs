@@ -27,10 +27,10 @@ namespace Cooking
 
         static IValidator? GetValidator(Type modelType)
         {
-            if (!validators.TryGetValue(modelType.TypeHandle, out var validator))
+            if (!validators.TryGetValue(modelType.TypeHandle, out IValidator? validator))
             {
-                var typeName = $"{modelType.Namespace}.{modelType.Name}Validator";
-                var type = modelType.Assembly.GetType(typeName, true);
+                string typeName = $"{modelType.Namespace}.{modelType.Name}Validator";
+                Type? type = modelType.Assembly.GetType(typeName, true);
                 if (type != null && Application.Current is PrismApplication app)
                 {
                     validator = app.Container.Resolve(type) as IValidator;
@@ -49,19 +49,16 @@ namespace Cooking
             validationResult = validator?.Validate(target);
             if (validationResult != null)
             {
-                foreach (var error in validationResult.Errors)
+                foreach (ValidationFailure error in validationResult.Errors)
                 {
                     RaiseErrorsChanged(error.PropertyName);
                 }
             }
         }
 
-        public IEnumerable? GetErrors(string propertyName)
-        {
-            return validationResult?.Errors
-                                    .Where(x => x.PropertyName == propertyName)
-                                    .Select(x => x.ErrorMessage);
-        }
+        public IEnumerable? GetErrors(string propertyName) => validationResult?.Errors
+                                                                               .Where(x => x.PropertyName == propertyName)
+                                                                               .Select(x => x.ErrorMessage);
 
         public bool HasErrors => validationResult?.Errors.Count > 0; 
 
@@ -69,8 +66,9 @@ namespace Cooking
         {
             get
             {
-                var strings = validationResult?.Errors.Select(x => x.ErrorMessage)
-                                               .ToArray();
+                string[]? strings = validationResult?.Errors
+                                                     .Select(x => x.ErrorMessage)
+                                                     .ToArray();
                 if (strings != null)
                 {
                     return string.Join(Environment.NewLine, strings);
@@ -87,9 +85,6 @@ namespace Cooking
 
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
-        void RaiseErrorsChanged(string propertyName)
-        {
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-        }
+        void RaiseErrorsChanged(string propertyName) => ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
     }
 }

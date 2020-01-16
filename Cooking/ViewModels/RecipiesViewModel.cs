@@ -9,6 +9,7 @@ using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -27,7 +28,7 @@ namespace Cooking.Pages
         {
             get
             {
-                var localizedText = localization.GetLocalizedString("SearchHelpText");
+                string? localizedText = localization.GetLocalizedString("SearchHelpText");
                 if (localizedText != null)
                 {
                     localizedText = string.Format(LocalizeDictionary.Instance.Culture, localizedText, Consts.IngredientSymbol, Consts.TagSymbol);
@@ -96,13 +97,13 @@ namespace Cooking.Pages
 
         private void OnRecipeDeleted(Guid id)
         {
-            var existingRecipe = Recipies!.First(x => x.ID == id);
+            RecipeSelectDto existingRecipe = Recipies!.First(x => x.ID == id);
             Recipies!.Remove(existingRecipe);
         }
 
         private void OnRecipeUpdated(RecipeEdit obj)
         {
-            var existingRecipe = Recipies!.First(x => x.ID == obj.ID);
+            RecipeSelectDto existingRecipe = Recipies!.First(x => x.ID == obj.ID);
             mapper.Map(obj, existingRecipe);
         }
 
@@ -114,7 +115,7 @@ namespace Cooking.Pages
         private void OnLoaded()
         {
             Debug.WriteLine("RecepiesViewModel.OnLoaded");
-            var recipies = recipeService.GetProjected<RecipeSelectDto>(container.Resolve<IMapper>());
+            List<RecipeSelectDto> recipies = recipeService.GetProjected<RecipeSelectDto>(container.Resolve<IMapper>());
             Recipies = new ObservableCollection<RecipeSelectDto>(recipies);
 
             RecipiesSource.Source = Recipies;
@@ -123,7 +124,9 @@ namespace Cooking.Pages
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)
         {
             if (string.IsNullOrEmpty(filterText))
+            {
                 return;
+            }
 
             if (e.Item is RecipeSelectDto recipe)
             {
@@ -175,7 +178,7 @@ namespace Cooking.Pages
                 FilterText = (string)navigationContext.Parameters[nameof(FilterText)];
             }
 
-            var mainVM = container.Resolve<MainWindowViewModel>();
+            MainWindowViewModel mainVM = container.Resolve<MainWindowViewModel>();
             mainVM.SelectMenuItemByViewType(typeof(Recepies));
         }
 

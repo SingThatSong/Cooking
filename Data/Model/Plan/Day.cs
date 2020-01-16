@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Data.Model.Plan
+namespace Cooking.Data.Model.Plan
 {
     public class Day : Entity
     {

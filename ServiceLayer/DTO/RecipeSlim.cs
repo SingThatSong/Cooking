@@ -1,4 +1,4 @@
-﻿using Data.Model;
+﻿using Cooking.Data.Model;
 
 namespace Cooking.ServiceLayer.Projections
 {

@@ -3,8 +3,8 @@ using Cooking.DTO;
 using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
 using Cooking.Services;
-using Data.Model;
-using Data.Model.Plan;
+using Cooking.Data.Model;
+using Cooking.Data.Model.Plan;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -55,7 +55,7 @@ namespace Cooking
 
                     if (dest.IngredientGroups != null)
                     {
-                        foreach (var group in dest.IngredientGroups)
+                        foreach (IngredientGroupEdit group in dest.IngredientGroups)
                         {
                             group.Ingredients = new ObservableCollection<RecipeIngredientEdit>(group.Ingredients.OrderBy(x => x.Order));
                         }
@@ -67,7 +67,7 @@ namespace Cooking
                    {
                        if (dest.Tags != null)
                        {
-                           foreach (var tag in dest.Tags)
+                           foreach (RecipeTag tag in dest.Tags)
                            {
                                tag.RecipeId = dest.ID;
                            }

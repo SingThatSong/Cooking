@@ -13,6 +13,7 @@ using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Unity;
 using Serilog;
+using Serilog.Core;
 using ServiceLayer;
 using System;
 using System.Globalization;
@@ -76,23 +77,23 @@ namespace Cooking
 
         private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            var logger = Container.Resolve<ILogger>();
+            ILogger logger = Container.Resolve<ILogger>();
             logger.Error(e.ExceptionObject as Exception, "Critical error");
         }
 
         private void SetStaticVariables()
         {
-            var configuration = Container.Resolve<IOptions<AppSettings>>();
+            IOptions<AppSettings> configuration = Container.Resolve<IOptions<AppSettings>>();
             LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(configuration.Value.Culture);
 
-            var localization = Container.Resolve<ILocalization>();
+            ILocalization localization = Container.Resolve<ILocalization>();
             TagEdit.Any.Name = localization.GetLocalizedString("Any");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Register logging
-            var logger = new LoggerConfiguration()
+            Logger logger = new LoggerConfiguration()
                              .MinimumLevel.Information()
                              .WriteTo.Console()
                              .WriteTo.File("Log.txt",
@@ -111,8 +112,8 @@ namespace Cooking
 
             var serviceCollection = new ServiceCollection();
             serviceCollection.Configure<AppSettings>(configuration);
-            var provider = serviceCollection.BuildServiceProvider();
-            var options = provider.GetRequiredService<IOptions<AppSettings>>();
+            ServiceProvider provider = serviceCollection.BuildServiceProvider();
+            IOptions<AppSettings> options = provider.GetRequiredService<IOptions<AppSettings>>();
 
             containerRegistry.RegisterInstance(options);
 
@@ -173,10 +174,7 @@ namespace Cooking
         /// Creating Prism shell (main window)
         /// </summary>
         /// <returns></returns>
-        protected override Window CreateShell()
-        {
-            return Container.Resolve<MainWindow>();
-        }
+        protected override Window CreateShell() => Container.Resolve<MainWindow>();
 
         protected override void ConfigureViewModelLocator()
         {
@@ -184,8 +182,8 @@ namespace Cooking
 
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
             {
-                var viewName = viewType.FullName;
-                var viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
+                string? viewName = viewType.FullName;
+                string? viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
 
                 string viewModelName;
 

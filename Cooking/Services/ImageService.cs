@@ -16,22 +16,22 @@ namespace Cooking
 
         public string? ImageSearch()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog()
+            var openFileDialog = new OpenFileDialog()
             {
                 Title = localization.GetLocalizedString("RecipeIconSearch")
             };
 
-            var dialogResult = openFileDialog.ShowDialog();
+            bool? dialogResult = openFileDialog.ShowDialog();
 
             if (dialogResult.HasValue && dialogResult.Value)
             {
                 if (File.Exists(openFileDialog.FileName))
                 {
-                    var dir = Directory.CreateDirectory(Consts.ImageFolder);
+                    DirectoryInfo dir = Directory.CreateDirectory(Consts.ImageFolder);
                     var file = new FileInfo(openFileDialog.FileName);
-                    var newFilePath = Path.Combine(dir.FullName, file.Name);
+                    string newFilePath = Path.Combine(dir.FullName, file.Name);
 
-                    var inPath = openFileDialog.FileName;
+                    string inPath = openFileDialog.FileName;
                     var settings = new ProcessImageSettings { Width = 300 };
 
                     using var outStream = new FileStream(newFilePath, FileMode.CreateNew);

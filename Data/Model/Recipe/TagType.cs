@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Data.Model
+namespace Cooking.Data.Model
 {
     public enum TagType
     {

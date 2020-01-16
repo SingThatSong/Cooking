@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Data.Model
+namespace Cooking.Data.Model
 {
     public class Entity
     {

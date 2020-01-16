@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Data.Model.Plan
+namespace Cooking.Data.Model.Plan
 {
     public class Week : Entity
     {

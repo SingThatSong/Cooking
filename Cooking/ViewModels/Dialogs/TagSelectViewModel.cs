@@ -4,7 +4,8 @@ using Cooking.DTO;
 using Cooking.Pages.Tags;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Helpers;
-using Data.Model;
+using Cooking.Data.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -46,9 +47,9 @@ namespace Cooking.Pages
 
             if (currentTags != null)
             {
-                var tagsSelected = AllTags.Where(x => currentTags.Any(ct => ct.ID == x.ID));
+                IEnumerable<TagEdit> tagsSelected = AllTags.Where(x => currentTags.Any(ct => ct.ID == x.ID));
 
-                foreach (var tag in tagsSelected)
+                foreach (TagEdit tag in tagsSelected)
                 {
                     tag.IsChecked = true;
                 }
@@ -57,11 +58,11 @@ namespace Cooking.Pages
 
         public async void AddTag()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag")).ConfigureAwait(false);
+            TagEditViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag")).ConfigureAwait(false);
             
             if (viewModel.DialogResultOk)
             {
-                var id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag)).ConfigureAwait(false);
+                Guid id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag)).ConfigureAwait(false);
                 viewModel.Tag.ID = id;
                 AllTags?.Add(viewModel.Tag);
             }

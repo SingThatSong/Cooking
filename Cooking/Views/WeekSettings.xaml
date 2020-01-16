@@ -5,7 +5,7 @@
     xmlns:controls="clr-namespace:Cooking.Controls"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:model="clr-namespace:Data.Model;assembly=Cooking.Data"
+    xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.InputBindings>

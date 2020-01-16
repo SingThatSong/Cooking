@@ -1,6 +1,6 @@
 ﻿using Cooking.Pages.Dialogs;
 
-using Data.Model;
+using Cooking.Data.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
 using Cooking.ServiceLayer.Projections;
-using Data.Model;
+using Cooking.Data.Model;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer;
 using System;
@@ -37,7 +37,7 @@ namespace Cooking.ServiceLayer
 
         public override TProjection GetProjected<TProjection>(Guid id, IMapper mapper)
         {
-            var recipe = Get(id);
+            Recipe recipe = Get(id);
             return mapper.Map<TProjection>(recipe);
         }
 
@@ -104,7 +104,7 @@ namespace Cooking.ServiceLayer
                 query = query.Where(x => x.Rating >= minRating.Value);
             }
 
-            List<RecipeSlim> queryResult = MapperService.Mapper.ProjectTo<RecipeSlim>(query).ToList();
+            var queryResult = MapperService.Mapper.ProjectTo<RecipeSlim>(query).ToList();
 
             // Клиентская обработка
             if (onlyNew)

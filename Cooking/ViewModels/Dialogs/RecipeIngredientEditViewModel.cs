@@ -2,8 +2,9 @@
 using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.WPF.Helpers;
-using Data.Model;
+using Cooking.Data.Model;
 using ServiceLayer;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -72,7 +73,7 @@ namespace Cooking.Pages.Ingredients
         // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
         private void OnLoaded()
         {
-            var backup = Ingredient.Ingredient;
+            IngredientEdit? backup = Ingredient.Ingredient;
             Ingredient.Ingredient = new IngredientEdit();
             Ingredient.Ingredient = backup;
         }
@@ -103,13 +104,13 @@ namespace Cooking.Pages.Ingredients
 
         private async Task AddRecipe()
         {
-            var viewModel = await dialogUtils.ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"))
+            IngredientEditViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"))
                                              .ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
-                var id = await ingredientService.CreateAsync(mapper.Map<Ingredient>(viewModel.Ingredient))
-                                                .ConfigureAwait(false);
+                Guid id = await ingredientService.CreateAsync(mapper.Map<Ingredient>(viewModel.Ingredient))
+                                                 .ConfigureAwait(false);
                 viewModel.Ingredient.ID = id;
                 AllIngredients.Add(viewModel.Ingredient);
                 Ingredient.Ingredient = viewModel.Ingredient;

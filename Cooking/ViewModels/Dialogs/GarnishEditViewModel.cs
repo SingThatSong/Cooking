@@ -49,7 +49,7 @@ namespace Cooking.Pages
         // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
         private void OnLoaded()
         {
-            var backup = Garnish.Name;
+            string? backup = Garnish.Name;
             Garnish.Name = "123";
             Garnish.Name = backup;
         }

@@ -29,4 +29,8 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Update="C:\Repos\Cooking\.editorconfig" Link="Model\.editorconfig" />
+  </ItemGroup>
+
 </Project>

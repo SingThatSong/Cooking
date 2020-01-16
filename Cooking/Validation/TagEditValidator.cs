@@ -1,5 +1,5 @@
 ﻿using Cooking.WPF.Helpers;
-using Data.Model;
+using Cooking.Data.Model;
 using FluentValidation;
 
 namespace Cooking.DTO
