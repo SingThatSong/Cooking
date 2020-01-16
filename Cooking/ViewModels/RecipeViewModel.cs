@@ -76,14 +76,6 @@ namespace Cooking.WPF.Views
                                IEventAggregator eventAggregator,
                                ILocalization localization)
         {
-            Debug.Assert(dialogUtils != null);
-            Debug.Assert(imageService != null);
-            Debug.Assert(container != null);
-            Debug.Assert(recipeService != null);
-            Debug.Assert(mapper != null);
-            Debug.Assert(eventAggregator != null);
-            Debug.Assert(localization != null);
-
             this.dialogUtils            = dialogUtils;
             this.imageService           = imageService;
             this.container              = container;

@@ -42,12 +42,6 @@ namespace Cooking.WPF.Views
                                           IContainerExtension container,
                                           WeekService weekService) : base()
         {
-            Debug.Assert(dialogUtils != null);
-            Debug.Assert(regionManager != null);
-            Debug.Assert(recipeService != null);
-            Debug.Assert(container != null);
-            Debug.Assert(weekService != null);
-
             this.dialogUtils            = dialogUtils;
             this.regionManager          = regionManager;
             this.recipeService          = recipeService;

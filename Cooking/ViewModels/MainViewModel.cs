@@ -54,13 +54,6 @@ namespace Cooking.WPF.Views
                              WeekService weekService,
                              ILocalization localization)
         {
-            Debug.Assert(dialogUtils != null);
-            Debug.Assert(regionManager != null);
-            Debug.Assert(container != null);
-            Debug.Assert(dayService != null);
-            Debug.Assert(mapper != null);
-            Debug.Assert(weekService != null);
-            Debug.Assert(localization != null);
             Debug.WriteLine("MainPageViewModel.ctor");
 
             this.dialogUtils            = dialogUtils;

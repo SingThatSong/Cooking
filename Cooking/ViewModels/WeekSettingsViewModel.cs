@@ -47,13 +47,6 @@ namespace Cooking.WPF.Views
                                      RecipeService recipeService,
                                      ILocalization localization)
         {
-            Debug.Assert(dialogUtils != null);
-            Debug.Assert(regionManager != null);
-            Debug.Assert(tagService != null);
-            Debug.Assert(container != null);
-            Debug.Assert(recipeService != null);
-            Debug.Assert(localization != null);
-
             this.dialogUtils = dialogUtils;
             this.regionManager = regionManager;
             this.tagService = tagService;

@@ -3,4 +3,5 @@
   <PropertyChanged />
   <Bindables />
   <Validar />
+  <NullGuard IncludeDebugAssert="false" />
 </Weavers>

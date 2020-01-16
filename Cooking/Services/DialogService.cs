@@ -24,11 +24,6 @@ namespace Cooking.WPF
                              IContainerExtension containerProvider,
                              ILocalization localization)
         {
-            Debug.Assert(viewModel != null);
-            Debug.Assert(dialogCoordinator != null);
-            Debug.Assert(containerProvider != null);
-            Debug.Assert(localization != null);
-
             DialogCoordinator = dialogCoordinator;
             this.containerProvider = containerProvider;
             this.localization = localization;

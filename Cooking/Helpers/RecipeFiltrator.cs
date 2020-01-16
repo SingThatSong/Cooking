@@ -24,9 +24,6 @@ namespace Cooking.WPF.Helpers
                                IEventAggregator eventAggregator,
                                IMapper mapper)
         {
-            Debug.Assert(recipeService != null);
-            Debug.Assert(mapper != null);
-
             this.recipeService = recipeService;
             this.mapper = mapper;
 

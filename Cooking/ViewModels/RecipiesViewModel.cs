@@ -56,15 +56,6 @@ namespace Cooking.WPF.Views
                                  RecipeFiltrator recipeFiltrator,
                                  ILocalization localization)
         {
-            Debug.Assert(dialogUtils != null);
-            Debug.Assert(container != null);
-            Debug.Assert(regionManager != null);
-            Debug.Assert(recipeService != null);
-            Debug.Assert(eventAggregator != null);
-            Debug.Assert(mapper != null);
-            Debug.Assert(recipeFiltrator != null);
-            Debug.Assert(localization != null);
-
             this.dialogUtils = dialogUtils;
             this.container = container;
             this.regionManager = regionManager;

@@ -36,12 +36,6 @@ namespace Cooking.WPF.Views
 
         public TagsViewModel(IRegionManager regionManager, DialogService dialogUtils, TagService tagService, IMapper mapper, ILocalization localization)
         {
-            Debug.Assert(regionManager != null);
-            Debug.Assert(dialogUtils != null);
-            Debug.Assert(tagService != null);
-            Debug.Assert(mapper != null);
-            Debug.Assert(localization != null);
-
             this.regionManager = regionManager;
             this.dialogUtils = dialogUtils;
             this.tagService = tagService;

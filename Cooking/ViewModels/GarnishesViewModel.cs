@@ -35,11 +35,6 @@ namespace Cooking.WPF.Views
 
         public GarnishesViewModel(DialogService dialogUtils, GarnishService garnishService, IMapper mapper, ILocalization localization)
         {
-            Debug.Assert(dialogUtils != null);
-            Debug.Assert(garnishService != null);
-            Debug.Assert(mapper != null);
-            Debug.Assert(localization != null);
-
             this.dialogUtils     = dialogUtils;
             this.garnishService  = garnishService;
             this.mapper          = mapper;

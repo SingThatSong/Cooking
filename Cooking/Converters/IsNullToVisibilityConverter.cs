@@ -10,7 +10,7 @@ namespace Cooking.WPF.Converters
         public Visibility NullVisibility { get; set; }
         public Visibility NotNullVisibility { get; set; }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             return value == null ? NullVisibility : NotNullVisibility;
         }

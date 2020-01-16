@@ -43,12 +43,6 @@ namespace Cooking.WPF.Views
                                     IMapper mapper,
                                     ILocalization localization)
         {
-            Debug.Assert(regionManager != null);
-            Debug.Assert(dialogUtils != null);
-            Debug.Assert(ingredientService != null);
-            Debug.Assert(mapper != null);
-            Debug.Assert(localization != null);
-
             this.regionManager     = regionManager;
             this.dialogUtils       = dialogUtils;
             this.ingredientService = ingredientService;

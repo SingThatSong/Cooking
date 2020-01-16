@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using NullGuard;
 using Prism.Unity;
 using System;
 using System.Collections;
@@ -10,6 +11,7 @@ using System.Windows;
 
 namespace Cooking
 {
+    [NullGuard(ValidationFlags.None)]
     public class ValidationTemplate : IDataErrorInfo, INotifyDataErrorInfo
     {
         readonly INotifyPropertyChanged target;
@@ -56,7 +58,7 @@ namespace Cooking
             }
         }
 
-        public IEnumerable? GetErrors(string propertyName) => validationResult?.Errors
+        public IEnumerable? GetErrors([AllowNull] string propertyName) => validationResult?.Errors
                                                                                .Where(x => x.PropertyName == propertyName)
                                                                                .Select(x => x.ErrorMessage);
 

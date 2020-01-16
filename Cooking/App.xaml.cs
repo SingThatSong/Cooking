@@ -21,6 +21,7 @@ using System.Reflection;
 using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
+using NullGuard;
 
 // TODO: Cleanup view and viewmodel names
 // TODO: Cleanup lib dependencies
@@ -38,7 +39,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Set folder names
 // TODO: Remove magic literals
 // TODO: Add debug console logging to methods and constructors
-// TODO: Use https://github.com/Fody/NullGuard
+// TODO: check if .editorconfig uses latest parameters
 
 // Git-related
 // TODO: Setup CI
@@ -61,6 +62,8 @@ using WPFLocalizeExtension.Providers;
 // TODO: Detect literals = https://stackoverflow.com/questions/29533905/how-to-find-all-the-hardcoded-values-in-a-c-sharp-projectsolution
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Ensure startup time < 3s
+
+[assembly: NullGuard(ValidationFlags.Arguments)]
 namespace Cooking
 {
     /// <summary>

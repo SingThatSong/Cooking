@@ -46,11 +46,6 @@ namespace Cooking.WPF.Views
                                              ILocalization localization,
                                              RecipeIngredientEdit? ingredient = null) : base(dialogUtils)
         {
-            Debug.Assert(dialogUtils != null);
-            Debug.Assert(ingredientService != null);
-            Debug.Assert(mapper != null);
-            Debug.Assert(localization != null);
-
             this.dialogUtils = dialogUtils;
             this.ingredientService = ingredientService;
             this.mapper = mapper;
