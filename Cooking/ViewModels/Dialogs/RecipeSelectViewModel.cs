@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Cooking.DTO;
-using Cooking.Pages.Dialogs;
+using Cooking.WPF.DTO;
+using Cooking.WPF.Views;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Helpers;
 using System;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Windows.Data;
 using WPFLocalizeExtension.Engine;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     public partial class RecipeSelectViewModel : OkCancelViewModel
     {

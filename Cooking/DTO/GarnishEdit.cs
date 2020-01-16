@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using Validar;
 
-namespace Cooking.DTO
+namespace Cooking.WPF.DTO
 {
     [InjectValidation]
     public class GarnishEdit : INotifyPropertyChanged

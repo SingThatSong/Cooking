@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace DatabaseTests
+namespace Cooking.Tests
 {
     [TestClass]
     public class DatabaseTest

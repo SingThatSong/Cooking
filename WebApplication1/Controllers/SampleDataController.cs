@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApplication1.Controllers
+namespace Cooking.Web.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace Data.Migrations
+namespace Cooking.Data.Migrations
 {
     public partial class AddGarnish : Migration
     {

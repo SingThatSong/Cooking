@@ -7,17 +7,17 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0-nanoserver-1809 AS build
 WORKDIR /src
-COPY ["WebApplication1/WebApplication1.csproj", "WebApplication1/"]
+COPY ["Cooking.Web/Cooking.Web.csproj", "Cooking.Web/"]
 COPY ["Data/Data.csproj", "Data/"]
-RUN dotnet restore "WebApplication1/WebApplication1.csproj"
+RUN dotnet restore "Cooking.Web/Cooking.Web.csproj"
 COPY . .
-WORKDIR "/src/WebApplication1"
-RUN dotnet build "WebApplication1.csproj" -c Release -o /app
+WORKDIR "/src/Cooking.Web"
+RUN dotnet build "Cooking.Web.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "WebApplication1.csproj" -c Release -o /app
+RUN dotnet publish "Cooking.Web.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "WebApplication1.dll"]
+ENTRYPOINT ["dotnet", "Cooking.Web.dll"]

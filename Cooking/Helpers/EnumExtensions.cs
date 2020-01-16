@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Cooking.Helpers
+namespace Cooking.WPF.Services
 {
     public static class EnumExtensions
     {

@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ServiceLayer;
 
-namespace WebApplication1
+namespace Cooking.Web
 {
     public class Startup
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cooking.Commands
+namespace Cooking.WPF.Commands
 {
     /// <summary>
     /// Generic DelegateCommand where T is a parameter type

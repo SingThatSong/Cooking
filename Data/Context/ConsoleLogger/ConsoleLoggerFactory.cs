@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
-namespace Data.Context
+namespace Cooking.Data.Context
 {
     public sealed class ConsoleLoggerFactory : ILoggerFactory
     {

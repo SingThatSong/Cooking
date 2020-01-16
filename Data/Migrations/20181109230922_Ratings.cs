@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Data.Migrations
+namespace Cooking.Data.Migrations
 {
     public partial class Ratings : Migration
     {

@@ -1,4 +1,4 @@
-﻿using Cooking.Commands;
+﻿using Cooking.WPF.Commands;
 using System.IO;
 using WPFLocalizeExtension.Engine;
 using System.Text.Json;
@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Windows;
 using System;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     public class SettingsViewModel
     {

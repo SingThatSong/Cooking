@@ -1,5 +1,5 @@
-﻿using Cooking.Pages;
-using Cooking.WPF.Helpers;
+﻿using Cooking.WPF.Helpers;
+using Cooking.WPF.Views;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using System;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Cooking
+namespace Cooking.WPF
 {
     public class DialogService
     {
@@ -76,7 +76,7 @@ namespace Cooking
 
             await Application.Current.Dispatcher.Invoke(async () =>
             {
-                CustomDialog dialog = new CustomDialog()
+                var dialog = new CustomDialog()
                 {
                     Title = title,
                     Content = new TDialog { DataContext = content }
@@ -99,7 +99,7 @@ namespace Cooking
 
             await Application.Current.Dispatcher.Invoke(async () =>
             {
-                CustomDialog dialog = new CustomDialog()
+                var dialog = new CustomDialog()
                 {
                     Title = title,
                     Content = new TDialog { DataContext = content }
@@ -117,16 +117,16 @@ namespace Cooking
 
         public virtual async Task ShowYesNoDialog(string? title = null, string? content = null, Action? successCallback = null)
         {
-            var result = await DialogCoordinator.ShowMessageAsync(
-                ViewModel,
-                title,
-                content,
-                style: MessageDialogStyle.AffirmativeAndNegative,
-                settings: new MetroDialogSettings()
-                {
-                    AffirmativeButtonText = localization.GetLocalizedString("Yes"),
-                    NegativeButtonText = localization.GetLocalizedString("No")
-                }).ConfigureAwait(true);
+            MessageDialogResult result = await DialogCoordinator.ShowMessageAsync(
+                                                ViewModel,
+                                                title,
+                                                content,
+                                                style: MessageDialogStyle.AffirmativeAndNegative,
+                                                settings: new MetroDialogSettings()
+                                                {
+                                                    AffirmativeButtonText = localization.GetLocalizedString("Yes"),
+                                                    NegativeButtonText = localization.GetLocalizedString("No")
+                                                }).ConfigureAwait(true);
 
             if (result == MessageDialogResult.Affirmative)
             {
@@ -138,7 +138,7 @@ namespace Cooking
         {
             await Application.Current.Dispatcher.Invoke(async () =>
             {
-                var dialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel).ConfigureAwait(false);
+                BaseMetroDialog dialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel).ConfigureAwait(false);
                 if (dialog != null)
                 {
                     await HideDialogAsync(dialog).ConfigureAwait(false);

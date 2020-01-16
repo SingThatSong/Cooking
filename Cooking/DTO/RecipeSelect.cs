@@ -3,7 +3,7 @@ using PropertyChanged;
 using System;
 using System.IO;
 
-namespace Cooking.DTO
+namespace Cooking.WPF.DTO
 {
     [AddINotifyPropertyChangedInterface]
     public class RecipeSelectDto

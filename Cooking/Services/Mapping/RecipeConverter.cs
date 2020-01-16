@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Cooking.DTO;
-using Cooking.ServiceLayer;
 using Cooking.Data.Model;
+using Cooking.ServiceLayer;
+using Cooking.WPF.DTO;
 
-namespace Cooking.Services
+namespace Cooking.WPF.Services
 {
     public class RecipeConverter : IMappingAction<Recipe, RecipeEdit>
     {

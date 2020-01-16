@@ -1,8 +1,8 @@
-﻿using Cooking.DTO;
+﻿using Cooking.WPF.DTO;
 using GongSolutions.Wpf.DragDrop;
 using System.Collections.ObjectModel;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     public partial class RecipeViewModel
     {

@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace avatest.Views
+namespace Cooking.Avalonia.Views
 {
     public class MainWindow : Window
     {

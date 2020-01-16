@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     /// <summary>
     /// Логика взаимодействия для WeekSettings.xaml

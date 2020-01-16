@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using Validar;
 
-namespace Cooking.DTO
+namespace Cooking.WPF.DTO
 {
     [AddINotifyPropertyChangedInterface]
     [InjectValidation]

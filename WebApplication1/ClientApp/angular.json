@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "WebApplication1": {
+    "Cooking.Web": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -52,18 +52,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "WebApplication1:build"
+            "browserTarget": "Cooking.Web:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "WebApplication1:build:production"
+              "browserTarget": "Cooking.Web:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "WebApplication1:build"
+            "browserTarget": "Cooking.Web:build"
           }
         },
         "test": {
@@ -122,7 +122,7 @@
         }
       }
     },
-    "WebApplication1-e2e": {
+    "Cooking.Web-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -130,7 +130,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "WebApplication1:serve"
+            "devServerTarget": "Cooking.Web:serve"
           }
         },
         "lint": {
@@ -145,5 +145,5 @@
       }
     }
   },
-  "defaultProject": "WebApplication1"
+  "defaultProject": "Cooking.Web"
 }

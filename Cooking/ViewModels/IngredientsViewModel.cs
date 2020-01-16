@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Cooking.Commands;
-using Cooking.DTO;
-using Cooking.Pages.Ingredients;
+using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
+using Cooking.WPF.Views;
 using Cooking.WPF.Helpers;
 using Cooking.Data.Model;
 using Prism.Regions;
@@ -14,7 +14,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     [AddINotifyPropertyChangedInterface]
     public partial class IngredientsViewModel

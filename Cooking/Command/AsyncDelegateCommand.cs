@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Cooking.Commands
+namespace Cooking.WPF.Commands
 {
     public class AsyncDelegateCommand : AsyncDelegateCommandBase
     {

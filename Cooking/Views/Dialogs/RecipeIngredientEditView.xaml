@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Cooking.Pages.Ingredients.RecipeIngredientEditView"
+    x:Class="Cooking.WPF.Views.RecipeIngredientEditView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"

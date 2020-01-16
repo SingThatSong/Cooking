@@ -1,6 +1,4 @@
-﻿using WPFLocalizeExtension.Providers;
-
-namespace Cooking.WPF.Helpers
+﻿namespace Cooking.WPF.Helpers
 {
     public interface ILocalization
     {

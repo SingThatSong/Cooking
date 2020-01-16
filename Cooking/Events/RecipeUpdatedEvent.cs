@@ -1,4 +1,4 @@
-﻿using Cooking.DTO;
+﻿using Cooking.WPF.DTO;
 using Prism.Events;
 
 namespace Cooking.WPF.Events

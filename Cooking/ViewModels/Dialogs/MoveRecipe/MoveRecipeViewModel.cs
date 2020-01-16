@@ -1,9 +1,9 @@
-﻿using Cooking.Commands;
+﻿using Cooking.WPF.Commands;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     public partial class MoveRecipeViewModel : OkCancelViewModel
     {

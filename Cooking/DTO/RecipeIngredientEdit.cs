@@ -3,7 +3,7 @@ using PropertyChanged;
 using System;
 using Validar;
 
-namespace Cooking.DTO
+namespace Cooking.WPF.DTO
 {
     [InjectValidation]
     [AddINotifyPropertyChangedInterface]

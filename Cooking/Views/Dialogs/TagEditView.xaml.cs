@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace Cooking.Pages.Tags
+namespace Cooking.WPF.Views
 {
     /// <summary>
     /// Логика взаимодействия для UserControl1.xaml

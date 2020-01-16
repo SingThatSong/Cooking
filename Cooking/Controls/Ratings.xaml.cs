@@ -1,11 +1,11 @@
 ﻿using Bindables;
-using Cooking.Commands;
+using Cooking.WPF.Commands;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Cooking.Controls
+namespace Cooking.WPF.Controls
 {
     /// <summary>
     /// Ratings control

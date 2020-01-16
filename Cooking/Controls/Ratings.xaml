@@ -1,8 +1,8 @@
 ﻿<UserControl
-  x:Class="Cooking.Controls.Ratings"
+  x:Class="Cooking.WPF.Controls.Ratings"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:converters="clr-namespace:Cooking.Converters"
+  xmlns:converters="clr-namespace:Cooking.WPF.Converters"
   xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
   xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
   x:Name="RatingControl"

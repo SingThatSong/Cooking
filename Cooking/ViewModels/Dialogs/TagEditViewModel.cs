@@ -1,6 +1,6 @@
-﻿using Cooking.Commands;
-using Cooking.DTO;
-using Cooking.Helpers;
+﻿using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
+using Cooking.WPF.Services;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Helpers;
 using Cooking.Data.Model;
@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     public partial class TagEditViewModel : OkCancelViewModel
     {

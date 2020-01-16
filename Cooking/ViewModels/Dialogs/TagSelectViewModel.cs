@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Cooking.Commands;
-using Cooking.DTO;
-using Cooking.Pages.Tags;
+using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
+using Cooking.WPF.Views;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Helpers;
 using Cooking.Data.Model;
@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     public partial class TagSelectViewModel : OkCancelViewModel
     {

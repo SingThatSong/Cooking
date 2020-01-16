@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Cooking.DTO;
-using Cooking.ServiceLayer;
-using Cooking.ServiceLayer.Projections;
-using Cooking.Services;
 using Cooking.Data.Model;
 using Cooking.Data.Model.Plan;
+using Cooking.ServiceLayer;
+using Cooking.ServiceLayer.Projections;
+using Cooking.WPF.DTO;
+using Cooking.WPF.Services;
 using System.Collections.ObjectModel;
 using System.Linq;
 

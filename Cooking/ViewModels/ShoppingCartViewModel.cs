@@ -1,11 +1,11 @@
-﻿using Cooking.Commands;
+﻿using Cooking.WPF.Commands;
 using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     [AddINotifyPropertyChangedInterface]
     public partial class ShoppingCartViewModel : INavigationAware

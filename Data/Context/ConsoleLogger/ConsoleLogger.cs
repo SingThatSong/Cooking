@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Data.Context
+namespace Cooking.Data.Context
 {
     public class ConsoleLogger : ILogger
     {

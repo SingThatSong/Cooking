@@ -2,7 +2,7 @@
 using Avalonia.Logging.Serilog;
 using Avalonia.ReactiveUI;
 
-namespace avatest
+namespace Cooking.Avalonia
 {
     class Program
     {

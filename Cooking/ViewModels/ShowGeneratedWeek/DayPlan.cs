@@ -1,4 +1,4 @@
-﻿using Cooking.DTO;
+﻿using Cooking.WPF.DTO;
 using Cooking.ServiceLayer.Projections;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Cooking.Pages.Dialogs
+namespace Cooking.WPF.Views
 {
     [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения", Justification = "<Ожидание>")]
     public class DayPlan : INotifyPropertyChanged

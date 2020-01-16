@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
-using Cooking.DTO;
-using Cooking.Pages;
+using Cooking.WPF.DTO;
+using Cooking.WPF.Views;
 using Cooking.ServiceLayer;
 using Cooking.WPF;
 using Cooking.WPF.Helpers;
@@ -22,8 +22,6 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Cleanup mappings
-// TODO: Cleanup namespaces
 // TODO: Cleanup view and viewmodel names
 // TODO: Cleanup lib dependencies
 // TODO: Cleanup binding errors
@@ -39,6 +37,8 @@ using WPFLocalizeExtension.Providers;
 // TODO: Set Readme.md
 // TODO: Set folder names
 // TODO: Remove magic literals
+// TODO: Add debug console logging to methods and constructors
+// TODO: Use https://github.com/Fody/NullGuard
 
 // Git-related
 // TODO: Setup CI
@@ -52,6 +52,7 @@ using WPFLocalizeExtension.Providers;
 
 // Refactoring
 // TODO: Cleanup DTOs
+// TODO: Cleanup mappings
 
 // Db-related
 // TODO: Create installer (Inno setup)

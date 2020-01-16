@@ -1,7 +1,7 @@
 ﻿using Cooking.Data.Model.Plan;
 using System.Collections.Generic;
 
-namespace avatest.ViewModels
+namespace Cooking.Avalonia.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {

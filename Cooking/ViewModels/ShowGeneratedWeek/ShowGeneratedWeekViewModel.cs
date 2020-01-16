@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Cooking.Commands;
-using Cooking.Pages.Dialogs;
+using Cooking.WPF.Commands;
+using Cooking.WPF.Views;
 using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
 using Cooking.WPF.Helpers;
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     [AddINotifyPropertyChangedInterface]
     public class ShowGeneratedWeekViewModel : INavigationAware

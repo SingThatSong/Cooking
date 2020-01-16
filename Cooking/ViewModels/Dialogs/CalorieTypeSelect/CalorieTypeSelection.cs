@@ -1,7 +1,7 @@
-﻿using Cooking.Helpers;
+﻿using Cooking.WPF.Services;
 using Cooking.Data.Model;
 
-namespace Cooking.Pages.Dialogs
+namespace Cooking.WPF.Views
 {
     public class CalorieTypeSelection
     {

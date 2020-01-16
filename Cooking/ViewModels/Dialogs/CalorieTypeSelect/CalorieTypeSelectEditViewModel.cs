@@ -1,4 +1,4 @@
-﻿using Cooking.Pages.Dialogs;
+﻿using Cooking.WPF.Views;
 
 using Cooking.Data.Model;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Cooking.Pages.ViewModel
+namespace Cooking.WPF.ViewModels
 {
     public partial class CalorieTypeSelectEditViewModel : OkCancelViewModel
     {

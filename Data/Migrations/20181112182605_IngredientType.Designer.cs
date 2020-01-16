@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace Data.Migrations
+namespace Cooking.Data.Migrations
 {
     [DbContext(typeof(CookingContext))]
     [Migration("20181112182605_IngredientType")]

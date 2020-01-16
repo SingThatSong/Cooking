@@ -1,6 +1,6 @@
-﻿using Cooking.Commands;
-using Cooking.DTO;
-using Cooking.Helpers;
+﻿using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
+using Cooking.WPF.Services;
 using Cooking.WPF.Helpers;
 using ServiceLayer;
 using System;
@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     public partial class GarnishEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Cooking.Converters
+namespace Cooking.WPF.Converters
 {
     // https://stackoverflow.com/a/5182660
     public sealed class BooleanToVisibilityConverter : BooleanConverter<Visibility>

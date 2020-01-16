@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Cooking.Commands;
-using Cooking.DTO;
-using Cooking.Pages.Dialogs;
-using Cooking.Pages.ViewModel;
+using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
+using Cooking.WPF.Views;
+using Cooking.WPF.ViewModels;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Helpers;
 using Cooking.Data.Model;
@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using WPFLocalizeExtension.Engine;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     [AddINotifyPropertyChangedInterface]
     public class WeekSettingsViewModel : INavigationAware

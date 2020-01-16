@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Cooking.Commands;
-using Cooking.DTO;
-using Cooking.Pages.Tags;
+using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
+using Cooking.WPF.Views;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Helpers;
 using Cooking.Data.Model;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     [AddINotifyPropertyChangedInterface]
     public partial class TagsViewModel

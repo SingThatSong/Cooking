@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Cooking.Commands;
-using Cooking.DTO;
-using Cooking.Pages.Ingredients;
+using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
+using Cooking.WPF.Views;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Events;
 using Cooking.WPF.Helpers;
@@ -18,7 +18,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     [AddINotifyPropertyChangedInterface]
     public partial class RecipeViewModel : IDropTarget, INavigationAware, IRegionMemberLifetime

@@ -1,7 +1,7 @@
 ﻿using Cooking.WPF.Helpers;
 using FluentValidation;
 
-namespace Cooking.DTO
+namespace Cooking.WPF.DTO
 {
     public class IngredientEditValidator : AbstractValidator<IngredientEdit>
     {

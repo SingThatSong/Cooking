@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Cooking.Commands
+namespace Cooking.WPF.Commands
 {
     /// <summary>
     /// ICommand implementation for WPF bindings

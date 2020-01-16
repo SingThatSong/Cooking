@@ -2,7 +2,7 @@
 using Cooking.Data.Model;
 using FluentValidation;
 
-namespace Cooking.DTO
+namespace Cooking.WPF.DTO
 {
     public class TagEditValidator : AbstractValidator<TagEdit>
     {

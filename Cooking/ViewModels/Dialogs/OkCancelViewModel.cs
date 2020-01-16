@@ -1,7 +1,7 @@
-﻿using Cooking.Commands;
+﻿using Cooking.WPF.Commands;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     public partial class OkCancelViewModel : DialogViewModel
     {

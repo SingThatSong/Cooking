@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace DatabaseTests
+namespace Cooking.Tests
 {
     [TestClass]
     public class UnitTest1

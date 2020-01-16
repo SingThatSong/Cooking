@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Cooking.DTO;
 using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
+using Cooking.WPF.DTO;
 using Cooking.WPF.Events;
 using Plafi;
 using Prism.Events;

@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Cooking.Commands;
+using Cooking.WPF.Commands;
 using System.Threading.Tasks;
 using Moq;
 using System.Threading;
 
-namespace Cooking.Tests.Command
+namespace Cooking.Tests
 {
     [TestClass]
     public class AsyncDelegateCommandTests

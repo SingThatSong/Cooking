@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Cooking.Pages.GarnishEditView"
+    x:Class="Cooking.WPF.Views.GarnishEditView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors">

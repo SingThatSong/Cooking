@@ -1,10 +1,10 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using avatest.ViewModels;
-using avatest.Views;
+using Cooking.Avalonia.ViewModels;
+using Cooking.Avalonia.Views;
 
-namespace avatest
+namespace Cooking.Avalonia
 {
     public class App : Application
     {

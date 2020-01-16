@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
 
-namespace Cooking.Converters
+namespace Cooking.WPF.Converters
 {
     /// <summary>
     /// Converter which returns multiplication of its parameters. All of the parameters must be convertable to double (e.g. int, double, float, etc.)

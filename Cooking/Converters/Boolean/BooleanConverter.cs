@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Cooking.Converters
+namespace Cooking.WPF.Converters
 {
     // WPF Converter for converting bool values (e.x. Visibility)
     // https://stackoverflow.com/a/5182660

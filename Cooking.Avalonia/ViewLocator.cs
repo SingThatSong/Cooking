@@ -3,10 +3,10 @@
 
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using avatest.ViewModels;
+using Cooking.Avalonia.ViewModels;
 using System;
 
-namespace avatest
+namespace Cooking.Avalonia
 {
     public class ViewLocator : IDataTemplate
     {

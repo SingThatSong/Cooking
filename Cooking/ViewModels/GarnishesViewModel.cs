@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Cooking.Commands;
-using Cooking.DTO;
+using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
 using Cooking.WPF.Helpers;
 using Cooking.Data.Model.Plan;
 using PropertyChanged;
@@ -12,7 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     [AddINotifyPropertyChangedInterface]
     public partial class GarnishesViewModel

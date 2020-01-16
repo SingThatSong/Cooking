@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Cooking.Commands;
 using Cooking.Data.Model.Plan;
-using Cooking.DTO;
 using Cooking.ServiceLayer;
+using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
 using Cooking.WPF.Helpers;
 using Prism.Ioc;
 using Prism.Regions;
@@ -14,7 +14,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     [AddINotifyPropertyChangedInterface]
     public class MainViewModel : INavigationAware

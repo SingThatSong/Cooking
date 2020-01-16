@@ -1,4 +1,4 @@
-﻿namespace Cooking.Converters
+﻿namespace Cooking.WPF.Converters
 {
     public class SimpleBooleanConverter : BooleanConverter<bool>
     {

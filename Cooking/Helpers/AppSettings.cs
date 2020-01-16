@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Cooking.WPF.Helpers
+﻿namespace Cooking.WPF.Helpers
 {
     public class AppSettings
     {

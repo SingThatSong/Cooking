@@ -1,4 +1,4 @@
-﻿using Cooking.Pages;
+﻿using Cooking.WPF.Views;
 using Cooking.WPF.Helpers;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;

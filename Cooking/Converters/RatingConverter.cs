@@ -3,10 +3,10 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace Cooking.Converters
+namespace Cooking.WPF.Converters
 {
     /// <summary>
-    /// <see cref="Cooking.Controls.Ratings"/> control-specific controller
+    /// <see cref="Controls.Ratings"/> control-specific controller
     /// Returns current brush for a column
     /// 
     /// Accepts 3 values: current column index, rating value and rating preview value

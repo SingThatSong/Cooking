@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Cooking.DTO
+namespace Cooking.WPF.DTO
 {
     public class DayEdit : INotifyPropertyChanged
     {

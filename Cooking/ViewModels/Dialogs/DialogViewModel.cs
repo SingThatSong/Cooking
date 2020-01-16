@@ -1,8 +1,8 @@
-﻿using Cooking.Commands;
+﻿using Cooking.WPF.Commands;
 using PropertyChanged;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     [AddINotifyPropertyChangedInterface]
     public partial class DialogViewModel

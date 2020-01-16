@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Cooking.Commands;
-using Cooking.DTO;
+using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Events;
 using Cooking.WPF.Helpers;
@@ -17,7 +17,7 @@ using System.Linq;
 using System.Windows.Data;
 using WPFLocalizeExtension.Engine;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     [AddINotifyPropertyChangedInterface]
     public partial class RecepiesViewModel : INavigationAware

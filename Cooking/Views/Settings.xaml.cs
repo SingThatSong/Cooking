@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Controls;
 using WPFLocalizeExtension.Engine;
 
-namespace Cooking.Pages
+namespace Cooking.WPF.Views
 {
     /// <summary>
     /// Логика взаимодействия для MainPage.xaml

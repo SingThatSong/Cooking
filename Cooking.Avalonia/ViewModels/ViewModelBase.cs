@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 
-namespace avatest.ViewModels
+namespace Cooking.Avalonia.ViewModels
 {
     public class ViewModelBase : ReactiveObject
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Data.Context
+namespace Cooking.Data.Context
 {
     public sealed class Scope : IDisposable
     {

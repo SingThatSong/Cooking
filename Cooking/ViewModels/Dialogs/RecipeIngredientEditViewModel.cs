@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Cooking.Commands;
-using Cooking.DTO;
+using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
 using Cooking.WPF.Helpers;
 using Cooking.Data.Model;
 using ServiceLayer;
@@ -12,7 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.Pages.Ingredients
+namespace Cooking.WPF.Views
 {
     public partial class RecipeIngredientEditViewModel : OkCancelViewModel
     {

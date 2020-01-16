@@ -1,11 +1,11 @@
-﻿using Cooking.Helpers;
+﻿using Cooking.WPF.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Cooking.Converters
+namespace Cooking.WPF.Converters
 {
     /// Converter for displaying <see cref="System.ComponentModel.DescriptionAttribute"/> values from enums
     public class EnumToDescriptionConverter : IValueConverter
