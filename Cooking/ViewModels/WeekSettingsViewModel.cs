@@ -134,11 +134,7 @@ namespace Cooking.Pages
         }
 
         private bool CanClose() => navigationContext?.NavigationService.Journal.CanGoBack ?? false;
-
-        private void Close()
-        {
-            navigationContext!.NavigationService.Journal.GoBack();
-        }
+        private void Close() => navigationContext!.NavigationService.Journal.GoBack();
 
         private async void AddCalorieTypes(DayPlan day)
         {

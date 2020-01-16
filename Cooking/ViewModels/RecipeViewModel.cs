@@ -195,10 +195,7 @@ namespace Cooking.Pages
 
         public bool KeepAlive => false;
 
-        private bool CanRemoveImage()
-        {
-            return Recipe?.ImagePath != null;
-        }
+        private bool CanRemoveImage() => Recipe?.ImagePath != null;
 
         public async Task AddIngredient()
         {
@@ -250,10 +247,7 @@ namespace Cooking.Pages
             }
         }
 
-        public void ImageSearch()
-        {
-            Recipe!.ImagePath = imageService.ImageSearch();
-        }
+        public void ImageSearch() => Recipe!.ImagePath = imageService.ImageSearch();
 
         protected async Task ApplyChanges()
         {
@@ -272,13 +266,10 @@ namespace Cooking.Pages
             IsRecipeCreation = false;
         }
 
-        public async Task DeleteRecipe(Guid recipeId)
-        {
-            await dialogUtils.ShowYesNoDialog(
-                localization.GetLocalizedString("SureDelete"),
-                localization.GetLocalizedString("CannotUndo"),
-                successCallback: () => OnRecipeDeleted(recipeId)).ConfigureAwait(false);
-        }
+        public async Task DeleteRecipe(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"),
+                                                                                           localization.GetLocalizedString("CannotUndo"),
+                                                                                           successCallback: () => OnRecipeDeleted(recipeId))
+                                                                          .ConfigureAwait(false);
 
         private async void OnRecipeDeleted(Guid recipeId)
         {

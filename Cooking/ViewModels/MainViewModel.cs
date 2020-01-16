@@ -145,10 +145,7 @@ namespace Cooking.Pages
             }
         }
 
-        private async Task ReloadCurrentWeek()
-        {
-            CurrentWeek = await GetWeekAsync(CurrentWeek!.Start).ConfigureAwait(false);
-        }
+        private async Task ReloadCurrentWeek() => CurrentWeek = await GetWeekAsync(CurrentWeek!.Start).ConfigureAwait(false);
 
         private async Task OnLoadedAsync()
         {

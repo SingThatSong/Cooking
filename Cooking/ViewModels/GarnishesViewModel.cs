@@ -60,17 +60,14 @@ namespace Cooking.Pages
             return Task.CompletedTask;
         }
 
-        public async void DeleteGarnish(Guid recipeId)
-        {
-            await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"), localization.GetLocalizedString("CannotUndo"),  successCallback: () => OnRecipeDeleted(recipeId))
-                             .ConfigureAwait(false);
-        }
+        public async void DeleteGarnish(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"),
+                                                                                            localization.GetLocalizedString("CannotUndo"),
+                                                                                            successCallback: () => OnRecipeDeleted(recipeId))
+                                                                            .ConfigureAwait(false);
 
-        public async void AddGarnish()
-        {
-            await dialogUtils.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("NewGarnish"), successCallback: OnNewGarnishCreated)
-                             .ConfigureAwait(false);
-        }
+        public async void AddGarnish() => await dialogUtils.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("NewGarnish"), 
+                                                                                                                      successCallback: OnNewGarnishCreated)
+                                                           .ConfigureAwait(false);
 
         public async void EditGarnish(GarnishEdit garnish)
         {

@@ -84,13 +84,10 @@ namespace Cooking.Pages
         }
 
 
-        public async void DeleteTag(Guid recipeId)
-        {
-            await dialogUtils.ShowYesNoDialog(
-                  localization.GetLocalizedString("SureDelete"),
-                  localization.GetLocalizedString("CannotUndo"),
-                  successCallback: () => OnTagDeleted(recipeId)).ConfigureAwait(false);
-        }
+        public async void DeleteTag(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"),
+                                                                                        localization.GetLocalizedString("CannotUndo"),
+                                                                                        successCallback: () => OnTagDeleted(recipeId))
+                                                                       .ConfigureAwait(false);
 
         private async void OnTagDeleted(Guid recipeId)
         {

@@ -80,17 +80,14 @@ namespace Cooking.Pages
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(Recepies), parameters);
         }
 
-        public async void DeleteIngredient(Guid recipeId)
-        {
-            await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"), localization.GetLocalizedString("CannotUndo"), successCallback: () => OnIngredientDeleted(recipeId))
-                             .ConfigureAwait(false);
-        }
+        public async void DeleteIngredient(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"), 
+                                                                                               localization.GetLocalizedString("CannotUndo"), 
+                                                                                               successCallback: () => OnIngredientDeleted(recipeId))
+                                                                               .ConfigureAwait(false);
 
-        public async void AddIngredient()
-        {
-            await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"), successCallback: OnNewIngredientCreated)
-                             .ConfigureAwait(false);
-        }
+        public async void AddIngredient() => await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"), 
+                                                                                                                               successCallback: OnNewIngredientCreated)
+                                                              .ConfigureAwait(false);
 
         public async void EditIngredient(IngredientEdit ingredient)
         {

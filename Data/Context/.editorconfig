@@ -1,3 +1,5 @@
 [*.cs]
 # top-most EditorConfig file
 root = false
+
+csharp_style_expression_bodied_methods = false:suggestion

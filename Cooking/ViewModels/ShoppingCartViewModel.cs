@@ -30,10 +30,7 @@ namespace Cooking.Pages
             }
         }
 
-        private void Close()
-        {
-            navigationContext!.GoBack();
-        }
+        private void Close() => navigationContext!.GoBack();
 
         public ObservableCollection<ShoppingListItem>? List { get; private set; } = new ObservableCollection<ShoppingListItem>();
 

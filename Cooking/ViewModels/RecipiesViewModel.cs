@@ -44,15 +44,8 @@ namespace Cooking.Pages
         public bool IsListView { get; set; }
         public bool IsTilesView { get; set; } = true;
 
-        public void OnIsListViewChanged()
-        {
-            IsTilesView = !IsListView;
-        }
-
-        public void OnIsTilesViewChanged()
-        {
-            IsListView = !IsTilesView;
-        }
+        public void OnIsListViewChanged() => IsTilesView = !IsListView;
+        public void OnIsTilesViewChanged() => IsListView = !IsTilesView;
 
         public RecepiesViewModel(DialogService dialogUtils, 
                                  IContainerExtension container, 
@@ -107,10 +100,7 @@ namespace Cooking.Pages
             mapper.Map(obj, existingRecipe);
         }
 
-        private void OnRecipeCreated(RecipeEdit obj)
-        {
-            Recipies!.Add(mapper.Map<RecipeSelectDto>(obj));
-        }
+        private void OnRecipeCreated(RecipeEdit obj) => Recipies!.Add(mapper.Map<RecipeSelectDto>(obj));
 
         private void OnLoaded()
         {
@@ -166,10 +156,7 @@ namespace Cooking.Pages
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
         }
 
-        public void AddRecipe()
-        {
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView));
-        }
+        public void AddRecipe() => regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView));
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {

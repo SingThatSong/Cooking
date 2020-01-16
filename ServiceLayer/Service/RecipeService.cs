@@ -51,10 +51,7 @@ namespace Cooking.ServiceLayer
             return lastCookedId[recipeId] = dayService.GetLastCookedDate(recipeId);
         }
 
-        public List<RecipeSlim> GetRecipies()
-        {
-            return GetRecipiesByParameters(null, null, null, null, false);
-        }
+        public List<RecipeSlim> GetRecipies() => GetRecipiesByParameters(null, null, null, null, false);
 
         public List<RecipeSlim> GetRecipiesByParameters(List<Guid>? requiredTags, List<CalorieType>? calorieTypes, int? maxComplexity, int? minRating, bool onlyNew)
         {

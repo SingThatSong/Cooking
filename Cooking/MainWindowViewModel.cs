@@ -66,11 +66,9 @@ namespace Cooking
             }
         };
 
-        public void SelectMenuItemByViewType(Type type)
-        {
 #pragma warning disable CS0252
-            SelectedMenuItem = MenuItems.FirstOrDefault(x => x.Tag == type) as HamburgerMenuIconItem;
+        public void SelectMenuItemByViewType(Type type) => SelectedMenuItem = MenuItems.FirstOrDefault(x => x.Tag == type) as HamburgerMenuIconItem;
 #pragma warning restore CS0252
-        }
+
     }
 }

@@ -22,7 +22,6 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Form .editorconfig
 // TODO: Cleanup mappings
 // TODO: Cleanup namespaces
 // TODO: Cleanup view and viewmodel names

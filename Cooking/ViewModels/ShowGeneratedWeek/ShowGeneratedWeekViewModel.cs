@@ -63,10 +63,7 @@ namespace Cooking.Pages
             OkCommand                   = new DelegateCommand(Ok);
         }
 
-        private void Close()
-        {
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(MainView));
-        }
+        private void Close() => regionManager.RequestNavigate(Consts.MainContentRegion, nameof(MainView));
 
         private async void Ok()
         {            
@@ -118,15 +115,9 @@ namespace Cooking.Pages
             }
         }
 
-        private static void DeleteRecipeManually(DayPlan day)
-        {
-            day.SpecificRecipe = null;
-        }
+        private static void DeleteRecipeManually(DayPlan day) => day.SpecificRecipe = null;
 
-        private void Return()
-        {
-            navigationContext?.NavigationService.Journal.GoBack();
-        }
+        private void Return() => navigationContext?.NavigationService.Journal.GoBack();
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {

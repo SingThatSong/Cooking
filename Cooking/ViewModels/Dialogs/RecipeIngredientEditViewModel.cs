@@ -35,10 +35,7 @@ namespace Cooking.Pages.Ingredients
 
 
         public RecipeIngredientEdit Ingredient { get; set; }
-        public void OnIngredientChanged()
-        {
-            Ingredient.Ingredient = AllIngredients?.FirstOrDefault(x => x.ID == Ingredient.Ingredient?.ID);
-        }
+        public void OnIngredientChanged() => Ingredient.Ingredient = AllIngredients?.FirstOrDefault(x => x.ID == Ingredient.Ingredient?.ID);
         public ObservableCollection<RecipeIngredientEdit>? Ingredients { get; private set; }
 
         public List<IngredientEdit> AllIngredients { get; }

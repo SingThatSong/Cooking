@@ -87,9 +87,6 @@ namespace Cooking.WPF.Helpers
             }
         }
 
-        public string? GetLocalizedString(string key)
-        {
-            return GetLocalizedObject(key, null, LocalizeDictionary.Instance.Culture) as string;
-        }
+        public string? GetLocalizedString(string key) => GetLocalizedObject(key, null, LocalizeDictionary.Instance.Culture) as string;
     }
 }

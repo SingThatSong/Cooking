@@ -16,7 +16,8 @@ namespace Cooking.Services
 
         public void Process(Recipe source, RecipeEdit destination, ResolutionContext context)
         {
-            destination.LastCooked = recipeService.DaysFromLasCook(destination.ID);
+            int daysFromLastCook = recipeService.DaysFromLasCook(destination.ID);
+            destination.LastCooked = daysFromLastCook;
         }
     }
 }
