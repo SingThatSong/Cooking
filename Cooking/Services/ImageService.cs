@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Cooking.WPF.Helpers;
+using Microsoft.Win32;
 using PhotoSauce.MagicScaler;
 using System.IO;
 
@@ -6,11 +7,18 @@ namespace Cooking
 {
     public class ImageService
     {
+        private readonly ILocalization localization;
+
+        public ImageService(ILocalization localization)
+        {
+            this.localization = localization;
+        }
+
         public string? ImageSearch()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog()
             {
-                Title = "Поиск изображения для рецепта"
+                Title = localization.GetLocalizedString("RecipeIconSearch")
             };
 
             var dialogResult = openFileDialog.ShowDialog();

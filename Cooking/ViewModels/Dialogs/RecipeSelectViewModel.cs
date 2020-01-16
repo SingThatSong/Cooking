@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Cooking.Commands;
 using Cooking.DTO;
 using Cooking.Pages.Dialogs;
 using Cooking.ServiceLayer;
@@ -10,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
+using WPFLocalizeExtension.Engine;
 
 namespace Cooking.Pages
 {
@@ -18,17 +18,33 @@ namespace Cooking.Pages
         public RecipeSelectDto? SelectedRecipe { get; set; }
         public Guid? SelectedRecipeID => SelectedRecipe?.ID;
 
+        public string? SearchHelpText
+        {
+            get
+            {
+                var localizedText = localization.GetLocalizedString("SearchHelpText");
+                if (localizedText != null)
+                {
+                    localizedText = string.Format(LocalizeDictionary.Instance.Culture, localizedText, Consts.IngredientSymbol, Consts.TagSymbol);
+                }
+                return localizedText;
+            }
+        }
+
         public RecipeSelectViewModel(DialogService dialogService, 
                                      RecipeService recipeService, 
                                      IMapper mapper, 
                                      RecipeFiltrator recipeFiltrator,
+                                     ILocalization localization,
                                      DayPlan? day = null) : base(dialogService)
         {
             Debug.Assert(recipeService != null);
             Debug.Assert(mapper != null);
             Debug.Assert(recipeFiltrator != null);
+            Debug.Assert(localization != null);
 
             this.recipeFiltrator = recipeFiltrator;
+            this.localization = localization;
 
             _recipies = recipeService.GetProjected<RecipeSelectDto>(mapper);
 
@@ -123,6 +139,7 @@ namespace Cooking.Pages
 
         private readonly List<RecipeSelectDto> _recipies;
         private readonly RecipeFiltrator recipeFiltrator;
+        private readonly ILocalization localization;
 
         public CollectionViewSource RecipiesSource { get; }
     }

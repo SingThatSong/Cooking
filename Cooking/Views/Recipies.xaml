@@ -4,12 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Cooking.Converters"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:local="clr-namespace:Cooking"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
-    xmlns:local="clr-namespace:Cooking"
-    xmlns:lex="http://wpflocalizeextension.codeplex.com"
-    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
@@ -30,21 +30,23 @@
             <RowDefinition Height="55" />
         </Grid.RowDefinitions>
         <DockPanel>
-            <ToggleButton Style="{StaticResource MediumToggleButton}" IsChecked="{Binding IsTilesView}">
+            <ToggleButton IsChecked="{Binding IsTilesView}" Style="{StaticResource MediumToggleButton}">
                 <icons:PackIconModern Kind="TilesNine" Style="{StaticResource MediumIcon}" />
             </ToggleButton>
-            <ToggleButton Style="{StaticResource MediumToggleButton}" Margin="10 0 0 0" IsChecked="{Binding IsListView}">
+            <ToggleButton
+                Margin="10 0 0 0"
+                IsChecked="{Binding IsListView}"
+                Style="{StaticResource MediumToggleButton}">
                 <icons:PackIconModern Kind="List" Style="{StaticResource MediumIcon}" />
             </ToggleButton>
             <TextBox
+                Margin="10 0 0 0"
                 mahapps:TextBoxHelper.ClearTextButton="True"
                 mahapps:TextBoxHelper.UseFloatingWatermark="True"
-                mahapps:TextBoxHelper.Watermark="{x:Static local:Consts.SearchHelpText}"
-                Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                Margin="10 0 0 0"/>
+                mahapps:TextBoxHelper.Watermark="{Binding SearchHelpText, Mode=OneTime}"
+                Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </DockPanel>
-        <ListView 
-            Visibility="{Binding IsTilesView, Converter={StaticResource booleanToVisibilityConverter}}"
+        <ListView
             Name="RecipiesList"
             Grid.Row="1"
             Margin="0 5 0 0"
@@ -52,7 +54,8 @@
             ScrollViewer.CanContentScroll="True"
             VirtualizingPanel.ScrollUnit="Pixel"
             VirtualizingPanel.VirtualizationMode="Recycling"
-            VirtualizingStackPanel.IsVirtualizing="True">
+            VirtualizingStackPanel.IsVirtualizing="True"
+            Visibility="{Binding IsTilesView, Converter={StaticResource booleanToVisibilityConverter}}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Width="150" Margin="3 14 3 3">
@@ -100,26 +103,26 @@
             </ListView.Template>
         </ListView>
 
-        <DataGrid 
-            Visibility="{Binding IsListView, Converter={StaticResource booleanToVisibilityConverter}}" 
-            ItemsSource="{Binding RecipiesSource.View}" 
+        <DataGrid
             Grid.Row="1"
             Margin="0 5 0 0"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding RecipiesSource.View}"
             ScrollViewer.CanContentScroll="True"
             VirtualizingPanel.ScrollUnit="Pixel"
             VirtualizingPanel.VirtualizationMode="Recycling"
             VirtualizingStackPanel.IsVirtualizing="True"
-            AutoGenerateColumns="False"
-            IsReadOnly="True">
+            Visibility="{Binding IsListView, Converter={StaticResource booleanToVisibilityConverter}}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image
-                            Width="50"
-                            Height="50"
-                            Source="{Binding FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
-                            Stretch="Uniform">
+                                Width="50"
+                                Height="50"
+                                Source="{Binding FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
+                                Stretch="Uniform">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseUp">
                                         <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand}" CommandParameter="{Binding ID}" />
@@ -132,7 +135,7 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{lex:Loc Name}"  />
+                            <TextBlock Text="{lex:Loc Name}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
@@ -147,10 +150,10 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Binding="{Binding Rating}" >
+                <DataGridTextColumn Binding="{Binding Rating}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{lex:Loc Rating}"  />
+                            <TextBlock Text="{lex:Loc Rating}" />
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>

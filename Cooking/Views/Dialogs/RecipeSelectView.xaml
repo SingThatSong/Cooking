@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         <TextBox
             mahapps:TextBoxHelper.UseFloatingWatermark="True"
-            mahapps:TextBoxHelper.Watermark="{lex:Loc Search}"
+            mahapps:TextBoxHelper.Watermark="{Binding SearchHelpText}"
             Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <ListView
             Name="RecipiesList"

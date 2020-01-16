@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Data;
+using WPFLocalizeExtension.Engine;
 
 namespace Cooking.Pages
 {
@@ -22,7 +23,18 @@ namespace Cooking.Pages
     {
         public CollectionViewSource RecipiesSource { get; set; }
         public ObservableCollection<RecipeSelectDto>? Recipies { get; private set; }
-
+        public string? SearchHelpText
+        {
+            get
+            {
+                var localizedText = localization.GetLocalizedString("SearchHelpText");
+                if (localizedText != null)
+                {
+                    localizedText = string.Format(LocalizeDictionary.Instance.Culture, localizedText, Consts.IngredientSymbol, Consts.TagSymbol);
+                }
+                return localizedText;
+            }
+        }
         public DelegateCommand AddRecipeCommand { get; }
         public DelegateCommand<Guid> ViewRecipeCommand { get; }
 
@@ -47,7 +59,8 @@ namespace Cooking.Pages
                                  RecipeService recipeService,
                                  IEventAggregator eventAggregator,
                                  IMapper mapper,
-                                 RecipeFiltrator recipeFiltrator)
+                                 RecipeFiltrator recipeFiltrator,
+                                 ILocalization localization)
         {
             Debug.Assert(dialogUtils != null);
             Debug.Assert(container != null);
@@ -56,6 +69,7 @@ namespace Cooking.Pages
             Debug.Assert(eventAggregator != null);
             Debug.Assert(mapper != null);
             Debug.Assert(recipeFiltrator != null);
+            Debug.Assert(localization != null);
 
             this.dialogUtils = dialogUtils;
             this.container = container;
@@ -63,6 +77,7 @@ namespace Cooking.Pages
             this.recipeService = recipeService;
             this.mapper = mapper;
             this.recipeFiltrator = recipeFiltrator;
+            this.localization = localization;
 
             // Subscribe to events
             eventAggregator.GetEvent<RecipeCreatedEvent>().Subscribe(OnRecipeCreated, ThreadOption.UIThread);
@@ -123,6 +138,7 @@ namespace Cooking.Pages
         private readonly RecipeService recipeService;
         private readonly IMapper mapper;
         private readonly RecipeFiltrator recipeFiltrator;
+        private readonly ILocalization localization;
 
         public string? FilterText
         {
