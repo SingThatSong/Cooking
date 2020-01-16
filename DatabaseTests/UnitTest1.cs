@@ -15,7 +15,7 @@ namespace Cooking.Tests
         public void Setup()
         {
             File.Delete("cooking.db");
-            using CookingContext context = new CookingContext();
+            using var context = new CookingContext();
             context.Database.EnsureCreated();
         }
 
@@ -140,7 +140,7 @@ namespace Cooking.Tests
 
             using (var context = new CookingContext())
             {
-                var day = context.Days.First();
+                Day day = context.Days.First();
                 context.Days.Remove(day);
                 context.SaveChanges();
             }
@@ -168,7 +168,7 @@ namespace Cooking.Tests
             using (var context = new CookingContext())
             {
                 Assert.AreEqual(1, context.Recipies.Count());
-                var rec = context.Recipies.Find(recipe.ID);
+                Recipe rec = context.Recipies.Find(recipe.ID);
                 Assert.IsNotNull(rec);
             }
 

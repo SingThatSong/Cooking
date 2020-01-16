@@ -10,14 +10,8 @@ namespace Cooking.WPF.Converters
         public Visibility NullVisibility { get; set; }
         public Visibility NotNullVisibility { get; set; }
 
-        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            return value == null ? NullVisibility : NotNullVisibility;
-        }
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) => value == null ? NullVisibility : NotNullVisibility;
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new InvalidOperationException("IsNullConverter can only be used OneWay.");
-        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new InvalidOperationException("IsNullConverter can only be used OneWay.");
     }
 }

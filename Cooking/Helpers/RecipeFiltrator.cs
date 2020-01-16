@@ -38,7 +38,10 @@ namespace Cooking.WPF.Helpers
 
         private void OnRecipeDeleted(Guid id)
         {
-            if (recipeCache == null) return;
+            if (recipeCache == null)
+            {
+                return;
+            }
 
             if (recipeCache.ContainsKey(id))
             {
@@ -48,25 +51,26 @@ namespace Cooking.WPF.Helpers
 
         private void OnRecipeUpdated(RecipeEdit obj)
         {
-            if (recipeCache == null) return;
+            if (recipeCache == null)
+            {
+                return;
+            }
 
-            var existingRecipe = recipeCache!.First(x => x.Value.ID == obj.ID);
+            KeyValuePair<Guid, RecipeFull> existingRecipe = recipeCache!.First(x => x.Value.ID == obj.ID);
             mapper.Map(obj, existingRecipe);
         }
 
         private void OnRecipeCreated(RecipeEdit obj)
         {
-            if (recipeCache == null) return;
+            if (recipeCache == null)
+            {
+                return;
+            }
 
             recipeCache!.Add(obj.ID, mapper.Map<RecipeFull>(obj));
         }
 
-        public bool FilterObject(RecipeSelectDto recipe)
-        {
-            if (!FilterContext.IsExpressionBuilt) return false;
-
-            return FilterContext.Filter(recipe);
-        }
+        public bool FilterObject(RecipeSelectDto recipe) => FilterContext.IsExpressionBuilt ? FilterContext.Filter(recipe) : false;
 
         public void OnFilterTextChanged(string? newText)
         {
@@ -80,10 +84,7 @@ namespace Cooking.WPF.Helpers
             }
         }
 
-        private bool HasName(RecipeSelectDto recipe, string name)
-        {
-            return recipe.Name != null && recipe.Name.ToUpperInvariant().Contains(name.ToUpperInvariant(), StringComparison.Ordinal);
-        }
+        private bool HasName(RecipeSelectDto recipe, string name) => recipe.Name != null && recipe.Name.ToUpperInvariant().Contains(name.ToUpperInvariant(), StringComparison.Ordinal);
         private bool HasTag(RecipeSelectDto recipe, string category)
         {
             RecipeFull recipeDb = recipeCache![recipe.ID];
@@ -107,7 +108,7 @@ namespace Cooking.WPF.Helpers
             // Ищем среди групп ингредиентов
             if (recipeDb.IngredientGroups != null)
             {
-                foreach (var group in recipeDb.IngredientGroups)
+                foreach (IngredientGroupData group in recipeDb.IngredientGroups)
                 {
                     if (group.Ingredients.Where(x => x.Ingredient?.Name != null)
                                          .Any(x => x.Ingredient!.Name!.ToUpperInvariant() == category.ToUpperInvariant()))

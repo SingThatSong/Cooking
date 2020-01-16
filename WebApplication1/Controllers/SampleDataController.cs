@@ -35,7 +35,7 @@ namespace Cooking.Web.Controllers
             }
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            foreach (var res in result.Where(x => x.Description != null))
+            foreach (Recipe res in result.Where(x => x.Description != null))
             {
                 res.Description = Rtf.ToHtml(res.Description);
             }
