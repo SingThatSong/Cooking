@@ -21,7 +21,6 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Validate all forms
 // TODO: Form .editorconfig
 // TODO: Cleanup mappings
 // TODO: Cleanup namespaces
