@@ -23,11 +23,14 @@ namespace Cooking.WPF.Converters
 
         public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values?.Length != 3) return null;
+            if (values?.Length != 3)
+            {
+                return null;
+            }
 
-            var valueIndex = (int)values[0];
-            var rating = (int?)values[1];
-            var ratingPreview = (int?)values[2];
+            int valueIndex = (int)values[0];
+            int? rating = (int?)values[1];
+            int? ratingPreview = (int?)values[2];
 
             if (ratingPreview >= valueIndex)
             {
@@ -42,9 +45,6 @@ namespace Cooking.WPF.Converters
             return OffBrush;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

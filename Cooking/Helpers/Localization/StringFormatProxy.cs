@@ -28,7 +28,9 @@ namespace Cooking.WPF
         private static void DataChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             if (sender is StringFormatProxy sfp && sfp.StringFormat != null)
+            {
                 sfp.Result = string.Format(LocalizeDictionary.Instance.Culture, sfp.StringFormat, sfp.Value);
+            }
         }
     }
 }

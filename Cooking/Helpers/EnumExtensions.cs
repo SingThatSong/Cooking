@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection;
 
 namespace Cooking.WPF.Services
 {
@@ -10,15 +11,15 @@ namespace Cooking.WPF.Services
         /// </summary>
         public static string? Description(this Enum value)
         {
-            var enumType = value.GetType();
-            var field = enumType.GetField(value.ToString());
+            Type enumType = value.GetType();
+            FieldInfo? field = enumType.GetField(value.ToString());
 
             if (field == null)
             {
                 return null;
             }
 
-            var attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            object[] attributes = field.GetCustomAttributes(typeof(DescriptionAttribute), false);
             return attributes.Length == 0
                 ? value.ToString()
                 : ((DescriptionAttribute)attributes[0]).Description;
@@ -29,9 +30,9 @@ namespace Cooking.WPF.Services
         /// </summary>
         public static Enum? Enum(this Type type, string description)
         {
-            var values = System.Enum.GetValues(type);
+            Array values = System.Enum.GetValues(type);
 
-            foreach (var value in values)
+            foreach (object? value in values)
             {
                 if (description == Description((Enum)value!))
                 {

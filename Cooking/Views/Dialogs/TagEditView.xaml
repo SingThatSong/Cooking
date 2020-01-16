@@ -17,7 +17,7 @@
             MethodName="GetValues"
             ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="model:" />
+                <x:Type TypeName="model:TagType" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <converters:EnumToDescriptionConverter x:Key="enumToDescriptionConverter" />
