@@ -1,6 +1,5 @@
 ﻿using Cooking.Data.Model;
 using PropertyChanged;
-using System;
 using System.IO;
 
 namespace Cooking.WPF.DTO

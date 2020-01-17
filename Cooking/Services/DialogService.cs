@@ -3,7 +3,6 @@ using Cooking.WPF.Views;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;

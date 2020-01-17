@@ -7,7 +7,6 @@ using Plafi;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Cooking.WPF.Helpers
