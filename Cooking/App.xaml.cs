@@ -23,7 +23,6 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 using NullGuard;
 
-// TODO: When clicking cancel, tag filter clears
 // TODO: Rework RecipeEdit interface
 // TODO: Minimize compiled output size
 // TODO: Make one-file deploy

@@ -153,7 +153,7 @@ namespace Cooking.WPF.Views
 
         private async void AddDishTypes(DayPlan day)
         {
-            ObservableCollection<TagEdit> tags = await GetTags(TagType.DishType, day.NeededDishTypes).ConfigureAwait(false);
+            ObservableCollection<TagEdit>? tags = await GetTags(TagType.DishType, day.NeededDishTypes).ConfigureAwait(false);
 
             if (tags != null)
             {
@@ -163,7 +163,7 @@ namespace Cooking.WPF.Views
 
         private async void AddMainIngredient(DayPlan day)
         {
-            ObservableCollection<TagEdit> tags = await GetTags(TagType.MainIngredient, day.NeededMainIngredients).ConfigureAwait(false);
+            ObservableCollection<TagEdit>? tags = await GetTags(TagType.MainIngredient, day.NeededMainIngredients).ConfigureAwait(false);
 
             if (tags != null)
             {
@@ -171,7 +171,7 @@ namespace Cooking.WPF.Views
             }
         }
 
-        private async Task<ObservableCollection<TagEdit>> GetTags(TagType type, ObservableCollection<TagEdit> current)
+        private async Task<ObservableCollection<TagEdit>?> GetTags(TagType type, ObservableCollection<TagEdit> current)
         {
             List<TagEdit> allTags = tagService.GetTagsByType<TagEdit>(type, container.Resolve<IMapper>());
 
@@ -200,7 +200,7 @@ namespace Cooking.WPF.Views
             }
             else
             {
-                return new ObservableCollection<TagEdit>();
+                return null;
             }
         }
 
