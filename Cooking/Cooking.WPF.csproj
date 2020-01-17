@@ -26,35 +26,24 @@
     </PackageReference>
     <PackageReference Include="FluentValidation" Version="8.6.1" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0479" />
-    <PackageReference Include="AutoMapper">
-      <Version>9.1.0-ci-01617</Version>
+    <PackageReference Include="AutoMapper" Version="9.1.0-ci-01617">
     </PackageReference>
-    <PackageReference Include="Extended.Wpf.Toolkit">
-      <Version>3.7.0</Version>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="3.7.0">
     </PackageReference>
-    <PackageReference Include="Fody">
-      <Version>6.0.6</Version>
+    <PackageReference Include="Fody" Version="6.0.6">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="gong-wpf-dragdrop">
-      <Version>2.2.0</Version>
+    <PackageReference Include="gong-wpf-dragdrop" Version="2.2.0">
     </PackageReference>
-    <PackageReference Include="MahApps.Metro">
-      <Version>2.0.0-alpha0660</Version>
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660">
     </PackageReference>
     <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="3.1.0" />
-    <PackageReference Include="MaterialDesignColors">
-      <Version>1.2.3-ci948</Version>
+    <PackageReference Include="MaterialDesignColors" Version="1.2.3-ci948">
     </PackageReference>
-    <PackageReference Include="MaterialDesignThemes">
-      <Version>3.1.0-ci948</Version>
+    <PackageReference Include="MaterialDesignThemes" Version="3.1.0-ci948">
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -63,13 +52,11 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.1" />
     <PackageReference Include="NullGuard.Fody" Version="2.2.0" />
     <PackageReference Include="PhotoSauce.MagicScaler" Version="0.10.1" />
-    <PackageReference Include="Plafi">
-      <Version>0.1.8</Version>
+    <PackageReference Include="Plafi" Version="0.1.8">
     </PackageReference>
     <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
-    <PackageReference Include="PropertyChanged.Fody">
-      <Version>3.2.4</Version>
+    <PackageReference Include="PropertyChanged.Fody" Version="3.2.4">
     </PackageReference>
     <PackageReference Include="Serilog" Version="2.9.1-dev-01154" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00837" />

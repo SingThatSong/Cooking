@@ -23,8 +23,8 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 using NullGuard;
 
-// TODO: Cleanup lib dependencies
 // TODO: Cleanup binding errors
+// TODO: Minimize compiled output size
 // TODO: Make one-file deploy
 // TODO: Make sure Cooking.WPF contains no buisness logic
 // TODO: Refactor ViewModels into scheme: dependencies, state, commands, constructor, methods
@@ -38,6 +38,7 @@ using NullGuard;
 // TODO: Remove magic literals
 // TODO: Add debug console logging to methods and constructors
 // TODO: check if .editorconfig uses latest parameters
+// TODO: Set autoupgrade https://github.com/ravibpatel/AutoUpdater.NET
 // TODO: Dish garnishes select + generate
 // TODO: App users
 
