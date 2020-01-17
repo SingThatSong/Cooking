@@ -23,7 +23,6 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 using NullGuard;
 
-// TODO: Rework RecipeEdit interface
 // TODO: Minimize compiled output size
 // TODO: Make one-file deploy
 // TODO: Make sure Cooking.WPF contains no buisness logic
@@ -39,6 +38,10 @@ using NullGuard;
 // TODO: Add debug console logging to methods and constructors
 // TODO: check if .editorconfig uses latest parameters
 // TODO: Set autoupgrade https://github.com/ravibpatel/AutoUpdater.NET
+// TODO: Debug/ Measure method perfomance (benchmark?)
+
+// TODO: Use static anylizers (PVS Studio)
+// TODO: Ensure startup time < 3s
 // TODO: Dish garnishes select + generate
 // TODO: App users
 
@@ -59,9 +62,6 @@ using NullGuard;
 // Db-related
 // TODO: Create installer (Inno setup)
 // TODO: Create db migrator for installer
-
-// TODO: Use static anylizers (PVS Studio)
-// TODO: Ensure startup time < 3s
 
 [assembly: NullGuard(ValidationFlags.Arguments)]
 namespace Cooking

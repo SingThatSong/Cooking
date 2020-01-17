@@ -54,7 +54,11 @@
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
 
-        <Grid Visibility="{Binding IsEditing, Converter={StaticResource collapsedVisibleConverter}}">
+        <Grid
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="{Binding IsEditing, Converter={StaticResource collapsedVisibleConverter}}"
+            MaxWidth="800">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
@@ -273,6 +277,7 @@
                             FontSize="20"
                             Text="{lex:Loc Description}" />
                         <xctk:RichTextBox
+                            MaxWidth="1000"
                             BorderThickness="0"
                             IsReadOnly="True"
                             Text="{Binding Recipe.Description}" />
@@ -312,277 +317,296 @@
             </ScrollViewer>
         </Grid>
 
+        <!--  Edit mode  -->
         <ScrollViewer
             x:Name="RecipeEdit"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
             VerticalScrollBarVisibility="Auto"
             Visibility="{Binding IsEditing, Converter={StaticResource visibleCollapsedConverter}}">
-            <StackPanel MaxWidth="500" Orientation="Vertical">
-                <Image
-                    MaxHeight="150"
-                    Source="{Binding Recipe.FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
-                    Stretch="Uniform" />
-                <StackPanel
-                    Margin="0 10 0 0"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal">
-                    <Button
-                        Command="{Binding ImageSearchCommand}"
-                        Foreground="Green"
-                        Style="{StaticResource SmallButton}">
-                        <icons:PackIconModern Kind="Image" Style="{StaticResource SmallIcon}" />
-                    </Button>
-                    <Button
-                        Margin="10 0 0 0"
-                        Command="{Binding RemoveImageCommand}"
-                        Style="{StaticResource SmallCancelButton}" />
-                </StackPanel>
-                <TextBlock FontSize="15" Text="{lex:Loc Name}" />
-                <TextBox Name="Focused" Text="{Binding Recipe.Name}" />
-
-                <TextBlock FontSize="15" Text="{lex:Loc Source}" />
-                <TextBox Text="{Binding Recipe.SourceUrl}" />
-
-                <Grid Margin="0 10" HorizontalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock FontSize="15" Text="{lex:Loc Difficulty}" />
-                        <controls:Ratings MaxRating="5" RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
+            <Grid Visibility="{Binding IsEditing, Converter={StaticResource visibleCollapsedConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MaxWidth="400" />
+                    <ColumnDefinition MaxWidth="400" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Margin="10 0" Orientation="Vertical">
+                        <Image
+                            MaxHeight="150"
+                            Source="{Binding Recipe.FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
+                            Stretch="Uniform" />
+                        <StackPanel
+                            Margin="0 10 0 0"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                            <Button
+                                Command="{Binding ImageSearchCommand}"
+                                Foreground="Green"
+                                Style="{StaticResource SmallButton}">
+                                <icons:PackIconModern Kind="Image" Style="{StaticResource SmallIcon}" />
+                            </Button>
+                            <Button
+                                Margin="10 0 0 0"
+                                Command="{Binding RemoveImageCommand}"
+                                Style="{StaticResource SmallCancelButton}" />
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel
-                        Grid.Column="1"
-                        Width="130"
-                        Margin="20 0 0 0"
-                        Orientation="Vertical">
-                        <TextBlock FontSize="15" Text="{lex:Loc Rating}" />
-                        <controls:Ratings MaxRating="10" RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
+                    <StackPanel Margin="10 0" Orientation="Vertical">
+                        <TextBlock FontSize="15" Text="{lex:Loc Name}" />
+                        <TextBox Name="Focused" Text="{Binding Recipe.Name}" />
                     </StackPanel>
-                </Grid>
-
-
-                <TextBlock
-                    Margin="0 5 0 0"
-                    FontSize="15"
-                    Text="{lex:Loc Type}" />
-                <ComboBox
-                    ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}"
-                    SelectedValue="{Binding Recipe.CalorieType, Converter={StaticResource enumToDescriptionConverter}}"
-                    Text="{lex:Loc ChooseCalorieType}" />
-
-                <TextBlock
-                    Margin="0 5 0 0"
-                    FontSize="15"
-                    Text="{lex:Loc PortionsCountHeader}" />
-                <TextBox Text="{Binding Recipe.PortionsCount}" />
-
-                <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="15"
-                        Text="{lex:Loc Ingredients}" />
-                    <Button
-                        Margin="5 0 0 0"
-                        VerticalAlignment="Center"
-                        BorderThickness="0"
-                        Command="{Binding AddIngredientGroupCommand}"
-                        Foreground="Green"
-                        Style="{StaticResource SmallButton}">
-                        <icons:PackIconModern Kind="TableAdd" Style="{StaticResource SmallIcon}" />
-                    </Button>
-                    <Button
-                        Margin="5 0 0 0"
-                        VerticalAlignment="Center"
-                        BorderThickness="0"
-                        Command="{Binding AddIngredientCommand}"
-                        Foreground="Green"
-                        Style="{StaticResource SmallButton}">
-                        <icons:PackIconModern Kind="Add" Style="{StaticResource SmallIcon}" />
-                    </Button>
+                    <StackPanel Margin="10 10 10 0" Orientation="Vertical">
+                        <TextBlock FontSize="15" Text="{lex:Loc Source}" />
+                        <TextBox Text="{Binding Recipe.SourceUrl}" />
+                    </StackPanel>
+                    <Grid Margin="10 10 10 0" HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock FontSize="15" Text="{lex:Loc Difficulty}" />
+                            <controls:Ratings MaxRating="5" RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Column="1"
+                            Width="150"
+                            Margin="20 0 0 0"
+                            Orientation="Vertical">
+                            <TextBlock FontSize="15" Text="{lex:Loc Rating}" />
+                            <controls:Ratings MaxRating="10" RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
+                        </StackPanel>
+                    </Grid>
+                    <StackPanel Margin="10 10 10 0" Orientation="Vertical">
+                        <TextBlock FontSize="15" Text="{lex:Loc Type}" />
+                        <ComboBox
+                            ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}"
+                            SelectedValue="{Binding Recipe.CalorieType, Converter={StaticResource enumToDescriptionConverter}}"
+                            Text="{lex:Loc ChooseCalorieType}" />
+                    </StackPanel>
+                    <StackPanel Margin="10 10 10 0" Orientation="Vertical">
+                        <TextBlock FontSize="15" Text="{lex:Loc PortionsCountHeader}" />
+                        <TextBox Text="{Binding Recipe.PortionsCount}" />
+                    </StackPanel>
                 </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <StackPanel Margin="10 10 10 0" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="15"
+                                Text="{lex:Loc Ingredients}" />
+                            <Button
+                                Margin="5 0 0 0"
+                                VerticalAlignment="Center"
+                                BorderThickness="0"
+                                Command="{Binding AddIngredientGroupCommand}"
+                                Foreground="Green"
+                                Style="{StaticResource SmallButton}">
+                                <icons:PackIconModern Kind="TableAdd" Style="{StaticResource SmallIcon}" />
+                            </Button>
+                            <Button
+                                Margin="5 0 0 0"
+                                VerticalAlignment="Center"
+                                BorderThickness="0"
+                                Command="{Binding AddIngredientCommand}"
+                                Foreground="Green"
+                                Style="{StaticResource SmallButton}">
+                                <icons:PackIconModern Kind="Add" Style="{StaticResource SmallIcon}" />
+                            </Button>
+                        </StackPanel>
 
-                <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0 0 0 20" Orientation="Vertical">
-                                <StackPanel
-                                    VerticalAlignment="Center"
-                                    Orientation="Horizontal"
-                                    TextElement.FontSize="18"
-                                    TextElement.FontWeight="Bold">
-                                    <TextBlock Text="{Binding Name}" />
-                                    <Button
-                                        Margin="5 0 0 0"
-                                        VerticalAlignment="Center"
-                                        BorderThickness="0"
-                                        Command="{Binding ElementName=RecipeEdit, Path=DataContext.AddIngredientToGroupCommand}"
-                                        CommandParameter="{Binding}"
-                                        Style="{StaticResource SmallAddButton}" />
+                        <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0 0 0 20" Orientation="Vertical">
+                                        <StackPanel
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            TextElement.FontSize="18"
+                                            TextElement.FontWeight="Bold">
+                                            <TextBlock Text="{Binding Name}" />
+                                            <Button
+                                                Margin="5 0 0 0"
+                                                VerticalAlignment="Center"
+                                                BorderThickness="0"
+                                                Command="{Binding ElementName=RecipeEdit, Path=DataContext.AddIngredientToGroupCommand}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource SmallAddButton}" />
 
-                                    <Button
-                                        Margin="5 0 0 0"
+                                            <Button
+                                                Margin="5 0 0 0"
+                                                VerticalAlignment="Center"
+                                                BorderThickness="0"
+                                                Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientGroupCommand}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource SmallEditButton}" />
+                                            <Button
+                                                Margin="2 0 0 0"
+                                                VerticalAlignment="Center"
+                                                BorderThickness="0"
+                                                Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientGroupCommand}"
+                                                CommandParameter="{Binding}"
+                                                Style="{StaticResource SmallCancelButton}" />
+                                        </StackPanel>
+                                        <ItemsControl
+                                            Name="IngredientsList"
+                                            dd:DragDrop.DragHandler="{Binding ElementName=RecipeEdit, Path=DataContext}"
+                                            dd:DragDrop.DropHandler="{Binding ElementName=RecipeEdit, Path=DataContext}"
+                                            dd:DragDrop.IsDragSource="True"
+                                            dd:DragDrop.IsDropTarget="True"
+                                            ItemsSource="{Binding Ingredients}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel
+                                                        VerticalAlignment="Center"
+                                                        Orientation="Horizontal"
+                                                        TextElement.FontSize="15">
+                                                        <TextBlock Text="{Binding Ingredient.Name}" />
+                                                        <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
+                                                        <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.Name}" />
+                                                        <Button
+                                                            Margin="5 0 0 0"
+                                                            VerticalAlignment="Center"
+                                                            Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientCommand}"
+                                                            CommandParameter="{Binding}"
+                                                            Style="{StaticResource SmallEditButton}" />
+
+                                                        <Button
+                                                            Margin="2 0 0 0"
+                                                            VerticalAlignment="Center"
+                                                            Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientCommand}"
+                                                            CommandParameter="{Binding}"
+                                                            Style="{StaticResource SmallCancelButton}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Vertical" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+
+                        <ItemsControl
+                            Name="IngredientsListEdit"
+                            dd:DragDrop.DragHandler="{Binding}"
+                            dd:DragDrop.DropHandler="{Binding}"
+                            dd:DragDrop.IsDragSource="True"
+                            dd:DragDrop.IsDropTarget="True"
+                            ItemsSource="{Binding Recipe.Ingredients}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel
                                         VerticalAlignment="Center"
+                                        Orientation="Horizontal"
+                                        TextElement.FontSize="15">
+                                        <TextBlock Text="{Binding Ingredient.Name}" />
+                                        <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
+                                        <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.Name}" />
+                                        <Button
+                                            Margin="5 0 0 0"
+                                            VerticalAlignment="Center"
+                                            Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.EditIngredientCommand}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource SmallEditButton}" />
+                                        <Button
+                                            Margin="2 0 0 0"
+                                            VerticalAlignment="Center"
+                                            Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.RemoveIngredientCommand}"
+                                            CommandParameter="{Binding}"
+                                            Style="{StaticResource SmallCancelButton}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+                    <StackPanel Margin="10 10 10 0" Orientation="Horizontal">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="15"
+                            Text="{lex:Loc Tags}" />
+                        <Button
+                            Margin="5 0 0 0"
+                            VerticalAlignment="Center"
+                            BorderThickness="0"
+                            Command="{Binding AddTagCommand}"
+                            Style="{StaticResource SmallAddButton}" />
+                    </StackPanel>
+
+                    <!--  Tags  -->
+                    <ItemsControl Margin="10 0" ItemsSource="{Binding Recipe.Tags}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Border
+                                        Margin="5"
+                                        Padding="5 0"
+                                        Background="{Binding Color}"
                                         BorderThickness="0"
-                                        Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientGroupCommand}"
-                                        CommandParameter="{Binding}"
-                                        Style="{StaticResource SmallEditButton}" />
+                                        CornerRadius="3">
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            mahapps:ControlsHelper.CornerRadius="5"
+                                            FontSize="20"
+                                            Text="{Binding Name}" />
+                                    </Border>
                                     <Button
                                         Margin="2 0 0 0"
                                         VerticalAlignment="Center"
                                         BorderThickness="0"
-                                        Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientGroupCommand}"
+                                        Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveTagCommand}"
                                         CommandParameter="{Binding}"
                                         Style="{StaticResource SmallCancelButton}" />
                                 </StackPanel>
-                                <ItemsControl
-                                    Name="IngredientsList"
-                                    dd:DragDrop.DragHandler="{Binding ElementName=RecipeEdit, Path=DataContext}"
-                                    dd:DragDrop.DropHandler="{Binding ElementName=RecipeEdit, Path=DataContext}"
-                                    dd:DragDrop.IsDragSource="True"
-                                    dd:DragDrop.IsDropTarget="True"
-                                    ItemsSource="{Binding Ingredients}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel
-                                                VerticalAlignment="Center"
-                                                Orientation="Horizontal"
-                                                TextElement.FontSize="15">
-                                                <TextBlock Text="{Binding Ingredient.Name}" />
-                                                <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
-                                                <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.Name}" />
-                                                <Button
-                                                    Margin="5 0 0 0"
-                                                    VerticalAlignment="Center"
-                                                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientCommand}"
-                                                    CommandParameter="{Binding}"
-                                                    Style="{StaticResource SmallEditButton}" />
-
-                                                <Button
-                                                    Margin="2 0 0 0"
-                                                    VerticalAlignment="Center"
-                                                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientCommand}"
-                                                    CommandParameter="{Binding}"
-                                                    Style="{StaticResource SmallCancelButton}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Vertical" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-
-                <ItemsControl
-                    Name="IngredientsListEdit"
-                    dd:DragDrop.DragHandler="{Binding}"
-                    dd:DragDrop.DropHandler="{Binding}"
-                    dd:DragDrop.IsDragSource="True"
-                    dd:DragDrop.IsDropTarget="True"
-                    ItemsSource="{Binding Recipe.Ingredients}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal"
-                                TextElement.FontSize="15">
-                                <TextBlock Text="{Binding Ingredient.Name}" />
-                                <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
-                                <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.Name}" />
-                                <Button
-                                    Margin="5 0 0 0"
-                                    VerticalAlignment="Center"
-                                    Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.EditIngredientCommand}"
-                                    CommandParameter="{Binding}"
-                                    Style="{StaticResource SmallEditButton}" />
-                                <Button
-                                    Margin="2 0 0 0"
-                                    VerticalAlignment="Center"
-                                    Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.RemoveIngredientCommand}"
-                                    CommandParameter="{Binding}"
-                                    Style="{StaticResource SmallCancelButton}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-
-                <TextBlock
-                    Margin="0 10 0 0"
-                    FontSize="15"
-                    Text="{lex:Loc Description}" />
-                <xctk:RichTextBox
-                    MinHeight="100"
-                    Text="{Binding Recipe.Description}"
-                    TextChanged="RichTextBox_TextChanged">
-                    <xctk:RichTextBoxFormatBarManager.FormatBar>
-                        <xctk:RichTextBoxFormatBar />
-                    </xctk:RichTextBoxFormatBarManager.FormatBar>
-                </xctk:RichTextBox>
-
-                <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
-                    <TextBlock
-                        VerticalAlignment="Center"
-                        FontSize="15"
-                        Text="{lex:Loc Tags}" />
-                    <Button
-                        Margin="5 0 0 0"
-                        VerticalAlignment="Center"
-                        BorderThickness="0"
-                        Command="{Binding AddTagCommand}"
-                        Style="{StaticResource SmallAddButton}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
                 </StackPanel>
 
-                <ItemsControl ItemsSource="{Binding Recipe.Tags}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Border
-                                    Margin="5"
-                                    Padding="5 0"
-                                    Background="{Binding Color}"
-                                    BorderThickness="0"
-                                    CornerRadius="3">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        mahapps:ControlsHelper.CornerRadius="5"
-                                        FontSize="20"
-                                        Text="{Binding Name}" />
-                                </Border>
-                                <Button
-                                    Margin="2 0 0 0"
-                                    VerticalAlignment="Center"
-                                    BorderThickness="0"
-                                    Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveTagCommand}"
-                                    CommandParameter="{Binding}"
-                                    Style="{StaticResource SmallCancelButton}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Margin="10 10 10 0"
+                    Orientation="Vertical">
+                    <TextBlock FontSize="15" Text="{lex:Loc Description}" />
+                    <xctk:RichTextBox
+                        MinHeight="100"
+                        MaxWidth="1000"
+                        Text="{Binding Recipe.Description}"
+                        TextChanged="RichTextBox_TextChanged">
+                        <xctk:RichTextBoxFormatBarManager.FormatBar>
+                            <xctk:RichTextBoxFormatBar />
+                        </xctk:RichTextBoxFormatBarManager.FormatBar>
+                    </xctk:RichTextBox>
+                </StackPanel>
 
-            </StackPanel>
+
+            </Grid>
         </ScrollViewer>
-
         <StackPanel
             Grid.Row="2"
             Margin="20"
