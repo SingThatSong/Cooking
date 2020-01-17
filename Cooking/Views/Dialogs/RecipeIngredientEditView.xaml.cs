@@ -23,7 +23,7 @@ namespace Cooking.WPF.Views
 
         private void Ingredient_TextChanged(object sender, TextChangedEventArgs e)
         {
-            CollectionView itemsViewOriginal = (CollectionView)CollectionViewSource.GetDefaultView(Ingredient.ItemsSource);
+            var itemsViewOriginal = (CollectionView)CollectionViewSource.GetDefaultView(Ingredient.ItemsSource);
 
             if (string.IsNullOrEmpty(Ingredient.Text))
             {
@@ -33,7 +33,10 @@ namespace Cooking.WPF.Views
             
             itemsViewOriginal.Filter = ((o) =>
             {
-                if (String.IsNullOrEmpty(Ingredient.Text)) return true;
+                if (string.IsNullOrEmpty(Ingredient.Text))
+                {
+                    return true;
+                }
                 else
                 {
                     if (o is IngredientEdit ingredient && ingredient.Name != null)
@@ -51,8 +54,16 @@ namespace Cooking.WPF.Views
             Ingredient.IsDropDownOpen = true;
 
             // https://stackoverflow.com/a/43727449/1134449
-            if (!(e.OriginalSource is TextBox textBox)) return;
-            if (textBox.Text.Length >= 2) return;
+            if (!(e.OriginalSource is TextBox textBox))
+            {
+                return;
+            }
+
+            if (textBox.Text.Length >= 2)
+            {
+                return;
+            }
+
             textBox.SelectionLength = 0;
             textBox.SelectionStart = 1;
         }

@@ -23,7 +23,7 @@ namespace Cooking.WPF.Views
         {
             SelectDayCommand = new DelegateCommand<SelectDay>(recipe =>
             {
-                foreach (var d in DaysOfWeek)
+                foreach (SelectDay d in DaysOfWeek)
                 {
                     d.IsSelected = false;
                 }

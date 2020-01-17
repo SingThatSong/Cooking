@@ -80,11 +80,11 @@ namespace Cooking.WPF.Views
 
             var parameters = new NavigationParameters
             {
-                { nameof(ShowGeneratedWeekViewModel.Days), selectedDays },
-                { nameof(ShowGeneratedWeekViewModel.WeekStart), WeekStart }
+                { nameof(GeneratedWeekViewModel.Days), selectedDays },
+                { nameof(GeneratedWeekViewModel.WeekStart), WeekStart }
             };
 
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(ShowGeneratedWeekView), parameters);
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(GeneratedWeekView), parameters);
         }
 
         private void GenerateRecipies(IEnumerable<DayPlan> selectedDays)
@@ -131,8 +131,8 @@ namespace Cooking.WPF.Views
 
         private async void AddCalorieTypes(DayPlan day)
         {
-            var viewModel = new CalorieTypeSelectEditViewModel(dialogUtils, day.CalorieTypes);
-            await dialogUtils.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectEditViewModel>(localization.GetLocalizedString("CalorieTyoes"), viewModel).ConfigureAwait(false);
+            var viewModel = new CalorieTypeSelectViewModel(dialogUtils, day.CalorieTypes);
+            await dialogUtils.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectViewModel>(localization.GetLocalizedString("CalorieTyoes"), viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
@@ -181,7 +181,7 @@ namespace Cooking.WPF.Views
 
             TagSelectViewModel viewModel = container.Resolve<TagSelectViewModel>();
             viewModel.SetTags(current, allTags);
-            await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>(string.Format(LocalizeDictionary.Instance.Culture, localization.GetLocalizedString("CategoriesOf") ?? "{0}", type), viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(string.Format(LocalizeDictionary.Instance.Culture, localization.GetLocalizedString("CategoriesOf") ?? "{0}", type), viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {

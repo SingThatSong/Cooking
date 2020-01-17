@@ -148,7 +148,7 @@ namespace Cooking.WPF.Views
         {
             TagSelectViewModel viewModel = container.Resolve<TagSelectViewModel>();
             viewModel.SetTags(Recipe!.Tags, null);
-            await dialogUtils.ShowCustomMessageAsync<TagSelect, TagSelectViewModel>(localization.GetLocalizedString("AddTags"), viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(localization.GetLocalizedString("AddTags"), viewModel).ConfigureAwait(false);
 
             if (viewModel.DialogResultOk)
             {
@@ -159,7 +159,7 @@ namespace Cooking.WPF.Views
         private async Task AddIngredientGroup()
         {
             var viewModel = new IngredientGroupEditViewModel(dialogUtils, new DTO.IngredientGroupEdit());
-            await dialogUtils.ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>(localization.GetLocalizedString("AddIngredientsGroup"), viewModel)
+            await dialogUtils.ShowCustomMessageAsync<IngredientGroupEditView, IngredientGroupEditViewModel>(localization.GetLocalizedString("AddIngredientsGroup"), viewModel)
                              .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
@@ -172,7 +172,7 @@ namespace Cooking.WPF.Views
         private async Task EditIngredientGroup(DTO.IngredientGroupEdit group)
         {
             var viewModel = new IngredientGroupEditViewModel(dialogUtils, group);
-            await dialogUtils.ShowCustomMessageAsync<IngredientGroupEdit, IngredientGroupEditViewModel>(localization.GetLocalizedString("EditIngredientsGroup"), viewModel)
+            await dialogUtils.ShowCustomMessageAsync<IngredientGroupEditView, IngredientGroupEditViewModel>(localization.GetLocalizedString("EditIngredientsGroup"), viewModel)
                              .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)

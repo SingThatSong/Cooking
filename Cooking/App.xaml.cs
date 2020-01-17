@@ -23,7 +23,6 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 using NullGuard;
 
-// TODO: Cleanup view and viewmodel names
 // TODO: Cleanup lib dependencies
 // TODO: Cleanup binding errors
 // TODO: Make one-file deploy
@@ -121,7 +120,7 @@ namespace Cooking
             containerRegistry.RegisterInstance(options);
 
             // Register main page and main vm - they are constant
-            containerRegistry.Register<MainWindow>();
+            containerRegistry.Register<MainWindowView>();
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
 
             // Register services
@@ -151,16 +150,16 @@ namespace Cooking
                                               );
 
             // Register pages
-            containerRegistry.RegisterForNavigation<WeekSettings>();
-            containerRegistry.RegisterForNavigation<ShowGeneratedWeekView>();
-            containerRegistry.RegisterForNavigation<Settings>();
-            containerRegistry.RegisterForNavigation<MainView>();
+            containerRegistry.RegisterForNavigation<WeekSettingsView>();
+            containerRegistry.RegisterForNavigation<GeneratedWeekView>();
+            containerRegistry.RegisterForNavigation<SettingsView>();
+            containerRegistry.RegisterForNavigation<WeekView>();
             containerRegistry.RegisterForNavigation<ShoppingCartView>();
-            containerRegistry.RegisterForNavigation<Recepies>();
+            containerRegistry.RegisterForNavigation<RecipeListView>();
             containerRegistry.RegisterForNavigation<RecipeView>();
-            containerRegistry.RegisterForNavigation<IngredientsView>();
-            containerRegistry.RegisterForNavigation<TagsView>();
-            containerRegistry.RegisterForNavigation<GarnishesView>();
+            containerRegistry.RegisterForNavigation<IngredientListView>();
+            containerRegistry.RegisterForNavigation<TagListView>();
+            containerRegistry.RegisterForNavigation<GarnishListView>();
 
             // Register validators
             containerRegistry.Register<IngredientGroupEditValidator>();
@@ -177,7 +176,7 @@ namespace Cooking
         /// Creating Prism shell (main window)
         /// </summary>
         /// <returns></returns>
-        protected override Window CreateShell() => Container.Resolve<MainWindow>();
+        protected override Window CreateShell() => Container.Resolve<MainWindowView>();
 
         protected override void ConfigureViewModelLocator()
         {
@@ -187,18 +186,7 @@ namespace Cooking
             {
                 string? viewName = viewType.FullName;
                 string? viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-
-                string viewModelName;
-
-                if (viewName != null && viewName.EndsWith("View", StringComparison.OrdinalIgnoreCase))
-                {
-                    viewModelName = $"{viewName}Model, {viewAssemblyName}";
-                }
-                else
-                {
-                    viewModelName = $"{viewName}ViewModel, {viewAssemblyName}";
-                }
-
+                string viewModelName = $"{viewName}Model, {viewAssemblyName}";
                 return Type.GetType(viewModelName);
             });
         }

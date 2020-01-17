@@ -1,0 +1,169 @@
+﻿<UserControl
+    x:Class="Cooking.WPF.Views.WeekView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Cooking.WPF.Converters"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:local="clr-namespace:Cooking.WPF.Views"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <converters:IsNullToVisibilityConverter
+            x:Key="isNullConverter"
+            NotNullVisibility="Collapsed"
+            NullVisibility="Visible" />
+        <converters:IsNullToVisibilityConverter
+            x:Key="isNotNullConverter"
+            NotNullVisibility="Visible"
+            NullVisibility="Collapsed" />
+    </UserControl.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition />
+            <RowDefinition Height="80" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="60" />
+        </Grid.ColumnDefinitions>
+        <StackPanel
+            Grid.Column="1"
+            Margin="0 10 0 0"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal"
+            TextBlock.FontSize="15">
+            <TextBlock Text="{lex:Loc Week}" />
+            <TextBlock Margin="5 0 0 0" Text="{Binding WeekStart, StringFormat={}dd.MM}" />
+            <TextBlock Margin="5 0" Text="-" />
+            <TextBlock Text="{Binding WeekEnd, StringFormat={}dd.MM.yyyy}" />
+            <TextBlock Margin="5 0" Text="{lex:Loc Dinners}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Vertical"
+            Visibility="{Binding CurrentWeek, Converter={StaticResource isNullConverter}}">
+            <TextBlock FontSize="25" Text="{lex:Loc NoScheduleForWeek}" />
+            <Button
+                Width="200"
+                Margin="0 20 0 0"
+                Command="{Binding CreateNewWeekCommand}"
+                Content="{lex:Loc CreateSchedule}" />
+        </StackPanel>
+
+        <ScrollViewer
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalScrollBarVisibility="Auto"
+            Visibility="{Binding CurrentWeek, Converter={StaticResource isNotNullConverter}}">
+            <WrapPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                TextElement.FontSize="15">
+                <local:DayControl
+                    DataContext="{Binding CurrentWeek.Monday}"
+                    DayName="{x:Static sys:DayOfWeek.Monday}"
+                    Edit="{Binding WeekEdit}" />
+                <local:DayControl
+                    DataContext="{Binding CurrentWeek.Tuesday}"
+                    DayName="{x:Static sys:DayOfWeek.Tuesday}"
+                    Edit="{Binding WeekEdit}" />
+                <local:DayControl
+                    DataContext="{Binding CurrentWeek.Wednesday}"
+                    DayName="{x:Static sys:DayOfWeek.Wednesday}"
+                    Edit="{Binding WeekEdit}" />
+                <local:DayControl
+                    DataContext="{Binding CurrentWeek.Thursday}"
+                    DayName="{x:Static sys:DayOfWeek.Thursday}"
+                    Edit="{Binding WeekEdit}" />
+                <local:DayControl
+                    DataContext="{Binding CurrentWeek.Friday}"
+                    DayName="{x:Static sys:DayOfWeek.Friday}"
+                    Edit="{Binding WeekEdit}" />
+                <local:DayControl
+                    DataContext="{Binding CurrentWeek.Saturday}"
+                    DayName="{x:Static sys:DayOfWeek.Saturday}"
+                    Edit="{Binding WeekEdit}" />
+                <local:DayControl
+                    DataContext="{Binding CurrentWeek.Sunday}"
+                    DayName="{x:Static sys:DayOfWeek.Sunday}"
+                    Edit="{Binding WeekEdit}" />
+            </WrapPanel>
+        </ScrollViewer>
+        <StackPanel
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="0 0 0 20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Orientation="Horizontal"
+            Visibility="{Binding CurrentWeek, Converter={StaticResource isNotNullConverter}}">
+            <Button
+                Command="{Binding CreateShoppingListCommand}"
+                Foreground="Teal"
+                Style="{StaticResource BigButton}">
+                <icons:Modern
+                    Width="20"
+                    Height="20"
+                    Kind="Shopping" />
+            </Button>
+            <ToggleButton
+                Width="48"
+                Height="48"
+                Margin="10 0 0 0"
+                Foreground="LightGray"
+                IsChecked="{Binding WeekEdit}"
+                Style="{StaticResource MahApps.Styles.ToggleButton.Circle}">
+                <icons:PackIconModern
+                    Width="20"
+                    Height="20"
+                    Kind="Edit" />
+            </ToggleButton>
+            <Button
+                Margin="10 0 0 0"
+                Command="{Binding DeleteCommand}"
+                Style="{StaticResource DeleteButton}" />
+        </StackPanel>
+
+        <Button
+            Grid.Row="1"
+            VerticalAlignment="Center"
+            Command="{Binding SelectPreviousWeekCommand}"
+            Foreground="Gray"
+            Style="{StaticResource BigButton}">
+            <icons:Modern
+                Width="20"
+                Height="20"
+                Kind="ChevronLeft" />
+        </Button>
+
+        <Button
+            Grid.Row="1"
+            Grid.Column="3"
+            VerticalAlignment="Center"
+            Command="{Binding SelectNextWeekCommand}"
+            Foreground="Gray"
+            Style="{StaticResource BigButton}">
+            <icons:Modern
+                Width="20"
+                Height="20"
+                Kind="ChevronRight" />
+        </Button>
+    </Grid>
+</UserControl>
