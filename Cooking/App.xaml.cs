@@ -23,7 +23,6 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 using NullGuard;
 
-// TODO: Week creation: day checkboxes take 2 times to click
 // TODO: When clicking cancel, tag filter clears
 // TODO: Rework RecipeEdit interface
 // TODO: Minimize compiled output size

@@ -26,7 +26,6 @@
         <TextBlock FontSize="24" Text="{lex:Loc WeekFilter}" />
         <DataGrid
             Grid.Row="1"
-            mahapps:ItemHelper.SelectedBackgroundBrush="Transparent"
             AutoGenerateColumns="False"
             BorderThickness="0"
             CanUserAddRows="False"
@@ -36,7 +35,13 @@
             ItemsSource="{Binding Days}"
             RowHeight="46">
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" />
+                <DataGridTemplateColumn Width="30">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox HorizontalAlignment="Center" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding DayName, UpdateSourceTrigger=PropertyChanged}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
