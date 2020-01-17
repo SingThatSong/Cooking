@@ -7,20 +7,22 @@
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="0 20">
-        <TextBlock Text="{lex:Loc Settings}" FontSize="24" />
-        <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
-            <TextBlock Text="{lex:Loc Language}" VerticalAlignment="Center" FontSize="16" />
-            <ComboBox ItemsSource="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=MergedAvailableCultures}"
-                          SelectedItem="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=Culture, Mode=TwoWay}" 
-                          DisplayMemberPath="NativeName"
-                          Width="200"
-                          Margin="20 0 0 0">
+    <StackPanel
+        Margin="0 20"
+        HorizontalAlignment="Center"
+        Orientation="Vertical">
+        <TextBlock FontSize="24" Text="{lex:Loc Settings}" />
+        <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+            <TextBlock
+                VerticalAlignment="Center"
+                FontSize="16"
+                Text="{lex:Loc Language}" />
+            <ComboBox
+                Width="200"
+                Margin="20 0 0 0"
+                DisplayMemberPath="NativeName"
+                ItemsSource="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=MergedAvailableCultures}"
+                SelectedItem="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=Culture, Mode=TwoWay}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding ChangedCommand}" />

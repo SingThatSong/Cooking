@@ -6,14 +6,12 @@ using Validar;
 namespace Cooking.WPF.DTO
 {
     [InjectValidation]
-    public class TagEdit : INotifyPropertyChanged
+    public class TagEdit : Entity, INotifyPropertyChanged
     {
         public static readonly TagEdit Any = new TagEdit()
         {
             CanBeRemoved = false
         };
-
-        public Guid ID { get; set; }
 
         public string? Name { get; set; }
         public TagType Type { get; set; }

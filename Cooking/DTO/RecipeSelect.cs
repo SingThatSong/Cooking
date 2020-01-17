@@ -6,9 +6,8 @@ using System.IO;
 namespace Cooking.WPF.DTO
 {
     [AddINotifyPropertyChangedInterface]
-    public class RecipeSelectDto
+    public class RecipeSelectDto : Entity
     {
-        public Guid ID { get; set; }
         public string? Name { get; set; }
         public CalorieType CalorieType { get; set; }
 

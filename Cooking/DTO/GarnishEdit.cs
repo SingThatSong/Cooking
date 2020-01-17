@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Cooking.Data.Model;
 using System.ComponentModel;
 using Validar;
 
 namespace Cooking.WPF.DTO
 {
     [InjectValidation]
-    public class GarnishEdit : INotifyPropertyChanged
+    public class GarnishEdit : Entity, INotifyPropertyChanged
     {
-        public Guid ID { get; set; }
         public string? Name { get; set; }
 #pragma warning disable CS0067 // Событие не используется
         public event PropertyChangedEventHandler? PropertyChanged;

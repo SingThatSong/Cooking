@@ -33,7 +33,7 @@ namespace Cooking.WPF.Views
         // Commands
         public AsyncDelegateCommand LoadedCommand { get; }
         public DelegateCommand AddIngredientCommand { get; }
-        public DelegateCommand<Guid> DeleteCategoryCommand { get; }
+        public DelegateCommand<Guid> DeleteIngredientCommand { get; }
         public DelegateCommand<IngredientEdit> ViewIngredientCommand { get; }
         public DelegateCommand<IngredientEdit> EditIngredientCommand { get; }
 
@@ -50,7 +50,7 @@ namespace Cooking.WPF.Views
             this.localization      = localization;
             LoadedCommand          = new AsyncDelegateCommand(OnLoaded, executeOnce: true);
             AddIngredientCommand   = new DelegateCommand(AddIngredient);
-            DeleteCategoryCommand  = new DelegateCommand<Guid>(DeleteIngredient);
+            DeleteIngredientCommand  = new DelegateCommand<Guid>(DeleteIngredient);
             EditIngredientCommand  = new DelegateCommand<IngredientEdit>(EditIngredient);
             ViewIngredientCommand  = new DelegateCommand<IngredientEdit>(ViewIngredient);
         }

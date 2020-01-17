@@ -34,7 +34,7 @@
                     <Border
                         Margin="3 0 0 3"
                         Padding="0"
-                        Background="{Binding Color}"
+                        Background="{Binding Color, TargetNullValue=Transparent}"
                         BorderThickness="0"
                         CornerRadius="3">
                         <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
@@ -63,7 +63,7 @@
                     <Border
                         Margin="3 0 0 3"
                         Padding="0"
-                        Background="{Binding Color}"
+                        Background="{Binding Color, TargetNullValue=Transparent}"
                         BorderThickness="0"
                         CornerRadius="3">
                         <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
@@ -92,7 +92,7 @@
                     <Border
                         Margin="3 0 0 3"
                         Padding="0"
-                        Background="{Binding Color}"
+                        Background="{Binding Color, TargetNullValue=Transparent}"
                         BorderThickness="0"
                         CornerRadius="3">
                         <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
@@ -121,7 +121,7 @@
                     <Border
                         Margin="3 0 0 3"
                         Padding="0"
-                        Background="{Binding Color}"
+                        Background="{Binding Color, TargetNullValue=Transparent}"
                         BorderThickness="0"
                         CornerRadius="3">
                         <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />

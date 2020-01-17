@@ -31,7 +31,7 @@ namespace Cooking.WPF.Views
                 string? localizedText = localization.GetLocalizedString("SearchHelpText");
                 if (localizedText != null)
                 {
-                    localizedText = string.Format(LocalizeDictionary.Instance.Culture, localizedText, Consts.IngredientSymbol, Consts.TagSymbol);
+                    localizedText = string.Format(localization.CurrentCulture, localizedText, Consts.IngredientSymbol, Consts.TagSymbol);
                 }
                 return localizedText;
             }

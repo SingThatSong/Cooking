@@ -6,9 +6,8 @@ using Validar;
 namespace Cooking.WPF.DTO
 {
     [InjectValidation]
-    public class IngredientEdit : INotifyPropertyChanged
+    public class IngredientEdit : Entity, INotifyPropertyChanged
     {
-        public Guid ID { get; set; }
         public string? Name { get; set; }
         public IngredientType? Type { get; set; }
 

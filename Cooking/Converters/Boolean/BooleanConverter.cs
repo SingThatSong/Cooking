@@ -18,7 +18,7 @@ namespace Cooking.WPF.Converters
         public T True { get; set; }
         public T False { get; set; }
 
-        public virtual object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object? Convert(object value, Type targetType, object? parameter, CultureInfo culture)
         {
             return value is bool isTrue
                 && isTrue ? True : False;

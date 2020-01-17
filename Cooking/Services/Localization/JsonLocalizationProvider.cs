@@ -30,6 +30,8 @@ namespace Cooking.WPF.Helpers
             }
         }
 
+        public CultureInfo CurrentCulture => LocalizeDictionary.Instance.Culture;
+
 #pragma warning disable CS0067
         public event ProviderChangedEventHandler? ProviderChanged;
         public event ProviderErrorEventHandler? ProviderError;
@@ -87,6 +89,6 @@ namespace Cooking.WPF.Helpers
             }
         }
 
-        public string? GetLocalizedString(string key) => GetLocalizedObject(key, null, LocalizeDictionary.Instance.Culture) as string;
+        public string? GetLocalizedString(string key) => GetLocalizedObject(key, null, CurrentCulture) as string;
     }
 }

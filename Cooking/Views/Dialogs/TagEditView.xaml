@@ -55,7 +55,7 @@
                 <xctk:ColorPicker
                     DisplayColorAndName="True"
                     Foreground="Black"
-                    SelectedColor="{Binding Tag.Color}" />
+                    SelectedColor="{Binding Tag.Color, TargetNullValue=Transparent}" />
 
                 <TextBlock Text="{Binding CategoryCaption}" />
                 <ComboBox ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}" SelectedValue="{Binding Tag.Type, Converter={StaticResource enumToDescriptionConverter}}" />

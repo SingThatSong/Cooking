@@ -47,16 +47,6 @@
                             Height="150"
                             Source="{Binding FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
                             Stretch="Uniform" />
-                        <StackPanel.Style>
-                            <Style TargetType="StackPanel">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                        <Setter Property="Background" Value="Teal" />
-                                        <Setter Property="Opacity" Value="0.6" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Style>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

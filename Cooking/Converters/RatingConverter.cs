@@ -21,7 +21,7 @@ namespace Cooking.WPF.Converters
         public Brush? OnBrush { get; set; }
         public Brush? OffBrush { get; set; }
 
-        public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object[] values, Type targetType, object? parameter, CultureInfo culture)
         {
             if (values?.Length != 3)
             {

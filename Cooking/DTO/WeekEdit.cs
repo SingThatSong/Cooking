@@ -1,4 +1,5 @@
-﻿using PropertyChanged;
+﻿using Cooking.Data.Model;
+using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
@@ -8,10 +9,8 @@ namespace Cooking.WPF.DTO
 {
     [AddINotifyPropertyChangedInterface]
     [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения")]
-    public class WeekEdit
+    public class WeekEdit : Entity
     {
-        public Guid ID { get; set; }
-
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
 

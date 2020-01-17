@@ -1,15 +1,20 @@
 ﻿using Cooking.Data.Model;
 using PropertyChanged;
 using System;
+using System.Threading;
 using Validar;
 
 namespace Cooking.WPF.DTO
 {
     [InjectValidation]
     [AddINotifyPropertyChangedInterface]
-    public class RecipeIngredientEdit
+    public class RecipeIngredientEdit : Entity
     {
-        public Guid ID { get; set; }
+        public RecipeIngredientEdit()
+        {
+            Culture = Thread.CurrentThread.CurrentUICulture.Name;
+        }
+
         public IngredientEdit? Ingredient { get; set; }
 
         // Validation of Amount and MeasureUnit depends on each other, so we have to notify interface about changes

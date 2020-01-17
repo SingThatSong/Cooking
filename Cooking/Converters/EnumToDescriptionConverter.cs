@@ -1,4 +1,5 @@
 ﻿using Cooking.WPF.Services;
+using NullGuard;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Cooking.WPF.Converters
     /// Converter for displaying <see cref="System.ComponentModel.DescriptionAttribute"/> values from enums
     public class EnumToDescriptionConverter : IValueConverter
     {
-        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is Enum @enum)
             {
@@ -18,13 +19,13 @@ namespace Cooking.WPF.Converters
             }
             else if (value is IEnumerable collection)
             {
-                List<string> list = new List<string>();
+                var list = new List<string>();
 
-                foreach (var val in collection)
+                foreach (object? val in collection)
                 {
                     if (val is Enum @enumValue)
                     {
-                        var description = @enumValue.Description();
+                        string? description = @enumValue.Description();
                         if (description != null)
                         {
                             list.Add(description);
@@ -40,11 +41,11 @@ namespace Cooking.WPF.Converters
             }
         }
 
-        public object? ConvertBack(object? value, Type? targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack([AllowNull] object? value, Type? targetType, [AllowNull] object? parameter, CultureInfo culture)
         {
             if (value != null && targetType != null)
             {
-                var valAsString = value.ToString();
+                string? valAsString = value.ToString();
 
                 if (valAsString != null)
                 {
