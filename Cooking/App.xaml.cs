@@ -38,6 +38,7 @@ using NullGuard;
 // TODO: Set autoupgrade https://github.com/ravibpatel/AutoUpdater.NET
 // TODO: Debug/ Measure method perfomance (benchmark?)
 // TODO: Add localization error on startup
+// TODO: Move to correct SQLite db, without ID hacks
 
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
