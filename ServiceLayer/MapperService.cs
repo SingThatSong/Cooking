@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
-using Cooking.ServiceLayer;
-using Cooking.ServiceLayer.Projections;
 using Cooking.Data.Model;
 using Cooking.Data.Model.Plan;
+using Cooking.ServiceLayer;
+using Cooking.ServiceLayer.Projections;
 using System;
 using System.Linq;
 

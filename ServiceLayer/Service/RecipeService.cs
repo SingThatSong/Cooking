@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
-using Cooking.ServiceLayer.Projections;
 using Cooking.Data.Model;
+using Cooking.ServiceLayer.Projections;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer;
 using System;
