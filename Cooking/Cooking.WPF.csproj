@@ -6,8 +6,18 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>if_pan_416389.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
+    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+    <PublishTrimmed>true</PublishTrimmed>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishSingleFile>true</PublishSingleFile>
+    <PublishReadyToRunShowWarnings>true</PublishReadyToRunShowWarnings>
   </PropertyGroup>
-
+  
+  <ItemGroup>
+    <TrimmerRootAssembly Include="System.Reflection" />
+    <TrimmerRootAssembly Include="System.Linq.Expressions" />
+  </ItemGroup>
+  
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;CA1062;CA1303;CA1822</NoWarn>
   </PropertyGroup>
@@ -22,27 +32,20 @@
   
   <ItemGroup>
     <PackageReference Include="AutoMapper.Collection" Version="6.0.0" />
-    <PackageReference Include="Bindables.Fody" Version="6.0.0">
-    </PackageReference>
+    <PackageReference Include="Bindables.Fody" Version="6.0.0" />
+    <PackageReference Include="DotNetProjects.Extended.Wpf.Toolkit" Version="4.6.78" />
     <PackageReference Include="FluentValidation" Version="8.6.1" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0479" />
-    <PackageReference Include="AutoMapper" Version="9.1.0-ci-01617">
-    </PackageReference>
-    <PackageReference Include="Extended.Wpf.Toolkit" Version="3.7.0">
-    </PackageReference>
+    <PackageReference Include="AutoMapper" Version="9.1.0-ci-01617" />
     <PackageReference Include="Fody" Version="6.0.6">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="gong-wpf-dragdrop" Version="2.2.0">
-    </PackageReference>
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660">
-    </PackageReference>
+    <PackageReference Include="gong-wpf-dragdrop" Version="2.2.0" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
     <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="3.1.0" />
-    <PackageReference Include="MaterialDesignColors" Version="1.2.3-ci948">
-    </PackageReference>
-    <PackageReference Include="MaterialDesignThemes" Version="3.1.0-ci948">
-    </PackageReference>
+    <PackageReference Include="MaterialDesignColors" Version="1.2.3-ci948" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.1.0-ci948" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -52,12 +55,10 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.1" />
     <PackageReference Include="NullGuard.Fody" Version="2.2.0" />
     <PackageReference Include="PhotoSauce.MagicScaler" Version="0.10.1" />
-    <PackageReference Include="Plafi" Version="0.1.8">
-    </PackageReference>
+    <PackageReference Include="Plafi" Version="0.1.8" />
     <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
-    <PackageReference Include="PropertyChanged.Fody" Version="3.2.4">
-    </PackageReference>
+    <PackageReference Include="PropertyChanged.Fody" Version="3.2.4" />
     <PackageReference Include="Serilog" Version="2.9.1-dev-01154" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00837" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />

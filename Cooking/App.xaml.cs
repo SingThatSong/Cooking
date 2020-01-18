@@ -23,8 +23,6 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 using NullGuard;
 
-// TODO: Minimize compiled output size
-// TODO: Make one-file deploy
 // TODO: Make sure Cooking.WPF contains no buisness logic
 // TODO: Refactor ViewModels into scheme: dependencies, state, commands, constructor, methods
 // TODO: Placeholder for time when loading occurs (overhead?)
@@ -39,9 +37,9 @@ using NullGuard;
 // TODO: check if .editorconfig uses latest parameters
 // TODO: Set autoupgrade https://github.com/ravibpatel/AutoUpdater.NET
 // TODO: Debug/ Measure method perfomance (benchmark?)
+// TODO: Add localization error on startup
 
 // TODO: Use static anylizers (PVS Studio)
-// TODO: Ensure startup time < 3s
 // TODO: Dish garnishes select + generate
 // TODO: App users
 
@@ -63,6 +61,7 @@ using NullGuard;
 // TODO: Create installer (Inno setup)
 // TODO: Create db migrator for installer
 
+// TODO: Replace Extended.WPF.Toolkit when 4.0.0 arrives: https://github.com/xceedsoftware/wpftoolkit/releases
 [assembly: NullGuard(ValidationFlags.Arguments)]
 namespace Cooking
 {
