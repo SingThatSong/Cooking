@@ -26,7 +26,7 @@ namespace Cooking.WPF.Helpers
             this.recipeService = recipeService;
             this.mapper = mapper;
 
-            FilterContext = new FilterContext<RecipeSelectDto>().AddFilter("name", HasName, isDefault: true)
+            FilterContext = new FilterContext<RecipeSelectDto>().AddFilter("name", CombinedFilter, isDefault: true)
                                                                 .AddFilter(Consts.IngredientSymbol, HasIngredient)
                                                                 .AddFilter(Consts.TagSymbol, HasTag);
 
@@ -83,6 +83,8 @@ namespace Cooking.WPF.Helpers
             }
         }
 
+
+        private bool CombinedFilter(RecipeSelectDto recipe, string text) => HasName(recipe, text) || HasTag(recipe, text) || HasIngredient(recipe, text);
         private bool HasName(RecipeSelectDto recipe, string name) => recipe.Name != null && recipe.Name.ToUpperInvariant().Contains(name.ToUpperInvariant(), StringComparison.Ordinal);
         private bool HasTag(RecipeSelectDto recipe, string category)
         {
