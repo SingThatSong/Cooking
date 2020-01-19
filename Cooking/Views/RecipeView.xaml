@@ -36,6 +36,7 @@
         <converters:EnumToDescriptionConverter x:Key="enumToDescriptionConverter" />
         <converters:NullImageConverter x:Key="nullConverter" />
         <xctk:InverseBoolConverter x:Key="inverseBoolConverter" />
+        <converters:LastCookedConverter x:Key="lastCookedConverter" />
 
         <ObjectDataProvider
             x:Key="calorieTypes"
@@ -110,7 +111,7 @@
                 <local:StringFormatProxy
                     x:Name="lastCookedStringFormat"
                     StringFormat="{lex:Loc LastCooked}"
-                    Value="{Binding Recipe.LastCooked}" />
+                    Value="{Binding Recipe.LastCooked, Converter={StaticResource lastCookedConverter}}" />
                 <local:StringFormatProxy x:Name="newRecipeProxy" Value="{lex:Loc NewRecipe}" />
                 <TextBlock TextWrapping="Wrap">
                     <TextBlock.Style>

@@ -24,7 +24,6 @@ using WPFLocalizeExtension.Providers;
 using NullGuard;
 using Fody;
 
-// TODO: Change LastCooked per-day view into year-month-week-day 
 // TODO: Refactor ViewModels into scheme: dependencies, state, commands, constructor, methods
 // TODO: Add centralized configuration edit (now it's only in SettingsViewModel)
 // TODO: Add comments to cs
