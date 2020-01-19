@@ -26,30 +26,16 @@ namespace Cooking.WPF.Converters
 
                         if (valueInt > 365)
                         {
-                            string? yearsAgoCaption = localization.GetLocalizedString("YearsAgo");
-                            if (yearsAgoCaption != null)
-                            {
-                                int yearsAgo = valueInt / 365;
-                                return string.Format(localization.CurrentCulture, yearsAgoCaption, yearsAgo);
-                            }
+                            return localization.GetLocalizedString("YearsAgo", valueInt / 365);
                         }
 
                         if (valueInt > 30)
                         {
-                            string? monthsAgoCaption = localization.GetLocalizedString("MonthsAgo");
-                            if (monthsAgoCaption != null)
-                            {
-                                int monthsAgo = valueInt / 30;
-                                return string.Format(localization.CurrentCulture, monthsAgoCaption, monthsAgo);
-                            }
+                            return localization.GetLocalizedString("MonthsAgo", valueInt / 30);
                         }
 
 
-                        string? daysAgoCaption = localization.GetLocalizedString("DaysAgo");
-                        if (daysAgoCaption != null)
-                        {
-                            return string.Format(localization.CurrentCulture, daysAgoCaption, valueInt);
-                        }
+                        return localization.GetLocalizedString("DaysAgo", valueInt);
                     }
                 }
             }

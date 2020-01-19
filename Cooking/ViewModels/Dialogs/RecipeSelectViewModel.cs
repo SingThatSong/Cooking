@@ -18,19 +18,7 @@ namespace Cooking.WPF.Views
         public RecipeSelectDto? SelectedRecipe { get; set; }
         public Guid? SelectedRecipeID => SelectedRecipe?.ID;
 
-        public string? SearchHelpText
-        {
-            get
-            {
-                string? localizedText = localization.GetLocalizedString("SearchHelpText");
-                if (localizedText != null)
-                {
-                    localizedText = string.Format(localization.CurrentCulture, localizedText, Consts.IngredientSymbol, Consts.TagSymbol);
-                }
-
-                return localizedText;
-            }
-        }
+        public string? SearchHelpText => localization.GetLocalizedString("SearchHelpText", Consts.IngredientSymbol, Consts.TagSymbol);
 
         public RecipeSelectViewModel(DialogService dialogService,
                                      RecipeService recipeService,

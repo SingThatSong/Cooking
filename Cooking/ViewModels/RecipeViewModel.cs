@@ -28,6 +28,7 @@ namespace Cooking.WPF.Views
         private readonly IMapper mapper;
         private readonly IEventAggregator eventAggregator;
         private readonly ILocalization localization;
+        private readonly IRegionManager regionManager;
         private IRegionNavigationJournal? journal;
 
         public bool IsEditing { get; set; }
@@ -58,6 +59,7 @@ namespace Cooking.WPF.Views
         public DelegateCommand AddIngredientGroupCommand { get; }
 
         public DelegateCommand<TagEdit> RemoveTagCommand { get; }
+        public DelegateCommand<TagEdit> ViewTagCommand { get; }
 
         public DelegateCommand<IngredientGroupEdit> AddIngredientToGroupCommand { get; }
         public DelegateCommand<IngredientGroupEdit> RemoveIngredientGroupCommand { get; }
@@ -72,7 +74,8 @@ namespace Cooking.WPF.Views
                                RecipeService recipeService,
                                IMapper mapper,
                                IEventAggregator eventAggregator,
-                               ILocalization localization)
+                               ILocalization localization,
+                               IRegionManager regionManager)
         {
             this.dialogUtils = dialogUtils;
             this.imageService = imageService;
@@ -81,6 +84,7 @@ namespace Cooking.WPF.Views
             this.mapper = mapper;
             this.eventAggregator = eventAggregator;
             this.localization = localization;
+            this.regionManager = regionManager;
 
             CloseCommand = new DelegateCommand(Close);
             ApplyChangesCommand = new AsyncDelegateCommand(ApplyChanges);
@@ -91,6 +95,7 @@ namespace Cooking.WPF.Views
 
             AddTagCommand = new DelegateCommand(AddTag);
             RemoveTagCommand = new DelegateCommand<TagEdit>(RemoveTag);
+            ViewTagCommand = new DelegateCommand<TagEdit>(ViewTag);
 
             AddIngredientGroupCommand = new DelegateCommand(AddIngredientGroup);
             EditIngredientGroupCommand = new AsyncDelegateCommand<IngredientGroupEdit>(EditIngredientGroup);
@@ -100,6 +105,7 @@ namespace Cooking.WPF.Views
             AddIngredientCommand = new DelegateCommand(AddIngredient);
             EditIngredientCommand = new AsyncDelegateCommand<RecipeIngredientEdit>(EditIngredient);
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
+
         }
 
         private bool CanDeleteRecipe(Guid arg) => !IsRecipeCreation;
@@ -177,6 +183,14 @@ namespace Cooking.WPF.Views
             {
                 mapper.Map(viewModel.IngredientGroup, group);
             }
+        }
+        private void ViewTag(TagEdit tag)
+        {
+            var parameters = new NavigationParameters()
+            {
+                { nameof(RecipeListViewModel.FilterText), $"{Consts.TagSymbol}\"{tag.Name}\"" }
+            };
+            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeListView), parameters);
         }
 
         private void RemoveTag(TagEdit tag) => Recipe!.Tags!.Remove(tag);
@@ -257,7 +271,7 @@ namespace Cooking.WPF.Views
             IsRecipeCreation = false;
         }
 
-        public async Task DeleteRecipe(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"),
+        public async Task DeleteRecipe(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Recipe!.ID),
                                                                                            localization.GetLocalizedString("CannotUndo"),
                                                                                            successCallback: () => OnRecipeDeleted(recipeId))
                                                                           ;

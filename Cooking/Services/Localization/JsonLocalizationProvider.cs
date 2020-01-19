@@ -87,6 +87,21 @@ namespace Cooking.WPF.Helpers
             }
         }
 
+        public string? GetLocalizedString(Enum key) => GetLocalizedObject($"{key.GetType().Name}_{Enum.GetName(key.GetType(), key)}", null, CurrentCulture) as string;
         public string? GetLocalizedString(string key) => GetLocalizedObject(key, null, CurrentCulture) as string;
+
+        public string? GetLocalizedString(string key, params object[] args)
+        {
+            string? localizedString = GetLocalizedString(key);
+
+            if (localizedString != null)
+            {
+                return string.Format(CurrentCulture, localizedString, args);
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

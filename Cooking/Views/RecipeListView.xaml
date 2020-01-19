@@ -164,6 +164,7 @@
                 </ItemsPanelTemplate>
             </DataGrid.ItemsPanel>
         </DataGrid>
+        <TextBlock Grid.Row="1" FontSize="24" Foreground="#ffbbbbbb" Text="{lex:Loc NoRecipiesFound}" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding RecipiesNotFound, Converter={StaticResource booleanToVisibilityConverter}}" />
         <StackPanel
             Grid.Row="2"
             Margin="0 5 0 0"

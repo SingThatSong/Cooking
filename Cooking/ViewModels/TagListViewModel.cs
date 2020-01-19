@@ -78,7 +78,7 @@ namespace Cooking.WPF.Views
         }
 
 
-        public async void DeleteTag(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"),
+        public async void DeleteTag(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Tags!.Single(x => x.ID == recipeId).Name ?? string.Empty),
                                                                                         localization.GetLocalizedString("CannotUndo"),
                                                                                         successCallback: () => OnTagDeleted(recipeId))
                                                                        ;
@@ -91,11 +91,11 @@ namespace Cooking.WPF.Views
 
         public async void AddTag()
         {
-            TagEditViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag"));
+            TagEditViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag")).ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
-                Guid id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag));
+                Guid id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag)).ConfigureAwait(true);
                 viewModel.Tag.ID = id;
                 Tags!.Add(viewModel.Tag);
             }

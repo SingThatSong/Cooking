@@ -50,13 +50,10 @@ namespace Cooking.WPF.Helpers
 
         private void OnRecipeUpdated(RecipeEdit obj)
         {
-            if (recipeCache == null)
+            if (recipeCache != null)
             {
-                return;
+                recipeCache[obj.ID] = recipeService.GetProjected<RecipeFull>(obj.ID);
             }
-
-            KeyValuePair<Guid, RecipeFull> existingRecipe = recipeCache!.First(x => x.Value.ID == obj.ID);
-            mapper.Map(obj, existingRecipe);
         }
 
         private void OnRecipeCreated(RecipeEdit obj)

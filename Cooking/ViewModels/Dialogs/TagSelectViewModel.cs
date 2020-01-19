@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using NullGuard;
 
 namespace Cooking.WPF.Views
 {
@@ -30,7 +31,7 @@ namespace Cooking.WPF.Views
             AddTagCommand = new DelegateCommand(AddTag);
         }
 
-        public void SetTags(IEnumerable<TagEdit>? currentTags, IEnumerable<TagEdit>? allTags)
+        public void SetTags([AllowNull] IEnumerable<TagEdit>? currentTags, [AllowNull] IEnumerable<TagEdit>? allTags)
         {
             if (allTags == null)
             {

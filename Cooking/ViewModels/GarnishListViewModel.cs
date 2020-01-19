@@ -54,9 +54,9 @@ namespace Cooking.WPF.Views
             return Task.CompletedTask;
         }
 
-        public async void DeleteGarnish(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"),
+        public async void DeleteGarnish(Guid garnishId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Garnishes.Single(x => x.ID == garnishId).Name),
                                                                                             localization.GetLocalizedString("CannotUndo"),
-                                                                                            successCallback: () => OnRecipeDeleted(recipeId))
+                                                                                            successCallback: () => OnRecipeDeleted(garnishId))
                                                                             ;
 
         public async void AddGarnish() => await dialogUtils.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("NewGarnish"),

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using Cooking.ServiceLayer;
 using Cooking.WPF.Events;
 using Cooking.WPF.Helpers;
 using Prism.Events;
@@ -15,28 +15,17 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Data;
-using WPFLocalizeExtension.Engine;
 
 namespace Cooking.WPF.Views
 {
     [AddINotifyPropertyChangedInterface]
     public partial class RecipeListViewModel : INavigationAware
     {
+        public bool RecipiesNotFound { get; private set; }
         public CollectionViewSource RecipiesSource { get; set; }
         public ObservableCollection<RecipeSelectDto>? Recipies { get; private set; }
-        public string? SearchHelpText
-        {
-            get
-            {
-                string? localizedText = localization.GetLocalizedString("SearchHelpText");
-                if (localizedText != null)
-                {
-                    localizedText = string.Format(localization.CurrentCulture, localizedText, Consts.IngredientSymbol, Consts.TagSymbol);
-                }
 
-                return localizedText;
-            }
-        }
+        public string? SearchHelpText => localization.GetLocalizedString("SearchHelpText", Consts.IngredientSymbol, Consts.TagSymbol);
 
         public DelegateCommand AddRecipeCommand { get; }
         public DelegateCommand<Guid> ViewRecipeCommand { get; }
@@ -136,6 +125,10 @@ namespace Cooking.WPF.Views
                     filterText = value;
                     recipeFiltrator.OnFilterTextChanged(value);
                     RecipiesSource.View?.Refresh();
+                    if (RecipiesSource.View is ListCollectionView listCollectionView)
+                    {
+                        RecipiesNotFound = listCollectionView.Count == 0;
+                    }
                 }
             }
         }

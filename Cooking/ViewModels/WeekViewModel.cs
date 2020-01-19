@@ -46,7 +46,7 @@ namespace Cooking.WPF.Views
         public DelegateCommand<Guid> ShowRecipeCommand { get; }
         public DelegateCommand<Guid> MoveRecipeCommand { get; }
         public DelegateCommand<DayOfWeek> SelectDinnerCommand { get; }
-        public DelegateCommand<Guid> DeleteDinnerCommand { get; }
+        public DelegateCommand<Guid?> DeleteDinnerCommand { get; }
 
         public WeekViewModel(DialogService dialogUtils,
                              IRegionManager regionManager,
@@ -73,7 +73,7 @@ namespace Cooking.WPF.Views
             SelectNextWeekCommand = new DelegateCommand(SelectNextWeekAsync);
             SelectPreviousWeekCommand = new DelegateCommand(SelectPreviousWeekAsync);
             ShowRecipeCommand = new DelegateCommand<Guid>(ShowRecipe);
-            DeleteDinnerCommand = new DelegateCommand<Guid>(DeleteDayAsync);
+            DeleteDinnerCommand = new DelegateCommand<Guid?>(DeleteDayAsync, canExecute: CanDeleteDay);
             SelectDinnerCommand = new DelegateCommand<DayOfWeek>(SelectDinner);
             MoveRecipeCommand = new DelegateCommand<Guid>(MoveRecipe);
         }
@@ -208,21 +208,22 @@ namespace Cooking.WPF.Views
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(ShoppingCartView), parameters);
         }
 
-        private async void DeleteDayAsync(Guid dayId)
+        private async void DeleteDayAsync(Guid? dayId)
         {
             Debug.WriteLine("MainPageViewModel.DeleteDayAsync");
+            DayOfWeek dayOfWeek = CurrentWeek.Days.Single(x => x.ID == dayId!).DayOfWeek;
             await dialogUtils.ShowYesNoDialog(
-                  localization.GetLocalizedString("SureDelete"),
+                  localization.GetLocalizedString("SureDelete", localization.GetLocalizedString(dayOfWeek)),
                   localization.GetLocalizedString("CannotUndo"),
-                  successCallback: () => OnDayDeleted(dayId));
+                  successCallback: () => OnDayDeleted(dayId.Value));
         }
 
-
+        private bool CanDeleteDay(Guid? day) => day.HasValue;
         private async void DeleteCurrentWeekAsync()
         {
             Debug.WriteLine("MainPageViewModel.DeleteCurrentWeekAsync");
             await dialogUtils.ShowYesNoDialog(
-                  localization.GetLocalizedString("SureDelete"),
+                  localization.GetLocalizedString("SureDelete", localization.GetLocalizedString("Week") ?? string.Empty),
                   localization.GetLocalizedString("CannotUndo"),
                   successCallback: OnCurrentWeekDeleted);
         }

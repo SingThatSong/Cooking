@@ -13,6 +13,7 @@
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     Margin="20 0"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
@@ -301,7 +302,13 @@
                                             VerticalAlignment="Center"
                                             mahapps:ControlsHelper.CornerRadius="5"
                                             FontSize="15"
-                                            Text="{Binding Name}" />
+                                            Text="{Binding Name}" >
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseUp">
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.ViewTagCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}" CommandParameter="{Binding}" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                        </TextBlock>
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -386,7 +393,7 @@
                         <TextBlock FontSize="15" Text="{lex:Loc Type}" />
                         <ComboBox
                             ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}"
-                            SelectedValue="{Binding Recipe.CalorieType, Converter={StaticResource enumToDescriptionConverter}}"
+                            SelectedValue="{Binding Recipe.CalorieType, Converter={StaticResource enumToDescriptionConverter}, Mode=TwoWay}"
                             Text="{lex:Loc ChooseCalorieType}" />
                     </StackPanel>
                     <StackPanel Margin="10 10 10 0" Orientation="Vertical">

@@ -52,7 +52,7 @@
   "Search": "Search...",
   "Category": "Category",
   "Color": "Color",
-  "SureDelete": "Are you sure you want to delete?",
+  "SureDelete": "Are you sure you want to delete {0}?",
   "CannotUndo": "There is no way to restore after",
   "NewGarnish": "New garnish",
   "EditGarnish": "Edit garnish",
@@ -82,5 +82,12 @@
   "WhereMoveRecipe": "Where should I put recipe?",
   "YearsAgo": "{0} years ago",
   "MonthsAgo": "{0} months ago",
-  "DaysAgo": "{0} days ago"
+  "DaysAgo": "{0} days ago",
+  "MainIngredient": "Main ingredient",
+  "DishType": "Dish type",
+  "MaybeYouWant": "Already exists:",
+  "NoRecipiesFound": "No recipies found for selected filter",
+  "MainPage": "Main page",
+  "Recepies": "Recepies",
+  "Garnishes": "Garnishes"
 }

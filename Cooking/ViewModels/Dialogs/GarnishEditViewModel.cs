@@ -18,8 +18,10 @@ namespace Cooking.WPF.Views
         private readonly ILocalization localization;
 
         // State
+        public bool SimilarGarnishesPresent => SimilarGarnishes?.Count() > 0;
         public GarnishEdit Garnish { get; set; }
         public string? NameCaption => localization.GetLocalizedString("Name");
+        public string? MaybeYouWantCaption => localization.GetLocalizedString("MaybeYouWant");
         private bool NameChanged { get; set; }
         public IEnumerable<string>? SimilarGarnishes => string.IsNullOrWhiteSpace(Garnish?.Name)
             ? null
@@ -41,6 +43,7 @@ namespace Cooking.WPF.Views
                 if (e.PropertyName == nameof(Garnish.Name))
                 {
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SimilarGarnishes)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SimilarGarnishesPresent)));
                     NameChanged = true;
                 }
             };

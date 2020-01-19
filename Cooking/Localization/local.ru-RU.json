@@ -52,7 +52,7 @@
   "Search": "Поиск...",
   "Category": "Категория",
   "Color": "Цвет",
-  "SureDelete": "Точно удалить?",
+  "SureDelete": "Точно удалить {0}?",
   "CannotUndo": "Восстановить будет нельзя",
   "NewGarnish": "Новый гарнир",
   "EditGarnish": "Редактирование гарнира",
@@ -83,5 +83,12 @@
   "WhereMoveRecipe": "На какой день недели перенести?",
   "YearsAgo": "{0} лет назад",
   "MonthsAgo": "{0} месяцев назад",
-  "DaysAgo": "{0} дней назад"
+  "DaysAgo": "{0} дней назад",
+  "MainIngredient": "Основной ингредиент",
+  "DishType": "Тип блюда",
+  "MaybeYouWant": "Уже существуют:",
+  "NoRecipiesFound": "По фильтру не найдено ни одного рецепта",
+  "MainPage": "Главная",
+  "Recepies": "Рецепты",
+  "Garnishes": "Гарниры"
 }

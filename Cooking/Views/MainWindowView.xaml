@@ -21,7 +21,7 @@
             <!--  From https://github.com/MahApps/MahApps.Metro/blob/develop/src/MahApps.Metro.Samples/MahApps.Metro.Demo/HamburgerMenuRipple/HamburgerMenuRipple.xaml  -->
             <!--  Latest commit 17.11.19  -->
             <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mahapps:HamburgerMenuIconItem}">
-                <Grid Height="48">
+                <Grid Height="48" Background="Transparent" ToolTip="{Binding ToolTip}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="48" />
                         <ColumnDefinition />

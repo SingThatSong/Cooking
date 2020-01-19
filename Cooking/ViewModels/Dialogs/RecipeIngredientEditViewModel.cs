@@ -44,16 +44,21 @@ namespace Cooking.WPF.Views
                                              IngredientService ingredientService,
                                              IMapper mapper,
                                              ILocalization localization,
-                                             RecipeIngredientEdit? ingredient = null)
+                                             RecipeIngredientEdit ingredient)
             : base(dialogUtils)
         {
             this.dialogUtils = dialogUtils;
             this.ingredientService = ingredientService;
             this.mapper = mapper;
             this.localization = localization;
-            Ingredient = ingredient ?? new RecipeIngredientEdit();
+            Ingredient = ingredient;
 
-            AddMultipleCommand = new DelegateCommand(AddMultiple, canExecute: CanMultipleOk);
+            if (Ingredient.ID == Guid.Empty)
+            {
+                Ingredient.ID = Guid.NewGuid();
+            }
+
+            AddMultipleCommand = new DelegateCommand(AddMultiple, canExecute: CanOk);
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
             AddCategoryCommand = new AsyncDelegateCommand(AddRecipe);
 
@@ -83,8 +88,6 @@ namespace Cooking.WPF.Views
             }
         }
 
-        private bool CanMultipleOk() => CanOk() && IsCreation;
-
         private void RemoveIngredient(RecipeIngredientEdit i) => Ingredients!.Remove(i);
 
         private void AddMultiple()
@@ -92,7 +95,7 @@ namespace Cooking.WPF.Views
             Ingredients ??= new ObservableCollection<RecipeIngredientEdit>();
             Ingredient.Order = Ingredients.Count + 1;
             Ingredients.Add(Ingredient);
-            Ingredient = new RecipeIngredientEdit();
+            Ingredient = new RecipeIngredientEdit() { ID = Guid.NewGuid() };
         }
 
         private async Task AddRecipe()

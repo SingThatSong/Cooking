@@ -23,7 +23,15 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 using NullGuard;
 using Fody;
+using System.Diagnostics;
+using System.IO;
 
+// TODO: Work with StyleCop issues
+// TODO: Recipe creation move common setters to headers
+// TODO: ColorPicker localization
+// TODO: Categories localization
+// TODO: After dishtype is added it is not shown in dishtypes list in week creation
+// TODO: CalorieType tooltips
 // TODO: Refactor ViewModels into scheme: dependencies, constructor, state, commands, methods
 // TODO: Add centralized configuration edit (now it's only in SettingsViewModel)
 // TODO: Add comments to cs
@@ -39,6 +47,8 @@ using Fody;
 // TODO: Add localization error on startup
 // TODO: Move to correct SQLite db, without ID hacks
 // TODO: Add project documentation (Wiki)
+// TODO: Recipe filtering reserved words localization (and, or, not) ?
+// TODO: Plurals localization
 
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
@@ -115,7 +125,11 @@ namespace Cooking
 
             containerRegistry.RegisterInstance<ILogger>(logger);
 
+            string exeFile = Process.GetCurrentProcess().MainModule.FileName;
+            string? directory = Path.GetDirectoryName(exeFile);
+
             IConfigurationRoot configuration = new ConfigurationBuilder()
+                                                    .SetBasePath(directory)
                                                     .AddJsonFile(Consts.SettingsFilename, optional: false)
                                                     .Build();
 
@@ -149,6 +163,9 @@ namespace Cooking
             containerRegistry.RegisterInstance<ILocalization>(jsonProvider);
             containerRegistry.RegisterInstance<ILocalizationProvider>(jsonProvider);
 
+            // Variables affect pages, so we set them beforehand
+            SetStaticVariables();
+
             // Dialog service is constant - we have only one window
             containerRegistry.RegisterInstance(new DialogService(
                                                         Container.Resolve<MainWindowViewModel>(),
@@ -177,8 +194,6 @@ namespace Cooking
             containerRegistry.Register<GarnishEditValidator>();
             containerRegistry.Register<TagEditValidator>();
             containerRegistry.Register<IngredientEditValidator>();
-
-            SetStaticVariables();
         }
 
         /// <summary>

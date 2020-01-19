@@ -5,6 +5,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:converters="clr-namespace:Cooking.WPF.Converters"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
@@ -14,6 +15,10 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+    </UserControl.Resources>
+    
     <UserControl.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </UserControl.InputBindings>
@@ -123,7 +128,8 @@
                 Margin="10 0 0 0"
                 Command="{Binding AddMultipleCommand}"
                 Foreground="Gray"
-                Style="{StaticResource BigButton}">
+                Style="{StaticResource BigButton}"
+                Visibility="{Binding IsCreation, Converter={StaticResource booleanToVisibilityConverter}}">
                 <icons:PackIconModern Kind="AddMultiple" Style="{StaticResource BigIcon}" />
             </Button>
         </StackPanel>

@@ -20,6 +20,7 @@ namespace Cooking.WPF.Views
         private readonly ILocalization localization;
 
         // State
+        public bool SimilarIngredientsPresent => SimilarIngredients?.Count() > 0;
         private bool NameChanged { get; set; }
         private List<string> AllIngredientNames { get; set; }
         public IngredientEdit Ingredient { get; set; }
@@ -30,6 +31,7 @@ namespace Cooking.WPF.Views
         public DelegateCommand LoadedCommand { get; }
         public string? NameCaption => localization.GetLocalizedString("Name");
         public string? TypeCaption => localization.GetLocalizedString("Type");
+        public string? MaybeYouWantCaption => localization.GetLocalizedString("MaybeYouWant");
 
         public IngredientEditViewModel(IngredientService ingredientService, DialogService dialogService, ILocalization localization, IngredientEdit? category = null)
             : base(dialogService)
@@ -42,6 +44,7 @@ namespace Cooking.WPF.Views
                 if (e.PropertyName == nameof(Ingredient.Name))
                 {
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SimilarIngredients)));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SimilarIngredientsPresent)));
                     NameChanged = true;
                 }
             };
