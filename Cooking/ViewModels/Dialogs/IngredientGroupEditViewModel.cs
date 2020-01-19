@@ -1,4 +1,5 @@
 ﻿using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
 using System.ComponentModel;
 
 namespace Cooking.WPF.Views
@@ -6,9 +7,9 @@ namespace Cooking.WPF.Views
     public partial class IngredientGroupEditViewModel : OkCancelViewModel
     {
         public DelegateCommand LoadedCommand { get; }
-        public IngredientGroupEditViewModel(DialogService dialogService, DTO.IngredientGroupEdit? ingredientGroup = null) : base(dialogService)
+        public IngredientGroupEditViewModel(DialogService dialogService, IngredientGroupEdit? ingredientGroup = null) : base(dialogService)
         {
-            IngredientGroup = ingredientGroup ?? new DTO.IngredientGroupEdit();
+            IngredientGroup = ingredientGroup ?? new IngredientGroupEdit();
             LoadedCommand = new DelegateCommand(OnLoaded);
         }
 
@@ -34,6 +35,6 @@ namespace Cooking.WPF.Views
             }
         }
 
-        public DTO.IngredientGroupEdit IngredientGroup { get; private set; }
+        public IngredientGroupEdit IngredientGroup { get; private set; }
     }
 }

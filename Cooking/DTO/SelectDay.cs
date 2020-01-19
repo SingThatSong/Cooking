@@ -1,7 +1,7 @@
 ﻿using PropertyChanged;
 using System;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.DTO
 {
     [AddINotifyPropertyChangedInterface]
     public class SelectDay

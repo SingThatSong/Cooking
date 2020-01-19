@@ -1,6 +1,6 @@
-﻿using Cooking.WPF.Views;
-
-using Cooking.Data.Model;
+﻿using Cooking.Data.Model;
+using Cooking.WPF.DTO;
+using Cooking.WPF.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

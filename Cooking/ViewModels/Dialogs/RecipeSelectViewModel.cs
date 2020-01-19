@@ -38,11 +38,6 @@ namespace Cooking.WPF.Views
                                      ILocalization localization,
                                      DayPlan? day = null) : base(dialogService)
         {
-            Debug.Assert(recipeService != null);
-            Debug.Assert(mapper != null);
-            Debug.Assert(recipeFiltrator != null);
-            Debug.Assert(localization != null);
-
             this.recipeFiltrator = recipeFiltrator;
             this.localization = localization;
 

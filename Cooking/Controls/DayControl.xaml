@@ -5,6 +5,7 @@
     xmlns:converters="clr-namespace:Cooking.WPF.Converters"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.WPF.Views"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data">
@@ -30,7 +31,7 @@
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
                             <Condition Binding="{Binding Path=Dinner, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible" />
-                            <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.WeekEdit}" Value="False" />
+                            <Condition Binding="{Binding Path=DataContext.WeekEdit, RelativeSource={RelativeSource AncestorType=local:WeekView}}" Value="False" />
                         </MultiDataTrigger.Conditions>
                         <MultiDataTrigger.Setters>
                             <Setter Property="Visibility" Value="Collapsed" />
@@ -67,9 +68,9 @@
                     <Style TargetType="icons:PackIconModern">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Dinner.LastCooked}" Value="-1">
+                            <DataTrigger Binding="{Binding Dinner.LastCooked}" Value="{x:Static System:Int32.MaxValue}">
                                 <Setter Property="Visibility" Value="Visible" />
-                                <Setter Property="ToolTip" Value="Новый рецепт!" />
+                                <Setter Property="ToolTip" Value="{Binding Path=DataContext.NewRecipeCaption, RelativeSource={RelativeSource AncestorType=local:WeekView}}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -122,7 +123,7 @@
                     <MenuItem
                         Command="{Binding Path=PlacementTarget.Tag.DataContext.MoveRecipeCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
                         CommandParameter="{Binding ID}"
-                        Header="Перенести рецепт на следующую неделю" />
+                        Header="{Binding Path=PlacementTarget.Tag.DataContext.MoveRecipeToNextWeekCaption, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
                 </ContextMenu>
             </StackPanel.ContextMenu>
             <Image

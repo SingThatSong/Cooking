@@ -1,14 +1,11 @@
 ﻿using Cooking.WPF.Services;
 using Cooking.Data.Model;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.DTO
 {
     public class CalorieTypeSelection
     {
-        public static readonly CalorieTypeSelection Any = new CalorieTypeSelection()
-        {
-            Name = "Любой"
-        };
+        public static readonly CalorieTypeSelection Any = new CalorieTypeSelection();
 
         private CalorieType calorieType;
         public CalorieType CalorieType
