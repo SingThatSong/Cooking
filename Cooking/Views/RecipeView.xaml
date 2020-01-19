@@ -117,7 +117,7 @@
                         <Style TargetType="TextBlock">
                             <Setter Property="Text" Value="{Binding Result, ElementName=lastCookedStringFormat}" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Recipe.LastCooked}" Value="-1">
+                                <DataTrigger Binding="{Binding Recipe.LastCooked}" Value="{x:Static System:Int32.MaxValue}">
                                     <Setter Property="Text" Value="{Binding Result, ElementName=newRecipeProxy}" />
                                 </DataTrigger>
                             </Style.Triggers>

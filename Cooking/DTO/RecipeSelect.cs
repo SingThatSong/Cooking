@@ -17,5 +17,6 @@ namespace Cooking.WPF.DTO
                                 ? Path.GetFullPath(ImagePath) 
                                 : null;
         public int Rating { get; set; }
+        public int LastCooked { get; set; }
     }
 }

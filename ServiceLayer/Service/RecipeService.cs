@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Cooking.ServiceLayer
 {
@@ -31,7 +32,7 @@ namespace Cooking.ServiceLayer
             }
             else
             {
-                return -1;
+                return int.MaxValue;
             }
         }
 
@@ -51,8 +52,6 @@ namespace Cooking.ServiceLayer
             return lastCookedId[recipeId] = dayService.GetLastCookedDate(recipeId);
         }
 
-        public List<RecipeSlim> GetRecipies() => GetRecipiesByParameters(null, null, null, null, false);
-
         public List<RecipeSlim> GetRecipiesByParameters(List<Guid>? requiredTags, List<CalorieType>? calorieTypes, int? maxComplexity, int? minRating, bool onlyNew)
         {
             Debug.WriteLine("RecipeService.GetRecipies");
@@ -67,7 +66,7 @@ namespace Cooking.ServiceLayer
 
             if (requiredTags != null && requiredTags.Count > 0)
             {
-                System.Linq.Expressions.Expression<Func<Recipe, bool>> predicate = PredicateBuilder.False<Recipe>();
+                Expression<Func<Recipe, bool>> predicate = PredicateBuilder.False<Recipe>();
 
                 foreach (Guid tag in requiredTags)
                 {
@@ -81,7 +80,7 @@ namespace Cooking.ServiceLayer
 
             if (calorieTypes != null && calorieTypes.Count > 0)
             {
-                System.Linq.Expressions.Expression<Func<Recipe, bool>> predicate = PredicateBuilder.False<Recipe>();
+                Expression<Func<Recipe, bool>> predicate = PredicateBuilder.False<Recipe>();
 
                 foreach (CalorieType calorieType in calorieTypes)
                 {
@@ -103,7 +102,7 @@ namespace Cooking.ServiceLayer
 
             var queryResult = MapperService.Mapper.ProjectTo<RecipeSlim>(query).ToList();
 
-            // Клиентская обработка
+            // Клиентская фильтрация
             if (onlyNew)
             {
                 queryResult = queryResult.Where(x => DayWhenLasWasCooked(x.ID) == null).ToList();

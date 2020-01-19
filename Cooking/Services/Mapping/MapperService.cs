@@ -18,13 +18,20 @@ namespace Cooking
                     cfg.AllowNullDestinationValues = true;
 
                     // Map created recipe to displayed in list
-                    cfg.CreateMap<RecipeEdit, RecipeSelectDto>();
+                    cfg.CreateMap<RecipeEdit, RecipeSelectDto>()
+                        // It is a new recipe, so we just set LastCooked to infinity
+                       .ForMember(x => x.LastCooked, opts => opts.MapFrom(_ => int.MaxValue));
 
                     // Backup dto for editing
                     cfg.CreateMap<GarnishEdit, GarnishEdit>();
                     cfg.CreateMap<RecipeEdit, RecipeEdit>();
                     cfg.CreateMap<TagEdit, TagEdit>();
                     cfg.CreateMap<IngredientEdit, IngredientEdit>();
+
+                    // Project Recipe from db to displayed in lists
+                    cfg.CreateMap<Recipe, RecipeSelectDto>()
+                       .AfterMap<RecipeDtoConverter>();
+
 
                     // Cleanup below
                     // -----------------------
@@ -37,7 +44,6 @@ namespace Cooking
                     cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>();
                     cfg.CreateMap<IngredientsGroup, IngredientGroupEdit>();
 
-                    cfg.CreateMap<Recipe, RecipeSelectDto>();
                     cfg.CreateMap<Recipe, RecipeEdit>()
                        .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags.Select(t => t.Tag)))
                        .AfterMap<RecipeConverter>();
