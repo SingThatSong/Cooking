@@ -40,10 +40,10 @@ namespace Cooking.WPF.Views
         public DelegateCommand OkCommand { get; }
         public DelegateCommand CloseCommand { get; }
 
-        public WeekSettingsViewModel(DialogService dialogUtils, 
-                                     IRegionManager regionManager, 
-                                     TagService tagService, 
-                                     IContainerExtension container, 
+        public WeekSettingsViewModel(DialogService dialogUtils,
+                                     IRegionManager regionManager,
+                                     TagService tagService,
+                                     IContainerExtension container,
                                      RecipeService recipeService,
                                      ILocalization localization)
         {

@@ -5,7 +5,7 @@ using Prism.Regions;
 namespace Cooking
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для MainWindow.xaml.
     /// </summary>
     public partial class MainWindowView
     {
@@ -21,7 +21,7 @@ namespace Cooking
 
         private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
         {
-            if (e.InvokedItem is HamburgerMenuItem hamburgerMenuItem 
+            if (e.InvokedItem is HamburgerMenuItem hamburgerMenuItem
              && hamburgerMenuItem.Tag is string typeName)
             {
                 regionManager.RequestNavigate(Consts.MainContentRegion, typeName);

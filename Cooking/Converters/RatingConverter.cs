@@ -8,12 +8,12 @@ namespace Cooking.WPF.Converters
     /// <summary>
     /// <see cref="Controls.Ratings"/> control-specific controller
     /// Returns current brush for a column
-    /// 
+    ///
     /// Accepts 3 values: current column index, rating value and rating preview value
-    /// 
+    ///
     /// If rating preview is not null and it's value greater or equals to column index (mouse is over one of columns to the right) - returns PreviewBrush
     /// If rating preview is null and rating value greater or equals to column index - returns OnBrush
-    /// Otherwise returs OffBrush
+    /// Otherwise returs OffBrush.
     /// </summary>
     public class RatingConverter : IMultiValueConverter
     {

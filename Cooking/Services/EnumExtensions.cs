@@ -7,7 +7,7 @@ namespace Cooking.WPF.Services
     public static class EnumExtensions
     {
         /// <summary>
-        /// Get DescriptionAttribute from enum
+        /// Get DescriptionAttribute from enum.
         /// </summary>
         public static string? Description(this Enum value)
         {
@@ -26,7 +26,7 @@ namespace Cooking.WPF.Services
         }
 
         /// <summary>
-        /// Get Enum value from Description
+        /// Get Enum value from Description.
         /// </summary>
         public static Enum? Enum(this Type type, string description)
         {

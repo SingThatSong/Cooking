@@ -3,5 +3,6 @@ using Prism.Events;
 
 namespace Cooking.WPF.Events
 {
-    public class RecipeCreatedEvent : PubSubEvent<RecipeEdit> { }
+    public class RecipeCreatedEvent : PubSubEvent<RecipeEdit>
+    { }
 }

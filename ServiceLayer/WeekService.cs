@@ -25,10 +25,10 @@ namespace ServiceLayer
         {
             Debug.WriteLine("WeekService.GetWeek(DateTime)");
             using CookingContext context = ContextFactory.Create();
-            return await GetCultureSpecificSet(context)    
-                                .Include(x => x.Days)     
+            return await GetCultureSpecificSet(context)
+                                .Include(x => x.Days)
                                     .ThenInclude(x => x.Dinner)
-                                .SingleOrDefaultAsync(x => x.Start.Date <= dayOfWeek.Date 
+                                .SingleOrDefaultAsync(x => x.Start.Date <= dayOfWeek.Date
                                                         && dayOfWeek.Date <= x.End.Date).ConfigureAwait(false);
         }
 

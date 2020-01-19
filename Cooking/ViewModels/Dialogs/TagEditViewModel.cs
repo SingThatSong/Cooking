@@ -23,7 +23,8 @@ namespace Cooking.WPF.Views
         public string? NameCaption => localization.GetLocalizedString("Name");
 
         public DelegateCommand LoadedCommand { get; }
-        public TagEditViewModel(DialogService dialogService, TagService tagService, ILocalization localization, TagEdit? category = null) : base(dialogService)
+        public TagEditViewModel(DialogService dialogService, TagService tagService, ILocalization localization, TagEdit? category = null)
+            : base(dialogService)
         {
             this.localization = localization;
             Tag = category ?? new TagEdit();
@@ -54,6 +55,7 @@ namespace Cooking.WPF.Views
                 NameChanged = true;
             }
         }
+
         protected override bool CanOk()
         {
             if (Tag is INotifyDataErrorInfo dataErrorInfo)
@@ -91,7 +93,7 @@ namespace Cooking.WPF.Views
         private List<string> AllTagNames { get; set; }
 
         public IEnumerable<string>? SimilarTags => string.IsNullOrWhiteSpace(Tag?.Name)
-            ? null 
+            ? null
             : AllTagNames.OrderBy(x => TagCompare(x, Tag.Name)).Take(3);
 
         private int TagCompare(string str1, string str2)

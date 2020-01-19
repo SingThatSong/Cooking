@@ -18,8 +18,8 @@ namespace Cooking.WPF
 
         public IDialogCoordinator DialogCoordinator { get; }
 
-        public DialogService(object viewModel, 
-                             IDialogCoordinator dialogCoordinator, 
+        public DialogService(object viewModel,
+                             IDialogCoordinator dialogCoordinator,
                              IContainerExtension containerProvider,
                              ILocalization localization)
         {
@@ -52,13 +52,13 @@ namespace Cooking.WPF
         }
 
         /// <summary>
-        /// Отобразить произвольный View в виде диалогового окна
+        /// Отобразить произвольный View в виде диалогового окна.
         /// </summary>
-        /// <typeparam name="TDialog">Тип View</typeparam>
-        /// <typeparam name="TDialogContent">Тип ViewModel для этого View</typeparam>
-        /// <param name="dialogTitle">Заголовок</param>
-        /// <param name="content">Объект ViewModel, который будет использован для View</param>
-        /// <returns>Объект ViewModel, который может нести значения, введённые пользователем</returns>
+        /// <typeparam name="TDialog">Тип View.</typeparam>
+        /// <typeparam name="TDialogContent">Тип ViewModel для этого View.</typeparam>
+        /// <param name="dialogTitle">Заголовок.</param>
+        /// <param name="content">Объект ViewModel, который будет использован для View.</param>
+        /// <returns>Объект ViewModel, который может нести значения, введённые пользователем.</returns>
         public virtual async Task<TDialogContent> ShowCustomMessageAsync<TDialog, TDialogContent>(string? title = null, TDialogContent? content = null)
             where TDialog : UserControl, new()
             where TDialogContent : class
@@ -77,7 +77,6 @@ namespace Cooking.WPF
                 };
 
                 await ShowAndWaitForClosedAsync(dialog);
-
             });
             return content;
         }
@@ -105,7 +104,6 @@ namespace Cooking.WPF
                 {
                     successCallback?.Invoke(content);
                 }
-
             });
         }
 

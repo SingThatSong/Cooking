@@ -48,8 +48,8 @@ namespace Cooking.WPF.Views
         public DelegateCommand<DayOfWeek> SelectDinnerCommand { get; }
         public DelegateCommand<Guid> DeleteDinnerCommand { get; }
 
-        public WeekViewModel(DialogService dialogUtils, 
-                             IRegionManager regionManager, 
+        public WeekViewModel(DialogService dialogUtils,
+                             IRegionManager regionManager,
                              IContainerExtension container,
                              DayService dayService,
                              IMapper mapper,
@@ -58,24 +58,24 @@ namespace Cooking.WPF.Views
         {
             Debug.WriteLine("MainPageViewModel.ctor");
 
-            this.dialogUtils            = dialogUtils;
-            this.regionManager          = regionManager;
-            this.container              = container;
-            this.dayService             = dayService;
-            this.mapper                 = mapper;
-            this.weekService            = weekService;
-            this.localization           = localization;
+            this.dialogUtils = dialogUtils;
+            this.regionManager = regionManager;
+            this.container = container;
+            this.dayService = dayService;
+            this.mapper = mapper;
+            this.weekService = weekService;
+            this.localization = localization;
 
-            LoadedCommand               = new AsyncDelegateCommand(OnLoadedAsync, executeOnce: true);
-            CreateNewWeekCommand        = new DelegateCommand(CreateNewWeekAsync);
-            CreateShoppingListCommand   = new DelegateCommand(CreateShoppingList);
-            DeleteCommand               = new DelegateCommand(DeleteCurrentWeekAsync);
-            SelectNextWeekCommand       = new DelegateCommand(SelectNextWeekAsync);
-            SelectPreviousWeekCommand   = new DelegateCommand(SelectPreviousWeekAsync);
-            ShowRecipeCommand           = new DelegateCommand<Guid>(ShowRecipe);
-            DeleteDinnerCommand         = new DelegateCommand<Guid>(DeleteDayAsync);
-            SelectDinnerCommand         = new DelegateCommand<DayOfWeek>(SelectDinner);
-            MoveRecipeCommand           = new DelegateCommand<Guid>(MoveRecipe);
+            LoadedCommand = new AsyncDelegateCommand(OnLoadedAsync, executeOnce: true);
+            CreateNewWeekCommand = new DelegateCommand(CreateNewWeekAsync);
+            CreateShoppingListCommand = new DelegateCommand(CreateShoppingList);
+            DeleteCommand = new DelegateCommand(DeleteCurrentWeekAsync);
+            SelectNextWeekCommand = new DelegateCommand(SelectNextWeekAsync);
+            SelectPreviousWeekCommand = new DelegateCommand(SelectPreviousWeekAsync);
+            ShowRecipeCommand = new DelegateCommand<Guid>(ShowRecipe);
+            DeleteDinnerCommand = new DelegateCommand<Guid>(DeleteDayAsync);
+            SelectDinnerCommand = new DelegateCommand<DayOfWeek>(SelectDinner);
+            MoveRecipeCommand = new DelegateCommand<Guid>(MoveRecipe);
         }
 
         private async Task<WeekEdit?> GetWeekAsync(DateTime dayOfWeek)
@@ -104,13 +104,13 @@ namespace Cooking.WPF.Views
                     };
                 }
             }
-            
+
             return weekMain;
         }
-        
+
         private void ShowRecipe(Guid recipeId)
         {
-            Debug.WriteLine("MainPageViewModel.ShowRecipe"); 
+            Debug.WriteLine("MainPageViewModel.ShowRecipe");
             var parameters = new NavigationParameters()
             {
                 { nameof(RecipeViewModel.Recipe), recipeId }
@@ -148,7 +148,7 @@ namespace Cooking.WPF.Views
             await SetWeekByDay(DateTime.Now);
 
             DateTime dayOnPreviousWeek = weekService.FirstDayOfWeek(DateTime.Now).AddDays(-1);
-            bool prevWeekFilled    = weekService.IsWeekFilled(dayOnPreviousWeek);
+            bool prevWeekFilled = weekService.IsWeekFilled(dayOnPreviousWeek);
 
             if (!prevWeekFilled)
             {
@@ -238,7 +238,6 @@ namespace Cooking.WPF.Views
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(WeekSettingsView), parameters);
         }
 
-        #region Callbacks
         private async void OnDayDeleted(Guid dayId)
         {
             await dayService.DeleteAsync(dayId);
@@ -249,12 +248,11 @@ namespace Cooking.WPF.Views
         {
             // call buisness function
             await weekService.DeleteAsync(CurrentWeek!.ID);
+
             // update state
             CurrentWeek = null;
         }
-        #endregion
 
-        #region Navigation methods
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             bool? reloadWeek = navigationContext.Parameters[Consts.ReloadWeekParameter] as bool?;
@@ -269,6 +267,5 @@ namespace Cooking.WPF.Views
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
-        #endregion
     }
 }

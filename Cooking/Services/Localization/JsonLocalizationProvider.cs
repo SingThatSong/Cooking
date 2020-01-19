@@ -13,6 +13,10 @@ namespace Cooking.WPF.Helpers
 {
     public class JsonLocalizationProvider : ILocalization, ILocalizationProvider
     {
+        public event ProviderChangedEventHandler? ProviderChanged;
+        public event ProviderErrorEventHandler? ProviderError;
+        public event ValueChangedEventHandler? ValueChanged;
+
         public ObservableCollection<CultureInfo> AvailableCultures
         {
             get
@@ -20,9 +24,9 @@ namespace Cooking.WPF.Helpers
                 var result = new ObservableCollection<CultureInfo>();
                 foreach (FileInfo file in new DirectoryInfo("Localization").EnumerateFiles())
                 {
-                    string lang = file.Name.Replace("local", "", StringComparison.Ordinal)
-                                           .Replace(".",     "", StringComparison.Ordinal)
-                                           .Replace("json",  "", StringComparison.Ordinal);
+                    string lang = file.Name.Replace("local", string.Empty, StringComparison.Ordinal)
+                                           .Replace(".", string.Empty, StringComparison.Ordinal)
+                                           .Replace("json", string.Empty, StringComparison.Ordinal);
                     result.Add(CultureInfo.GetCultureInfo(lang));
                 }
 
@@ -31,12 +35,6 @@ namespace Cooking.WPF.Helpers
         }
 
         public CultureInfo CurrentCulture => LocalizeDictionary.Instance.Culture;
-
-#pragma warning disable CS0067
-        public event ProviderChangedEventHandler? ProviderChanged;
-        public event ProviderErrorEventHandler? ProviderError;
-        public event ValueChangedEventHandler? ValueChanged;
-#pragma warning restore CS0067
 
         public FullyQualifiedResourceKeyBase GetFullyQualifiedResourceKey(string key, DependencyObject target) => new FQAssemblyDictionaryKey(key);
 

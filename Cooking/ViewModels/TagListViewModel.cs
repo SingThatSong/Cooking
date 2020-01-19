@@ -100,6 +100,5 @@ namespace Cooking.WPF.Views
                 Tags!.Add(viewModel.Tag);
             }
         }
-
     }
 }

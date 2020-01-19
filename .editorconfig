@@ -44,9 +44,51 @@ csharp_space_between_method_call_parameter_list_parentheses = false:error
 csharp_preserve_single_line_statements = false:error
 csharp_preserve_single_line_blocks = true:error
 
+#Visual studio issues
+
+# VS cannot really know when an event is used or not
+# Anyway, even if it not, it may just be interface requirement
+dotnet_diagnostic.CS0067.severity = none
+
+#FxCop issues
+
 # CA2227: Свойства коллекций должны быть доступны только для чтения
 dotnet_diagnostic.CA2227.severity = none
 
 # CA2007: Попробуйте вызвать ConfigureAwait для ожидаемой задачи
 # Using Fody.ConfigureAwait
 dotnet_diagnostic.CA2007.severity = none
+
+# StyleCop issues
+
+# SA1009: Closing parenthesis should be spaced correctly
+# It is more clear to have closing brace on the last line in miltiline input parameters
+dotnet_diagnostic.SA1009.severity = none
+
+# SA1111 
+# Same as SA1025
+dotnet_diagnostic.SA1111.severity = none
+
+# SA1025
+# Aligning of assigments is ok
+dotnet_diagnostic.SA1025.severity = none
+
+# SA1101 
+# Using this keyword bloat code and make it harder to read
+dotnet_diagnostic.SA1101.severity = none
+
+# SA1116 
+# First parameter should be on the same line as declaration, to show where it belongs
+dotnet_diagnostic.SA1116.severity = none
+
+# SA1200 
+# If you're benefit from this rule, yor're likely has some deeper code problems
+dotnet_diagnostic.SA1200.severity = none
+
+# SA1633 
+# No copyright exist
+dotnet_diagnostic.SA1633.severity = none
+
+# SA1516
+# It is ok to have elements on adjacent lines
+dotnet_diagnostic.SA1516.severity = none

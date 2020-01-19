@@ -6,11 +6,11 @@ using WPFLocalizeExtension.Engine;
 namespace Cooking.WPF
 {
     /// <summary>
-    /// Copied from https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension/blob/16fa1f6168fb803966d8217e5a406685c49d6854/tests/AssemblyTest/StringFormatProxy.cs 
+    /// Copied from https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension/blob/16fa1f6168fb803966d8217e5a406685c49d6854/tests/AssemblyTest/StringFormatProxy.cs
     /// and converted to Bindables.Fody
     /// Github issue to include in library https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension/issues/214
-    /// 
-    /// Last update 05.09.2018
+    ///
+    /// Last update 05.09.2018.
     /// </summary>
     public class StringFormatProxy : FrameworkElement
     {

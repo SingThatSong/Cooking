@@ -9,8 +9,8 @@ namespace ServiceLayer
 
         public static void InitDatabase()
         {
-           using CookingContext context = new CookingContext(DbFileName);
-           context.Database.Migrate();
+            using CookingContext context = new CookingContext(DbFileName);
+            context.Database.Migrate();
         }
     }
 }

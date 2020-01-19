@@ -33,7 +33,7 @@ namespace Cooking.Tests
         {
             var funcMock = new Mock<Func<object, Task>>();
             var asyncDelegate = new AsyncDelegateCommand<object>(funcMock.Object, canExecute: _ => true);
-            
+
             Assert.IsTrue(asyncDelegate.CanExecute());
         }
 

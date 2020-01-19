@@ -14,7 +14,8 @@ namespace Cooking.WPF.Views
         public DelegateCommand<SelectDay> SelectDayCommand { get; }
         public ObservableCollection<SelectDay> DaysOfWeek { get; }
 
-        public MoveRecipeViewModel(DialogService dialogService, ILocalization localization) : base(dialogService)
+        public MoveRecipeViewModel(DialogService dialogService, ILocalization localization)
+            : base(dialogService)
         {
             SelectDayCommand = new DelegateCommand<SelectDay>(recipe =>
             {
@@ -40,6 +41,5 @@ namespace Cooking.WPF.Views
         }
 
         protected override bool CanOk() => DaysOfWeek.Any(x => x.IsSelected);
-
     }
 }

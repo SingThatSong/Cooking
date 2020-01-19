@@ -16,8 +16,8 @@ namespace Cooking.WPF.Helpers
         private readonly RecipeService recipeService;
         private readonly IMapper mapper;
 
-        private FilterContext<RecipeSelectDto> FilterContext { get; set; }
         private Dictionary<Guid, RecipeFull>? recipeCache;
+        private FilterContext<RecipeSelectDto> FilterContext { get; set; }
 
         public RecipeFiltrator(RecipeService recipeService,
                                IEventAggregator eventAggregator,

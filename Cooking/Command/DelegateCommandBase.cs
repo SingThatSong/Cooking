@@ -4,20 +4,16 @@ using System.Windows.Input;
 namespace Cooking.WPF.Commands
 {
     /// <summary>
-    /// ICommand implementation for WPF bindings
+    /// ICommand implementation for WPF bindings.
     /// </summary>
     public abstract class DelegateCommandBase : ICommand
     {
-        protected bool ExecuteOnce { get; set; }
-        protected bool Executed { get; set; }
-        protected bool CanExecuteSpecified { get; set; }
-
         /// <summary>
         /// https://stackoverflow.com/a/7353704/1134449
         /// </summary>
         public event EventHandler CanExecuteChanged
         {
-            add 
+            add
             {
                 if (CanExecuteSpecified)
                 {
@@ -33,8 +29,12 @@ namespace Cooking.WPF.Commands
             }
         }
 
+        protected bool ExecuteOnce { get; set; }
+        protected bool Executed { get; set; }
+        protected bool CanExecuteSpecified { get; set; }
+
         /// <summary>
-        /// Implementation of ICommand.CanExecute
+        /// Implementation of ICommand.CanExecute.
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
@@ -57,12 +57,12 @@ namespace Cooking.WPF.Commands
         }
 
         /// <summary>
-        /// Provide implementation of CanExecute, keep it to buisness logic
+        /// Provide implementation of CanExecute, keep it to buisness logic.
         /// </summary>
-        /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored</param>
-        /// <returns>If this command can be executed</returns>
+        /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
+        /// <returns>If this command can be executed.</returns>
         protected abstract bool CanExecuteInternal(object? parameter);
-        
+
         public void Execute(object? parameter = null)
         {
             // Calling abstract method
@@ -71,9 +71,9 @@ namespace Cooking.WPF.Commands
         }
 
         /// <summary>
-        /// Provide implementation of Execute, keep it to buisness logic
+        /// Provide implementation of Execute, keep it to buisness logic.
         /// </summary>
-        /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored</param>
+        /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
         protected abstract void ExecuteInternal(object? parameter);
     }
 }

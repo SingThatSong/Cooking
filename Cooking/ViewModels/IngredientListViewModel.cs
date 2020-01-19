@@ -37,25 +37,24 @@ namespace Cooking.WPF.Views
         public DelegateCommand<IngredientEdit> ViewIngredientCommand { get; }
         public DelegateCommand<IngredientEdit> EditIngredientCommand { get; }
 
-        public IngredientListViewModel(IRegionManager regionManager, 
-                                    DialogService dialogUtils, 
+        public IngredientListViewModel(IRegionManager regionManager,
+                                    DialogService dialogUtils,
                                     IngredientService ingredientService,
                                     IMapper mapper,
                                     ILocalization localization)
         {
-            this.regionManager     = regionManager;
-            this.dialogUtils       = dialogUtils;
+            this.regionManager = regionManager;
+            this.dialogUtils = dialogUtils;
             this.ingredientService = ingredientService;
-            this.mapper            = mapper;
-            this.localization      = localization;
-            LoadedCommand          = new AsyncDelegateCommand(OnLoaded, executeOnce: true);
-            AddIngredientCommand   = new DelegateCommand(AddIngredient);
-            DeleteIngredientCommand  = new DelegateCommand<Guid>(DeleteIngredient);
-            EditIngredientCommand  = new DelegateCommand<IngredientEdit>(EditIngredient);
-            ViewIngredientCommand  = new DelegateCommand<IngredientEdit>(ViewIngredient);
+            this.mapper = mapper;
+            this.localization = localization;
+            LoadedCommand = new AsyncDelegateCommand(OnLoaded, executeOnce: true);
+            AddIngredientCommand = new DelegateCommand(AddIngredient);
+            DeleteIngredientCommand = new DelegateCommand<Guid>(DeleteIngredient);
+            EditIngredientCommand = new DelegateCommand<IngredientEdit>(EditIngredient);
+            ViewIngredientCommand = new DelegateCommand<IngredientEdit>(ViewIngredient);
         }
 
-        #region Top-level functions
         private Task OnLoaded()
         {
             Debug.WriteLine("IngredientsViewModel.OnLoaded");
@@ -74,12 +73,12 @@ namespace Cooking.WPF.Views
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeListView), parameters);
         }
 
-        public async void DeleteIngredient(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"), 
-                                                                                               localization.GetLocalizedString("CannotUndo"), 
+        public async void DeleteIngredient(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"),
+                                                                                               localization.GetLocalizedString("CannotUndo"),
                                                                                                successCallback: () => OnIngredientDeleted(recipeId))
                                                                                ;
 
-        public async void AddIngredient() => await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"), 
+        public async void AddIngredient() => await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"),
                                                                                                                                successCallback: OnNewIngredientCreated)
                                                               ;
 
@@ -89,9 +88,7 @@ namespace Cooking.WPF.Views
             await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("EditIngredient"), viewModel, successCallback: OnIngredientEdited)
                              ;
         }
-        #endregion
 
-        #region Callbacks
         private async void OnIngredientDeleted(Guid id)
         {
             await ingredientService.DeleteAsync(id);
@@ -110,6 +107,5 @@ namespace Cooking.WPF.Views
             await ingredientService.CreateAsync(mapper.Map<Ingredient>(viewModel.Ingredient));
             Ingredients!.Add(viewModel.Ingredient);
         }
-        #endregion
     }
 }

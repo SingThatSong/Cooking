@@ -8,9 +8,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Cooking.WPF.Views
 {
-    [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения", Justification = "<Ожидание>")]
     public class DayPlan : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         // Рецепт, указанный вручную
         public RecipeSlim? SpecificRecipe { get; set; }
         public RecipeSlim? Recipe { get; set; }
@@ -25,14 +26,10 @@ namespace Cooking.WPF.Views
         public DayOfWeek DayOfWeek { get; set; }
         public ObservableCollection<TagEdit> NeededMainIngredients { get; set; } = new ObservableCollection<TagEdit>() { TagEdit.Any };
         public ObservableCollection<TagEdit> NeededDishTypes { get; set; } = new ObservableCollection<TagEdit>() { TagEdit.Any };
-        public ObservableCollection<CalorieTypeSelection> CalorieTypes { get; set; } 
+        public ObservableCollection<CalorieTypeSelection> CalorieTypes { get; set; }
             = new ObservableCollection<CalorieTypeSelection>()
             {
                 CalorieTypeSelection.Any
             };
-
-#pragma warning disable CS0067 // Событие не используется
-        public event PropertyChangedEventHandler? PropertyChanged;
-#pragma warning restore CS0067
     }
 }

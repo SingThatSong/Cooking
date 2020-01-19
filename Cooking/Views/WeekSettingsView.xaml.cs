@@ -3,7 +3,7 @@
 namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Логика взаимодействия для WeekSettings.xaml
+    /// Логика взаимодействия для WeekSettings.xaml.
     /// </summary>
     public partial class WeekSettingsView : UserControl
     {

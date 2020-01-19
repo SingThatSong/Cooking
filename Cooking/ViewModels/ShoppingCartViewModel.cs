@@ -13,7 +13,7 @@ namespace Cooking.WPF.Views
         public DelegateCommand CloseCommand { get; }
         private IRegionNavigationJournal? navigationContext;
 
-        public ShoppingCartViewModel() 
+        public ShoppingCartViewModel()
         {
             CloseCommand = new DelegateCommand(Close, canExecute: CanClose);
         }
@@ -34,9 +34,9 @@ namespace Cooking.WPF.Views
 
         public ObservableCollection<ShoppingListItem>? List { get; private set; } = new ObservableCollection<ShoppingListItem>();
 
-        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+        public bool IsNavigationTarget(NavigationContext navigationContext) => false;
         public void OnNavigatedFrom(NavigationContext navigationContext) { }
-        public void OnNavigatedTo(NavigationContext navigationContext) 
+        public void OnNavigatedTo(NavigationContext navigationContext)
         {
             this.navigationContext = navigationContext.NavigationService.Journal;
             var list = navigationContext.Parameters[nameof(List)] as List<ShoppingListItem>;

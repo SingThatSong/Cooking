@@ -15,6 +15,8 @@ namespace Cooking.WPF.Views
 {
     public partial class IngredientEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         private readonly ILocalization localization;
 
         // State
@@ -29,7 +31,8 @@ namespace Cooking.WPF.Views
         public string? NameCaption => localization.GetLocalizedString("Name");
         public string? TypeCaption => localization.GetLocalizedString("Type");
 
-        public IngredientEditViewModel(IngredientService ingredientService, DialogService dialogService, ILocalization localization, IngredientEdit? category = null) : base(dialogService)
+        public IngredientEditViewModel(IngredientService ingredientService, DialogService dialogService, ILocalization localization, IngredientEdit? category = null)
+            : base(dialogService)
         {
             this.localization = localization;
             Ingredient = category ?? new IngredientEdit();
@@ -63,8 +66,8 @@ namespace Cooking.WPF.Views
 
         protected override async Task Ok()
         {
-            if (NameChanged 
-             && Ingredient.Name != null 
+            if (NameChanged
+             && Ingredient.Name != null
              && AllIngredientNames.Any(x => x.ToUpperInvariant() == Ingredient.Name.ToUpperInvariant()))
             {
                 bool saveAnyway = false;
@@ -93,7 +96,6 @@ namespace Cooking.WPF.Views
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         private int IngredientCompare(string str1, string str2)
              => StringCompare.DiffLength(

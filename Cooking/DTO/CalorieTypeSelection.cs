@@ -17,6 +17,7 @@ namespace Cooking.WPF.DTO
                 Name = value.Description();
             }
         }
+
         public string? Name { get; set; }
         public bool IsSelected { get; set; }
     }

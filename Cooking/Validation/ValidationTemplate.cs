@@ -14,6 +14,8 @@ namespace Cooking
     [NullGuard(ValidationFlags.None)]
     public class ValidationTemplate : IDataErrorInfo, INotifyDataErrorInfo
     {
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
         readonly INotifyPropertyChanged target;
         readonly IValidator? validator;
         ValidationResult? validationResult;
@@ -43,6 +45,7 @@ namespace Cooking
                     throw new InvalidOperationException();
                 }
             }
+
             return validator;
         }
 
@@ -62,7 +65,7 @@ namespace Cooking
                                                                                .Where(x => x.PropertyName == propertyName)
                                                                                .Select(x => x.ErrorMessage);
 
-        public bool HasErrors => validationResult?.Errors.Count > 0; 
+        public bool HasErrors => validationResult?.Errors.Count > 0;
 
         public string? Error
         {
@@ -85,7 +88,6 @@ namespace Cooking
         // Duplicates INotifyDataErrorInfo.GetErrors
         public string? this[string propertyName] => null;
 
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
         void RaiseErrorsChanged(string propertyName) => ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
     }

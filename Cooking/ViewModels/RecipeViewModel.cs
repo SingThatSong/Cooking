@@ -66,40 +66,40 @@ namespace Cooking.WPF.Views
         public DelegateCommand<RecipeIngredientEdit> RemoveIngredientCommand { get; }
         public AsyncDelegateCommand<Guid> DeleteRecipeCommand { get; }
 
-        public RecipeViewModel(DialogService dialogUtils, 
-                               ImageService imageService, 
-                               IContainerExtension container, 
-                               RecipeService recipeService, 
+        public RecipeViewModel(DialogService dialogUtils,
+                               ImageService imageService,
+                               IContainerExtension container,
+                               RecipeService recipeService,
                                IMapper mapper,
                                IEventAggregator eventAggregator,
                                ILocalization localization)
         {
-            this.dialogUtils            = dialogUtils;
-            this.imageService           = imageService;
-            this.container              = container;
-            this.recipeService          = recipeService;
-            this.mapper                 = mapper;
-            this.eventAggregator        = eventAggregator;
-            this.localization           = localization;
+            this.dialogUtils = dialogUtils;
+            this.imageService = imageService;
+            this.container = container;
+            this.recipeService = recipeService;
+            this.mapper = mapper;
+            this.eventAggregator = eventAggregator;
+            this.localization = localization;
 
-            CloseCommand                = new DelegateCommand(Close);
-            ApplyChangesCommand         = new AsyncDelegateCommand(ApplyChanges);
-            DeleteRecipeCommand         = new AsyncDelegateCommand<Guid>(DeleteRecipe, canExecute: CanDeleteRecipe);
+            CloseCommand = new DelegateCommand(Close);
+            ApplyChangesCommand = new AsyncDelegateCommand(ApplyChanges);
+            DeleteRecipeCommand = new AsyncDelegateCommand<Guid>(DeleteRecipe, canExecute: CanDeleteRecipe);
 
-            ImageSearchCommand          = new DelegateCommand(ImageSearch);
-            RemoveImageCommand          = new DelegateCommand(RemoveImage, canExecute: CanRemoveImage);
+            ImageSearchCommand = new DelegateCommand(ImageSearch);
+            RemoveImageCommand = new DelegateCommand(RemoveImage, canExecute: CanRemoveImage);
 
-            AddTagCommand               = new DelegateCommand(AddTag);
-            RemoveTagCommand            = new DelegateCommand<TagEdit>(RemoveTag);
+            AddTagCommand = new DelegateCommand(AddTag);
+            RemoveTagCommand = new DelegateCommand<TagEdit>(RemoveTag);
 
-            AddIngredientGroupCommand   = new DelegateCommand(AddIngredientGroup);
-            EditIngredientGroupCommand  = new AsyncDelegateCommand<IngredientGroupEdit>(EditIngredientGroup);
+            AddIngredientGroupCommand = new DelegateCommand(AddIngredientGroup);
+            EditIngredientGroupCommand = new AsyncDelegateCommand<IngredientGroupEdit>(EditIngredientGroup);
             AddIngredientToGroupCommand = new DelegateCommand<IngredientGroupEdit>(AddIngredientToGroup);
             RemoveIngredientGroupCommand = new DelegateCommand<IngredientGroupEdit>(RemoveIngredientGroup);
 
-            AddIngredientCommand        = new DelegateCommand(AddIngredient);
-            EditIngredientCommand       = new AsyncDelegateCommand<RecipeIngredientEdit>(EditIngredient);
-            RemoveIngredientCommand     = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
+            AddIngredientCommand = new DelegateCommand(AddIngredient);
+            EditIngredientCommand = new AsyncDelegateCommand<RecipeIngredientEdit>(EditIngredient);
+            RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
         }
 
         private bool CanDeleteRecipe(Guid arg) => !IsRecipeCreation;
@@ -251,6 +251,7 @@ namespace Cooking.WPF.Views
                 await recipeService.UpdateAsync(mapper.Map<Recipe>(Recipe));
                 eventAggregator.GetEvent<RecipeUpdatedEvent>().Publish(Recipe);
             }
+
             RecipeBackup = null;
             IsEditing = false;
             IsRecipeCreation = false;
@@ -266,6 +267,7 @@ namespace Cooking.WPF.Views
             await recipeService.DeleteAsync(recipeId);
             CloseCommand.Execute();
             eventAggregator.GetEvent<RecipeDeletedEvent>().Publish(recipeId);
+
             // Journal methods must be called from UI thread
             Application.Current.Dispatcher.Invoke(() =>
             {

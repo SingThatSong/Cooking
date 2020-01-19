@@ -36,31 +36,31 @@ namespace Cooking.WPF.Views
         public DelegateCommand OkCommand { get; }
         public DelegateCommand CloseCommand { get; }
 
-        public GeneratedWeekViewModel(DialogService dialogUtils, 
-                                          IRegionManager regionManager, 
-                                          RecipeService recipeService, 
+        public GeneratedWeekViewModel(DialogService dialogUtils,
+                                          IRegionManager regionManager,
+                                          RecipeService recipeService,
                                           IContainerExtension container,
-                                          WeekService weekService) : base()
+                                          WeekService weekService)
         {
-            this.dialogUtils            = dialogUtils;
-            this.regionManager          = regionManager;
-            this.recipeService          = recipeService;
-            this.container              = container;
-            this.weekService            = weekService;
+            this.dialogUtils = dialogUtils;
+            this.regionManager = regionManager;
+            this.recipeService = recipeService;
+            this.container = container;
+            this.weekService = weekService;
 
-            ReturnCommand               = new DelegateCommand(Return);
+            ReturnCommand = new DelegateCommand(Return);
             DeleteRecipeManuallyCommand = new DelegateCommand<DayPlan>(DeleteRecipeManually);
-            SetRecipeManuallyCommand    = new DelegateCommand<DayPlan>(SetRecipeManually);
+            SetRecipeManuallyCommand = new DelegateCommand<DayPlan>(SetRecipeManually);
             GetAlternativeRecipeCommand = new DelegateCommand<DayPlan>(GetAlternativeRecipe, canExecute: (day) => day?.RecipeAlternatives?.Count > 1);
-            ShowRecipeCommand           = new DelegateCommand<Guid>(ShowRecipe);
-            CloseCommand                = new DelegateCommand(Close);
-            OkCommand                   = new DelegateCommand(Ok);
+            ShowRecipeCommand = new DelegateCommand<Guid>(ShowRecipe);
+            CloseCommand = new DelegateCommand(Close);
+            OkCommand = new DelegateCommand(Ok);
         }
 
         private void Close() => regionManager.RequestNavigate(Consts.MainContentRegion, nameof(WeekView));
 
         private async void Ok()
-        {            
+        {
             var daysDictionary = Days.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
             await weekService.CreateWeekAsync(WeekStart, daysDictionary);
 
@@ -94,9 +94,9 @@ namespace Cooking.WPF.Views
 
         private async void SetRecipeManually(DayPlan day)
         {
-            var viewModel = new RecipeSelectViewModel(dialogUtils, 
-                                                      recipeService, 
-                                                      container.Resolve<IMapper>(), 
+            var viewModel = new RecipeSelectViewModel(dialogUtils,
+                                                      recipeService,
+                                                      container.Resolve<IMapper>(),
                                                       container.Resolve<RecipeFiltrator>(),
                                                       container.Resolve<ILocalization>(),
                                                       day);

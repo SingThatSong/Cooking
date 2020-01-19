@@ -19,7 +19,8 @@ namespace Cooking
 
                     // Map created recipe to displayed in list
                     cfg.CreateMap<RecipeEdit, RecipeSelectDto>()
-                        // It is a new recipe, so we just set LastCooked to infinity
+
+                       // It is a new recipe, so we just set LastCooked to infinity
                        .ForMember(x => x.LastCooked, opts => opts.MapFrom(_ => int.MaxValue));
 
                     // Backup dto for editing

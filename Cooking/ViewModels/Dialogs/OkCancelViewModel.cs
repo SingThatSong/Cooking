@@ -8,7 +8,8 @@ namespace Cooking.WPF.Views
         public bool DialogResultOk { get; private set; }
         public AsyncDelegateCommand OkCommand { get; protected set; }
 
-        public OkCancelViewModel(DialogService dialogService) : base(dialogService)
+        public OkCancelViewModel(DialogService dialogService)
+            : base(dialogService)
         {
             OkCommand = new AsyncDelegateCommand(Ok, CanOk);
         }

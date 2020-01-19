@@ -8,7 +8,7 @@ using System.Windows.Controls;
 namespace Cooking.WPF.Controls
 {
     /// <summary>
-    /// Ratings control
+    /// Ratings control.
     /// </summary>
     public partial class Ratings : UserControl
     {
@@ -18,22 +18,25 @@ namespace Cooking.WPF.Controls
         }
 
         /// <summary>
-        /// Internal value for determining column height, which is HeightStep * ColumnValue
+        /// Internal value for determining column height, which is HeightStep * ColumnValue.
         /// </summary>
-        [DependencyProperty] public double HeightStep { get; set; }
+        [DependencyProperty]
+        public double HeightStep { get; set; }
 
         /// <summary>
-        /// Internal representation of ratings. List of all possible rating values, based on MaxRating
+        /// Internal representation of ratings. List of all possible rating values, based on MaxRating.
         /// </summary>
-        [DependencyProperty] public List<int>? RatingsInternal { get; private set; }
+        [DependencyProperty]
+        public List<int>? RatingsInternal { get; private set; }
 
         /// <summary>
-        /// Integer value of rating for visual representation. Equals to RatingValue when idle or RatingValuePreview when MouseOver
+        /// Integer value of rating for visual representation. Equals to RatingValue when idle or RatingValuePreview when MouseOver.
         /// </summary>
-        [DependencyProperty] public int? IntegerValue { get; set; }
+        [DependencyProperty]
+        public int? IntegerValue { get; set; }
 
         /// <summary>
-        /// RatingValue which is underneath mouse when MouseOver
+        /// RatingValue which is underneath mouse when MouseOver.
         /// </summary>
         [DependencyProperty(OnPropertyChanged = nameof(OnRatingPreviewChanged))]
         public int? RatingValuePreview { get; set; }
@@ -54,7 +57,7 @@ namespace Cooking.WPF.Controls
         }
 
         /// <summary>
-        /// Selected rating
+        /// Selected rating.
         /// </summary>
         [DependencyProperty(OnPropertyChanged = nameof(OnRatingChanged))]
         public int? RatingValue { get; set; }
@@ -67,7 +70,7 @@ namespace Cooking.WPF.Controls
         }
 
         /// <summary>
-        /// Maximum possible rating
+        /// Maximum possible rating.
         /// </summary>
         [DependencyProperty(OnPropertyChanged = nameof(OnMaxRatingChanged))]
         public int? MaxRating { get; set; }
@@ -78,16 +81,16 @@ namespace Cooking.WPF.Controls
              && dependencyObject is Ratings obj)
             {
                 obj.RatingsInternal = Enumerable.Range(1, (int)dependencyPropertyChangedEventArgs.NewValue).ToList();
-                var height = obj.GetValue(HeightProperty);
+                object height = obj.GetValue(HeightProperty);
                 obj.HeightStep = (double)height / obj.RatingsInternal.Count;
             }
         }
 
 
-        public DelegateCommand ClearValueCommand     => new DelegateCommand(() => RatingValue = null);
-        public DelegateCommand<int> ClickCommand     => new DelegateCommand<int>(i => RatingValue = i);
+        public DelegateCommand ClearValueCommand => new DelegateCommand(() => RatingValue = null);
+        public DelegateCommand<int> ClickCommand => new DelegateCommand<int>(i => RatingValue = i);
 
         public DelegateCommand<int> MouseOverCommand => new DelegateCommand<int>(i => RatingValuePreview = i);
-        public DelegateCommand MouseLeaveCommand     => new DelegateCommand(() => RatingValuePreview = null);
+        public DelegateCommand MouseLeaveCommand => new DelegateCommand(() => RatingValuePreview = null);
     }
 }

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using Cooking.Data.Model.Plan;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Helpers;
-using Cooking.Data.Model.Plan;
 using PropertyChanged;
 using ServiceLayer;
 using System;
@@ -35,17 +35,16 @@ namespace Cooking.WPF.Views
 
         public GarnishListViewModel(DialogService dialogUtils, GarnishService garnishService, IMapper mapper, ILocalization localization)
         {
-            this.dialogUtils     = dialogUtils;
-            this.garnishService  = garnishService;
-            this.mapper          = mapper;
-            this.localization    = localization;
-            LoadedCommand        = new AsyncDelegateCommand(OnLoaded, executeOnce: true);
-            AddGarnishCommand    = new DelegateCommand(AddGarnish);
+            this.dialogUtils = dialogUtils;
+            this.garnishService = garnishService;
+            this.mapper = mapper;
+            this.localization = localization;
+            LoadedCommand = new AsyncDelegateCommand(OnLoaded, executeOnce: true);
+            AddGarnishCommand = new DelegateCommand(AddGarnish);
             DeleteGarnishCommand = new DelegateCommand<Guid>(DeleteGarnish);
-            EditGarnishCommand   = new DelegateCommand<GarnishEdit>(EditGarnish);
+            EditGarnishCommand = new DelegateCommand<GarnishEdit>(EditGarnish);
         }
 
-        #region Top-level functions
         private Task OnLoaded()
         {
             Debug.WriteLine("GarnishesViewModel.OnLoaded");
@@ -60,7 +59,7 @@ namespace Cooking.WPF.Views
                                                                                             successCallback: () => OnRecipeDeleted(recipeId))
                                                                             ;
 
-        public async void AddGarnish() => await dialogUtils.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("NewGarnish"), 
+        public async void AddGarnish() => await dialogUtils.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("NewGarnish"),
                                                                                                                       successCallback: OnNewGarnishCreated)
                                                            ;
 
@@ -70,9 +69,7 @@ namespace Cooking.WPF.Views
             await dialogUtils.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("EditGarnish"), viewModel, successCallback: OnGarnishEdited)
                              ;
         }
-        #endregion
 
-        #region Callbacks
         private async void OnRecipeDeleted(Guid recipeId)
         {
             await garnishService.DeleteAsync(recipeId).ConfigureAwait(true);
@@ -91,6 +88,5 @@ namespace Cooking.WPF.Views
             await garnishService.CreateAsync(mapper.Map<Garnish>(viewModel.Garnish));
             Garnishes!.Add(viewModel.Garnish);
         }
-        #endregion
     }
 }

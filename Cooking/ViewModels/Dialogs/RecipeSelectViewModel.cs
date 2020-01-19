@@ -27,16 +27,18 @@ namespace Cooking.WPF.Views
                 {
                     localizedText = string.Format(localization.CurrentCulture, localizedText, Consts.IngredientSymbol, Consts.TagSymbol);
                 }
+
                 return localizedText;
             }
         }
 
-        public RecipeSelectViewModel(DialogService dialogService, 
-                                     RecipeService recipeService, 
-                                     IMapper mapper, 
+        public RecipeSelectViewModel(DialogService dialogService,
+                                     RecipeService recipeService,
+                                     IMapper mapper,
                                      RecipeFiltrator recipeFiltrator,
                                      ILocalization localization,
-                                     DayPlan? day = null) : base(dialogService)
+                                     DayPlan? day = null)
+            : base(dialogService)
         {
             this.recipeFiltrator = recipeFiltrator;
             this.localization = localization;
@@ -101,7 +103,6 @@ namespace Cooking.WPF.Views
 
                 FilterText = sb.ToString();
             }
-
         }
 
         protected override bool CanOk() => SelectedRecipe != null;

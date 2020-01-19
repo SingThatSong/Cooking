@@ -33,9 +33,11 @@ namespace Cooking.WPF.Views
                 {
                     localizedText = string.Format(localization.CurrentCulture, localizedText, Consts.IngredientSymbol, Consts.TagSymbol);
                 }
+
                 return localizedText;
             }
         }
+
         public DelegateCommand AddRecipeCommand { get; }
         public DelegateCommand<Guid> ViewRecipeCommand { get; }
 
@@ -47,9 +49,9 @@ namespace Cooking.WPF.Views
         public void OnIsListViewChanged() => IsTilesView = !IsListView;
         public void OnIsTilesViewChanged() => IsListView = !IsTilesView;
 
-        public RecipeListViewModel(DialogService dialogUtils, 
-                                 IContainerExtension container, 
-                                 IRegionManager regionManager, 
+        public RecipeListViewModel(DialogService dialogUtils,
+                                 IContainerExtension container,
+                                 IRegionManager regionManager,
                                  RecipeService recipeService,
                                  IEventAggregator eventAggregator,
                                  IMapper mapper,

@@ -12,7 +12,8 @@ namespace Cooking.WPF.ViewModels
     {
         public ObservableCollection<CalorieTypeSelection> AllValues { get; }
 
-        public CalorieTypeSelectViewModel(DialogService dialogService, IEnumerable<CalorieTypeSelection>? selectedTypes) : base(dialogService)
+        public CalorieTypeSelectViewModel(DialogService dialogService, IEnumerable<CalorieTypeSelection>? selectedTypes)
+            : base(dialogService)
         {
             AllValues = new ObservableCollection<CalorieTypeSelection>(
                 Enum.GetValues(typeof(CalorieType))

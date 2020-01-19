@@ -3,5 +3,6 @@ using System;
 
 namespace Cooking.WPF.Events
 {
-    public class RecipeDeletedEvent : PubSubEvent<Guid> { }
+    public class RecipeDeletedEvent : PubSubEvent<Guid>
+    { }
 }

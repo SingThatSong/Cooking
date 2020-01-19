@@ -9,7 +9,7 @@ namespace Cooking.Avalonia.ViewModels
         public Week CurrentWeek => new Week()
         {
             Days = new List<Day>()
-            { 
+            {
                 new Day(),
                 new Day(),
                 new Day(),

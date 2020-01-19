@@ -40,11 +40,12 @@ namespace Cooking.WPF.Views
 
         public List<IngredientEdit> AllIngredients { get; }
 
-        public RecipeIngredientEditViewModel(DialogService dialogUtils, 
-                                             IngredientService ingredientService, 
+        public RecipeIngredientEditViewModel(DialogService dialogUtils,
+                                             IngredientService ingredientService,
                                              IMapper mapper,
                                              ILocalization localization,
-                                             RecipeIngredientEdit? ingredient = null) : base(dialogUtils)
+                                             RecipeIngredientEdit? ingredient = null)
+            : base(dialogUtils)
         {
             this.dialogUtils = dialogUtils;
             this.ingredientService = ingredientService;

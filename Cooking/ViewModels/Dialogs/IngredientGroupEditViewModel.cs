@@ -7,7 +7,8 @@ namespace Cooking.WPF.Views
     public partial class IngredientGroupEditViewModel : OkCancelViewModel
     {
         public DelegateCommand LoadedCommand { get; }
-        public IngredientGroupEditViewModel(DialogService dialogService, IngredientGroupEdit? ingredientGroup = null) : base(dialogService)
+        public IngredientGroupEditViewModel(DialogService dialogService, IngredientGroupEdit? ingredientGroup = null)
+            : base(dialogService)
         {
             IngredientGroup = ingredientGroup ?? new IngredientGroupEdit();
             LoadedCommand = new DelegateCommand(OnLoaded);

@@ -25,7 +25,7 @@ namespace Cooking.Data.Migrations
 									                                      or FridayID = Day.ID
 									                                      or SaturdayID = Day.ID
 									                                      or SundayID = Day.ID);");
-            
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

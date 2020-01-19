@@ -20,7 +20,8 @@ namespace Cooking.WPF.Views
         private readonly IMapper mapper;
         private readonly ILocalization localization;
 
-        public TagSelectViewModel(DialogService dialogUtils, TagService tagService, IMapper mapper, ILocalization localization) : base(dialogUtils)
+        public TagSelectViewModel(DialogService dialogUtils, TagService tagService, IMapper mapper, ILocalization localization)
+            : base(dialogUtils)
         {
             this.dialogUtils = dialogUtils;
             this.tagService = tagService;
@@ -54,7 +55,7 @@ namespace Cooking.WPF.Views
         public async void AddTag()
         {
             TagEditViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag"));
-            
+
             if (viewModel.DialogResultOk)
             {
                 Guid id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag));
@@ -73,6 +74,5 @@ namespace Cooking.WPF.Views
         public IEnumerable<TagEdit>? DishTypes => AllTags?.Where(x => x.Type == TagType.DishType);
         public IEnumerable<TagEdit>? Occasions => AllTags?.Where(x => x.Type == TagType.Occasion);
         public IEnumerable<TagEdit>? Sources => AllTags?.Where(x => x.Type == TagType.Source);
-
     }
 }

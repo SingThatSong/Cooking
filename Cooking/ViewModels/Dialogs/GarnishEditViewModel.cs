@@ -13,6 +13,8 @@ namespace Cooking.WPF.Views
 {
     public partial class GarnishEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         private readonly ILocalization localization;
 
         // State
@@ -25,10 +27,11 @@ namespace Cooking.WPF.Views
         private List<string> AllGarnishNames { get; set; }
         public DelegateCommand LoadedCommand { get; }
 
-        public GarnishEditViewModel(GarnishEdit? garnish, 
-                                    GarnishService garnishService, 
+        public GarnishEditViewModel(GarnishEdit? garnish,
+                                    GarnishService garnishService,
                                     DialogService dialogService,
-                                    ILocalization localization) : base (dialogService)
+                                    ILocalization localization)
+            : base(dialogService)
         {
             Garnish = garnish ?? new GarnishEdit();
             this.localization = localization;
@@ -54,7 +57,6 @@ namespace Cooking.WPF.Views
             Garnish.Name = backup;
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected override async Task Ok()
         {
@@ -63,7 +65,7 @@ namespace Cooking.WPF.Views
             {
                 bool saveAnyway = false;
                 await DialogService.ShowYesNoDialog(localization.GetLocalizedString("GarnishAlreadyExists"),
-                                                    localization.GetLocalizedString("SaveAnyway"), 
+                                                    localization.GetLocalizedString("SaveAnyway"),
                                                     successCallback: () => saveAnyway = true);
 
                 if (!saveAnyway)

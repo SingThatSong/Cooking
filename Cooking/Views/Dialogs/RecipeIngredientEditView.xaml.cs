@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Логика взаимодействия для UserControl1.xaml
+    /// Логика взаимодействия для UserControl1.xaml.
     /// </summary>
     public partial class RecipeIngredientEditView
     {
@@ -30,8 +30,8 @@ namespace Cooking.WPF.Views
                 itemsViewOriginal.Refresh();
                 return;
             }
-            
-            itemsViewOriginal.Filter = ((o) =>
+
+            itemsViewOriginal.Filter = (o) =>
             {
                 if (string.IsNullOrEmpty(Ingredient.Text))
                 {
@@ -48,7 +48,7 @@ namespace Cooking.WPF.Views
                         return false;
                     }
                 }
-            });
+            };
 
             itemsViewOriginal.Refresh();
             Ingredient.IsDropDownOpen = true;

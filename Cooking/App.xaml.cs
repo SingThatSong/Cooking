@@ -24,7 +24,7 @@ using WPFLocalizeExtension.Providers;
 using NullGuard;
 using Fody;
 
-// TODO: Refactor ViewModels into scheme: dependencies, state, commands, constructor, methods
+// TODO: Refactor ViewModels into scheme: dependencies, constructor, state, commands, methods
 // TODO: Add centralized configuration edit (now it's only in SettingsViewModel)
 // TODO: Add comments to cs
 // TODO: Add comments to XAML
@@ -66,19 +66,21 @@ using Fody;
 
 // Set Null-check on all func arguments globally
 [assembly: NullGuard(ValidationFlags.Arguments)]
+
 // Set ConfigureAwait globally
 [assembly: ConfigureAwait(false)]
 
 namespace Cooking
 {
     /// <summary>
-    /// Логика взаимодействия для App.xaml
+    /// Логика взаимодействия для App.xaml.
     /// </summary>
     public partial class App : PrismApplication
     {
         public App()
         {
             AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;
+
             // TODO: remove after introducing data migrator
             DatabaseService.InitDatabase();
         }
@@ -106,9 +108,9 @@ namespace Cooking
                              .MinimumLevel.Information()
                              .WriteTo.Console()
                              .WriteTo.File("Log.txt",
-                                 rollingInterval: RollingInterval.Infinite,
-                                 rollOnFileSizeLimit: true, 
-                                 fileSizeLimitBytes: 1024 * 1024 * 5)
+                                            rollingInterval: RollingInterval.Infinite,
+                                            rollOnFileSizeLimit: true,
+                                            fileSizeLimitBytes: 1024 * 1024 * 5)
                              .CreateLogger();
 
             containerRegistry.RegisterInstance<ILogger>(logger);
@@ -131,7 +133,7 @@ namespace Cooking
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
 
             // Register services
-            containerRegistry.RegisterInstance<IMapper>(new Mapper(MapperService.CreateMapper(), Container.Resolve<IContainerExtension>().Resolve)); 
+            containerRegistry.RegisterInstance<IMapper>(new Mapper(MapperService.CreateMapper(), Container.Resolve<IContainerExtension>().Resolve));
             containerRegistry.Register<WeekService>();
             containerRegistry.Register<DayService>();
             containerRegistry.Register<GarnishService>();
@@ -175,12 +177,12 @@ namespace Cooking
             containerRegistry.Register<GarnishEditValidator>();
             containerRegistry.Register<TagEditValidator>();
             containerRegistry.Register<IngredientEditValidator>();
-            
+
             SetStaticVariables();
         }
 
         /// <summary>
-        /// Creating Prism shell (main window)
+        /// Creating Prism shell (main window).
         /// </summary>
         /// <returns></returns>
         protected override Window CreateShell() => Container.Resolve<MainWindowView>();

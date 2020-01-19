@@ -14,7 +14,7 @@ namespace Cooking.WPF.DTO
         public string? ImagePath { get; set; }
 
         public string? FullPath => ImagePath != null && File.Exists(Path.GetFullPath(ImagePath))
-                                ? Path.GetFullPath(ImagePath) 
+                                ? Path.GetFullPath(ImagePath)
                                 : null;
         public int Rating { get; set; }
         public int LastCooked { get; set; }
