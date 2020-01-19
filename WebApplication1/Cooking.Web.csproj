@@ -27,7 +27,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.10" />
-    <PackageReference Include="RtfPipe" Version="1.0.7246.39337" />
+    <PackageReference Include="RtfPipe" Version="1.0.7322.27725" />
   </ItemGroup>
 
   <ItemGroup>
