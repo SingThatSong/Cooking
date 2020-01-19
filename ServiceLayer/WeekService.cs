@@ -206,7 +206,8 @@ namespace ServiceLayer
             var week = new Week()
             {
                 Start = FirstDayOfWeek(dayOnWeek),
-                End = LastDayOfWeek(dayOnWeek)
+                End = LastDayOfWeek(dayOnWeek),
+                Culture = GetCurrentCulture()
             };
             context.Add(week);
 
