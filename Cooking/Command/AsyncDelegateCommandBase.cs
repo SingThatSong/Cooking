@@ -46,8 +46,8 @@ namespace Cooking.WPF.Commands
         protected override sealed async void ExecuteInternal(object? parameter)
         {
             IsBusy = true;
-            await Task.Delay(1).ConfigureAwait(false);
-            await ExecuteAsyncInternal(parameter).ConfigureAwait(false);
+            await Task.Delay(1);
+            await ExecuteAsyncInternal(parameter);
             IsBusy = false;
         }
 

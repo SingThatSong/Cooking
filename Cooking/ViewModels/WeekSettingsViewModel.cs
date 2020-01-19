@@ -132,7 +132,7 @@ namespace Cooking.WPF.Views
         private async void AddCalorieTypes(DayPlan day)
         {
             var viewModel = new CalorieTypeSelectViewModel(dialogUtils, day.CalorieTypes);
-            await dialogUtils.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectViewModel>(localization.GetLocalizedString("CalorieTyoes"), viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectViewModel>(localization.GetLocalizedString("CalorieTyoes"), viewModel);
 
             if (viewModel.DialogResultOk)
             {
@@ -153,7 +153,7 @@ namespace Cooking.WPF.Views
 
         private async void AddDishTypes(DayPlan day)
         {
-            ObservableCollection<TagEdit>? tags = await GetTags(TagType.DishType, day.NeededDishTypes).ConfigureAwait(false);
+            ObservableCollection<TagEdit>? tags = await GetTags(TagType.DishType, day.NeededDishTypes);
 
             if (tags != null)
             {
@@ -163,7 +163,7 @@ namespace Cooking.WPF.Views
 
         private async void AddMainIngredient(DayPlan day)
         {
-            ObservableCollection<TagEdit>? tags = await GetTags(TagType.MainIngredient, day.NeededMainIngredients).ConfigureAwait(false);
+            ObservableCollection<TagEdit>? tags = await GetTags(TagType.MainIngredient, day.NeededMainIngredients);
 
             if (tags != null)
             {
@@ -181,7 +181,7 @@ namespace Cooking.WPF.Views
 
             TagSelectViewModel viewModel = container.Resolve<TagSelectViewModel>();
             viewModel.SetTags(current, allTags);
-            await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(string.Format(localization.CurrentCulture, localization.GetLocalizedString("CategoriesOf") ?? "{0}", type), viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(string.Format(localization.CurrentCulture, localization.GetLocalizedString("CategoriesOf") ?? "{0}", type), viewModel);
 
             if (viewModel.DialogResultOk)
             {

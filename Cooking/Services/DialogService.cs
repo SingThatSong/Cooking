@@ -35,20 +35,20 @@ namespace Cooking.WPF
             await Application.Current.Dispatcher.Invoke(async () =>
             {
                 // Перед отображением запоминаем родителя
-                BaseMetroDialog parentDialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel).ConfigureAwait(false);
+                BaseMetroDialog parentDialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel);
 
-                await DialogCoordinator.ShowMetroDialogAsync(ViewModel, dialog).ConfigureAwait(false);
+                await DialogCoordinator.ShowMetroDialogAsync(ViewModel, dialog);
 
                 BaseMetroDialog currentDialog;
                 do
                 {
                     // Unloaded срабатывает в том числе при переключении на дочерние окна
                     // Ждём, пока активным не станет родитель
-                    await dialog.WaitUntilUnloadedAsync().ConfigureAwait(false);
-                    currentDialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel).ConfigureAwait(false);
+                    await dialog.WaitUntilUnloadedAsync();
+                    currentDialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel);
                 }
                 while (currentDialog != parentDialog);
-            }).ConfigureAwait(false);
+            });
         }
 
         /// <summary>
@@ -76,9 +76,9 @@ namespace Cooking.WPF
                     Content = new TDialog { DataContext = content }
                 };
 
-                await ShowAndWaitForClosedAsync(dialog).ConfigureAwait(false);
+                await ShowAndWaitForClosedAsync(dialog);
 
-            }).ConfigureAwait(false);
+            });
             return content;
         }
 
@@ -106,7 +106,7 @@ namespace Cooking.WPF
                     successCallback?.Invoke(content);
                 }
 
-            }).ConfigureAwait(false);
+            });
         }
 
         public virtual async Task ShowYesNoDialog(string? title = null, string? content = null, Action? successCallback = null)
@@ -132,17 +132,17 @@ namespace Cooking.WPF
         {
             await Application.Current.Dispatcher.Invoke(async () =>
             {
-                BaseMetroDialog dialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel).ConfigureAwait(false);
+                BaseMetroDialog dialog = await DialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(ViewModel);
                 if (dialog != null)
                 {
-                    await HideDialogAsync(dialog).ConfigureAwait(false);
+                    await HideDialogAsync(dialog);
                 }
-            }).ConfigureAwait(false);
+            });
         }
 
         public virtual async Task HideDialogAsync(BaseMetroDialog dialog)
         {
-            await DialogCoordinator.HideMetroDialogAsync(ViewModel, dialog, new MetroDialogSettings() { AnimateHide = false }).ConfigureAwait(false);
+            await DialogCoordinator.HideMetroDialogAsync(ViewModel, dialog, new MetroDialogSettings() { AnimateHide = false });
         }
     }
 }

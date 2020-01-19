@@ -22,10 +22,10 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 using NullGuard;
+using Fody;
 
-// TODO: Make sure Cooking.WPF contains no buisness logic
+// TODO: Change LastCooked per-day view into year-month-week-day 
 // TODO: Refactor ViewModels into scheme: dependencies, state, commands, constructor, methods
-// TODO: Placeholder for time when loading occurs (overhead?)
 // TODO: Add centralized configuration edit (now it's only in SettingsViewModel)
 // TODO: Add comments to cs
 // TODO: Add comments to XAML
@@ -39,6 +39,7 @@ using NullGuard;
 // TODO: Debug/ Measure method perfomance (benchmark?)
 // TODO: Add localization error on startup
 // TODO: Move to correct SQLite db, without ID hacks
+// TODO: Add project documentation (Wiki)
 
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
@@ -63,7 +64,12 @@ using NullGuard;
 // TODO: Create db migrator for installer
 
 // TODO: Replace Extended.WPF.Toolkit when 4.0.0 arrives: https://github.com/xceedsoftware/wpftoolkit/releases
+
+// Set Null-check on all func arguments globally
 [assembly: NullGuard(ValidationFlags.Arguments)]
+// Set ConfigureAwait globally
+[assembly: ConfigureAwait(false)]
+
 namespace Cooking
 {
     /// <summary>
@@ -91,6 +97,7 @@ namespace Cooking
 
             ILocalization localization = Container.Resolve<ILocalization>();
             TagEdit.Any.Name = localization.GetLocalizedString("Any");
+            CalorieTypeSelection.Any.Name = localization.GetLocalizedString("Any");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

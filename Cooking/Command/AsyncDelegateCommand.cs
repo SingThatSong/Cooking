@@ -23,6 +23,6 @@ namespace Cooking.WPF.Commands
 
         protected override bool CanExecuteAsyncInternal(object? parameter) => _canExecute != null ? _canExecute() : true;
 
-        protected override async Task ExecuteAsyncInternal(object? parameter) => await _execute().ConfigureAwait(false);
+        protected override async Task ExecuteAsyncInternal(object? parameter) => await _execute();
     }
 }

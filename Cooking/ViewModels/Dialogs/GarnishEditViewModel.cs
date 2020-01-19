@@ -58,12 +58,13 @@ namespace Cooking.WPF.Views
 
         protected override async Task Ok()
         {
+            // Check if garnish is already exists
             if (NameChanged && Garnish.Name != null && AllGarnishNames.Any(x => x.ToUpperInvariant() == Garnish.Name.ToUpperInvariant()))
             {
                 bool saveAnyway = false;
                 await DialogService.ShowYesNoDialog(localization.GetLocalizedString("GarnishAlreadyExists"),
                                                     localization.GetLocalizedString("SaveAnyway"), 
-                                                    successCallback: () => saveAnyway = true).ConfigureAwait(false);
+                                                    successCallback: () => saveAnyway = true);
 
                 if (!saveAnyway)
                 {
@@ -71,7 +72,7 @@ namespace Cooking.WPF.Views
                 }
             }
 
-            await base.Ok().ConfigureAwait(false);
+            await base.Ok();
         }
 
         protected override bool CanOk()

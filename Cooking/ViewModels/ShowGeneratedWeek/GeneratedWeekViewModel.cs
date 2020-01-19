@@ -62,7 +62,7 @@ namespace Cooking.WPF.Views
         private async void Ok()
         {            
             var daysDictionary = Days.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
-            await weekService.CreateWeekAsync(WeekStart, daysDictionary).ConfigureAwait(false);
+            await weekService.CreateWeekAsync(WeekStart, daysDictionary);
 
             var parameters = new NavigationParameters
             {
@@ -101,7 +101,7 @@ namespace Cooking.WPF.Views
                                                       container.Resolve<ILocalization>(),
                                                       day);
 
-            await dialogUtils.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>(content: viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>(content: viewModel);
 
             if (viewModel.DialogResultOk)
             {

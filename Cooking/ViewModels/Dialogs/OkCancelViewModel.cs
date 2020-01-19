@@ -18,7 +18,7 @@ namespace Cooking.WPF.Views
         protected virtual async Task Ok()
         {
             DialogResultOk = true;
-            await Close().ConfigureAwait(false);
+            await Close();
         }
     }
 }

@@ -97,12 +97,12 @@ namespace Cooking.WPF.Views
         private async Task AddRecipe()
         {
             IngredientEditViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"))
-                                             .ConfigureAwait(false);
+                                             ;
 
             if (viewModel.DialogResultOk)
             {
                 Guid id = await ingredientService.CreateAsync(mapper.Map<Ingredient>(viewModel.Ingredient))
-                                                 .ConfigureAwait(false);
+                                                 ;
                 viewModel.Ingredient.ID = id;
                 AllIngredients.Add(viewModel.Ingredient);
                 Ingredient.Ingredient = viewModel.Ingredient;

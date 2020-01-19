@@ -58,17 +58,17 @@ namespace Cooking.WPF.Views
         public async void DeleteGarnish(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"),
                                                                                             localization.GetLocalizedString("CannotUndo"),
                                                                                             successCallback: () => OnRecipeDeleted(recipeId))
-                                                                            .ConfigureAwait(false);
+                                                                            ;
 
         public async void AddGarnish() => await dialogUtils.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("NewGarnish"), 
                                                                                                                       successCallback: OnNewGarnishCreated)
-                                                           .ConfigureAwait(false);
+                                                           ;
 
         public async void EditGarnish(GarnishEdit garnish)
         {
             var viewModel = new GarnishEditViewModel(mapper.Map<GarnishEdit>(garnish), garnishService, dialogUtils, localization);
             await dialogUtils.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("EditGarnish"), viewModel, successCallback: OnGarnishEdited)
-                             .ConfigureAwait(false);
+                             ;
         }
         #endregion
 
@@ -81,14 +81,14 @@ namespace Cooking.WPF.Views
 
         private async void OnGarnishEdited(GarnishEditViewModel viewModel)
         {
-            await garnishService.UpdateAsync(mapper.Map<Garnish>(viewModel.Garnish)).ConfigureAwait(false);
+            await garnishService.UpdateAsync(mapper.Map<Garnish>(viewModel.Garnish));
             GarnishEdit existingGarnish = Garnishes.Single(x => x.ID == viewModel.Garnish.ID);
             mapper.Map(viewModel.Garnish, existingGarnish);
         }
 
         private async void OnNewGarnishCreated(GarnishEditViewModel viewModel)
         {
-            await garnishService.CreateAsync(mapper.Map<Garnish>(viewModel.Garnish)).ConfigureAwait(false);
+            await garnishService.CreateAsync(mapper.Map<Garnish>(viewModel.Garnish));
             Garnishes!.Add(viewModel.Garnish);
         }
         #endregion

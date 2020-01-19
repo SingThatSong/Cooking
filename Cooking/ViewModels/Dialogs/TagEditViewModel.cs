@@ -68,25 +68,22 @@ namespace Cooking.WPF.Views
 
         protected override async Task Ok()
         {
-            if (NameChanged && Tag.Name != null)
+            if (NameChanged && Tag.Name != null && AllTagNames.Any(x => TagCompare(Tag.Name, x) == 0))
             {
-                if (AllTagNames.Any(x => TagCompare(Tag.Name, x) == 0))
+                bool okAnyway = false;
+
+                await DialogService.ShowYesNoDialog(
+                   localization.GetLocalizedString("TagAlreadyExists"),
+                   localization.GetLocalizedString("SaveAnyway"),
+                   successCallback: () => okAnyway = true);
+
+                if (!okAnyway)
                 {
-                    bool okAnyway = false;
-
-                    await DialogService.ShowYesNoDialog(
-                       localization.GetLocalizedString("TagAlreadyExists"),
-                       localization.GetLocalizedString("SaveAnyway"),
-                       successCallback: () => okAnyway = true).ConfigureAwait(false);
-
-                    if (!okAnyway)
-                    {
-                        return;
-                    }
+                    return;
                 }
             }
 
-            await base.Ok().ConfigureAwait(false);
+            await base.Ok();
         }
 
         [AlsoNotifyFor(nameof(SimilarTags))]

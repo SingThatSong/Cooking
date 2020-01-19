@@ -48,12 +48,12 @@ namespace Cooking.WPF.Commands
         {
             if (parameter is T tParameter)
             {
-                await _execute(tParameter).ConfigureAwait(false);
+                await _execute(tParameter);
             }
             else if (parameter == null && typeof(T).IsClass)
             {
 #pragma warning disable CS8653 // Выражение по умолчанию вводит значение NULL для параметра типа.
-                await _execute(default).ConfigureAwait(false);
+                await _execute(default);
 #pragma warning restore CS8653
             }
             else

@@ -67,11 +67,11 @@ namespace Cooking.WPF.Views
         private async Task EditTag(TagEdit tag)
         {
             var viewModel = new TagEditViewModel(dialogUtils, tagService, localization, mapper.Map<TagEdit>(tag));
-            await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("EditTag"), viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("EditTag"), viewModel);
 
             if (viewModel.DialogResultOk)
             {
-                await tagService.UpdateAsync(mapper.Map<Tag>(viewModel.Tag)).ConfigureAwait(false);
+                await tagService.UpdateAsync(mapper.Map<Tag>(viewModel.Tag));
                 TagEdit existingTag = Tags.Single(x => x.ID == tag.ID);
                 mapper.Map(viewModel.Tag, existingTag);
             }
@@ -81,7 +81,7 @@ namespace Cooking.WPF.Views
         public async void DeleteTag(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"),
                                                                                         localization.GetLocalizedString("CannotUndo"),
                                                                                         successCallback: () => OnTagDeleted(recipeId))
-                                                                       .ConfigureAwait(false);
+                                                                       ;
 
         private async void OnTagDeleted(Guid recipeId)
         {
@@ -91,11 +91,11 @@ namespace Cooking.WPF.Views
 
         public async void AddTag()
         {
-            TagEditViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag")).ConfigureAwait(false);
+            TagEditViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag"));
 
             if (viewModel.DialogResultOk)
             {
-                Guid id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag)).ConfigureAwait(false);
+                Guid id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag));
                 viewModel.Tag.ID = id;
                 Tags!.Add(viewModel.Tag);
             }

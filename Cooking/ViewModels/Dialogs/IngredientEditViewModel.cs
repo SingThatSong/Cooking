@@ -70,7 +70,7 @@ namespace Cooking.WPF.Views
                 bool saveAnyway = false;
                 await DialogService.ShowYesNoDialog(localization.GetLocalizedString("IngredientAlreadyExists"),
                                                     localization.GetLocalizedString("SaveAnyway"),
-                                                    successCallback: () => saveAnyway = true).ConfigureAwait(false);
+                                                    successCallback: () => saveAnyway = true);
 
                 if (!saveAnyway)
                 {
@@ -78,7 +78,7 @@ namespace Cooking.WPF.Views
                 }
             }
 
-            await base.Ok().ConfigureAwait(false);
+            await base.Ok();
         }
 
         protected override bool CanOk()

@@ -46,3 +46,7 @@ csharp_preserve_single_line_blocks = true:error
 
 # CA2227: Свойства коллекций должны быть доступны только для чтения
 dotnet_diagnostic.CA2227.severity = none
+
+# CA2007: Попробуйте вызвать ConfigureAwait для ожидаемой задачи
+# Using Fody.ConfigureAwait
+dotnet_diagnostic.CA2007.severity = none

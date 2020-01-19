@@ -134,7 +134,7 @@ namespace Cooking.WPF.Views
             RecipeIngredientEditViewModel viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.Ingredient = ingredient;
 
-            await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>(localization.GetLocalizedString("EditIngredient"), viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>(localization.GetLocalizedString("EditIngredient"), viewModel);
 
             if (viewModel.DialogResultOk)
             {
@@ -146,7 +146,7 @@ namespace Cooking.WPF.Views
         {
             TagSelectViewModel viewModel = container.Resolve<TagSelectViewModel>();
             viewModel.SetTags(Recipe!.Tags, null);
-            await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(localization.GetLocalizedString("AddTags"), viewModel).ConfigureAwait(false);
+            await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(localization.GetLocalizedString("AddTags"), viewModel);
 
             if (viewModel.DialogResultOk)
             {
@@ -243,12 +243,12 @@ namespace Cooking.WPF.Views
         {
             if (Recipe!.ID == Guid.Empty)
             {
-                Recipe.ID = await recipeService.CreateAsync(mapper.Map<Recipe>(Recipe)).ConfigureAwait(false);
+                Recipe.ID = await recipeService.CreateAsync(mapper.Map<Recipe>(Recipe));
                 eventAggregator.GetEvent<RecipeCreatedEvent>().Publish(Recipe);
             }
             else
             {
-                await recipeService.UpdateAsync(mapper.Map<Recipe>(Recipe)).ConfigureAwait(false);
+                await recipeService.UpdateAsync(mapper.Map<Recipe>(Recipe));
                 eventAggregator.GetEvent<RecipeUpdatedEvent>().Publish(Recipe);
             }
             RecipeBackup = null;
@@ -259,11 +259,11 @@ namespace Cooking.WPF.Views
         public async Task DeleteRecipe(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"),
                                                                                            localization.GetLocalizedString("CannotUndo"),
                                                                                            successCallback: () => OnRecipeDeleted(recipeId))
-                                                                          .ConfigureAwait(false);
+                                                                          ;
 
         private async void OnRecipeDeleted(Guid recipeId)
         {
-            await recipeService.DeleteAsync(recipeId).ConfigureAwait(false);
+            await recipeService.DeleteAsync(recipeId);
             CloseCommand.Execute();
             eventAggregator.GetEvent<RecipeDeletedEvent>().Publish(recipeId);
             // Journal methods must be called from UI thread

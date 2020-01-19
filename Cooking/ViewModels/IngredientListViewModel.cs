@@ -77,37 +77,37 @@ namespace Cooking.WPF.Views
         public async void DeleteIngredient(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete"), 
                                                                                                localization.GetLocalizedString("CannotUndo"), 
                                                                                                successCallback: () => OnIngredientDeleted(recipeId))
-                                                                               .ConfigureAwait(false);
+                                                                               ;
 
         public async void AddIngredient() => await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"), 
                                                                                                                                successCallback: OnNewIngredientCreated)
-                                                              .ConfigureAwait(false);
+                                                              ;
 
         public async void EditIngredient(IngredientEdit ingredient)
         {
             var viewModel = new IngredientEditViewModel(ingredientService, dialogUtils, localization, mapper.Map<IngredientEdit>(ingredient));
             await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("EditIngredient"), viewModel, successCallback: OnIngredientEdited)
-                             .ConfigureAwait(false);
+                             ;
         }
         #endregion
 
         #region Callbacks
         private async void OnIngredientDeleted(Guid id)
         {
-            await ingredientService.DeleteAsync(id).ConfigureAwait(false);
+            await ingredientService.DeleteAsync(id);
             Ingredients!.Remove(Ingredients.Single(x => x.ID == id));
         }
 
         private async void OnIngredientEdited(IngredientEditViewModel viewModel)
         {
-            await ingredientService.UpdateAsync(mapper.Map<Ingredient>(viewModel.Ingredient)).ConfigureAwait(false);
+            await ingredientService.UpdateAsync(mapper.Map<Ingredient>(viewModel.Ingredient));
             IngredientEdit existing = Ingredients.Single(x => x.ID == viewModel.Ingredient.ID);
             mapper.Map(viewModel.Ingredient, existing);
         }
 
         private async void OnNewIngredientCreated(IngredientEditViewModel viewModel)
         {
-            await ingredientService.CreateAsync(mapper.Map<Ingredient>(viewModel.Ingredient)).ConfigureAwait(false);
+            await ingredientService.CreateAsync(mapper.Map<Ingredient>(viewModel.Ingredient));
             Ingredients!.Add(viewModel.Ingredient);
         }
         #endregion

@@ -17,6 +17,6 @@ namespace Cooking.WPF.Views
             DialogService = dialogService;
         }
 
-        protected virtual async Task Close() => await DialogService.HideCurrentDialogAsync().ConfigureAwait(false);
+        protected virtual async Task Close() => await DialogService.HideCurrentDialogAsync();
     }
 }
