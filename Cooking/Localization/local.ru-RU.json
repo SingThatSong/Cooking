@@ -90,5 +90,10 @@
   "NoRecipiesFound": "По фильтру не найдено ни одного рецепта",
   "MainPage": "Главная",
   "Recepies": "Рецепты",
-  "Garnishes": "Гарниры"
+  "Garnishes": "Гарниры",
+  "ColorPicker_Manual": "Выбор вручную",
+  "ColorPicker_AvailableColors": "Доступные цвета",
+  "ColorPicker_Recent": "Недавние",
+  "ColorPicker_Frequent": "Часто используемые",
+  "ColorPicker_Standart": "Стандартные"
 }

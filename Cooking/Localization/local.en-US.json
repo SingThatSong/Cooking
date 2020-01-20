@@ -89,5 +89,10 @@
   "NoRecipiesFound": "No recipies found for selected filter",
   "MainPage": "Main page",
   "Recepies": "Recepies",
-  "Garnishes": "Garnishes"
+  "Garnishes": "Garnishes",
+  "ColorPicker_Manual": "Advanced",
+  "ColorPicker_AvailableColors": "Available Colors",
+  "ColorPicker_Recent": "Recent Colors",
+  "ColorPicker_Frequent": "Frequent Colors",
+  "ColorPicker_Standart": "Standart Colors"
 }

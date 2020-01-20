@@ -1,9 +1,9 @@
-﻿using Cooking.WPF.Commands;
-using Cooking.WPF.DTO;
-using Cooking.WPF.Services;
+﻿using Cooking.Data.Model;
 using Cooking.ServiceLayer;
+using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
 using Cooking.WPF.Helpers;
-using Cooking.Data.Model;
+using Cooking.WPF.Services;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -21,6 +21,11 @@ namespace Cooking.WPF.Views
         public string? CategoryCaption => localization.GetLocalizedString("Category");
         public string? ColorCaption => localization.GetLocalizedString("Color");
         public string? NameCaption => localization.GetLocalizedString("Name");
+        public string? ColorPicker_ManualCaption => localization.GetLocalizedString("ColorPicker_Manual");
+        public string? ColorPicker_AvailableColorsCaption => localization.GetLocalizedString("ColorPicker_AvailableColors");
+        public string? ColorPicker_RecentCaption => localization.GetLocalizedString("ColorPicker_Recent");
+        public string? ColorPicker_FrequentCaption => localization.GetLocalizedString("ColorPicker_Frequent");
+        public string? ColorPicker_StandartCaption => localization.GetLocalizedString("ColorPicker_Standart");
 
         public DelegateCommand LoadedCommand { get; }
         public TagEditViewModel(DialogService dialogService, TagService tagService, ILocalization localization, TagEdit? category = null)
