@@ -26,7 +26,6 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: CalorieType localization
 // TODO: CalorieType tooltips
 
 // TODO: Work with StyleCop issues

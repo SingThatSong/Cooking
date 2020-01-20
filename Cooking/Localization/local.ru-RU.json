@@ -99,5 +99,9 @@
   "TagType_DishType": "Тип блюда",
   "TagType_MainIngredient": "Основной ингредиент",
   "TagType_Occasion": "Событие",
-  "TagType_Source": "Источник"
+  "TagType_Source": "Источник",
+  "CalorieType_Fitness": "Фитнес рецепт, подходит для похудения",
+  "CalorieType_Protein": "Хороший рецепт, достаточно белка",
+  "CalorieType_Bad": "Либо калорийный, либо много углеводов",
+  "CalorieType_Sweets": "Калорийная вкусняшка"
 }

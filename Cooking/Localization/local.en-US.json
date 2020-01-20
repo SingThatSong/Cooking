@@ -98,5 +98,9 @@
   "TagType_DishType": "Dish Type",
   "TagType_MainIngredient": "Main Ingredient",
   "TagType_Occasion": "Occasion",
-  "TagType_Source": "Source"
+  "TagType_Source": "Source",
+  "CalorieType_Fitness": "Fitness recipe",
+  "CalorieType_Protein": "Protein rich recipe",
+  "CalorieType_Bad": "Too many calories or too many carbs",
+  "CalorieType_Sweets": "Sweets"
 }
