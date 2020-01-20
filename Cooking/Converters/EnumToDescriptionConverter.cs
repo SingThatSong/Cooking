@@ -1,15 +1,14 @@
 ﻿using Cooking.WPF.Helpers;
-using Cooking.WPF.Services;
 using NullGuard;
+using Prism.Ioc;
 using Prism.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
-using Prism.Ioc;
-using System.Linq;
 
 namespace Cooking.WPF.Converters
 {

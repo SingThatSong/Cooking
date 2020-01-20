@@ -179,7 +179,9 @@ namespace Cooking.WPF.Views
 
             TagSelectViewModel viewModel = container.Resolve<TagSelectViewModel>();
             viewModel.SetTags(current, allTags);
-            await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(string.Format(localization.CurrentCulture, localization.GetLocalizedString("CategoriesOf") ?? "{0}", type), viewModel);
+
+            string header = string.Format(localization.CurrentCulture, localization.GetLocalizedString("CategoriesOf") ?? "{0}", localization.GetLocalizedString(type));
+            await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(header, viewModel);
 
             if (viewModel.DialogResultOk)
             {
