@@ -17,7 +17,7 @@ namespace Cooking.WPF.Helpers
         private readonly IMapper mapper;
 
         private Dictionary<Guid, RecipeFull>? recipeCache;
-        private FilterContext<RecipeSelectDto> FilterContext { get; set; }
+        private FilterContext<RecipeListViewDto> FilterContext { get; set; }
 
         public RecipeFiltrator(RecipeService recipeService,
                                IEventAggregator eventAggregator,
@@ -26,7 +26,7 @@ namespace Cooking.WPF.Helpers
             this.recipeService = recipeService;
             this.mapper = mapper;
 
-            FilterContext = new FilterContext<RecipeSelectDto>().AddFilter("name", CombinedFilter, isDefault: true)
+            FilterContext = new FilterContext<RecipeListViewDto>().AddFilter("name", CombinedFilter, isDefault: true)
                                                                 .AddFilter(Consts.IngredientSymbol, HasIngredient)
                                                                 .AddFilter(Consts.TagSymbol, HasTag);
 
@@ -66,7 +66,7 @@ namespace Cooking.WPF.Helpers
             recipeCache!.Add(obj.ID, mapper.Map<RecipeFull>(obj));
         }
 
-        public bool FilterObject(RecipeSelectDto recipe) => FilterContext.IsExpressionBuilt ? FilterContext.Filter(recipe) : false;
+        public bool FilterObject(RecipeListViewDto recipe) => FilterContext.IsExpressionBuilt ? FilterContext.Filter(recipe) : false;
 
         public void OnFilterTextChanged(string? newText)
         {
@@ -80,9 +80,9 @@ namespace Cooking.WPF.Helpers
             }
         }
 
-        private bool CombinedFilter(RecipeSelectDto recipe, string text) => HasName(recipe, text) || HasTag(recipe, text) || HasIngredient(recipe, text);
-        private bool HasName(RecipeSelectDto recipe, string name) => recipe.Name != null && recipe.Name.ToUpperInvariant().Contains(name.ToUpperInvariant(), StringComparison.Ordinal);
-        private bool HasTag(RecipeSelectDto recipe, string category)
+        private bool CombinedFilter(RecipeListViewDto recipe, string text) => HasName(recipe, text) || HasTag(recipe, text) || HasIngredient(recipe, text);
+        private bool HasName(RecipeListViewDto recipe, string name) => recipe.Name != null && recipe.Name.ToUpperInvariant().Contains(name.ToUpperInvariant(), StringComparison.Ordinal);
+        private bool HasTag(RecipeListViewDto recipe, string category)
         {
             RecipeFull recipeDb = recipeCache![recipe.ID];
             return recipeDb.Tags != null && recipeDb.Tags
@@ -90,7 +90,7 @@ namespace Cooking.WPF.Helpers
                                                     .Any(x => x.Name!.ToUpperInvariant() == category.ToUpperInvariant());
         }
 
-        private bool HasIngredient(RecipeSelectDto recipe, string category)
+        private bool HasIngredient(RecipeListViewDto recipe, string category)
         {
             RecipeFull recipeDb = recipeCache![recipe.ID];
 

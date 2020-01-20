@@ -12,7 +12,7 @@ namespace Cooking.WPF.Views
 {
     public partial class RecipeSelectViewModel : OkCancelViewModel
     {
-        public RecipeSelectDto? SelectedRecipe { get; set; }
+        public RecipeListViewDto? SelectedRecipe { get; set; }
         public Guid? SelectedRecipeID => SelectedRecipe?.ID;
 
         public string? SearchHelpText => localization.GetLocalizedString("SearchHelpText", Consts.IngredientSymbol, Consts.TagSymbol);
@@ -28,7 +28,7 @@ namespace Cooking.WPF.Views
             this.recipeFiltrator = recipeFiltrator;
             this.localization = localization;
 
-            recipies = recipeService.GetProjected<RecipeSelectDto>(mapper);
+            recipies = recipeService.GetProjected<RecipeListViewDto>(mapper);
 
             RecipiesSource = new CollectionViewSource() { Source = recipies };
             RecipiesSource.Filter += RecipiesSource_Filter;
@@ -99,7 +99,7 @@ namespace Cooking.WPF.Views
                 return;
             }
 
-            if (e.Item is RecipeSelectDto recipe)
+            if (e.Item is RecipeListViewDto recipe)
             {
                 e.Accepted = recipeFiltrator.FilterObject(recipe);
             }
@@ -120,7 +120,7 @@ namespace Cooking.WPF.Views
             }
         }
 
-        private readonly List<RecipeSelectDto> recipies;
+        private readonly List<RecipeListViewDto> recipies;
         private readonly RecipeFiltrator recipeFiltrator;
         private readonly ILocalization localization;
 

@@ -14,17 +14,25 @@ namespace Cooking.WPF
     /// </summary>
     public class StringFormatProxy : FrameworkElement
     {
+        /// <summary>
+        /// Gets or sets string format for proxy.
+        /// </summary>
         [DependencyProperty(OnPropertyChanged = nameof(DataChanged))]
         public string StringFormat { get; set; } = "{0}";
 
+        /// <summary>
+        /// Gets or sets value format for proxy.
+        /// </summary>
         [DependencyProperty(OnPropertyChanged = nameof(DataChanged))]
         [SuppressMessage("Naming", "CA1721:Имена свойств не должны совпадать с именами методов get", Justification = "<Ожидание>")]
-        public string Value { get; set; } = "{0}";
+        public string Value { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Gets or sets formatted result.
+        /// </summary>
         [DependencyProperty]
         public string? Result { get; set; }
 
-        [SuppressMessage("Стиль", "IDE0060:Удалите неиспользуемый параметр", Justification = "Event signature")]
         private static void DataChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             if (sender is StringFormatProxy sfp && sfp.StringFormat != null)

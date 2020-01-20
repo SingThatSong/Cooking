@@ -26,8 +26,6 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: CalorieType tooltips
-
 // TODO: Work with StyleCop issues
 // TODO: Add comments to cs
 // TODO: Refactor ViewModels into scheme: dependencies, constructor, state, commands, methods
@@ -40,7 +38,6 @@ using WPFLocalizeExtension.Providers;
 // TODO: Remove magic literals
 // TODO: Add debug console logging to methods and constructors
 // TODO: check if .editorconfig uses latest parameters
-// TODO: Set autoupgrade https://github.com/ravibpatel/AutoUpdater.NET
 // TODO: Debug/ Measure method perfomance (benchmark?)
 // TODO: Add localization error on startup
 // TODO: Move to correct SQLite db, without ID hacks
@@ -49,12 +46,16 @@ using WPFLocalizeExtension.Providers;
 // TODO: Plurals localization
 // TODO: Add config to change app theme
 
+// TODO: Count calories for recipe
+// TODO: Set calorietype accordingly to counted calories
+
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
 // TODO: App users
 
 // Git-related
 // TODO: Setup CI
+// TODO: Set autoupgrade https://github.com/ravibpatel/AutoUpdater.NET
 // TODO: Use XamlStyler in git hooks
 // TODO: Remove usings in git hooks
 
@@ -86,6 +87,9 @@ namespace Cooking
     /// </summary>
     public partial class App : PrismApplication
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="App"/> class.
+        /// </summary>
         public App()
         {
             AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;
@@ -94,6 +98,7 @@ namespace Cooking
             DatabaseService.InitDatabase();
         }
 
+        /// <inheritdoc/>
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             // Register logging
@@ -179,12 +184,10 @@ namespace Cooking
             containerRegistry.Register<IngredientEditValidator>();
         }
 
-        /// <summary>
-        /// Creating Prism shell (main window).
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc/>
         protected override Window CreateShell() => Container.Resolve<MainWindowView>();
 
+        /// <inheritdoc/>
         protected override void ConfigureViewModelLocator()
         {
             base.ConfigureViewModelLocator();

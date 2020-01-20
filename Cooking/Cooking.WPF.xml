@@ -12,11 +12,19 @@
             App
             </summary>
         </member>
-        <member name="M:Cooking.App.CreateShell">
+        <member name="M:Cooking.App.#ctor">
             <summary>
-            Creating Prism shell (main window).
+            Initializes a new instance of the <see cref="T:Cooking.App"/> class.
             </summary>
-            <returns></returns>
+        </member>
+        <member name="M:Cooking.App.RegisterTypes(Prism.Ioc.IContainerRegistry)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.App.CreateShell">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.App.ConfigureViewModelLocator">
+            <inheritdoc/>
         </member>
         <member name="M:Cooking.App.InitializeComponent">
             <summary>
@@ -814,6 +822,126 @@
             Gets absolute path to recipe.
             </summary>
         </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.IngredientGroups">
+            <summary>
+            Gets or sets ingredient groups in recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.Ingredients">
+            <summary>
+            Gets or sets ingredients in recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.Tags">
+            <summary>
+            Gets or sets ingredient tags in recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.LastCooked">
+            <summary>
+            Gets or sets count of days since recipe was last cooked. Not edited by user.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.SourceUrl">
+            <summary>
+            Gets or sets source of the recipe: website, granny's cookbook, etc.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.Description">
+            <summary>
+            Gets or sets recipe Description. Or recipe itself.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.PortionsCount">
+            <summary>
+            Gets or sets how many portions can you cook with single recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.Difficulty">
+            <summary>
+            Gets or sets recipe difficulty.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.Rating">
+            <summary>
+            Gets or sets recipe rating.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.Name">
+            <summary>
+            Gets or sets recipe name.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.CalorieType">
+            <summary>
+            Gets or sets recipe calorie type.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.DTO.RecipeIngredientEdit">
+            <summary>
+            DTO for edit ingredient in recipe.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.DTO.RecipeIngredientEdit.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.RecipeIngredientEdit"/> class.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeIngredientEdit.Ingredient">
+            <summary>
+            Gets or sets ingredient in recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeIngredientEdit.Amount">
+            <summary>
+            Gets or sets amout of ingredient in recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeIngredientEdit.MeasureUnit">
+            <summary>
+            Gets or sets measurement unit of <see cref="P:Cooking.WPF.DTO.RecipeIngredientEdit.Amount"/> in recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeIngredientEdit.Order">
+            <summary>
+            Gets or sets order in ingredients list.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.DTO.RecipeListViewDto">
+            <summary>
+            Shallow recipe DTO for showing in lists.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeListViewDto.Name">
+            <summary>
+            Gets or sets recipe name.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeListViewDto.CalorieType">
+            <summary>
+            Gets or sets recipe calorie type.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeListViewDto.ImagePath">
+            <summary>
+            Gets or sets image path.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeListViewDto.FullPath">
+            <summary>
+            Gets absolute path to recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeListViewDto.Rating">
+            <summary>
+            Gets or sets recipe rating.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeListViewDto.LastCooked">
+            <summary>
+            Gets or sets count of days since recipe was last cooked. Not edited by user.
+            </summary>
+        </member>
         <member name="T:Cooking.WPF.Helpers.JsonLocalizationProvider">
             <summary>
             Json localization provider for WPFLocalizeExtension.
@@ -892,6 +1020,21 @@
             
              Last update 05.09.2018.
              </summary>
+        </member>
+        <member name="P:Cooking.WPF.StringFormatProxy.StringFormat">
+            <summary>
+            Gets or sets string format for proxy.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.StringFormatProxy.Value">
+            <summary>
+            Gets or sets value format for proxy.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.StringFormatProxy.Result">
+            <summary>
+            Gets or sets formatted result.
+            </summary>
         </member>
         <member name="T:Cooking.MainWindowView">
             <summary>

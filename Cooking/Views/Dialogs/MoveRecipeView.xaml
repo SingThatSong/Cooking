@@ -2,7 +2,20 @@
     x:Class="Cooking.WPF.Views.MoveRecipeView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:converters="clr-namespace:Cooking.WPF.Converters">
+
+    <UserControl.Resources>
+        <ObjectDataProvider
+            x:Key="daysOfWeek"
+            MethodName="GetValues"
+            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="System:DayOfWeek" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <converters:EnumToDescriptionConverter x:Key="enumToDescriptionConverter" />
+    </UserControl.Resources>
 
     <UserControl.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
@@ -18,55 +31,47 @@
 
         <TextBlock FontSize="24" Text="{Binding WhereMoveRecipe}" />
 
-
-        <ItemsControl
+        <ListView
             Name="DaysList"
             Grid.Row="1"
             Margin="0 5 0 0"
-            ItemsSource="{Binding DaysOfWeek}">
+            ItemsSource="{Binding Source={StaticResource daysOfWeek}, Converter={StaticResource enumToDescriptionConverter}}"
+            SelectedItem="{Binding SelectedDay, Converter={StaticResource enumToDescriptionConverter}}">
+
+            <ListView.Resources>
+                <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
+                    <ContentControl
+                        Margin="2"
+                        VerticalAlignment="Stretch"
+                        Content="{TemplateBinding Content}"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                </ControlTemplate>
+                <Style TargetType="ListViewItem">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="False">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Opacity" Value="1" />
+                            <Setter Property="Background" Value="Red" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
+
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Width="150" Margin="3">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseLeftButtonUp">
-                                <i:InvokeCommandAction Command="{Binding ElementName=DaysList, Path=DataContext.SelectDayCommand}" CommandParameter="{Binding}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
                         <TextBlock
                             Width="150"
                             HorizontalAlignment="Center"
                             FontSize="20"
-                            Text="{Binding Name}"
+                            Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"
                             TextWrapping="NoWrap" />
-                        <StackPanel.Style>
-                            <Style TargetType="StackPanel">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected}" Value="False">
-                                        <Setter Property="Opacity" Value="0.6" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                        <Setter Property="Opacity" Value="1" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Style>
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Vertical" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-
-            <ItemsControl.Template>
-                <ControlTemplate TargetType="{x:Type ItemsControl}">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsPresenter />
-                    </ScrollViewer>
-                </ControlTemplate>
-            </ItemsControl.Template>
-        </ItemsControl>
+        </ListView>
 
         <StackPanel
             Grid.Row="2"

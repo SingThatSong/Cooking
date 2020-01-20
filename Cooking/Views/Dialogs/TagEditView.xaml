@@ -53,14 +53,14 @@
                     Text="{Binding Tag.Name, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Text="{Binding ColorCaption}" />
                 <xctk:ColorPicker
-                    AdvancedTabHeader="{Binding ColorPicker_ManualCaption}"
-                    AvailableColorsHeader="{Binding ColorPicker_AvailableColorsCaption}"
+                    AdvancedTabHeader="{Binding ColorPickerManualCaption}"
+                    AvailableColorsHeader="{Binding ColorPickerAvailableColorsCaption}"
                     DisplayColorAndName="True"
                     Foreground="Black"
-                    RecentColorsHeader="{Binding ColorPicker_RecentCaption}"
+                    RecentColorsHeader="{Binding ColorPickerRecentCaption}"
                     SelectedColor="{Binding Tag.Color, TargetNullValue=Transparent}"
-                    StandardColorsHeader="{Binding ColorPicker_FrequentCaption}"
-                    StandardTabHeader="{Binding ColorPicker_StandartCaption}" />
+                    StandardColorsHeader="{Binding ColorPickerFrequentCaption}"
+                    StandardTabHeader="{Binding ColorPickerStandartCaption}" />
 
                 <TextBlock Text="{Binding CategoryCaption}" />
                 <ComboBox ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}" SelectedValue="{Binding Tag.Type, Converter={StaticResource enumToDescriptionConverter}}" />

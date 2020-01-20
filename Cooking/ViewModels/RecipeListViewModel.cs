@@ -31,7 +31,7 @@ namespace Cooking.WPF.Views
 
         public bool RecipiesNotFound { get; private set; }
         public CollectionViewSource RecipiesSource { get; set; }
-        public ObservableCollection<RecipeSelectDto>? Recipies { get; private set; }
+        public ObservableCollection<RecipeListViewDto>? Recipies { get; private set; }
 
         public string? SearchHelpText => localization.GetLocalizedString("SearchHelpText", Consts.IngredientSymbol, Consts.TagSymbol);
 
@@ -75,28 +75,28 @@ namespace Cooking.WPF.Views
 
             RecipiesSource = new CollectionViewSource();
             RecipiesSource.Filter += RecipiesSource_Filter;
-            RecipiesSource.SortDescriptions.Add(new SortDescription() { PropertyName = nameof(RecipeSelectDto.Name) });
+            RecipiesSource.SortDescriptions.Add(new SortDescription() { PropertyName = nameof(RecipeListViewDto.Name) });
         }
 
         private void OnRecipeDeleted(Guid id)
         {
-            RecipeSelectDto existingRecipe = Recipies!.First(x => x.ID == id);
+            RecipeListViewDto existingRecipe = Recipies!.First(x => x.ID == id);
             Recipies!.Remove(existingRecipe);
         }
 
         private void OnRecipeUpdated(RecipeEdit obj)
         {
-            RecipeSelectDto existingRecipe = Recipies!.First(x => x.ID == obj.ID);
+            RecipeListViewDto existingRecipe = Recipies!.First(x => x.ID == obj.ID);
             mapper.Map(obj, existingRecipe);
         }
 
-        private void OnRecipeCreated(RecipeEdit obj) => Recipies!.Add(mapper.Map<RecipeSelectDto>(obj));
+        private void OnRecipeCreated(RecipeEdit obj) => Recipies!.Add(mapper.Map<RecipeListViewDto>(obj));
 
         private void OnLoaded()
         {
             Debug.WriteLine("RecepiesViewModel.OnLoaded");
-            List<RecipeSelectDto> recipies = recipeService.GetProjected<RecipeSelectDto>(container.Resolve<IMapper>());
-            Recipies = new ObservableCollection<RecipeSelectDto>(recipies);
+            List<RecipeListViewDto> recipies = recipeService.GetProjected<RecipeListViewDto>(container.Resolve<IMapper>());
+            Recipies = new ObservableCollection<RecipeListViewDto>(recipies);
 
             RecipiesSource.Source = Recipies;
         }
@@ -108,7 +108,7 @@ namespace Cooking.WPF.Views
                 return;
             }
 
-            if (e.Item is RecipeSelectDto recipe)
+            if (e.Item is RecipeListViewDto recipe)
             {
                 e.Accepted = recipeFiltrator.FilterObject(recipe);
             }

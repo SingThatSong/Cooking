@@ -18,7 +18,7 @@ namespace Cooking.WPF.Converters
     public class EnumToDescriptionConverter : IValueConverter
     {
         /// <inheritdoc/>
-        public object? Convert(object value, Type targetType, object? parameter, CultureInfo culture)
+        public object? Convert([AllowNull] object? value, Type targetType, [AllowNull] object? parameter, CultureInfo culture)
         {
             if (Application.Current is PrismApplication prismApplication)
             {
@@ -28,7 +28,7 @@ namespace Cooking.WPF.Converters
                 {
                     return localization.GetLocalizedString(@enum);
                 }
-                else if (value is IEnumerable collection)
+                else if (value is IEnumerable collection && !(value is string))
                 {
                     var list = new List<string>();
 
@@ -60,6 +60,11 @@ namespace Cooking.WPF.Converters
 
                 if (value != null && targetType != null)
                 {
+                    if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    {
+                        targetType = targetType.GetGenericArguments()[0];
+                    }
+
                     Dictionary<string, string> allValues = localization.GetAllValuesFor(targetType.Name);
                     string? valAsString = value.ToString();
                     string key = allValues.FirstOrDefault(x => x.Value == valAsString).Key;

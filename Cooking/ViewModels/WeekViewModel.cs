@@ -168,8 +168,7 @@ namespace Cooking.WPF.Views
 
             if (viewModel.DialogResultOk)
             {
-                SelectDay selectedDay = viewModel.DaysOfWeek.Single(x => x.IsSelected);
-                await weekService.MoveDayToNextWeek(CurrentWeek!.ID, dayId, selectedDay.WeekDay);
+                await weekService.MoveDayToNextWeek(CurrentWeek!.ID, dayId, viewModel.SelectedDay!.Value);
                 await ReloadCurrentWeek();
             }
         }

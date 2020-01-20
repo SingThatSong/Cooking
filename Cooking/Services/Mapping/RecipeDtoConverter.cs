@@ -5,7 +5,7 @@ using Cooking.WPF.DTO;
 
 namespace Cooking.WPF.Services
 {
-    public class RecipeDtoConverter : IMappingAction<Recipe, RecipeSelectDto>
+    public class RecipeDtoConverter : IMappingAction<Recipe, RecipeListViewDto>
     {
         private readonly RecipeService recipeService;
 
@@ -14,7 +14,7 @@ namespace Cooking.WPF.Services
             this.recipeService = recipeService;
         }
 
-        public void Process(Recipe source, RecipeSelectDto destination, ResolutionContext context)
+        public void Process(Recipe source, RecipeListViewDto destination, ResolutionContext context)
         {
             int daysFromLastCook = recipeService.DaysFromLasCook(destination.ID);
             destination.LastCooked = daysFromLastCook;
