@@ -33,7 +33,6 @@ namespace Cooking
                     cfg.CreateMap<Recipe, RecipeSelectDto>()
                        .AfterMap<RecipeDtoConverter>();
 
-
                     // Cleanup below
                     // -----------------------
 
@@ -48,7 +47,6 @@ namespace Cooking
                     cfg.CreateMap<Recipe, RecipeEdit>()
                        .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags.Select(t => t.Tag)))
                        .AfterMap<RecipeConverter>();
-
 
                     cfg.CreateMap<RecipeSlim, RecipeSelectDto>();
                     cfg.CreateMap<RecipeFull, RecipeEdit>()

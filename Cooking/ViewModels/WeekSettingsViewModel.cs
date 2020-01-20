@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
+using Cooking.Data.Model;
+using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Views;
-using Cooking.WPF.ViewModels;
-using Cooking.ServiceLayer;
 using Cooking.WPF.Helpers;
-using Cooking.Data.Model;
+using Cooking.WPF.ViewModels;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
@@ -16,7 +15,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using WPFLocalizeExtension.Engine;
 
 namespace Cooking.WPF.Views
 {
@@ -260,6 +258,7 @@ namespace Cooking.WPF.Views
             }
         }
 
-        public void OnNavigatedFrom(NavigationContext navigationContext) { }
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        { }
     }
 }

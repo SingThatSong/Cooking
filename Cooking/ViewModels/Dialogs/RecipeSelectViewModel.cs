@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
-using Cooking.WPF.DTO;
-using Cooking.WPF.Views;
 using Cooking.ServiceLayer;
+using Cooking.WPF.DTO;
 using Cooking.WPF.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-using WPFLocalizeExtension.Engine;
 
 namespace Cooking.WPF.Views
 {
@@ -31,9 +28,9 @@ namespace Cooking.WPF.Views
             this.recipeFiltrator = recipeFiltrator;
             this.localization = localization;
 
-            _recipies = recipeService.GetProjected<RecipeSelectDto>(mapper);
+            recipies = recipeService.GetProjected<RecipeSelectDto>(mapper);
 
-            RecipiesSource = new CollectionViewSource() { Source = _recipies };
+            RecipiesSource = new CollectionViewSource() { Source = recipies };
             RecipiesSource.Filter += RecipiesSource_Filter;
 
             if (day != null)
@@ -123,7 +120,7 @@ namespace Cooking.WPF.Views
             }
         }
 
-        private readonly List<RecipeSelectDto> _recipies;
+        private readonly List<RecipeSelectDto> recipies;
         private readonly RecipeFiltrator recipeFiltrator;
         private readonly ILocalization localization;
 

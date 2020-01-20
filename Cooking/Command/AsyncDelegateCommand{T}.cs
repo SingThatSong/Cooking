@@ -5,16 +5,16 @@ namespace Cooking.WPF.Commands
 {
     public class AsyncDelegateCommand<T> : AsyncDelegateCommandBase
     {
-        private readonly Func<T, bool>? _canExecute;
-        private readonly Func<T, Task> _execute;
+        private readonly Func<T, bool>? canExecute;
+        private readonly Func<T, Task> execute;
 
         public AsyncDelegateCommand(Func<T, Task> execute,
                                     Func<T, bool>? canExecute = null,
                                     bool executeOnce = false,
                                     bool freezeWhenBusy = false)
         {
-            _execute = execute;
-            _canExecute = canExecute;
+            this.execute = execute;
+            this.canExecute = canExecute;
             ExecuteOnce = executeOnce;
             FreezeWhenBusy = freezeWhenBusy;
 
@@ -23,16 +23,16 @@ namespace Cooking.WPF.Commands
 
         protected override bool CanExecuteAsyncInternal(object? parameter)
         {
-            if (_canExecute != null)
+            if (canExecute != null)
             {
                 if (parameter is T tParameter)
                 {
-                    return _canExecute(tParameter);
+                    return canExecute(tParameter);
                 }
                 else if (parameter == null && typeof(T).IsClass)
                 {
 #pragma warning disable CS8653 // Выражение по умолчанию вводит значение NULL для параметра типа.
-                    return _canExecute(default);
+                    return canExecute(default);
 #pragma warning restore CS8653
                 }
                 else
@@ -48,12 +48,12 @@ namespace Cooking.WPF.Commands
         {
             if (parameter is T tParameter)
             {
-                await _execute(tParameter);
+                await execute(tParameter);
             }
             else if (parameter == null && typeof(T).IsClass)
             {
 #pragma warning disable CS8653 // Выражение по умолчанию вводит значение NULL для параметра типа.
-                await _execute(default);
+                await execute(default);
 #pragma warning restore CS8653
             }
             else

@@ -20,7 +20,6 @@ namespace Cooking.WPF.DTO
                                 ? Path.GetFullPath(ImagePath)
                                 : null;
 
-
         public ObservableCollection<IngredientGroupEdit>? IngredientGroups { get; set; }
         public ObservableCollection<RecipeIngredientEdit>? Ingredients { get; set; }
         public ObservableCollection<TagEdit>? Tags { get; set; }

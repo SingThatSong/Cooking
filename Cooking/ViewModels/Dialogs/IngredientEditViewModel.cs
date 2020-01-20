@@ -99,7 +99,6 @@ namespace Cooking.WPF.Views
             }
         }
 
-
         private int IngredientCompare(string str1, string str2)
              => StringCompare.DiffLength(
                         string.Join(" ", str1.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name)),

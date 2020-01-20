@@ -105,7 +105,6 @@ namespace Cooking.WPF.Views
             AddIngredientCommand = new DelegateCommand(AddIngredient);
             EditIngredientCommand = new AsyncDelegateCommand<RecipeIngredientEdit>(EditIngredient);
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
-
         }
 
         private bool CanDeleteRecipe(Guid arg) => !IsRecipeCreation;
@@ -184,6 +183,7 @@ namespace Cooking.WPF.Views
                 mapper.Map(viewModel.IngredientGroup, group);
             }
         }
+
         private void ViewTag(TagEdit tag)
         {
             var parameters = new NavigationParameters()
@@ -195,7 +195,6 @@ namespace Cooking.WPF.Views
 
         private void RemoveTag(TagEdit tag) => Recipe!.Tags!.Remove(tag);
         private void RemoveImage() => Recipe!.ImagePath = null;
-
 
         public bool KeepAlive => false;
 

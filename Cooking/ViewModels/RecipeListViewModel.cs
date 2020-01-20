@@ -156,6 +156,7 @@ namespace Cooking.WPF.Views
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext) => true;
-        public void OnNavigatedFrom(NavigationContext navigationContext) { }
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        { }
     }
 }

@@ -92,3 +92,11 @@ dotnet_diagnostic.SA1633.severity = none
 # SA1516
 # It is ok to have elements on adjacent lines
 dotnet_diagnostic.SA1516.severity = none
+
+# SA1208
+# Order namespaces by name is just simpler
+dotnet_diagnostic.SA1208.severity = none
+
+# SA1413
+# Rule that favor editing in spite of reading. Reading occures more often
+dotnet_diagnostic.SA1413.severity = none

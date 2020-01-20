@@ -34,7 +34,6 @@ namespace Cooking.WPF.Converters
                             return localization.GetLocalizedString("MonthsAgo", valueInt / 30);
                         }
 
-
                         return localization.GetLocalizedString("DaysAgo", valueInt);
                     }
                 }

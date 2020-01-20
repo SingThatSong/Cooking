@@ -9,13 +9,13 @@ namespace Cooking.WPF.Commands
     public abstract class AsyncDelegateCommandBase : DelegateCommandBase
     {
         protected bool FreezeWhenBusy { get; set; }
-        private bool _isBusy;
+        private bool isBusy;
         private bool IsBusy
         {
-            get => _isBusy;
+            get => isBusy;
             set
             {
-                _isBusy = value;
+                isBusy = value;
                 if (FreezeWhenBusy)
                 {
                     CommandManager.InvalidateRequerySuggested();

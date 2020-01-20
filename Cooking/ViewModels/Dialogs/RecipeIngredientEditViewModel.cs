@@ -33,7 +33,6 @@ namespace Cooking.WPF.Views
 
         public AsyncDelegateCommand AddCategoryCommand { get; }
 
-
         public RecipeIngredientEdit Ingredient { get; set; }
         public void OnIngredientChanged() => Ingredient.Ingredient = AllIngredients?.FirstOrDefault(x => x.ID == Ingredient.Ingredient?.ID);
         public ObservableCollection<RecipeIngredientEdit>? Ingredients { get; private set; }

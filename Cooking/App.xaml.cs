@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
-using Cooking.WPF.DTO;
-using Cooking.WPF.Views;
 using Cooking.ServiceLayer;
 using Cooking.WPF;
+using Cooking.WPF.DTO;
 using Cooking.WPF.Helpers;
+using Cooking.WPF.Views;
+using Fody;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using NullGuard;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Unity;
@@ -16,15 +18,13 @@ using Serilog;
 using Serilog.Core;
 using ServiceLayer;
 using System;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
-using NullGuard;
-using Fody;
-using System.Diagnostics;
-using System.IO;
 
 // TODO: Work with StyleCop issues
 // TODO: Recipe creation move common setters to headers

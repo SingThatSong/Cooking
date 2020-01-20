@@ -77,7 +77,6 @@ namespace Cooking.WPF.Views
             }
         }
 
-
         public async void DeleteTag(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Tags!.Single(x => x.ID == recipeId).Name ?? string.Empty),
                                                                                         localization.GetLocalizedString("CannotUndo"),
                                                                                         successCallback: () => OnTagDeleted(recipeId))

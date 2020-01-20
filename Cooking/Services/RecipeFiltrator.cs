@@ -80,7 +80,6 @@ namespace Cooking.WPF.Helpers
             }
         }
 
-
         private bool CombinedFilter(RecipeSelectDto recipe, string text) => HasName(recipe, text) || HasTag(recipe, text) || HasIngredient(recipe, text);
         private bool HasName(RecipeSelectDto recipe, string name) => recipe.Name != null && recipe.Name.ToUpperInvariant().Contains(name.ToUpperInvariant(), StringComparison.Ordinal);
         private bool HasTag(RecipeSelectDto recipe, string category)

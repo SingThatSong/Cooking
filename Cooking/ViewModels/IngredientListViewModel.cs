@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
+using Cooking.Data.Model;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Views;
 using Cooking.WPF.Helpers;
-using Cooking.Data.Model;
 using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;

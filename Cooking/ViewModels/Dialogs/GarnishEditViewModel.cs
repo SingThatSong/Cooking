@@ -60,7 +60,6 @@ namespace Cooking.WPF.Views
             Garnish.Name = backup;
         }
 
-
         protected override async Task Ok()
         {
             // Check if garnish is already exists

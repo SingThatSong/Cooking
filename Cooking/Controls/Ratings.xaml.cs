@@ -86,7 +86,6 @@ namespace Cooking.WPF.Controls
             }
         }
 
-
         public DelegateCommand ClearValueCommand => new DelegateCommand(() => RatingValue = null);
         public DelegateCommand<int> ClickCommand => new DelegateCommand<int>(i => RatingValue = i);
 
