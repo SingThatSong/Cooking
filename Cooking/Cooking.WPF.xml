@@ -1,0 +1,945 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cooking.WPF</name>
+    </assembly>
+    <members>
+        <member name="T:Cooking.App">
+            <summary>
+            Логика взаимодействия для App.xaml.
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:Cooking.App.CreateShell">
+            <summary>
+            Creating Prism shell (main window).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Cooking.App.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:Cooking.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Commands.AsyncDelegateCommand">
+            <summary>
+            ICommand implementation which force execution on separate thread.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand.#ctor(System.Func{System.Threading.Tasks.Task},System.Func{System.Boolean},System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.AsyncDelegateCommand"/> class.
+            </summary>
+            <param name="execute">Function to execute on separate thread.</param>
+            <param name="canExecute">Function to determine if <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand.execute"/> can be executed.</param>
+            <param name="executeOnce">Execute function only once, after that <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand.canExecute"/> would return false regardless.</param>
+            <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand.canExecute"/> would return false.</param>
+        </member>
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand.CanExecuteAsyncInternal(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand.ExecuteAsyncInternal(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.Commands.AsyncDelegateCommandBase">
+            <summary>
+            ICommand implementation for WPF bindings.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Commands.AsyncDelegateCommandBase.FreezeWhenBusy">
+            <summary>
+            Gets or sets a value indicating whether command would return false when called CanExecute.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommandBase.CanExecuteInternal(System.Object)">
+            <summary>
+            Implementation of <see cref="T:Cooking.WPF.Commands.DelegateCommandBase" /> CanExecuteInternal.
+            </summary>
+            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
+            <returns>If this command can be executed.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommandBase.CanExecuteAsyncInternal(System.Object)">
+            <summary>
+            Async means internal implementation for Async* commands.
+            </summary>
+            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
+            <returns>Returns value which indicates whether command can be executed.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommandBase.ExecuteInternal(System.Object)">
+            <summary>
+            Implementation of <see cref="T:Cooking.WPF.Commands.DelegateCommandBase" /> ExecuteInternal.
+            </summary>
+            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
+        </member>
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommandBase.ExecuteAsyncInternal(System.Object)">
+            <summary>
+            Async means internal implementation for Async* commands.
+            </summary>
+            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
+            <returns>Awaitable task.</returns>
+        </member>
+        <member name="T:Cooking.WPF.Commands.AsyncDelegateCommand`1">
+            <summary>
+            ICommand implementation which force execution on separate thread. Takes arbitrary paremeter as input.
+            </summary>
+            <typeparam name="T">Command parameter type.</typeparam>
+        </member>
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand`1.#ctor(System.Func{`0,System.Threading.Tasks.Task},System.Func{`0,System.Boolean},System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.AsyncDelegateCommand`1"/> class.
+            </summary>
+            <param name="execute">Function to execute on separate thread.</param>
+            <param name="canExecute">Function to determine if <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand`1.execute"/> can be executed.</param>
+            <param name="executeOnce">Execute function only once, after that <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand`1.canExecute"/> would return false regardless.</param>
+            <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand`1.canExecute"/> would return false.</param>
+        </member>
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand`1.CanExecuteAsyncInternal(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand`1.ExecuteAsyncInternal(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.Commands.DelegateCommand">
+            <summary>
+            DelegateCommand without parameters.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Commands.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean},System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.DelegateCommand"/> class.
+            </summary>
+            <param name="execute">Method, which is executed on Execute method.</param>
+            <param name="canExecute">Defines if method can be executed.</param>
+            <param name="executeOnce">Defines if method could be executed just once (useful for event bindings, such as OnLoading).</param>
+        </member>
+        <member name="M:Cooking.WPF.Commands.DelegateCommand.ExecuteInternal(System.Object)">
+            <summary>
+            Implementation of <see cref="T:Cooking.WPF.Commands.DelegateCommandBase" /> ExecuteInternal.
+            </summary>
+            <param name="parameter">Parameter, provided in CommandParameter attribute. Ignored.</param>
+        </member>
+        <member name="M:Cooking.WPF.Commands.DelegateCommand.CanExecuteInternal(System.Object)">
+            <summary>
+            Implementation of <see cref="T:Cooking.WPF.Commands.DelegateCommandBase" /> CanExecuteInternal.
+            </summary>
+            <param name="parameter">Parameter, provided in CommandParameter attribute. Ignored.</param>
+            <returns>If this command can be executed.</returns>
+        </member>
+        <member name="T:Cooking.WPF.Commands.DelegateCommandBase">
+            <summary>
+            ICommand implementation for WPF bindings.
+            </summary>
+        </member>
+        <member name="E:Cooking.WPF.Commands.DelegateCommandBase.CanExecuteChanged">
+            <summary>
+            https://stackoverflow.com/a/7353704/1134449
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Commands.DelegateCommandBase.ExecuteOnce">
+            <summary>
+            Gets or sets a value indicating whether command should be executed only once. Is set in child classes.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Commands.DelegateCommandBase.Executed">
+            <summary>
+            Gets or sets a value indicating whether command was executed. Needed when <see cref="P:Cooking.WPF.Commands.DelegateCommandBase.ExecuteOnce"/> is true.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Commands.DelegateCommandBase.CanExecuteSpecified">
+            <summary>
+            Gets or sets a value indicating whether CanExecute delegate or its substiturions is specified.
+            <see cref="T:Cooking.WPF.Commands.DelegateCommandBase"/> knows nothing about CanExecute delegates in child classes - they are of different types and set in constructors.
+            Instead of delegate, it may be other indicators, such as one-time execution.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.CanExecute(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.Execute(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.CanExecuteInternal(System.Object)">
+            <summary>
+            Provide implementation of CanExecute, keep it to buisness logic.
+            </summary>
+            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
+            <returns>If this command can be executed.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.ExecuteInternal(System.Object)">
+            <summary>
+            Provide implementation of Execute, keep it to buisness logic.
+            </summary>
+            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
+        </member>
+        <member name="T:Cooking.WPF.Commands.DelegateCommand`1">
+            <summary>
+            Generic DelegateCommand where T is a parameter type.
+            </summary>
+            <typeparam name="T">Command parameter type.</typeparam>
+        </member>
+        <member name="M:Cooking.WPF.Commands.DelegateCommand`1.#ctor(System.Action{`0},System.Func{`0,System.Boolean},System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.DelegateCommand`1"/> class.
+            </summary>
+            <param name="execute">Method, which is executed on Execute method.</param>
+            <param name="canExecute">Defines if method can be executed.</param>
+            <param name="executeOnce">Defines if method could be executed just once (useful for event bindings, such as OnLoading).</param>
+        </member>
+        <member name="M:Cooking.WPF.Commands.DelegateCommand`1.ExecuteInternal(System.Object)">
+            <summary>
+            Implementation of <see cref="T:Cooking.WPF.Commands.DelegateCommandBase" /> ExecuteInternal.
+            </summary>
+            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
+        </member>
+        <member name="M:Cooking.WPF.Commands.DelegateCommand`1.CanExecuteInternal(System.Object)">
+            <summary>
+            Implementation of <see cref="T:Cooking.WPF.Commands.DelegateCommandBase" /> CanExecuteInternal.
+            </summary>
+            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
+            <returns>If this command can be executed.</returns>
+        </member>
+        <member name="T:Cooking.WPF.Views.DayControl">
+            <summary>
+            Логика взаимодействия для DayControl.xaml.
+            </summary>
+            <summary>
+            DayControl
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.DayControl.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.DayControl"/> class.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Views.DayControl.Edit">
+            <summary>
+            Gets or sets a value indicating whether control is in edit state.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Views.DayControl.Day">
+            <summary>
+            Gets or sets current day.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.DayControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.CalorieTypeSelectView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            CalorieTypeSelectView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.CalorieTypeSelectView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.GarnishEditView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            GarnishEditView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.GarnishEditView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.IngredientEditView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            IngredientEditView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.IngredientEditView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.IngredientGroupEditView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            IngredientGroupEditView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.IngredientGroupEditView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.MoveRecipeView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            MoveRecipeView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.MoveRecipeView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.RecipeIngredientEditView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            RecipeIngredientEditView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.RecipeIngredientEditView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.RecipeSelect">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            RecipeSelect
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.RecipeSelect.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.TagEditView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            TagEditView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.TagEditView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.TagSelectView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            TagSelectView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.TagSelectView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.GarnishListView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            GarnishListView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.GarnishListView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.GeneratedWeekView">
+            <summary>
+            Логика взаимодействия для WeekSettings.xaml.
+            </summary>
+            <summary>
+            GeneratedWeekView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.GeneratedWeekView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.IngredientListView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            IngredientListView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.IngredientListView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.RecipeListView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            RecipeListView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.RecipeListView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.RecipeView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            RecipeView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.RecipeView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.SettingsView">
+            <summary>
+            Логика взаимодействия для MainPage.xaml.
+            </summary>
+            <summary>
+            SettingsView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.SettingsView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.ShoppingCartView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            ShoppingCartView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.ShoppingCartView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.TagListView">
+            <summary>
+            Логика взаимодействия для UserControl1.xaml.
+            </summary>
+            <summary>
+            TagListView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.TagListView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.WeekSettingsView">
+            <summary>
+            Логика взаимодействия для WeekSettings.xaml.
+            </summary>
+            <summary>
+            WeekSettingsView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.WeekSettingsView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.WeekView">
+            <summary>
+            Логика взаимодействия для MainPage.xaml.
+            </summary>
+            <summary>
+            WeekView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.WeekView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Controls.Ratings">
+            <summary>
+            Ratings control.
+            </summary>
+            <summary>
+            Ratings
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Controls.Ratings.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Controls.Ratings"/> class.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Controls.Ratings.HeightStep">
+            <summary>
+            Gets or sets internal value for determining column height, which is HeightStep * ColumnValue.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Controls.Ratings.RatingsInternal">
+            <summary>
+            Gets internal representation of ratings. List of all possible rating values, based on MaxRating.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Controls.Ratings.IntegerValue">
+            <summary>
+            Gets or sets integer value of rating for visual representation. Equals to RatingValue when idle or RatingValuePreview when MouseOver.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Controls.Ratings.RatingValuePreview">
+            <summary>
+            Gets or sets ratingValue which is underneath mouse when MouseOver.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Controls.Ratings.RatingValue">
+            <summary>
+            Gets or sets selected rating.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Controls.Ratings.MaxRating">
+            <summary>
+            Gets or sets maximum possible rating.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Controls.Ratings.ClearValueCommand">
+            <summary>
+            Gets command to clear rating value.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Controls.Ratings.ClickCommand">
+            <summary>
+            Gets command to set value on click.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Controls.Ratings.MouseOverCommand">
+            <summary>
+            Gets command to set preview value on MouseOver.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Controls.Ratings.MouseLeaveCommand">
+            <summary>
+            Gets command to erase preview value on MouseLeave.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Controls.Ratings.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Converters.BooleanConverter`1">
+            <summary>
+            WPF Converter for converting bool values into other types (e.x. Visibility)
+            https://stackoverflow.com/a/5182660.
+            </summary>
+            <typeparam name="T">Type to convert bool value into.</typeparam>
+        </member>
+        <member name="M:Cooking.WPF.Converters.BooleanConverter`1.#ctor(`0,`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Converters.BooleanConverter`1"/> class.
+            </summary>
+            <param name="trueValue">Value indicating True of type T.</param>
+            <param name="falseValue">Value indicating False of type T.</param>
+        </member>
+        <member name="P:Cooking.WPF.Converters.BooleanConverter`1.True">
+            <summary>
+            Gets or sets value which will be used instead of boolean true.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Converters.BooleanConverter`1.False">
+            <summary>
+            Gets or sets value which will be used instead of boolean false.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Converters.BooleanConverter`1.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Converters.BooleanConverter`1.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.Converters.BooleanToVisibilityConverter">
+            <summary>
+            Implementation of BooleanConverter.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Converters.BooleanToVisibilityConverter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Converters.BooleanToVisibilityConverter"/> class.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Converters.SimpleBooleanConverter">
+            <summary>
+            Straignt implementation of BooleanConverter.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Converters.SimpleBooleanConverter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Converters.SimpleBooleanConverter"/> class.
+            Simple implementation of BooleanConverter, when true is true and false is false.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Converters.SimpleBooleanConverter.#ctor(System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Converters.SimpleBooleanConverter"/> class.
+            Simple implementation of BooleanConverter, but with ability to redefine bool values.
+            </summary>
+            <param name="trueValue">Bool value that will be used as true.</param>
+            <param name="falseValue">Bool value that will be used as false.</param>
+        </member>
+        <member name="T:Cooking.WPF.Converters.EnumToDescriptionConverter">
+            <summary>
+            Converter for displaying <see cref="T:System.ComponentModel.DescriptionAttribute"/> values from enums.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Converters.EnumToDescriptionConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Converters.EnumToDescriptionConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.Converters.IsNullToVisibilityConverter">
+            <summary>
+            Converter which converts nullable values to Visibility.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Converters.IsNullToVisibilityConverter.NullVisibility">
+            <summary>
+            Gets or sets visibility which will be used when converted value is null.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Converters.IsNullToVisibilityConverter.NotNullVisibility">
+            <summary>
+            Gets or sets visibility which will be used when converted value is not null.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Converters.IsNullToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Converters.IsNullToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.Converters.LastCookedConverter">
+            <summary>
+            Convert LastCooked value to localized string.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Converters.LastCookedConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Converters.LastCookedConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.Converters.MultiplyConverter">
+            <summary>
+            Converter which returns multiplication of its parameters. All of the parameters must be convertable to double (e.g. int, double, float, etc.).
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Converters.MultiplyConverter.Convert(System.Object[],System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Converters.MultiplyConverter.ConvertBack(System.Object,System.Type[],System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.Converters.NullImageConverter">
+            <summary>
+            https://stackoverflow.com/a/5628347.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Converters.NullImageConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Converters.NullImageConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.Converters.RatingConverter">
+             <summary>
+             <see cref="T:Cooking.WPF.Controls.Ratings"/> control-specific controller
+             Returns current brush for a column
+            
+             Accepts 3 values: current column index, rating value and rating preview value
+            
+             If rating preview is not null and it's value greater or equals to column index (mouse is over one of columns to the right) - returns PreviewBrush
+             If rating preview is null and rating value greater or equals to column index - returns OnBrush
+             Otherwise returs OffBrush.
+             </summary>
+        </member>
+        <member name="P:Cooking.WPF.Converters.RatingConverter.PreviewBrush">
+            <summary>
+            Gets or sets brush that will be used for values which is about to be selected on MouseOver.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Converters.RatingConverter.OnBrush">
+            <summary>
+            Gets or sets brush that will be used for selected values.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Converters.RatingConverter.OffBrush">
+            <summary>
+            Gets or sets brush that will be used for not selected values.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Converters.RatingConverter.Convert(System.Object[],System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Converters.RatingConverter.ConvertBack(System.Object,System.Type[],System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.DTO.CalorieTypeSelection">
+            <summary>
+            DTO for user selection of CalorieType in various views.
+            </summary>
+        </member>
+        <member name="F:Cooking.WPF.DTO.CalorieTypeSelection.Any">
+            <summary>
+            Special value for not specified calories.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.CalorieTypeSelection.CalorieType">
+            <summary>
+            Gets or sets CalorieType represented by this DTO.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.CalorieTypeSelection.Name">
+            <summary>
+            Gets or sets name of CalorieType to show to user.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.CalorieTypeSelection.IsSelected">
+            <summary>
+            Gets or sets a value indicating whether given CalorieType is selected.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.DTO.DayEdit">
+            <summary>
+            Dto for day editing and displaying.
+            </summary>
+        </member>
+        <member name="E:Cooking.WPF.DTO.DayEdit.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:Cooking.WPF.DTO.DayEdit.DinnerWasCooked">
+            <summary>
+            Gets or sets a value indicating whether dinner on a given day was cooked.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.DayEdit.DayOfWeek">
+            <summary>
+            Gets or sets day of week for given day.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.DayEdit.Dinner">
+            <summary>
+            Gets or sets dinner that selected to be cooked on given day.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.DTO.GarnishEdit">
+            <summary>
+            Dto for garnish editing.
+            </summary>
+        </member>
+        <member name="E:Cooking.WPF.DTO.GarnishEdit.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:Cooking.WPF.DTO.GarnishEdit.Name">
+            <summary>
+            Gets or sets garnish name.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.DTO.IngredientEdit">
+            <summary>
+            Sto for ingredient editing.
+            </summary>
+        </member>
+        <member name="E:Cooking.WPF.DTO.IngredientEdit.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:Cooking.WPF.DTO.IngredientEdit.Name">
+            <summary>
+            Gets or sets ingredient name.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.IngredientEdit.Type">
+            <summary>
+            Gets or sets ingredient type.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.DTO.IngredientGroupEdit">
+            <summary>
+            Dto for ingredient group editing.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.IngredientGroupEdit.Name">
+            <summary>
+            Gets or sets ingredient group name.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.IngredientGroupEdit.Ingredients">
+            <summary>
+            Gets or sets ingredients that belongs to this group.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.DTO.RecipeEdit">
+            <summary>
+            Dto for recipe editing and view.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.ImagePath">
+            <summary>
+            Gets or sets image path.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.FullPath">
+            <summary>
+            Gets absolute path to recipe.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Helpers.JsonLocalizationProvider">
+            <summary>
+            Json localization provider for WPFLocalizeExtension.
+            </summary>
+        </member>
+        <member name="F:Cooking.WPF.Helpers.JsonLocalizationProvider.localizationCache">
+            <summary>
+            Cache for localizations: Culture - (key - value).
+            </summary>
+        </member>
+        <member name="E:Cooking.WPF.Helpers.JsonLocalizationProvider.ProviderChanged">
+            <inheritdoc/>
+        </member>
+        <member name="E:Cooking.WPF.Helpers.JsonLocalizationProvider.ProviderError">
+            <inheritdoc/>
+        </member>
+        <member name="E:Cooking.WPF.Helpers.JsonLocalizationProvider.ValueChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:Cooking.WPF.Helpers.JsonLocalizationProvider.AvailableCultures">
+            <inheritdoc/>
+        </member>
+        <member name="P:Cooking.WPF.Helpers.JsonLocalizationProvider.CurrentCulture">
+            <summary>
+            Gets current system culture.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Helpers.JsonLocalizationProvider.GetFullyQualifiedResourceKey(System.String,System.Windows.DependencyObject)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Helpers.JsonLocalizationProvider.GetLocalizedObject(System.String,System.Windows.DependencyObject,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Helpers.JsonLocalizationProvider.GetLocalizedString(System.Enum)">
+            <summary>
+            Gets localized string for enum value.
+            </summary>
+            <param name="key">Enum value to get localized string for.</param>
+            <returns>Localized string.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Helpers.JsonLocalizationProvider.GetLocalizedString(System.String)">
+            <summary>
+            Gets localized string for a key.
+            </summary>
+            <param name="key">Key to get localized string for.</param>
+            <returns>Localized string.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Helpers.JsonLocalizationProvider.GetLocalizedString(System.String,System.Object[])">
+            <summary>
+            Gets formatted localized string for a key.
+            </summary>
+            <param name="key">Key to get localized string for. Will be used as format in string.Format.</param>
+            <param name="args">Arguments for string.Format.</param>
+            <returns>Localized and formatted string.</returns>
+        </member>
+        <member name="M:Cooking.WPF.DialogService.ShowCustomMessageAsync``2(System.String,``1)">
+            <summary>
+            Отобразить произвольный View в виде диалогового окна.
+            </summary>
+            <typeparam name="TDialog">Тип View.</typeparam>
+            <typeparam name="TDialogContent">Тип ViewModel для этого View.</typeparam>
+            <param name="title">Заголовок.</param>
+            <param name="content">Объект ViewModel, который будет использован для View.</param>
+            <returns>Объект ViewModel, который может нести значения, введённые пользователем.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Services.EnumExtensions.Description(System.Enum)">
+            <summary>
+            Get DescriptionAttribute from enum.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Services.EnumExtensions.Enum(System.Type,System.String)">
+            <summary>
+            Get Enum value from Description.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.StringFormatProxy">
+             <summary>
+             Copied from https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension/blob/16fa1f6168fb803966d8217e5a406685c49d6854/tests/AssemblyTest/StringFormatProxy.cs
+             and converted to Bindables.Fody
+             Github issue to include in library https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension/issues/214
+            
+             Last update 05.09.2018.
+             </summary>
+        </member>
+        <member name="T:Cooking.MainWindowView">
+            <summary>
+            Логика взаимодействия для MainWindow.xaml.
+            </summary>
+            <summary>
+            MainWindowView
+            </summary>
+        </member>
+        <member name="M:Cooking.MainWindowView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
+        </member>
+    </members>
+</doc>

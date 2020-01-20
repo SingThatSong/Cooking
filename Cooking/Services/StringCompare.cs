@@ -19,7 +19,7 @@ namespace Cooking.WPF.Services
 
             int[,] E = new int[m + 1, n + 1];
 
-            int diff(int x, int y) => str1[x] == str2[y] ? 0 : 1;
+            int Diff(int x, int y) => str1[x] == str2[y] ? 0 : 1;
 
             for (int i = 0; i < m + 1; i++)
             {
@@ -38,7 +38,7 @@ namespace Cooking.WPF.Services
                     E[i, j] = Math.Min(
                                 Math.Min(E[i - 1, j] + 1,
                                 E[i, j - 1] + 1),
-                                E[i - 1, j - 1] + diff(i - 1, j - 1)
+                                E[i - 1, j - 1] + Diff(i - 1, j - 1)
                               );
                 }
             }

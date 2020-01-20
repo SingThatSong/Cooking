@@ -1,5 +1,5 @@
-﻿using Cooking.WPF.Views;
-using Cooking.WPF.Helpers;
+﻿using Cooking.WPF.Helpers;
+using Cooking.WPF.Views;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using PropertyChanged;

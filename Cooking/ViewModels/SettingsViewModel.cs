@@ -1,25 +1,18 @@
 ﻿using Cooking.WPF.Commands;
-using System.IO;
-using WPFLocalizeExtension.Engine;
-using System.Text.Json;
+using Cooking.WPF.Helpers;
+using Serilog;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Text.Json;
 using System.Windows;
-using System;
-using Serilog;
-using Cooking.WPF.Helpers;
-using System.Reflection;
-using System.Linq;
 
 namespace Cooking.WPF.Views
 {
     public class SettingsViewModel
     {
-        private readonly ILogger logger;
-
         public SettingsViewModel(ILogger logger, ILocalization localization)
         {
-            this.logger = logger;
             ChangedCommand = new DelegateCommand(() =>
             {
                 string currentConfig = File.ReadAllText(Consts.SettingsFilename);

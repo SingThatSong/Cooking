@@ -1,10 +1,10 @@
-﻿# top-most EditorConfig file
+﻿[*.cs]
+# top-most EditorConfig file
 root = true
 
 # Code files
 indent_size = 4
 
-[*.cs] 
 dotnet_style_qualification_for_property = false:warning
 dotnet_style_qualification_for_method = false:warning
 dotnet_style_qualification_for_event = false:warning

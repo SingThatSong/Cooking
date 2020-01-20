@@ -1,10 +1,9 @@
-﻿using Cooking.WPF.DTO;
-using Cooking.ServiceLayer.Projections;
+﻿using Cooking.ServiceLayer.Projections;
+using Cooking.WPF.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Cooking.WPF.Views
 {

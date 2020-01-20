@@ -8,13 +8,22 @@ using Validar;
 
 namespace Cooking.WPF.DTO
 {
+    /// <summary>
+    /// Dto for recipe editing and view.
+    /// </summary>
     [AddINotifyPropertyChangedInterface]
     [InjectValidation]
     public class RecipeEdit : Entity
     {
+        /// <summary>
+        /// Gets or sets image path.
+        /// </summary>
         [AlsoNotifyFor(nameof(FullPath))]
         public string? ImagePath { get; set; }
 
+        /// <summary>
+        /// Gets absolute path to recipe.
+        /// </summary>
         public string? FullPath => ImagePath != null && File.Exists(Path.GetFullPath(ImagePath))
                                 ? Path.GetFullPath(ImagePath)
                                 : null;

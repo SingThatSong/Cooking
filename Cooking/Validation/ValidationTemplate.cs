@@ -88,6 +88,6 @@ namespace Cooking
         // Duplicates INotifyDataErrorInfo.GetErrors
         public string? this[string propertyName] => null;
 
-        void RaiseErrorsChanged(string propertyName) => ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+        private void RaiseErrorsChanged(string propertyName) => ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
     }
 }

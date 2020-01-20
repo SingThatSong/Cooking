@@ -26,14 +26,14 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Work with StyleCop issues
-// TODO: Add comments to cs
-// TODO: Recipe creation move common setters to headers
-// TODO: ColorPicker localization
 // TODO: Categories localization
 // TODO: After dishtype is added it is not shown in dishtypes list in week creation
 // TODO: CalorieType tooltips
+
+// TODO: Work with StyleCop issues
+// TODO: Add comments to cs
 // TODO: Refactor ViewModels into scheme: dependencies, constructor, state, commands, methods
+
 // TODO: Add centralized configuration edit (now it's only in SettingsViewModel)
 // TODO: Add comments to XAML
 // TODO: Set Readme.md

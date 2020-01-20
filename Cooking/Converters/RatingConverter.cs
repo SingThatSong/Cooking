@@ -17,10 +17,22 @@ namespace Cooking.WPF.Converters
     /// </summary>
     public class RatingConverter : IMultiValueConverter
     {
+        /// <summary>
+        /// Gets or sets brush that will be used for values which is about to be selected on MouseOver.
+        /// </summary>
         public Brush? PreviewBrush { get; set; }
+
+        /// <summary>
+        /// Gets or sets brush that will be used for selected values.
+        /// </summary>
         public Brush? OnBrush { get; set; }
+
+        /// <summary>
+        /// Gets or sets brush that will be used for not selected values.
+        /// </summary>
         public Brush? OffBrush { get; set; }
 
+        /// <inheritdoc/>
         public object? Convert(object[] values, Type targetType, object? parameter, CultureInfo culture)
         {
             if (values?.Length != 3)
@@ -45,6 +57,7 @@ namespace Cooking.WPF.Converters
             return OffBrush;
         }
 
+        /// <inheritdoc/>
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using Cooking.WPF.Commands;
-using Cooking.WPF.Views;
 using Cooking.ServiceLayer;
 using Cooking.ServiceLayer.Projections;
+using Cooking.WPF.Commands;
 using Cooking.WPF.Helpers;
 using Prism.Ioc;
 using Prism.Regions;
@@ -10,7 +9,6 @@ using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Cooking.WPF.Views

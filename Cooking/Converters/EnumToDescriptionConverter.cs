@@ -8,9 +8,12 @@ using System.Windows.Data;
 
 namespace Cooking.WPF.Converters
 {
-    /// Converter for displaying <see cref="System.ComponentModel.DescriptionAttribute"/> values from enums
+    /// <summary>
+    /// Converter for displaying <see cref="System.ComponentModel.DescriptionAttribute"/> values from enums.
+    /// </summary>
     public class EnumToDescriptionConverter : IValueConverter
     {
+        /// <inheritdoc/>
         public object? Convert(object value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is Enum @enum)
@@ -41,6 +44,7 @@ namespace Cooking.WPF.Converters
             }
         }
 
+        /// <inheritdoc/>
         public object? ConvertBack([AllowNull] object? value, Type? targetType, [AllowNull] object? parameter, CultureInfo culture)
         {
             if (value != null && targetType != null)

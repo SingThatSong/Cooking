@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
+using Cooking.Data.Model;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Helpers;
-using Cooking.Data.Model;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 

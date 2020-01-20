@@ -24,14 +24,14 @@ namespace Cooking.WPF.Converters
         }
 
         /// <summary>
-        /// Gets value which will be used instead of boolean true.
+        /// Gets or sets value which will be used instead of boolean true.
         /// </summary>
-        public T True { get; }
+        public T True { get; set; }
 
         /// <summary>
-        /// Gets value which will be used instead of boolean false.
+        /// Gets or sets value which will be used instead of boolean false.
         /// </summary>
-        public T False { get; }
+        public T False { get; set; }
 
         /// <inheritdoc/>
         public virtual object? Convert(object value, Type targetType, object? parameter, CultureInfo culture)

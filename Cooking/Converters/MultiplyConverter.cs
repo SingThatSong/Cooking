@@ -6,10 +6,11 @@ using System.Windows.Data;
 namespace Cooking.WPF.Converters
 {
     /// <summary>
-    /// Converter which returns multiplication of its parameters. All of the parameters must be convertable to double (e.g. int, double, float, etc.)
+    /// Converter which returns multiplication of its parameters. All of the parameters must be convertable to double (e.g. int, double, float, etc.).
     /// </summary>
     public class MultiplyConverter : IMultiValueConverter
     {
+        /// <inheritdoc/>
         public object Convert(object[] values, Type targetType, object? parameter, CultureInfo culture)
         {
             if (values == null || values.Length == 0)
@@ -27,9 +28,7 @@ namespace Cooking.WPF.Converters
             return result;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        /// <inheritdoc/>
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }
 }

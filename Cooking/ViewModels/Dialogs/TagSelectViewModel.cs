@@ -1,16 +1,14 @@
 ﻿using AutoMapper;
+using Cooking.Data.Model;
+using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Views;
-using Cooking.ServiceLayer;
 using Cooking.WPF.Helpers;
-using Cooking.Data.Model;
+using NullGuard;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using NullGuard;
 
 namespace Cooking.WPF.Views
 {
