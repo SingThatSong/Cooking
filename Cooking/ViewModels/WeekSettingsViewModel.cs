@@ -129,7 +129,7 @@ namespace Cooking.WPF.Views
 
         private async void AddCalorieTypes(DayPlan day)
         {
-            var viewModel = new CalorieTypeSelectViewModel(dialogUtils, day.CalorieTypes);
+            var viewModel = new CalorieTypeSelectViewModel(dialogUtils, localization, day.CalorieTypes);
             await dialogUtils.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectViewModel>(localization.GetLocalizedString("CalorieTyoes"), viewModel);
 
             if (viewModel.DialogResultOk)

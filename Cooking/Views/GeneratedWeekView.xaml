@@ -109,11 +109,16 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBlock>
+                                    <lex:LocProxy
+                                        x:Name="CalorieTypeNameProxy"
+                                        PrependType="True"
+                                        Source="{Binding Recipe.CalorieType}" />
                                     <Ellipse
                                         Width="15"
                                         Height="15"
                                         Margin="10 5 0 0"
-                                        VerticalAlignment="Top">
+                                        VerticalAlignment="Top"
+                                        ToolTip="{Binding ElementName=CalorieTypeNameProxy, Path=Result}">
                                         <Ellipse.Style>
                                             <Style TargetType="Ellipse">
                                                 <Style.Triggers>
@@ -164,11 +169,17 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBlock>
+
+                                    <lex:LocProxy
+                                        x:Name="SpecificCalorieTypeNameProxy"
+                                        PrependType="True"
+                                        Source="{Binding Recipe.CalorieType}" />
                                     <Ellipse
                                         Width="15"
                                         Height="15"
                                         Margin="10 5 0 0"
-                                        VerticalAlignment="Top">
+                                        VerticalAlignment="Top"
+                                        ToolTip="{Binding ElementName=SpecificCalorieTypeNameProxy, Path=Result}">
                                         <Ellipse.Style>
                                             <Style TargetType="Ellipse">
                                                 <Style.Triggers>

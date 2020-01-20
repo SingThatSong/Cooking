@@ -76,11 +76,17 @@
                     </Style>
                 </icons:PackIconModern.Style>
             </icons:PackIconModern>
+
+            <lex:LocProxy
+                x:Name="CalorieTypeNameProxy"
+                PrependType="True"
+                Source="{Binding Dinner.CalorieType}" />
             <Ellipse
                 Width="15"
                 Height="15"
                 Margin="5 5 0 0"
-                VerticalAlignment="Center">
+                VerticalAlignment="Center"
+                ToolTip="{Binding ElementName=CalorieTypeNameProxy, Path=Result}">
                 <Ellipse.Style>
                     <Style TargetType="Ellipse">
                         <Style.Triggers>

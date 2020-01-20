@@ -148,33 +148,40 @@
                                     ItemsSource="{Binding CalorieTypes}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Ellipse
-                                                Width="15"
-                                                Height="15"
-                                                Margin="10 5 0 0"
-                                                VerticalAlignment="Top">
-                                                <Ellipse.Style>
-                                                    <Style TargetType="Ellipse">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding CalorieType}" Value="0">
-                                                                <Setter Property="Fill" Value="Gray" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding CalorieType}" Value="{x:Static model:CalorieType.Fitness}">
-                                                                <Setter Property="Fill" Value="Green" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding CalorieType}" Value="{x:Static model:CalorieType.Protein}">
-                                                                <Setter Property="Fill" Value="Yellow" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding CalorieType}" Value="{x:Static model:CalorieType.Bad}">
-                                                                <Setter Property="Fill" Value="Orange" />
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding CalorieType}" Value="{x:Static model:CalorieType.Sweets}">
-                                                                <Setter Property="Fill" Value="Red" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Ellipse.Style>
-                                            </Ellipse>
+                                            <Grid>
+                                                <lex:LocProxy
+                                                    x:Name="CalorieTypeNameProxy"
+                                                    PrependType="True"
+                                                    Source="{Binding CalorieType}" />
+                                                <Ellipse
+                                                    Width="15"
+                                                    Height="15"
+                                                    Margin="10 5 0 0"
+                                                    VerticalAlignment="Top"
+                                                    ToolTip="{Binding ElementName=CalorieTypeNameProxy, Path=Result}">
+                                                    <Ellipse.Style>
+                                                        <Style TargetType="Ellipse">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding CalorieType}" Value="0">
+                                                                    <Setter Property="Fill" Value="Gray" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding CalorieType}" Value="{x:Static model:CalorieType.Fitness}">
+                                                                    <Setter Property="Fill" Value="Green" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding CalorieType}" Value="{x:Static model:CalorieType.Protein}">
+                                                                    <Setter Property="Fill" Value="Yellow" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding CalorieType}" Value="{x:Static model:CalorieType.Bad}">
+                                                                    <Setter Property="Fill" Value="Orange" />
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding CalorieType}" Value="{x:Static model:CalorieType.Sweets}">
+                                                                    <Setter Property="Fill" Value="Red" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Ellipse.Style>
+                                                </Ellipse>
+                                            </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                     <ItemsControl.ItemsPanel>

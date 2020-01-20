@@ -1,5 +1,6 @@
 ﻿using Cooking.Data.Model;
 using Cooking.WPF.DTO;
+using Cooking.WPF.Helpers;
 using Cooking.WPF.Views;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,18 @@ namespace Cooking.WPF.ViewModels
     {
         public ObservableCollection<CalorieTypeSelection> AllValues { get; }
 
-        public CalorieTypeSelectViewModel(DialogService dialogService, IEnumerable<CalorieTypeSelection>? selectedTypes)
+        public CalorieTypeSelectViewModel(DialogService dialogService, ILocalization localization, IEnumerable<CalorieTypeSelection>? selectedTypes)
             : base(dialogService)
         {
             AllValues = new ObservableCollection<CalorieTypeSelection>(
                 Enum.GetValues(typeof(CalorieType))
                 .Cast<CalorieType>()
-                .Select(x => new CalorieTypeSelection() { CalorieType = x })
+                .Where(x => x != CalorieType.None)
+                .Select(x => new CalorieTypeSelection()
+                {
+                    CalorieType = x,
+                    Name = localization.GetLocalizedString(x)
+                })
             );
 
             AllValues.Insert(0, CalorieTypeSelection.Any);

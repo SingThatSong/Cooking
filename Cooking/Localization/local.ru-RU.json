@@ -103,5 +103,6 @@
   "CalorieType_Fitness": "Фитнес рецепт, подходит для похудения",
   "CalorieType_Protein": "Хороший рецепт, достаточно белка",
   "CalorieType_Bad": "Либо калорийный, либо много углеводов",
-  "CalorieType_Sweets": "Калорийная вкусняшка"
+  "CalorieType_Sweets": "Калорийная вкусняшка",
+  "CalorieType_None": "Любой"
 }

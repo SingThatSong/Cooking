@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:Cooking.WPF.Controls"
     xmlns:converters="clr-namespace:Cooking.WPF.Converters"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.WPF"
@@ -13,7 +14,6 @@
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     Margin="20 0"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
@@ -57,10 +57,10 @@
         </Grid.RowDefinitions>
 
         <Grid
+            MaxWidth="800"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Visibility="{Binding IsEditing, Converter={StaticResource collapsedVisibleConverter}}"
-            MaxWidth="800">
+            Visibility="{Binding IsEditing, Converter={StaticResource collapsedVisibleConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
@@ -68,11 +68,16 @@
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontSize="26" Text="{Binding Recipe.Name}" />
+                    <lex:LocProxy
+                        x:Name="CalorieTypeNameProxy"
+                        PrependType="True"
+                        Source="{Binding Recipe.CalorieType}" />
                     <Ellipse
                         Width="15"
                         Height="15"
                         Margin="10 8 0 0"
-                        VerticalAlignment="Center">
+                        VerticalAlignment="Center"
+                        ToolTip="{Binding ElementName=CalorieTypeNameProxy, Path=Result}">
                         <Ellipse.Style>
                             <Style TargetType="Ellipse">
                                 <Style.Triggers>
@@ -302,12 +307,12 @@
                                             VerticalAlignment="Center"
                                             mahapps:ControlsHelper.CornerRadius="5"
                                             FontSize="15"
-                                            Text="{Binding Name}" >
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="MouseUp">
-                                                        <i:InvokeCommandAction Command="{Binding DataContext.ViewTagCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}" CommandParameter="{Binding}" />
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
+                                            Text="{Binding Name}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseUp">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.ViewTagCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                         </TextBlock>
                                     </Border>
                                 </DataTemplate>
