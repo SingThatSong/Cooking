@@ -94,5 +94,9 @@
   "ColorPicker_AvailableColors": "Available Colors",
   "ColorPicker_Recent": "Recent Colors",
   "ColorPicker_Frequent": "Frequent Colors",
-  "ColorPicker_Standart": "Standart Colors"
+  "ColorPicker_Standart": "Standart Colors",
+  "TagType_DishType": "Dish Type",
+  "TagType_MainIngredient": "Main Ingredient",
+  "TagType_Occasion": "Occasion",
+  "TagType_Source": "Source"
 }

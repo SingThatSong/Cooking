@@ -13,20 +13,10 @@ namespace Cooking.WPF.DTO
         /// </summary>
         public static readonly CalorieTypeSelection Any = new CalorieTypeSelection();
 
-        private CalorieType calorieType;
-
         /// <summary>
         /// Gets or sets CalorieType represented by this DTO.
         /// </summary>
-        public CalorieType CalorieType
-        {
-            get => calorieType;
-            set
-            {
-                calorieType = value;
-                Name = value.Description();
-            }
-        }
+        public CalorieType CalorieType { get; set; }
 
         /// <summary>
         /// Gets or sets name of CalorieType to show to user.

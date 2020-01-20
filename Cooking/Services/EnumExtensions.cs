@@ -24,23 +24,5 @@ namespace Cooking.WPF.Services
                 ? value.ToString()
                 : ((DescriptionAttribute)attributes[0]).Description;
         }
-
-        /// <summary>
-        /// Get Enum value from Description.
-        /// </summary>
-        public static Enum? Enum(this Type type, string description)
-        {
-            Array values = System.Enum.GetValues(type);
-
-            foreach (object? value in values)
-            {
-                if (description == Description((Enum)value!))
-                {
-                    return (Enum)value!;
-                }
-            }
-
-            return null;
-        }
     }
 }

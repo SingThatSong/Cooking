@@ -95,5 +95,9 @@
   "ColorPicker_AvailableColors": "Доступные цвета",
   "ColorPicker_Recent": "Недавние",
   "ColorPicker_Frequent": "Часто используемые",
-  "ColorPicker_Standart": "Стандартные"
+  "ColorPicker_Standart": "Стандартные",
+  "TagType_DishType": "Тип блюда",
+  "TagType_MainIngredient": "Основной ингредиент",
+  "TagType_Occasion": "Событие",
+  "TagType_Source": "Источник"
 }

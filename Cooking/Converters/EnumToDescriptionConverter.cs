@@ -1,10 +1,15 @@
-﻿using Cooking.WPF.Services;
+﻿using Cooking.WPF.Helpers;
+using Cooking.WPF.Services;
 using NullGuard;
+using Prism.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
+using Prism.Ioc;
+using System.Linq;
 
 namespace Cooking.WPF.Converters
 {
@@ -16,44 +21,50 @@ namespace Cooking.WPF.Converters
         /// <inheritdoc/>
         public object? Convert(object value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is Enum @enum)
+            if (Application.Current is PrismApplication prismApplication)
             {
-                return @enum.Description();
-            }
-            else if (value is IEnumerable collection)
-            {
-                var list = new List<string>();
+                ILocalization localization = prismApplication.Container.Resolve<ILocalization>();
 
-                foreach (object? val in collection)
+                if (value is Enum @enum)
                 {
-                    if (val is Enum @enumValue)
+                    return localization.GetLocalizedString(@enum);
+                }
+                else if (value is IEnumerable collection)
+                {
+                    var list = new List<string>();
+
+                    foreach (object? val in collection)
                     {
-                        string? description = @enumValue.Description();
-                        if (description != null)
+                        if (val is Enum @enumValue)
                         {
-                            list.Add(description);
+                            string? description = localization.GetLocalizedString(@enumValue);
+                            if (description != null)
+                            {
+                                list.Add(description);
+                            }
                         }
                     }
-                }
 
-                return list;
+                    return list;
+                }
             }
-            else
-            {
-                return value;
-            }
+
+            return value;
         }
 
         /// <inheritdoc/>
         public object? ConvertBack([AllowNull] object? value, Type? targetType, [AllowNull] object? parameter, CultureInfo culture)
         {
-            if (value != null && targetType != null)
+            if (Application.Current is PrismApplication prismApplication)
             {
-                string? valAsString = value.ToString();
+                ILocalization localization = prismApplication.Container.Resolve<ILocalization>();
 
-                if (valAsString != null)
+                if (value != null && targetType != null)
                 {
-                    return targetType.Enum(valAsString);
+                    Dictionary<string, string> allValues = localization.GetAllValuesFor(targetType.Name);
+                    string? valAsString = value.ToString();
+                    string key = allValues.FirstOrDefault(x => x.Value == valAsString).Key;
+                    return Enum.Parse(targetType, key);
                 }
             }
 

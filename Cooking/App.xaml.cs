@@ -26,8 +26,8 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Categories localization
 // TODO: After dishtype is added it is not shown in dishtypes list in week creation
+// TODO: CalorieType localization
 // TODO: CalorieType tooltips
 
 // TODO: Work with StyleCop issues

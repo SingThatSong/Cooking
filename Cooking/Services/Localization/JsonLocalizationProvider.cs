@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Windows;
 using WPFLocalizeExtension.Engine;
@@ -69,38 +70,24 @@ namespace Cooking.WPF.Helpers
                 else
                 {
                     ProviderError?.Invoke(this, new ProviderErrorEventArgs(target, key, "No such key"));
-                    return null;
                 }
             }
             else
             {
-                string filename = "local";
-                if (culture.Name.Length != 0)
+                if (InitCache(culture))
                 {
-                    filename += $".{culture.Name}";
-                }
-
-                filename += ".json";
-
-                if (!File.Exists(@"Localization\" + filename))
-                {
-                    return null;
-                }
-
-                string json = File.ReadAllText(@"Localization\" + filename);
-
-                localizationCache[culture.Name] = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
-
-                if (localizationCache[culture.Name].ContainsKey(key))
-                {
-                    return localizationCache[culture.Name][key];
-                }
-                else
-                {
-                    ProviderError?.Invoke(this, new ProviderErrorEventArgs(target, key, "No such key"));
-                    return null;
+                    if (localizationCache[culture.Name].ContainsKey(key))
+                    {
+                        return localizationCache[culture.Name][key];
+                    }
+                    else
+                    {
+                        ProviderError?.Invoke(this, new ProviderErrorEventArgs(target, key, "No such key"));
+                    }
                 }
             }
+
+            return null;
         }
 
         /// <summary>
@@ -135,6 +122,51 @@ namespace Cooking.WPF.Helpers
             {
                 return null;
             }
+        }
+
+        public Dictionary<string, string> GetAllValuesFor(string enumType)
+        {
+            CultureInfo culture = CurrentCulture;
+
+            if (localizationCache.ContainsKey(culture.Name))
+            {
+                return localizationCache[culture.Name]
+                            .Where(x => x.Key.StartsWith($"{enumType}_", StringComparison.Ordinal))
+                            .ToDictionary(x => x.Key.Substring(x.Key.IndexOf('_', StringComparison.Ordinal) + 1), x => x.Value);
+            }
+            else
+            {
+                if (InitCache(culture))
+                {
+                    return localizationCache[culture.Name]
+                                .Where(x => x.Key.StartsWith($"{enumType}_", StringComparison.Ordinal))
+                                .ToDictionary(x => x.Key.Substring(x.Key.IndexOf('_', StringComparison.Ordinal) + 1), x => x.Value);
+                }
+            }
+
+            return new Dictionary<string, string>();
+        }
+
+        private bool InitCache(CultureInfo culture)
+        {
+            string filename = "local";
+            if (culture.Name.Length != 0)
+            {
+                filename += $".{culture.Name}";
+            }
+
+            filename += ".json";
+
+            if (!File.Exists(@"Localization\" + filename))
+            {
+                return false;
+            }
+
+            string json = File.ReadAllText(@"Localization\" + filename);
+
+            localizationCache[culture.Name] = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+
+            return true;
         }
     }
 }
