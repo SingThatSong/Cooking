@@ -2,10 +2,10 @@
     x:Class="Cooking.WPF.Views.DayControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:converters="clr-namespace:Cooking.WPF.Converters"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.WPF.Views"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data">
@@ -56,7 +56,7 @@
             <lex:LocProxy
                 Name="Proxy"
                 PrependType="True"
-                Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DayName}" />
+                Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=Day}" />
             <TextBlock FontSize="20" Text="{Binding Result, ElementName=Proxy}" />
             <icons:PackIconModern
                 Width="15"
@@ -171,7 +171,7 @@
                 </StackPanel.Style>
                 <Button
                     Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.SelectDinnerCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=DayName}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=Day}"
                     Style="{StaticResource SmallEditButton}" />
 
                 <Button

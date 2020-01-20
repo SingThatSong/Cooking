@@ -27,6 +27,7 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
 // TODO: Work with StyleCop issues
+// TODO: Add comments to cs
 // TODO: Recipe creation move common setters to headers
 // TODO: ColorPicker localization
 // TODO: Categories localization
@@ -34,7 +35,6 @@ using WPFLocalizeExtension.Providers;
 // TODO: CalorieType tooltips
 // TODO: Refactor ViewModels into scheme: dependencies, constructor, state, commands, methods
 // TODO: Add centralized configuration edit (now it's only in SettingsViewModel)
-// TODO: Add comments to cs
 // TODO: Add comments to XAML
 // TODO: Set Readme.md
 // TODO: Set folder names
@@ -49,6 +49,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Add project documentation (Wiki)
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
 // TODO: Plurals localization
+// TODO: Add config to change app theme
 
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
@@ -93,22 +94,6 @@ namespace Cooking
 
             // TODO: remove after introducing data migrator
             DatabaseService.InitDatabase();
-        }
-
-        private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            ILogger logger = Container.Resolve<ILogger>();
-            logger.Error(e.ExceptionObject as Exception, "Critical error");
-        }
-
-        private void SetStaticVariables()
-        {
-            IOptions<AppSettings> configuration = Container.Resolve<IOptions<AppSettings>>();
-            LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(configuration.Value.Culture);
-
-            ILocalization localization = Container.Resolve<ILocalization>();
-            TagEdit.Any.Name = localization.GetLocalizedString("Any");
-            CalorieTypeSelection.Any.Name = localization.GetLocalizedString("Any");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -213,6 +198,22 @@ namespace Cooking
                 string viewModelName = $"{viewName}Model, {viewAssemblyName}";
                 return Type.GetType(viewModelName);
             });
+        }
+
+        private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            ILogger logger = Container.Resolve<ILogger>();
+            logger.Error(e.ExceptionObject as Exception, "Critical error");
+        }
+
+        private void SetStaticVariables()
+        {
+            IOptions<AppSettings> configuration = Container.Resolve<IOptions<AppSettings>>();
+            LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(configuration.Value.Culture);
+
+            ILocalization localization = Container.Resolve<ILocalization>();
+            TagEdit.Any.Name = localization.GetLocalizedString("Any");
+            CalorieTypeSelection.Any.Name = localization.GetLocalizedString("Any");
         }
     }
 }

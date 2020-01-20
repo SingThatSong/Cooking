@@ -10,7 +10,6 @@ namespace Cooking.WPF.DTO
 {
     [AddINotifyPropertyChangedInterface]
     [InjectValidation]
-    [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения")]
     public class RecipeEdit : Entity
     {
         [AlsoNotifyFor(nameof(FullPath))]

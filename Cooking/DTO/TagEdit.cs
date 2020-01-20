@@ -7,12 +7,12 @@ namespace Cooking.WPF.DTO
     [InjectValidation]
     public class TagEdit : Entity, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         public static readonly TagEdit Any = new TagEdit()
         {
             CanBeRemoved = false
         };
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public string? Name { get; set; }
         public TagType Type { get; set; }

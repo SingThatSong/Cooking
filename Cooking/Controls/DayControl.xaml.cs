@@ -10,13 +10,22 @@ namespace Cooking.WPF.Views
     [DependencyProperty]
     public partial class DayControl : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DayControl"/> class.
+        /// </summary>
         public DayControl()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether control is in edit state.
+        /// </summary>
         public bool Edit { get; set; }
 
-        public DayOfWeek? DayName { get; set; }
+        /// <summary>
+        /// Gets or sets current day.
+        /// </summary>
+        public DayOfWeek? Day { get; set; }
     }
 }

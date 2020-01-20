@@ -10,12 +10,10 @@ namespace Cooking.WPF.Converters
     /// </summary>
     public class NullImageConverter : IValueConverter
     {
+        /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value ?? DependencyProperty.UnsetValue;
 
-        // According to https://msdn.microsoft.com/en-us/library/system.windows.data.ivalueconverter.convertback(v=vs.110).aspx#Anchor_1
-        // (kudos Scott Chamberlain), if you do not support a conversion
-        // back you should return a Binding.DoNothing or a
-        // DependencyProperty.UnsetValue
+        /// <inheritdoc/>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
     }
 }

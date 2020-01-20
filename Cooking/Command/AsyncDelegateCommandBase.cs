@@ -8,8 +8,12 @@ namespace Cooking.WPF.Commands
     /// </summary>
     public abstract class AsyncDelegateCommandBase : DelegateCommandBase
     {
-        protected bool FreezeWhenBusy { get; set; }
         private bool isBusy;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether command would return false when called CanExecute.
+        /// </summary>
+        protected bool FreezeWhenBusy { get; set; }
         private bool IsBusy
         {
             get => isBusy;
@@ -24,7 +28,7 @@ namespace Cooking.WPF.Commands
         }
 
         /// <summary>
-        /// Provide implementation of CanExecute, keep it to buisness logic.
+        /// Implementation of <see cref="DelegateCommandBase" /> CanExecuteInternal.
         /// </summary>
         /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
         /// <returns>If this command can be executed.</returns>
@@ -41,8 +45,14 @@ namespace Cooking.WPF.Commands
         /// <summary>
         /// Async means internal implementation for Async* commands.
         /// </summary>
+        /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
+        /// <returns>Returns value which indicates whether command can be executed.</returns>
         protected abstract bool CanExecuteAsyncInternal(object? parameter);
 
+        /// <summary>
+        /// Implementation of <see cref="DelegateCommandBase" /> ExecuteInternal.
+        /// </summary>
+        /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
         protected override sealed async void ExecuteInternal(object? parameter)
         {
             IsBusy = true;
@@ -56,6 +66,8 @@ namespace Cooking.WPF.Commands
         /// <summary>
         /// Async means internal implementation for Async* commands.
         /// </summary>
+        /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
+        /// <returns>Awaitable task.</returns>
         protected abstract Task ExecuteAsyncInternal(object? parameter);
     }
 }

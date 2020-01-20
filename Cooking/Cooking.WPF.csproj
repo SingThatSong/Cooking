@@ -12,6 +12,14 @@
     <PublishSingleFile>true</PublishSingleFile>
     <PublishReadyToRunShowWarnings>true</PublishReadyToRunShowWarnings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Command\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Include="Command\.editorconfig" />
+  </ItemGroup>
   
   <ItemGroup>
     <TrimmerRootAssembly Include="System.Reflection" />
@@ -20,6 +28,7 @@
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;CA1062;CA1303;CA1822</NoWarn>
+    <DocumentationFile>C:\Repos\Cooking\Cooking\Cooking.WPF.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

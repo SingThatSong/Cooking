@@ -259,6 +259,7 @@ namespace Cooking.WPF.Views
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
-        { }
+        {
+        }
     }
 }

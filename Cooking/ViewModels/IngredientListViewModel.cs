@@ -72,16 +72,16 @@ namespace Cooking.WPF.Views
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeListView), parameters);
         }
 
-        public async void DeleteIngredient(Guid ingredientId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Ingredients!.Single(x => x.ID == ingredientId).Name ?? string.Empty),
+        private async void DeleteIngredient(Guid ingredientId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Ingredients!.Single(x => x.ID == ingredientId).Name ?? string.Empty),
                                                                                                    localization.GetLocalizedString("CannotUndo"),
                                                                                                    successCallback: () => OnIngredientDeleted(ingredientId))
                                                                                ;
 
-        public async void AddIngredient() => await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"),
+        private async void AddIngredient() => await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"),
                                                                                                                                successCallback: OnNewIngredientCreated)
                                                               ;
 
-        public async void EditIngredient(IngredientEdit ingredient)
+        private async void EditIngredient(IngredientEdit ingredient)
         {
             var viewModel = new IngredientEditViewModel(ingredientService, dialogUtils, localization, mapper.Map<IngredientEdit>(ingredient));
             await dialogUtils.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("EditIngredient"), viewModel, successCallback: OnIngredientEdited)

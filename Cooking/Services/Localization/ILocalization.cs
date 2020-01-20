@@ -8,6 +8,6 @@ namespace Cooking.WPF.Helpers
         CultureInfo CurrentCulture { get; }
         string? GetLocalizedString(Enum key);
         string? GetLocalizedString(string key);
-        string? GetLocalizedString(string key, params object[] args);
+        string? GetLocalizedString(string key, params object?[] args);
     }
 }

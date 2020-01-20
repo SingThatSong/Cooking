@@ -8,7 +8,6 @@ namespace Cooking.WPF.DTO
 {
     [AddINotifyPropertyChangedInterface]
     [InjectValidation]
-    [SuppressMessage("Usage", "CA2227:Свойства коллекций должны быть доступны только для чтения")]
     public class IngredientGroupEdit : Entity
     {
         public string? Name { get; set; }

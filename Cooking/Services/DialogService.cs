@@ -56,7 +56,7 @@ namespace Cooking.WPF
         /// </summary>
         /// <typeparam name="TDialog">Тип View.</typeparam>
         /// <typeparam name="TDialogContent">Тип ViewModel для этого View.</typeparam>
-        /// <param name="dialogTitle">Заголовок.</param>
+        /// <param name="title">Заголовок.</param>
         /// <param name="content">Объект ViewModel, который будет использован для View.</param>
         /// <returns>Объект ViewModel, который может нести значения, введённые пользователем.</returns>
         public virtual async Task<TDialogContent> ShowCustomMessageAsync<TDialog, TDialogContent>(string? title = null, TDialogContent? content = null)

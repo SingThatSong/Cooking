@@ -5,11 +5,15 @@ namespace Cooking.WPF.Commands
     /// <summary>
     /// Generic DelegateCommand where T is a parameter type.
     /// </summary>
+    /// <typeparam name="T">Command parameter type.</typeparam>
     public class DelegateCommand<T> : DelegateCommandBase
     {
         private readonly Func<T, bool>? canExecute;
         private readonly Action<T> execute;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DelegateCommand{T}"/> class.
+        /// </summary>
         /// <param name="execute">Method, which is executed on Execute method.</param>
         /// <param name="canExecute">Defines if method can be executed.</param>
         /// <param name="executeOnce">Defines if method could be executed just once (useful for event bindings, such as OnLoading).</param>
@@ -22,11 +26,19 @@ namespace Cooking.WPF.Commands
             CanExecuteSpecified = this.canExecute != null || ExecuteOnce;
         }
 
+        /// <summary>
+        /// Implementation of <see cref="DelegateCommandBase" /> ExecuteInternal.
+        /// </summary>
+        /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
         protected override void ExecuteInternal(object? parameter)
         {
             if (parameter is T tParameter)
             {
                 execute(tParameter);
+            }
+            else if (parameter == null && typeof(T).IsClass)
+            {
+                execute(default);
             }
             else
             {
@@ -34,6 +46,11 @@ namespace Cooking.WPF.Commands
             }
         }
 
+        /// <summary>
+        /// Implementation of <see cref="DelegateCommandBase" /> CanExecuteInternal.
+        /// </summary>
+        /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
+        /// <returns>If this command can be executed.</returns>
         protected override bool CanExecuteInternal(object? parameter)
         {
             if (canExecute != null)
@@ -44,9 +61,7 @@ namespace Cooking.WPF.Commands
                 }
                 else if (parameter == null && typeof(T).IsClass)
                 {
-#pragma warning disable CS8653 // Выражение по умолчанию вводит значение NULL для параметра типа.
                     return canExecute(default);
-#pragma warning restore CS8653
                 }
                 else
                 {

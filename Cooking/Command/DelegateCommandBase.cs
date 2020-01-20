@@ -29,15 +29,24 @@ namespace Cooking.WPF.Commands
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether command should be executed only once. Is set in child classes.
+        /// </summary>
         protected bool ExecuteOnce { get; set; }
-        protected bool Executed { get; set; }
-        protected bool CanExecuteSpecified { get; set; }
 
         /// <summary>
-        /// Implementation of ICommand.CanExecute.
+        /// Gets or sets a value indicating whether command was executed. Needed when <see cref="ExecuteOnce"/> is true.
         /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
+        protected bool Executed { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether CanExecute delegate or its substiturions is specified.
+        /// <see cref="DelegateCommandBase"/> knows nothing about CanExecute delegates in child classes - they are of different types and set in constructors.
+        /// Instead of delegate, it may be other indicators, such as one-time execution.
+        /// </summary>
+        protected bool CanExecuteSpecified { get; set; }
+
+        /// <inheritdoc/>
         public bool CanExecute(object? parameter = null)
         {
             // Single execution
@@ -56,19 +65,20 @@ namespace Cooking.WPF.Commands
             return CanExecuteInternal(parameter);
         }
 
-        /// <summary>
-        /// Provide implementation of CanExecute, keep it to buisness logic.
-        /// </summary>
-        /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
-        /// <returns>If this command can be executed.</returns>
-        protected abstract bool CanExecuteInternal(object? parameter);
-
+        /// <inheritdoc/>
         public void Execute(object? parameter = null)
         {
             // Calling abstract method
             ExecuteInternal(parameter);
             Executed = true;
         }
+
+        /// <summary>
+        /// Provide implementation of CanExecute, keep it to buisness logic.
+        /// </summary>
+        /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
+        /// <returns>If this command can be executed.</returns>
+        protected abstract bool CanExecuteInternal(object? parameter);
 
         /// <summary>
         /// Provide implementation of Execute, keep it to buisness logic.

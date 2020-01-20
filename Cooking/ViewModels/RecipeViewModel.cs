@@ -200,7 +200,7 @@ namespace Cooking.WPF.Views
 
         private bool CanRemoveImage() => Recipe?.ImagePath != null;
 
-        public async void AddIngredient()
+        private async void AddIngredient()
         {
             RecipeIngredientEditViewModel viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.IsCreation = true;
@@ -225,7 +225,7 @@ namespace Cooking.WPF.Views
             }
         }
 
-        public async void AddIngredientToGroup(IngredientGroupEdit group)
+        private async void AddIngredientToGroup(IngredientGroupEdit group)
         {
             RecipeIngredientEditViewModel viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.IsCreation = true;
@@ -250,9 +250,9 @@ namespace Cooking.WPF.Views
             }
         }
 
-        public void ImageSearch() => Recipe!.ImagePath = imageService.ImageSearch();
+        private void ImageSearch() => Recipe!.ImagePath = imageService.ImageSearch();
 
-        protected async Task ApplyChanges()
+        private async Task ApplyChanges()
         {
             if (Recipe!.ID == Guid.Empty)
             {
@@ -270,7 +270,7 @@ namespace Cooking.WPF.Views
             IsRecipeCreation = false;
         }
 
-        public async Task DeleteRecipe(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Recipe!.ID),
+        private async Task DeleteRecipe(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Recipe!.ID),
                                                                                            localization.GetLocalizedString("CannotUndo"),
                                                                                            successCallback: () => OnRecipeDeleted(recipeId))
                                                                           ;

@@ -3,11 +3,22 @@ using System.Threading.Tasks;
 
 namespace Cooking.WPF.Commands
 {
+    /// <summary>
+    /// ICommand implementation which force execution on separate thread. Takes arbitrary paremeter as input.
+    /// </summary>
+    /// <typeparam name="T">Command parameter type.</typeparam>
     public class AsyncDelegateCommand<T> : AsyncDelegateCommandBase
     {
         private readonly Func<T, bool>? canExecute;
         private readonly Func<T, Task> execute;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AsyncDelegateCommand{T}"/> class.
+        /// </summary>
+        /// <param name="execute">Function to execute on separate thread.</param>
+        /// <param name="canExecute">Function to determine if <see cref="execute"/> can be executed.</param>
+        /// <param name="executeOnce">Execute function only once, after that <see cref="canExecute"/> would return false regardless.</param>
+        /// <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution <see cref="canExecute"/> would return false.</param>
         public AsyncDelegateCommand(Func<T, Task> execute,
                                     Func<T, bool>? canExecute = null,
                                     bool executeOnce = false,
@@ -21,6 +32,7 @@ namespace Cooking.WPF.Commands
             CanExecuteSpecified = canExecute != null || FreezeWhenBusy || ExecuteOnce;
         }
 
+        /// <inheritdoc/>
         protected override bool CanExecuteAsyncInternal(object? parameter)
         {
             if (canExecute != null)
@@ -31,9 +43,7 @@ namespace Cooking.WPF.Commands
                 }
                 else if (parameter == null && typeof(T).IsClass)
                 {
-#pragma warning disable CS8653 // Выражение по умолчанию вводит значение NULL для параметра типа.
                     return canExecute(default);
-#pragma warning restore CS8653
                 }
                 else
                 {
@@ -44,6 +54,7 @@ namespace Cooking.WPF.Commands
             return true;
         }
 
+        /// <inheritdoc/>
         protected override async Task ExecuteAsyncInternal(object? parameter)
         {
             if (parameter is T tParameter)
@@ -52,9 +63,7 @@ namespace Cooking.WPF.Commands
             }
             else if (parameter == null && typeof(T).IsClass)
             {
-#pragma warning disable CS8653 // Выражение по умолчанию вводит значение NULL для параметра типа.
                 await execute(default);
-#pragma warning restore CS8653
             }
             else
             {

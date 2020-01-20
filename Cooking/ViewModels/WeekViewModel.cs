@@ -210,12 +210,15 @@ namespace Cooking.WPF.Views
 
         private async void DeleteDayAsync(Guid? dayId)
         {
-            Debug.WriteLine("MainPageViewModel.DeleteDayAsync");
-            DayOfWeek dayOfWeek = CurrentWeek.Days.Single(x => x.ID == dayId!).DayOfWeek;
-            await dialogUtils.ShowYesNoDialog(
-                  localization.GetLocalizedString("SureDelete", localization.GetLocalizedString(dayOfWeek)),
-                  localization.GetLocalizedString("CannotUndo"),
-                  successCallback: () => OnDayDeleted(dayId.Value));
+            if (dayId != null)
+            {
+                Debug.WriteLine("MainPageViewModel.DeleteDayAsync");
+                DayOfWeek dayOfWeek = CurrentWeek!.Days.Single(x => x.ID == dayId).DayOfWeek;
+                await dialogUtils.ShowYesNoDialog(
+                      localization.GetLocalizedString("SureDelete", localization.GetLocalizedString(dayOfWeek) ?? string.Empty),
+                      localization.GetLocalizedString("CannotUndo"),
+                      successCallback: () => OnDayDeleted(dayId.Value));
+            }
         }
 
         private bool CanDeleteDay(Guid? day) => day.HasValue;

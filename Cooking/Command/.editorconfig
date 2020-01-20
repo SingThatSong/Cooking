@@ -1,0 +1,6 @@
+[*.cs]
+# top-most EditorConfig file
+root = false
+
+# Using Reflection to validate parameter
+dotnet_diagnostic.CS8653.severity = none

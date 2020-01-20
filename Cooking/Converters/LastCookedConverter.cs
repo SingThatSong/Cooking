@@ -1,16 +1,16 @@
 ﻿using Cooking.WPF.Helpers;
+using Prism.Ioc;
 using Prism.Unity;
 using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using Prism.Ioc;
 
 namespace Cooking.WPF.Converters
 {
     public class LastCookedConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object? parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is int valueInt)
             {
@@ -46,6 +46,6 @@ namespace Cooking.WPF.Converters
         // (kudos Scott Chamberlain), if you do not support a conversion
         // back you should return a Binding.DoNothing or a
         // DependencyProperty.UnsetValue
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => Binding.DoNothing;
     }
 }

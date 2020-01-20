@@ -21,6 +21,14 @@ namespace Cooking.WPF.Views
     [AddINotifyPropertyChangedInterface]
     public partial class RecipeListViewModel : INavigationAware
     {
+        private readonly DialogService dialogUtils;
+        private readonly IContainerExtension container;
+        private readonly IRegionManager regionManager;
+        private readonly RecipeService recipeService;
+        private readonly IMapper mapper;
+        private readonly RecipeFiltrator recipeFiltrator;
+        private readonly ILocalization localization;
+
         public bool RecipiesNotFound { get; private set; }
         public CollectionViewSource RecipiesSource { get; set; }
         public ObservableCollection<RecipeSelectDto>? Recipies { get; private set; }
@@ -107,13 +115,6 @@ namespace Cooking.WPF.Views
         }
 
         private string? filterText;
-        private readonly DialogService dialogUtils;
-        private readonly IContainerExtension container;
-        private readonly IRegionManager regionManager;
-        private readonly RecipeService recipeService;
-        private readonly IMapper mapper;
-        private readonly RecipeFiltrator recipeFiltrator;
-        private readonly ILocalization localization;
 
         public string? FilterText
         {
@@ -157,6 +158,7 @@ namespace Cooking.WPF.Views
 
         public bool IsNavigationTarget(NavigationContext navigationContext) => true;
         public void OnNavigatedFrom(NavigationContext navigationContext)
-        { }
+        {
+        }
     }
 }
