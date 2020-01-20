@@ -38,9 +38,10 @@
                             Width="150"
                             HorizontalAlignment="Center"
                             FontSize="20"
+                            Height="54"
                             Text="{Binding Name}"
                             TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap"
+                            TextWrapping="Wrap"
                             ToolTip="{Binding Name}" />
                         <Image
                             Width="150"
