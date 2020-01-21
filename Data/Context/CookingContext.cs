@@ -9,6 +9,9 @@ using System.Linq.Expressions;
 
 namespace Cooking.Data.Context
 {
+    /// <summary>
+    /// Single database context for the project
+    /// </summary>
     public class CookingContext : DbContext
     {
         private string DbFilename { get; }
@@ -22,12 +25,7 @@ namespace Cooking.Data.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Data Source={DbFilename}")
-#if DEBUG
-                          //.UseLoggerFactory(new ConsoleLoggerFactory())
-                          //.EnableSensitiveDataLogging()
-#endif
-                          ;
+            optionsBuilder.UseSqlite($"Data Source={DbFilename}");
 
             if (UseLazyLoading)
             {
