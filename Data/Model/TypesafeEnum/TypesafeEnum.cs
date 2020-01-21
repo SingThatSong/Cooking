@@ -10,7 +10,7 @@
         /// Initializes a new instance of the <see cref="TypesafeEnum"/> class.
         /// </summary>
         /// <param name="id">Enum identificator.</param>
-        public TypesafeEnum(int id)
+        protected TypesafeEnum(int id)
         {
             ID = id;
         }
