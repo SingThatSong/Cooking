@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
 using Cooking.Data.Model;
+using Microsoft.EntityFrameworkCore;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace Cooking.ServiceLayer
         public virtual List<T> GetAll()
         {
             using CookingContext context = ContextFactory.Create();
-            return GetCultureSpecificSet(context).ToList();
+            return GetCultureSpecificSet(context).AsNoTracking().ToList();
         }
 
         public virtual TProjection GetProjected<TProjection>(Guid id) where TProjection : Entity => GetProjected<TProjection>(id, MapperService.Mapper);
@@ -33,7 +34,7 @@ namespace Cooking.ServiceLayer
         {
             using CookingContext context = ContextFactory.Create();
             IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context);
-            return mapper.ProjectTo<TProjection>(cultureSpecificSet).FirstOrDefault(x => x.ID == id);
+            return mapper.ProjectTo<TProjection>(cultureSpecificSet).AsNoTracking().FirstOrDefault(x => x.ID == id);
         }
 
         public List<TProjection> GetProjected<TProjection>() => GetProjected<TProjection>(MapperService.Mapper);
@@ -41,7 +42,7 @@ namespace Cooking.ServiceLayer
         public List<TProjection> GetProjected<TProjection>(IMapper mapper)
         {
             using CookingContext context = ContextFactory.Create();
-            IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context);
+            IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context).AsNoTracking();
             return mapper.ProjectTo<TProjection>(cultureSpecificSet).ToList();
         }
 
