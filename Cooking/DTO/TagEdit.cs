@@ -4,6 +4,9 @@ using Validar;
 
 namespace Cooking.WPF.DTO
 {
+    /// <summary>
+    /// Dto for tag edit.
+    /// </summary>
     [InjectValidation]
     public class TagEdit : Entity, INotifyPropertyChanged
     {

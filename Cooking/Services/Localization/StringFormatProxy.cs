@@ -33,6 +33,8 @@ namespace Cooking.WPF
         [DependencyProperty]
         public string? Result { get; set; }
 
+        [SuppressMessage("Стиль", "IDE0060", Justification = "args is an argument for OnPropertyChanged injected by Bindables.Fody")]
+        [SuppressMessage("Стиль", "CA1801",  Justification = "args is an argument for OnPropertyChanged injected by Bindables.Fody")]
         private static void DataChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             if (sender is StringFormatProxy sfp && sfp.StringFormat != null)

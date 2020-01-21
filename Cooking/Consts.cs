@@ -1,5 +1,8 @@
 ﻿namespace Cooking
 {
+    /// <summary>
+    /// Collection of project's constants
+    /// </summary>
     public static class Consts
     {
         public const string TagSymbol = "#";

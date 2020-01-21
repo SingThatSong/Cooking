@@ -45,9 +45,10 @@ using WPFLocalizeExtension.Providers;
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
 // TODO: Plurals localization
 // TODO: Add config to change app theme
-
+// TODO: Move all typesafe enums to tables with localization or to simple enums (IngredientType)
 // TODO: Count calories for recipe
 // TODO: Set calorietype accordingly to counted calories
+// TODO: Replace recipe filtration on client with db filtration
 
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
@@ -71,6 +72,7 @@ using WPFLocalizeExtension.Providers;
 // Db-related
 // TODO: Create installer (Inno setup)
 // TODO: Create db migrator for installer
+// TODO: Ensure cascade deletions
 
 // TODO: Replace Extended.WPF.Toolkit when 4.0.0 arrives: https://github.com/xceedsoftware/wpftoolkit/releases
 
