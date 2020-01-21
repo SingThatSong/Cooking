@@ -3,8 +3,12 @@ using System;
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Migration to add localization to all tables.
+    /// </summary>
     public partial class AddLocalization : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
@@ -56,6 +60,7 @@ namespace Cooking.Data.Migrations
                 nullable: false);
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             throw new NotSupportedException();

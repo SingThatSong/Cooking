@@ -3,8 +3,12 @@ using System;
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Migration to change week-days relation from set of FKs to one-to-many.
+    /// </summary>
     public partial class DayWeekRelation : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<Guid>(
@@ -25,9 +29,9 @@ namespace Cooking.Data.Migrations
 									                                      or FridayID = Day.ID
 									                                      or SaturdayID = Day.ID
 									                                      or SundayID = Day.ID);");
-
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(

@@ -2,8 +2,12 @@
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Migration to ensure that day removal do not remove week.
+    /// </summary>
     public partial class RemoveDayNotRemovesWeek : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("PRAGMA writable_schema=1;");
@@ -31,6 +35,7 @@ namespace Cooking.Data.Migrations
     WHERE type='table' AND name='Weeks';");
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
         }

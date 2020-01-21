@@ -3,8 +3,12 @@ using System;
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Migration to add garnishes.
+    /// </summary>
     public partial class AddGarnish : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropIndex(
@@ -24,6 +28,7 @@ namespace Cooking.Data.Migrations
                 });
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

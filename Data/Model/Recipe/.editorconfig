@@ -1,0 +1,6 @@
+[*.cs]
+# top-most EditorConfig file
+root = false
+
+# Allow editing for entities
+dotnet_diagnostic.CA2227.severity = none

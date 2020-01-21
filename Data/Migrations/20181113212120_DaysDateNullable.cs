@@ -3,8 +3,12 @@ using System;
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Set Date for day nullable.
+    /// </summary>
     public partial class DaysDateNullable : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<DateTime>(
@@ -13,6 +17,7 @@ namespace Cooking.Data.Migrations
                 nullable: true);
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(

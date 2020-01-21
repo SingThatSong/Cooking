@@ -3,8 +3,12 @@ using System;
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Initial migration.
+    /// </summary>
     public partial class Initial : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -280,6 +284,7 @@ namespace Cooking.Data.Migrations
                 unique: true);
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

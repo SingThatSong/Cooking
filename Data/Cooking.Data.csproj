@@ -28,12 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Migrations\20181218221148_RemoveCascade.Designer.cs">
-      <DependentUpon>20181218221148_RemoveCascade.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
     <EditorConfigFiles Update="C:\Repos\Cooking\.editorconfig" Link="Model\.editorconfig" />
   </ItemGroup>
 

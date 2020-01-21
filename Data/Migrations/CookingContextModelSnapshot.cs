@@ -9,6 +9,7 @@ namespace Cooking.Data.Migrations
     [DbContext(typeof(CookingContext))]
     partial class CookingContextModelSnapshot : ModelSnapshot
     {
+
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

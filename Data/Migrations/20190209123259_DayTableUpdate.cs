@@ -2,8 +2,12 @@
 
 namespace Cooking.Data.Migrations
 {
-    public partial class actual : Migration
+    /// <summary>
+    /// Cascade delete on Day table.
+    /// </summary>
+    public partial class DayTableUpdate : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql("PRAGMA writable_schema=1;");
@@ -18,6 +22,7 @@ namespace Cooking.Data.Migrations
                 WHERE type='table' AND name='Day';");
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
         }

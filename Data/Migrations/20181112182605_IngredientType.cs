@@ -2,8 +2,12 @@
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Migration to add type to ingredients.
+    /// </summary>
     public partial class IngredientType : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
@@ -12,6 +16,7 @@ namespace Cooking.Data.Migrations
                 nullable: true);
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(

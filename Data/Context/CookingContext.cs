@@ -10,19 +10,64 @@ using System.Linq.Expressions;
 namespace Cooking.Data.Context
 {
     /// <summary>
-    /// Single database context for the project
+    /// Single database context for the project.
     /// </summary>
     public class CookingContext : DbContext
     {
-        private string DbFilename { get; }
-        public bool UseLazyLoading { get; }
-
-        public CookingContext(string dbFilename = "cooking.db", bool useLazyLoading = false)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CookingContext"/> class.
+        /// </summary>
+        /// <param name="dbFilename">Database file name.</param>
+        /// <param name="useLazyLoading">Use lazy loading in this context.</param>
+        public CookingContext(string dbFilename, bool useLazyLoading = false)
         {
             DbFilename = dbFilename;
             UseLazyLoading = useLazyLoading;
         }
 
+        /// <summary>
+        /// Gets a value indicating whether context uses lazy loading.
+        /// </summary>
+        public bool UseLazyLoading { get; }
+
+        /// <summary>
+        /// Gets or sets weeks repository.
+        /// </summary>
+        public DbSet<Week> Weeks { get; set; }
+
+        /// <summary>
+        /// Gets or sets days repository.
+        /// </summary>
+        public DbSet<Day> Days { get; set; }
+
+        /// <summary>
+        /// Gets or sets recipies repository.
+        /// </summary>
+        public DbSet<Recipe> Recipies { get; set; }
+
+        /// <summary>
+        /// Gets or sets ingredients repository.
+        /// </summary>
+        public DbSet<Ingredient> Ingredients { get; set; }
+
+        /// <summary>
+        /// Gets or sets ingredients in recipe repository.
+        /// </summary>
+        public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
+
+        /// <summary>
+        /// Gets or sets tags repository.
+        /// </summary>
+        public DbSet<Tag> Tags { get; set; }
+
+        /// <summary>
+        /// Gets or sets garnishes repository.
+        /// </summary>
+        public DbSet<Garnish> Garnishes { get; set; }
+
+        private string DbFilename { get; }
+
+        /// <inheritdoc/>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite($"Data Source={DbFilename}");
@@ -33,9 +78,11 @@ namespace Cooking.Data.Context
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Day>().ToTable("Day");
+            modelBuilder.Entity<Day>()
+                .ToTable("Day");
 
             modelBuilder.Entity<Day>()
                 .HasOne(x => x.Dinner)
@@ -52,13 +99,13 @@ namespace Cooking.Data.Context
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Ingredient>()
+                .Ignore(x => x.Type);
 
             modelBuilder.Entity<Recipe>()
                 .HasMany(x => x.Ingredients)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
-
-
 
             modelBuilder.Entity<RecipeIngredient>()
                 .HasOne(x => x.Ingredient)
@@ -66,6 +113,8 @@ namespace Cooking.Data.Context
                 .HasForeignKey(x => x.IngredientId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
+            modelBuilder.Entity<RecipeIngredient>()
+                .Ignore(x => x.MeasureUnit);
 
             modelBuilder.Entity<Week>()
                 .HasMany(x => x.Days)
@@ -101,7 +150,6 @@ namespace Cooking.Data.Context
             SetPropertyGuidType<Day>(modelBuilder, e => e.WeekID);
             SetPropertyGuidType<Day>(modelBuilder, e => e.DinnerID);
             SetPropertyGuidType<RecipeIngredient>(modelBuilder, e => e.IngredientId);
-
         }
 
         private void SetPropertyGuidType<T>(ModelBuilder modelBuilder, Expression<Func<T, Guid?>> propertyExpression)
@@ -126,7 +174,8 @@ namespace Cooking.Data.Context
                     b => new Guid(b));
         }
 
-        private void SetGuidType<T>(ModelBuilder modelBuilder) where T : Entity
+        private void SetGuidType<T>(ModelBuilder modelBuilder)
+            where T : Entity
         {
             modelBuilder.Entity<T>()
                 .Property(e => e.ID)
@@ -135,16 +184,6 @@ namespace Cooking.Data.Context
                     g => g.ToByteArray(),
                     b => new Guid(b));
         }
-
-        public DbSet<Week> Weeks { get; set; }
-        public DbSet<Day> Days { get; set; }
-
-
-        public DbSet<Recipe> Recipies { get; set; }
-        public DbSet<Ingredient> Ingredients { get; set; }
-        public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<Garnish> Garnishes { get; set; }
     }
 
 #pragma warning restore CS8618, CS8602, CS8603, CS8629

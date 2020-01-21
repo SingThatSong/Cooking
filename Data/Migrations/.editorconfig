@@ -1,0 +1,7 @@
+[*.cs]
+# top-most EditorConfig file
+root = false
+
+# Use scaffolding format for migrations
+dotnet_diagnostic.IDE0022.severity = none
+dotnet_diagnostic.SA1413.severity = none

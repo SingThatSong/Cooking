@@ -2,8 +2,12 @@
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Migration to add source for recipe.
+    /// </summary>
     public partial class RecipeSource : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
@@ -12,6 +16,7 @@ namespace Cooking.Data.Migrations
                 nullable: true);
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(

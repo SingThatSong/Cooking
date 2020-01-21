@@ -2,8 +2,12 @@
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Migration to enforce that recipe names must be unique.
+    /// </summary>
     public partial class NameUnique : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateIndex(
@@ -13,6 +17,7 @@ namespace Cooking.Data.Migrations
                 unique: true);
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropIndex(

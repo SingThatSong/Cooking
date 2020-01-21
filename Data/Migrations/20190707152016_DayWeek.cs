@@ -2,8 +2,12 @@
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Move data accordingly to prev. migration.
+    /// </summary>
     public partial class DayWeek : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropIndex(
@@ -40,7 +44,6 @@ namespace Cooking.Data.Migrations
                 nullable: false,
                 defaultValue: 0);
 
-
             migrationBuilder.Sql(@"update Day
                                    set DayOfWeek = 0
                                    where WeekID in (select ID from Weeks where SundayID = Day.ID);
@@ -70,6 +73,7 @@ namespace Cooking.Data.Migrations
                                    where WeekID in (select ID from Weeks where SaturdayID = Day.ID);");
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
         }

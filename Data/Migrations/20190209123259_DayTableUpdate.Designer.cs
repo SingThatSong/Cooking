@@ -8,8 +8,8 @@ using System;
 namespace Cooking.Data.Migrations
 {
     [DbContext(typeof(CookingContext))]
-    [Migration("20181218221148_RemoveCascade")]
-    partial class RemoveCascade
+    [Migration("20190209123259_actual")]
+    partial class DayTableUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -209,7 +209,8 @@ namespace Cooking.Data.Migrations
                 {
                     b.HasOne("Data.Model.Recipe", "Dinner")
                         .WithMany()
-                        .HasForeignKey("DinnerID");
+                        .HasForeignKey("DinnerID")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Data.Model.Plan.Week", b =>
