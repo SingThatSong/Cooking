@@ -1,5 +1,4 @@
-﻿using Cooking.ServiceLayer.Projections;
-using Cooking.WPF.DTO;
+﻿using Cooking.WPF.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,10 +11,10 @@ namespace Cooking.WPF.Views
         public event PropertyChangedEventHandler? PropertyChanged;
 
         // Рецепт, указанный вручную
-        public RecipeSlim? SpecificRecipe { get; set; }
-        public RecipeSlim? Recipe { get; set; }
+        public RecipeListViewDto? SpecificRecipe { get; set; }
+        public RecipeListViewDto? Recipe { get; set; }
 
-        public List<RecipeSlim>? RecipeAlternatives { get; set; }
+        public List<RecipeListViewDto>? RecipeAlternatives { get; set; }
 
         public int? MinRating { get; set; }
         public int? MaxComplexity { get; set; }

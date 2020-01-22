@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Cooking.Data.Model;
 using Cooking.Data.Model.Plan;
-using Cooking.ServiceLayer;
-using Cooking.ServiceLayer.Projections;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using System.Collections.ObjectModel;
@@ -29,9 +27,19 @@ namespace Cooking
                     cfg.CreateMap<TagEdit, TagEdit>();
                     cfg.CreateMap<IngredientEdit, IngredientEdit>();
 
+                    // Base mapping for db-dto mappings
+                    cfg.CreateMap<Entity, Entity>();
+
                     // Project Recipe from db to displayed in lists
                     cfg.CreateMap<Recipe, RecipeListViewDto>()
                        .AfterMap<RecipeDtoConverter>();
+
+                    // Project Recipe from db to displayed in recipe view
+                    cfg.CreateMap<Recipe, RecipeEdit>()
+                       .IncludeBase<Entity, Entity>()
+                       .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags.Select(t => t.Tag)))
+                       .AfterMap<RecipeConverter>();
+
 
                     // Cleanup below
                     // -----------------------
@@ -43,27 +51,6 @@ namespace Cooking
                     cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>();
                     cfg.CreateMap<IngredientsGroup, IngredientGroupEdit>();
 
-                    cfg.CreateMap<Recipe, RecipeEdit>()
-                       .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags.Select(t => t.Tag)))
-                       .AfterMap<RecipeConverter>();
-
-                    cfg.CreateMap<RecipeSlim, RecipeListViewDto>();
-                    cfg.CreateMap<RecipeFull, RecipeEdit>()
-                    .AfterMap((src, dest) =>
-                    {
-                        if (dest.Ingredients != null)
-                        {
-                            dest.Ingredients = new ObservableCollection<RecipeIngredientEdit>(dest.Ingredients.OrderBy(x => x.Order));
-                        }
-
-                        if (dest.IngredientGroups != null)
-                        {
-                            foreach (IngredientGroupEdit group in dest.IngredientGroups)
-                            {
-                                group.Ingredients = new ObservableCollection<RecipeIngredientEdit>(group.Ingredients.OrderBy(x => x.Order));
-                            }
-                        }
-                    });
 
                     cfg.CreateMap<RecipeEdit, Recipe>()
                        .AfterMap((src, dest) =>
@@ -81,16 +68,12 @@ namespace Cooking
                     cfg.CreateMap<RecipeIngredientEdit, RecipeIngredient>()
                        .ForMember(x => x.Ingredient, opts => opts.Ignore());
 
-                    cfg.CreateMap<RecipeIngredientData, RecipeIngredientEdit>();
-                    cfg.CreateMap<TagData, TagEdit>();
                     cfg.CreateMap<TagEdit, Tag>();
                     cfg.CreateMap<TagEdit, RecipeTag>()
                         .ForMember(x => x.TagId, opt => opt.MapFrom(x => x.ID));
 
                     cfg.CreateMap<IngredientGroupEdit, IngredientGroupEdit>();
                     cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>();
-                    cfg.CreateMap<IngredientGroupData, IngredientGroupEdit>();
-                    cfg.CreateMap<IngredientData, IngredientEdit>();
                 });
     }
 }

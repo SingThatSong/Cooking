@@ -942,6 +942,11 @@
             Gets or sets count of days since recipe was last cooked. Not edited by user.
             </summary>
         </member>
+        <member name="T:Cooking.WPF.DTO.TagEdit">
+            <summary>
+            Dto for tag edit.
+            </summary>
+        </member>
         <member name="T:Cooking.WPF.Helpers.JsonLocalizationProvider">
             <summary>
             Json localization provider for WPFLocalizeExtension.
@@ -1034,6 +1039,11 @@
         <member name="P:Cooking.WPF.StringFormatProxy.Result">
             <summary>
             Gets or sets formatted result.
+            </summary>
+        </member>
+        <member name="T:Cooking.Consts">
+            <summary>
+            Collection of project's constants
             </summary>
         </member>
         <member name="T:Cooking.MainWindowView">

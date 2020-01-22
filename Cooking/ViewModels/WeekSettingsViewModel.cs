@@ -27,6 +27,7 @@ namespace Cooking.WPF.Views
         private readonly IContainerExtension container;
         private readonly RecipeService recipeService;
         private readonly ILocalization localization;
+        private readonly IMapper mapper;
         private NavigationContext? navigationContext;
 
         public DateTime WeekStart { get; private set; }
@@ -43,7 +44,8 @@ namespace Cooking.WPF.Views
                                      TagService tagService,
                                      IContainerExtension container,
                                      RecipeService recipeService,
-                                     ILocalization localization)
+                                     ILocalization localization,
+                                     IMapper mapper)
         {
             this.dialogUtils = dialogUtils;
             this.regionManager = regionManager;
@@ -51,6 +53,8 @@ namespace Cooking.WPF.Views
             this.container = container;
             this.recipeService = recipeService;
             this.localization = localization;
+            this.mapper = mapper;
+
             Days = new List<DayPlan>()
             {
                 new DayPlan(),
@@ -108,9 +112,11 @@ namespace Cooking.WPF.Views
                     requiredCalorieTyoes.AddRange(day.CalorieTypes.Select(x => x.CalorieType));
                 }
 
-                day.RecipeAlternatives = recipeService.GetRecipiesByParameters(requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
+                List<Recipe> filteredRecipies = recipeService.GetRecipiesByParameters(requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
 
-                IEnumerable<ServiceLayer.Projections.RecipeSlim?> selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
+                day.RecipeAlternatives = mapper.Map<List<RecipeListViewDto>>(filteredRecipies);
+
+                IEnumerable<RecipeListViewDto?> selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
                 var recipiesNotSelectedYet = day.RecipeAlternatives.Where(x => !selectedRecipies.Any(selected => selected!.ID == x.ID)).ToList();
 
                 if (recipiesNotSelectedYet.Count > 0)

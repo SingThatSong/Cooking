@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Cooking.Data.Model;
 using Cooking.ServiceLayer;
-using Cooking.ServiceLayer.Projections;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Events;
 using Plafi;
@@ -16,7 +16,7 @@ namespace Cooking.WPF.Helpers
         private readonly RecipeService recipeService;
         private readonly IMapper mapper;
 
-        private Dictionary<Guid, RecipeFull>? recipeCache;
+        private Dictionary<Guid, Recipe>? recipeCache;
         private FilterContext<RecipeListViewDto> FilterContext { get; set; }
 
         public RecipeFiltrator(RecipeService recipeService,
@@ -52,7 +52,7 @@ namespace Cooking.WPF.Helpers
         {
             if (recipeCache != null)
             {
-                recipeCache[obj.ID] = recipeService.GetProjected<RecipeFull>(obj.ID);
+                recipeCache[obj.ID] = recipeService.GetProjected<Recipe>(obj.ID, mapper);
             }
         }
 
@@ -63,7 +63,7 @@ namespace Cooking.WPF.Helpers
                 return;
             }
 
-            recipeCache!.Add(obj.ID, mapper.Map<RecipeFull>(obj));
+            recipeCache!.Add(obj.ID, mapper.Map<Recipe>(obj));
         }
 
         public bool FilterObject(RecipeListViewDto recipe) => FilterContext.IsExpressionBuilt ? FilterContext.Filter(recipe) : false;
@@ -75,7 +75,7 @@ namespace Cooking.WPF.Helpers
                 FilterContext.BuildExpression(newText);
                 if (recipeCache == null)
                 {
-                    recipeCache = recipeService.GetProjected<RecipeFull>().ToDictionary(x => x.ID, x => x);
+                    recipeCache = recipeService.GetProjected<Recipe>(mapper).ToDictionary(x => x.ID, x => x);
                 }
             }
         }
@@ -84,15 +84,15 @@ namespace Cooking.WPF.Helpers
         private bool HasName(RecipeListViewDto recipe, string name) => recipe.Name != null && recipe.Name.ToUpperInvariant().Contains(name.ToUpperInvariant(), StringComparison.Ordinal);
         private bool HasTag(RecipeListViewDto recipe, string category)
         {
-            RecipeFull recipeDb = recipeCache![recipe.ID];
+            Recipe recipeDb = recipeCache![recipe.ID];
             return recipeDb.Tags != null && recipeDb.Tags
-                                                    .Where(x => x.Name != null)
-                                                    .Any(x => x.Name!.ToUpperInvariant() == category.ToUpperInvariant());
+                                                    .Where(x => x.Tag?.Name != null)
+                                                    .Any(x => x.Tag!.Name!.ToUpperInvariant() == category.ToUpperInvariant());
         }
 
         private bool HasIngredient(RecipeListViewDto recipe, string category)
         {
-            RecipeFull recipeDb = recipeCache![recipe.ID];
+            Recipe recipeDb = recipeCache![recipe.ID];
 
             // Ищем среди ингредиентов
             if (recipeDb.Ingredients != null
@@ -105,7 +105,7 @@ namespace Cooking.WPF.Helpers
             // Ищем среди групп ингредиентов
             if (recipeDb.IngredientGroups != null)
             {
-                foreach (IngredientGroupData group in recipeDb.IngredientGroups)
+                foreach (IngredientsGroup group in recipeDb.IngredientGroups)
                 {
                     if (group.Ingredients.Where(x => x.Ingredient?.Name != null)
                                          .Any(x => x.Ingredient!.Name!.ToUpperInvariant() == category.ToUpperInvariant()))

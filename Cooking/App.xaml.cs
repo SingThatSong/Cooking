@@ -73,6 +73,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Create installer (Inno setup)
 // TODO: Create db migrator for installer
 // TODO: Ensure cascade deletions
+// TODO: Ensure effective Db Select (get rid of lazy loading)
 
 // TODO: Replace Extended.WPF.Toolkit when 4.0.0 arrives: https://github.com/xceedsoftware/wpftoolkit/releases
 

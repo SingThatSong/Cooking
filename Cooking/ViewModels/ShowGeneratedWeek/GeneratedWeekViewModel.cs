@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Cooking.ServiceLayer;
-using Cooking.ServiceLayer.Projections;
 using Cooking.WPF.Commands;
+using Cooking.WPF.DTO;
 using Cooking.WPF.Helpers;
 using Prism.Ioc;
 using Prism.Regions;
@@ -92,9 +92,10 @@ namespace Cooking.WPF.Views
 
         private async void SetRecipeManually(DayPlan day)
         {
+            IMapper mapper = container.Resolve<IMapper>();
             var viewModel = new RecipeSelectViewModel(dialogUtils,
                                                       recipeService,
-                                                      container.Resolve<IMapper>(),
+                                                      mapper,
                                                       container.Resolve<RecipeFiltrator>(),
                                                       container.Resolve<ILocalization>(),
                                                       day);
@@ -103,7 +104,7 @@ namespace Cooking.WPF.Views
 
             if (viewModel.DialogResultOk)
             {
-                day.SpecificRecipe = recipeService.GetProjected<RecipeSlim>(viewModel.SelectedRecipeID!.Value);
+                day.SpecificRecipe = recipeService.GetProjected<RecipeListViewDto>(viewModel.SelectedRecipeID!.Value, mapper);
             }
         }
 

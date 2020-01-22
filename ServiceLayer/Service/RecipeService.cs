@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
 using Cooking.Data.Model;
-using Cooking.ServiceLayer.Projections;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer;
 using System;
@@ -52,7 +51,7 @@ namespace Cooking.ServiceLayer
             return lastCookedId[recipeId] = dayService.GetLastCookedDate(recipeId);
         }
 
-        public List<RecipeSlim> GetRecipiesByParameters(List<Guid>? requiredTags, List<CalorieType>? calorieTypes, int? maxComplexity, int? minRating, bool onlyNew)
+        public List<Recipe> GetRecipiesByParameters(List<Guid>? requiredTags, List<CalorieType>? calorieTypes, int? maxComplexity, int? minRating, bool onlyNew)
         {
             Debug.WriteLine("RecipeService.GetRecipies");
 
@@ -100,7 +99,7 @@ namespace Cooking.ServiceLayer
                 query = query.Where(x => x.Rating >= minRating.Value);
             }
 
-            var queryResult = MapperService.Mapper.ProjectTo<RecipeSlim>(query).ToList();
+            var queryResult = query.ToList();
 
             // Клиентская фильтрация
             if (onlyNew)

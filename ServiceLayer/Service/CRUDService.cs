@@ -28,16 +28,12 @@ namespace Cooking.ServiceLayer
             return GetCultureSpecificSet(context).AsNoTracking().ToList();
         }
 
-        public virtual TProjection GetProjected<TProjection>(Guid id) where TProjection : Entity => GetProjected<TProjection>(id, MapperService.Mapper);
-
         public virtual TProjection GetProjected<TProjection>(Guid id, IMapper mapper) where TProjection : Entity
         {
             using CookingContext context = ContextFactory.Create();
             IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context);
             return mapper.ProjectTo<TProjection>(cultureSpecificSet).AsNoTracking().FirstOrDefault(x => x.ID == id);
         }
-
-        public List<TProjection> GetProjected<TProjection>() => GetProjected<TProjection>(MapperService.Mapper);
 
         public List<TProjection> GetProjected<TProjection>(IMapper mapper)
         {
