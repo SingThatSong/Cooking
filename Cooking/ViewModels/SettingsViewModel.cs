@@ -11,6 +11,11 @@ namespace Cooking.WPF.Views
 {
     public class SettingsViewModel
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="localization"></param>
         public SettingsViewModel(ILogger logger, ILocalization localization)
         {
             ChangedCommand = new DelegateCommand(() =>

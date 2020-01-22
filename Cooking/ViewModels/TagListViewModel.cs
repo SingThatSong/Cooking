@@ -33,6 +33,14 @@ namespace Cooking.WPF.Views
         public DelegateCommand<Guid> DeleteTagCommand { get; }
         public DelegateCommand LoadedCommand { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TagListViewModel"/> class.
+        /// </summary>
+        /// <param name="regionManager"></param>
+        /// <param name="dialogUtils"></param>
+        /// <param name="tagService"></param>
+        /// <param name="mapper"></param>
+        /// <param name="localization"></param>
         public TagListViewModel(IRegionManager regionManager, DialogService dialogUtils, TagService tagService, IMapper mapper, ILocalization localization)
         {
             this.regionManager = regionManager;

@@ -18,6 +18,10 @@ namespace Cooking.Web.Controllers
     {
         private readonly WeekService weekService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SampleDataController"/> class.
+        /// </summary>
+        /// <param name="weekService"></param>
         public SampleDataController(WeekService weekService)
         {
             this.weekService = weekService;
@@ -25,6 +29,10 @@ namespace Cooking.Web.Controllers
 
         private string Database => @"C:\Cooking\publish\cooking.db";
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpGet("[action]")]
         public async Task<IEnumerable<Recipe>> WeatherForecasts()
         {
@@ -43,6 +51,11 @@ namespace Cooking.Web.Controllers
             return result;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpGet("[action]/{id}")]
         public async Task<Recipe?> WeatherForecasts(Guid id)
         {
@@ -64,6 +77,10 @@ namespace Cooking.Web.Controllers
             return result;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpGet("[action]/currentweek")]
         public async Task<Week> CurrentWeek()
         {

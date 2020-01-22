@@ -19,6 +19,12 @@ namespace Cooking.WPF.Helpers
         private Dictionary<Guid, Recipe>? recipeCache;
         private FilterContext<RecipeListViewDto> FilterContext { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecipeFiltrator"/> class.
+        /// </summary>
+        /// <param name="recipeService"></param>
+        /// <param name="eventAggregator"></param>
+        /// <param name="mapper"></param>
         public RecipeFiltrator(RecipeService recipeService,
                                IEventAggregator eventAggregator,
                                IMapper mapper)

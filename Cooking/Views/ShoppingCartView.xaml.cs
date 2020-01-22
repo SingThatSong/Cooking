@@ -7,6 +7,9 @@ namespace Cooking.WPF.Views
     /// </summary>
     public partial class ShoppingCartView
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShoppingCartView"/> class.
+        /// </summary>
         public ShoppingCartView()
         {
             InitializeComponent();

@@ -19,6 +19,13 @@ namespace Cooking.WPF.Views
         private readonly IMapper mapper;
         private readonly ILocalization localization;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TagSelectViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogUtils"></param>
+        /// <param name="tagService"></param>
+        /// <param name="mapper"></param>
+        /// <param name="localization"></param>
         public TagSelectViewModel(DialogService dialogUtils, TagService tagService, IMapper mapper, ILocalization localization)
             : base(dialogUtils)
         {

@@ -8,6 +8,9 @@ namespace Cooking.WPF.Views
     /// </summary>
     public partial class WeekView : UserControl, IRegionMemberLifetime
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeekView"/> class.
+        /// </summary>
         public WeekView()
         {
             InitializeComponent();

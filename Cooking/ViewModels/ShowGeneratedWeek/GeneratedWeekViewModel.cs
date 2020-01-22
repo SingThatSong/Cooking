@@ -34,6 +34,14 @@ namespace Cooking.WPF.Views
         public DelegateCommand OkCommand { get; }
         public DelegateCommand CloseCommand { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneratedWeekViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogUtils"></param>
+        /// <param name="regionManager"></param>
+        /// <param name="recipeService"></param>
+        /// <param name="container"></param>
+        /// <param name="weekService"></param>
         public GeneratedWeekViewModel(DialogService dialogUtils,
                                           IRegionManager regionManager,
                                           RecipeService recipeService,

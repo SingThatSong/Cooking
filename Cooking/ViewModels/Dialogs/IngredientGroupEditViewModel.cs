@@ -7,6 +7,11 @@ namespace Cooking.WPF.Views
     public partial class IngredientGroupEditViewModel : OkCancelViewModel
     {
         public DelegateCommand LoadedCommand { get; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IngredientGroupEditViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogService"></param>
+        /// <param name="ingredientGroup"></param>
         public IngredientGroupEditViewModel(DialogService dialogService, IngredientGroupEdit? ingredientGroup = null)
             : base(dialogService)
         {

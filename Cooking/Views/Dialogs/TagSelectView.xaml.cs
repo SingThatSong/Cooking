@@ -7,6 +7,9 @@ namespace Cooking.WPF.Views
     /// </summary>
     public partial class TagSelectView
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TagSelectView"/> class.
+        /// </summary>
         public TagSelectView()
         {
             InitializeComponent();

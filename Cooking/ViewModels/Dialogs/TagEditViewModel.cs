@@ -28,6 +28,13 @@ namespace Cooking.WPF.Views
         public string? ColorPickerStandartCaption => localization.GetLocalizedString("ColorPicker_Standart");
 
         public DelegateCommand LoadedCommand { get; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TagEditViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogService"></param>
+        /// <param name="tagService"></param>
+        /// <param name="localization"></param>
+        /// <param name="category"></param>
         public TagEditViewModel(DialogService dialogService, TagService tagService, ILocalization localization, TagEdit? category = null)
             : base(dialogService)
         {

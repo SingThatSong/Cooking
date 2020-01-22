@@ -33,6 +33,13 @@ namespace Cooking.WPF.Views
         public DelegateCommand<GarnishEdit> EditGarnishCommand { get; }
         public DelegateCommand<Guid> DeleteGarnishCommand { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GarnishListViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogUtils"></param>
+        /// <param name="garnishService"></param>
+        /// <param name="mapper"></param>
+        /// <param name="localization"></param>
         public GarnishListViewModel(DialogService dialogUtils, GarnishService garnishService, IMapper mapper, ILocalization localization)
         {
             this.dialogUtils = dialogUtils;

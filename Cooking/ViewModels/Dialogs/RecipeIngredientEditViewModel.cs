@@ -38,6 +38,14 @@ namespace Cooking.WPF.Views
 
         public List<IngredientEdit> AllIngredients { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecipeIngredientEditViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogUtils"></param>
+        /// <param name="ingredientService"></param>
+        /// <param name="mapper"></param>
+        /// <param name="localization"></param>
+        /// <param name="ingredient"></param>
         public RecipeIngredientEditViewModel(DialogService dialogUtils,
                                              IngredientService ingredientService,
                                              IMapper mapper,

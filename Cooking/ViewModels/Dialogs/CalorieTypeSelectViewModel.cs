@@ -13,6 +13,12 @@ namespace Cooking.WPF.ViewModels
     {
         public ObservableCollection<CalorieTypeSelection> AllValues { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CalorieTypeSelectViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogService"></param>
+        /// <param name="localization"></param>
+        /// <param name="selectedTypes"></param>
         public CalorieTypeSelectViewModel(DialogService dialogService, ILocalization localization, IEnumerable<CalorieTypeSelection>? selectedTypes)
             : base(dialogService)
         {

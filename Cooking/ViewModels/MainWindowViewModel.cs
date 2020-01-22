@@ -12,6 +12,11 @@ namespace Cooking
     [AddINotifyPropertyChangedInterface]
     public class MainWindowViewModel
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
+        /// </summary>
+        /// <param name="localizationProvider"></param>
+        /// <param name="localization"></param>
         public MainWindowViewModel(ILocalizationProvider localizationProvider, ILocalization localization)
         {
             LocalizationProvider = localizationProvider;

@@ -11,6 +11,10 @@ namespace Cooking
     {
         private readonly IRegionManager regionManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainWindowView"/> class.
+        /// </summary>
+        /// <param name="regionManager"></param>
         public MainWindowView(IRegionManager regionManager)
         {
             InitializeComponent();

@@ -29,6 +29,13 @@ namespace Cooking.WPF.Views
         private List<string> AllGarnishNames { get; set; }
         public DelegateCommand LoadedCommand { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GarnishEditViewModel"/> class.
+        /// </summary>
+        /// <param name="garnish"></param>
+        /// <param name="garnishService"></param>
+        /// <param name="dialogService"></param>
+        /// <param name="localization"></param>
         public GarnishEditViewModel(GarnishEdit? garnish,
                                     GarnishService garnishService,
                                     DialogService dialogService,

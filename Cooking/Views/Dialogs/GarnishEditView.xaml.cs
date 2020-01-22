@@ -7,6 +7,9 @@ namespace Cooking.WPF.Views
     /// </summary>
     public partial class GarnishEditView
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GarnishEditView"/> class.
+        /// </summary>
         public GarnishEditView()
         {
             InitializeComponent();

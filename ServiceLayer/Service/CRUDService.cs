@@ -11,10 +11,22 @@ using System.Threading.Tasks;
 
 namespace Cooking.ServiceLayer
 {
-    public class CRUDService<T> where T : Entity, new()
+    /// <summary>
+    /// Basic create-retrieve-update-delete service.
+    /// </summary>
+    /// <typeparam name="T">Type of entity to work on.</typeparam>
+    public class CRUDService<T>
+        where T : Entity, new()
     {
+        /// <summary>
+        /// Factory to create database contexts (unit of works).
+        /// </summary>
         protected IContextFactory ContextFactory { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CRUDService{T}"/> class.
+        /// </summary>
+        /// <param name="contextFactory"></param>
         public CRUDService(IContextFactory contextFactory)
         {
             ContextFactory = contextFactory;
@@ -42,6 +54,11 @@ namespace Cooking.ServiceLayer
             return mapper.ProjectTo<TProjection>(cultureSpecificSet).ToList();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public async Task<Guid> CreateAsync(T entity)
         {
             using CookingContext context = ContextFactory.Create();
@@ -52,6 +69,11 @@ namespace Cooking.ServiceLayer
             return entity.ID;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task DeleteAsync(Guid id)
         {
             using CookingContext context = ContextFactory.Create();
@@ -59,6 +81,11 @@ namespace Cooking.ServiceLayer
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task UpdateAsync(T entity)
         {
             using CookingContext context = ContextFactory.Create(useLazyLoading: true);

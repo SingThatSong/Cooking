@@ -8,6 +8,9 @@ namespace Cooking.WPF.Views
     /// </summary>
     public partial class RecipeView
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecipeView"/> class.
+        /// </summary>
         public RecipeView()
         {
             InitializeComponent();

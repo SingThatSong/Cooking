@@ -10,6 +10,9 @@ namespace Cooking.WPF.Views
     /// </summary>
     public partial class SettingsView : UserControl, IRegionMemberLifetime
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SettingsView"/> class.
+        /// </summary>
         public SettingsView()
         {
             InitializeComponent();

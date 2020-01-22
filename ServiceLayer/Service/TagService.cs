@@ -8,6 +8,10 @@ namespace Cooking.ServiceLayer
 {
     public class TagService : CRUDService<Tag>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TagService"/> class.
+        /// </summary>
+        /// <param name="contextFactory"></param>
         public TagService(IContextFactory contextFactory) : base(contextFactory)
         {
 

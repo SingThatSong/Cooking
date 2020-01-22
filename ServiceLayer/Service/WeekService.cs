@@ -12,6 +12,10 @@ namespace ServiceLayer
 {
     public class WeekService : CRUDService<Week>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeekService"/> class.
+        /// </summary>
+        /// <param name="contextFactory"></param>
         public WeekService(IContextFactory contextFactory) : base(contextFactory)
         {
         }
@@ -32,6 +36,12 @@ namespace ServiceLayer
                                                         && dayOfWeek.Date <= x.End.Date).ConfigureAwait(false);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="weekStart"></param>
+        /// <param name="selectedRecepies"></param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task CreateWeekAsync(DateTime weekStart, Dictionary<DayOfWeek, Guid?> selectedRecepies)
         {
             Debug.WriteLine("WeekService.CreateWeekAsync");
@@ -63,7 +73,7 @@ namespace ServiceLayer
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        public List<ShoppingListItem> GetWeekIngredients(Guid id)
+        public List<ShoppingListIngredientsGroup> GetWeekIngredients(Guid id)
         {
             Debug.WriteLine("WeekService.GetWeekIngredients");
             using CookingContext context = ContextFactory.Create(useLazyLoading: true);
@@ -83,11 +93,11 @@ namespace ServiceLayer
                                                  .GroupBy(x => x.Ingredient.Ingredient!.Type?.Name)
                                                  .OrderBy(x => x.Key);
 
-            var result = new List<ShoppingListItem>();
+            var result = new List<ShoppingListIngredientsGroup>();
 
             foreach (var ingredientGroup in ingredientGroups)
             {
-                var item = new ShoppingListItem
+                var item = new ShoppingListIngredientsGroup
                 {
                     IngredientGroupName = ingredientGroup.Key ?? "Без категории"
                 };
@@ -95,13 +105,13 @@ namespace ServiceLayer
                 foreach (var ingredient in ingredientGroup.GroupBy(x => x.Ingredient.Ingredient!.Name))
                 {
                     var measures = ingredient.GroupBy(x => x.Ingredient.MeasureUnit?.FullName);
-                    item.Ingredients.Add(new IngredientItem()
+                    item.Ingredients.Add(new ShoppingListIngredient()
                     {
                         Name = ingredient.Key,
                         IngredientAmounts = measures.Where(x => x.Key != null)
-                                                    .Select(x => new IngredientAmount()
+                                                    .Select(x => new ShoppingListAmount()
                                                     {
-                                                        Name = x.Key!,
+                                                        MeasurementUnit = x.Key!,
                                                         Amount = x.Where(a => a.Ingredient.Amount.HasValue).Sum(a => a.Ingredient.Amount!.Value)
                                                     }).ToList(),
                         RecipiesSources = ingredient.Where(x => x.Dinner.Name != null)
@@ -160,6 +170,13 @@ namespace ServiceLayer
             return ldowDate;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="currentWeekId"></param>
+        /// <param name="dayId"></param>
+        /// <param name="selectedWeekday"></param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task MoveDayToNextWeek(Guid currentWeekId, Guid dayId, DayOfWeek selectedWeekday)
         {
             Debug.WriteLine("WeekService.MoveDayToNextWeek");

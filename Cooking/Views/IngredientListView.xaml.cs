@@ -7,6 +7,9 @@ namespace Cooking.WPF.Views
     /// </summary>
     public partial class IngredientListView : IRegionMemberLifetime
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IngredientListView"/> class.
+        /// </summary>
         public IngredientListView()
         {
             InitializeComponent();

@@ -9,6 +9,10 @@ namespace Cooking
     {
         private readonly ILocalization localization;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImageService"/> class.
+        /// </summary>
+        /// <param name="localization"></param>
         public ImageService(ILocalization localization)
         {
             this.localization = localization;

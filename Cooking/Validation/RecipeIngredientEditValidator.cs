@@ -5,6 +5,10 @@ namespace Cooking.WPF.DTO
 {
     public class RecipeIngredientEditValidator : AbstractValidator<RecipeIngredientEdit>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecipeIngredientEditValidator"/> class.
+        /// </summary>
+        /// <param name="localization"></param>
         public RecipeIngredientEditValidator(ILocalization localization)
         {
             RuleFor(x => x.Ingredient)

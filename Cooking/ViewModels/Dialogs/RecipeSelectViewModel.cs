@@ -17,6 +17,15 @@ namespace Cooking.WPF.Views
 
         public string? SearchHelpText => localization.GetLocalizedString("SearchHelpText", Consts.IngredientSymbol, Consts.TagSymbol);
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecipeSelectViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogService"></param>
+        /// <param name="recipeService"></param>
+        /// <param name="mapper"></param>
+        /// <param name="recipeFiltrator"></param>
+        /// <param name="localization"></param>
+        /// <param name="day"></param>
         public RecipeSelectViewModel(DialogService dialogService,
                                      RecipeService recipeService,
                                      IMapper mapper,

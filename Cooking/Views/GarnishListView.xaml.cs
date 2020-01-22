@@ -7,6 +7,9 @@ namespace Cooking.WPF.Views
     /// </summary>
     public partial class GarnishListView : IRegionMemberLifetime
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GarnishListView"/> class.
+        /// </summary>
         public GarnishListView()
         {
             InitializeComponent();

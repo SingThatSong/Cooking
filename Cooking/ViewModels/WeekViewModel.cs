@@ -48,6 +48,16 @@ namespace Cooking.WPF.Views
         public DelegateCommand<DayOfWeek> SelectDinnerCommand { get; }
         public DelegateCommand<Guid?> DeleteDinnerCommand { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeekViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogUtils"></param>
+        /// <param name="regionManager"></param>
+        /// <param name="container"></param>
+        /// <param name="dayService"></param>
+        /// <param name="mapper"></param>
+        /// <param name="weekService"></param>
+        /// <param name="localization"></param>
         public WeekViewModel(DialogService dialogUtils,
                              IRegionManager regionManager,
                              IContainerExtension container,
@@ -199,7 +209,7 @@ namespace Cooking.WPF.Views
         {
             Debug.WriteLine("MainPageViewModel.CreateShoppingList");
 
-            List<ShoppingListItem> allProducts = weekService.GetWeekIngredients(CurrentWeek!.ID);
+            List<ShoppingListIngredientsGroup> allProducts = weekService.GetWeekIngredients(CurrentWeek!.ID);
             var parameters = new NavigationParameters()
             {
                 { nameof(ShoppingCartViewModel.List), allProducts }

@@ -18,6 +18,13 @@ namespace Cooking.WPF
 
         public IDialogCoordinator DialogCoordinator { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DialogService"/> class.
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <param name="dialogCoordinator"></param>
+        /// <param name="containerProvider"></param>
+        /// <param name="localization"></param>
         public DialogService(object viewModel,
                              IDialogCoordinator dialogCoordinator,
                              IContainerExtension containerProvider,
@@ -30,6 +37,11 @@ namespace Cooking.WPF
         }
 
         // Баг mahapps - ожидаем закрытия именно этого окна, а не дочерних
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="dialog"></param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public virtual async Task ShowAndWaitForClosedAsync(BaseMetroDialog dialog)
         {
             await Application.Current.Dispatcher.Invoke(async () =>
@@ -81,6 +93,15 @@ namespace Cooking.WPF
             return content;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="TDialog"></typeparam>
+        /// <typeparam name="TDialogContent"></typeparam>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        /// <param name="successCallback"></param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public virtual async Task ShowOkCancelDialog<TDialog, TDialogContent>(string? title = null, TDialogContent? content = null, Action<TDialogContent>? successCallback = null)
             where TDialog : UserControl, new()
             where TDialogContent : OkCancelViewModel
@@ -107,6 +128,13 @@ namespace Cooking.WPF
             });
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        /// <param name="successCallback"></param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public virtual async Task ShowYesNoDialog(string? title = null, string? content = null, Action? successCallback = null)
         {
             MessageDialogResult result = await DialogCoordinator.ShowMessageAsync(
@@ -126,6 +154,10 @@ namespace Cooking.WPF
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public virtual async Task HideCurrentDialogAsync()
         {
             await Application.Current.Dispatcher.Invoke(async () =>
@@ -138,6 +170,11 @@ namespace Cooking.WPF
             });
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="dialog"></param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public virtual async Task HideDialogAsync(BaseMetroDialog dialog)
         {
             await DialogCoordinator.HideMetroDialogAsync(ViewModel, dialog, new MetroDialogSettings() { AnimateHide = false });

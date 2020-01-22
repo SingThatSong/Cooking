@@ -68,6 +68,17 @@ namespace Cooking.WPF.Views
         public DelegateCommand<RecipeIngredientEdit> RemoveIngredientCommand { get; }
         public AsyncDelegateCommand<Guid> DeleteRecipeCommand { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecipeViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogUtils"></param>
+        /// <param name="imageService"></param>
+        /// <param name="container"></param>
+        /// <param name="recipeService"></param>
+        /// <param name="mapper"></param>
+        /// <param name="eventAggregator"></param>
+        /// <param name="localization"></param>
+        /// <param name="regionManager"></param>
         public RecipeViewModel(DialogService dialogUtils,
                                ImageService imageService,
                                IContainerExtension container,

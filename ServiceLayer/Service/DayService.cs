@@ -12,6 +12,11 @@ namespace Cooking.ServiceLayer
     {
         private readonly WeekService weekService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DayService"/> class.
+        /// </summary>
+        /// <param name="contextFactory"></param>
+        /// <param name="weekService"></param>
         public DayService(IContextFactory contextFactory, WeekService weekService) : base(contextFactory)
         {
             this.weekService = weekService;
@@ -34,6 +39,12 @@ namespace Cooking.ServiceLayer
             context.SaveChanges();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="dayId"></param>
+        /// <param name="dinnerId"></param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task SetDinner(Guid dayId, Guid dinnerId)
         {
             using CookingContext context = ContextFactory.Create();
@@ -42,6 +53,13 @@ namespace Cooking.ServiceLayer
             context.SaveChanges();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="weekId"></param>
+        /// <param name="dinnerId"></param>
+        /// <param name="dayOfWeek"></param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task CreateDinner(Guid weekId, Guid dinnerId, DayOfWeek dayOfWeek)
         {
             using CookingContext context = ContextFactory.Create(useLazyLoading: true);

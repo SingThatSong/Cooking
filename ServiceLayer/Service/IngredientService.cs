@@ -8,6 +8,10 @@ namespace ServiceLayer
 {
     public class IngredientService : CRUDService<Ingredient>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IngredientService"/> class.
+        /// </summary>
+        /// <param name="contextFactory"></param>
         public IngredientService(IContextFactory contextFactory) : base(contextFactory)
         {
 

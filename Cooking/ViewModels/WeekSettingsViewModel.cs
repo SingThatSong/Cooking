@@ -39,6 +39,16 @@ namespace Cooking.WPF.Views
         public DelegateCommand OkCommand { get; }
         public DelegateCommand CloseCommand { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeekSettingsViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogUtils"></param>
+        /// <param name="regionManager"></param>
+        /// <param name="tagService"></param>
+        /// <param name="container"></param>
+        /// <param name="recipeService"></param>
+        /// <param name="localization"></param>
+        /// <param name="mapper"></param>
         public WeekSettingsViewModel(DialogService dialogUtils,
                                      IRegionManager regionManager,
                                      TagService tagService,

@@ -7,6 +7,9 @@ namespace Cooking.WPF.Views
     /// </summary>
     public partial class CalorieTypeSelectView
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CalorieTypeSelectView"/> class.
+        /// </summary>
         public CalorieTypeSelectView()
         {
             InitializeComponent();

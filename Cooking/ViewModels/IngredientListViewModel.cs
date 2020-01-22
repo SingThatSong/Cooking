@@ -36,6 +36,14 @@ namespace Cooking.WPF.Views
         public DelegateCommand<IngredientEdit> ViewIngredientCommand { get; }
         public DelegateCommand<IngredientEdit> EditIngredientCommand { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IngredientListViewModel"/> class.
+        /// </summary>
+        /// <param name="regionManager"></param>
+        /// <param name="dialogUtils"></param>
+        /// <param name="ingredientService"></param>
+        /// <param name="mapper"></param>
+        /// <param name="localization"></param>
         public IngredientListViewModel(IRegionManager regionManager,
                                     DialogService dialogUtils,
                                     IngredientService ingredientService,

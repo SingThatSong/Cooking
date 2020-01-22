@@ -8,6 +8,10 @@ namespace Cooking.WPF
     {
         private readonly IOptions<AppSettings> appSettings;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContextFactory"/> class.
+        /// </summary>
+        /// <param name="appSettings"></param>
         public ContextFactory(IOptions<AppSettings> appSettings)
         {
             this.appSettings = appSettings;

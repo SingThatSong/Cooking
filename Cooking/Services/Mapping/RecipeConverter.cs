@@ -9,6 +9,10 @@ namespace Cooking.WPF.Services
     {
         private readonly RecipeService recipeService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecipeConverter"/> class.
+        /// </summary>
+        /// <param name="recipeService"></param>
         public RecipeConverter(RecipeService recipeService)
         {
             this.recipeService = recipeService;

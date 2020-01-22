@@ -21,6 +21,10 @@ namespace Cooking
         ValidationResult? validationResult;
         static readonly ConcurrentDictionary<RuntimeTypeHandle, IValidator?> validators = new ConcurrentDictionary<RuntimeTypeHandle, IValidator?>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ValidationTemplate"/> class.
+        /// </summary>
+        /// <param name="target"></param>
         public ValidationTemplate(INotifyPropertyChanged target)
         {
             this.target = target;

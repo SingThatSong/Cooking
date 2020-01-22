@@ -6,6 +6,10 @@ namespace Cooking.WPF.DTO
 {
     public class TagEditValidator : AbstractValidator<TagEdit>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TagEditValidator"/> class.
+        /// </summary>
+        /// <param name="localization"></param>
         public TagEditValidator(ILocalization localization)
         {
             RuleFor(x => x.Name)

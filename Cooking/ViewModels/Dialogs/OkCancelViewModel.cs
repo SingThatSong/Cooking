@@ -8,6 +8,10 @@ namespace Cooking.WPF.Views
         public bool DialogResultOk { get; private set; }
         public AsyncDelegateCommand OkCommand { get; protected set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OkCancelViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogService"></param>
         public OkCancelViewModel(DialogService dialogService)
             : base(dialogService)
         {
@@ -16,6 +20,10 @@ namespace Cooking.WPF.Views
 
         protected virtual bool CanOk() => true;
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         protected virtual async Task Ok()
         {
             DialogResultOk = true;

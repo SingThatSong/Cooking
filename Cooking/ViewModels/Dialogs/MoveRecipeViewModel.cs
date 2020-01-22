@@ -14,6 +14,11 @@ namespace Cooking.WPF.Views
         public DayOfWeek? SelectedDay { get; set; }
         public ObservableCollection<DayOfWeek> DaysOfWeek { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MoveRecipeViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogService"></param>
+        /// <param name="localization"></param>
         public MoveRecipeViewModel(DialogService dialogService, ILocalization localization)
             : base(dialogService)
         {

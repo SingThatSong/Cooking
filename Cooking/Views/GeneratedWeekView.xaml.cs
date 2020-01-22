@@ -8,6 +8,9 @@ namespace Cooking.WPF.Views
     /// </summary>
     public partial class GeneratedWeekView : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneratedWeekView"/> class.
+        /// </summary>
         public GeneratedWeekView()
         {
             InitializeComponent();

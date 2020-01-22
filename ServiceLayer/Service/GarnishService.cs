@@ -8,6 +8,10 @@ namespace ServiceLayer
 {
     public class GarnishService : CRUDService<Garnish>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GarnishService"/> class.
+        /// </summary>
+        /// <param name="contextFactory"></param>
         public GarnishService(IContextFactory contextFactory) : base(contextFactory)
         {
 

@@ -46,6 +46,17 @@ namespace Cooking.WPF.Views
         public void OnIsListViewChanged() => IsTilesView = !IsListView;
         public void OnIsTilesViewChanged() => IsListView = !IsTilesView;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecipeListViewModel"/> class.
+        /// </summary>
+        /// <param name="dialogUtils"></param>
+        /// <param name="container"></param>
+        /// <param name="regionManager"></param>
+        /// <param name="recipeService"></param>
+        /// <param name="eventAggregator"></param>
+        /// <param name="mapper"></param>
+        /// <param name="recipeFiltrator"></param>
+        /// <param name="localization"></param>
         public RecipeListViewModel(DialogService dialogUtils,
                                  IContainerExtension container,
                                  IRegionManager regionManager,

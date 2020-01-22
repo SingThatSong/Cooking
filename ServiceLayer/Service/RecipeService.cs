@@ -16,6 +16,11 @@ namespace Cooking.ServiceLayer
         private static readonly Dictionary<Guid, DateTime?> lastCookedId = new Dictionary<Guid, DateTime?>();
         private readonly DayService dayService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecipeService"/> class.
+        /// </summary>
+        /// <param name="contextFactory"></param>
+        /// <param name="dayService"></param>
         public RecipeService(IContextFactory contextFactory, DayService dayService) : base(contextFactory)
         {
             this.dayService = dayService;

@@ -7,6 +7,10 @@ namespace Cooking.Web
     {
         private readonly IConfiguration configuration;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContextFactory"/> class.
+        /// </summary>
+        /// <param name="configuration"></param>
         public ContextFactory(IConfiguration configuration)
         {
             this.configuration = configuration;

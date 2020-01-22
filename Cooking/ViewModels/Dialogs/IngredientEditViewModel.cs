@@ -33,6 +33,13 @@ namespace Cooking.WPF.Views
         public string? TypeCaption => localization.GetLocalizedString("Type");
         public string? MaybeYouWantCaption => localization.GetLocalizedString("MaybeYouWant");
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IngredientEditViewModel"/> class.
+        /// </summary>
+        /// <param name="ingredientService"></param>
+        /// <param name="dialogService"></param>
+        /// <param name="localization"></param>
+        /// <param name="category"></param>
         public IngredientEditViewModel(IngredientService ingredientService, DialogService dialogService, ILocalization localization, IngredientEdit? category = null)
             : base(dialogService)
         {
