@@ -42,8 +42,8 @@
     <PackageReference Include="gong-wpf-dragdrop" Version="2.2.0" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
     <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="3.1.0" />
-    <PackageReference Include="MaterialDesignColors" Version="1.2.3-ci948" />
-    <PackageReference Include="MaterialDesignThemes" Version="3.1.0-ci948" />
+    <PackageReference Include="MaterialDesignColors" Version="1.2.3-ci978" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.1.0-ci978" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
