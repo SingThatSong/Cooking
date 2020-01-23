@@ -123,14 +123,19 @@ namespace Cooking.WPF.Helpers
             }
         }
 
-        public Dictionary<string, string> GetAllValuesFor(string enumType)
+        /// <summary>
+        /// Get all values for prefix.
+        /// </summary>
+        /// <param name="prefix">Prefix for a string collection.</param>
+        /// <returns>Dictionary of localization keys and values.</returns>
+        public Dictionary<string, string> GetAllValuesFor(string prefix)
         {
             CultureInfo culture = CurrentCulture;
 
             if (localizationCache.ContainsKey(culture.Name))
             {
                 return localizationCache[culture.Name]
-                            .Where(x => x.Key.StartsWith($"{enumType}_", StringComparison.Ordinal))
+                            .Where(x => x.Key.StartsWith($"{prefix}_", StringComparison.Ordinal))
                             .ToDictionary(x => x.Key.Substring(x.Key.IndexOf('_', StringComparison.Ordinal) + 1), x => x.Value);
             }
             else
@@ -138,7 +143,7 @@ namespace Cooking.WPF.Helpers
                 if (InitCache(culture))
                 {
                     return localizationCache[culture.Name]
-                                .Where(x => x.Key.StartsWith($"{enumType}_", StringComparison.Ordinal))
+                                .Where(x => x.Key.StartsWith($"{prefix}_", StringComparison.Ordinal))
                                 .ToDictionary(x => x.Key.Substring(x.Key.IndexOf('_', StringComparison.Ordinal) + 1), x => x.Value);
                 }
             }

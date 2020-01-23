@@ -8,8 +8,15 @@ using System.Linq;
 
 namespace Cooking
 {
+    /// <summary>
+    /// Service for object mapping and projections.
+    /// </summary>
     internal static class MapperService
     {
+        /// <summary>
+        /// Create Autmapper Mapper provider.
+        /// </summary>
+        /// <returns>Instance of <see cref="IConfigurationProvider"/>.</returns>
         public static IConfigurationProvider CreateMapper()
             => new MapperConfiguration(cfg =>
                 {
@@ -40,7 +47,6 @@ namespace Cooking
                        .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags.Select(t => t.Tag)))
                        .AfterMap<RecipeConverter>();
 
-
                     // Cleanup below
                     // -----------------------
                     cfg.CreateMap<Garnish, GarnishEdit>().ReverseMap();
@@ -50,7 +56,6 @@ namespace Cooking
                     cfg.CreateMap<Ingredient, IngredientEdit>().ReverseMap();
                     cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>();
                     cfg.CreateMap<IngredientsGroup, IngredientGroupEdit>();
-
 
                     cfg.CreateMap<RecipeEdit, Recipe>()
                        .AfterMap((src, dest) =>

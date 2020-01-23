@@ -4,3 +4,6 @@ root = false
 
 # Using Reflection to validate parameter
 dotnet_diagnostic.CS8653.severity = none
+
+# Allow runtime determination of generic argument
+dotnet_diagnostic.CS8604.severity = none
