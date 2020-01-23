@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Логика взаимодействия для MainPage.xaml.
+    /// Logic for MainPage.xaml.
     /// </summary>
     public partial class WeekView : UserControl, IRegionMemberLifetime
     {

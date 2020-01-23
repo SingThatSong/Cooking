@@ -4,7 +4,7 @@ using System.Windows.Input;
 namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Логика взаимодействия для WeekSettings.xaml.
+    /// Logic for WeekSettings.xaml.
     /// </summary>
     public partial class GeneratedWeekView : UserControl
     {

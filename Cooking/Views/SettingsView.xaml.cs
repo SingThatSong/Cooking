@@ -6,7 +6,7 @@ using WPFLocalizeExtension.Engine;
 namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Логика взаимодействия для MainPage.xaml.
+    /// Logic for MainPage.xaml.
     /// </summary>
     public partial class SettingsView : UserControl, IRegionMemberLifetime
     {

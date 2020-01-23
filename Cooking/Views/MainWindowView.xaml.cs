@@ -5,7 +5,7 @@ using Prism.Regions;
 namespace Cooking
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml.
+    /// Logic for MainWindow.xaml.
     /// </summary>
     public partial class MainWindowView
     {

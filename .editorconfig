@@ -52,10 +52,8 @@ dotnet_diagnostic.CS0067.severity = none
 
 #FxCop issues
 
-# CA2227: Свойства коллекций должны быть доступны только для чтения
 dotnet_diagnostic.CA2227.severity = none
 
-# CA2007: Попробуйте вызвать ConfigureAwait для ожидаемой задачи
 # Using Fody.ConfigureAwait
 dotnet_diagnostic.CA2007.severity = none
 

@@ -6,7 +6,7 @@
     <members>
         <member name="T:Cooking.App">
             <summary>
-            Логика взаимодействия для App.xaml.
+            Logic forApp.xaml.
             </summary>
             <summary>
             App
@@ -218,7 +218,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.DayControl">
             <summary>
-            Логика взаимодействия для DayControl.xaml.
+            Logic forDayControl.xaml.
             </summary>
             <summary>
             DayControl
@@ -442,7 +442,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.CalorieTypeSelectView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             CalorieTypeSelectView
@@ -460,7 +460,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.GarnishEditView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             GarnishEditView
@@ -478,7 +478,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.IngredientEditView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             IngredientEditView
@@ -496,7 +496,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.IngredientGroupEditView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             IngredientGroupEditView
@@ -514,7 +514,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.MoveRecipeView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             MoveRecipeView
@@ -532,7 +532,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.RecipeIngredientEditView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             RecipeIngredientEditView
@@ -550,7 +550,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.RecipeSelect">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             RecipeSelect
@@ -568,7 +568,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.TagEditView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             TagEditView
@@ -586,7 +586,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.TagSelectView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             TagSelectView
@@ -604,7 +604,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.GarnishListView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             GarnishListView
@@ -622,7 +622,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.GeneratedWeekView">
             <summary>
-            Логика взаимодействия для WeekSettings.xaml.
+            Logic forWeekSettings.xaml.
             </summary>
             <summary>
             GeneratedWeekView
@@ -640,7 +640,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.IngredientListView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             IngredientListView
@@ -658,7 +658,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.RecipeListView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             RecipeListView
@@ -676,7 +676,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.RecipeView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             RecipeView
@@ -694,7 +694,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.SettingsView">
             <summary>
-            Логика взаимодействия для MainPage.xaml.
+            Logic forMainPage.xaml.
             </summary>
             <summary>
             SettingsView
@@ -712,7 +712,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.ShoppingCartView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             ShoppingCartView
@@ -730,7 +730,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.TagListView">
             <summary>
-            Логика взаимодействия для UserControl1.xaml.
+            Logic forUserControl1.xaml.
             </summary>
             <summary>
             TagListView
@@ -748,7 +748,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.WeekSettingsView">
             <summary>
-            Логика взаимодействия для WeekSettings.xaml.
+            Logic forWeekSettings.xaml.
             </summary>
             <summary>
             WeekSettingsView
@@ -766,7 +766,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.WeekView">
             <summary>
-            Логика взаимодействия для MainPage.xaml.
+            Logic forMainPage.xaml.
             </summary>
             <summary>
             WeekView
@@ -1480,7 +1480,7 @@
         </member>
         <member name="T:Cooking.MainWindowView">
             <summary>
-            Логика взаимодействия для MainWindow.xaml.
+            Logic forMainWindow.xaml.
             </summary>
             <summary>
             MainWindowView

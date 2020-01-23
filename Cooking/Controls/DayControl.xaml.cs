@@ -5,7 +5,7 @@ using System.Windows.Controls;
 namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Логика взаимодействия для DayControl.xaml.
+    /// Logic for DayControl.xaml.
     /// </summary>
     [DependencyProperty]
     public partial class DayControl : UserControl

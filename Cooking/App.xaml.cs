@@ -55,6 +55,8 @@ using WPFLocalizeExtension.Providers;
 // TODO: Add IQueryable as parameter to all selects in CRUDService
 // TODO: Consider making IMapper as a dependency for all CRUDServices
 // TODO: Make GetCultureSpecificSet method an extention method
+// TODO: Add AOP for perfomance monitoring https://github.com/vescon/MethodBoundaryAspect.Fody
+// TODO: Make sure there is no russian in the code
 
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
@@ -92,7 +94,7 @@ using WPFLocalizeExtension.Providers;
 namespace Cooking
 {
     /// <summary>
-    /// Логика взаимодействия для App.xaml.
+    /// Logic for App.xaml.
     /// </summary>
     public partial class App : PrismApplication
     {

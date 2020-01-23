@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Логика взаимодействия для UserControl1.xaml.
+    /// Logic for
     /// </summary>
     public partial class RecipeIngredientEditView
     {
