@@ -9,22 +9,32 @@ using ServiceLayer;
 
 namespace Cooking.Web
 {
+    /// <summary>
+    /// ASP.NET Startup file.
+    /// </summary>
     public class Startup
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
-        /// <param name="configuration"></param>
+        /// <param name="configuration">Configuration dependency.</param>
         public Startup(IConfiguration configuration)
         {
             // TODO: Rework
-            //DatabaseService.DbFileName = @"C:\Cooking\publish\cooking.db";
+
+            // DatabaseService.DbFileName = @"C:\Cooking\publish\cooking.db";
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// Gets configuration dependency.
+        /// </summary>
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services">Service collection.</param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(x => x.EnableEndpointRouting = false)
@@ -49,7 +59,11 @@ namespace Cooking.Web
             services.AddSingleton<WeekService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// </summary>
+        /// <param name="app">Application builder.</param>
+        /// <param name="env">Web host environment.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

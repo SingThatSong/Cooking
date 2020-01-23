@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace Cooking.Web.Controllers
 {
+    /// <summary>
+    /// Sample controller. To be renamed.
+    /// </summary>
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
@@ -21,7 +24,7 @@ namespace Cooking.Web.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="SampleDataController"/> class.
         /// </summary>
-        /// <param name="weekService"></param>
+        /// <param name="weekService"><see cref="WeekService"/>.</param>
         public SampleDataController(WeekService weekService)
         {
             this.weekService = weekService;
@@ -30,7 +33,7 @@ namespace Cooking.Web.Controllers
         private string Database => @"C:\Cooking\publish\cooking.db";
 
         /// <summary>
-        ///
+        /// TODO: Rename.
         /// </summary>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpGet("[action]")]
@@ -52,9 +55,9 @@ namespace Cooking.Web.Controllers
         }
 
         /// <summary>
-        ///
+        /// TODO: Rename.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Recipe id to return.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpGet("[action]/{id}")]
         public async Task<Recipe?> WeatherForecasts(Guid id)
@@ -78,13 +81,10 @@ namespace Cooking.Web.Controllers
         }
 
         /// <summary>
-        ///
+        /// TODO: Rename.
         /// </summary>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpGet("[action]/currentweek")]
-        public async Task<Week> CurrentWeek()
-        {
-            return await weekService.GetWeekAsync(DateTime.Now).ConfigureAwait(false);
-        }
+        public async Task<Week?> CurrentWeek() => await weekService.GetWeekAsync(DateTime.Now).ConfigureAwait(false);
     }
 }
