@@ -12,15 +12,15 @@ namespace Cooking.Tests
     [TestClass]
     public class DatabaseTest
     {
-        const string dbName = "TestDb.db";
+        private const string DbName = "TestDb.db";
 
         [TestInitialize]
         public void Setup()
         {
-            File.Delete(dbName);
-            File.Move($@"DatabaseTest\{dbName}", dbName);
+            File.Delete(DbName);
+            File.Move($@"DatabaseTest\{DbName}", DbName);
 
-            using CookingContext context = new CookingContext(dbName);
+            using var context = new CookingContext(DbName);
             context.Database.Migrate();
         }
 
@@ -29,24 +29,24 @@ namespace Cooking.Tests
         {
             var recipe = new Recipe() { ID = new Guid("e6d12b05-4a7d-4d3e-985d-42ee1dfac767") };
 
-            using (var context = new CookingContext(dbName))
+            using (var context = new CookingContext(DbName))
             {
-                var rec = context.Recipies.Find(recipe.ID);
+                Recipe rec = context.Recipies.Find(recipe.ID);
                 Assert.IsNotNull(rec);
             }
 
             var week = new Week() { Days = new List<Day> { new Day() { DinnerID = recipe.ID } } };
 
             // Добавим неделю и день, устанавливая только FK на существующий рецепт
-            using (var context = new CookingContext(dbName))
+            using (var context = new CookingContext(DbName))
             {
                 context.Add(week);
                 context.SaveChanges();
             }
 
-            using (var context = new CookingContext(dbName, true))
+            using (var context = new CookingContext(DbName, true))
             {
-                var test = context.Weeks.Find(week.ID);
+                Week test = context.Weeks.Find(week.ID);
             }
         }
     }

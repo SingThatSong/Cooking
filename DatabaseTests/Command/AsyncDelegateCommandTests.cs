@@ -1,11 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Cooking.WPF.Commands;
-using System.Threading.Tasks;
+﻿using Cooking.WPF.Commands;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Cooking.Tests
 {
@@ -13,7 +11,6 @@ namespace Cooking.Tests
     public class AsyncDelegateCommandTests
     {
         // Positive tests
-
         [TestMethod]
         public void Execute_ExecutesFunction()
         {

@@ -17,7 +17,8 @@ namespace Cooking.Web
         /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
-            DatabaseService.DbFileName = @"C:\Cooking\publish\cooking.db";
+            // TODO: Rework
+            //DatabaseService.DbFileName = @"C:\Cooking\publish\cooking.db";
             Configuration = configuration;
         }
 
@@ -74,7 +75,6 @@ namespace Cooking.Web
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
-
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
