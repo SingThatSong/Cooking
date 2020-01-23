@@ -10,22 +10,27 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer
 {
+    /// <summary>
+    /// Service for work with weeks.
+    /// </summary>
     public class WeekService : CRUDService<Week>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WeekService"/> class.
         /// </summary>
-        /// <param name="contextFactory"></param>
-        public WeekService(IContextFactory contextFactory) : base(contextFactory)
+        /// <param name="contextFactory">Factory for creating <see cref="CookingContext"/> instances.</param>
+        /// <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
+        public WeekService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider)
+            : base(contextFactory, cultureProvider)
         {
         }
 
         /// <summary>
-        /// Загрузка недели по любому из дней в ней
+        /// Load week by date.
         /// </summary>
-        /// <param name="dayOfWeek"></param>
-        /// <returns></returns>
-        public async Task<Week> GetWeekAsync(DateTime dayOfWeek)
+        /// <param name="dayOfWeek">Day of week that belongs to required week.</param>
+        /// <returns>Week which contains provided day or null if no such week exists.</returns>
+        public async Task<Week?> GetWeekAsync(DateTime dayOfWeek)
         {
             Debug.WriteLine("WeekService.GetWeek(DateTime)");
             using CookingContext context = ContextFactory.Create();
@@ -37,10 +42,10 @@ namespace ServiceLayer
         }
 
         /// <summary>
-        ///
+        /// Create new week.
         /// </summary>
-        /// <param name="weekStart"></param>
-        /// <param name="selectedRecepies"></param>
+        /// <param name="weekStart">First day of week.</param>
+        /// <param name="selectedRecepies">Recipies to add to the week.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task CreateWeekAsync(DateTime weekStart, Dictionary<DayOfWeek, Guid?> selectedRecepies)
         {
@@ -56,13 +61,13 @@ namespace ServiceLayer
 
             var days = new List<Day>();
 
-            foreach (KeyValuePair<DayOfWeek, Guid?> recepie in selectedRecepies.Where(x => x.Value != null))
+            foreach (KeyValuePair<DayOfWeek, Guid?> recipe in selectedRecepies.Where(x => x.Value != null))
             {
                 days.Add(new Day()
                 {
-                    DinnerID = recepie.Value,
-                    Date = weekStart.AddDays(DaysFromMonday(recepie.Key)),
-                    DayOfWeek = recepie.Key,
+                    DinnerID = recipe.Value,
+                    Date = weekStart.AddDays(DaysFromMonday(recipe.Key)),
+                    DayOfWeek = recipe.Key,
                     ID = Guid.NewGuid(),
                     Culture = GetCurrentCulture()
                 });
@@ -73,16 +78,23 @@ namespace ServiceLayer
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        public List<ShoppingListIngredientsGroup> GetWeekIngredients(Guid id)
+        /// <summary>
+        /// Get shopping list for selected week.
+        /// </summary>
+        /// <param name="weekID">ID of a week to create shopping list.</param>
+        /// <returns>Shopping list for a week as a collection of ingredient groups.</returns>
+        public List<ShoppingListIngredientsGroup> GetWeekShoppingList(Guid weekID)
         {
             Debug.WriteLine("WeekService.GetWeekIngredients");
             using CookingContext context = ContextFactory.Create(useLazyLoading: true);
-            Week week = GetCultureSpecificSet(context).First(x => x.ID == id);
+            Week week = GetCultureSpecificSet(context).First(x => x.ID == weekID);
 
+            // Create single list of all ingredients in recipies for a week
             var ingredients = from dinner in week.Days.Where(x => x.Dinner?.Ingredients != null)
                               from recipeIngredient in dinner.Dinner!.Ingredients
                               select new { dinner.Dinner, Ingredient = recipeIngredient };
 
+            // Include ingredients in groups
             var ingredientsInGroupds = from dinner in week.Days.Where(x => x.Dinner?.IngredientGroups != null)
                                        from recipeIngredient in dinner.Dinner!.IngredientGroups.SelectMany(g => g.Ingredients)
                                        select new { dinner.Dinner, Ingredient = recipeIngredient };
@@ -99,6 +111,7 @@ namespace ServiceLayer
             {
                 var item = new ShoppingListIngredientsGroup
                 {
+                    // TODO: Localize
                     IngredientGroupName = ingredientGroup.Key ?? "Без категории"
                 };
 
@@ -127,6 +140,11 @@ namespace ServiceLayer
             return result;
         }
 
+        /// <summary>
+        /// Check if all week's existing days' dinners were marked as cooked.
+        /// </summary>
+        /// <param name="dayOfWeek">Day of week to determine week itself.</param>
+        /// <returns>True if week is filled and false if not.</returns>
         public bool IsWeekFilled(DateTime dayOfWeek)
         {
             Debug.WriteLine("WeekService.IsWeekFilled");
@@ -141,9 +159,15 @@ namespace ServiceLayer
             return week.Days.All(x => x.DinnerWasCooked);
         }
 
+        /// <summary>
+        /// Calculate day offset from monday (e.g. tuesday will return 1).
+        /// </summary>
+        /// <param name="day">Day of week to calculate distance from monday.</param>
+        /// <returns>Day offset from monday.</returns>
         public int DaysFromMonday(DayOfWeek day)
         {
             Debug.WriteLine("WeekService.DaysFromMonday");
+
             // int value for sunday is 0, other weekdays ordered
             if (day == DayOfWeek.Sunday)
             {
@@ -153,29 +177,35 @@ namespace ServiceLayer
             return day - DayOfWeek.Monday;
         }
 
+        /// <summary>
+        /// Get first day of week for a given day.
+        /// </summary>
+        /// <param name="date">Any day on week.</param>
+        /// <returns>DateTime of monday.</returns>
         public DateTime FirstDayOfWeek(DateTime date)
         {
             Debug.WriteLine("WeekService.FirstDayOfWeek");
-            DayOfWeek weekStart = DayOfWeek.Monday;
-            int dayOfWeek = date.DayOfWeek != DayOfWeek.Sunday ? (int)date.DayOfWeek : 7;
-            int offset = (int)weekStart - dayOfWeek;
-            DateTime fdowDate = date.AddDays(offset);
-            return fdowDate;
-        }
-
-        public DateTime LastDayOfWeek(DateTime date)
-        {
-            Debug.WriteLine("WeekService.LastDayOfWeek");
-            DateTime ldowDate = FirstDayOfWeek(date).AddDays(6);
-            return ldowDate;
+            int daysFromMonday = DaysFromMonday(date.DayOfWeek);
+            return date.AddDays(daysFromMonday * -1);
         }
 
         /// <summary>
-        ///
+        /// Get last day of week for a given day.
         /// </summary>
-        /// <param name="currentWeekId"></param>
-        /// <param name="dayId"></param>
-        /// <param name="selectedWeekday"></param>
+        /// <param name="date">Any day on week.</param>
+        /// <returns>DateTime of sunday.</returns>
+        public DateTime LastDayOfWeek(DateTime date)
+        {
+            Debug.WriteLine("WeekService.LastDayOfWeek");
+            return FirstDayOfWeek(date).AddDays(6);
+        }
+
+        /// <summary>
+        /// Move day to next week.
+        /// </summary>
+        /// <param name="currentWeekId">Week to remove the day from.</param>
+        /// <param name="dayId">Day to move.</param>
+        /// <param name="selectedWeekday">Weekday to move day to.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task MoveDayToNextWeek(Guid currentWeekId, Guid dayId, DayOfWeek selectedWeekday)
         {

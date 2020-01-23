@@ -13,7 +13,7 @@ namespace Cooking.Data.Migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
-#pragma warning disable 612, 618
+
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.0-preview3-35497");
 
@@ -276,7 +276,7 @@ namespace Cooking.Data.Migrations
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
-#pragma warning restore 612, 618
+
         }
     }
 }

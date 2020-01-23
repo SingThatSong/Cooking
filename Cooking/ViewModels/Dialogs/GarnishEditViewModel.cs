@@ -44,7 +44,7 @@ namespace Cooking.WPF.Views
         {
             Garnish = garnish ?? new GarnishEdit();
             this.localization = localization;
-            AllGarnishNames = garnishService.GetSearchNames();
+            AllGarnishNames = garnishService.GetNames();
             Garnish.PropertyChanged += (src, e) =>
             {
                 if (e.PropertyName == nameof(Garnish.Name))

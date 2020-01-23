@@ -5,3 +5,5 @@ root = false
 # Use scaffolding format for migrations
 dotnet_diagnostic.IDE0022.severity = none
 dotnet_diagnostic.SA1413.severity = none
+dotnet_diagnostic.612.severity = none
+dotnet_diagnostic.618.severity = none

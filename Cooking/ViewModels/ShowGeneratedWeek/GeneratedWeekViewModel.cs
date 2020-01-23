@@ -112,7 +112,7 @@ namespace Cooking.WPF.Views
 
             if (viewModel.DialogResultOk)
             {
-                day.SpecificRecipe = recipeService.GetProjected<RecipeListViewDto>(viewModel.SelectedRecipeID!.Value, mapper);
+                day.SpecificRecipe = recipeService.GetMapped<RecipeListViewDto>(viewModel.SelectedRecipeID!.Value, mapper);
             }
         }
 

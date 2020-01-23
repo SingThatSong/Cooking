@@ -209,7 +209,7 @@ namespace Cooking.WPF.Views
         {
             Debug.WriteLine("MainPageViewModel.CreateShoppingList");
 
-            List<ShoppingListIngredientsGroup> allProducts = weekService.GetWeekIngredients(CurrentWeek!.ID);
+            List<ShoppingListIngredientsGroup> allProducts = weekService.GetWeekShoppingList(CurrentWeek!.ID);
             var parameters = new NavigationParameters()
             {
                 { nameof(ShoppingCartViewModel.List), allProducts }

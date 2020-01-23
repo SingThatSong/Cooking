@@ -6,18 +6,26 @@ using System.Linq;
 
 namespace ServiceLayer
 {
+    /// <summary>
+    /// Service for work with ingredients.
+    /// </summary>
     public class IngredientService : CRUDService<Ingredient>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="IngredientService"/> class.
         /// </summary>
-        /// <param name="contextFactory"></param>
-        public IngredientService(IContextFactory contextFactory) : base(contextFactory)
+        /// <param name="contextFactory">Factory for creating <see cref="CookingContext"/> instances.</param>
+        /// <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
+        public IngredientService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider)
+            : base(contextFactory, cultureProvider)
         {
-
         }
 
-        public List<string> GetSearchNames()
+        /// <summary>
+        /// Get all ingredients' names.
+        /// </summary>
+        /// <returns>All ingredients' names.</returns>
+        public List<string> GetNames()
         {
             using CookingContext context = ContextFactory.Create();
             return GetCultureSpecificSet(context)

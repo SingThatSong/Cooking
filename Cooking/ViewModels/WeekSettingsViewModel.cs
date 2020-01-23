@@ -187,7 +187,7 @@ namespace Cooking.WPF.Views
 
         private async Task<ObservableCollection<TagEdit>?> GetTags(TagType type, ObservableCollection<TagEdit> current)
         {
-            List<TagEdit> allTags = tagService.GetTagsByType<TagEdit>(type, container.Resolve<IMapper>());
+            List<TagEdit> allTags = tagService.GetTagsByTypeProjected<TagEdit>(type, container.Resolve<IMapper>());
 
             allTags.Insert(0, TagEdit.Any);
             allTags[0].IsChecked = false;

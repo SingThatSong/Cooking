@@ -40,7 +40,7 @@ namespace Cooking.WPF.Views
         {
             if (allTags == null)
             {
-                AllTags = new ObservableCollection<TagEdit>(tagService.GetProjected<TagEdit>(mapper));
+                AllTags = new ObservableCollection<TagEdit>(tagService.GetAllProjected<TagEdit>(mapper));
             }
             else
             {

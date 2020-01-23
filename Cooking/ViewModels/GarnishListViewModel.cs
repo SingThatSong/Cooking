@@ -55,7 +55,7 @@ namespace Cooking.WPF.Views
         private Task OnLoaded()
         {
             Debug.WriteLine("GarnishesViewModel.OnLoaded");
-            List<GarnishEdit> dbValues = garnishService.GetProjected<GarnishEdit>(mapper);
+            List<GarnishEdit> dbValues = garnishService.GetAllProjected<GarnishEdit>(mapper);
             Garnishes = new ObservableCollection<GarnishEdit>(dbValues);
 
             return Task.CompletedTask;

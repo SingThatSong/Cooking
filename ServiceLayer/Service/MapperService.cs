@@ -6,23 +6,33 @@ using System;
 
 namespace ServiceLayer
 {
+    /// <summary>
+    /// Mapper for updating database.
+    /// </summary>
     internal static class MapperService
     {
-        private static readonly Lazy<IMapper> mapper = new Lazy<IMapper>(CreateMapper);
+        private static readonly Lazy<IMapper> MapperValue = new Lazy<IMapper>(CreateMapper);
 
-        public static IMapper Mapper => mapper.Value;
+        /// <summary>
+        /// Gets mapper instance. Lazy-loaded.
+        /// </summary>
+        public static IMapper Mapper => MapperValue.Value;
 
         private static IMapper CreateMapper()
-        {
-            return new MapperConfiguration(cfg =>
+            => new MapperConfiguration(cfg =>
             {
                 cfg.AllowNullDestinationValues = true;
                 cfg.AllowNullCollections = true;
 
                 cfg.AddCollectionMappers();
 
-                cfg.CreateMap<Entity, Entity>();
+                // Ignore Culture changes in mapping
+                // Why: projections should not load culture, so on update they will not know it. Keep Culture as it is in database.
+                cfg.CreateMap<Entity, Entity>()
+                   .ForMember(x => x.Culture, opts => opts.Ignore());
 
+                // Refactor below
+                // --------------------------
                 cfg.CreateMap<Recipe, Recipe>().IncludeBase<Entity, Entity>();
 
                 cfg.CreateMap<RecipeTag, RecipeTag>();
@@ -33,9 +43,7 @@ namespace ServiceLayer
 
                 cfg.CreateMap<RecipeIngredient, RecipeIngredient>().IncludeBase<Entity, Entity>();
                 cfg.CreateMap<Ingredient, Ingredient>().IncludeBase<Entity, Entity>();
-                cfg.CreateMap<Ingredient, Ingredient>();
-                cfg.CreateMap<Garnish, Garnish>();
+                cfg.CreateMap<Garnish, Garnish>().IncludeBase<Entity, Entity>();
             }).CreateMapper();
-        }
     }
 }

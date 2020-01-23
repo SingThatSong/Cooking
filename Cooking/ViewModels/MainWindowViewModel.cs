@@ -82,9 +82,6 @@ namespace Cooking
 
         public HamburgerMenuItemCollection OptionsMenuItems { get; }
 
-#pragma warning disable CS0252
         public void SelectMenuItemByViewType(Type type) => SelectedMenuItem = MenuItems.FirstOrDefault(x => x.Tag == type) as HamburgerMenuIconItem;
-#pragma warning restore CS0252
-
     }
 }

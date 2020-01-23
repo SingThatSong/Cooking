@@ -45,7 +45,7 @@ namespace Cooking.WPF.Views
         {
             this.localization = localization;
             Ingredient = category ?? new IngredientEdit();
-            AllIngredientNames = ingredientService.GetSearchNames();
+            AllIngredientNames = ingredientService.GetNames();
             Ingredient.PropertyChanged += (src, e) =>
             {
                 if (e.PropertyName == nameof(Ingredient.Name))

@@ -58,7 +58,7 @@ namespace Cooking.WPF.Views
         private void OnLoaded()
         {
             Debug.WriteLine("TagsViewModel.OnLoaded");
-            List<TagEdit> dbVals = tagService.GetProjected<TagEdit>(mapper);
+            List<TagEdit> dbVals = tagService.GetAllProjected<TagEdit>(mapper);
             Tags = new ObservableCollection<TagEdit>(dbVals);
         }
 

@@ -37,7 +37,7 @@ namespace Cooking.WPF.Views
             this.recipeFiltrator = recipeFiltrator;
             this.localization = localization;
 
-            recipies = recipeService.GetProjected<RecipeListViewDto>(mapper);
+            recipies = recipeService.GetAllProjected<RecipeListViewDto>(mapper);
 
             RecipiesSource = new CollectionViewSource() { Source = recipies };
             RecipiesSource.Filter += RecipiesSource_Filter;

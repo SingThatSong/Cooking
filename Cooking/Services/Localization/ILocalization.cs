@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Cooking.ServiceLayer;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace Cooking.WPF.Helpers
 {
-    public interface ILocalization
+    public interface ILocalization : ICurrentCultureProvider
     {
-        CultureInfo CurrentCulture { get; }
         Dictionary<string, string> GetAllValuesFor(string key);
         string? GetLocalizedString(Enum key);
         string? GetLocalizedString(string key);

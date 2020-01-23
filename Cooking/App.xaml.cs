@@ -30,6 +30,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Add comments to cs
 // TODO: Refactor ViewModels into scheme: dependencies, constructor, state, commands, methods
 
+// TODO: Remove Week entity as meta-entity
 // TODO: Add centralized configuration edit (now it's only in SettingsViewModel)
 // TODO: Add comments to XAML
 // TODO: Set Readme.md
@@ -43,12 +44,17 @@ using WPFLocalizeExtension.Providers;
 // TODO: Move to correct SQLite db, without ID hacks
 // TODO: Add project documentation (Wiki)
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
+// TODO: Replace client recipe filtering with IQuariable filtration
 // TODO: Plurals localization
 // TODO: Add config to change app theme
 // TODO: Move all typesafe enums to tables with localization or to simple enums (IngredientType)
 // TODO: Count calories for recipe
 // TODO: Set calorietype accordingly to counted calories
 // TODO: Replace recipe filtration on client with db filtration
+// TODO: Consider using https://github.com/Dresel/MethodCache for caching
+// TODO: Add IQueryable as parameter to all selects in CRUDService
+// TODO: Consider making IMapper as a dependency for all CRUDServices
+// TODO: Make GetCultureSpecificSet method an extention method
 
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
@@ -96,9 +102,6 @@ namespace Cooking
         public App()
         {
             AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;
-
-            // TODO: remove after introducing data migrator
-            DatabaseService.InitDatabase();
         }
 
         /// <inheritdoc/>
@@ -153,6 +156,7 @@ namespace Cooking
             var jsonProvider = new JsonLocalizationProvider();
             containerRegistry.RegisterInstance<ILocalization>(jsonProvider);
             containerRegistry.RegisterInstance<ILocalizationProvider>(jsonProvider);
+            containerRegistry.RegisterInstance<ICurrentCultureProvider>(jsonProvider);
 
             // Variables affect pages, so we set them beforehand
             SetStaticVariables();
@@ -202,6 +206,16 @@ namespace Cooking
                 string viewModelName = $"{viewName}Model, {viewAssemblyName}";
                 return Type.GetType(viewModelName);
             });
+        }
+
+        /// <inheritdoc/>
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+
+            // TODO: remove after introducing data migrator
+            DatabaseService dbService = Container.Resolve<DatabaseService>();
+            dbService.MigrateDatabase();
         }
 
         private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)

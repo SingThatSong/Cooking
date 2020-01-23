@@ -1,6 +1,5 @@
 ﻿using System;
 
-#pragma warning disable CA1814 // Используйте массивы массивов вместо многомерных массивов
 namespace Cooking.WPF.Services
 {
     public static class StringCompare
@@ -47,5 +46,3 @@ namespace Cooking.WPF.Services
         }
     }
 }
-
-#pragma warning restore CA1814

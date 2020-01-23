@@ -60,7 +60,6 @@ namespace Cooking.WPF.Helpers
         /// <inheritdoc/>
         public object? GetLocalizedObject(string key, DependencyObject? target, CultureInfo culture)
         {
-            Debug.WriteLine("GetLocalizedObject");
             if (localizationCache.ContainsKey(culture.Name))
             {
                 if (localizationCache[culture.Name].ContainsKey(key))

@@ -26,6 +26,9 @@
         <member name="M:Cooking.App.ConfigureViewModelLocator">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.App.OnInitialized">
+            <inheritdoc/>
+        </member>
         <member name="M:Cooking.App.InitializeComponent">
             <summary>
             InitializeComponent
@@ -241,12 +244,213 @@
             InitializeComponent
             </summary>
         </member>
+        <member name="M:Cooking.WPF.Views.DialogViewModel.#ctor(Cooking.WPF.DialogService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.DialogViewModel"/> class.
+            </summary>
+            <param name="dialogService"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.DialogViewModel.Close">
+             <summary>
+            
+             </summary>
+             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Views.GarnishEditViewModel.#ctor(Cooking.WPF.DTO.GarnishEdit,ServiceLayer.GarnishService,Cooking.WPF.DialogService,Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GarnishEditViewModel"/> class.
+            </summary>
+            <param name="garnish"></param>
+            <param name="garnishService"></param>
+            <param name="dialogService"></param>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.IngredientEditViewModel.#ctor(ServiceLayer.IngredientService,Cooking.WPF.DialogService,Cooking.WPF.Helpers.ILocalization,Cooking.WPF.DTO.IngredientEdit)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientEditViewModel"/> class.
+            </summary>
+            <param name="ingredientService"></param>
+            <param name="dialogService"></param>
+            <param name="localization"></param>
+            <param name="category"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.IngredientGroupEditViewModel.#ctor(Cooking.WPF.DialogService,Cooking.WPF.DTO.IngredientGroupEdit)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientGroupEditViewModel"/> class.
+            </summary>
+            <param name="dialogService"></param>
+            <param name="ingredientGroup"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.MoveRecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.MoveRecipeViewModel"/> class.
+            </summary>
+            <param name="dialogService"></param>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.OkCancelViewModel.#ctor(Cooking.WPF.DialogService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.OkCancelViewModel"/> class.
+            </summary>
+            <param name="dialogService"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.OkCancelViewModel.Ok">
+             <summary>
+            
+             </summary>
+             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Views.RecipeIngredientEditViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.IngredientService,AutoMapper.IMapper,Cooking.WPF.Helpers.ILocalization,Cooking.WPF.DTO.RecipeIngredientEdit)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeIngredientEditViewModel"/> class.
+            </summary>
+            <param name="dialogUtils"></param>
+            <param name="ingredientService"></param>
+            <param name="mapper"></param>
+            <param name="localization"></param>
+            <param name="ingredient"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,AutoMapper.IMapper,Cooking.WPF.Helpers.RecipeFiltrator,Cooking.WPF.Helpers.ILocalization,Cooking.WPF.Views.DayPlan)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeSelectViewModel"/> class.
+            </summary>
+            <param name="dialogService"></param>
+            <param name="recipeService"></param>
+            <param name="mapper"></param>
+            <param name="recipeFiltrator"></param>
+            <param name="localization"></param>
+            <param name="day"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.TagEditViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.WPF.Helpers.ILocalization,Cooking.WPF.DTO.TagEdit)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagEditViewModel"/> class.
+            </summary>
+            <param name="dialogService"></param>
+            <param name="tagService"></param>
+            <param name="localization"></param>
+            <param name="category"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,AutoMapper.IMapper,Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagSelectViewModel"/> class.
+            </summary>
+            <param name="dialogUtils"></param>
+            <param name="tagService"></param>
+            <param name="mapper"></param>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.GarnishListViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.GarnishService,AutoMapper.IMapper,Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GarnishListViewModel"/> class.
+            </summary>
+            <param name="dialogUtils"></param>
+            <param name="garnishService"></param>
+            <param name="mapper"></param>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.IngredientListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,ServiceLayer.IngredientService,AutoMapper.IMapper,Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientListViewModel"/> class.
+            </summary>
+            <param name="regionManager"></param>
+            <param name="dialogUtils"></param>
+            <param name="ingredientService"></param>
+            <param name="mapper"></param>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.RecipeListViewModel.#ctor(Cooking.WPF.DialogService,Prism.Ioc.IContainerExtension,Prism.Regions.IRegionManager,Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.WPF.Helpers.RecipeFiltrator,Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeListViewModel"/> class.
+            </summary>
+            <param name="dialogUtils"></param>
+            <param name="container"></param>
+            <param name="regionManager"></param>
+            <param name="recipeService"></param>
+            <param name="eventAggregator"></param>
+            <param name="mapper"></param>
+            <param name="recipeFiltrator"></param>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.RecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ImageService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,AutoMapper.IMapper,Prism.Events.IEventAggregator,Cooking.WPF.Helpers.ILocalization,Prism.Regions.IRegionManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeViewModel"/> class.
+            </summary>
+            <param name="dialogUtils"></param>
+            <param name="imageService"></param>
+            <param name="container"></param>
+            <param name="recipeService"></param>
+            <param name="mapper"></param>
+            <param name="eventAggregator"></param>
+            <param name="localization"></param>
+            <param name="regionManager"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.SettingsViewModel.#ctor(Serilog.ILogger,Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.SettingsViewModel"/> class.
+            </summary>
+            <param name="logger"></param>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.ShoppingCartViewModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.ShoppingCartViewModel"/> class.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.GeneratedWeekViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Cooking.ServiceLayer.RecipeService,Prism.Ioc.IContainerExtension,ServiceLayer.WeekService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GeneratedWeekViewModel"/> class.
+            </summary>
+            <param name="dialogUtils"></param>
+            <param name="regionManager"></param>
+            <param name="recipeService"></param>
+            <param name="container"></param>
+            <param name="weekService"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.TagListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,AutoMapper.IMapper,Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagListViewModel"/> class.
+            </summary>
+            <param name="regionManager"></param>
+            <param name="dialogUtils"></param>
+            <param name="tagService"></param>
+            <param name="mapper"></param>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.WeekSettingsViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Cooking.ServiceLayer.TagService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,Cooking.WPF.Helpers.ILocalization,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.WeekSettingsViewModel"/> class.
+            </summary>
+            <param name="dialogUtils"></param>
+            <param name="regionManager"></param>
+            <param name="tagService"></param>
+            <param name="container"></param>
+            <param name="recipeService"></param>
+            <param name="localization"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:Cooking.WPF.Views.WeekViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.DayService,AutoMapper.IMapper,ServiceLayer.WeekService,Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.WeekViewModel"/> class.
+            </summary>
+            <param name="dialogUtils"></param>
+            <param name="regionManager"></param>
+            <param name="container"></param>
+            <param name="dayService"></param>
+            <param name="mapper"></param>
+            <param name="weekService"></param>
+            <param name="localization"></param>
+        </member>
         <member name="T:Cooking.WPF.Views.CalorieTypeSelectView">
             <summary>
             Логика взаимодействия для UserControl1.xaml.
             </summary>
             <summary>
             CalorieTypeSelectView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.CalorieTypeSelectView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.CalorieTypeSelectView"/> class.
             </summary>
         </member>
         <member name="M:Cooking.WPF.Views.CalorieTypeSelectView.InitializeComponent">
@@ -262,6 +466,11 @@
             GarnishEditView
             </summary>
         </member>
+        <member name="M:Cooking.WPF.Views.GarnishEditView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GarnishEditView"/> class.
+            </summary>
+        </member>
         <member name="M:Cooking.WPF.Views.GarnishEditView.InitializeComponent">
             <summary>
             InitializeComponent
@@ -273,6 +482,11 @@
             </summary>
             <summary>
             IngredientEditView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.IngredientEditView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientEditView"/> class.
             </summary>
         </member>
         <member name="M:Cooking.WPF.Views.IngredientEditView.InitializeComponent">
@@ -288,6 +502,11 @@
             IngredientGroupEditView
             </summary>
         </member>
+        <member name="M:Cooking.WPF.Views.IngredientGroupEditView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientGroupEditView"/> class.
+            </summary>
+        </member>
         <member name="M:Cooking.WPF.Views.IngredientGroupEditView.InitializeComponent">
             <summary>
             InitializeComponent
@@ -299,6 +518,11 @@
             </summary>
             <summary>
             MoveRecipeView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.MoveRecipeView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.MoveRecipeView"/> class.
             </summary>
         </member>
         <member name="M:Cooking.WPF.Views.MoveRecipeView.InitializeComponent">
@@ -314,6 +538,11 @@
             RecipeIngredientEditView
             </summary>
         </member>
+        <member name="M:Cooking.WPF.Views.RecipeIngredientEditView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeIngredientEditView"/> class.
+            </summary>
+        </member>
         <member name="M:Cooking.WPF.Views.RecipeIngredientEditView.InitializeComponent">
             <summary>
             InitializeComponent
@@ -325,6 +554,11 @@
             </summary>
             <summary>
             RecipeSelect
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.RecipeSelect.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeSelect"/> class.
             </summary>
         </member>
         <member name="M:Cooking.WPF.Views.RecipeSelect.InitializeComponent">
@@ -340,6 +574,11 @@
             TagEditView
             </summary>
         </member>
+        <member name="M:Cooking.WPF.Views.TagEditView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagEditView"/> class.
+            </summary>
+        </member>
         <member name="M:Cooking.WPF.Views.TagEditView.InitializeComponent">
             <summary>
             InitializeComponent
@@ -351,6 +590,11 @@
             </summary>
             <summary>
             TagSelectView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.TagSelectView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagSelectView"/> class.
             </summary>
         </member>
         <member name="M:Cooking.WPF.Views.TagSelectView.InitializeComponent">
@@ -366,6 +610,11 @@
             GarnishListView
             </summary>
         </member>
+        <member name="M:Cooking.WPF.Views.GarnishListView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GarnishListView"/> class.
+            </summary>
+        </member>
         <member name="M:Cooking.WPF.Views.GarnishListView.InitializeComponent">
             <summary>
             InitializeComponent
@@ -377,6 +626,11 @@
             </summary>
             <summary>
             GeneratedWeekView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.GeneratedWeekView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GeneratedWeekView"/> class.
             </summary>
         </member>
         <member name="M:Cooking.WPF.Views.GeneratedWeekView.InitializeComponent">
@@ -392,6 +646,11 @@
             IngredientListView
             </summary>
         </member>
+        <member name="M:Cooking.WPF.Views.IngredientListView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientListView"/> class.
+            </summary>
+        </member>
         <member name="M:Cooking.WPF.Views.IngredientListView.InitializeComponent">
             <summary>
             InitializeComponent
@@ -403,6 +662,11 @@
             </summary>
             <summary>
             RecipeListView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.RecipeListView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeListView"/> class.
             </summary>
         </member>
         <member name="M:Cooking.WPF.Views.RecipeListView.InitializeComponent">
@@ -418,6 +682,11 @@
             RecipeView
             </summary>
         </member>
+        <member name="M:Cooking.WPF.Views.RecipeView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeView"/> class.
+            </summary>
+        </member>
         <member name="M:Cooking.WPF.Views.RecipeView.InitializeComponent">
             <summary>
             InitializeComponent
@@ -429,6 +698,11 @@
             </summary>
             <summary>
             SettingsView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.SettingsView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.SettingsView"/> class.
             </summary>
         </member>
         <member name="M:Cooking.WPF.Views.SettingsView.InitializeComponent">
@@ -444,6 +718,11 @@
             ShoppingCartView
             </summary>
         </member>
+        <member name="M:Cooking.WPF.Views.ShoppingCartView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.ShoppingCartView"/> class.
+            </summary>
+        </member>
         <member name="M:Cooking.WPF.Views.ShoppingCartView.InitializeComponent">
             <summary>
             InitializeComponent
@@ -455,6 +734,11 @@
             </summary>
             <summary>
             TagListView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.TagListView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagListView"/> class.
             </summary>
         </member>
         <member name="M:Cooking.WPF.Views.TagListView.InitializeComponent">
@@ -470,6 +754,11 @@
             WeekSettingsView
             </summary>
         </member>
+        <member name="M:Cooking.WPF.Views.WeekSettingsView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.WeekSettingsView"/> class.
+            </summary>
+        </member>
         <member name="M:Cooking.WPF.Views.WeekSettingsView.InitializeComponent">
             <summary>
             InitializeComponent
@@ -481,6 +770,11 @@
             </summary>
             <summary>
             WeekView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.WeekView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.WeekView"/> class.
             </summary>
         </member>
         <member name="M:Cooking.WPF.Views.WeekView.InitializeComponent">
@@ -947,6 +1241,42 @@
             Dto for tag edit.
             </summary>
         </member>
+        <member name="M:Cooking.WPF.DTO.GarnishEditValidator.#ctor(Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.GarnishEditValidator"/> class.
+            </summary>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.DTO.IngredientEditValidator.#ctor(Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.IngredientEditValidator"/> class.
+            </summary>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.DTO.IngredientGroupEditValidator.#ctor(Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.IngredientGroupEditValidator"/> class.
+            </summary>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.DTO.RecipeEditValidator.#ctor(Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.RecipeEditValidator"/> class.
+            </summary>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.DTO.RecipeIngredientEditValidator.#ctor(Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.RecipeIngredientEditValidator"/> class.
+            </summary>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.DTO.TagEditValidator.#ctor(Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.TagEditValidator"/> class.
+            </summary>
+            <param name="localization"></param>
+        </member>
         <member name="T:Cooking.WPF.Helpers.JsonLocalizationProvider">
             <summary>
             Json localization provider for WPFLocalizeExtension.
@@ -1002,6 +1332,36 @@
             <param name="args">Arguments for string.Format.</param>
             <returns>Localized and formatted string.</returns>
         </member>
+        <member name="M:Cooking.WPF.Helpers.RecipeFiltrator.#ctor(Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Helpers.RecipeFiltrator"/> class.
+            </summary>
+            <param name="recipeService"></param>
+            <param name="eventAggregator"></param>
+            <param name="mapper"></param>
+        </member>
+        <member name="M:Cooking.WPF.ContextFactory.#ctor(Microsoft.Extensions.Options.IOptions{Cooking.WPF.Helpers.AppSettings})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.ContextFactory"/> class.
+            </summary>
+            <param name="appSettings"></param>
+        </member>
+        <member name="M:Cooking.WPF.DialogService.#ctor(System.Object,MahApps.Metro.Controls.Dialogs.IDialogCoordinator,Prism.Ioc.IContainerExtension,Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.DialogService"/> class.
+            </summary>
+            <param name="viewModel"></param>
+            <param name="dialogCoordinator"></param>
+            <param name="containerProvider"></param>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.WPF.DialogService.ShowAndWaitForClosedAsync(MahApps.Metro.Controls.Dialogs.BaseMetroDialog)">
+             <summary>
+            
+             </summary>
+             <param name="dialog"></param>
+             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
         <member name="M:Cooking.WPF.DialogService.ShowCustomMessageAsync``2(System.String,``1)">
             <summary>
             Отобразить произвольный View в виде диалогового окна.
@@ -1012,10 +1372,55 @@
             <param name="content">Объект ViewModel, который будет использован для View.</param>
             <returns>Объект ViewModel, который может нести значения, введённые пользователем.</returns>
         </member>
+        <member name="M:Cooking.WPF.DialogService.ShowOkCancelDialog``2(System.String,``1,System.Action{``1})">
+             <summary>
+            
+             </summary>
+             <typeparam name="TDialog"></typeparam>
+             <typeparam name="TDialogContent"></typeparam>
+             <param name="title"></param>
+             <param name="content"></param>
+             <param name="successCallback"></param>
+             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.WPF.DialogService.ShowYesNoDialog(System.String,System.String,System.Action)">
+             <summary>
+            
+             </summary>
+             <param name="title"></param>
+             <param name="content"></param>
+             <param name="successCallback"></param>
+             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.WPF.DialogService.HideCurrentDialogAsync">
+             <summary>
+            
+             </summary>
+             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.WPF.DialogService.HideDialogAsync(MahApps.Metro.Controls.Dialogs.BaseMetroDialog)">
+             <summary>
+            
+             </summary>
+             <param name="dialog"></param>
+             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
         <member name="M:Cooking.WPF.Services.EnumExtensions.Description(System.Enum)">
             <summary>
             Get DescriptionAttribute from enum.
             </summary>
+        </member>
+        <member name="M:Cooking.WPF.Services.RecipeConverter.#ctor(Cooking.ServiceLayer.RecipeService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Services.RecipeConverter"/> class.
+            </summary>
+            <param name="recipeService"></param>
+        </member>
+        <member name="M:Cooking.WPF.Services.RecipeDtoConverter.#ctor(Cooking.ServiceLayer.RecipeService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Services.RecipeDtoConverter"/> class.
+            </summary>
+            <param name="recipeService"></param>
         </member>
         <member name="T:Cooking.WPF.StringFormatProxy">
              <summary>
@@ -1041,10 +1446,37 @@
             Gets or sets formatted result.
             </summary>
         </member>
+        <member name="M:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.WPF.Helpers.ILocalization,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.CalorieTypeSelection})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel"/> class.
+            </summary>
+            <param name="dialogService"></param>
+            <param name="localization"></param>
+            <param name="selectedTypes"></param>
+        </member>
         <member name="T:Cooking.Consts">
             <summary>
             Collection of project's constants
             </summary>
+        </member>
+        <member name="M:Cooking.ImageService.#ctor(Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.ImageService"/> class.
+            </summary>
+            <param name="localization"></param>
+        </member>
+        <member name="M:Cooking.ValidationTemplate.#ctor(System.ComponentModel.INotifyPropertyChanged)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.ValidationTemplate"/> class.
+            </summary>
+            <param name="target"></param>
+        </member>
+        <member name="M:Cooking.MainWindowViewModel.#ctor(WPFLocalizeExtension.Providers.ILocalizationProvider,Cooking.WPF.Helpers.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.MainWindowViewModel"/> class.
+            </summary>
+            <param name="localizationProvider"></param>
+            <param name="localization"></param>
         </member>
         <member name="T:Cooking.MainWindowView">
             <summary>
@@ -1054,39 +1486,15 @@
             MainWindowView
             </summary>
         </member>
+        <member name="M:Cooking.MainWindowView.#ctor(Prism.Regions.IRegionManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.MainWindowView"/> class.
+            </summary>
+            <param name="regionManager"></param>
+        </member>
         <member name="M:Cooking.MainWindowView.InitializeComponent">
             <summary>
             InitializeComponent
-            </summary>
-        </member>
-        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-            <summary>
-            GeneratedInternalTypeHelper
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-            <summary>
-            CreateInstance
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            GetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            SetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-            <summary>
-            CreateDelegate
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-            <summary>
-            AddEventHandler
             </summary>
         </member>
     </members>

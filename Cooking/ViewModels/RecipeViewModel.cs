@@ -281,7 +281,7 @@ namespace Cooking.WPF.Views
             IsRecipeCreation = false;
         }
 
-        private async Task DeleteRecipe(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Recipe!.ID),
+        private async Task DeleteRecipe(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Recipe!.Name),
                                                                                            localization.GetLocalizedString("CannotUndo"),
                                                                                            successCallback: () => OnRecipeDeleted(recipeId))
                                                                           ;
@@ -305,7 +305,7 @@ namespace Cooking.WPF.Views
             var recipeId = navigationContext.Parameters[nameof(Recipe)] as Guid?;
             if (recipeId.HasValue)
             {
-                Recipe = recipeService.GetProjected<RecipeEdit>(recipeId.Value, container.Resolve<IMapper>());
+                Recipe = recipeService.GetMapped<RecipeEdit>(recipeId.Value, container.Resolve<IMapper>());
             }
             else
             {

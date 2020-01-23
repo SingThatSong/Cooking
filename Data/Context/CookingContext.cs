@@ -4,9 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq.Expressions;
 
-// NULL-warnings, not applicable to DbContext
-#pragma warning disable CS8618, CS8603, CS8629, CS8602
-
 namespace Cooking.Data.Context
 {
     /// <summary>
@@ -185,6 +182,4 @@ namespace Cooking.Data.Context
                     b => new Guid(b));
         }
     }
-
-#pragma warning restore CS8618, CS8602, CS8603, CS8629
 }

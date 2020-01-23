@@ -25,6 +25,7 @@ namespace Cooking.Data.Model.Plan
         /// <summary>
         /// Gets or sets day date.
         /// </summary>
+        // TODO: Set not-nullable
         public DateTime? Date { get; set; }
 
         /// <summary>

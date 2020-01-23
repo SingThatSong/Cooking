@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:sys="clr-namespace:System;assembly=System">
+    xmlns:System="clr-namespace:System;assembly=System.Runtime">
     <prism:PrismApplication.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -17,8 +17,8 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!--  Mahapps' variables  -->
-            <sys:Double x:Key="HamburgerMenuSelectionIndicatorThemeWidth">3</sys:Double>
-            <sys:Double x:Key="HamburgerMenuSelectionIndicatorThemeHeight">48</sys:Double>
+            <System:Double x:Key="HamburgerMenuSelectionIndicatorThemeWidth">3</System:Double>
+            <System:Double x:Key="HamburgerMenuSelectionIndicatorThemeHeight">48</System:Double>
             <!--  Default recipe image  -->
             <BitmapImage x:Key="DefaultRecipeImg" UriSource="pack://siteoforigin:,,,/defaultRecipe.png" />
         </ResourceDictionary>

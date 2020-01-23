@@ -68,7 +68,7 @@ namespace Cooking.WPF.Views
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
             AddCategoryCommand = new AsyncDelegateCommand(AddRecipe);
 
-            AllIngredients = ingredientService.GetProjected<IngredientEdit>(mapper);
+            AllIngredients = ingredientService.GetAllProjected<IngredientEdit>(mapper);
             LoadedCommand = new DelegateCommand(OnLoaded);
         }
 

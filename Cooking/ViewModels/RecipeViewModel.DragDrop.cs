@@ -14,13 +14,30 @@ namespace Cooking.WPF.Views
 
         public void Drop(IDropInfo dropInfo)
         {
-#pragma warning disable IDE0011 // Добавить фигурные скобки
-            if (dropInfo.TargetCollection != dropInfo.DragInfo.SourceCollection) return;
-            if (dropInfo.Data == dropInfo.TargetItem) return;
-            if (!(dropInfo.Data is RecipeIngredientEdit ingredient)) return;
-            if (!(dropInfo.TargetItem is RecipeIngredientEdit targetIngredient)) return;
-            if (!(dropInfo.TargetCollection is ObservableCollection<RecipeIngredientEdit> targetCollection)) return;
-#pragma warning restore IDE0011
+            if (dropInfo.TargetCollection != dropInfo.DragInfo.SourceCollection)
+            {
+                return;
+            }
+
+            if (dropInfo.Data == dropInfo.TargetItem)
+            {
+                return;
+            }
+
+            if (!(dropInfo.Data is RecipeIngredientEdit ingredient))
+            {
+                return;
+            }
+
+            if (!(dropInfo.TargetItem is RecipeIngredientEdit targetIngredient))
+            {
+                return;
+            }
+
+            if (!(dropInfo.TargetCollection is ObservableCollection<RecipeIngredientEdit> targetCollection))
+            {
+                return;
+            }
 
             int oldIndex = targetCollection.IndexOf(ingredient);
             int targetIndex = targetCollection.IndexOf(targetIngredient);
