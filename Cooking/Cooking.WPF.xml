@@ -6,7 +6,7 @@
     <members>
         <member name="T:Cooking.App">
             <summary>
-            Logic forApp.xaml.
+            Logic for App.xaml.
             </summary>
             <summary>
             App
@@ -218,7 +218,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.DayControl">
             <summary>
-            Logic forDayControl.xaml.
+            Logic for DayControl.xaml.
             </summary>
             <summary>
             DayControl
@@ -442,7 +442,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.CalorieTypeSelectView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             CalorieTypeSelectView
@@ -460,7 +460,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.GarnishEditView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             GarnishEditView
@@ -478,7 +478,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.IngredientEditView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             IngredientEditView
@@ -496,7 +496,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.IngredientGroupEditView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             IngredientGroupEditView
@@ -514,7 +514,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.MoveRecipeView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             MoveRecipeView
@@ -532,7 +532,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.RecipeIngredientEditView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             RecipeIngredientEditView
@@ -550,7 +550,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.RecipeSelect">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             RecipeSelect
@@ -568,7 +568,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.TagEditView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             TagEditView
@@ -586,7 +586,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.TagSelectView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             TagSelectView
@@ -604,7 +604,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.GarnishListView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             GarnishListView
@@ -622,7 +622,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.GeneratedWeekView">
             <summary>
-            Logic forWeekSettings.xaml.
+            Logic for WeekSettings.xaml.
             </summary>
             <summary>
             GeneratedWeekView
@@ -640,7 +640,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.IngredientListView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             IngredientListView
@@ -658,7 +658,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.RecipeListView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             RecipeListView
@@ -676,7 +676,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.RecipeView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             RecipeView
@@ -694,7 +694,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.SettingsView">
             <summary>
-            Logic forMainPage.xaml.
+            Logic for MainPage.xaml.
             </summary>
             <summary>
             SettingsView
@@ -712,7 +712,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.ShoppingCartView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             ShoppingCartView
@@ -730,7 +730,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.TagListView">
             <summary>
-            Logic forUserControl1.xaml.
+            Logic for
             </summary>
             <summary>
             TagListView
@@ -748,7 +748,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.WeekSettingsView">
             <summary>
-            Logic forWeekSettings.xaml.
+            Logic for WeekSettings.xaml.
             </summary>
             <summary>
             WeekSettingsView
@@ -766,7 +766,7 @@
         </member>
         <member name="T:Cooking.WPF.Views.WeekView">
             <summary>
-            Logic forMainPage.xaml.
+            Logic for MainPage.xaml.
             </summary>
             <summary>
             WeekView
@@ -1241,6 +1241,97 @@
             Dto for tag edit.
             </summary>
         </member>
+        <member name="F:Cooking.WPF.DTO.TagEdit.Any">
+            <summary>
+            Any tag for selection.
+            TODO: Refactor out from TagEdit.
+            </summary>
+        </member>
+        <member name="E:Cooking.WPF.DTO.TagEdit.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="P:Cooking.WPF.DTO.TagEdit.Name">
+            <summary>
+            Gets or sets tag name.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.TagEdit.Type">
+            <summary>
+            Gets or sets tag type.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.TagEdit.Color">
+            <summary>
+            Gets or sets tag color.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.TagEdit.IsChecked">
+            <summary>
+            Gets or sets a value indicating whether is tag checked.
+            TODO: Refactor out from TagEdit.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.TagEdit.CanBeRemoved">
+            <summary>
+            Gets or sets a value indicating whether canTagBeRemoved
+            TODO: Refactor out from TagEdit.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.DTO.WeekEdit">
+            <summary>
+            Dto for week editing.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.WeekEdit.Start">
+            <summary>
+            Gets or sets week start.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.WeekEdit.End">
+            <summary>
+            Gets or sets week end.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.WeekEdit.Days">
+            <summary>
+            Gets or sets week days.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.WeekEdit.Monday">
+            <summary>
+            Gets monday.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.WeekEdit.Tuesday">
+            <summary>
+            Gets tuesday.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.WeekEdit.Wednesday">
+            <summary>
+            Gets wednesday.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.WeekEdit.Thursday">
+            <summary>
+            Gets thursday.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.WeekEdit.Friday">
+            <summary>
+            Gets friday.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.WeekEdit.Saturday">
+            <summary>
+            Gets saturday.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.WeekEdit.Sunday">
+            <summary>
+            Gets sunday.
+            </summary>
+        </member>
         <member name="M:Cooking.WPF.DTO.GarnishEditValidator.#ctor(Cooking.WPF.Helpers.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.GarnishEditValidator"/> class.
@@ -1276,6 +1367,70 @@
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.TagEditValidator"/> class.
             </summary>
             <param name="localization"></param>
+        </member>
+        <member name="T:Cooking.WPF.Events.RecipeCreatedEvent">
+            <summary>
+            Prism Event fired when recipe created.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Events.RecipeDeletedEvent">
+            <summary>
+            Prism Event fired when recipe deleted.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Events.RecipeUpdatedEvent">
+            <summary>
+            Prism Event fired when recipe updated.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Helpers.AppSettings">
+            <summary>
+            Application settings for use with IOptions.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Helpers.AppSettings.Culture">
+            <summary>
+            Gets or sets application culture setting.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Helpers.AppSettings.DbName">
+            <summary>
+            Gets or sets applicayion database name setting.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Helpers.ILocalization">
+            <summary>
+            Interface for providing localized text.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Helpers.ILocalization.GetAllValuesFor(System.String)">
+            <summary>
+            Get all values for prefix. Usually prefix is enum type.
+            </summary>
+            <param name="prefix">Key prefix.</param>
+            <returns>All values for selected prefix.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Helpers.ILocalization.GetLocalizedString(System.Enum)">
+            <summary>
+            Get localized value for enum.
+            </summary>
+            <param name="value">Enum value for localization.</param>
+            <returns>Localized string.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Helpers.ILocalization.GetLocalizedString(System.String)">
+            <summary>
+            Get localized string for a key.
+            </summary>
+            <param name="key">Key to get a string.</param>
+            <returns>Localized string.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Helpers.ILocalization.GetLocalizedString(System.String,System.Object[])">
+            <summary>
+            Get formatted and localized string.
+            </summary>
+            <param name="key">Key for a localized string. Will be used as format in string.Format.</param>
+            <param name="args">Arguments for string.Format. Used as provided.</param>
+            <returns>Localized string.</returns>
         </member>
         <member name="T:Cooking.WPF.Helpers.JsonLocalizationProvider">
             <summary>
@@ -1331,6 +1486,13 @@
             <param name="key">Key to get localized string for. Will be used as format in string.Format.</param>
             <param name="args">Arguments for string.Format.</param>
             <returns>Localized and formatted string.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Helpers.JsonLocalizationProvider.GetAllValuesFor(System.String)">
+            <summary>
+            Get all values for prefix.
+            </summary>
+            <param name="prefix">Prefix for a string collection.</param>
+            <returns>Dictionary of localization keys and values.</returns>
         </member>
         <member name="M:Cooking.WPF.Helpers.RecipeFiltrator.#ctor(Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper)">
             <summary>
@@ -1405,23 +1567,6 @@
              <param name="dialog"></param>
              <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
         </member>
-        <member name="M:Cooking.WPF.Services.EnumExtensions.Description(System.Enum)">
-            <summary>
-            Get DescriptionAttribute from enum.
-            </summary>
-        </member>
-        <member name="M:Cooking.WPF.Services.RecipeConverter.#ctor(Cooking.ServiceLayer.RecipeService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.Services.RecipeConverter"/> class.
-            </summary>
-            <param name="recipeService"></param>
-        </member>
-        <member name="M:Cooking.WPF.Services.RecipeDtoConverter.#ctor(Cooking.ServiceLayer.RecipeService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.Services.RecipeDtoConverter"/> class.
-            </summary>
-            <param name="recipeService"></param>
-        </member>
         <member name="T:Cooking.WPF.StringFormatProxy">
              <summary>
              Copied from https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension/blob/16fa1f6168fb803966d8217e5a406685c49d6854/tests/AssemblyTest/StringFormatProxy.cs
@@ -1446,6 +1591,34 @@
             Gets or sets formatted result.
             </summary>
         </member>
+        <member name="T:Cooking.WPF.Services.RecipeConverter">
+            <summary>
+            Converter from db Recipe entity and RecipeEdit dto, setting LastCooked using RecipeService.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Services.RecipeConverter.#ctor(Cooking.ServiceLayer.RecipeService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Services.RecipeConverter"/> class.
+            </summary>
+            <param name="recipeService">Dependency to <see cref="T:Cooking.ServiceLayer.RecipeService"/>.</param>
+        </member>
+        <member name="M:Cooking.WPF.Services.RecipeConverter.Process(Cooking.Data.Model.Recipe,Cooking.WPF.DTO.RecipeEdit,AutoMapper.ResolutionContext)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.Services.RecipeDtoConverter">
+            <summary>
+            Converter from db Recipe entity and RecipeListViewDto dto, setting LastCooked using RecipeService.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Services.RecipeDtoConverter.#ctor(Cooking.ServiceLayer.RecipeService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Services.RecipeDtoConverter"/> class.
+            </summary>
+            <param name="recipeService">Dependency to <see cref="T:Cooking.ServiceLayer.RecipeService"/>.</param>
+        </member>
+        <member name="M:Cooking.WPF.Services.RecipeDtoConverter.Process(Cooking.Data.Model.Recipe,Cooking.WPF.DTO.RecipeListViewDto,AutoMapper.ResolutionContext)">
+            <inheritdoc/>
+        </member>
         <member name="M:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.WPF.Helpers.ILocalization,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.CalorieTypeSelection})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel"/> class.
@@ -1465,6 +1638,17 @@
             </summary>
             <param name="localization"></param>
         </member>
+        <member name="T:Cooking.MapperService">
+            <summary>
+            Service for object mapping and projections.
+            </summary>
+        </member>
+        <member name="M:Cooking.MapperService.CreateMapper">
+            <summary>
+            Create Autmapper Mapper provider.
+            </summary>
+            <returns>Instance of <see cref="T:AutoMapper.IConfigurationProvider"/>.</returns>
+        </member>
         <member name="M:Cooking.ValidationTemplate.#ctor(System.ComponentModel.INotifyPropertyChanged)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.ValidationTemplate"/> class.
@@ -1480,7 +1664,7 @@
         </member>
         <member name="T:Cooking.MainWindowView">
             <summary>
-            Logic forMainWindow.xaml.
+            Logic for MainWindow.xaml.
             </summary>
             <summary>
             MainWindowView
