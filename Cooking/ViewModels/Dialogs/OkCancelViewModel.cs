@@ -3,25 +3,50 @@ using System.Threading.Tasks;
 
 namespace Cooking.WPF.Views
 {
-    public partial class OkCancelViewModel : DialogViewModel
+    /// <summary>
+    /// Base view model for ok/cancel dialogs.
+    /// </summary>
+    public partial class OkCancelViewModel
     {
-        public bool DialogResultOk { get; private set; }
-        public AsyncDelegateCommand OkCommand { get; protected set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="OkCancelViewModel"/> class.
         /// </summary>
-        /// <param name="dialogService"></param>
+        /// <param name="dialogService">Dialog service to be able to close dialog.</param>
         public OkCancelViewModel(DialogService dialogService)
-            : base(dialogService)
         {
+            DialogService = dialogService;
+            CloseCommand = new AsyncDelegateCommand(Close);
             OkCommand = new AsyncDelegateCommand(Ok, CanOk);
         }
 
+        /// <summary>
+        /// Gets a value indicating whether result of dialog execution - ok or not.
+        /// </summary>
+        public bool DialogResultOk { get; private set; }
+
+        /// <summary>
+        /// Gets command for clicking on Ok button.
+        /// </summary>
+        public AsyncDelegateCommand OkCommand { get; }
+
+        /// <summary>
+        /// Gets command for clicking on Cancel button.
+        /// </summary>
+        public AsyncDelegateCommand CloseCommand { get; }
+
+        /// <summary>
+        /// Gets dialog service dependency.
+        /// </summary>
+        protected DialogService DialogService { get; }
+
+        /// <summary>
+        /// Determine if ok button can be pressed.
+        /// </summary>
+        /// <returns>Ture if ok button can be pressed.</returns>
         protected virtual bool CanOk() => true;
 
         /// <summary>
-        ///
+        /// Close current dialog and set <see cref="DialogResultOk"/> to true.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         protected virtual async Task Ok()
@@ -29,5 +54,11 @@ namespace Cooking.WPF.Views
             DialogResultOk = true;
             await Close();
         }
+
+        /// <summary>
+        /// Close current dialog.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        private async Task Close() => await DialogService.HideCurrentDialogAsync();
     }
 }

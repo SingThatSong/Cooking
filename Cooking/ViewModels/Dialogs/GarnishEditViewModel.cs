@@ -1,6 +1,5 @@
 ﻿using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Helpers;
 using Cooking.WPF.Services;
 using ServiceLayer;
 using System;
@@ -11,31 +10,20 @@ using System.Threading.Tasks;
 
 namespace Cooking.WPF.Views
 {
+    /// <summary>
+    ///  View model for editing garnishes.
+    /// </summary>
     public partial class GarnishEditViewModel : OkCancelViewModel, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         private readonly ILocalization localization;
-
-        // State
-        public bool SimilarGarnishesPresent => SimilarGarnishes?.Count() > 0;
-        public GarnishEdit Garnish { get; set; }
-        public string? NameCaption => localization.GetLocalizedString("Name");
-        public string? MaybeYouWantCaption => localization.GetLocalizedString("MaybeYouWant");
-        private bool NameChanged { get; set; }
-        public IEnumerable<string>? SimilarGarnishes => string.IsNullOrWhiteSpace(Garnish?.Name)
-            ? null
-            : AllGarnishNames.OrderBy(x => GarnishCompare(x, Garnish.Name)).Take(3);
-        private List<string> AllGarnishNames { get; set; }
-        public DelegateCommand LoadedCommand { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GarnishEditViewModel"/> class.
         /// </summary>
-        /// <param name="garnish"></param>
-        /// <param name="garnishService"></param>
-        /// <param name="dialogService"></param>
-        /// <param name="localization"></param>
+        /// <param name="garnish">Garnish to edit.</param>
+        /// <param name="garnishService">Garnish service dependency.</param>
+        /// <param name="dialogService">Dialog service dependency.</param>
+        /// <param name="localization">Localization dependency.</param>
         public GarnishEditViewModel(GarnishEdit? garnish,
                                     GarnishService garnishService,
                                     DialogService dialogService,
@@ -50,23 +38,47 @@ namespace Cooking.WPF.Views
                 if (e.PropertyName == nameof(Garnish.Name))
                 {
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SimilarGarnishes)));
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SimilarGarnishesPresent)));
                     NameChanged = true;
                 }
             };
             LoadedCommand = new DelegateCommand(OnLoaded);
         }
 
-        // WARNING: this is a crunch
-        // When we open ingredient creation dialog second+ time, validation cannot see Ingredient being a required property, but when we change it's value - everything is ok
-        // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
-        private void OnLoaded()
-        {
-            string? backup = Garnish.Name;
-            Garnish.Name = "123";
-            Garnish.Name = backup;
-        }
+        /// <inheritdoc/>
+        public event PropertyChangedEventHandler? PropertyChanged;
 
+        /// <summary>
+        /// Gets or sets garnish to be edited.
+        /// </summary>
+        public GarnishEdit Garnish { get; set; }
+
+        /// <summary>
+        /// Gets localized name caption.
+        /// </summary>
+        public string? NameCaption => localization.GetLocalizedString("Name");
+
+        /// <summary>
+        /// Gets localized suggestion caption.
+        /// </summary>
+        public string? MaybeYouWantCaption => localization.GetLocalizedString("MaybeYouWant");
+
+        /// <summary>
+        /// Gets similar garnishes list to check on duplicates.
+        /// </summary>
+        public IEnumerable<string>? SimilarGarnishes => string.IsNullOrWhiteSpace(Garnish?.Name)
+            ? null
+            : AllGarnishNames.OrderBy(x => GarnishCompare(x, Garnish.Name)).Take(3);
+
+        /// <summary>
+        /// Gets command to execute on loaded event.
+        /// </summary>
+        public DelegateCommand LoadedCommand { get; }
+
+        private bool NameChanged { get; set; }
+
+        private List<string> AllGarnishNames { get; set; }
+
+        /// <inheritdoc/>
         protected override async Task Ok()
         {
             // Check if garnish is already exists
@@ -86,6 +98,7 @@ namespace Cooking.WPF.Views
             await base.Ok();
         }
 
+        /// <inheritdoc/>
         protected override bool CanOk()
         {
             if (Garnish is INotifyDataErrorInfo dataErrorInfo)
@@ -98,8 +111,18 @@ namespace Cooking.WPF.Views
             }
         }
 
+        // WARNING: this is a crunch
+        // When we open ingredient creation dialog second+ time, validation cannot see Ingredient being a required property, but when we change it's value - everything is ok
+        // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
+        private void OnLoaded()
+        {
+            string? backup = Garnish.Name;
+            Garnish.Name = "123";
+            Garnish.Name = backup;
+        }
+
         private int GarnishCompare(string str1, string str2)
-         => StringCompare.DiffLength(
+         => StringCompare.LevensteinDistance(
                     string.Join(" ", str1.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name)),
                     string.Join(" ", str2.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name))
             );

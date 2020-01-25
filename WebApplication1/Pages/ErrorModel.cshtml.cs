@@ -10,15 +10,19 @@ namespace Cooking.Web.Pages
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ErrorModel : PageModel
     {
-
-
+        /// <summary>
+        /// Gets or sets id of request in error.
+        /// </summary>
         public string? RequestId { get; set; }
 
+        /// <summary>
+        /// Gets a value indicating whether to show request ID.
+        /// </summary>
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
-        public void OnGet()
-        {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
-        }
+        /// <summary>
+        /// What to do on get.
+        /// </summary>
+        public void OnGet() => RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
     }
 }

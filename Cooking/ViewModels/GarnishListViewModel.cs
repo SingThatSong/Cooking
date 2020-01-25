@@ -2,7 +2,7 @@
 using Cooking.Data.Model.Plan;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Helpers;
+using Cooking.WPF.Services;
 using PropertyChanged;
 using ServiceLayer;
 using System;
@@ -36,10 +36,10 @@ namespace Cooking.WPF.Views
         /// <summary>
         /// Initializes a new instance of the <see cref="GarnishListViewModel"/> class.
         /// </summary>
-        /// <param name="dialogUtils"></param>
+        /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="garnishService"></param>
-        /// <param name="mapper"></param>
-        /// <param name="localization"></param>
+        /// <param name="mapper">Mapper dependency.</param>
+        /// <param name="localization">Localization provider dependency.</param>
         public GarnishListViewModel(DialogService dialogUtils, GarnishService garnishService, IMapper mapper, ILocalization localization)
         {
             this.dialogUtils = dialogUtils;

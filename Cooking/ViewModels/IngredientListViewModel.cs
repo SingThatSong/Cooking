@@ -2,7 +2,7 @@
 using Cooking.Data.Model;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Helpers;
+using Cooking.WPF.Services;
 using Prism.Regions;
 using PropertyChanged;
 using ServiceLayer;
@@ -40,10 +40,10 @@ namespace Cooking.WPF.Views
         /// Initializes a new instance of the <see cref="IngredientListViewModel"/> class.
         /// </summary>
         /// <param name="regionManager"></param>
-        /// <param name="dialogUtils"></param>
-        /// <param name="ingredientService"></param>
-        /// <param name="mapper"></param>
-        /// <param name="localization"></param>
+        /// <param name="dialogService">Dialog service dependency.</param>
+        /// <param name="ingredientService">Ingredient service dependency.</param>
+        /// <param name="mapper">Mapper dependency.</param>
+        /// <param name="localization">Localization provider dependency.</param>
         public IngredientListViewModel(IRegionManager regionManager,
                                     DialogService dialogUtils,
                                     IngredientService ingredientService,

@@ -1,10 +1,22 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Cooking.WPF.Services
 {
+    /// <summary>
+    /// Utility class for work with text.
+    /// </summary>
     public static class StringCompare
     {
-        public static int DiffLength(string str1, string str2)
+        /// <summary>
+        /// Count Levenstein distance between strings.
+        /// </summary>
+        /// <param name="str1">String one.</param>
+        /// <param name="str2">String two.</param>
+        /// <returns>Levenstein distance between strings.</returns>
+        [SuppressMessage("Performance", "CA1814", Justification = "Square array is by the algorithm")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312:Variable names should begin with lower-case letter", Justification = "E is definition made in algorithm")]
+        public static int LevensteinDistance(this string str1, string str2)
         {
             str1 = str1.ToUpperInvariant();
             str2 = str2.ToUpperInvariant();

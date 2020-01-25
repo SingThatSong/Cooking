@@ -9,22 +9,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Cooking.WPF.Helpers
+namespace Cooking.WPF.Services
 {
+    /// <summary>
+    /// Filtration logic for list of recipies.
+    /// </summary>
     public class RecipeFiltrator
     {
         private readonly RecipeService recipeService;
         private readonly IMapper mapper;
 
         private Dictionary<Guid, Recipe>? recipeCache;
-        private FilterContext<RecipeListViewDto> FilterContext { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeFiltrator"/> class.
         /// </summary>
-        /// <param name="recipeService"></param>
-        /// <param name="eventAggregator"></param>
-        /// <param name="mapper"></param>
+        /// <param name="recipeService">Recipe service dependency.</param>
+        /// <param name="eventAggregator">Event aggregator dependency for reacting to events.</param>
+        /// <param name="mapper">Mapper dependency.</param>
         public RecipeFiltrator(RecipeService recipeService,
                                IEventAggregator eventAggregator,
                                IMapper mapper)
@@ -41,6 +43,35 @@ namespace Cooking.WPF.Helpers
             eventAggregator.GetEvent<RecipeDeletedEvent>().Subscribe(OnRecipeDeleted, ThreadOption.UIThread);
         }
 
+        private FilterContext<RecipeListViewDto> FilterContext { get; set; }
+
+        /// <summary>
+        /// Filter single object.
+        /// </summary>
+        /// <param name="recipe">Recipe to filter.</param>
+        /// <returns>Whether recipe fits fitler.</returns>
+        public bool FilterObject(RecipeListViewDto recipe) => FilterContext.IsExpressionBuilt ? FilterContext.Filter(recipe) : false;
+
+        /// <summary>
+        /// Callback called when filter text is changed.
+        /// </summary>
+        /// <param name="newText">New value for Filter Text.</param>
+        public void OnFilterTextChanged(string? newText)
+        {
+            if (!string.IsNullOrEmpty(newText))
+            {
+                FilterContext.BuildExpression(newText);
+                if (recipeCache == null)
+                {
+                    recipeCache = recipeService.GetAllProjected<Recipe>(mapper).ToDictionary(x => x.ID, x => x);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Callback for event when recipe is deleted. Remove it from cache.
+        /// </summary>
+        /// <param name="id">ID of deleted recipe.</param>
         private void OnRecipeDeleted(Guid id)
         {
             if (recipeCache == null)
@@ -54,6 +85,10 @@ namespace Cooking.WPF.Helpers
             }
         }
 
+        /// <summary>
+        /// Callback for event when recipe is updated. Update it in cache.
+        /// </summary>
+        /// <param name="obj">Updated recipe.</param>
         private void OnRecipeUpdated(RecipeEdit obj)
         {
             if (recipeCache != null)
@@ -62,6 +97,10 @@ namespace Cooking.WPF.Helpers
             }
         }
 
+        /// <summary>
+        /// Callback for event when recipe is deleted. Remove it from cache.
+        /// </summary>
+        /// <param name="obj">Created recipe.</param>
         private void OnRecipeCreated(RecipeEdit obj)
         {
             if (recipeCache == null)
@@ -70,20 +109,6 @@ namespace Cooking.WPF.Helpers
             }
 
             recipeCache!.Add(obj.ID, mapper.Map<Recipe>(obj));
-        }
-
-        public bool FilterObject(RecipeListViewDto recipe) => FilterContext.IsExpressionBuilt ? FilterContext.Filter(recipe) : false;
-
-        public void OnFilterTextChanged(string? newText)
-        {
-            if (!string.IsNullOrEmpty(newText))
-            {
-                FilterContext.BuildExpression(newText);
-                if (recipeCache == null)
-                {
-                    recipeCache = recipeService.GetAllProjected<Recipe>(mapper).ToDictionary(x => x.ID, x => x);
-                }
-            }
         }
 
         private bool CombinedFilter(RecipeListViewDto recipe, string text) => HasName(recipe, text) || HasTag(recipe, text) || HasIngredient(recipe, text);

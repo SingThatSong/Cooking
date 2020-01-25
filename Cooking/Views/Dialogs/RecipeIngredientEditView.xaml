@@ -63,7 +63,7 @@
                     <Button
                         Grid.Column="1"
                         BorderThickness="0"
-                        Command="{Binding AddCategoryCommand}"
+                        Command="{Binding CreateIngredientCommand}"
                         Foreground="Green"
                         Style="{StaticResource SmallButton}">
                         <icons:PackIconModern Kind="Add" Style="{StaticResource SmallIcon}" />

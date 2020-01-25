@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Cooking.WPF.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-namespace Cooking.WPF.Helpers
+namespace Cooking.WPF.Services
 {
     /// <summary>
     /// Json localization provider for WPFLocalizeExtension.

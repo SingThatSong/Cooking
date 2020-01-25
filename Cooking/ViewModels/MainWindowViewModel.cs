@@ -1,4 +1,4 @@
-﻿using Cooking.WPF.Helpers;
+﻿using Cooking.WPF.Services;
 using Cooking.WPF.Views;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
@@ -16,7 +16,7 @@ namespace Cooking
         /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
         /// </summary>
         /// <param name="localizationProvider"></param>
-        /// <param name="localization"></param>
+        /// <param name="localization">Localization provider dependency.</param>
         public MainWindowViewModel(ILocalizationProvider localizationProvider, ILocalization localization)
         {
             LocalizationProvider = localizationProvider;

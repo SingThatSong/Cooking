@@ -1,4 +1,4 @@
-﻿using Cooking.WPF.Helpers;
+﻿using Cooking.WPF.Services;
 using Cooking.WPF.Views;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;

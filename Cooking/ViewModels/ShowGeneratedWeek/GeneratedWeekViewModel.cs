@@ -2,7 +2,7 @@
 using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Helpers;
+using Cooking.WPF.Services;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
@@ -37,7 +37,7 @@ namespace Cooking.WPF.Views
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneratedWeekViewModel"/> class.
         /// </summary>
-        /// <param name="dialogUtils"></param>
+        /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="regionManager"></param>
         /// <param name="recipeService"></param>
         /// <param name="container"></param>

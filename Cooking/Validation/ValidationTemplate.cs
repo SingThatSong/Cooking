@@ -11,20 +11,22 @@ using System.Windows;
 
 namespace Cooking
 {
+    /// <summary>
+    /// Validar Validation template for FluentValidation. See https://github.com/Fody/Validar#validation-template-implementations.
+    /// </summary>
     [NullGuard(ValidationFlags.None)]
     public class ValidationTemplate : IDataErrorInfo, INotifyDataErrorInfo
     {
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IValidator?> Validators = new ConcurrentDictionary<RuntimeTypeHandle, IValidator?>();
 
-        readonly INotifyPropertyChanged target;
-        readonly IValidator? validator;
-        ValidationResult? validationResult;
-        static readonly ConcurrentDictionary<RuntimeTypeHandle, IValidator?> validators = new ConcurrentDictionary<RuntimeTypeHandle, IValidator?>();
+        private readonly INotifyPropertyChanged target;
+        private readonly IValidator? validator;
+        private ValidationResult? validationResult;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ValidationTemplate"/> class.
         /// </summary>
-        /// <param name="target"></param>
+        /// <param name="target">Object which will be validated. Injected by Validar into classes.</param>
         public ValidationTemplate(INotifyPropertyChanged target)
         {
             this.target = target;
@@ -33,44 +35,13 @@ namespace Cooking
             target.PropertyChanged += Validate;
         }
 
-        static IValidator? GetValidator(Type modelType)
-        {
-            if (!validators.TryGetValue(modelType.TypeHandle, out IValidator? validator))
-            {
-                string typeName = $"{modelType.Namespace}.{modelType.Name}Validator";
-                Type? type = modelType.Assembly.GetType(typeName, true);
-                if (type != null && Application.Current is PrismApplication app)
-                {
-                    validator = app.Container.Resolve(type) as IValidator;
-                    validators[modelType.TypeHandle] = validator;
-                }
-                else
-                {
-                    throw new InvalidOperationException();
-                }
-            }
+        /// <inheritdoc/>
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
-            return validator;
-        }
-
-        void Validate(object sender, PropertyChangedEventArgs e)
-        {
-            validationResult = validator?.Validate(target);
-            if (validationResult != null)
-            {
-                foreach (ValidationFailure error in validationResult.Errors)
-                {
-                    RaiseErrorsChanged(error.PropertyName);
-                }
-            }
-        }
-
-        public IEnumerable? GetErrors([AllowNull] string propertyName) => validationResult?.Errors
-                                                                               .Where(x => x.PropertyName == propertyName)
-                                                                               .Select(x => x.ErrorMessage);
-
+        /// <inheritdoc/>
         public bool HasErrors => validationResult?.Errors.Count > 0;
 
+        /// <inheritdoc/>
         public string? Error
         {
             get
@@ -90,7 +61,51 @@ namespace Cooking
         }
 
         // Duplicates INotifyDataErrorInfo.GetErrors
+
+        /// <inheritdoc/>
         public string? this[string propertyName] => null;
+
+        /// <inheritdoc/>
+        public IEnumerable? GetErrors([AllowNull] string propertyName) => validationResult?.Errors
+                                                                               .Where(x => x.PropertyName == propertyName)
+                                                                               .Select(x => x.ErrorMessage);
+
+        /// <summary>
+        /// Internal factory method for FluentValidation validators.
+        /// </summary>
+        /// <param name="modelType">Type of object to validate.</param>
+        /// <returns>Instance of validator.</returns>
+        private static IValidator? GetValidator(Type modelType)
+        {
+            if (!Validators.TryGetValue(modelType.TypeHandle, out IValidator? validator))
+            {
+                string typeName = $"{modelType.Namespace}.{modelType.Name}Validator";
+                Type? type = modelType.Assembly.GetType(typeName, true);
+                if (type != null && Application.Current is PrismApplication app)
+                {
+                    validator = app.Container.Resolve(type) as IValidator;
+                    Validators[modelType.TypeHandle] = validator;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Provide validator for type!");
+                }
+            }
+
+            return validator;
+        }
+
+        private void Validate(object sender, PropertyChangedEventArgs e)
+        {
+            validationResult = validator?.Validate(target);
+            if (validationResult != null)
+            {
+                foreach (ValidationFailure error in validationResult.Errors)
+                {
+                    RaiseErrorsChanged(error.PropertyName);
+                }
+            }
+        }
 
         private void RaiseErrorsChanged(string propertyName) => ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
     }

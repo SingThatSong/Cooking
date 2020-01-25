@@ -1,30 +1,35 @@
-﻿using Cooking.WPF.Commands;
-using Cooking.WPF.DTO;
-using Cooking.WPF.Helpers;
+﻿using Cooking.WPF.Services;
 using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Cooking.WPF.Views
 {
+    /// <summary>
+    /// View model for dialog of moving recipe to another week.
+    /// </summary>
     public partial class MoveRecipeViewModel : OkCancelViewModel
     {
-        public string? WhereMoveRecipe { get; }
-
-        public DayOfWeek? SelectedDay { get; set; }
-        public ObservableCollection<DayOfWeek> DaysOfWeek { get; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MoveRecipeViewModel"/> class.
         /// </summary>
-        /// <param name="dialogService"></param>
-        /// <param name="localization"></param>
+        /// <param name="dialogService">Dialog service dependency.</param>
+        /// <param name="localization">Localization provider dependency.</param>
         public MoveRecipeViewModel(DialogService dialogService, ILocalization localization)
             : base(dialogService)
         {
-            WhereMoveRecipe = localization.GetLocalizedString("WhereMoveRecipe");
+            WhereMoveRecipeCaption = localization.GetLocalizedString("WhereMoveRecipe");
         }
 
+        /// <summary>
+        /// Gets caption for WhereToMove.
+        /// </summary>
+        public string? WhereMoveRecipeCaption { get; }
+
+        /// <summary>
+        /// Gets or sets selected day of week on next week to move recipe to.
+        /// </summary>
+        public DayOfWeek? SelectedDay { get; set; }
+
+        /// <inheritdoc/>
         protected override bool CanOk() => SelectedDay.HasValue;
     }
 }

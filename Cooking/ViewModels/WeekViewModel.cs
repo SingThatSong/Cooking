@@ -3,7 +3,7 @@ using Cooking.Data.Model.Plan;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Helpers;
+using Cooking.WPF.Services;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
@@ -51,13 +51,13 @@ namespace Cooking.WPF.Views
         /// <summary>
         /// Initializes a new instance of the <see cref="WeekViewModel"/> class.
         /// </summary>
-        /// <param name="dialogUtils"></param>
+        /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="regionManager"></param>
         /// <param name="container"></param>
         /// <param name="dayService"></param>
-        /// <param name="mapper"></param>
+        /// <param name="mapper">Mapper dependency.</param>
         /// <param name="weekService"></param>
-        /// <param name="localization"></param>
+        /// <param name="localization">Localization provider dependency.</param>
         public WeekViewModel(DialogService dialogUtils,
                              IRegionManager regionManager,
                              IContainerExtension container,

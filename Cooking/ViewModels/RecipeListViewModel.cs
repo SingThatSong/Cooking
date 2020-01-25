@@ -3,7 +3,7 @@ using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Events;
-using Cooking.WPF.Helpers;
+using Cooking.WPF.Services;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Regions;
@@ -38,6 +38,9 @@ namespace Cooking.WPF.Views
         public DelegateCommand AddRecipeCommand { get; }
         public DelegateCommand<Guid> ViewRecipeCommand { get; }
 
+        /// <summary>
+        /// Gets command to execute on loaded event.
+        /// </summary>
         public DelegateCommand LoadedCommand { get; }
 
         public bool IsListView { get; set; }
@@ -49,14 +52,14 @@ namespace Cooking.WPF.Views
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeListViewModel"/> class.
         /// </summary>
-        /// <param name="dialogUtils"></param>
+        /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="container"></param>
         /// <param name="regionManager"></param>
         /// <param name="recipeService"></param>
         /// <param name="eventAggregator"></param>
-        /// <param name="mapper"></param>
+        /// <param name="mapper">Mapper dependency.</param>
         /// <param name="recipeFiltrator"></param>
-        /// <param name="localization"></param>
+        /// <param name="localization">Localization provider dependency.</param>
         public RecipeListViewModel(DialogService dialogUtils,
                                  IContainerExtension container,
                                  IRegionManager regionManager,

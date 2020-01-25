@@ -3,7 +3,7 @@ using Cooking.Data.Context;
 using Cooking.ServiceLayer;
 using Cooking.WPF;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Helpers;
+using Cooking.WPF.Services;
 using Cooking.WPF.Views;
 using Fody;
 using MahApps.Metro.Controls.Dialogs;
@@ -57,6 +57,8 @@ using WPFLocalizeExtension.Providers;
 // TODO: Make GetCultureSpecificSet method an extention method
 // TODO: Add AOP for perfomance monitoring https://github.com/vescon/MethodBoundaryAspect.Fody
 // TODO: Make sure there is no russian in the code
+// TODO: Move folder name into settings ?
+// TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
 
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Cooking.ServiceLayer;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Helpers;
+using Cooking.WPF.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,9 @@ using System.Windows.Data;
 
 namespace Cooking.WPF.Views
 {
+    /// <summary>
+    /// View model for recipe selection from a list of recipies.
+    /// </summary>
     public partial class RecipeSelectViewModel : OkCancelViewModel
     {
         public RecipeListViewDto? SelectedRecipe { get; set; }
@@ -99,6 +102,7 @@ namespace Cooking.WPF.Views
             }
         }
 
+        /// <inheritdoc/>
         protected override bool CanOk() => SelectedRecipe != null;
 
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)

@@ -1,6 +1,6 @@
 ﻿using Cooking.Data.Model;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Helpers;
+using Cooking.WPF.Services;
 using Cooking.WPF.Views;
 using System;
 using System.Collections.Generic;
@@ -9,16 +9,17 @@ using System.Linq;
 
 namespace Cooking.WPF.ViewModels
 {
+    /// <summary>
+    /// View model for selecting calorie types.
+    /// </summary>
     public partial class CalorieTypeSelectViewModel : OkCancelViewModel
     {
-        public ObservableCollection<CalorieTypeSelection> AllValues { get; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CalorieTypeSelectViewModel"/> class.
         /// </summary>
-        /// <param name="dialogService"></param>
-        /// <param name="localization"></param>
-        /// <param name="selectedTypes"></param>
+        /// <param name="dialogService">Dialog service dependency to close dialog.</param>
+        /// <param name="localization">Localization provider for calorie type's names.</param>
+        /// <param name="selectedTypes">Already selected types to show in interface.</param>
         public CalorieTypeSelectViewModel(DialogService dialogService, ILocalization localization, IEnumerable<CalorieTypeSelection>? selectedTypes)
             : base(dialogService)
         {
@@ -43,5 +44,10 @@ namespace Cooking.WPF.ViewModels
                 }
             }
         }
+
+        /// <summary>
+        /// Gets all calorie types to select from.
+        /// </summary>
+        public ObservableCollection<CalorieTypeSelection> AllValues { get; }
     }
 }

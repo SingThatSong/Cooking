@@ -1,5 +1,5 @@
 ﻿using Cooking.WPF.Commands;
-using Cooking.WPF.Helpers;
+using Cooking.WPF.Services;
 using Serilog;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,7 +15,7 @@ namespace Cooking.WPF.Views
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
         /// </summary>
         /// <param name="logger"></param>
-        /// <param name="localization"></param>
+        /// <param name="localization">Localization provider dependency.</param>
         public SettingsViewModel(ILogger logger, ILocalization localization)
         {
             ChangedCommand = new DelegateCommand(() =>

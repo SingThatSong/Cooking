@@ -6,13 +6,15 @@ using Cooking.Avalonia.Views;
 
 namespace Cooking.Avalonia
 {
+    /// <summary>
+    /// Application class.
+    /// </summary>
     public class App : Application
     {
-        public override void Initialize()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+        /// <inheritdoc/>
+        public override void Initialize() => AvaloniaXamlLoader.Load(this);
 
+        /// <inheritdoc/>
         public override void OnFrameworkInitializationCompleted()
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)

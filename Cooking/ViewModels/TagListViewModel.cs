@@ -3,7 +3,7 @@ using Cooking.Data.Model;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Helpers;
+using Cooking.WPF.Services;
 using Prism.Regions;
 using PropertyChanged;
 using System;
@@ -31,16 +31,19 @@ namespace Cooking.WPF.Views
         public DelegateCommand<TagEdit> ViewTagCommand { get; }
         public AsyncDelegateCommand<TagEdit> EditTagCommand { get; }
         public DelegateCommand<Guid> DeleteTagCommand { get; }
+        /// <summary>
+        /// Gets command to execute on loaded event.
+        /// </summary>
         public DelegateCommand LoadedCommand { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TagListViewModel"/> class.
         /// </summary>
         /// <param name="regionManager"></param>
-        /// <param name="dialogUtils"></param>
+        /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="tagService"></param>
-        /// <param name="mapper"></param>
-        /// <param name="localization"></param>
+        /// <param name="mapper">Mapper dependency.</param>
+        /// <param name="localization">Localization provider dependency.</param>
         public TagListViewModel(IRegionManager regionManager, DialogService dialogUtils, TagService tagService, IMapper mapper, ILocalization localization)
         {
             this.regionManager = regionManager;

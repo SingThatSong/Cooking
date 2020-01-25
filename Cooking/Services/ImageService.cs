@@ -1,10 +1,13 @@
-﻿using Cooking.WPF.Helpers;
+﻿using Cooking.WPF.Services;
 using Microsoft.Win32;
 using PhotoSauce.MagicScaler;
 using System.IO;
 
 namespace Cooking
 {
+    /// <summary>
+    /// Service for working with images.
+    /// </summary>
     public class ImageService
     {
         private readonly ILocalization localization;
@@ -12,13 +15,17 @@ namespace Cooking
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageService"/> class.
         /// </summary>
-        /// <param name="localization"></param>
+        /// <param name="localization">Localization provider dependency.</param>
         public ImageService(ILocalization localization)
         {
             this.localization = localization;
         }
 
-        public string? ImageSearch()
+        /// <summary>
+        /// Select an image, resize it and save to predefined folder.
+        /// </summary>
+        /// <returns>Saved file path.</returns>
+        public string? UseImage()
         {
             var openFileDialog = new OpenFileDialog()
             {
@@ -34,18 +41,20 @@ namespace Cooking
                     DirectoryInfo dir = Directory.CreateDirectory(Consts.ImageFolder);
                     var file = new FileInfo(openFileDialog.FileName);
                     string newFilePath = Path.Combine(dir.FullName, file.Name);
-
-                    string inPath = openFileDialog.FileName;
-                    var settings = new ProcessImageSettings { Width = 300 };
-
-                    using var outStream = new FileStream(newFilePath, FileMode.CreateNew);
-                    MagicImageProcessor.ProcessImage(inPath, outStream, settings);
-
+                    MinifyImage(source: openFileDialog.FileName, destination: newFilePath);
                     return newFilePath;
                 }
             }
 
             return null;
+        }
+
+        private void MinifyImage(string source, string destination)
+        {
+            var settings = new ProcessImageSettings { Width = 300 };
+
+            using var outStream = new FileStream(destination, FileMode.CreateNew);
+            MagicImageProcessor.ProcessImage(source, outStream, settings);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Cooking.WPF.Helpers
+﻿namespace Cooking.WPF.Services
 {
     /// <summary>
     /// Application settings for use with IOptions.

@@ -2,7 +2,7 @@
 using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Helpers;
+using Cooking.WPF.Services;
 using Cooking.WPF.Services;
 using PropertyChanged;
 using System;
@@ -27,13 +27,16 @@ namespace Cooking.WPF.Views
         public string? ColorPickerFrequentCaption => localization.GetLocalizedString("ColorPicker_Frequent");
         public string? ColorPickerStandartCaption => localization.GetLocalizedString("ColorPicker_Standart");
 
+        /// <summary>
+        /// Gets command to execute on loaded event.
+        /// </summary>
         public DelegateCommand LoadedCommand { get; }
         /// <summary>
         /// Initializes a new instance of the <see cref="TagEditViewModel"/> class.
         /// </summary>
         /// <param name="dialogService"></param>
         /// <param name="tagService"></param>
-        /// <param name="localization"></param>
+        /// <param name="localization">Localization provider dependency.</param>
         /// <param name="category"></param>
         public TagEditViewModel(DialogService dialogService, TagService tagService, ILocalization localization, TagEdit? category = null)
             : base(dialogService)
@@ -68,6 +71,7 @@ namespace Cooking.WPF.Views
             }
         }
 
+        /// <inheritdoc/>
         protected override bool CanOk()
         {
             if (Tag is INotifyDataErrorInfo dataErrorInfo)
@@ -109,7 +113,7 @@ namespace Cooking.WPF.Views
             : AllTagNames.OrderBy(x => TagCompare(x, Tag.Name)).Take(3);
 
         private int TagCompare(string str1, string str2)
-         => StringCompare.DiffLength(
+         => StringCompare.LevensteinDistance(
                     string.Join(" ", str1.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name)),
                     string.Join(" ", str2.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name))
             );

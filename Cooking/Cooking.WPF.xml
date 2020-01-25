@@ -256,22 +256,22 @@
              </summary>
              <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
         </member>
-        <member name="M:Cooking.WPF.Views.GarnishEditViewModel.#ctor(Cooking.WPF.DTO.GarnishEdit,ServiceLayer.GarnishService,Cooking.WPF.DialogService,Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.Views.GarnishEditViewModel.#ctor(Cooking.WPF.DTO.GarnishEdit,ServiceLayer.GarnishService,Cooking.WPF.DialogService,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GarnishEditViewModel"/> class.
             </summary>
             <param name="garnish"></param>
             <param name="garnishService"></param>
             <param name="dialogService"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
-        <member name="M:Cooking.WPF.Views.IngredientEditViewModel.#ctor(ServiceLayer.IngredientService,Cooking.WPF.DialogService,Cooking.WPF.Helpers.ILocalization,Cooking.WPF.DTO.IngredientEdit)">
+        <member name="M:Cooking.WPF.Views.IngredientEditViewModel.#ctor(ServiceLayer.IngredientService,Cooking.WPF.DialogService,Cooking.WPF.Services.ILocalization,Cooking.WPF.DTO.IngredientEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientEditViewModel"/> class.
             </summary>
-            <param name="ingredientService"></param>
+            <param name="ingredientService">Ingredient service dependency.</param>
             <param name="dialogService"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
             <param name="category"></param>
         </member>
         <member name="M:Cooking.WPF.Views.IngredientGroupEditViewModel.#ctor(Cooking.WPF.DialogService,Cooking.WPF.DTO.IngredientGroupEdit)">
@@ -281,12 +281,12 @@
             <param name="dialogService"></param>
             <param name="ingredientGroup"></param>
         </member>
-        <member name="M:Cooking.WPF.Views.MoveRecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.Views.MoveRecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.MoveRecipeViewModel"/> class.
             </summary>
             <param name="dialogService"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
         <member name="M:Cooking.WPF.Views.OkCancelViewModel.#ctor(Cooking.WPF.DialogService)">
             <summary>
@@ -300,17 +300,17 @@
              </summary>
              <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
         </member>
-        <member name="M:Cooking.WPF.Views.RecipeIngredientEditViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.IngredientService,AutoMapper.IMapper,Cooking.WPF.Helpers.ILocalization,Cooking.WPF.DTO.RecipeIngredientEdit)">
+        <member name="M:Cooking.WPF.Views.RecipeIngredientEditViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.IngredientService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization,Cooking.WPF.DTO.RecipeIngredientEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeIngredientEditViewModel"/> class.
             </summary>
             <param name="dialogUtils"></param>
-            <param name="ingredientService"></param>
+            <param name="ingredientService">Ingredient service dependency.</param>
             <param name="mapper"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
             <param name="ingredient"></param>
         </member>
-        <member name="M:Cooking.WPF.Views.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,AutoMapper.IMapper,Cooking.WPF.Helpers.RecipeFiltrator,Cooking.WPF.Helpers.ILocalization,Cooking.WPF.Views.DayPlan)">
+        <member name="M:Cooking.WPF.Views.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,AutoMapper.IMapper,Cooking.WPF.Services.RecipeFiltrator,Cooking.WPF.Services.ILocalization,Cooking.WPF.Views.DayPlan)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeSelectViewModel"/> class.
             </summary>
@@ -318,47 +318,47 @@
             <param name="recipeService"></param>
             <param name="mapper"></param>
             <param name="recipeFiltrator"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
             <param name="day"></param>
         </member>
-        <member name="M:Cooking.WPF.Views.TagEditViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.WPF.Helpers.ILocalization,Cooking.WPF.DTO.TagEdit)">
+        <member name="M:Cooking.WPF.Views.TagEditViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.WPF.Services.ILocalization,Cooking.WPF.DTO.TagEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagEditViewModel"/> class.
             </summary>
             <param name="dialogService"></param>
             <param name="tagService"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
             <param name="category"></param>
         </member>
-        <member name="M:Cooking.WPF.Views.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,AutoMapper.IMapper,Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.Views.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagSelectViewModel"/> class.
             </summary>
             <param name="dialogUtils"></param>
             <param name="tagService"></param>
             <param name="mapper"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
-        <member name="M:Cooking.WPF.Views.GarnishListViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.GarnishService,AutoMapper.IMapper,Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.Views.GarnishListViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.GarnishService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GarnishListViewModel"/> class.
             </summary>
             <param name="dialogUtils"></param>
             <param name="garnishService"></param>
             <param name="mapper"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
-        <member name="M:Cooking.WPF.Views.IngredientListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,ServiceLayer.IngredientService,AutoMapper.IMapper,Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.Views.IngredientListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,ServiceLayer.IngredientService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientListViewModel"/> class.
             </summary>
             <param name="regionManager"></param>
             <param name="dialogUtils"></param>
-            <param name="ingredientService"></param>
+            <param name="ingredientService">Ingredient service dependency.</param>
             <param name="mapper"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
-        <member name="M:Cooking.WPF.Views.RecipeListViewModel.#ctor(Cooking.WPF.DialogService,Prism.Ioc.IContainerExtension,Prism.Regions.IRegionManager,Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.WPF.Helpers.RecipeFiltrator,Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.Views.RecipeListViewModel.#ctor(Cooking.WPF.DialogService,Prism.Ioc.IContainerExtension,Prism.Regions.IRegionManager,Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.WPF.Services.RecipeFiltrator,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeListViewModel"/> class.
             </summary>
@@ -369,9 +369,9 @@
             <param name="eventAggregator"></param>
             <param name="mapper"></param>
             <param name="recipeFiltrator"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
-        <member name="M:Cooking.WPF.Views.RecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ImageService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,AutoMapper.IMapper,Prism.Events.IEventAggregator,Cooking.WPF.Helpers.ILocalization,Prism.Regions.IRegionManager)">
+        <member name="M:Cooking.WPF.Views.RecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ImageService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,AutoMapper.IMapper,Prism.Events.IEventAggregator,Cooking.WPF.Services.ILocalization,Prism.Regions.IRegionManager)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeViewModel"/> class.
             </summary>
@@ -381,15 +381,15 @@
             <param name="recipeService"></param>
             <param name="mapper"></param>
             <param name="eventAggregator"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
             <param name="regionManager"></param>
         </member>
-        <member name="M:Cooking.WPF.Views.SettingsViewModel.#ctor(Serilog.ILogger,Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.Views.SettingsViewModel.#ctor(Serilog.ILogger,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.SettingsViewModel"/> class.
             </summary>
             <param name="logger"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
         <member name="M:Cooking.WPF.Views.ShoppingCartViewModel.#ctor">
             <summary>
@@ -406,7 +406,7 @@
             <param name="container"></param>
             <param name="weekService"></param>
         </member>
-        <member name="M:Cooking.WPF.Views.TagListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,AutoMapper.IMapper,Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.Views.TagListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagListViewModel"/> class.
             </summary>
@@ -414,9 +414,9 @@
             <param name="dialogUtils"></param>
             <param name="tagService"></param>
             <param name="mapper"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
-        <member name="M:Cooking.WPF.Views.WeekSettingsViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Cooking.ServiceLayer.TagService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,Cooking.WPF.Helpers.ILocalization,AutoMapper.IMapper)">
+        <member name="M:Cooking.WPF.Views.WeekSettingsViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Cooking.ServiceLayer.TagService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,Cooking.WPF.Services.ILocalization,AutoMapper.IMapper)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.WeekSettingsViewModel"/> class.
             </summary>
@@ -425,10 +425,10 @@
             <param name="tagService"></param>
             <param name="container"></param>
             <param name="recipeService"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
             <param name="mapper"></param>
         </member>
-        <member name="M:Cooking.WPF.Views.WeekViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.DayService,AutoMapper.IMapper,ServiceLayer.WeekService,Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.Views.WeekViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.DayService,AutoMapper.IMapper,ServiceLayer.WeekService,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.WeekViewModel"/> class.
             </summary>
@@ -438,7 +438,7 @@
             <param name="dayService"></param>
             <param name="mapper"></param>
             <param name="weekService"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
         <member name="T:Cooking.WPF.Views.CalorieTypeSelectView">
             <summary>
@@ -1332,41 +1332,41 @@
             Gets sunday.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.DTO.GarnishEditValidator.#ctor(Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.DTO.GarnishEditValidator.#ctor(Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.GarnishEditValidator"/> class.
             </summary>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
-        <member name="M:Cooking.WPF.DTO.IngredientEditValidator.#ctor(Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.DTO.IngredientEditValidator.#ctor(Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.IngredientEditValidator"/> class.
             </summary>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
-        <member name="M:Cooking.WPF.DTO.IngredientGroupEditValidator.#ctor(Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.DTO.IngredientGroupEditValidator.#ctor(Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.IngredientGroupEditValidator"/> class.
             </summary>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
-        <member name="M:Cooking.WPF.DTO.RecipeEditValidator.#ctor(Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.DTO.RecipeEditValidator.#ctor(Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.RecipeEditValidator"/> class.
             </summary>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
-        <member name="M:Cooking.WPF.DTO.RecipeIngredientEditValidator.#ctor(Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.DTO.RecipeIngredientEditValidator.#ctor(Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.RecipeIngredientEditValidator"/> class.
             </summary>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
-        <member name="M:Cooking.WPF.DTO.TagEditValidator.#ctor(Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.DTO.TagEditValidator.#ctor(Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.TagEditValidator"/> class.
             </summary>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
         <member name="T:Cooking.WPF.Events.RecipeCreatedEvent">
             <summary>
@@ -1383,48 +1383,48 @@
             Prism Event fired when recipe updated.
             </summary>
         </member>
-        <member name="T:Cooking.WPF.Helpers.AppSettings">
+        <member name="T:Cooking.WPF.Services.AppSettings">
             <summary>
             Application settings for use with IOptions.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.Helpers.AppSettings.Culture">
+        <member name="P:Cooking.WPF.Services.AppSettings.Culture">
             <summary>
             Gets or sets application culture setting.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.Helpers.AppSettings.DbName">
+        <member name="P:Cooking.WPF.Services.AppSettings.DbName">
             <summary>
             Gets or sets applicayion database name setting.
             </summary>
         </member>
-        <member name="T:Cooking.WPF.Helpers.ILocalization">
+        <member name="T:Cooking.WPF.Services.ILocalization">
             <summary>
             Interface for providing localized text.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Helpers.ILocalization.GetAllValuesFor(System.String)">
+        <member name="M:Cooking.WPF.Services.ILocalization.GetAllValuesFor(System.String)">
             <summary>
             Get all values for prefix. Usually prefix is enum type.
             </summary>
             <param name="prefix">Key prefix.</param>
             <returns>All values for selected prefix.</returns>
         </member>
-        <member name="M:Cooking.WPF.Helpers.ILocalization.GetLocalizedString(System.Enum)">
+        <member name="M:Cooking.WPF.Services.ILocalization.GetLocalizedString(System.Enum)">
             <summary>
             Get localized value for enum.
             </summary>
             <param name="value">Enum value for localization.</param>
             <returns>Localized string.</returns>
         </member>
-        <member name="M:Cooking.WPF.Helpers.ILocalization.GetLocalizedString(System.String)">
+        <member name="M:Cooking.WPF.Services.ILocalization.GetLocalizedString(System.String)">
             <summary>
             Get localized string for a key.
             </summary>
             <param name="key">Key to get a string.</param>
             <returns>Localized string.</returns>
         </member>
-        <member name="M:Cooking.WPF.Helpers.ILocalization.GetLocalizedString(System.String,System.Object[])">
+        <member name="M:Cooking.WPF.Services.ILocalization.GetLocalizedString(System.String,System.Object[])">
             <summary>
             Get formatted and localized string.
             </summary>
@@ -1432,54 +1432,54 @@
             <param name="args">Arguments for string.Format. Used as provided.</param>
             <returns>Localized string.</returns>
         </member>
-        <member name="T:Cooking.WPF.Helpers.JsonLocalizationProvider">
+        <member name="T:Cooking.WPF.Services.JsonLocalizationProvider">
             <summary>
             Json localization provider for WPFLocalizeExtension.
             </summary>
         </member>
-        <member name="F:Cooking.WPF.Helpers.JsonLocalizationProvider.localizationCache">
+        <member name="F:Cooking.WPF.Services.JsonLocalizationProvider.localizationCache">
             <summary>
             Cache for localizations: Culture - (key - value).
             </summary>
         </member>
-        <member name="E:Cooking.WPF.Helpers.JsonLocalizationProvider.ProviderChanged">
+        <member name="E:Cooking.WPF.Services.JsonLocalizationProvider.ProviderChanged">
             <inheritdoc/>
         </member>
-        <member name="E:Cooking.WPF.Helpers.JsonLocalizationProvider.ProviderError">
+        <member name="E:Cooking.WPF.Services.JsonLocalizationProvider.ProviderError">
             <inheritdoc/>
         </member>
-        <member name="E:Cooking.WPF.Helpers.JsonLocalizationProvider.ValueChanged">
+        <member name="E:Cooking.WPF.Services.JsonLocalizationProvider.ValueChanged">
             <inheritdoc/>
         </member>
-        <member name="P:Cooking.WPF.Helpers.JsonLocalizationProvider.AvailableCultures">
+        <member name="P:Cooking.WPF.Services.JsonLocalizationProvider.AvailableCultures">
             <inheritdoc/>
         </member>
-        <member name="P:Cooking.WPF.Helpers.JsonLocalizationProvider.CurrentCulture">
+        <member name="P:Cooking.WPF.Services.JsonLocalizationProvider.CurrentCulture">
             <summary>
             Gets current system culture.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Helpers.JsonLocalizationProvider.GetFullyQualifiedResourceKey(System.String,System.Windows.DependencyObject)">
+        <member name="M:Cooking.WPF.Services.JsonLocalizationProvider.GetFullyQualifiedResourceKey(System.String,System.Windows.DependencyObject)">
             <inheritdoc/>
         </member>
-        <member name="M:Cooking.WPF.Helpers.JsonLocalizationProvider.GetLocalizedObject(System.String,System.Windows.DependencyObject,System.Globalization.CultureInfo)">
+        <member name="M:Cooking.WPF.Services.JsonLocalizationProvider.GetLocalizedObject(System.String,System.Windows.DependencyObject,System.Globalization.CultureInfo)">
             <inheritdoc/>
         </member>
-        <member name="M:Cooking.WPF.Helpers.JsonLocalizationProvider.GetLocalizedString(System.Enum)">
+        <member name="M:Cooking.WPF.Services.JsonLocalizationProvider.GetLocalizedString(System.Enum)">
             <summary>
             Gets localized string for enum value.
             </summary>
             <param name="key">Enum value to get localized string for.</param>
             <returns>Localized string.</returns>
         </member>
-        <member name="M:Cooking.WPF.Helpers.JsonLocalizationProvider.GetLocalizedString(System.String)">
+        <member name="M:Cooking.WPF.Services.JsonLocalizationProvider.GetLocalizedString(System.String)">
             <summary>
             Gets localized string for a key.
             </summary>
             <param name="key">Key to get localized string for.</param>
             <returns>Localized string.</returns>
         </member>
-        <member name="M:Cooking.WPF.Helpers.JsonLocalizationProvider.GetLocalizedString(System.String,System.Object[])">
+        <member name="M:Cooking.WPF.Services.JsonLocalizationProvider.GetLocalizedString(System.String,System.Object[])">
             <summary>
             Gets formatted localized string for a key.
             </summary>
@@ -1487,35 +1487,35 @@
             <param name="args">Arguments for string.Format.</param>
             <returns>Localized and formatted string.</returns>
         </member>
-        <member name="M:Cooking.WPF.Helpers.JsonLocalizationProvider.GetAllValuesFor(System.String)">
+        <member name="M:Cooking.WPF.Services.JsonLocalizationProvider.GetAllValuesFor(System.String)">
             <summary>
             Get all values for prefix.
             </summary>
             <param name="prefix">Prefix for a string collection.</param>
             <returns>Dictionary of localization keys and values.</returns>
         </member>
-        <member name="M:Cooking.WPF.Helpers.RecipeFiltrator.#ctor(Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper)">
+        <member name="M:Cooking.WPF.Services.RecipeFiltrator.#ctor(Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper)">
             <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.Helpers.RecipeFiltrator"/> class.
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Services.RecipeFiltrator"/> class.
             </summary>
             <param name="recipeService"></param>
             <param name="eventAggregator"></param>
             <param name="mapper"></param>
         </member>
-        <member name="M:Cooking.WPF.ContextFactory.#ctor(Microsoft.Extensions.Options.IOptions{Cooking.WPF.Helpers.AppSettings})">
+        <member name="M:Cooking.WPF.ContextFactory.#ctor(Microsoft.Extensions.Options.IOptions{Cooking.WPF.Services.AppSettings})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ContextFactory"/> class.
             </summary>
             <param name="appSettings"></param>
         </member>
-        <member name="M:Cooking.WPF.DialogService.#ctor(System.Object,MahApps.Metro.Controls.Dialogs.IDialogCoordinator,Prism.Ioc.IContainerExtension,Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.WPF.DialogService.#ctor(System.Object,MahApps.Metro.Controls.Dialogs.IDialogCoordinator,Prism.Ioc.IContainerExtension,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DialogService"/> class.
             </summary>
             <param name="viewModel"></param>
             <param name="dialogCoordinator"></param>
             <param name="containerProvider"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
         <member name="M:Cooking.WPF.DialogService.ShowAndWaitForClosedAsync(MahApps.Metro.Controls.Dialogs.BaseMetroDialog)">
              <summary>
@@ -1619,12 +1619,12 @@
         <member name="M:Cooking.WPF.Services.RecipeDtoConverter.Process(Cooking.Data.Model.Recipe,Cooking.WPF.DTO.RecipeListViewDto,AutoMapper.ResolutionContext)">
             <inheritdoc/>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.WPF.Helpers.ILocalization,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.CalorieTypeSelection})">
+        <member name="M:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.WPF.Services.ILocalization,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.CalorieTypeSelection})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel"/> class.
             </summary>
             <param name="dialogService"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
             <param name="selectedTypes"></param>
         </member>
         <member name="T:Cooking.Consts">
@@ -1632,11 +1632,11 @@
             Collection of project's constants
             </summary>
         </member>
-        <member name="M:Cooking.ImageService.#ctor(Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.ImageService.#ctor(Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.ImageService"/> class.
             </summary>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
         <member name="T:Cooking.MapperService">
             <summary>
@@ -1655,12 +1655,12 @@
             </summary>
             <param name="target"></param>
         </member>
-        <member name="M:Cooking.MainWindowViewModel.#ctor(WPFLocalizeExtension.Providers.ILocalizationProvider,Cooking.WPF.Helpers.ILocalization)">
+        <member name="M:Cooking.MainWindowViewModel.#ctor(WPFLocalizeExtension.Providers.ILocalizationProvider,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.MainWindowViewModel"/> class.
             </summary>
             <param name="localizationProvider"></param>
-            <param name="localization"></param>
+            <param name="localization">Localization provider dependency.</param>
         </member>
         <member name="T:Cooking.MainWindowView">
             <summary>

@@ -3,6 +3,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Cooking.Avalonia.Views
 {
+    /// <summary>
+    /// Main window.
+    /// </summary>
     public class MainWindow : Window
     {
         /// <summary>
@@ -13,9 +16,6 @@ namespace Cooking.Avalonia.Views
             InitializeComponent();
         }
 
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+        private void InitializeComponent() => AvaloniaXamlLoader.Load(this);
     }
 }

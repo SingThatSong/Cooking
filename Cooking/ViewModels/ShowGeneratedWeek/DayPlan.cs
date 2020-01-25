@@ -8,7 +8,8 @@ namespace Cooking.WPF.Views
 {
     public class DayPlan : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
+        /// <inheritdoc/>
+        public event PropertyChangedEventHandler PropertyChanged;
 
         // Рецепт, указанный вручную
         public RecipeListViewDto? SpecificRecipe { get; set; }
@@ -29,5 +30,6 @@ namespace Cooking.WPF.Views
             {
                 CalorieTypeSelection.Any
             };
+
     }
 }

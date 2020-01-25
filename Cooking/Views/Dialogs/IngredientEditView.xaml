@@ -11,9 +11,9 @@
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    
+
     <UserControl.Resources>
-        <converters:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" True="Visible" False="Collapsed" />
+        <converters:IsNullToVisibilityConverter x:Key="isNullToVisibilityConverter" NullVisibility="Collapsed" NotNullVisibility="Visible" />
     </UserControl.Resources>
     
     <UserControl.InputBindings>
@@ -48,7 +48,7 @@
         <StackPanel Orientation="Vertical"
             Grid.Column="1"
             Margin="20 0 0 0">
-            <TextBlock Text="{Binding MaybeYouWantCaption}" Visibility="{Binding SimilarIngredientsPresent, Converter={StaticResource booleanToVisibilityConverter}}" />
+            <TextBlock Text="{Binding MaybeYouWantCaption}" Visibility="{Binding SimilarIngredients, Converter={StaticResource isNullToVisibilityConverter}}" />
             <ItemsControl
             Grid.Column="1"
             Margin="10 10 0 0"
