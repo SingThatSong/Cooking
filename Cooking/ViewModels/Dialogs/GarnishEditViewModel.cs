@@ -13,7 +13,7 @@ namespace Cooking.WPF.Views
     /// <summary>
     ///  View model for editing garnishes.
     /// </summary>
-    public partial class GarnishEditViewModel : OkCancelViewModel, INotifyPropertyChanged
+    public partial class GarnishEditViewModel : OkCancelViewModel
     {
         private readonly ILocalization localization;
 
@@ -37,15 +37,12 @@ namespace Cooking.WPF.Views
             {
                 if (e.PropertyName == nameof(Garnish.Name))
                 {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SimilarGarnishes)));
+                    OnPropertyChanged(nameof(SimilarGarnishes));
                     NameChanged = true;
                 }
             };
             LoadedCommand = new DelegateCommand(OnLoaded);
         }
-
-        /// <inheritdoc/>
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Gets or sets garnish to be edited.

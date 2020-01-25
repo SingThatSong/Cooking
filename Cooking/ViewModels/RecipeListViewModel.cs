@@ -21,7 +21,7 @@ namespace Cooking.WPF.Views
     [AddINotifyPropertyChangedInterface]
     public partial class RecipeListViewModel : INavigationAware
     {
-        private readonly DialogService dialogUtils;
+        private readonly DialogService dialogService;
         private readonly IContainerExtension container;
         private readonly IRegionManager regionManager;
         private readonly RecipeService recipeService;
@@ -53,14 +53,14 @@ namespace Cooking.WPF.Views
         /// Initializes a new instance of the <see cref="RecipeListViewModel"/> class.
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
-        /// <param name="container"></param>
-        /// <param name="regionManager"></param>
-        /// <param name="recipeService"></param>
+        /// <param name="container">IoC container.</param>
+        /// <param name="regionManager">Region manager for Prism navigation.</param>
+        /// <param name="recipeService">Recipe service dependency.</param>
         /// <param name="eventAggregator"></param>
         /// <param name="mapper">Mapper dependency.</param>
         /// <param name="recipeFiltrator"></param>
         /// <param name="localization">Localization provider dependency.</param>
-        public RecipeListViewModel(DialogService dialogUtils,
+        public RecipeListViewModel(DialogService dialogService,
                                  IContainerExtension container,
                                  IRegionManager regionManager,
                                  RecipeService recipeService,
@@ -69,7 +69,7 @@ namespace Cooking.WPF.Views
                                  RecipeFiltrator recipeFiltrator,
                                  ILocalization localization)
         {
-            this.dialogUtils = dialogUtils;
+            this.dialogService = dialogService;
             this.container = container;
             this.regionManager = regionManager;
             this.recipeService = recipeService;
@@ -159,6 +159,7 @@ namespace Cooking.WPF.Views
 
         public void AddRecipe() => regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView));
 
+        /// <inheritdoc/>
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             if (navigationContext.Parameters[nameof(FilterText)] != null)
@@ -170,7 +171,9 @@ namespace Cooking.WPF.Views
             mainVM.SelectMenuItemByViewType(typeof(RecipeListView));
         }
 
+        /// <inheritdoc/>
         public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+        /// <inheritdoc/>
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }

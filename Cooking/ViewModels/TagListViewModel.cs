@@ -19,7 +19,7 @@ namespace Cooking.WPF.Views
     public partial class TagListViewModel
     {
         private readonly IRegionManager regionManager;
-        private readonly DialogService dialogUtils;
+        private readonly DialogService dialogService;
         private readonly TagService tagService;
         private readonly IMapper mapper;
         private readonly ILocalization localization;
@@ -39,15 +39,15 @@ namespace Cooking.WPF.Views
         /// <summary>
         /// Initializes a new instance of the <see cref="TagListViewModel"/> class.
         /// </summary>
-        /// <param name="regionManager"></param>
+        /// <param name="regionManager">Region manager for Prism navigation.</param>
         /// <param name="dialogService">Dialog service dependency.</param>
-        /// <param name="tagService"></param>
+        /// <param name="tagService">Tag service dependency.</param>
         /// <param name="mapper">Mapper dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
-        public TagListViewModel(IRegionManager regionManager, DialogService dialogUtils, TagService tagService, IMapper mapper, ILocalization localization)
+        public TagListViewModel(IRegionManager regionManager, DialogService dialogService, TagService tagService, IMapper mapper, ILocalization localization)
         {
             this.regionManager = regionManager;
-            this.dialogUtils = dialogUtils;
+            this.dialogService = dialogService;
             this.tagService = tagService;
             this.mapper = mapper;
             this.localization = localization;
@@ -76,8 +76,8 @@ namespace Cooking.WPF.Views
 
         private async Task EditTag(TagEdit tag)
         {
-            var viewModel = new TagEditViewModel(dialogUtils, tagService, localization, mapper.Map<TagEdit>(tag));
-            await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("EditTag"), viewModel);
+            var viewModel = new TagEditViewModel(dialogService, tagService, localization, mapper.Map<TagEdit>(tag));
+            await dialogService.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("EditTag"), viewModel);
 
             if (viewModel.DialogResultOk)
             {
@@ -87,7 +87,7 @@ namespace Cooking.WPF.Views
             }
         }
 
-        public async void DeleteTag(Guid recipeId) => await dialogUtils.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Tags!.Single(x => x.ID == recipeId).Name ?? string.Empty),
+        public async void DeleteTag(Guid recipeId) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Tags!.Single(x => x.ID == recipeId).Name ?? string.Empty),
                                                                                         localization.GetLocalizedString("CannotUndo"),
                                                                                         successCallback: () => OnTagDeleted(recipeId))
                                                                        ;
@@ -100,7 +100,7 @@ namespace Cooking.WPF.Views
 
         public async void AddTag()
         {
-            TagEditViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag")).ConfigureAwait(true);
+            TagEditViewModel viewModel = await dialogService.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag")).ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {

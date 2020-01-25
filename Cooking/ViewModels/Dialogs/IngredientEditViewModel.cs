@@ -15,7 +15,7 @@ namespace Cooking.WPF.Views
     /// <summary>
     /// View model for ingredient edit dialog.
     /// </summary>
-    public partial class IngredientEditViewModel : OkCancelViewModel, INotifyPropertyChanged
+    public partial class IngredientEditViewModel : OkCancelViewModel
     {
         private readonly ILocalization localization;
 
@@ -39,15 +39,12 @@ namespace Cooking.WPF.Views
             {
                 if (e.PropertyName == nameof(Ingredient.Name))
                 {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SimilarIngredients)));
+                    OnPropertyChanged(nameof(SimilarIngredients));
                     NameChanged = true;
                 }
             };
             LoadedCommand = new DelegateCommand(OnLoaded);
         }
-
-        /// <inheritdoc/>
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Gets or sets ingreditne to edit.

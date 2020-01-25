@@ -21,7 +21,7 @@ namespace Cooking.WPF.Views
     [AddINotifyPropertyChangedInterface]
     public class WeekSettingsViewModel : INavigationAware
     {
-        private readonly DialogService dialogUtils;
+        private readonly DialogService dialogService;
         private readonly IRegionManager regionManager;
         private readonly TagService tagService;
         private readonly IContainerExtension container;
@@ -44,12 +44,12 @@ namespace Cooking.WPF.Views
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="regionManager"></param>
-        /// <param name="tagService"></param>
+        /// <param name="tagService">Tag service dependency.</param>
         /// <param name="container"></param>
-        /// <param name="recipeService"></param>
+        /// <param name="recipeService">Recipe service dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
         /// <param name="mapper">Mapper dependency.</param>
-        public WeekSettingsViewModel(DialogService dialogUtils,
+        public WeekSettingsViewModel(DialogService dialogService,
                                      IRegionManager regionManager,
                                      TagService tagService,
                                      IContainerExtension container,
@@ -57,7 +57,7 @@ namespace Cooking.WPF.Views
                                      ILocalization localization,
                                      IMapper mapper)
         {
-            this.dialogUtils = dialogUtils;
+            this.dialogService = dialogService;
             this.regionManager = regionManager;
             this.tagService = tagService;
             this.container = container;
@@ -145,8 +145,8 @@ namespace Cooking.WPF.Views
 
         private async void AddCalorieTypes(DayPlan day)
         {
-            var viewModel = new CalorieTypeSelectViewModel(dialogUtils, localization, day.CalorieTypes);
-            await dialogUtils.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectViewModel>(localization.GetLocalizedString("CalorieTyoes"), viewModel);
+            var viewModel = new CalorieTypeSelectViewModel(dialogService, localization, day.CalorieTypes);
+            await dialogService.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectViewModel>(localization.GetLocalizedString("CalorieTyoes"), viewModel);
 
             if (viewModel.DialogResultOk)
             {
@@ -197,7 +197,7 @@ namespace Cooking.WPF.Views
             viewModel.SetTags(current, allTags);
 
             string header = string.Format(localization.CurrentCulture, localization.GetLocalizedString("CategoriesOf") ?? "{0}", localization.GetLocalizedString(type));
-            await dialogUtils.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(header, viewModel);
+            await dialogService.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(header, viewModel);
 
             if (viewModel.DialogResultOk)
             {
@@ -252,12 +252,14 @@ namespace Cooking.WPF.Views
             }
         }
 
+        /// <inheritdoc/>
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             this.navigationContext = navigationContext;
             WeekStart = (DateTime)navigationContext.Parameters[nameof(WeekStart)];
         }
 
+        /// <inheritdoc/>
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             bool returned = navigationContext.NavigationService.Journal.CurrentEntry.Uri.OriginalString == "ShowGeneratedWeekView";
@@ -276,6 +278,7 @@ namespace Cooking.WPF.Views
             }
         }
 
+        /// <inheritdoc/>
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }

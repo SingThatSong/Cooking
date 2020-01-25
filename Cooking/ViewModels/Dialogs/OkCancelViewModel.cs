@@ -1,4 +1,5 @@
 ﻿using Cooking.WPF.Commands;
+using System.ComponentModel;
 using System.Threading.Tasks;
 
 namespace Cooking.WPF.Views
@@ -6,7 +7,7 @@ namespace Cooking.WPF.Views
     /// <summary>
     /// Base view model for ok/cancel dialogs.
     /// </summary>
-    public partial class OkCancelViewModel
+    public partial class OkCancelViewModel : INotifyPropertyChanged
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OkCancelViewModel"/> class.
@@ -18,6 +19,9 @@ namespace Cooking.WPF.Views
             CloseCommand = new AsyncDelegateCommand(Close);
             OkCommand = new AsyncDelegateCommand(Ok, CanOk);
         }
+
+        /// <inheritdoc/>
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Gets a value indicating whether result of dialog execution - ok or not.
@@ -38,6 +42,12 @@ namespace Cooking.WPF.Views
         /// Gets dialog service dependency.
         /// </summary>
         protected DialogService DialogService { get; }
+
+        /// <summary>
+        /// Method to invoke <see cref="PropertyChanged"/>.
+        /// </summary>
+        /// <param name="property">Name of changed property.</param>
+        protected void OnPropertyChanged(string property) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 
         /// <summary>
         /// Determine if ok button can be pressed.

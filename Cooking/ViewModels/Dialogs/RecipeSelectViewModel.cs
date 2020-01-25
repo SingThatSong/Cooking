@@ -15,20 +15,20 @@ namespace Cooking.WPF.Views
     /// </summary>
     public partial class RecipeSelectViewModel : OkCancelViewModel
     {
-        public RecipeListViewDto? SelectedRecipe { get; set; }
-        public Guid? SelectedRecipeID => SelectedRecipe?.ID;
-
-        public string? SearchHelpText => localization.GetLocalizedString("SearchHelpText", Consts.IngredientSymbol, Consts.TagSymbol);
+        private readonly List<RecipeListViewDto> recipies;
+        private readonly RecipeFiltrator recipeFiltrator;
+        private readonly ILocalization localization;
+        private string? filterText;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeSelectViewModel"/> class.
         /// </summary>
-        /// <param name="dialogService"></param>
-        /// <param name="recipeService"></param>
-        /// <param name="mapper"></param>
-        /// <param name="recipeFiltrator"></param>
-        /// <param name="localization"></param>
-        /// <param name="day"></param>
+        /// <param name="dialogService">Dialog service dependency.</param>
+        /// <param name="recipeService">Recipe service dependency.</param>
+        /// <param name="mapper">Mapper dependency.</param>
+        /// <param name="recipeFiltrator">Instance of recipe filtrator.</param>
+        /// <param name="localization">Localization service dependency.</param>
+        /// <param name="day">Day, which settings will be user for filtering.</param>
         public RecipeSelectViewModel(DialogService dialogService,
                                      RecipeService recipeService,
                                      IMapper mapper,
@@ -102,23 +102,24 @@ namespace Cooking.WPF.Views
             }
         }
 
-        /// <inheritdoc/>
-        protected override bool CanOk() => SelectedRecipe != null;
+        /// <summary>
+        /// Gets or sets selected recipe.
+        /// </summary>
+        public RecipeListViewDto? SelectedRecipe { get; set; }
 
-        private void RecipiesSource_Filter(object sender, FilterEventArgs e)
-        {
-            if (string.IsNullOrEmpty(filterText))
-            {
-                return;
-            }
+        /// <summary>
+        /// Gets recipies collection to choose from.
+        /// </summary>
+        public CollectionViewSource RecipiesSource { get; }
 
-            if (e.Item is RecipeListViewDto recipe)
-            {
-                e.Accepted = recipeFiltrator.FilterObject(recipe);
-            }
-        }
+        /// <summary>
+        /// Gets caption for search help placeholder.
+        /// </summary>
+        public string? SearchHelpTextCaption => localization.GetLocalizedString("SearchHelpText", Consts.IngredientSymbol, Consts.TagSymbol);
 
-        private string? filterText;
+        /// <summary>
+        /// Gets or sets filter text value.
+        /// </summary>
         public string? FilterText
         {
             get => filterText;
@@ -133,10 +134,25 @@ namespace Cooking.WPF.Views
             }
         }
 
-        private readonly List<RecipeListViewDto> recipies;
-        private readonly RecipeFiltrator recipeFiltrator;
-        private readonly ILocalization localization;
+        /// <inheritdoc/>
+        protected override bool CanOk() => SelectedRecipe != null;
 
-        public CollectionViewSource RecipiesSource { get; }
+        /// <summary>
+        /// Callback to call for each recipe on filtration.
+        /// </summary>
+        /// <param name="sender">CollectionViewSource that fired event.</param>
+        /// <param name="e">Event arguments.</param>
+        private void RecipiesSource_Filter(object sender, FilterEventArgs e)
+        {
+            if (string.IsNullOrEmpty(filterText))
+            {
+                return;
+            }
+
+            if (e.Item is RecipeListViewDto recipe)
+            {
+                e.Accepted = recipeFiltrator.FilterObject(recipe);
+            }
+        }
     }
 }

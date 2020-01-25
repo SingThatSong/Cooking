@@ -20,7 +20,7 @@ namespace Cooking.WPF.Views
     public class WeekViewModel : INavigationAware
     {
         // Dependencies
-        private readonly DialogService dialogUtils;
+        private readonly DialogService dialogService;
         private readonly DayService dayService;
         private readonly IRegionManager regionManager;
         private readonly IContainerExtension container;
@@ -37,6 +37,9 @@ namespace Cooking.WPF.Views
         public string? NewRecipeCaption => localization.GetLocalizedString("NewRecipe");
 
         // Commands
+        /// <summary>
+        /// Gets command to execute on loaded event.
+        /// </summary>
         public AsyncDelegateCommand LoadedCommand { get; }
         public DelegateCommand CreateShoppingListCommand { get; }
         public DelegateCommand CreateNewWeekCommand { get; }
@@ -52,13 +55,13 @@ namespace Cooking.WPF.Views
         /// Initializes a new instance of the <see cref="WeekViewModel"/> class.
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
-        /// <param name="regionManager"></param>
-        /// <param name="container"></param>
+        /// <param name="regionManager">Region manager for Prism navigation.</param>
+        /// <param name="container">IoC container.</param>
         /// <param name="dayService"></param>
         /// <param name="mapper">Mapper dependency.</param>
-        /// <param name="weekService"></param>
+        /// <param name="weekService">Week service dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
-        public WeekViewModel(DialogService dialogUtils,
+        public WeekViewModel(DialogService dialogService,
                              IRegionManager regionManager,
                              IContainerExtension container,
                              DayService dayService,
@@ -68,7 +71,7 @@ namespace Cooking.WPF.Views
         {
             Debug.WriteLine("MainPageViewModel.ctor");
 
-            this.dialogUtils = dialogUtils;
+            this.dialogService = dialogService;
             this.regionManager = regionManager;
             this.container = container;
             this.dayService = dayService;
@@ -131,7 +134,7 @@ namespace Cooking.WPF.Views
         private async void SelectDinner(DayOfWeek dayOfWeek)
         {
             Debug.WriteLine("MainPageViewModel.SelectDinner");
-            RecipeSelectViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>();
+            RecipeSelectViewModel viewModel = await dialogService.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>();
 
             if (viewModel.DialogResultOk)
             {
@@ -139,11 +142,11 @@ namespace Cooking.WPF.Views
 
                 if (day != null)
                 {
-                    await dayService.SetDinner(day.ID, viewModel.SelectedRecipeID!.Value);
+                    await dayService.SetDinner(day.ID, viewModel.SelectedRecipe!.ID);
                 }
                 else
                 {
-                    await dayService.CreateDinner(CurrentWeek!.ID, viewModel.SelectedRecipeID!.Value, dayOfWeek);
+                    await dayService.CreateDinner(CurrentWeek!.ID, viewModel.SelectedRecipe!.ID, dayOfWeek);
                 }
 
                 await ReloadCurrentWeek();
@@ -163,7 +166,7 @@ namespace Cooking.WPF.Views
             if (!prevWeekFilled)
             {
                 // Нужно напомнить о рецептах на прошедшей неделе
-                await dialogUtils.ShowYesNoDialog(
+                await dialogService.ShowYesNoDialog(
                       localization.GetLocalizedString("ByTheWay"),
                       localization.GetLocalizedString("YouNeedToMoveRecipies"),
                       successCallback: () => SelectPreviousWeekCommand.Execute()
@@ -174,7 +177,7 @@ namespace Cooking.WPF.Views
         private async void MoveRecipe(Guid dayId)
         {
             Debug.WriteLine("MainPageViewModel.MoveRecipe");
-            MoveRecipeViewModel viewModel = await dialogUtils.ShowCustomMessageAsync<MoveRecipeView, MoveRecipeViewModel>();
+            MoveRecipeViewModel viewModel = await dialogService.ShowCustomMessageAsync<MoveRecipeView, MoveRecipeViewModel>();
 
             if (viewModel.DialogResultOk)
             {
@@ -223,7 +226,7 @@ namespace Cooking.WPF.Views
             {
                 Debug.WriteLine("MainPageViewModel.DeleteDayAsync");
                 DayOfWeek dayOfWeek = CurrentWeek!.Days.Single(x => x.ID == dayId).DayOfWeek;
-                await dialogUtils.ShowYesNoDialog(
+                await dialogService.ShowYesNoDialog(
                       localization.GetLocalizedString("SureDelete", localization.GetLocalizedString(dayOfWeek) ?? string.Empty),
                       localization.GetLocalizedString("CannotUndo"),
                       successCallback: () => OnDayDeleted(dayId.Value));
@@ -234,7 +237,7 @@ namespace Cooking.WPF.Views
         private async void DeleteCurrentWeekAsync()
         {
             Debug.WriteLine("MainPageViewModel.DeleteCurrentWeekAsync");
-            await dialogUtils.ShowYesNoDialog(
+            await dialogService.ShowYesNoDialog(
                   localization.GetLocalizedString("SureDelete", localization.GetLocalizedString("Week") ?? string.Empty),
                   localization.GetLocalizedString("CannotUndo"),
                   successCallback: OnCurrentWeekDeleted);
@@ -275,8 +278,10 @@ namespace Cooking.WPF.Views
             }
         }
 
+        /// <inheritdoc/>
         public bool IsNavigationTarget(NavigationContext navigationContext) => true;
 
+        /// <inheritdoc/>
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }

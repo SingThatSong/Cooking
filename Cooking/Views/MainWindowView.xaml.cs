@@ -14,7 +14,7 @@ namespace Cooking
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindowView"/> class.
         /// </summary>
-        /// <param name="regionManager"></param>
+        /// <param name="regionManager">Region manager for Prism navigation.</param>
         public MainWindowView(IRegionManager regionManager)
         {
             InitializeComponent();

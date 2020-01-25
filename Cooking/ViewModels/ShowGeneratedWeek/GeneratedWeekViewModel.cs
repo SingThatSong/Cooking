@@ -13,42 +13,34 @@ using System.Linq;
 
 namespace Cooking.WPF.Views
 {
+    /// <summary>
+    /// View model for generated week.
+    /// </summary>
     [AddINotifyPropertyChangedInterface]
     public class GeneratedWeekViewModel : INavigationAware
     {
-        private readonly DialogService dialogUtils;
+        private readonly DialogService dialogService;
         private readonly IRegionManager regionManager;
         private readonly RecipeService recipeService;
         private readonly IContainerExtension container;
         private readonly WeekService weekService;
         private NavigationContext? navigationContext;
 
-        public IEnumerable<DayPlan>? Days { get; private set; }
-        public DateTime WeekStart { get; private set; }
-
-        public DelegateCommand<Guid> ShowRecipeCommand { get; }
-        public DelegateCommand<DayPlan> GetAlternativeRecipeCommand { get; }
-        public DelegateCommand<DayPlan> DeleteRecipeManuallyCommand { get; }
-        public DelegateCommand<DayPlan> SetRecipeManuallyCommand { get; }
-        public DelegateCommand ReturnCommand { get; }
-        public DelegateCommand OkCommand { get; }
-        public DelegateCommand CloseCommand { get; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GeneratedWeekViewModel"/> class.
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
-        /// <param name="regionManager"></param>
-        /// <param name="recipeService"></param>
-        /// <param name="container"></param>
-        /// <param name="weekService"></param>
-        public GeneratedWeekViewModel(DialogService dialogUtils,
+        /// <param name="regionManager">Region manager for Prism navigation.</param>
+        /// <param name="recipeService">Recipe service dependency.</param>
+        /// <param name="container">IoC container.</param>
+        /// <param name="weekService">Week service dependency.</param>
+        public GeneratedWeekViewModel(DialogService dialogService,
                                           IRegionManager regionManager,
                                           RecipeService recipeService,
                                           IContainerExtension container,
                                           WeekService weekService)
         {
-            this.dialogUtils = dialogUtils;
+            this.dialogService = dialogService;
             this.regionManager = regionManager;
             this.recipeService = recipeService;
             this.container = container;
@@ -61,6 +53,67 @@ namespace Cooking.WPF.Views
             ShowRecipeCommand = new DelegateCommand<Guid>(ShowRecipe);
             CloseCommand = new DelegateCommand(Close);
             OkCommand = new DelegateCommand(Ok);
+        }
+
+        /// <summary>
+        /// Gets days in generated week.
+        /// </summary>
+        public IEnumerable<DayPlan>? Days { get; private set; }
+
+        /// <summary>
+        /// Gets first day of week.
+        /// </summary>
+        public DateTime WeekStart { get; private set; }
+
+        /// <summary>
+        /// Gets command to show recipe details.
+        /// </summary>
+        public DelegateCommand<Guid> ShowRecipeCommand { get; }
+
+        /// <summary>
+        /// Gets command to change current recipe to alternative.
+        /// </summary>
+        public DelegateCommand<DayPlan> GetAlternativeRecipeCommand { get; }
+
+        /// <summary>
+        /// Gets command to remove manually selected recipe.
+        /// </summary>
+        public DelegateCommand<DayPlan> DeleteRecipeManuallyCommand { get; }
+
+        /// <summary>
+        /// Gets command to set recipe manually.
+        /// </summary>
+        public DelegateCommand<DayPlan> SetRecipeManuallyCommand { get; }
+
+        /// <summary>
+        /// Gets command to return to previous window.
+        /// </summary>
+        public DelegateCommand ReturnCommand { get; }
+
+        /// <summary>
+        /// Gets command to accept generated week.
+        /// </summary>
+        public DelegateCommand OkCommand { get; }
+
+        /// <summary>
+        /// Gets command to close current dialog.
+        /// </summary>
+        public DelegateCommand CloseCommand { get; }
+
+        /// <inheritdoc/>
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            this.navigationContext = navigationContext;
+            Days = (IEnumerable<DayPlan>)navigationContext.Parameters[nameof(Days)];
+            WeekStart = (DateTime)navigationContext.Parameters[nameof(WeekStart)];
+        }
+
+        /// <inheritdoc/>
+        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+
+        /// <inheritdoc/>
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
         }
 
         private void Close() => regionManager.RequestNavigate(Consts.MainContentRegion, nameof(WeekView));
@@ -86,7 +139,7 @@ namespace Cooking.WPF.Views
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
         }
 
-        private static void GetAlternativeRecipe(DayPlan day)
+        private void GetAlternativeRecipe(DayPlan day)
         {
             if (day.Recipe!.Name == day.RecipeAlternatives.Last().Name)
             {
@@ -101,34 +154,23 @@ namespace Cooking.WPF.Views
         private async void SetRecipeManually(DayPlan day)
         {
             IMapper mapper = container.Resolve<IMapper>();
-            var viewModel = new RecipeSelectViewModel(dialogUtils,
+            var viewModel = new RecipeSelectViewModel(dialogService,
                                                       recipeService,
                                                       mapper,
                                                       container.Resolve<RecipeFiltrator>(),
                                                       container.Resolve<ILocalization>(),
                                                       day);
 
-            await dialogUtils.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>(content: viewModel);
+            await dialogService.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>(content: viewModel);
 
             if (viewModel.DialogResultOk)
             {
-                day.SpecificRecipe = recipeService.GetMapped<RecipeListViewDto>(viewModel.SelectedRecipeID!.Value, mapper);
+                day.SpecificRecipe = recipeService.GetMapped<RecipeListViewDto>(viewModel.SelectedRecipe!.ID, mapper);
             }
         }
 
-        private static void DeleteRecipeManually(DayPlan day) => day.SpecificRecipe = null;
+        private void DeleteRecipeManually(DayPlan day) => day.SpecificRecipe = null;
 
         private void Return() => navigationContext?.NavigationService.Journal.GoBack();
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            this.navigationContext = navigationContext;
-            Days = (IEnumerable<DayPlan>)navigationContext.Parameters[nameof(Days)];
-            WeekStart = (DateTime)navigationContext.Parameters[nameof(WeekStart)];
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
-
-        public void OnNavigatedFrom(NavigationContext navigationContext) { }
     }
 }

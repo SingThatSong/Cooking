@@ -37,8 +37,13 @@ namespace Cooking.WPF.Views
 
         public ObservableCollection<ShoppingListIngredientsGroup>? List { get; private set; } = new ObservableCollection<ShoppingListIngredientsGroup>();
 
+        /// <inheritdoc/>
         public bool IsNavigationTarget(NavigationContext navigationContext) => false;
-        public void OnNavigatedFrom(NavigationContext navigationContext) { }
+        /// <inheritdoc/>
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+        }
+        /// <inheritdoc/>
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             this.navigationContext = navigationContext.NavigationService.Journal;

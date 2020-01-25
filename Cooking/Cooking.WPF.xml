@@ -261,7 +261,7 @@
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GarnishEditViewModel"/> class.
             </summary>
             <param name="garnish"></param>
-            <param name="garnishService"></param>
+            <param name="garnishService">Garnish service dependency.</param>
             <param name="dialogService"></param>
             <param name="localization">Localization provider dependency.</param>
         </member>
@@ -304,7 +304,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeIngredientEditViewModel"/> class.
             </summary>
-            <param name="dialogUtils"></param>
+            <param name="dialogService"></param>
             <param name="ingredientService">Ingredient service dependency.</param>
             <param name="mapper"></param>
             <param name="localization">Localization provider dependency.</param>
@@ -334,7 +334,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagSelectViewModel"/> class.
             </summary>
-            <param name="dialogUtils"></param>
+            <param name="dialogService"></param>
             <param name="tagService"></param>
             <param name="mapper"></param>
             <param name="localization">Localization provider dependency.</param>
@@ -343,8 +343,8 @@
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GarnishListViewModel"/> class.
             </summary>
-            <param name="dialogUtils"></param>
-            <param name="garnishService"></param>
+            <param name="dialogService"></param>
+            <param name="garnishService">Garnish service dependency.</param>
             <param name="mapper"></param>
             <param name="localization">Localization provider dependency.</param>
         </member>
@@ -352,8 +352,8 @@
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientListViewModel"/> class.
             </summary>
-            <param name="regionManager"></param>
-            <param name="dialogUtils"></param>
+            <param name="regionManager">Region manager for Prism navigation.</param>
+            <param name="dialogService"></param>
             <param name="ingredientService">Ingredient service dependency.</param>
             <param name="mapper"></param>
             <param name="localization">Localization provider dependency.</param>
@@ -362,9 +362,9 @@
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeListViewModel"/> class.
             </summary>
-            <param name="dialogUtils"></param>
-            <param name="container"></param>
-            <param name="regionManager"></param>
+            <param name="dialogService"></param>
+            <param name="container">IoC container.</param>
+            <param name="regionManager">Region manager for Prism navigation.</param>
             <param name="recipeService"></param>
             <param name="eventAggregator"></param>
             <param name="mapper"></param>
@@ -375,14 +375,14 @@
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeViewModel"/> class.
             </summary>
-            <param name="dialogUtils"></param>
+            <param name="dialogService"></param>
             <param name="imageService"></param>
-            <param name="container"></param>
+            <param name="container">IoC container.</param>
             <param name="recipeService"></param>
             <param name="mapper"></param>
             <param name="eventAggregator"></param>
             <param name="localization">Localization provider dependency.</param>
-            <param name="regionManager"></param>
+            <param name="regionManager">Region manager for Prism navigation.</param>
         </member>
         <member name="M:Cooking.WPF.Views.SettingsViewModel.#ctor(Serilog.ILogger,Cooking.WPF.Services.ILocalization)">
             <summary>
@@ -400,18 +400,18 @@
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GeneratedWeekViewModel"/> class.
             </summary>
-            <param name="dialogUtils"></param>
-            <param name="regionManager"></param>
+            <param name="dialogService"></param>
+            <param name="regionManager">Region manager for Prism navigation.</param>
             <param name="recipeService"></param>
-            <param name="container"></param>
-            <param name="weekService"></param>
+            <param name="container">IoC container.</param>
+            <param name="weekService">Week service dependency.</param>
         </member>
         <member name="M:Cooking.WPF.Views.TagListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagListViewModel"/> class.
             </summary>
-            <param name="regionManager"></param>
-            <param name="dialogUtils"></param>
+            <param name="regionManager">Region manager for Prism navigation.</param>
+            <param name="dialogService"></param>
             <param name="tagService"></param>
             <param name="mapper"></param>
             <param name="localization">Localization provider dependency.</param>
@@ -420,10 +420,10 @@
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.WeekSettingsViewModel"/> class.
             </summary>
-            <param name="dialogUtils"></param>
-            <param name="regionManager"></param>
+            <param name="dialogService"></param>
+            <param name="regionManager">Region manager for Prism navigation.</param>
             <param name="tagService"></param>
-            <param name="container"></param>
+            <param name="container">IoC container.</param>
             <param name="recipeService"></param>
             <param name="localization">Localization provider dependency.</param>
             <param name="mapper"></param>
@@ -432,12 +432,12 @@
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.WeekViewModel"/> class.
             </summary>
-            <param name="dialogUtils"></param>
-            <param name="regionManager"></param>
-            <param name="container"></param>
+            <param name="dialogService"></param>
+            <param name="regionManager">Region manager for Prism navigation.</param>
+            <param name="container">IoC container.</param>
             <param name="dayService"></param>
             <param name="mapper"></param>
-            <param name="weekService"></param>
+            <param name="weekService">Week service dependency.</param>
             <param name="localization">Localization provider dependency.</param>
         </member>
         <member name="T:Cooking.WPF.Views.CalorieTypeSelectView">
@@ -1674,7 +1674,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.MainWindowView"/> class.
             </summary>
-            <param name="regionManager"></param>
+            <param name="regionManager">Region manager for Prism navigation.</param>
         </member>
         <member name="M:Cooking.MainWindowView.InitializeComponent">
             <summary>
