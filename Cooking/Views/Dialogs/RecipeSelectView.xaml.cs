@@ -1,7 +1,7 @@
 ﻿namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Logic for
+    /// Logic for <see cref="RecipeSelect"/>.
     /// </summary>
     public partial class RecipeSelect
     {

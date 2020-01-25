@@ -15,6 +15,9 @@ using System.Threading.Tasks;
 
 namespace Cooking.WPF.Views
 {
+    /// <summary>
+    /// View model for a list of tags.
+    /// </summary>
     [AddINotifyPropertyChangedInterface]
     public partial class TagListViewModel
     {
@@ -23,18 +26,6 @@ namespace Cooking.WPF.Views
         private readonly TagService tagService;
         private readonly IMapper mapper;
         private readonly ILocalization localization;
-
-        public ObservableCollection<TagEdit>? Tags { get; private set; }
-        public bool IsEditing { get; set; }
-
-        public DelegateCommand AddTagCommand { get; }
-        public DelegateCommand<TagEdit> ViewTagCommand { get; }
-        public AsyncDelegateCommand<TagEdit> EditTagCommand { get; }
-        public DelegateCommand<Guid> DeleteTagCommand { get; }
-        /// <summary>
-        /// Gets command to execute on loaded event.
-        /// </summary>
-        public DelegateCommand LoadedCommand { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TagListViewModel"/> class.
@@ -57,6 +48,41 @@ namespace Cooking.WPF.Views
             ViewTagCommand = new DelegateCommand<TagEdit>(ViewTag);
             EditTagCommand = new AsyncDelegateCommand<TagEdit>(EditTag);
         }
+
+        /// <summary>
+        /// Gets all tags list.
+        /// </summary>
+        public ObservableCollection<TagEdit>? Tags { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether current view model is in editing state.
+        /// </summary>
+        public bool IsEditing { get; set; }
+
+        /// <summary>
+        /// Gets command to create a tag.
+        /// </summary>
+        public DelegateCommand AddTagCommand { get; }
+
+        /// <summary>
+        /// Gets command to move to recipies list filtered by selected tag.
+        /// </summary>
+        public DelegateCommand<TagEdit> ViewTagCommand { get; }
+
+        /// <summary>
+        /// Gets command to edit a tag.
+        /// </summary>
+        public AsyncDelegateCommand<TagEdit> EditTagCommand { get; }
+
+        /// <summary>
+        /// Gets command to delete a tag.
+        /// </summary>
+        public DelegateCommand<Guid> DeleteTagCommand { get; }
+
+        /// <summary>
+        /// Gets command to execute on loaded event.
+        /// </summary>
+        public DelegateCommand LoadedCommand { get; }
 
         private void OnLoaded()
         {
@@ -87,10 +113,9 @@ namespace Cooking.WPF.Views
             }
         }
 
-        public async void DeleteTag(Guid recipeId) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Tags!.Single(x => x.ID == recipeId).Name ?? string.Empty),
+        private async void DeleteTag(Guid recipeId) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Tags!.Single(x => x.ID == recipeId).Name ?? string.Empty),
                                                                                         localization.GetLocalizedString("CannotUndo"),
-                                                                                        successCallback: () => OnTagDeleted(recipeId))
-                                                                       ;
+                                                                                        successCallback: () => OnTagDeleted(recipeId));
 
         private async void OnTagDeleted(Guid recipeId)
         {
@@ -98,7 +123,7 @@ namespace Cooking.WPF.Views
             Tags!.Remove(Tags.Single(x => x.ID == recipeId));
         }
 
-        public async void AddTag()
+        private async void AddTag()
         {
             TagEditViewModel viewModel = await dialogService.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag")).ConfigureAwait(true);
 

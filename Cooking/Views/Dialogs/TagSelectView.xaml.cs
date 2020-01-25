@@ -3,7 +3,7 @@
 namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Logic for
+    /// Logic for <see cref="TagSelectView"/>.
     /// </summary>
     public partial class TagSelectView
     {

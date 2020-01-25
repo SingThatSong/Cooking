@@ -54,16 +54,39 @@ namespace Cooking.WPF.Views
             ViewIngredientCommand = new DelegateCommand<IngredientEdit>(ViewIngredient);
         }
 
+        /// <summary>
+        /// Gets list of all ingredients.
+        /// </summary>
         public ObservableCollection<IngredientEdit>? Ingredients { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether current view model is in editing state.
+        /// </summary>
         public bool IsEditing { get; set; }
 
         /// <summary>
         /// Gets command to execute on loaded event.
         /// </summary>
         public AsyncDelegateCommand LoadedCommand { get; }
+
+        /// <summary>
+        /// Gets command to create new ingredient.
+        /// </summary>
         public DelegateCommand AddIngredientCommand { get; }
+
+        /// <summary>
+        /// Gets comand to delete ingredient.
+        /// </summary>
         public DelegateCommand<Guid> DeleteIngredientCommand { get; }
+
+        /// <summary>
+        /// Gets command to view ingredient.
+        /// </summary>
         public DelegateCommand<IngredientEdit> ViewIngredientCommand { get; }
+
+        /// <summary>
+        /// Gets command to edit ingredient.
+        /// </summary>
         public DelegateCommand<IngredientEdit> EditIngredientCommand { get; }
 
         private Task OnLoaded()

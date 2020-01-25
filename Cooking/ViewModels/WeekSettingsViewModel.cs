@@ -18,6 +18,9 @@ using System.Windows.Controls;
 
 namespace Cooking.WPF.Views
 {
+    /// <summary>
+    /// View model for week settings.
+    /// </summary>
     [AddINotifyPropertyChangedInterface]
     public class WeekSettingsViewModel : INavigationAware
     {
@@ -30,22 +33,13 @@ namespace Cooking.WPF.Views
         private readonly IMapper mapper;
         private NavigationContext? navigationContext;
 
-        public DateTime WeekStart { get; private set; }
-        public List<DayPlan> Days { get; }
-
-        public DelegateCommand<DayPlan> AddMainIngredientCommand { get; }
-        public DelegateCommand<DayPlan> AddDishTypesCommand { get; }
-        public DelegateCommand<DayPlan> AddCalorieTypesCommand { get; }
-        public DelegateCommand OkCommand { get; }
-        public DelegateCommand CloseCommand { get; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WeekSettingsViewModel"/> class.
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
-        /// <param name="regionManager"></param>
+        /// <param name="regionManager">Region manager for Prism navigation.</param>
         /// <param name="tagService">Tag service dependency.</param>
-        /// <param name="container"></param>
+        /// <param name="container">IoC container.</param>
         /// <param name="recipeService">Recipe service dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
         /// <param name="mapper">Mapper dependency.</param>
@@ -83,6 +77,72 @@ namespace Cooking.WPF.Views
             AddCalorieTypesCommand = new DelegateCommand<DayPlan>(AddCalorieTypes);
             CloseCommand = new DelegateCommand(Close, CanClose);
             OkCommand = new DelegateCommand(Ok);
+        }
+
+        /// <summary>
+        /// Gets first day of a week.
+        /// </summary>
+        public DateTime WeekStart { get; private set; }
+
+        /// <summary>
+        /// Gets settings for days of a week.
+        /// </summary>
+        public List<DayPlan> Days { get; }
+
+        /// <summary>
+        /// Gets command to select required main ingredients.
+        /// </summary>
+        public DelegateCommand<DayPlan> AddMainIngredientCommand { get; }
+
+        /// <summary>
+        /// Gets command to select dish types.
+        /// </summary>
+        public DelegateCommand<DayPlan> AddDishTypesCommand { get; }
+
+        /// <summary>
+        /// Gets command to add calorie types.
+        /// </summary>
+        public DelegateCommand<DayPlan> AddCalorieTypesCommand { get; }
+
+        /// <summary>
+        /// Gets command to proceed with selected settings.
+        /// </summary>
+        public DelegateCommand OkCommand { get; }
+
+        /// <summary>
+        /// Gets command to return to previous view.
+        /// </summary>
+        public DelegateCommand CloseCommand { get; }
+
+        /// <inheritdoc/>
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            this.navigationContext = navigationContext;
+            WeekStart = (DateTime)navigationContext.Parameters[nameof(WeekStart)];
+        }
+
+        /// <inheritdoc/>
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            bool returned = navigationContext.NavigationService.Journal.CurrentEntry.Uri.OriginalString == "ShowGeneratedWeekView";
+
+            if (returned)
+            {
+                // if returned from ShowGeneratedWeekView - return old view, othrewise return new
+                return true;
+            }
+            else
+            {
+                // We started new week creation - cached view should be deleted from region
+                UserControl view = navigationContext.NavigationService.Region.Views.Cast<UserControl>().FirstOrDefault(x => x.DataContext == this);
+                navigationContext.NavigationService.Region.Remove(view);
+                return false;
+            }
+        }
+
+        /// <inheritdoc/>
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
         }
 
         private void Ok()
@@ -250,37 +310,6 @@ namespace Cooking.WPF.Views
                         break;
                 }
             }
-        }
-
-        /// <inheritdoc/>
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            this.navigationContext = navigationContext;
-            WeekStart = (DateTime)navigationContext.Parameters[nameof(WeekStart)];
-        }
-
-        /// <inheritdoc/>
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            bool returned = navigationContext.NavigationService.Journal.CurrentEntry.Uri.OriginalString == "ShowGeneratedWeekView";
-
-            if (returned)
-            {
-                // if returned from ShowGeneratedWeekView - return old view, othrewise return new
-                return true;
-            }
-            else
-            {
-                // We started new week creation - cached view should be deleted from region
-                UserControl view = navigationContext.NavigationService.Region.Views.Cast<UserControl>().FirstOrDefault(x => x.DataContext == this);
-                navigationContext.NavigationService.Region.Remove(view);
-                return false;
-            }
-        }
-
-        /// <inheritdoc/>
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
         }
     }
 }

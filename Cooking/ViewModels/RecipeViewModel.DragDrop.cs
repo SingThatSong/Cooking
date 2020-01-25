@@ -4,14 +4,19 @@ using System.Collections.ObjectModel;
 
 namespace Cooking.WPF.Views
 {
+    /// <summary>
+    /// Drag-and-drop logic for <see cref="RecipeViewModel"/>.
+    /// </summary>
     public partial class RecipeViewModel
     {
+        /// <inheritdoc/>
         public void DragOver(IDropInfo dropInfo)
         {
             dropInfo.Effects = System.Windows.DragDropEffects.Move;
             dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
         }
 
+        /// <inheritdoc/>
         public void Drop(IDropInfo dropInfo)
         {
             if (dropInfo.TargetCollection != dropInfo.DragInfo.SourceCollection)

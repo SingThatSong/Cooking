@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Logic for
+    /// Logic for <see cref="RecipeView"/>.
     /// </summary>
     public partial class RecipeView
     {

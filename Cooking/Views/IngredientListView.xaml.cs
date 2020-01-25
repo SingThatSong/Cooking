@@ -3,7 +3,7 @@
 namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Logic for
+    /// Logic for <see cref="IngredientListView"/>.
     /// </summary>
     public partial class IngredientListView : IRegionMemberLifetime
     {
@@ -15,6 +15,7 @@ namespace Cooking.WPF.Views
             InitializeComponent();
         }
 
+        /// <inheritdoc/>
         public bool KeepAlive => true;
     }
 }

@@ -51,7 +51,7 @@ namespace Cooking.WPF.Views
         public ObservableCollection<GarnishEdit>? Garnishes { get; private set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether vm is in editing state.
+        /// Gets or sets a value indicating whether current view model is in editing state.
         /// </summary>
         public bool IsEditing { get; set; }
 

@@ -18,6 +18,9 @@ using System.Windows.Data;
 
 namespace Cooking.WPF.Views
 {
+    /// <summary>
+    /// View model for a list of recipies.
+    /// </summary>
     [AddINotifyPropertyChangedInterface]
     public partial class RecipeListViewModel : INavigationAware
     {
@@ -29,25 +32,7 @@ namespace Cooking.WPF.Views
         private readonly RecipeFiltrator recipeFiltrator;
         private readonly ILocalization localization;
 
-        public bool RecipiesNotFound { get; private set; }
-        public CollectionViewSource RecipiesSource { get; set; }
-        public ObservableCollection<RecipeListViewDto>? Recipies { get; private set; }
-
-        public string? SearchHelpText => localization.GetLocalizedString("SearchHelpText", Consts.IngredientSymbol, Consts.TagSymbol);
-
-        public DelegateCommand AddRecipeCommand { get; }
-        public DelegateCommand<Guid> ViewRecipeCommand { get; }
-
-        /// <summary>
-        /// Gets command to execute on loaded event.
-        /// </summary>
-        public DelegateCommand LoadedCommand { get; }
-
-        public bool IsListView { get; set; }
-        public bool IsTilesView { get; set; } = true;
-
-        public void OnIsListViewChanged() => IsTilesView = !IsListView;
-        public void OnIsTilesViewChanged() => IsListView = !IsTilesView;
+        private string? filterText;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeListViewModel"/> class.
@@ -56,9 +41,9 @@ namespace Cooking.WPF.Views
         /// <param name="container">IoC container.</param>
         /// <param name="regionManager">Region manager for Prism navigation.</param>
         /// <param name="recipeService">Recipe service dependency.</param>
-        /// <param name="eventAggregator"></param>
+        /// <param name="eventAggregator">Dependency on Prism event aggregator.</param>
         /// <param name="mapper">Mapper dependency.</param>
-        /// <param name="recipeFiltrator"></param>
+        /// <param name="recipeFiltrator">Dependency on recipe filtrator.</param>
         /// <param name="localization">Localization provider dependency.</param>
         public RecipeListViewModel(DialogService dialogService,
                                  IContainerExtension container,
@@ -91,6 +76,96 @@ namespace Cooking.WPF.Views
             RecipiesSource.Filter += RecipiesSource_Filter;
             RecipiesSource.SortDescriptions.Add(new SortDescription() { PropertyName = nameof(RecipeListViewDto.Name) });
         }
+
+        /// <summary>
+        /// Gets a value indicating whether no recipies is present.
+        /// </summary>
+        public bool RecipiesNotFound { get; private set; }
+
+        /// <summary>
+        /// Gets or sets source for filtering and ordering source collection of recipies.
+        /// </summary>
+        public CollectionViewSource RecipiesSource { get; set; }
+
+        /// <summary>
+        /// Gets source collection of recipies.
+        /// </summary>
+        public ObservableCollection<RecipeListViewDto>? Recipies { get; private set; }
+
+        /// <summary>
+        /// Gets caption for search help placeholder.
+        /// </summary>
+        public string? SearchHelpTextCaption => localization.GetLocalizedString("SearchHelpText", Consts.IngredientSymbol, Consts.TagSymbol);
+
+        /// <summary>
+        /// Gets command to add recipe.
+        /// </summary>
+        public DelegateCommand AddRecipeCommand { get; }
+
+        /// <summary>
+        /// Gets command to view recipe.
+        /// </summary>
+        public DelegateCommand<Guid> ViewRecipeCommand { get; }
+
+        /// <summary>
+        /// Gets command to execute on loaded event.
+        /// </summary>
+        public DelegateCommand LoadedCommand { get; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether current view is list view.
+        /// </summary>
+        public bool IsListView { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether current view is tiles view.
+        /// </summary>
+        public bool IsTilesView { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets filter text value.
+        /// </summary>
+        public string? FilterText
+        {
+            get => filterText;
+            set
+            {
+                if (filterText != value)
+                {
+                    filterText = value;
+                    recipeFiltrator.OnFilterTextChanged(value);
+                    RecipiesSource.View?.Refresh();
+                    if (RecipiesSource.View is ListCollectionView listCollectionView)
+                    {
+                        RecipiesNotFound = listCollectionView.Count == 0;
+                    }
+                }
+            }
+        }
+
+        /// <inheritdoc/>
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            if (navigationContext.Parameters[nameof(FilterText)] != null)
+            {
+                FilterText = (string)navigationContext.Parameters[nameof(FilterText)];
+            }
+
+            MainWindowViewModel mainVM = container.Resolve<MainWindowViewModel>();
+            mainVM.SelectMenuItemByViewType(typeof(RecipeListView));
+        }
+
+        /// <inheritdoc/>
+        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+
+        /// <inheritdoc/>
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+        }
+
+        // Intercepted sets for IsTilesView and IsListView used to toggle each other
+        private void OnIsListViewChanged() => IsTilesView = !IsListView;
+        private void OnIsTilesViewChanged() => IsListView = !IsTilesView;
 
         private void OnRecipeDeleted(Guid id)
         {
@@ -128,27 +203,7 @@ namespace Cooking.WPF.Views
             }
         }
 
-        private string? filterText;
-
-        public string? FilterText
-        {
-            get => filterText;
-            set
-            {
-                if (filterText != value)
-                {
-                    filterText = value;
-                    recipeFiltrator.OnFilterTextChanged(value);
-                    RecipiesSource.View?.Refresh();
-                    if (RecipiesSource.View is ListCollectionView listCollectionView)
-                    {
-                        RecipiesNotFound = listCollectionView.Count == 0;
-                    }
-                }
-            }
-        }
-
-        public void ViewRecipe(Guid recipeId)
+        private void ViewRecipe(Guid recipeId)
         {
             var parameters = new NavigationParameters()
             {
@@ -157,25 +212,6 @@ namespace Cooking.WPF.Views
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
         }
 
-        public void AddRecipe() => regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView));
-
-        /// <inheritdoc/>
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            if (navigationContext.Parameters[nameof(FilterText)] != null)
-            {
-                FilterText = (string)navigationContext.Parameters[nameof(FilterText)];
-            }
-
-            MainWindowViewModel mainVM = container.Resolve<MainWindowViewModel>();
-            mainVM.SelectMenuItemByViewType(typeof(RecipeListView));
-        }
-
-        /// <inheritdoc/>
-        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
-        /// <inheritdoc/>
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-        }
+        private void AddRecipe() => regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView));
     }
 }

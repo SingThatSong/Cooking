@@ -18,6 +18,9 @@ using System.Windows;
 
 namespace Cooking.WPF.Views
 {
+    /// <summary>
+    /// View model for recipe viewing and editing.
+    /// </summary>
     [AddINotifyPropertyChangedInterface]
     public partial class RecipeViewModel : IDropTarget, INavigationAware, IRegionMemberLifetime
     {
@@ -31,52 +34,15 @@ namespace Cooking.WPF.Views
         private readonly IRegionManager regionManager;
         private IRegionNavigationJournal? journal;
 
-        public bool IsEditing { get; set; }
-        public void OnIsEditingChanged()
-        {
-            if (IsEditing)
-            {
-                RecipeBackup = mapper.Map<RecipeEdit>(Recipe);
-            }
-            else if (RecipeBackup != null)
-            {
-                Recipe = mapper.Map<RecipeEdit>(RecipeBackup);
-            }
-        }
-
-        public bool IsRecipeCreation { get; set; }
-
-        public RecipeEdit? Recipe { get; set; }
-        private RecipeEdit? RecipeBackup { get; set; }
-
-        public AsyncDelegateCommand ApplyChangesCommand { get; }
-
-        public DelegateCommand CloseCommand { get; }
-        public DelegateCommand ImageSearchCommand { get; }
-        public DelegateCommand RemoveImageCommand { get; }
-        public DelegateCommand AddIngredientCommand { get; }
-        public DelegateCommand AddTagCommand { get; }
-        public DelegateCommand AddIngredientGroupCommand { get; }
-
-        public DelegateCommand<TagEdit> RemoveTagCommand { get; }
-        public DelegateCommand<TagEdit> ViewTagCommand { get; }
-
-        public DelegateCommand<IngredientGroupEdit> AddIngredientToGroupCommand { get; }
-        public DelegateCommand<IngredientGroupEdit> RemoveIngredientGroupCommand { get; }
-        public AsyncDelegateCommand<IngredientGroupEdit> EditIngredientGroupCommand { get; }
-        public AsyncDelegateCommand<RecipeIngredientEdit> EditIngredientCommand { get; }
-        public DelegateCommand<RecipeIngredientEdit> RemoveIngredientCommand { get; }
-        public AsyncDelegateCommand<Guid> DeleteRecipeCommand { get; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeViewModel"/> class.
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
-        /// <param name="imageService"></param>
+        /// <param name="imageService">Service for working with images.</param>
         /// <param name="container">IoC container.</param>
         /// <param name="recipeService">Recipe service dependency.</param>
         /// <param name="mapper">Mapper dependency.</param>
-        /// <param name="eventAggregator"></param>
+        /// <param name="eventAggregator">Dependency on Prism event aggregator.</param>
         /// <param name="localization">Localization provider dependency.</param>
         /// <param name="regionManager">Region manager for Prism navigation.</param>
         public RecipeViewModel(DialogService dialogService,
@@ -116,6 +82,146 @@ namespace Cooking.WPF.Views
             AddIngredientCommand = new DelegateCommand(AddIngredient);
             EditIngredientCommand = new AsyncDelegateCommand<RecipeIngredientEdit>(EditIngredient);
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether vm is in creation mode.
+        /// In creation mode recipe cannot be deleted or editing cannot be canceled. You can either save or cancel.
+        /// </summary>
+        public bool IsRecipeCreation { get; set; }
+
+        /// <summary>
+        /// Gets or sets recipe to be viewed or edited.
+        /// </summary>
+        public RecipeEdit? Recipe { get; set; }
+
+        /// <summary>
+        /// Gets command to apply changes to recipe.
+        /// </summary>
+        public AsyncDelegateCommand ApplyChangesCommand { get; }
+
+        /// <summary>
+        /// Gets close current view.
+        /// </summary>
+        public DelegateCommand CloseCommand { get; }
+
+        /// <summary>
+        /// Gets command to select image for a recipe.
+        /// </summary>
+        public DelegateCommand ImageSearchCommand { get; }
+
+        /// <summary>
+        /// Gets command to remove image for a recipe.
+        /// </summary>
+        public DelegateCommand RemoveImageCommand { get; }
+
+        /// <summary>
+        /// Gets command to add ingredient.
+        /// </summary>
+        public DelegateCommand AddIngredientCommand { get; }
+
+        /// <summary>
+        /// Gets command to add tag to a recipe.
+        /// </summary>
+        public DelegateCommand AddTagCommand { get; }
+
+        /// <summary>
+        /// Gets command to add ingredients group to a recipe.
+        /// </summary>
+        public DelegateCommand AddIngredientGroupCommand { get; }
+
+        /// <summary>
+        /// Gets command to remove tag from a recipe.
+        /// </summary>
+        public DelegateCommand<TagEdit> RemoveTagCommand { get; }
+
+        /// <summary>
+        /// Gets command to move to a list of recipies filtered by a tag.
+        /// </summary>
+        public DelegateCommand<TagEdit> ViewTagCommand { get; }
+
+        /// <summary>
+        /// Gets command to add ingredient to a group.
+        /// </summary>
+        public DelegateCommand<IngredientGroupEdit> AddIngredientToGroupCommand { get; }
+
+        /// <summary>
+        /// Gets command to remove ingredient from a group.
+        /// </summary>
+        public DelegateCommand<IngredientGroupEdit> RemoveIngredientGroupCommand { get; }
+
+        /// <summary>
+        /// Gets command to edit ingredient group.
+        /// </summary>
+        public AsyncDelegateCommand<IngredientGroupEdit> EditIngredientGroupCommand { get; }
+
+        /// <summary>
+        /// Gets command to edit ingredientin a recipe.
+        /// </summary>
+        public AsyncDelegateCommand<RecipeIngredientEdit> EditIngredientCommand { get; }
+
+        /// <summary>
+        /// Gets command to remove ingredient from a recipe.
+        /// </summary>
+        public DelegateCommand<RecipeIngredientEdit> RemoveIngredientCommand { get; }
+
+        /// <summary>
+        /// Gets command to delete current recipe.
+        /// </summary>
+        public AsyncDelegateCommand<Guid> DeleteRecipeCommand { get; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether current view model is in editing state.
+        /// </summary>
+        public bool IsEditing { get; set; }
+
+        /// <inheritdoc/>
+        public bool KeepAlive => false;
+
+        /// <summary>
+        /// Gets or sets backup of recipe for edit cancellation.
+        /// </summary>
+        private RecipeEdit? RecipeBackup { get; set; }
+
+        /// <summary>
+        /// Intercepted by PropertyChanged change of <see cref="IsEditing"/> property.
+        /// Needed for move between edit states without saving using backup copy.
+        /// </summary>
+        public void OnIsEditingChanged()
+        {
+            if (IsEditing)
+            {
+                RecipeBackup = mapper.Map<RecipeEdit>(Recipe);
+            }
+            else if (RecipeBackup != null)
+            {
+                Recipe = mapper.Map<RecipeEdit>(RecipeBackup);
+            }
+        }
+
+        /// <inheritdoc/>
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            this.journal = navigationContext.NavigationService.Journal;
+            var recipeId = navigationContext.Parameters[nameof(Recipe)] as Guid?;
+            if (recipeId.HasValue)
+            {
+                Recipe = recipeService.GetMapped<RecipeEdit>(recipeId.Value, container.Resolve<IMapper>());
+            }
+            else
+            {
+                Recipe = new RecipeEdit();
+                IsEditing = true;
+                IsRecipeCreation = true;
+            }
+        }
+
+        /// <inheritdoc/>
+        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+
+        /// <inheritdoc/>
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
         }
 
         private bool CanDeleteRecipe(Guid arg) => !IsRecipeCreation;
@@ -207,8 +313,6 @@ namespace Cooking.WPF.Views
         private void RemoveTag(TagEdit tag) => Recipe!.Tags!.Remove(tag);
         private void RemoveImage() => Recipe!.ImagePath = null;
 
-        public bool KeepAlive => false;
-
         private bool CanRemoveImage() => Recipe?.ImagePath != null;
 
         private async void AddIngredient()
@@ -297,31 +401,6 @@ namespace Cooking.WPF.Views
             {
                 journal?.GoBack();
             });
-        }
-
-        /// <inheritdoc/>
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            this.journal = navigationContext.NavigationService.Journal;
-            var recipeId = navigationContext.Parameters[nameof(Recipe)] as Guid?;
-            if (recipeId.HasValue)
-            {
-                Recipe = recipeService.GetMapped<RecipeEdit>(recipeId.Value, container.Resolve<IMapper>());
-            }
-            else
-            {
-                Recipe = new RecipeEdit();
-                IsEditing = true;
-                IsRecipeCreation = true;
-            }
-        }
-
-        /// <inheritdoc/>
-        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
-
-        /// <inheritdoc/>
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
         }
     }
 }

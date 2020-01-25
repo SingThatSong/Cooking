@@ -3,7 +3,7 @@
 namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Logic for
+    /// Logic for <see cref="TagListView"/>.
     /// </summary>
     public partial class TagListView : IRegionMemberLifetime
     {
@@ -15,6 +15,7 @@ namespace Cooking.WPF.Views
             InitializeComponent();
         }
 
+        /// <inheritdoc/>
         public bool KeepAlive => true;
     }
 }

@@ -9,16 +9,19 @@ using System.Windows;
 
 namespace Cooking.WPF.Views
 {
+    /// <summary>
+    /// View model for settings.
+    /// </summary>
     public class SettingsViewModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
         /// </summary>
-        /// <param name="logger"></param>
+        /// <param name="logger">Logger dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
         public SettingsViewModel(ILogger logger, ILocalization localization)
         {
-            ChangedCommand = new DelegateCommand(() =>
+            CultureSelectionChangedCommand = new DelegateCommand(() =>
             {
                 string currentConfig = File.ReadAllText(Consts.SettingsFilename);
                 Dictionary<string, string> configParsed = JsonSerializer.Deserialize<Dictionary<string, string>>(currentConfig);
@@ -44,6 +47,9 @@ namespace Cooking.WPF.Views
             });
         }
 
-        public DelegateCommand ChangedCommand { get; }
+        /// <summary>
+        /// Gets command to be fired when culture combobox's selected language changes.
+        /// </summary>
+        public DelegateCommand CultureSelectionChangedCommand { get; }
     }
 }

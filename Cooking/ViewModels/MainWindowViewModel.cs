@@ -9,13 +9,16 @@ using WPFLocalizeExtension.Providers;
 
 namespace Cooking
 {
+    /// <summary>
+    /// View model for main window.
+    /// </summary>
     [AddINotifyPropertyChangedInterface]
     public class MainWindowViewModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
         /// </summary>
-        /// <param name="localizationProvider"></param>
+        /// <param name="localizationProvider">Localization provider for WPFLocalizeExtension.</param>
         /// <param name="localization">Localization provider dependency.</param>
         public MainWindowViewModel(ILocalizationProvider localizationProvider, ILocalization localization)
         {
@@ -74,14 +77,30 @@ namespace Cooking
             };
         }
 
+        /// <summary>
+        /// Gets localization provider for WPFLocalizeExtension.
+        /// </summary>
         public ILocalizationProvider LocalizationProvider { get; }
 
+        /// <summary>
+        /// Gets or sets selected menu item.
+        /// </summary>
         public HamburgerMenuIconItem? SelectedMenuItem { get; set; }
 
+        /// <summary>
+        /// Gets all menu items.
+        /// </summary>
         public HamburgerMenuItemCollection MenuItems { get; }
 
+        /// <summary>
+        /// Gets all options.
+        /// </summary>
         public HamburgerMenuItemCollection OptionsMenuItems { get; }
 
-        public void SelectMenuItemByViewType(Type type) => SelectedMenuItem = MenuItems.FirstOrDefault(x => x.Tag == type) as HamburgerMenuIconItem;
+        /// <summary>
+        /// Update Selected menu item.
+        /// </summary>
+        /// <param name="type">Type of view to activate menu item.</param>
+        public void SelectMenuItemByViewType(Type type) => SelectedMenuItem = MenuItems.FirstOrDefault(x => x.Tag.ToString() == type.Name) as HamburgerMenuIconItem;
     }
 }

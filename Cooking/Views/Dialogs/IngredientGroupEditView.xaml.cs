@@ -3,7 +3,7 @@
 namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Logic for
+    /// Logic for <see cref="IngredientGroupEditView"/>.
     /// </summary>
     public partial class IngredientGroupEditView
     {

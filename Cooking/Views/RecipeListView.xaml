@@ -43,7 +43,7 @@
                 Margin="10 0 0 0"
                 mahapps:TextBoxHelper.ClearTextButton="True"
                 mahapps:TextBoxHelper.UseFloatingWatermark="True"
-                mahapps:TextBoxHelper.Watermark="{Binding SearchHelpText, Mode=OneTime}"
+                mahapps:TextBoxHelper.Watermark="{Binding SearchHelpTextCaption, Mode=OneTime}"
                 Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </DockPanel>
         <ListView

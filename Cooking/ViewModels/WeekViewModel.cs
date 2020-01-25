@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace Cooking.WPF.Views
 {
+    /// <summary>
+    /// View model for viewing week schedule.
+    /// </summary>
     [AddINotifyPropertyChangedInterface]
     public class WeekViewModel : INavigationAware
     {
@@ -28,36 +31,13 @@ namespace Cooking.WPF.Views
         private readonly WeekService weekService;
         private readonly ILocalization localization;
 
-        // State
-        public DateTime WeekStart { get; set; }
-        public DateTime WeekEnd { get; set; }
-        public bool WeekEdit { get; set; }
-        public WeekEdit? CurrentWeek { get; set; }
-        public string? MoveRecipeToNextWeekCaption => localization.GetLocalizedString("MoveRecipeToNextWeek");
-        public string? NewRecipeCaption => localization.GetLocalizedString("NewRecipe");
-
-        // Commands
-        /// <summary>
-        /// Gets command to execute on loaded event.
-        /// </summary>
-        public AsyncDelegateCommand LoadedCommand { get; }
-        public DelegateCommand CreateShoppingListCommand { get; }
-        public DelegateCommand CreateNewWeekCommand { get; }
-        public DelegateCommand DeleteCommand { get; }
-        public DelegateCommand SelectNextWeekCommand { get; }
-        public DelegateCommand SelectPreviousWeekCommand { get; }
-        public DelegateCommand<Guid> ShowRecipeCommand { get; }
-        public DelegateCommand<Guid> MoveRecipeCommand { get; }
-        public DelegateCommand<DayOfWeek> SelectDinnerCommand { get; }
-        public DelegateCommand<Guid?> DeleteDinnerCommand { get; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WeekViewModel"/> class.
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="regionManager">Region manager for Prism navigation.</param>
         /// <param name="container">IoC container.</param>
-        /// <param name="dayService"></param>
+        /// <param name="dayService"><see cref="DayService"/> dependency.</param>
         /// <param name="mapper">Mapper dependency.</param>
         /// <param name="weekService">Week service dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
@@ -91,10 +71,108 @@ namespace Cooking.WPF.Views
             MoveRecipeCommand = new DelegateCommand<Guid>(MoveRecipe);
         }
 
+        /// <summary>
+        /// Gets or sets first day of a week.
+        /// </summary>
+        public DateTime WeekStart { get; set; }
+
+        /// <summary>
+        /// Gets or sets last day of a week.
+        /// </summary>
+        public DateTime WeekEnd { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether view model is in editing mode.
+        /// </summary>
+        public bool WeekEdit { get; set; }
+
+        /// <summary>
+        /// Gets or sets current week.
+        /// </summary>
+        public WeekEdit? CurrentWeek { get; set; }
+
+        /// <summary>
+        /// Gets localized caption for MoveRecipeToNextWeek.
+        /// </summary>
+        public string? MoveRecipeToNextWeekCaption => localization.GetLocalizedString("MoveRecipeToNextWeek");
+
+        /// <summary>
+        /// Gets localized caption for NewRecipe.
+        /// </summary>
+        public string? NewRecipeCaption => localization.GetLocalizedString("NewRecipe");
+
+        /// <summary>
+        /// Gets command to execute on loaded event.
+        /// </summary>
+        public AsyncDelegateCommand LoadedCommand { get; }
+
+        /// <summary>
+        /// Gets command for showing shopping list for a week.
+        /// </summary>
+        public DelegateCommand CreateShoppingListCommand { get; }
+
+        /// <summary>
+        /// Gets command to generate new week schedule.
+        /// </summary>
+        public DelegateCommand CreateNewWeekCommand { get; }
+
+        /// <summary>
+        /// Gets command to delete current week.
+        /// </summary>
+        public DelegateCommand DeleteCommand { get; }
+
+        /// <summary>
+        /// Gets command to move to the next week.
+        /// </summary>
+        public DelegateCommand SelectNextWeekCommand { get; }
+
+        /// <summary>
+        /// Gets command to move to the previous week.
+        /// </summary>
+        public DelegateCommand SelectPreviousWeekCommand { get; }
+
+        /// <summary>
+        /// Gets command to show recipe's detail.
+        /// </summary>
+        public DelegateCommand<Guid> ShowRecipeCommand { get; }
+
+        /// <summary>
+        /// Gets command to move existing recipe to the next week.
+        /// </summary>
+        public DelegateCommand<Guid> MoveRecipeCommand { get; }
+
+        /// <summary>
+        /// Gets command to choose a recipe for a day.
+        /// </summary>
+        public DelegateCommand<DayOfWeek> SelectDinnerCommand { get; }
+
+        /// <summary>
+        /// Gets command to delete a day.
+        /// </summary>
+        public DelegateCommand<Guid?> DeleteDinnerCommand { get; }
+
+        /// <inheritdoc/>
+        public async void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            bool? reloadWeek = navigationContext.Parameters[Consts.ReloadWeekParameter] as bool?;
+            if (reloadWeek.HasValue && reloadWeek.Value)
+            {
+                CurrentWeek = await GetWeekAsync(WeekStart);
+            }
+        }
+
+        /// <inheritdoc/>
+        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+
+        /// <inheritdoc/>
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+        }
+
         private async Task<WeekEdit?> GetWeekAsync(DateTime dayOfWeek)
         {
             Debug.WriteLine("MainPageViewModel.GetWeekAsync");
-            Week weekData = await weekService.GetWeekAsync(dayOfWeek);
+            Week? weekData = await weekService.GetWeekAsync(dayOfWeek);
             if (weekData == null)
             {
                 return null;
@@ -267,23 +345,6 @@ namespace Cooking.WPF.Views
 
             // update state
             CurrentWeek = null;
-        }
-
-        public async void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            bool? reloadWeek = navigationContext.Parameters[Consts.ReloadWeekParameter] as bool?;
-            if (reloadWeek.HasValue && reloadWeek.Value)
-            {
-                CurrentWeek = await GetWeekAsync(WeekStart);
-            }
-        }
-
-        /// <inheritdoc/>
-        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
-
-        /// <inheritdoc/>
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
         }
     }
 }

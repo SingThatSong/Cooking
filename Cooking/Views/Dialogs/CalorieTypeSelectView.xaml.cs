@@ -3,7 +3,7 @@
 namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Logic for
+    /// Logic for <see cref="CalorieTypeSelectView"/>.
     /// </summary>
     public partial class CalorieTypeSelectView
     {

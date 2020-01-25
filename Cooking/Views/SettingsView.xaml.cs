@@ -18,6 +18,7 @@ namespace Cooking.WPF.Views
             InitializeComponent();
         }
 
+        /// <inheritdoc/>
         public bool KeepAlive => true;
     }
 }

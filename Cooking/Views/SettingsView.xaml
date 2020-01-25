@@ -25,7 +25,7 @@
                 SelectedItem="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=Culture, Mode=TwoWay}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding ChangedCommand}" />
+                        <i:InvokeCommandAction Command="{Binding CultureSelectionChangedCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>

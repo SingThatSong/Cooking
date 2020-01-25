@@ -26,10 +26,6 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Work with StyleCop issues
-// TODO: Add comments to cs
-// TODO: Refactor ViewModels into scheme: dependencies, constructor, state, commands, methods
-
 // TODO: Remove Week entity as meta-entity
 // TODO: Add centralized configuration edit (now it's only in SettingsViewModel)
 // TODO: Add comments to XAML
@@ -59,6 +55,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Make sure there is no russian in the code
 // TODO: Move folder name into settings ?
 // TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
+// TODO: Set all *Caption bindings to be OneTime
 
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
