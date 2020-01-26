@@ -26,14 +26,12 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Remove Week entity as meta-entity
 // TODO: Add centralized configuration edit (now it's only in SettingsViewModel)
 // TODO: Add comments to XAML
 // TODO: Set Readme.md
 // TODO: Set folder names
 // TODO: Detect literals = https://stackoverflow.com/questions/29533905/how-to-find-all-the-hardcoded-values-in-a-c-sharp-projectsolution
 // TODO: Remove magic literals
-// TODO: Add debug console logging to methods and constructors
 // TODO: check if .editorconfig uses latest parameters
 // TODO: Debug/ Measure method perfomance (benchmark?)
 // TODO: Add localization error on startup
@@ -52,8 +50,9 @@ using WPFLocalizeExtension.Providers;
 // TODO: Consider making IMapper as a dependency for all CRUDServices
 // TODO: Make GetCultureSpecificSet method an extention method
 // TODO: Add AOP for perfomance monitoring https://github.com/vescon/MethodBoundaryAspect.Fody
+// TODO: Add debug console logging to methods and constructors
 // TODO: Make sure there is no russian in the code
-// TODO: Move folder name into settings ?
+// TODO: Move folder names to constants
 // TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
 // TODO: Set all *Caption bindings to be OneTime
 
@@ -143,7 +142,6 @@ namespace Cooking
 
             // Register services
             containerRegistry.RegisterInstance<IMapper>(new Mapper(MapperService.CreateMapper(), Container.Resolve<IContainerExtension>().Resolve));
-            containerRegistry.Register<WeekService>();
             containerRegistry.Register<DayService>();
             containerRegistry.Register<GarnishService>();
             containerRegistry.Register<IngredientService>();

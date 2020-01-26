@@ -23,7 +23,7 @@ namespace Cooking.WPF.Views
         private readonly IRegionManager regionManager;
         private readonly RecipeService recipeService;
         private readonly IContainerExtension container;
-        private readonly WeekService weekService;
+        private readonly DayService dayService;
         private NavigationContext? navigationContext;
 
         /// <summary>
@@ -33,18 +33,18 @@ namespace Cooking.WPF.Views
         /// <param name="regionManager">Region manager for Prism navigation.</param>
         /// <param name="recipeService">Recipe service dependency.</param>
         /// <param name="container">IoC container.</param>
-        /// <param name="weekService">Week service dependency.</param>
+        /// <param name="dayService">Day service dependency.</param>
         public GeneratedWeekViewModel(DialogService dialogService,
-                                          IRegionManager regionManager,
-                                          RecipeService recipeService,
-                                          IContainerExtension container,
-                                          WeekService weekService)
+                                      IRegionManager regionManager,
+                                      RecipeService recipeService,
+                                      IContainerExtension container,
+                                      DayService dayService)
         {
             this.dialogService = dialogService;
             this.regionManager = regionManager;
             this.recipeService = recipeService;
             this.container = container;
-            this.weekService = weekService;
+            this.dayService = dayService;
 
             ReturnCommand = new DelegateCommand(Return);
             DeleteRecipeManuallyCommand = new DelegateCommand<DayPlan>(DeleteRecipeManually);
@@ -121,7 +121,7 @@ namespace Cooking.WPF.Views
         private async void Ok()
         {
             var daysDictionary = Days.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
-            await weekService.CreateWeekAsync(WeekStart, daysDictionary);
+            await dayService.CreateWeekAsync(WeekStart, daysDictionary);
 
             var parameters = new NavigationParameters
             {

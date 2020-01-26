@@ -1,10 +1,10 @@
 using Cooking.Data.Context;
 using Cooking.Data.Model;
 using Cooking.Data.Model.Plan;
+using Cooking.ServiceLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RtfPipe;
-using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,15 +19,15 @@ namespace Cooking.Web.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private readonly WeekService weekService;
+        private readonly DayService dayService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SampleDataController"/> class.
         /// </summary>
         /// <param name="weekService"><see cref="WeekService"/>.</param>
-        public SampleDataController(WeekService weekService)
+        public SampleDataController(DayService weekService)
         {
-            this.weekService = weekService;
+            this.dayService = weekService;
         }
 
         private string Database => @"C:\Cooking\publish\cooking.db";
@@ -85,6 +85,6 @@ namespace Cooking.Web.Controllers
         /// </summary>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpGet("[action]/currentweek")]
-        public async Task<Week?> CurrentWeek() => await weekService.GetWeekAsync(DateTime.Now).ConfigureAwait(false);
+        public async Task<List<Day>?> CurrentWeek() => await dayService.GetWeekAsync(DateTime.Now).ConfigureAwait(false);
     }
 }

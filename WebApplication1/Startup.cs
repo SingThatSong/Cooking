@@ -1,3 +1,4 @@
+using Cooking.ServiceLayer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -5,7 +6,6 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ServiceLayer;
 
 namespace Cooking.Web
 {
@@ -56,7 +56,7 @@ namespace Cooking.Web
                 options.AllowSynchronousIO = true;
             });
 
-            services.AddSingleton<WeekService>();
+            services.AddSingleton<DayService>();
         }
 
         /// <summary>

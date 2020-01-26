@@ -23,14 +23,19 @@ namespace Cooking.Data.Context
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="CookingContext"/> class.
+        /// Cooking context for migrations.
+        /// </summary>
+        /// <param name="dbContextOptions">Prepared context options.</param>
+        internal CookingContext(DbContextOptions<CookingContext> dbContextOptions)
+            : base(dbContextOptions)
+        {
+        }
+
+        /// <summary>
         /// Gets a value indicating whether context uses lazy loading.
         /// </summary>
         public bool UseLazyLoading { get; }
-
-        /// <summary>
-        /// Gets or sets weeks repository.
-        /// </summary>
-        public DbSet<Week> Weeks { get; set; }
 
         /// <summary>
         /// Gets or sets days repository.
@@ -113,12 +118,6 @@ namespace Cooking.Data.Context
             modelBuilder.Entity<RecipeIngredient>()
                 .Ignore(x => x.MeasureUnit);
 
-            modelBuilder.Entity<Week>()
-                .HasMany(x => x.Days)
-                .WithOne(x => x.Week)
-                .HasForeignKey(x => x.WeekID)
-                .OnDelete(DeleteBehavior.Cascade);
-
             // Recipe-Tag many-to-many relationship
             modelBuilder.Entity<RecipeTag>()
                 .HasKey(bc => new { bc.RecipeId, bc.TagId });
@@ -133,7 +132,6 @@ namespace Cooking.Data.Context
 
             SetGuidType<Day>(modelBuilder);
             SetGuidType<Garnish>(modelBuilder);
-            SetGuidType<Week>(modelBuilder);
 
             SetGuidType<Recipe>(modelBuilder);
             SetGuidType<Tag>(modelBuilder);
@@ -144,7 +142,6 @@ namespace Cooking.Data.Context
             // FKs
             SetPropertyGuidType<RecipeTag>(modelBuilder, e => e.RecipeId);
             SetPropertyGuidType<RecipeTag>(modelBuilder, e => e.TagId);
-            SetPropertyGuidType<Day>(modelBuilder, e => e.WeekID);
             SetPropertyGuidType<Day>(modelBuilder, e => e.DinnerID);
             SetPropertyGuidType<RecipeIngredient>(modelBuilder, e => e.IngredientId);
         }

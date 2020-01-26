@@ -50,7 +50,6 @@ namespace Cooking
                     // Cleanup below
                     // -----------------------
                     cfg.CreateMap<Garnish, GarnishEdit>().ReverseMap();
-                    cfg.CreateMap<Week, WeekEdit>();
                     cfg.CreateMap<Day, DayEdit>();
                     cfg.CreateMap<Tag, TagEdit>();
                     cfg.CreateMap<Ingredient, IngredientEdit>().ReverseMap();

@@ -77,31 +77,31 @@
                 VerticalAlignment="Top"
                 TextElement.FontSize="15">
                 <local:DayControl
-                    DataContext="{Binding CurrentWeek.Monday}"
+                    DataContext="{Binding Monday}"
                     Day="{x:Static sys:DayOfWeek.Monday}"
                     Edit="{Binding WeekEdit}" />
                 <local:DayControl
-                    DataContext="{Binding CurrentWeek.Tuesday}"
+                    DataContext="{Binding Tuesday}"
                     Day="{x:Static sys:DayOfWeek.Tuesday}"
                     Edit="{Binding WeekEdit}" />
                 <local:DayControl
-                    DataContext="{Binding CurrentWeek.Wednesday}"
+                    DataContext="{Binding Wednesday}"
                     Day="{x:Static sys:DayOfWeek.Wednesday}"
                     Edit="{Binding WeekEdit}" />
                 <local:DayControl
-                    DataContext="{Binding CurrentWeek.Thursday}"
+                    DataContext="{Binding Thursday}"
                     Day="{x:Static sys:DayOfWeek.Thursday}"
                     Edit="{Binding WeekEdit}" />
                 <local:DayControl
-                    DataContext="{Binding CurrentWeek.Friday}"
+                    DataContext="{Binding Friday}"
                     Day="{x:Static sys:DayOfWeek.Friday}"
                     Edit="{Binding WeekEdit}" />
                 <local:DayControl
-                    DataContext="{Binding CurrentWeek.Saturday}"
+                    DataContext="{Binding Saturday}"
                     Day="{x:Static sys:DayOfWeek.Saturday}"
                     Edit="{Binding WeekEdit}" />
                 <local:DayControl
-                    DataContext="{Binding CurrentWeek.Sunday}"
+                    DataContext="{Binding Sunday}"
                     Day="{x:Static sys:DayOfWeek.Sunday}"
                     Edit="{Binding WeekEdit}" />
             </WrapPanel>

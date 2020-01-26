@@ -10,6 +10,7 @@ using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +29,6 @@ namespace Cooking.WPF.Views
         private readonly IRegionManager regionManager;
         private readonly IContainerExtension container;
         private readonly IMapper mapper;
-        private readonly WeekService weekService;
         private readonly ILocalization localization;
 
         /// <summary>
@@ -39,14 +39,12 @@ namespace Cooking.WPF.Views
         /// <param name="container">IoC container.</param>
         /// <param name="dayService"><see cref="DayService"/> dependency.</param>
         /// <param name="mapper">Mapper dependency.</param>
-        /// <param name="weekService">Week service dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
         public WeekViewModel(DialogService dialogService,
                              IRegionManager regionManager,
                              IContainerExtension container,
                              DayService dayService,
                              IMapper mapper,
-                             WeekService weekService,
                              ILocalization localization)
         {
             Debug.WriteLine("MainPageViewModel.ctor");
@@ -56,7 +54,6 @@ namespace Cooking.WPF.Views
             this.container = container;
             this.dayService = dayService;
             this.mapper = mapper;
-            this.weekService = weekService;
             this.localization = localization;
 
             LoadedCommand = new AsyncDelegateCommand(OnLoadedAsync, executeOnce: true);
@@ -87,9 +84,47 @@ namespace Cooking.WPF.Views
         public bool WeekEdit { get; set; }
 
         /// <summary>
-        /// Gets or sets current week.
+        /// Gets or sets week days.
         /// </summary>
-        public WeekEdit? CurrentWeek { get; set; }
+        [AlsoNotifyFor(nameof(Monday), nameof(Tuesday), nameof(Wednesday), nameof(Thursday), nameof(Friday), nameof(Saturday), nameof(Sunday))]
+        public ObservableCollection<DayEdit>? CurrentWeek { get; set; }
+
+        // TODO: Get rid of these properties
+
+        /// <summary>
+        /// Gets monday.
+        /// </summary>
+        public DayEdit? Monday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Monday);
+
+        /// <summary>
+        /// Gets tuesday.
+        /// </summary>
+        public DayEdit? Tuesday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Tuesday);
+
+        /// <summary>
+        /// Gets wednesday.
+        /// </summary>
+        public DayEdit? Wednesday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Wednesday);
+
+        /// <summary>
+        /// Gets thursday.
+        /// </summary>
+        public DayEdit? Thursday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Thursday);
+
+        /// <summary>
+        /// Gets friday.
+        /// </summary>
+        public DayEdit? Friday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Friday);
+
+        /// <summary>
+        /// Gets saturday.
+        /// </summary>
+        public DayEdit? Saturday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Saturday);
+
+        /// <summary>
+        /// Gets sunday.
+        /// </summary>
+        public DayEdit? Sunday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Sunday);
 
         /// <summary>
         /// Gets localized caption for MoveRecipeToNextWeek.
@@ -169,19 +204,15 @@ namespace Cooking.WPF.Views
         {
         }
 
-        private async Task<WeekEdit?> GetWeekAsync(DateTime dayOfWeek)
+        private async Task<ObservableCollection<DayEdit>?> GetWeekAsync(DateTime dayOfWeek)
         {
             Debug.WriteLine("MainPageViewModel.GetWeekAsync");
-            Week? weekData = await weekService.GetWeekAsync(dayOfWeek);
-            if (weekData == null)
+            List<Day>? weekDays = await dayService.GetWeekAsync(dayOfWeek);
+            if (weekDays != null)
             {
-                return null;
-            }
+                List<DayEdit> weekDaysEdit = mapper.Map<List<DayEdit>>(weekDays);
 
-            WeekEdit weekMain = mapper.Map<WeekEdit>(weekData);
-            if (weekMain.Days != null)
-            {
-                foreach (DayEdit day in weekMain.Days)
+                foreach (DayEdit day in weekDaysEdit)
                 {
                     day.PropertyChanged += (sender, e) =>
                     {
@@ -194,9 +225,13 @@ namespace Cooking.WPF.Views
                         }
                     };
                 }
-            }
 
-            return weekMain;
+                return new ObservableCollection<DayEdit>(weekDaysEdit);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private void ShowRecipe(Guid recipeId)
@@ -216,7 +251,7 @@ namespace Cooking.WPF.Views
 
             if (viewModel.DialogResultOk)
             {
-                DayEdit day = CurrentWeek!.Days.FirstOrDefault(x => x.DayOfWeek == dayOfWeek);
+                DayEdit day = CurrentWeek!.FirstOrDefault(x => x.DayOfWeek == dayOfWeek);
 
                 if (day != null)
                 {
@@ -224,22 +259,22 @@ namespace Cooking.WPF.Views
                 }
                 else
                 {
-                    await dayService.CreateDinner(CurrentWeek!.ID, viewModel.SelectedRecipe!.ID, dayOfWeek);
+                    await dayService.CreateDinner(WeekStart, viewModel.SelectedRecipe!.ID, dayOfWeek);
                 }
 
                 await ReloadCurrentWeek();
             }
         }
 
-        private async Task ReloadCurrentWeek() => CurrentWeek = await GetWeekAsync(CurrentWeek!.Start);
+        private async Task ReloadCurrentWeek() => CurrentWeek = await GetWeekAsync(WeekStart);
 
         private async Task OnLoadedAsync()
         {
             Debug.WriteLine("MainPageViewModel.OnLoadedAsync");
             await SetWeekByDay(DateTime.Now);
 
-            DateTime dayOnPreviousWeek = weekService.FirstDayOfWeek(DateTime.Now).AddDays(-1);
-            bool prevWeekFilled = weekService.IsWeekFilled(dayOnPreviousWeek);
+            DateTime dayOnPreviousWeek = dayService.FirstDayOfWeek(DateTime.Now).AddDays(-1);
+            bool prevWeekFilled = await dayService.IsWeekFilled(dayOnPreviousWeek);
 
             if (!prevWeekFilled)
             {
@@ -259,7 +294,7 @@ namespace Cooking.WPF.Views
 
             if (viewModel.DialogResultOk)
             {
-                await weekService.MoveDayToNextWeek(CurrentWeek!.ID, dayId, viewModel.SelectedDay!.Value);
+                await dayService.MoveDayToNextWeek(dayId, viewModel.SelectedDay!.Value);
                 await ReloadCurrentWeek();
             }
         }
@@ -282,15 +317,15 @@ namespace Cooking.WPF.Views
         {
             Debug.WriteLine("MainPageViewModel.SetWeekByDay");
             CurrentWeek = await GetWeekAsync(date);
-            WeekStart = weekService.FirstDayOfWeek(date);
-            WeekEnd = weekService.LastDayOfWeek(date);
+            WeekStart = dayService.FirstDayOfWeek(date);
+            WeekEnd = dayService.LastDayOfWeek(date);
         }
 
         private void CreateShoppingList()
         {
             Debug.WriteLine("MainPageViewModel.CreateShoppingList");
 
-            List<ShoppingListIngredientsGroup> allProducts = weekService.GetWeekShoppingList(CurrentWeek!.ID);
+            List<ShoppingListIngredientsGroup> allProducts = dayService.GetWeekShoppingList(WeekStart, WeekEnd);
             var parameters = new NavigationParameters()
             {
                 { nameof(ShoppingCartViewModel.List), allProducts }
@@ -303,7 +338,7 @@ namespace Cooking.WPF.Views
             if (dayId != null)
             {
                 Debug.WriteLine("MainPageViewModel.DeleteDayAsync");
-                DayOfWeek dayOfWeek = CurrentWeek!.Days.Single(x => x.ID == dayId).DayOfWeek;
+                DayOfWeek dayOfWeek = CurrentWeek!.Single(x => x.ID == dayId).DayOfWeek;
                 await dialogService.ShowYesNoDialog(
                       localization.GetLocalizedString("SureDelete", localization.GetLocalizedString(dayOfWeek) ?? string.Empty),
                       localization.GetLocalizedString("CannotUndo"),
@@ -341,7 +376,7 @@ namespace Cooking.WPF.Views
         private async void OnCurrentWeekDeleted()
         {
             // call buisness function
-            await weekService.DeleteAsync(CurrentWeek!.ID);
+            await dayService.DeleteWeekAsync(WeekStart, WeekEnd);
 
             // update state
             CurrentWeek = null;

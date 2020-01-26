@@ -15,16 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove=".editorconfig" />
-    <None Remove="DatabaseTest\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EditorConfigFiles Include=".editorconfig" />
-    <EditorConfigFiles Include="DatabaseTest\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -45,12 +35,6 @@
     <ProjectReference Include="..\Cooking\Cooking.WPF.csproj" />
     <ProjectReference Include="..\Data\Cooking.Data.csproj" />
     <ProjectReference Include="..\ServiceLayer\Cooking.ServiceLayer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="DatabaseTest\TestDb.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

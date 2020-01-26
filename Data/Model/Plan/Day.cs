@@ -32,15 +32,5 @@ namespace Cooking.Data.Model.Plan
         /// Gets or sets day's weekday.
         /// </summary>
         public DayOfWeek DayOfWeek { get; set; }
-
-        /// <summary>
-        /// Gets or sets week that this day belongs to.
-        /// </summary>
-        public virtual Week? Week { get; set; }
-
-        /// <summary>
-        /// Gets or sets foreign key for <see cref="Week"/>.
-        /// </summary>
-        public Guid? WeekID { get; set; }
     }
 }
