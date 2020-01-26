@@ -75,7 +75,7 @@
   "SpecifyAmountIfMeasureUnit": "Since measure unit is specified, you need to input amount",
   "SpecifyMeasureUnitIfAmount": "Since amount is specified, you need to specify measure unit",
   "RecipeIconSearch": "Select recipe image",
-  "SearchHelpText": "Search... Ex.: {0}\"ingredient1\" and {0}\"ingredient2\" and {1}\"tag1\" and {1}\"tag2\"",
+  "SearchHelpText": "Search... Ex.: {0}ingredient1 and {0}ingredient2 and {1}tag1 and {1}tag2",
   "SpecifyTagType": "Tag type needed",
   "SpecifyIngredientType": "Ingredient type needed",
   "MoveRecipeToNextWeek": "Move recipe to the next week",
