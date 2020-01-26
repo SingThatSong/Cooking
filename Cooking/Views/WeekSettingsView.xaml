@@ -23,6 +23,8 @@
         </Grid.RowDefinitions>
 
         <TextBlock FontSize="24" Text="{lex:Loc WeekFilter}" />
+        
+        <!-- Grid for filters for a week's recepies -->
         <DataGrid
             Grid.Row="1"
             AutoGenerateColumns="False"
@@ -33,6 +35,8 @@
             FontSize="10"
             ItemsSource="{Binding Days}"
             RowHeight="46">
+            
+            <!-- First row style -->
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Setter Property="Background" Value="Transparent" />
@@ -54,7 +58,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
+                
                 <DataGridTextColumn Binding="{Binding DayName, UpdateSourceTrigger=PropertyChanged, TargetNullValue=Все}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
@@ -62,6 +66,7 @@
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
+                
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -97,6 +102,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -131,6 +137,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -202,6 +209,7 @@
                     </DataGridTemplateColumn.CellTemplate>
 
                 </DataGridTemplateColumn>
+                
                 <DataGridTemplateColumn Width="1.2*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -228,7 +236,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
+                
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -244,6 +252,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
+        <!-- Ok and Cancel buttons -->
         <StackPanel
             Grid.Row="2"
             HorizontalAlignment="Center"

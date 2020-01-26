@@ -38,6 +38,8 @@
             <RowDefinition Height="70" />
         </Grid.RowDefinitions>
         <TextBlock FontSize="24" Text="{lex:Loc GeneratedRecipies}" />
+        
+        <!-- Grid of suggested days -->
         <DataGrid
             Grid.Row="1"
             mahapps:ItemHelper.SelectedBackgroundBrush="Transparent"
@@ -64,6 +66,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
+                                <!-- Text to be shows if no suited recipe is found -->
                                 <TextBlock
                                     VerticalAlignment="Center"
                                     Foreground="Red"
@@ -88,7 +91,30 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
+                                
+                                <!-- Control to show when recipe is found -->
                                 <StackPanel Orientation="Horizontal">
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Recipe, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible" />
+                                                        <Condition Binding="{Binding SpecificRecipe, Converter={StaticResource isNullToVisibilityConverter}}" Value="Visible" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </MultiDataTrigger>
+                                                <DataTrigger Binding="{Binding SpecificRecipe, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Recipe, Converter={StaticResource isNullToVisibilityConverter}}" Value="Visible">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+                                    
+                                    <!-- Get another recipe for a filter -->
                                     <Button
                                         Margin="5 0 0 0"
                                         VerticalAlignment="Center"
@@ -102,6 +128,8 @@
                                         ToolTipService.ToolTip="По выбранным фильтрам нет альтернатив">
                                         <icons:PackIconModern Kind="Refresh" Style="{StaticResource SmallIcon}" />
                                     </Button>
+                                    
+                                    <!-- Suggested recipe name -->
                                     <TextBlock VerticalAlignment="Center" Text="{Binding Recipe.Name}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseUp">
@@ -109,6 +137,8 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBlock>
+                                    
+                                    <!-- Calorie type image (circle) -->
                                     <lex:LocProxy
                                         x:Name="CalorieTypeNameProxy"
                                         PrependType="True"
@@ -141,27 +171,12 @@
                                             </Style>
                                         </Ellipse.Style>
                                     </Ellipse>
-                                    <StackPanel.Style>
-                                        <Style TargetType="StackPanel">
-                                            <Style.Triggers>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding Recipe, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible" />
-                                                        <Condition Binding="{Binding SpecificRecipe, Converter={StaticResource isNullToVisibilityConverter}}" Value="Visible" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                </MultiDataTrigger>
-                                                <DataTrigger Binding="{Binding SpecificRecipe, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible">
-                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Recipe, Converter={StaticResource isNullToVisibilityConverter}}" Value="Visible">
-                                                    <Setter Property="Visibility" Value="Collapsed" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </StackPanel.Style>
                                 </StackPanel>
+                                
+                                <!-- Control to show when recipe is manually set -->
                                 <StackPanel Orientation="Horizontal" Visibility="{Binding SpecificRecipe, Converter={StaticResource isNotNullToVisibilityConverter}}">
+                                    
+                                    <!-- Selected recipe name -->
                                     <TextBlock VerticalAlignment="Center" Text="{Binding SpecificRecipe.Name}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseUp">
@@ -170,6 +185,7 @@
                                         </i:Interaction.Triggers>
                                     </TextBlock>
 
+                                    <!-- Calorie type image (circle) -->
                                     <lex:LocProxy
                                         x:Name="SpecificCalorieTypeNameProxy"
                                         PrependType="True"
@@ -202,6 +218,8 @@
                                             </Style>
                                         </Ellipse.Style>
                                     </Ellipse>
+                                    
+                                    <!-- Remove selected manually recipe -->
                                     <Button
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
@@ -211,6 +229,7 @@
                                         Style="{StaticResource SmallDeleteButton}" />
                                 </StackPanel>
 
+                                <!-- Select recipe manually -->
                                 <Button
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
@@ -224,6 +243,8 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        
+        <!-- Buttons -->
         <StackPanel
             Grid.Row="2"
             HorizontalAlignment="Center"

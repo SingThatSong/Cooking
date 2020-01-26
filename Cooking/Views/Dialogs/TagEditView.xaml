@@ -44,6 +44,7 @@
             <ColumnDefinition Width="Auto" MinWidth="130" />
         </Grid.ColumnDefinitions>
 
+        <!-- Tag edit controls -->
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="{Binding NameCaption}" />
@@ -63,18 +64,18 @@
                     StandardTabHeader="{Binding ColorPickerStandartCaption}" />
 
                 <TextBlock Text="{Binding CategoryCaption}" />
-                <ComboBox ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}" SelectedValue="{Binding Tag.Type, Converter={StaticResource enumToDescriptionConverter}}" />
-
-
+                <ComboBox ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}" 
+                          SelectedValue="{Binding Tag.Type, Converter={StaticResource enumToDescriptionConverter}}" />
             </StackPanel>
         </ScrollViewer>
 
+        <!-- Similar tags to avoid duplicates -->
         <ItemsControl
             Grid.Column="1"
             Margin="20 0 0 0"
             ItemsSource="{Binding SimilarTags}" />
 
-
+        <!-- Ok and Cancel buttons -->
         <StackPanel
             Grid.Row="2"
             Margin="20"

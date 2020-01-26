@@ -28,6 +28,7 @@
             <ColumnDefinition Width="50" />
         </Grid.ColumnDefinitions>
 
+        <!-- Main ingredients list -->
         <ItemsControl MinHeight="200" ItemsSource="{Binding MainIngredients}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -54,6 +55,8 @@
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
+
+        <!-- Dish types list -->
         <ItemsControl
             Grid.Column="1"
             MinHeight="200"
@@ -83,6 +86,8 @@
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
+        
+        <!-- Occasions list -->
         <ItemsControl
             Grid.Column="2"
             MinHeight="200"
@@ -112,6 +117,8 @@
                 </ControlTemplate>
             </ItemsControl.Template>
         </ItemsControl>
+        
+        <!-- Sources list -->
         <ItemsControl
             Grid.Column="3"
             MinHeight="200"
@@ -142,12 +149,14 @@
             </ItemsControl.Template>
         </ItemsControl>
 
+        <!-- Button to add new tag -->
         <Button
             Grid.Column="5"
             Margin="10 0 0 0"
             Command="{Binding AddTagCommand}"
             Style="{StaticResource MediumAddButton}" />
 
+        <!-- Ok and Cancel buttons -->
         <StackPanel
             Grid.Row="2"
             Grid.ColumnSpan="4"

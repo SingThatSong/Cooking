@@ -38,6 +38,7 @@
             <ColumnDefinition MaxWidth="140" />
         </Grid.ColumnDefinitions>
 
+        <!-- Current ingredient edit -->
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
 
@@ -80,6 +81,8 @@
                     SelectedValue="{Binding Ingredient.MeasureUnit}" />
             </StackPanel>
         </ScrollViewer>
+        
+        <!-- Created ingredients in cache -->
         <ScrollViewer
             Grid.Column="1"
             Margin="10 0 0 0"
@@ -113,6 +116,8 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+
+        <!-- Ok and Cancel buttons -->
         <StackPanel
             Grid.Row="2"
             Margin="0 0 0 0"

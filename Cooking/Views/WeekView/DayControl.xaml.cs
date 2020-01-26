@@ -19,11 +19,6 @@ namespace Cooking.WPF.Views
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether control is in edit state.
-        /// </summary>
-        public bool Edit { get; set; }
-
-        /// <summary>
         /// Gets or sets current day.
         /// </summary>
         public DayOfWeek? Day { get; set; }

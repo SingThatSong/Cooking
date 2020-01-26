@@ -30,7 +30,8 @@
         </Grid.RowDefinitions>
 
         <TextBlock FontSize="24" Text="{Binding WhereMoveRecipeCaption}" />
-
+        
+        <!-- List of all days in week to select from -->
         <ListView
             Name="DaysList"
             Grid.Row="1"
@@ -72,7 +73,8 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListView>
-
+        
+        <!-- Ok and Cancel buttons -->
         <StackPanel
             Grid.Row="2"
             Margin="20"

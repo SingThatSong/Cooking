@@ -12,6 +12,8 @@
         HorizontalAlignment="Center"
         Orientation="Vertical">
         <TextBlock FontSize="24" Text="{lex:Loc Settings}" />
+        
+        <!-- Language setting -->
         <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
             <TextBlock
                 VerticalAlignment="Center"

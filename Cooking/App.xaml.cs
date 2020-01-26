@@ -26,7 +26,6 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Add comments to XAML
 // TODO: Set Readme.md
 // TODO: Set folder names
 // TODO: Detect literals = https://stackoverflow.com/questions/29533905/how-to-find-all-the-hardcoded-values-in-a-c-sharp-projectsolution
@@ -53,6 +52,8 @@ using WPFLocalizeExtension.Providers;
 // TODO: Move folder names to constants
 // TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
 // TODO: Set all *Caption bindings to be OneTime
+// TODO: Settings for day recipies (breakfast, supper, etc.)
+// TODO: Generate lots of data (millions of entries) and test
 
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate

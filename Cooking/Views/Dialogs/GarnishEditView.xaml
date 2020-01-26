@@ -30,6 +30,7 @@
             <ColumnDefinition Width="Auto" MinWidth="130" />
         </Grid.ColumnDefinitions>
 
+        <!-- Garnish edit controls -->
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="{Binding NameCaption}" />
@@ -40,13 +41,15 @@
             </StackPanel>
         </ScrollViewer>
 
+        <!-- Existing garnishes list -->
         <StackPanel Orientation="Vertical"
             Grid.Column="1"
             Margin="20 0 0 0">
             <TextBlock Text="{Binding MaybeYouWantCaption}" Visibility="{Binding SimilarGarnishes, Converter={StaticResource isNullToVisibilityConverter}}" />
             <ItemsControl Margin="0 5 0 0" ItemsSource="{Binding SimilarGarnishes}" />
         </StackPanel>
-
+        
+        <!-- Ok and Cancel buttons -->
         <StackPanel
             Grid.Row="2"
             HorizontalAlignment="Center"

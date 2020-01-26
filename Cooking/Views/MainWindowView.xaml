@@ -16,10 +16,11 @@
     lex:LocalizeDictionary.Provider="{Binding LocalizationProvider}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     ShowDialogsOverTitleBar="False">
+    
+    <!--  From https://github.com/MahApps/MahApps.Metro/blob/develop/src/MahApps.Metro.Samples/MahApps.Metro.Demo/HamburgerMenuRipple/HamburgerMenuRipple.xaml  -->
+    <!--  Latest commit 17.11.19  -->
     <mahapps:MetroWindow.Resources>
         <ResourceDictionary>
-            <!--  From https://github.com/MahApps/MahApps.Metro/blob/develop/src/MahApps.Metro.Samples/MahApps.Metro.Demo/HamburgerMenuRipple/HamburgerMenuRipple.xaml  -->
-            <!--  Latest commit 17.11.19  -->
             <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mahapps:HamburgerMenuIconItem}">
                 <Grid Height="48" Background="Transparent" ToolTip="{Binding ToolTip}">
                     <Grid.ColumnDefinitions>
@@ -157,6 +158,7 @@
         <mahapps:WindowButtonCommands Style="{StaticResource MahApps.Styles.WindowButtonCommands.Win10}" />
     </mahapps:MetroWindow.WindowButtonCommands>
 
+    <!-- Application menu -->
     <mahapps:HamburgerMenu
         x:Name="HamburgerMenuControl"
         prism:RegionManager.RegionName="{x:Static local:Consts.MainContentRegion}"

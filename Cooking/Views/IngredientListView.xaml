@@ -29,6 +29,8 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
+        
+        <!-- List of all ingredients -->
         <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
             <ItemsControl Name="IngredientsList" ItemsSource="{Binding Source={StaticResource ingredients}}">
                 <ItemsControl.ItemTemplate>
@@ -67,6 +69,8 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </ScrollViewer>
+        
+        <!-- Buttons -->
         <StackPanel
             Grid.Row="2"
             HorizontalAlignment="Center"

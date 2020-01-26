@@ -17,10 +17,14 @@
             <RowDefinition />
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
+        
+        <!-- Filter text -->
         <TextBox
             mahapps:TextBoxHelper.UseFloatingWatermark="True"
             mahapps:TextBoxHelper.Watermark="{Binding SearchHelpTextCaption}"
             Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        
+        <!-- List of all filtered recipiest -->
         <ListView
             Name="RecipiesList"
             Grid.Row="1"
@@ -64,6 +68,8 @@
                 </ControlTemplate>
             </ListView.Template>
         </ListView>
+        
+        <!-- Ok and Cancel buttons -->
         <StackPanel
             Grid.Row="2"
             Margin="20"

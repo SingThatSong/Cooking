@@ -29,6 +29,8 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
+
+        <!-- Garnishes -->
         <ItemsControl Name="GarnishesList" ItemsSource="{Binding Source={StaticResource tags}}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -71,6 +73,7 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
 
+        <!-- Buttons -->
         <StackPanel
             Grid.Row="2"
             HorizontalAlignment="Center"

@@ -9,6 +9,7 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.WPF.Views"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data">
+    
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         <converters:IsNullToVisibilityConverter
@@ -21,6 +22,7 @@
             NullVisibility="Collapsed" />
     </UserControl.Resources>
 
+    <!-- Control for a day in a week -->
     <StackPanel
         Width="200"
         Margin="10"
@@ -52,6 +54,7 @@
                 </Style.Triggers>
             </Style>
         </StackPanel.Style>
+        <!-- Day header -->
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <lex:LocProxy
                 Name="Proxy"
@@ -123,6 +126,7 @@
             </ToggleButton>
         </StackPanel>
 
+        <!-- Day name and image with context menu -->
         <StackPanel Orientation="Vertical" Tag="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}}">
             <StackPanel.ContextMenu>
                 <ContextMenu>
@@ -135,7 +139,7 @@
             <Image
                 MaxHeight="150"
                 Margin="0 5 0 0"
-                Source="{Binding Dinner.FullPath}">
+                Source="{Binding Dinner.FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.ShowRecipeCommand}" CommandParameter="{Binding Dinner.ID}" />
@@ -153,40 +157,42 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </TextBlock>
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <StackPanel.Style>
-                    <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible" />
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.WeekEdit}" Value="False" />
-                                </MultiDataTrigger.Conditions>
-                                <MultiDataTrigger.Setters>
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </MultiDataTrigger.Setters>
-                            </MultiDataTrigger>
-                            <DataTrigger Binding="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Collapsed">
+        </StackPanel>
+
+        <!-- Day buttons -->
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible" />
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.WeekEdit}" Value="False" />
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
                                 <Setter Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.WeekEdit}" Value="True">
-                                <Setter Property="Visibility" Value="Visible" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-                <Button
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+                        <DataTrigger Binding="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Collapsed">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.WeekEdit}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <Button
                     Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.SelectDinnerCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=Day}"
                     Style="{StaticResource SmallEditButton}" />
 
-                <Button
+            <Button
                     Margin="5 0 0 0"
                     Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.DeleteDinnerCommand}"
                     CommandParameter="{Binding ID}"
                     Style="{StaticResource SmallDeleteButton}" />
 
-            </StackPanel>
         </StackPanel>
     </StackPanel>
 </UserControl>

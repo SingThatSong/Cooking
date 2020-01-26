@@ -14,6 +14,7 @@
       <RowDefinition Height="100" />
     </Grid.RowDefinitions>
 
+    <!-- List of calorie types to select from -->
     <ScrollViewer VerticalScrollBarVisibility="Auto">
       <StackPanel Orientation="Vertical">
         <ItemsControl ItemsSource="{Binding AllValues}">
@@ -33,6 +34,8 @@
         </ItemsControl>
       </StackPanel>
     </ScrollViewer>
+      
+    <!-- Ok and Cancel buttons -->
     <StackPanel
       Grid.Row="2"
       Margin="20"

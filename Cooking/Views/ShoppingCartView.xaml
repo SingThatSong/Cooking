@@ -17,6 +17,7 @@
       <RowDefinition Height="100" />
     </Grid.RowDefinitions>
 
+    <!-- Show ingredients grouped by category -->
     <ItemsControl ItemsSource="{Binding List, Mode=OneTime}">
       <ItemsControl.ItemTemplate>
         <DataTemplate>
@@ -35,7 +36,7 @@
                         <DataTemplate>
                           <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Amount}" />
-                            <TextBlock Margin="5 0 0 0" Text="{Binding Name}" />
+                            <TextBlock Margin="5 0 0 0" Text="{Binding MeasurementUnit}" />
                           </StackPanel>
                         </DataTemplate>
                       </ItemsControl.ItemTemplate>
@@ -68,6 +69,7 @@
       </ItemsControl.Template>
     </ItemsControl>
 
+    <!-- Buttons for shopping list -->
     <StackPanel
       Grid.Row="2"
       Margin="20"

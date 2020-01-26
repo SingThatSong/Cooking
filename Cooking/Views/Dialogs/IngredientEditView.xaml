@@ -30,7 +30,8 @@
             <ColumnDefinition />
             <ColumnDefinition Width="120" />
         </Grid.ColumnDefinitions>
-
+        
+        <!-- Ingredient edit controls -->
         <StackPanel Orientation="Vertical">
             <TextBlock Text="{Binding NameCaption}" />
             <TextBox
@@ -45,6 +46,8 @@
                 ItemsSource="{Binding IngredientTypes}"
                 SelectedItem="{Binding Ingredient.Type}" />
         </StackPanel>
+
+        <!-- Existing garnishes list -->
         <StackPanel Orientation="Vertical"
             Grid.Column="1"
             Margin="20 0 0 0">
@@ -55,6 +58,7 @@
             ItemsSource="{Binding SimilarIngredients}" />
         </StackPanel>
 
+        <!-- Ok and Cancel buttons -->
         <StackPanel
             Grid.Row="2"
             Grid.ColumnSpan="2"

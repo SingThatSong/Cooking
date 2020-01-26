@@ -39,6 +39,8 @@
             <ColumnDefinition />
             <ColumnDefinition Width="60" />
         </Grid.ColumnDefinitions>
+        
+        <!-- Week header -->
         <StackPanel
             Grid.Column="1"
             Margin="0 10 0 0"
@@ -52,6 +54,7 @@
             <TextBlock Margin="5 0" Text="{lex:Loc Dinners}" />
         </StackPanel>
 
+        <!-- In case when week is not exist, prompt to create week -->
         <StackPanel
             Grid.Row="1"
             Grid.Column="1"
@@ -67,6 +70,7 @@
                 Content="{lex:Loc CreateSchedule}" />
         </StackPanel>
 
+        <!-- Week days -->
         <ScrollViewer
             Grid.Row="1"
             Grid.Column="1"
@@ -78,34 +82,29 @@
                 TextElement.FontSize="15">
                 <local:DayControl
                     DataContext="{Binding Monday}"
-                    Day="{x:Static sys:DayOfWeek.Monday}"
-                    Edit="{Binding WeekEdit}" />
+                    Day="{x:Static sys:DayOfWeek.Monday}"/>
                 <local:DayControl
                     DataContext="{Binding Tuesday}"
-                    Day="{x:Static sys:DayOfWeek.Tuesday}"
-                    Edit="{Binding WeekEdit}" />
+                    Day="{x:Static sys:DayOfWeek.Tuesday}" />
                 <local:DayControl
                     DataContext="{Binding Wednesday}"
-                    Day="{x:Static sys:DayOfWeek.Wednesday}"
-                    Edit="{Binding WeekEdit}" />
+                    Day="{x:Static sys:DayOfWeek.Wednesday}" />
                 <local:DayControl
                     DataContext="{Binding Thursday}"
-                    Day="{x:Static sys:DayOfWeek.Thursday}"
-                    Edit="{Binding WeekEdit}" />
+                    Day="{x:Static sys:DayOfWeek.Thursday}" />
                 <local:DayControl
                     DataContext="{Binding Friday}"
-                    Day="{x:Static sys:DayOfWeek.Friday}"
-                    Edit="{Binding WeekEdit}" />
+                    Day="{x:Static sys:DayOfWeek.Friday}" />
                 <local:DayControl
                     DataContext="{Binding Saturday}"
-                    Day="{x:Static sys:DayOfWeek.Saturday}"
-                    Edit="{Binding WeekEdit}" />
+                    Day="{x:Static sys:DayOfWeek.Saturday}" />
                 <local:DayControl
                     DataContext="{Binding Sunday}"
-                    Day="{x:Static sys:DayOfWeek.Sunday}"
-                    Edit="{Binding WeekEdit}" />
+                    Day="{x:Static sys:DayOfWeek.Sunday}" />
             </WrapPanel>
         </ScrollViewer>
+        
+        <!-- Week actions -->
         <StackPanel
             Grid.Row="3"
             Grid.Column="1"
@@ -141,6 +140,7 @@
                 Style="{StaticResource DeleteButton}" />
         </StackPanel>
 
+        <!-- Move to previous week -->
         <Button
             Grid.Row="1"
             VerticalAlignment="Center"
@@ -153,6 +153,7 @@
                 Kind="ChevronLeft" />
         </Button>
 
+        <!-- Move to next week -->
         <Button
             Grid.Row="1"
             Grid.Column="3"

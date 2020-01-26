@@ -56,6 +56,7 @@
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
 
+        <!-- View mode -->
         <Grid
             MaxWidth="800"
             HorizontalAlignment="Center"
@@ -65,7 +66,10 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition />
             </Grid.RowDefinitions>
+            
+            <!-- Header -->
             <StackPanel Orientation="Vertical">
+                <!-- Recipe name -->
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontSize="26" Text="{Binding Recipe.Name}" />
                     <lex:LocProxy
@@ -98,6 +102,8 @@
                         </Ellipse.Style>
                     </Ellipse>
                 </StackPanel>
+                
+                <!-- Source -->
                 <TextBlock>
                     <Hyperlink NavigateUri="{Binding Recipe.SourceUrl}" RequestNavigate="Hyperlink_RequestNavigate">
                         <Hyperlink.Inlines>
@@ -114,6 +120,8 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
+                
+                <!-- When recipe was last cooked --> 
                 <local:StringFormatProxy
                     x:Name="lastCookedStringFormat"
                     StringFormat="{lex:Loc LastCooked}"
@@ -132,6 +140,8 @@
                     </TextBlock.Style>
                 </TextBlock>
             </StackPanel>
+            
+            <!-- Recipe -->
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <Grid Margin="0 10 0 0">
                     <Grid.ColumnDefinitions>
@@ -149,7 +159,8 @@
                         VerticalAlignment="Top"
                         Source="{Binding Recipe.FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
                         Stretch="Uniform" />
-
+                    
+                    <!-- Ingredients -->
                     <StackPanel Grid.Column="1" Orientation="Vertical">
 
                         <local:StringFormatProxy
@@ -177,6 +188,7 @@
                             FontSize="20"
                             Text="{lex:Loc Ingredients}" />
 
+                        <!-- Ingredient groups -->
                         <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -225,6 +237,7 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
 
+                        <!-- Ingredients -->
                         <ItemsControl Name="IngredientsList" ItemsSource="{Binding Recipe.Ingredients}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -255,6 +268,7 @@
                         </ItemsControl>
                     </StackPanel>
 
+                    <!-- Other parts of recipe -->
                     <StackPanel
                         Grid.Row="1"
                         Grid.ColumnSpan="2"
@@ -325,7 +339,6 @@
                         </ItemsControl>
 
                     </StackPanel>
-
                 </Grid>
             </ScrollViewer>
         </Grid>
@@ -346,6 +359,8 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
+                
+                <!-- Left part with recipe name, source and other simple types -->
                 <StackPanel Orientation="Vertical">
                     <StackPanel Margin="10 0" Orientation="Vertical">
                         <Image
@@ -406,8 +421,11 @@
                         <TextBox Text="{Binding Recipe.PortionsCount}" />
                     </StackPanel>
                 </StackPanel>
+                
+                <!-- Right part with ingredients and tags -->
                 <StackPanel Grid.Column="1" Orientation="Vertical">
                     <StackPanel Margin="10 10 10 0" Orientation="Vertical">
+                        <!-- Ingredients control buttons -->
                         <StackPanel Orientation="Horizontal">
                             <TextBlock
                                 VerticalAlignment="Center"
@@ -433,6 +451,7 @@
                             </Button>
                         </StackPanel>
 
+                        <!-- Ingredient groups -->
                         <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -514,6 +533,7 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
 
+                        <!-- Ingredients -->
                         <ItemsControl
                             Name="IngredientsListEdit"
                             dd:DragDrop.DragHandler="{Binding}"
@@ -552,6 +572,8 @@
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
                     </StackPanel>
+                    
+                    <!--  Tags  -->
                     <StackPanel Margin="10 10 10 0" Orientation="Horizontal">
                         <TextBlock
                             VerticalAlignment="Center"
@@ -565,7 +587,6 @@
                             Style="{StaticResource SmallAddButton}" />
                     </StackPanel>
 
-                    <!--  Tags  -->
                     <ItemsControl Margin="10 0" ItemsSource="{Binding Recipe.Tags}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -600,6 +621,7 @@
                     </ItemsControl>
                 </StackPanel>
 
+                <!-- Description -->
                 <StackPanel
                     Grid.Row="1"
                     Grid.ColumnSpan="2"
@@ -617,9 +639,10 @@
                     </xctk:RichTextBox>
                 </StackPanel>
 
-
             </Grid>
         </ScrollViewer>
+        
+        <!-- Recipe buttons -->
         <StackPanel
             Grid.Row="2"
             Margin="20"

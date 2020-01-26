@@ -29,6 +29,8 @@
             <RowDefinition />
             <RowDefinition Height="55" />
         </Grid.RowDefinitions>
+        
+        <!-- Header panel with view toggle and filter text -->
         <DockPanel>
             <ToggleButton IsChecked="{Binding IsTilesView}" Style="{StaticResource MediumToggleButton}">
                 <icons:PackIconModern Kind="TilesNine" Style="{StaticResource MediumIcon}" />
@@ -46,6 +48,8 @@
                 mahapps:TextBoxHelper.Watermark="{Binding SearchHelpTextCaption, Mode=OneTime}"
                 Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </DockPanel>
+        
+        <!-- Recipies as tiles view -->
         <ListView
             Name="RecipiesList"
             Grid.Row="1"
@@ -103,6 +107,7 @@
             </ListView.Template>
         </ListView>
 
+        <!-- Recipies as list view -->
         <DataGrid
             Grid.Row="1"
             Margin="0 5 0 0"
@@ -164,6 +169,8 @@
                 </ItemsPanelTemplate>
             </DataGrid.ItemsPanel>
         </DataGrid>
+        
+        <!-- No recipies found placeholder -->
         <TextBlock
             Grid.Row="1"
             HorizontalAlignment="Center"
@@ -172,6 +179,8 @@
             Foreground="#ffbbbbbb"
             Text="{lex:Loc NoRecipiesFound}"
             Visibility="{Binding RecipiesNotFound, Converter={StaticResource booleanToVisibilityConverter}}" />
+        
+        <!-- Buttons -->
         <StackPanel
             Grid.Row="2"
             Margin="0 5 0 0"

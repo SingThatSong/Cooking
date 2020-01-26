@@ -20,11 +20,13 @@
             <RowDefinition Height="30" />
             <RowDefinition />
         </Grid.RowDefinitions>
-
+        <!-- Ingredient group name edit -->
         <TextBox
             Name="Focused"
             Height="30"
             Text="{Binding IngredientGroup.Name, UpdateSourceTrigger=PropertyChanged}" />
+
+        <!-- Ok and Cancel buttons -->
         <StackPanel
             Grid.Row="1"
             Margin="20"
