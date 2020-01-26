@@ -49,14 +49,7 @@ namespace Cooking
                 string[]? strings = validationResult?.Errors
                                                      .Select(x => x.ErrorMessage)
                                                      .ToArray();
-                if (strings != null)
-                {
-                    return string.Join(Environment.NewLine, strings);
-                }
-                else
-                {
-                    return null;
-                }
+                return strings != null ? string.Join(Environment.NewLine, strings) : null;
             }
         }
 

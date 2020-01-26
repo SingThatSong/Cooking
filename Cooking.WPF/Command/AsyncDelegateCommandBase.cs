@@ -32,7 +32,7 @@ namespace Cooking.WPF.Commands
         /// </summary>
         /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
         /// <returns>If this command can be executed.</returns>
-        protected override sealed bool CanExecuteInternal(object? parameter)
+        protected sealed override bool CanExecuteInternal(object? parameter)
         {
             if (FreezeWhenBusy && IsBusy)
             {
@@ -53,7 +53,7 @@ namespace Cooking.WPF.Commands
         /// Implementation of <see cref="DelegateCommandBase" /> ExecuteInternal.
         /// </summary>
         /// <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
-        protected override sealed async void ExecuteInternal(object? parameter)
+        protected sealed override async void ExecuteInternal(object? parameter)
         {
             IsBusy = true;
 

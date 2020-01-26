@@ -39,14 +39,7 @@ namespace Cooking.ServiceLayer
         {
             DateTime? date = dayService.GetLastCookedDate(recipeId);
 
-            if (date != null)
-            {
-                return (int)(DateTime.Now - date.Value).TotalDays;
-            }
-            else
-            {
-                return int.MaxValue;
-            }
+            return date != null ? (int)(DateTime.Now - date.Value).TotalDays : int.MaxValue;
         }
 
         /// <summary>
@@ -61,6 +54,22 @@ namespace Cooking.ServiceLayer
         {
             Recipe recipe = Get(id);
             return mapper.Map<TMap>(recipe);
+        }
+
+        /// <inheritdoc/>
+        public override List<Recipe> GetAll()
+        {
+            using CookingContext context = ContextFactory.Create();
+            return GetCultureSpecificSet(context)
+                          .Include(x => x.Tags)
+                             .ThenInclude(x => x.Tag)
+                          .Include(x => x.Ingredients)
+                             .ThenInclude(x => x.Ingredient)
+                          .Include(x => x.IngredientGroups)
+                             .ThenInclude(x => x.Ingredients)
+                                .ThenInclude(x => x.Ingredient)
+                          .AsNoTracking()
+                          .ToList();
         }
 
         /// <summary>
@@ -84,8 +93,6 @@ namespace Cooking.ServiceLayer
             IQueryable<Recipe> query = GetCultureSpecificSet(context)
                                .Include(x => x.Tags)
                                    .ThenInclude(x => x.Tag)
-                               .Include(x => x.Ingredients)
-                                   .ThenInclude(x => x.Ingredient)
                                .AsQueryable();
 
             if (requiredTags != null && requiredTags.Count > 0)
@@ -149,6 +156,7 @@ namespace Cooking.ServiceLayer
                           .Include(x => x.IngredientGroups)
                              .ThenInclude(x => x.Ingredients)
                                 .ThenInclude(x => x.Ingredient)
+                          .AsNoTracking()
                           .Single(x => x.ID == recipeId);
         }
     }

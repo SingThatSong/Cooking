@@ -63,7 +63,7 @@ namespace Cooking.WPF.Services
                 FilterContext.BuildExpression(newText);
                 if (recipeCache == null)
                 {
-                    recipeCache = recipeService.GetAllProjected<Recipe>(mapper).ToDictionary(x => x.ID, x => x);
+                    recipeCache = recipeService.GetAll().ToDictionary(x => x.ID, x => x);
                 }
             }
         }
@@ -93,7 +93,7 @@ namespace Cooking.WPF.Services
         {
             if (recipeCache != null)
             {
-                recipeCache[obj.ID] = recipeService.GetMapped<Recipe>(obj.ID, mapper);
+                recipeCache[obj.ID] = recipeService.Get(obj.ID);
             }
         }
 

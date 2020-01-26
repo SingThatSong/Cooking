@@ -31,17 +31,22 @@ namespace ServiceLayer
                 cfg.CreateMap<Entity, Entity>()
                    .ForMember(x => x.Culture, opts => opts.Ignore());
 
+                cfg.CreateMap<IngredientsGroup, IngredientsGroup>()
+                   .IncludeBase<Entity, Entity>()
+
+                   // When mapping collections of values, use this to detect the same objects
+                   .EqualityComparison((a, b) => a.ID == b.ID);
+
+                cfg.CreateMap<RecipeIngredient, RecipeIngredient>()
+                   .IncludeBase<Entity, Entity>()
+                   .EqualityComparison((a, b) => a.ID == b.ID);
+
                 // Refactor below
                 // --------------------------
                 cfg.CreateMap<Recipe, Recipe>().IncludeBase<Entity, Entity>();
 
                 cfg.CreateMap<RecipeTag, RecipeTag>();
                 cfg.CreateMap<Tag, Tag>().IncludeBase<Entity, Entity>();
-                cfg.CreateMap<IngredientsGroup, IngredientsGroup>()
-                   .IncludeBase<Entity, Entity>()
-                   .EqualityComparison((a, b) => a.ID == b.ID);
-
-                cfg.CreateMap<RecipeIngredient, RecipeIngredient>().IncludeBase<Entity, Entity>();
                 cfg.CreateMap<Ingredient, Ingredient>().IncludeBase<Entity, Entity>();
                 cfg.CreateMap<Garnish, Garnish>().IncludeBase<Entity, Entity>();
             }).CreateMapper();

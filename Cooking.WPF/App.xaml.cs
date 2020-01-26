@@ -49,6 +49,8 @@ using WPFLocalizeExtension.Providers;
 // TODO: Set all *Caption bindings to be OneTime
 // TODO: Settings for day recipies (breakfast, supper, etc.)
 // TODO: Generate lots of data (millions of entries) and test
+// TODO: Add setting to disable suggestion to correct previous week
+// TODO: Refactor getting full IQuaryable graph for all services
 
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
