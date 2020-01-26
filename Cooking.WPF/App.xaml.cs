@@ -26,7 +26,6 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: check if .editorconfig uses latest parameters
 // TODO: Add localization error on startup when localization is not provided
 // TODO: Move to correct SQLite db, without ID hacks
 // TODO: Add project documentation (Wiki)
@@ -77,6 +76,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Ensure effective Db Select (get rid of lazy loading)
 
 // TODO: Replace Extended.WPF.Toolkit when 4.0.0 arrives: https://github.com/xceedsoftware/wpftoolkit/releases
+// TODO: Use Git(Hub/Lab) issues instead of this list :)
 
 // Set Null-check on all func arguments globally
 [assembly: NullGuard(ValidationFlags.Arguments)]
