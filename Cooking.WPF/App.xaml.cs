@@ -26,8 +26,6 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Set Readme.md
-// TODO: Set folder names
 // TODO: Detect literals = https://stackoverflow.com/questions/29533905/how-to-find-all-the-hardcoded-values-in-a-c-sharp-projectsolution
 // TODO: Remove magic literals
 // TODO: check if .editorconfig uses latest parameters
