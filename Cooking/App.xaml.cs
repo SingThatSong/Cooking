@@ -26,7 +26,6 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Add centralized configuration edit (now it's only in SettingsViewModel)
 // TODO: Add comments to XAML
 // TODO: Set Readme.md
 // TODO: Set folder names
@@ -124,10 +123,8 @@ namespace Cooking
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
                                                     .SetBasePath(directory)
-                                                    .AddJsonFile(Consts.SettingsFilename, optional: false)
+                                                    .AddJsonFile(Consts.AppSettingsFilename, optional: false, reloadOnChange: true)
                                                     .Build();
-
-            containerRegistry.RegisterInstance<IConfiguration>(configuration);
 
             var serviceCollection = new ServiceCollection();
             serviceCollection.Configure<AppSettings>(configuration);
@@ -146,6 +143,7 @@ namespace Cooking
             containerRegistry.Register<GarnishService>();
             containerRegistry.Register<IngredientService>();
             containerRegistry.Register<TagService>();
+            containerRegistry.Register<SettingsService>();
             containerRegistry.Register<RecipeService>();
             containerRegistry.RegisterSingleton<RecipeFiltrator>();
             containerRegistry.RegisterSingleton<ImageService>();

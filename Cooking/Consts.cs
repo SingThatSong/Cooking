@@ -41,6 +41,6 @@ namespace Cooking
         /// <summary>
         /// Settings filename.
         /// </summary>
-        public const string SettingsFilename = "appsettings.json";
+        public const string AppSettingsFilename = "appsettings.json";
     }
 }
