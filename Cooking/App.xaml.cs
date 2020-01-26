@@ -44,7 +44,6 @@ using WPFLocalizeExtension.Providers;
 // TODO: Count calories for recipe
 // TODO: Set calorietype accordingly to counted calories
 // TODO: Replace recipe filtration on client with db filtration
-// TODO: Consider using https://github.com/Dresel/MethodCache for caching
 // TODO: Add IQueryable as parameter to all selects in CRUDService
 // TODO: Consider making IMapper as a dependency for all CRUDServices
 // TODO: Make GetCultureSpecificSet method an extention method
