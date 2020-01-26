@@ -28,14 +28,19 @@ namespace Cooking.WPF.Converters
                     {
                         ILocalization localization = prismApplication.Container.Resolve<ILocalization>();
 
-                        if (valueInt > 365)
+                        if (valueInt > Consts.YearDays)
                         {
-                            return localization.GetLocalizedString("YearsAgo", valueInt / 365);
+                            return localization.GetLocalizedString("YearsAgo", valueInt / Consts.YearDays);
                         }
 
-                        if (valueInt > 30)
+                        if (valueInt > Consts.MonthDays)
                         {
-                            return localization.GetLocalizedString("MonthsAgo", valueInt / 30);
+                            return localization.GetLocalizedString("MonthsAgo", valueInt / Consts.MonthDays);
+                        }
+
+                        if (valueInt > Consts.WeekDays)
+                        {
+                            return localization.GetLocalizedString("WeeksAgo", valueInt / Consts.WeekDays);
                         }
 
                         return localization.GetLocalizedString("DaysAgo", valueInt);

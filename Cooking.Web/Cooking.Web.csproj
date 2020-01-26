@@ -42,8 +42,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Data\Cooking.Data.csproj" />
-    <ProjectReference Include="..\ServiceLayer\Cooking.ServiceLayer.csproj" />
+    <ProjectReference Include="..\Cooking.Data\Cooking.Data.csproj" />
+    <ProjectReference Include="..\Cooking.ServiceLayer\Cooking.ServiceLayer.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -326,6 +326,14 @@ namespace Cooking.WPF.Views
             Debug.WriteLine("MainPageViewModel.CreateShoppingList");
 
             List<ShoppingListIngredientsGroup> allProducts = dayService.GetWeekShoppingList(WeekStart, WeekEnd);
+
+            ShoppingListIngredientsGroup? noCategoryGroup = allProducts.FirstOrDefault(x => x.IngredientGroupName == null);
+
+            if (noCategoryGroup != null)
+            {
+                noCategoryGroup.IngredientGroupName = localization.GetLocalizedString("NoCategory");
+            }
+
             var parameters = new NavigationParameters()
             {
                 { nameof(ShoppingCartViewModel.List), allProducts }

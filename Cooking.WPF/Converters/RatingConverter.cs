@@ -18,6 +18,21 @@ namespace Cooking.WPF.Converters
     public class RatingConverter : IMultiValueConverter
     {
         /// <summary>
+        /// Index of values array's position of valueIndex.
+        /// </summary>
+        private const int IndexOfvalueIndex = 0;
+
+        /// <summary>
+        /// Index of values array's position of rating.
+        /// </summary>
+        private const int RatingIndex = 1;
+
+        /// <summary>
+        /// Index of values array's position of ratingPreview.
+        /// </summary>
+        private const int RatingPreviewIndex = 2;
+
+        /// <summary>
         /// Gets or sets brush that will be used for values which is about to be selected on MouseOver.
         /// </summary>
         public Brush? PreviewBrush { get; set; }
@@ -35,14 +50,15 @@ namespace Cooking.WPF.Converters
         /// <inheritdoc/>
         public object? Convert(object[] values, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values?.Length != 3)
+            int parametersCount = 3;
+            if (values?.Length != parametersCount)
             {
                 return null;
             }
 
-            int valueIndex = (int)values[0];
-            int? rating = (int?)values[1];
-            int? ratingPreview = (int?)values[2];
+            int valueIndex     = (int)values[IndexOfvalueIndex];
+            int? rating        = (int?)values[RatingIndex];
+            int? ratingPreview = (int?)values[RatingPreviewIndex];
 
             if (ratingPreview >= valueIndex)
             {

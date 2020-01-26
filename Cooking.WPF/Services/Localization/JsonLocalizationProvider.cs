@@ -37,9 +37,9 @@ namespace Cooking.WPF.Services
             get
             {
                 var result = new ObservableCollection<CultureInfo>();
-                foreach (FileInfo file in new DirectoryInfo("Localization").EnumerateFiles())
+                foreach (FileInfo file in new DirectoryInfo(Consts.LocalizationFolder).EnumerateFiles())
                 {
-                    string lang = file.Name.Replace("local", string.Empty, StringComparison.Ordinal)
+                    string lang = file.Name.Replace(Consts.LocalizationFilename, string.Empty, StringComparison.Ordinal)
                                            .Replace(".", string.Empty, StringComparison.Ordinal)
                                            .Replace("json", string.Empty, StringComparison.Ordinal);
                     result.Add(CultureInfo.GetCultureInfo(lang));
@@ -153,7 +153,7 @@ namespace Cooking.WPF.Services
 
         private bool InitCache(CultureInfo culture)
         {
-            string filename = "local";
+            string filename = Consts.LocalizationFilename;
             if (culture.Name.Length != 0)
             {
                 filename += $".{culture.Name}";
@@ -161,12 +161,12 @@ namespace Cooking.WPF.Services
 
             filename += ".json";
 
-            if (!File.Exists(@"Localization\" + filename))
+            if (!File.Exists($@"{Consts.LocalizationFolder}\" + filename))
             {
                 return false;
             }
 
-            string json = File.ReadAllText(@"Localization\" + filename);
+            string json = File.ReadAllText($@"{Consts.LocalizationFolder}\" + filename);
 
             localizationCache[culture.Name] = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
 

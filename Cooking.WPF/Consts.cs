@@ -18,9 +18,49 @@ namespace Cooking
         public const string IngredientSymbol = "$";
 
         /// <summary>
+        /// Symbol for a name search.
+        /// </summary>
+        public const string NameSymbol = "name";
+
+        /// <summary>
+        /// Maximum image width.
+        /// </summary>
+        public const int ImageWidth = 300;
+
+        /// <summary>
+        /// Days in a year.
+        /// </summary>
+        public const int YearDays = 365;
+
+        /// <summary>
+        /// Days in a month.
+        /// </summary>
+        public const int MonthDays = 30;
+
+        /// <summary>
+        /// Days in a week.
+        /// </summary>
+        public const int WeekDays = 7;
+
+        /// <summary>
+        /// How many alternatives to show in recommendations.
+        /// </summary>
+        public const int HowManyAlternativesToShow = 3;
+
+        /// <summary>
+        /// Megabyte constant.
+        /// </summary>
+        public const int Megabyte = 1024 * 1024;
+
+        /// <summary>
         /// Images folder.
         /// </summary>
         public const string ImageFolder = "Images";
+
+        /// <summary>
+        /// Localization folder.
+        /// </summary>
+        public const string LocalizationFolder = "Localization";
 
         /// <summary>
         /// Prism main content region.
@@ -39,8 +79,18 @@ namespace Cooking
         public const string LanguageConfigParameter = "culture";
 
         /// <summary>
+        /// Localization file name without extentions.
+        /// </summary>
+        public const string LocalizationFilename = "local";
+
+        /// <summary>
         /// Settings filename.
         /// </summary>
         public const string AppSettingsFilename = "appsettings.json";
+
+        /// <summary>
+        /// Settings filename.
+        /// </summary>
+        public const string LogFilename = "Log.txt";
     }
 }

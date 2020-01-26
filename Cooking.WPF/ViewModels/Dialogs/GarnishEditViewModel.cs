@@ -64,7 +64,7 @@ namespace Cooking.WPF.Views
         /// </summary>
         public IEnumerable<string>? SimilarGarnishes => string.IsNullOrWhiteSpace(Garnish?.Name)
             ? null
-            : AllGarnishNames.OrderBy(x => GarnishCompare(x, Garnish.Name)).Take(3);
+            : AllGarnishNames.OrderBy(x => GarnishCompare(x, Garnish.Name)).Take(Consts.HowManyAlternativesToShow);
 
         /// <summary>
         /// Gets command to execute on loaded event.

@@ -14,6 +14,7 @@ namespace Cooking.Web
         /// Initializes a new instance of the <see cref="ContextFactory"/> class.
         /// </summary>
         /// <param name="configuration">Configuration provider.</param>
+        // TODO: Replace with IOptions
         public ContextFactory(IConfiguration configuration)
         {
             this.configuration = configuration;

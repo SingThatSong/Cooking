@@ -47,7 +47,7 @@ namespace Cooking.WPF.Views
         /// </summary>
         public IEnumerable<string>? SimilarTags => string.IsNullOrWhiteSpace(Tag?.Name)
             ? null
-            : AllTagNames.OrderBy(x => TagCompare(x, Tag.Name)).Take(3);
+            : AllTagNames.OrderBy(x => TagCompare(x, Tag.Name)).Take(Consts.HowManyAlternativesToShow);
 
         /// <summary>
         /// Gets localized caption for Category.

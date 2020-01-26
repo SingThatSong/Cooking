@@ -82,6 +82,7 @@
   "WhereMoveRecipe": "Where should I put recipe?",
   "YearsAgo": "{0} years ago",
   "MonthsAgo": "{0} months ago",
+  "WeeksAgo": "{0} weeks ago",
   "DaysAgo": "{0} days ago",
   "MainIngredient": "Main ingredient",
   "DishType": "Dish type",
@@ -103,5 +104,6 @@
   "CalorieType_Protein": "Protein rich recipe",
   "CalorieType_Bad": "Too many calories or too many carbs",
   "CalorieType_Sweets": "Sweets",
-  "CalorieType_None": "Any"
+  "CalorieType_None": "Any",
+  "NoCategory": "No category"
 }

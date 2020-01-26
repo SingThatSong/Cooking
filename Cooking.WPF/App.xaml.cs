@@ -26,10 +26,7 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Detect literals = https://stackoverflow.com/questions/29533905/how-to-find-all-the-hardcoded-values-in-a-c-sharp-projectsolution
-// TODO: Remove magic literals
 // TODO: check if .editorconfig uses latest parameters
-// TODO: Debug/ Measure method perfomance (benchmark?)
 // TODO: Add localization error on startup when localization is not provided
 // TODO: Move to correct SQLite db, without ID hacks
 // TODO: Add project documentation (Wiki)
@@ -45,6 +42,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Consider making IMapper as a dependency for all CRUDServices
 // TODO: Make GetCultureSpecificSet method an extention method
 // TODO: Add AOP for perfomance monitoring https://github.com/vescon/MethodBoundaryAspect.Fody
+// TODO: Debug/ Measure method perfomance (benchmark?)
 // TODO: Add debug console logging to methods and constructors
 // TODO: Make sure there is no russian in the code
 // TODO: Move folder names to constants
@@ -108,10 +106,10 @@ namespace Cooking
             Logger logger = new LoggerConfiguration()
                              .MinimumLevel.Information()
                              .WriteTo.Console()
-                             .WriteTo.File("Log.txt",
-                                            rollingInterval: RollingInterval.Infinite,
-                                            rollOnFileSizeLimit: true,
-                                            fileSizeLimitBytes: 1024 * 1024 * 5)
+                             .WriteTo.File(Consts.LogFilename,
+                                           rollingInterval: RollingInterval.Infinite,
+                                           rollOnFileSizeLimit: true,
+                                           fileSizeLimitBytes: 5 * Consts.Megabyte)
                              .CreateLogger();
 
             containerRegistry.RegisterInstance<ILogger>(logger);

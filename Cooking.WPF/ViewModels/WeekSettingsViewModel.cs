@@ -124,11 +124,11 @@ namespace Cooking.WPF.Views
         /// <inheritdoc/>
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            bool returned = navigationContext.NavigationService.Journal.CurrentEntry.Uri.OriginalString == "ShowGeneratedWeekView";
+            bool returned = navigationContext.NavigationService.Journal.CurrentEntry.Uri.OriginalString == nameof(GeneratedWeekView);
 
             if (returned)
             {
-                // if returned from ShowGeneratedWeekView - return old view, othrewise return new
+                // if returned from GeneratedWeekView - return old view, othrewise return new
                 return true;
             }
             else

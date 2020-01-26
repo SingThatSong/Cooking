@@ -51,7 +51,7 @@ namespace Cooking
 
         private void MinifyImage(string source, string destination)
         {
-            var settings = new ProcessImageSettings { Width = 300 };
+            var settings = new ProcessImageSettings { Width = Consts.ImageWidth };
 
             using var outStream = new FileStream(destination, FileMode.CreateNew);
             MagicImageProcessor.ProcessImage(source, outStream, settings);

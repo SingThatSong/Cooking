@@ -56,7 +56,7 @@ namespace Cooking.WPF.Views
         /// </summary>
         public IEnumerable<string>? SimilarIngredients => string.IsNullOrWhiteSpace(Ingredient?.Name)
                                                         ? null
-                                                        : AllIngredientNames.OrderBy(x => IngredientCompare(x, Ingredient.Name)).Take(3);
+                                                        : AllIngredientNames.OrderBy(x => IngredientCompare(x, Ingredient.Name)).Take(Consts.HowManyAlternativesToShow);
 
         /// <summary>
         /// Gets all types of ingredients to select from.

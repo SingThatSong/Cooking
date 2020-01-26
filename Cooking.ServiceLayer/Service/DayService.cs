@@ -163,8 +163,7 @@ namespace Cooking.ServiceLayer
             {
                 var item = new ShoppingListIngredientsGroup
                 {
-                    // TODO: Localize
-                    IngredientGroupName = ingredientGroup.Key ?? "Без категории"
+                    IngredientGroupName = ingredientGroup.Key
                 };
 
                 foreach (var ingredient in ingredientGroup.GroupBy(x => x.Ingredient.Ingredient!.Name))

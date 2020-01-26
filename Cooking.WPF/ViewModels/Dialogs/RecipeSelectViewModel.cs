@@ -47,6 +47,7 @@ namespace Cooking.WPF.Views
 
             if (day != null)
             {
+                // TODO: Prepare string separately
                 var sb = new StringBuilder();
 
                 if (day.NeededDishTypes != null && day.NeededDishTypes.Any(x => x.IsChecked && x.CanBeRemoved))

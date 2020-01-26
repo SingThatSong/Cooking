@@ -10,7 +10,7 @@ namespace ServiceLayer
         /// <summary>
         /// Gets name of a group.
         /// </summary>
-        public string? IngredientGroupName { get; internal set; }
+        public string? IngredientGroupName { get; set; }
 
         /// <summary>
         /// Gets ingredients in a group.

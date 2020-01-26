@@ -34,9 +34,9 @@ namespace Cooking.WPF.Services
             this.recipeService = recipeService;
             this.mapper = mapper;
 
-            FilterContext = new FilterContext<RecipeListViewDto>().AddFilter("name", CombinedFilter, isDefault: true)
-                                                                .AddFilter(Consts.IngredientSymbol, HasIngredient)
-                                                                .AddFilter(Consts.TagSymbol, HasTag);
+            FilterContext = new FilterContext<RecipeListViewDto>().AddFilter(Consts.NameSymbol, CombinedFilter, isDefault: true)
+                                                                  .AddFilter(Consts.IngredientSymbol, HasIngredient)
+                                                                  .AddFilter(Consts.TagSymbol, HasTag);
 
             eventAggregator.GetEvent<RecipeCreatedEvent>().Subscribe(OnRecipeCreated, ThreadOption.UIThread);
             eventAggregator.GetEvent<RecipeUpdatedEvent>().Subscribe(OnRecipeUpdated, ThreadOption.UIThread);
