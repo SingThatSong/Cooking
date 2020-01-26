@@ -33,7 +33,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Remove magic literals
 // TODO: check if .editorconfig uses latest parameters
 // TODO: Debug/ Measure method perfomance (benchmark?)
-// TODO: Add localization error on startup
+// TODO: Add localization error on startup when localization is not provided
 // TODO: Move to correct SQLite db, without ID hacks
 // TODO: Add project documentation (Wiki)
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
