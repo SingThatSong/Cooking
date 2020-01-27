@@ -28,7 +28,6 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Add config to change app theme
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
 // TODO: Replace client recipe filtering with IQuariable filtration
 // TODO: Plurals localization
@@ -158,6 +157,9 @@ namespace Cooking
             // If no localization exists or current config is invalid, close application
             EnsureLocalizationProvided();
 
+            // Variables affect pages, so we set them beforehand
+            SetStaticVariables();
+
             // Dialog service is constant - we have only one window
             containerRegistry.RegisterInstance(new DialogService(
                                                         Container.Resolve<MainWindowViewModel>(),
@@ -166,9 +168,6 @@ namespace Cooking
                                                         Container.Resolve<ILocalization>()
                                                    )
                                               );
-
-            // Variables affect pages, so we set them beforehand
-            SetStaticVariables();
 
             // Register pages
             containerRegistry.RegisterForNavigation<WeekSettingsView>();

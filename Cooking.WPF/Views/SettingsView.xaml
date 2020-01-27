@@ -63,12 +63,48 @@
                 SelectedItem="{Binding SelectedAppTheme, Mode=TwoWay}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <Ellipse
-                            Width="16"
-                            Height="16"
-                            Fill="{Binding ShowcaseBrush, Mode=OneWay}"
-                            Stroke="{Binding BorderColorBrush, Mode=OneWay}"
-                            StrokeThickness="1" />
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse
+                                Width="16"
+                                Height="16"
+                                Fill="{Binding ShowcaseBrush, Mode=OneWay}"
+                                Stroke="{Binding BorderColorBrush, Mode=OneWay}"
+                                StrokeThickness="1" />
+                            <TextBlock
+                                Margin="5 0 0 0"
+                                FontWeight="Bold"
+                                Text="{Binding BaseColorScheme, Mode=OneWay}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+
+        <!--  Color setting  -->
+        <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+            <TextBlock
+                VerticalAlignment="Center"
+                FontSize="16"
+                Text="{lex:Loc Color}" />
+            <ComboBox
+                Width="200"
+                Margin="20 0 0 0"
+                ItemsSource="{Binding ColorThemes, Mode=OneTime}"
+                SelectedItem="{Binding SelectedColor, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse
+                                Width="16"
+                                Height="16"
+                                Fill="{Binding ShowcaseBrush, Mode=OneWay}"
+                                Stroke="{Binding BorderColorBrush, Mode=OneWay}"
+                                StrokeThickness="1" />
+                            <TextBlock
+                                Margin="5 0 0 0"
+                                FontWeight="Bold"
+                                Text="{Binding Name, Mode=OneWay}" />
+                        </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>

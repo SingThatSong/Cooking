@@ -7,12 +7,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using PropertyChanged;
 
 namespace Cooking.WPF.Views
 {
     /// <summary>
     /// View model for settings.
     /// </summary>
+    [AddINotifyPropertyChangedInterface]
     public class SettingsViewModel
     {
         private readonly ILogger logger;
@@ -43,7 +45,12 @@ namespace Cooking.WPF.Views
                                     .Select(x => x.First())
                                     .ToList();
 
-            SelectedAppTheme = ThemeManager.DetectTheme();
+            ColorThemes = ThemeManager.ColorSchemes.OrderBy(x => x.Name).ToList();
+
+            Theme currentTheme = ThemeManager.DetectTheme();
+
+            SelectedAppTheme = AppThemes.First(x => x.BaseColorScheme == currentTheme.BaseColorScheme);
+            SelectedColor = ColorThemes.First(x => x.Name == currentTheme.ColorScheme);
         }
 
         /// <summary>
@@ -57,9 +64,41 @@ namespace Cooking.WPF.Views
         public Theme SelectedAppTheme { get; set; }
 
         /// <summary>
+        /// Gets all available app themes.
+        /// </summary>
+        public List<ColorScheme> ColorThemes { get; }
+
+        /// <summary>
+        /// Gets or sets selected app theme.
+        /// </summary>
+        public ColorScheme SelectedColor { get; set; }
+
+        /// <summary>
         /// Gets command to be fired when culture combobox's selected language changes.
         /// </summary>
         public DelegateCommand CultureSelectionChangedCommand { get; }
+
+        /// <summary>
+        /// PropertyChanged-injected callbach callde when SelectedAppTheme is changed.
+        /// </summary>
+        public void OnSelectedAppThemeChanged()
+        {
+            ThemeManager.ChangeThemeBaseColor(Application.Current, SelectedAppTheme.BaseColorScheme);
+
+            options.Value.Theme = SelectedAppTheme.BaseColorScheme;
+            settingsService.UpdateAppSettings(options.Value);
+        }
+
+        /// <summary>
+        /// PropertyChanged-injected callbach callde when SelectedColor is changed.
+        /// </summary>
+        public void OnSelectedColorChanged()
+        {
+            ThemeManager.ChangeThemeColorScheme(Application.Current, SelectedColor.Name);
+
+            options.Value.Accent = SelectedColor.Name;
+            settingsService.UpdateAppSettings(options.Value);
+        }
 
         private void ChangeCulture()
         {

@@ -1967,6 +1967,16 @@
             Gets or sets selected app theme.
             </summary>
         </member>
+        <member name="P:Cooking.WPF.Views.SettingsViewModel.ColorThemes">
+            <summary>
+            Gets all available app themes.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Views.SettingsViewModel.SelectedColor">
+            <summary>
+            Gets or sets selected app theme.
+            </summary>
+        </member>
         <member name="P:Cooking.WPF.Views.SettingsViewModel.CultureSelectionChangedCommand">
             <summary>
             Gets command to be fired when culture combobox's selected language changes.
