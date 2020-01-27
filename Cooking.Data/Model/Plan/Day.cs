@@ -10,7 +10,7 @@ namespace Cooking.Data.Model.Plan
         /// <summary>
         /// Gets or sets foreign key for <see cref="Dinner"/>.
         /// </summary>
-        public Guid? DinnerID { get; set; }
+        public Guid DinnerID { get; set; }
 
         /// <summary>
         /// Gets or sets dinner recipe entity.
@@ -25,8 +25,7 @@ namespace Cooking.Data.Model.Plan
         /// <summary>
         /// Gets or sets day date.
         /// </summary>
-        // TODO: Set not-nullable
-        public DateTime? Date { get; set; }
+        public DateTime Date { get; set; }
 
         /// <summary>
         /// Gets or sets day's weekday.

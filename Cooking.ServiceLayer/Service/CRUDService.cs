@@ -84,7 +84,6 @@ namespace Cooking.ServiceLayer
         public async Task<Guid> CreateAsync(T entity)
         {
             using CookingContext context = ContextFactory.Create();
-            entity.ID = Guid.NewGuid();
             entity.Culture = GetCurrentCulture();
             await context.Set<T>().AddAsync(entity);
             await context.SaveChangesAsync().ConfigureAwait(false);

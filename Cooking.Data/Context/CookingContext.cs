@@ -129,54 +129,6 @@ namespace Cooking.Data.Context
                 .HasOne(bc => bc.Tag)
                 .WithMany(b => b.Recipies)
                 .HasForeignKey(bc => bc.TagId);
-
-            SetGuidType<Day>(modelBuilder);
-            SetGuidType<Garnish>(modelBuilder);
-
-            SetGuidType<Recipe>(modelBuilder);
-            SetGuidType<Tag>(modelBuilder);
-            SetGuidType<Ingredient>(modelBuilder);
-            SetGuidType<IngredientsGroup>(modelBuilder);
-            SetGuidType<RecipeIngredient>(modelBuilder);
-
-            // FKs
-            SetPropertyGuidType<RecipeTag>(modelBuilder, e => e.RecipeId);
-            SetPropertyGuidType<RecipeTag>(modelBuilder, e => e.TagId);
-            SetPropertyGuidType<Day>(modelBuilder, e => e.DinnerID);
-            SetPropertyGuidType<RecipeIngredient>(modelBuilder, e => e.IngredientId);
-        }
-
-        private void SetPropertyGuidType<T>(ModelBuilder modelBuilder, Expression<Func<T, Guid?>> propertyExpression)
-            where T : class
-        {
-            modelBuilder.Entity<T>()
-                .Property(propertyExpression)
-                .ValueGeneratedNever()
-                .HasConversion(
-                    g => g.Value.ToByteArray(),
-                    b => new Guid(b));
-        }
-
-        private void SetPropertyGuidType<T>(ModelBuilder modelBuilder, Expression<Func<T, Guid>> propertyExpression)
-            where T : class
-        {
-            modelBuilder.Entity<T>()
-                .Property(propertyExpression)
-                .ValueGeneratedNever()
-                .HasConversion(
-                    g => g.ToByteArray(),
-                    b => new Guid(b));
-        }
-
-        private void SetGuidType<T>(ModelBuilder modelBuilder)
-            where T : Entity
-        {
-            modelBuilder.Entity<T>()
-                .Property(e => e.ID)
-                .ValueGeneratedNever()
-                .HasConversion(
-                    g => g.ToByteArray(),
-                    b => new Guid(b));
         }
     }
 }

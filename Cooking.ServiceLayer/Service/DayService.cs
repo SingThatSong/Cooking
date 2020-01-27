@@ -102,10 +102,9 @@ namespace Cooking.ServiceLayer
             {
                 days.Add(new Day()
                 {
-                    DinnerID = recipe.Value,
+                    DinnerID = recipe.Value!.Value,
                     Date = weekStart.AddDays(DaysFromMonday(recipe.Key)),
                     DayOfWeek = recipe.Key,
-                    ID = Guid.NewGuid(),
                     Culture = GetCurrentCulture()
                 });
             }
@@ -260,7 +259,7 @@ namespace Cooking.ServiceLayer
             Day day = context.Days.First(x => x.ID == dayId);
 
             // Change date
-            DateTime dayOnNextWeek = LastDayOfWeek(day.Date!.Value).AddDays(1);
+            DateTime dayOnNextWeek = LastDayOfWeek(day.Date).AddDays(1);
             day.Date = dayOnNextWeek.AddDays(DaysFromMonday(selectedWeekday));
 
             // Change weekday

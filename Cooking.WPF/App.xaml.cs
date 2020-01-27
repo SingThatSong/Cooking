@@ -23,12 +23,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Move to correct SQLite db, without ID hacks
 // TODO: Add project documentation (Wiki)
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
 // TODO: Replace client recipe filtering with IQuariable filtration

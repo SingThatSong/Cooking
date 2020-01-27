@@ -3,14 +3,15 @@ using System;
 using Cooking.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Cooking.Data.Migrations
 {
     [DbContext(typeof(CookingContext))]
-    partial class CookingContextModelSnapshot : ModelSnapshot
+    [Migration("20200127103438_change_id_types")]
+    partial class Change_Id_Types
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -18,9 +19,8 @@ namespace Cooking.Data.Migrations
 
             modelBuilder.Entity("Cooking.Data.Model.Ingredient", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("ID")
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Culture")
                         .HasColumnType("TEXT");
@@ -38,9 +38,8 @@ namespace Cooking.Data.Migrations
 
             modelBuilder.Entity("Cooking.Data.Model.IngredientsGroup", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("ID")
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Culture")
                         .HasColumnType("TEXT");
@@ -48,8 +47,8 @@ namespace Cooking.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("RecipeID")
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("RecipeID")
+                        .HasColumnType("BLOB");
 
                     b.HasKey("ID");
 
@@ -60,21 +59,20 @@ namespace Cooking.Data.Migrations
 
             modelBuilder.Entity("Cooking.Data.Model.Plan.Day", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("ID")
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Culture")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("DayOfWeek")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("DinnerID")
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("DinnerID")
+                        .HasColumnType("BLOB");
 
                     b.Property<bool>("DinnerWasCooked")
                         .HasColumnType("INTEGER");
@@ -88,9 +86,8 @@ namespace Cooking.Data.Migrations
 
             modelBuilder.Entity("Cooking.Data.Model.Plan.Garnish", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("ID")
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Culture")
                         .HasColumnType("TEXT");
@@ -105,9 +102,8 @@ namespace Cooking.Data.Migrations
 
             modelBuilder.Entity("Cooking.Data.Model.Recipe", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("ID")
+                        .HasColumnType("BLOB");
 
                     b.Property<int>("CalorieType")
                         .HasColumnType("INTEGER");
@@ -143,9 +139,8 @@ namespace Cooking.Data.Migrations
 
             modelBuilder.Entity("Cooking.Data.Model.RecipeIngredient", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("ID")
+                        .HasColumnType("BLOB");
 
                     b.Property<double?>("Amount")
                         .HasColumnType("REAL");
@@ -153,11 +148,11 @@ namespace Cooking.Data.Migrations
                     b.Property<string>("Culture")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("IngredientId")
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("IngredientId")
+                        .HasColumnType("BLOB");
 
-                    b.Property<Guid?>("IngredientsGroupID")
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("IngredientsGroupID")
+                        .HasColumnType("BLOB");
 
                     b.Property<int?>("MeasureUnitID")
                         .HasColumnType("INTEGER");
@@ -165,8 +160,8 @@ namespace Cooking.Data.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid?>("RecipeID")
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("RecipeID")
+                        .HasColumnType("BLOB");
 
                     b.HasKey("ID");
 
@@ -181,11 +176,11 @@ namespace Cooking.Data.Migrations
 
             modelBuilder.Entity("Cooking.Data.Model.RecipeTag", b =>
                 {
-                    b.Property<Guid>("RecipeId")
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("RecipeId")
+                        .HasColumnType("BLOB");
 
-                    b.Property<Guid>("TagId")
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("TagId")
+                        .HasColumnType("BLOB");
 
                     b.HasKey("RecipeId", "TagId");
 
@@ -196,9 +191,8 @@ namespace Cooking.Data.Migrations
 
             modelBuilder.Entity("Cooking.Data.Model.Tag", b =>
                 {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                    b.Property<byte[]>("ID")
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("Color")
                         .HasColumnType("TEXT");
@@ -230,8 +224,7 @@ namespace Cooking.Data.Migrations
                     b.HasOne("Cooking.Data.Model.Recipe", "Dinner")
                         .WithMany()
                         .HasForeignKey("DinnerID")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Cooking.Data.Model.RecipeIngredient", b =>
