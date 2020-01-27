@@ -3,8 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Days now should always have dinner and date.
+    /// </summary>
     public partial class Add_Day_Constraints : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             // Rename old Day table to temp

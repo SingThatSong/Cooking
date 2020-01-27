@@ -819,7 +819,17 @@
         </member>
         <member name="P:Cooking.WPF.Services.AppSettings.DbName">
             <summary>
-            Gets or sets applicayion database name setting.
+            Gets or sets application database name setting.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Services.AppSettings.Theme">
+            <summary>
+            Gets or sets application theme (light or dark).
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Services.AppSettings.Accent">
+            <summary>
+            Gets or sets applicayion accent (color).
             </summary>
         </member>
         <member name="T:Cooking.WPF.Services.ILocalization">
@@ -1947,6 +1957,16 @@
             <param name="options">Surrent settings.</param>
             <param name="settingsService">Settings service dependency.</param>
         </member>
+        <member name="P:Cooking.WPF.Views.SettingsViewModel.AppThemes">
+            <summary>
+            Gets all available app themes.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Views.SettingsViewModel.SelectedAppTheme">
+            <summary>
+            Gets or sets selected app theme.
+            </summary>
+        </member>
         <member name="P:Cooking.WPF.Views.SettingsViewModel.CultureSelectionChangedCommand">
             <summary>
             Gets command to be fired when culture combobox's selected language changes.
@@ -2963,6 +2983,36 @@
         <member name="M:Cooking.MainWindowView.InitializeComponent">
             <summary>
             InitializeComponent
+            </summary>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
             </summary>
         </member>
     </members>

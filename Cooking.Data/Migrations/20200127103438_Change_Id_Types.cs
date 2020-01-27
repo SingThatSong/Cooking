@@ -169,7 +169,7 @@ namespace Cooking.Data.Migrations
 
         private string GetColumnUpdateToText(string tableName, string columnName)
         {
-            var statement = $@"UPDATE {tableName}
+            string statement = $@"UPDATE {tableName}
 SET {columnName} = hex(substr({columnName}, 4, 1)) ||
                    hex(substr({columnName}, 3, 1)) ||
                    hex(substr({columnName}, 2, 1)) ||

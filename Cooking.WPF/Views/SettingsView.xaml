@@ -7,13 +7,30 @@
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
+    <UserControl.Resources>
+        <Ellipse
+            x:Key="AppThemeMenuIcon"
+            Width="16"
+            Height="16"
+            x:Shared="False"
+            Fill="{Binding ColorBrush, Mode=OneWay}"
+            Stroke="{Binding BorderColorBrush, Mode=OneWay}"
+            StrokeThickness="1" />
+        <Ellipse
+            x:Key="AccentMenuIcon"
+            Width="16"
+            Height="16"
+            x:Shared="False"
+            Fill="{Binding ColorBrush, Mode=OneWay}" />
+    </UserControl.Resources>
+
     <StackPanel
         Margin="0 20"
         HorizontalAlignment="Center"
         Orientation="Vertical">
         <TextBlock FontSize="24" Text="{lex:Loc Settings}" />
-        
-        <!-- Language setting -->
+
+        <!--  Language setting  -->
         <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
             <TextBlock
                 VerticalAlignment="Center"
@@ -30,6 +47,30 @@
                         <i:InvokeCommandAction Command="{Binding CultureSelectionChangedCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+            </ComboBox>
+        </StackPanel>
+
+        <!--  Theme setting  -->
+        <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+            <TextBlock
+                VerticalAlignment="Center"
+                FontSize="16"
+                Text="{lex:Loc Theme}" />
+            <ComboBox
+                Width="200"
+                Margin="20 0 0 0"
+                ItemsSource="{Binding AppThemes, Mode=OneTime}"
+                SelectedItem="{Binding SelectedAppTheme, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Ellipse
+                            Width="16"
+                            Height="16"
+                            Fill="{Binding ShowcaseBrush, Mode=OneWay}"
+                            Stroke="{Binding BorderColorBrush, Mode=OneWay}"
+                            StrokeThickness="1" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
             </ComboBox>
         </StackPanel>
     </StackPanel>

@@ -43,7 +43,7 @@ namespace Cooking.WPF.Views
             this.mapper = mapper;
             this.localization = localization;
             Ingredient = ingredient;
-                       
+
             AddMultipleCommand = new DelegateCommand(AddMultiple, canExecute: CanOk);
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
             CreateIngredientCommand = new AsyncDelegateCommand(CreateIngredient);

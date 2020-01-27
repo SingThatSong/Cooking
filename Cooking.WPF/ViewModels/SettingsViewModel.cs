@@ -1,8 +1,11 @@
 ﻿using Cooking.WPF.Commands;
 using Cooking.WPF.Services;
+using MahApps.Metro;
 using Microsoft.Extensions.Options;
 using Serilog;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 
 namespace Cooking.WPF.Views
@@ -34,7 +37,24 @@ namespace Cooking.WPF.Views
             this.localization = localization;
             this.options = options;
             this.settingsService = settingsService;
+
+            AppThemes = ThemeManager.Themes
+                                    .GroupBy(x => x.BaseColorScheme)
+                                    .Select(x => x.First())
+                                    .ToList();
+
+            SelectedAppTheme = ThemeManager.DetectTheme();
         }
+
+        /// <summary>
+        /// Gets all available app themes.
+        /// </summary>
+        public List<Theme> AppThemes { get; }
+
+        /// <summary>
+        /// Gets or sets selected app theme.
+        /// </summary>
+        public Theme SelectedAppTheme { get; set; }
 
         /// <summary>
         /// Gets command to be fired when culture combobox's selected language changes.

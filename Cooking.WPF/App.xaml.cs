@@ -6,6 +6,7 @@ using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using Cooking.WPF.Views;
 using Fody;
+using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,11 +28,10 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Add project documentation (Wiki)
+// TODO: Add config to change app theme
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
 // TODO: Replace client recipe filtering with IQuariable filtration
 // TODO: Plurals localization
-// TODO: Add config to change app theme
 // TODO: Move all typesafe enums to tables with localization or to simple enums (IngredientType)
 // TODO: Count calories for recipe
 // TODO: Set calorietype accordingly to counted calories
@@ -39,7 +39,6 @@ using WPFLocalizeExtension.Providers;
 // TODO: Add IQueryable as parameter to all selects in CRUDService
 // TODO: Consider making IMapper as a dependency for all CRUDServices
 // TODO: Make GetCultureSpecificSet method an extention method
-// TODO: Add AOP for perfomance monitoring https://github.com/vescon/MethodBoundaryAspect.Fody
 // TODO: Debug/ Measure method perfomance (benchmark?)
 // TODO: Add debug console logging to methods and constructors
 // TODO: Make sure there is no russian in the code
@@ -78,6 +77,8 @@ using WPFLocalizeExtension.Providers;
 
 // TODO: Replace Extended.WPF.Toolkit when 4.0.0 arrives: https://github.com/xceedsoftware/wpftoolkit/releases
 // TODO: Use Git(Hub/Lab) issues instead of this list :)
+
+// TODO: Add project documentation (Wiki)
 
 // Set Null-check on all func arguments globally
 [assembly: NullGuard(ValidationFlags.Arguments)]
@@ -129,6 +130,8 @@ namespace Cooking
             IOptions<AppSettings> options = provider.GetRequiredService<IOptions<AppSettings>>();
 
             containerRegistry.RegisterInstance(options);
+
+            ThemeManager.ChangeTheme(Current, options.Value.Theme, options.Value.Accent);
 
             // Register main page and main vm - they are constant
             containerRegistry.Register<MainWindowView>();
