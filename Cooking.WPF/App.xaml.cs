@@ -21,12 +21,13 @@ using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Add localization error on startup when localization is not provided
 // TODO: Move to correct SQLite db, without ID hacks
 // TODO: Add project documentation (Wiki)
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
@@ -51,7 +52,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Generate lots of data (millions of entries) and test
 // TODO: Add setting to disable suggestion to correct previous week
 // TODO: Refactor getting full IQuaryable graph for all services
-
+// TODO: Move this file's parts into different methods
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
 // TODO: App users
@@ -153,8 +154,8 @@ namespace Cooking
             containerRegistry.RegisterInstance<ILocalizationProvider>(jsonProvider);
             containerRegistry.RegisterInstance<ICurrentCultureProvider>(jsonProvider);
 
-            // Variables affect pages, so we set them beforehand
-            SetStaticVariables();
+            // If no localization exists or current config is invalid, close application
+            EnsureLocalizationProvided();
 
             // Dialog service is constant - we have only one window
             containerRegistry.RegisterInstance(new DialogService(
@@ -164,6 +165,9 @@ namespace Cooking
                                                         Container.Resolve<ILocalization>()
                                                    )
                                               );
+
+            // Variables affect pages, so we set them beforehand
+            SetStaticVariables();
 
             // Register pages
             containerRegistry.RegisterForNavigation<WeekSettingsView>();
@@ -206,17 +210,30 @@ namespace Cooking
         /// <inheritdoc/>
         protected override void OnInitialized()
         {
-            base.OnInitialized();
-
             // TODO: remove after introducing data migrator
             DatabaseService dbService = Container.Resolve<DatabaseService>();
             dbService.MigrateDatabase();
+
+            base.OnInitialized();
         }
 
         private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             ILogger logger = Container.Resolve<ILogger>();
             logger.Error(e.ExceptionObject as Exception, "Critical error");
+        }
+
+        private void EnsureLocalizationProvided()
+        {
+            ILocalizationProvider localization = Container.Resolve<ILocalizationProvider>();
+            IOptions<AppSettings> configuration = Container.Resolve<IOptions<AppSettings>>();
+
+            if (!localization.AvailableCultures.Select(x => x.Name).Contains(configuration.Value.Culture))
+            {
+                string error = string.Format(CultureInfo.InvariantCulture, Consts.LocalizationNotFound, configuration.Value.Culture);
+                MessageBox.Show(error);
+                Environment.Exit(0);
+            }
         }
 
         private void SetStaticVariables()

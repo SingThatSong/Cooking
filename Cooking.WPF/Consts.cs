@@ -92,5 +92,12 @@ namespace Cooking
         /// Settings filename.
         /// </summary>
         public const string LogFilename = "Log.txt";
+
+        /// <summary>
+        /// Localization error given to user.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2211", Justification = "Hardcoded since we did not find localization.")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "SA1401", Justification = "Hardcoded since we did not find localization.")]
+        public static string LocalizationNotFound = $"Current settings culture: {{0}} is not provided. Please check {Consts.LocalizationFolder} folder.";
     }
 }
