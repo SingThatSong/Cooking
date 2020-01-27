@@ -124,7 +124,7 @@
                 <!-- When recipe was last cooked --> 
                 <local:StringFormatProxy
                     x:Name="lastCookedStringFormat"
-                    StringFormat="{lex:Loc LastCooked}"
+                    StringFormat="{lex:Loc LastCookedFormat}"
                     Value="{Binding Recipe.LastCooked, Converter={StaticResource lastCookedConverter}}" />
                 <local:StringFormatProxy x:Name="newRecipeProxy" Value="{lex:Loc NewRecipe}" />
                 <TextBlock TextWrapping="Wrap">

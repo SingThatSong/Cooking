@@ -73,6 +73,19 @@ namespace Cooking.ServiceLayer
         }
 
         /// <summary>
+        /// Load the whole list of entities and all of it's dependencies, then map it to needed dto.
+        /// Allows to use custom mappings using IoC containers and <see cref="IMappingAction{TSource, TDestination}" />.
+        /// </summary>
+        /// <typeparam name="TMap">Type of dto to return.</typeparam>
+        /// <param name="mapper">Mapper containing map definition between database entity and <see cref="TMap" />.</param>
+        /// <returns>Mapped object collection.</returns>
+        public List<TMap> GetAllMapped<TMap>(IMapper mapper)
+        {
+            List<Recipe> recipe = GetAll();
+            return mapper.Map<List<TMap>>(recipe);
+        }
+
+        /// <summary>
         /// Get reipe list filtered by optional parameters.
         /// </summary>
         /// <param name="requiredTags">Filter reipies by tags.</param>
