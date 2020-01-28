@@ -52,6 +52,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
 // TODO: App users
+// TODO: Set up failure monitoring
 
 // Git-related
 // TODO: Setup CI
