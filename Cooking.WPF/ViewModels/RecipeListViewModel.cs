@@ -184,7 +184,7 @@ namespace Cooking.WPF.Views
         private void OnLoaded()
         {
             Debug.WriteLine("RecepiesViewModel.OnLoaded");
-            List<RecipeListViewDto> recipies = recipeService.GetAllProjected<RecipeListViewDto>(container.Resolve<IMapper>());
+            List<RecipeListViewDto> recipies = recipeService.GetAllMapped<RecipeListViewDto>(container.Resolve<IMapper>());
             Recipies = new ObservableCollection<RecipeListViewDto>(recipies);
 
             RecipiesSource.Source = Recipies;

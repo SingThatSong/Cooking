@@ -222,7 +222,8 @@ namespace Cooking.ServiceLayer
             {
                 DinnerID = dinnerId,
                 Date = FirstDayOfWeek(dayOnWeek).AddDays(DaysFromMonday(dayOfWeek)),
-                DayOfWeek = dayOfWeek
+                DayOfWeek = dayOfWeek,
+                Culture = GetCurrentCulture()
             };
 
             await context.AddAsync(newDay);

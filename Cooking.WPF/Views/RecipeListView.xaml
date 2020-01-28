@@ -6,15 +6,17 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
-    xmlns:local="clr-namespace:Cooking"
+    xmlns:local="clr-namespace:Cooking.WPF"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
+    xmlns:System="clr-namespace:System;assembly=System.Memory"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         <converters:NullImageConverter x:Key="nullConverter" />
+        <converters:LastCookedConverter x:Key="lastCookedConverter" />
     </UserControl.Resources>
 
     <i:Interaction.Triggers>
@@ -120,6 +122,8 @@
             VirtualizingStackPanel.IsVirtualizing="True"
             Visibility="{Binding IsListView, Converter={StaticResource booleanToVisibilityConverter}}">
             <DataGrid.Columns>
+                
+                <!-- Image column -->
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -137,6 +141,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                
+                <!-- Name column -->
                 <DataGridTemplateColumn SortMemberPath="Name">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -155,6 +161,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                
+                <!-- Rating column -->
                 <DataGridTextColumn Binding="{Binding Rating}">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
@@ -162,6 +170,38 @@
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>
                 </DataGridTextColumn>
+
+                <!-- Last cooked column -->
+                <DataGridTemplateColumn SortMemberPath="LastCooked">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{lex:Loc LastCooked, Converter={StaticResource lastCookedConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                
+                                <local:StringFormatProxy x:Name="newRecipeProxy" Value="{lex:Loc NewRecipe}" />
+                                
+                                <TextBlock TextWrapping="Wrap">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="{Binding LastCooked, Converter={StaticResource lastCookedConverter}}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding LastCooked}" Value="{x:Static System:Int32.MaxValue}">
+                                                    <Setter Property="Text" Value="{Binding Result, ElementName=newRecipeProxy}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
             </DataGrid.Columns>
             <DataGrid.ItemsPanel>
                 <ItemsPanelTemplate>
