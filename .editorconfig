@@ -27,7 +27,7 @@ dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
 dotnet_style_prefer_auto_properties = true:error
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
 dotnet_style_prefer_conditional_expression_over_assignment = true:suggestion
-dotnet_style_prefer_conditional_expression_over_return = true:warning
+dotnet_style_prefer_conditional_expression_over_return = true:silent
 dotnet_style_prefer_compound_assignment = true:error
 
 dotnet_style_coalesce_expression = true:suggestion
@@ -139,6 +139,7 @@ dotnet_diagnostic.CA2227.severity = none
 
 # Using Fody.ConfigureAwait
 dotnet_diagnostic.CA2007.severity = none
+dotnet_diagnostic.RCS1090.severity = none
 
 # StyleCop issues
 
@@ -181,3 +182,9 @@ dotnet_diagnostic.SA1208.severity = none
 # SA1413
 # Rule that favor editing in spite of reading. Reading occures more often
 dotnet_diagnostic.SA1413.severity = none
+
+#Roslynator issues
+
+# Irrelevant in .NET Core https://github.com/JosefPihrt/Roslynator/issues/212
+# Harms readability anyway
+dotnet_diagnostic.RCS1096.severity = none

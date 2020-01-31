@@ -2,12 +2,12 @@
 using Cooking.WPF.Services;
 using MahApps.Metro;
 using Microsoft.Extensions.Options;
+using PropertyChanged;
 using Serilog;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using PropertyChanged;
 
 namespace Cooking.WPF.Views
 {

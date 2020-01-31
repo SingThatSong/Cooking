@@ -216,7 +216,7 @@ namespace Cooking.WPF.Views
                 {
                     list.Remove(CalorieTypeSelection.Any);
                 }
-                else if (!list.Any())
+                else if (list.Count == 0)
                 {
                     list.Add(CalorieTypeSelection.Any);
                 }
@@ -267,7 +267,7 @@ namespace Cooking.WPF.Views
                 {
                     list.Remove(TagEdit.Any);
                 }
-                else if (!list.Any())
+                else if (list.Count == 0)
                 {
                     list.Add(TagEdit.Any);
                 }

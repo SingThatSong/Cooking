@@ -28,7 +28,6 @@ using System.Windows;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Recipe filtering reserved words localization (and, or, not) ?
 // TODO: Replace client recipe filtering with IQuariable filtration
 // TODO: Plurals localization
 // TODO: Move all typesafe enums to tables with localization or to simple enums (IngredientType)
@@ -52,6 +51,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
 // TODO: App users
+// TODO: Recipe filtering: make Gitlab-like system
 
 // Git-related
 // TODO: Setup CI

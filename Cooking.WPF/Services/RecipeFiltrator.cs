@@ -43,14 +43,14 @@ namespace Cooking.WPF.Services
             eventAggregator.GetEvent<RecipeDeletedEvent>().Subscribe(OnRecipeDeleted, ThreadOption.UIThread);
         }
 
-        private FilterContext<RecipeListViewDto> FilterContext { get; set; }
+        private FilterContext<RecipeListViewDto> FilterContext { get; }
 
         /// <summary>
         /// Filter single object.
         /// </summary>
         /// <param name="recipe">Recipe to filter.</param>
         /// <returns>Whether recipe fits fitler.</returns>
-        public bool FilterObject(RecipeListViewDto recipe) => FilterContext.IsExpressionBuilt ? FilterContext.Filter(recipe) : false;
+        public bool FilterObject(RecipeListViewDto recipe) => FilterContext.IsExpressionBuilt && FilterContext.Filter(recipe);
 
         /// <summary>
         /// Callback called when filter text is changed.
@@ -112,13 +112,13 @@ namespace Cooking.WPF.Services
         }
 
         private bool CombinedFilter(RecipeListViewDto recipe, string text) => HasName(recipe, text) || HasTag(recipe, text) || HasIngredient(recipe, text);
-        private bool HasName(RecipeListViewDto recipe, string name) => recipe.Name != null && recipe.Name.ToUpperInvariant().Contains(name.ToUpperInvariant(), StringComparison.Ordinal);
+        private bool HasName(RecipeListViewDto recipe, string name) => recipe.Name?.ToUpperInvariant().Contains(name.ToUpperInvariant(), StringComparison.Ordinal) == true;
+
         private bool HasTag(RecipeListViewDto recipe, string category)
         {
             Recipe recipeDb = recipeCache![recipe.ID];
-            return recipeDb.Tags != null && recipeDb.Tags
-                                                    .Where(x => x.Tag?.Name != null)
-                                                    .Any(x => x.Tag!.Name!.ToUpperInvariant() == category.ToUpperInvariant());
+            return recipeDb.Tags?.Any(x => x.Tag?.Name != null && string.Equals(x.Tag!.Name!, category, StringComparison.InvariantCultureIgnoreCase)) == true
+;
         }
 
         private bool HasIngredient(RecipeListViewDto recipe, string category)
@@ -126,9 +126,7 @@ namespace Cooking.WPF.Services
             Recipe recipeDb = recipeCache![recipe.ID];
 
             // Ищем среди ингредиентов
-            if (recipeDb.Ingredients != null
-                && recipeDb.Ingredients.Where(x => x.Ingredient?.Name != null)
-                                       .Any(x => x.Ingredient!.Name!.ToUpperInvariant() == category.ToUpperInvariant()))
+            if (recipeDb.Ingredients?.Any(x => x.Ingredient?.Name != null && string.Equals(x.Ingredient!.Name!, category, StringComparison.InvariantCultureIgnoreCase)) == true)
             {
                 return true;
             }
@@ -138,8 +136,8 @@ namespace Cooking.WPF.Services
             {
                 foreach (IngredientsGroup group in recipeDb.IngredientGroups)
                 {
-                    if (group.Ingredients.Where(x => x.Ingredient?.Name != null)
-                                         .Any(x => x.Ingredient!.Name!.ToUpperInvariant() == category.ToUpperInvariant()))
+                    if (group.Ingredients.Any(x => x.Ingredient?.Name != null && string.Equals(x.Ingredient!.Name!, category, StringComparison.InvariantCultureIgnoreCase))
+)
                     {
                         return true;
                     }

@@ -50,25 +50,28 @@ namespace Cooking.WPF.Views
                 // TODO: Prepare string separately
                 var sb = new StringBuilder();
 
-                if (day.NeededDishTypes != null && day.NeededDishTypes.Any(x => x.IsChecked && x.CanBeRemoved))
+                if (day.NeededDishTypes?.Any(x => x.IsChecked && x.CanBeRemoved) == true)
                 {
                     foreach (TagEdit dishType in day.NeededDishTypes)
                     {
-                        sb.Append($"{Consts.TagSymbol}\"{dishType.Name}\"");
+                        sb.Append(Consts.TagSymbol)
+                          .Append('"')
+                          .Append(dishType.Name)
+                          .Append('"');
 
                         if (dishType != day.NeededDishTypes.Last())
                         {
-                            sb.Append($" or ");
+                            sb.Append(" or ");
                         }
                     }
                 }
 
-                if (day.NeededMainIngredients != null && day.NeededMainIngredients.Any(x => x.IsChecked && x.CanBeRemoved))
+                if (day.NeededMainIngredients?.Any(x => x.IsChecked && x.CanBeRemoved) == true)
                 {
                     bool needEnd = false;
                     if (sb.Length > 0)
                     {
-                        if (day.NeededDishTypes != null && day.NeededDishTypes.Count > 1)
+                        if (day.NeededDishTypes?.Count > 1)
                         {
                             sb.Insert(0, '(');
                             sb.Append(")");
@@ -85,11 +88,14 @@ namespace Cooking.WPF.Views
 
                     foreach (TagEdit mainIngredient in day.NeededMainIngredients)
                     {
-                        sb.Append($"{Consts.TagSymbol}\"{mainIngredient.Name}\"");
+                        sb.Append(Consts.TagSymbol)
+                          .Append('\"')
+                          .Append(mainIngredient.Name)
+                          .Append('\"');
 
                         if (mainIngredient != day.NeededMainIngredients.Last())
                         {
-                            sb.Append($" or ");
+                            sb.Append(" or ");
                         }
                     }
 
@@ -129,6 +135,7 @@ namespace Cooking.WPF.Views
                 if (filterText != value)
                 {
                     filterText = value;
+
                     recipeFiltrator.OnFilterTextChanged(value);
                     RecipiesSource.View.Refresh();
                 }

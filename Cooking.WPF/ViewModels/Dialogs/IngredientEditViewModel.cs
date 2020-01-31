@@ -91,7 +91,7 @@ namespace Cooking.WPF.Views
         {
             if (NameChanged
              && Ingredient.Name != null
-             && AllIngredientNames.Any(x => x.ToUpperInvariant() == Ingredient.Name.ToUpperInvariant()))
+             && AllIngredientNames.Any(x => string.Equals(x, Ingredient.Name, StringComparison.InvariantCultureIgnoreCase)))
             {
                 bool saveAnyway = false;
                 await DialogService.ShowYesNoDialog(localization.GetLocalizedString("IngredientAlreadyExists"),
