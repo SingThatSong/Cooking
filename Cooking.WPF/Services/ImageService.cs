@@ -1,6 +1,7 @@
 ﻿using Cooking.WPF.Services;
 using Microsoft.Win32;
 using PhotoSauce.MagicScaler;
+Sausing System;
 using System.IO;
 
 namespace Cooking
@@ -40,7 +41,7 @@ namespace Cooking
                 {
                     DirectoryInfo dir = Directory.CreateDirectory(Consts.ImageFolder);
                     var file = new FileInfo(openFileDialog.FileName);
-                    string newFilePath = Path.Combine(dir.FullName, file.Name);
+                    string newFilePath = Path.Combine(dir.FullName, $"{Guid.NewGuid()}{file.Extension}");
                     MinifyImage(source: openFileDialog.FileName, destination: newFilePath);
                     return newFilePath;
                 }
