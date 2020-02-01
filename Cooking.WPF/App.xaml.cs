@@ -52,6 +52,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Dish garnishes select + generate
 // TODO: App users
 // TODO: Recipe filtering: make Gitlab-like system
+// TODO: Set up failure monitoring
 
 // Git-related
 // TODO: Setup CI
