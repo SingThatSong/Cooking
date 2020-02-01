@@ -29,7 +29,7 @@ namespace ServiceLayer
                 // Ignore Culture changes in mapping
                 // Why: projections should not load culture, so on update they will not know it. Keep Culture as it is in database.
                 cfg.CreateMap<Entity, Entity>()
-                   .ForMember(x => x.Culture, opts => opts.Ignore());
+                   .ForMember(x => x.Culture, opts => opts.MapFrom((src, dest) => dest.Culture ?? src.Culture));
 
                 cfg.CreateMap<IngredientsGroup, IngredientsGroup>()
                    .IncludeBase<Entity, Entity>()
