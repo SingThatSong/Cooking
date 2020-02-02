@@ -76,7 +76,9 @@ namespace Cooking.ServiceLayer
         {
             using CookingContext context = ContextFactory.Create();
             DateTime mondayDate = FirstDayOfWeek(dayOfWeek).Date;
-            DateTime sundayDate = LastDayOfWeek(dayOfWeek).Date;
+
+            // Get last second of a day
+            DateTime sundayDate = LastDayOfWeek(dayOfWeek).Date.AddDays(1).AddSeconds(-1);
 
             List<Day> weekDays = await GetCultureSpecificSet(context)
                                            .Include(x => x.Dinner)
