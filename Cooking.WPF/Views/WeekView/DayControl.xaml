@@ -8,21 +8,33 @@
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.WPF.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data">
-    
+
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
-        <converters:IsNullToVisibilityConverter
-            x:Key="isNullConverter"
-            NotNullVisibility="Collapsed"
-            NullVisibility="Visible" />
-        <converters:IsNullToVisibilityConverter
-            x:Key="isNotNullToVisibilityConverter"
-            NotNullVisibility="Visible"
-            NullVisibility="Collapsed" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Card.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Popupbox.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+            <converters:IsNullToVisibilityConverter
+                x:Key="isNullConverter"
+                NotNullVisibility="Collapsed"
+                NullVisibility="Visible" />
+            <converters:IsNullToVisibilityConverter
+                x:Key="isNotNullToVisibilityConverter"
+                NotNullVisibility="Visible"
+                NullVisibility="Collapsed" />
+
+        </ResourceDictionary>
     </UserControl.Resources>
 
-    <!-- Control for a day in a week -->
+    <!--  Control for a day in a week  -->
     <StackPanel
         Width="200"
         Margin="10"
@@ -54,145 +66,143 @@
                 </Style.Triggers>
             </Style>
         </StackPanel.Style>
-        <!-- Day header -->
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <lex:LocProxy
-                Name="Proxy"
-                PrependType="True"
-                Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=Day}" />
-            <TextBlock FontSize="20" Text="{Binding Result, ElementName=Proxy}" />
-            <icons:PackIconModern
-                Width="15"
-                Height="10"
-                Margin="-3 0 0 0"
-                Foreground="Lime"
-                Kind="WarningCircle">
-                <icons:PackIconModern.Style>
-                    <Style TargetType="icons:PackIconModern">
-                        <Setter Property="Visibility" Value="Collapsed" />
+
+        <materialDesign:Card Width="200" Height="400">
+            <Grid>
+                <Grid.Style>
+                    <Style TargetType="Grid">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Dinner.LastCooked}" Value="{x:Static System:Int32.MaxValue}">
-                                <Setter Property="Visibility" Value="Visible" />
-                                <Setter Property="ToolTip" Value="{Binding Path=DataContext.NewRecipeCaption, RelativeSource={RelativeSource AncestorType=local:WeekView}}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </icons:PackIconModern.Style>
-            </icons:PackIconModern>
-
-            <lex:LocProxy
-                x:Name="CalorieTypeNameProxy"
-                PrependType="True"
-                Source="{Binding Dinner.CalorieType}" />
-            <Ellipse
-                Width="15"
-                Height="15"
-                Margin="5 5 0 0"
-                VerticalAlignment="Center"
-                ToolTip="{Binding ElementName=CalorieTypeNameProxy, Path=Result}">
-                <Ellipse.Style>
-                    <Style TargetType="Ellipse">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="0">
-                                <Setter Property="Fill" Value="Gray" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="{x:Static model:CalorieType.Fitness}">
-                                <Setter Property="Fill" Value="Green" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="{x:Static model:CalorieType.Protein}">
-                                <Setter Property="Fill" Value="Yellow" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="{x:Static model:CalorieType.Bad}">
-                                <Setter Property="Fill" Value="Orange" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="{x:Static model:CalorieType.Sweets}">
-                                <Setter Property="Fill" Value="Red" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Ellipse.Style>
-            </Ellipse>
-            <ToggleButton
-                Width="24"
-                Height="24"
-                Margin="5 5 0 0"
-                Foreground="LightGray"
-                IsChecked="{Binding DinnerWasCooked}"
-                Style="{StaticResource MahApps.Styles.ToggleButton.Circle}">
-                <icons:PackIconModern
-                    Width="15"
-                    Height="10"
-                    Kind="Check" />
-            </ToggleButton>
-        </StackPanel>
-
-        <!-- Day name and image with context menu -->
-        <StackPanel Orientation="Vertical" Tag="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}}">
-            <StackPanel.ContextMenu>
-                <ContextMenu>
-                    <MenuItem
-                        Command="{Binding Path=PlacementTarget.Tag.DataContext.MoveRecipeCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}"
-                        CommandParameter="{Binding ID}"
-                        Header="{Binding Path=PlacementTarget.Tag.DataContext.MoveRecipeToNextWeekCaption, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                </ContextMenu>
-            </StackPanel.ContextMenu>
-            <Image
-                MaxHeight="150"
-                Margin="0 5 0 0"
-                Source="{Binding Dinner.FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.ShowRecipeCommand}" CommandParameter="{Binding Dinner.ID}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Image>
-            <TextBlock
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Text="{Binding Dinner.Name}"
-                TextWrapping="Wrap">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.ShowRecipeCommand}" CommandParameter="{Binding Dinner.ID}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </TextBlock>
-        </StackPanel>
-
-        <!-- Day buttons -->
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <StackPanel.Style>
-                <Style TargetType="StackPanel">
-                    <Style.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible" />
-                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.WeekEdit}" Value="False" />
-                            </MultiDataTrigger.Conditions>
-                            <MultiDataTrigger.Setters>
+                            <DataTrigger Binding="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Collapsed">
                                 <Setter Property="Visibility" Value="Collapsed" />
-                            </MultiDataTrigger.Setters>
-                        </MultiDataTrigger>
-                        <DataTrigger Binding="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Collapsed">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.WeekEdit}" Value="True">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </StackPanel.Style>
-            <Button
-                    Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.SelectDinnerCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=Day}"
-                    Style="{StaticResource SmallEditButton}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext.WeekEdit}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="230" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Image
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    Source="{Binding Dinner.FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
+                    Stretch="UniformToFill" />
 
-            <Button
-                    Margin="5 0 0 0"
-                    Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.DeleteDinnerCommand}"
-                    CommandParameter="{Binding ID}"
-                    Style="{StaticResource SmallDeleteButton}" />
+                <lex:LocProxy
+                    x:Name="CalorieTypeNameProxy"
+                    PrependType="True"
+                    Source="{Binding Dinner.CalorieType}" />
+                <Button
+                    Width="31"
+                    Height="31"
+                    Margin="0,0,55,-20"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                    BorderThickness="0"
+                    ToolTip="{Binding ElementName=CalorieTypeNameProxy, Path=Result}">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource MaterialDesignFloatingActionMiniButton}" TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="0">
+                                    <Setter Property="Background" Value="Gray" />
+                                    <Setter Property="BorderBrush" Value="Gray" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="{x:Static model:CalorieType.Fitness}">
+                                    <Setter Property="Background" Value="Green" />
+                                    <Setter Property="BorderBrush" Value="Green" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="{x:Static model:CalorieType.Protein}">
+                                    <Setter Property="Background" Value="Yellow" />
+                                    <Setter Property="BorderBrush" Value="Yellow" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="{x:Static model:CalorieType.Bad}">
+                                    <Setter Property="Background" Value="Orange" />
+                                    <Setter Property="BorderBrush" Value="Orange" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Dinner.CalorieType}" Value="{x:Static model:CalorieType.Sweets}">
+                                    <Setter Property="Background" Value="Red" />
+                                    <Setter Property="BorderBrush" Value="Red" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <ToggleButton
+                    Margin="0,0,16,-20"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                    IsChecked="{Binding DinnerWasCooked}">
+                    <ToggleButton.Content>
+                        <materialDesign:PackIcon Kind="Check" />
+                    </ToggleButton.Content>
 
-        </StackPanel>
+                    <ToggleButton.Style>
+                        <Style BasedOn="{StaticResource MaterialDesignActionToggleButton}" TargetType="ToggleButton">
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="ToolTip" Value="Было приготовлено" />
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Background" Value="Gray" />
+                                    <Setter Property="ToolTip" Value="Не было приготовлено" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
+
+                <StackPanel Grid.Row="1" Margin="8,24,8,0">
+                    <lex:LocProxy
+                        Name="Proxy"
+                        PrependType="True"
+                        Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=Day}" />
+                    <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}" Text="{Binding Result, ElementName=Proxy}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="LightGray"
+                        Text="{Binding Dinner.Name}"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="2"
+                    Margin="8"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        Width="30"
+                        Padding="2,0,2,0"
+                        materialDesign:RippleAssist.IsCentered="True"
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.ShowRecipeCommand}"
+                        CommandParameter="{Binding Dinner.ID}"
+                        Style="{StaticResource MaterialDesignToolButton}">
+                        <materialDesign:PackIcon Kind="EyeCircle" />
+                    </Button>
+                    <Button
+                        Width="30"
+                        Padding="2,0,2,0"
+                        materialDesign:RippleAssist.IsCentered="True"
+                        Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.SelectDinnerCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=Day}"
+                        Style="{StaticResource MaterialDesignToolButton}">
+                        <materialDesign:PackIcon Kind="FindReplace" />
+                    </Button>
+                    <materialDesign:PopupBox Padding="2,0,2,0" Style="{StaticResource MaterialDesignToolPopupBox}">
+                        <StackPanel>
+                            <Button
+                                Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext.DeleteDinnerCommand}"
+                                CommandParameter="{Binding ID}"
+                                Content="Удалить" />
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
+
     </StackPanel>
 </UserControl>

@@ -1,6 +1,10 @@
-﻿using MahApps.Metro.Controls;
+﻿using Cooking.WPF.Services;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.Extensions.Options;
 using Prism.Regions;
+using System.ComponentModel;
+using System.Windows;
 
 namespace Cooking
 {
@@ -10,17 +14,43 @@ namespace Cooking
     public partial class MainWindowView
     {
         private readonly IRegionManager regionManager;
+        private readonly IOptions<AppSettings> appSettings;
+        private readonly SettingsService settingsService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindowView"/> class.
         /// </summary>
         /// <param name="regionManager">Region manager for Prism navigation.</param>
-        public MainWindowView(IRegionManager regionManager)
+        /// <param name="appSettings">Current application settings.</param>
+        /// <param name="settingsService">Service for settings update.</param>
+        public MainWindowView(IRegionManager regionManager,
+                              IOptions<AppSettings> appSettings,
+                              SettingsService settingsService)
         {
             InitializeComponent();
             this.regionManager = regionManager;
+            this.appSettings = appSettings;
+            this.settingsService = settingsService;
 
             DialogParticipation.SetRegister(this, DataContext);
+        }
+
+        /// <summary>
+        /// Save current window dimensions on exit.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            appSettings.Value.IsWindowMaximized = WindowState == WindowState.Maximized;
+
+            if (!appSettings.Value.IsWindowMaximized)
+            {
+                appSettings.Value.WindowWidth = ActualWidth;
+                appSettings.Value.WindowHeight = ActualHeight;
+            }
+
+            settingsService.UpdateAppSettings(appSettings.Value);
+            base.OnClosing(e);
         }
 
         private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)

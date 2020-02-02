@@ -64,7 +64,6 @@
             Visibility="{Binding CurrentWeek, Converter={StaticResource isNullConverter}}">
             <TextBlock FontSize="25" Text="{lex:Loc NoScheduleForWeek}" />
             <Button
-                Width="200"
                 Margin="0 20 0 0"
                 Command="{Binding CreateNewWeekCommand}"
                 Content="{lex:Loc CreateSchedule}" />

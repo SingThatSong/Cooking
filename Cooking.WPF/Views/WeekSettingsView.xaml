@@ -15,7 +15,7 @@
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
     </UserControl.Resources>
 
-    <Grid Margin="20 10">
+    <Grid Margin="20,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition />
@@ -23,27 +23,27 @@
         </Grid.RowDefinitions>
 
         <TextBlock FontSize="24" Text="{lex:Loc WeekFilter}" />
-        
-        <!-- Grid for filters for a week's recepies -->
+
+        <!--  Grid for filters for a week's recepies  -->
         <DataGrid
             Grid.Row="1"
             AutoGenerateColumns="False"
+            Background="Transparent"
             BorderThickness="0"
             CanUserAddRows="False"
             CanUserReorderColumns="False"
             CanUserSortColumns="False"
             FontSize="10"
             ItemsSource="{Binding Days}"
-            RowHeight="46">
-            
-            <!-- First row style -->
+            MinRowHeight="46">
+
+            <!--  First row style  -->
             <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Setter Property="Background" Value="Transparent" />
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=PreviousData}}" Value="{x:Null}">
                             <Setter Property="Background" Value="#ff444444" />
-                            <Setter Property="BorderThickness" Value="0 0 0 2" />
+                            <Setter Property="BorderThickness" Value="0,0,0,2" />
                             <Setter Property="BorderBrush" Value="#ff888888" />
                         </DataTrigger>
                     </Style.Triggers>
@@ -51,22 +51,29 @@
             </DataGrid.RowStyle>
 
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="30">
+                <DataGridTemplateColumn Width="50">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox HorizontalAlignment="Center" IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
-                <DataGridTextColumn Binding="{Binding DayName, UpdateSourceTrigger=PropertyChanged, TargetNullValue=Все}">
-                    <DataGridTextColumn.HeaderTemplate>
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="{lex:Loc Day}" />
                         </DataTemplate>
-                    </DataGridTextColumn.HeaderTemplate>
-                </DataGridTextColumn>
-                
+                    </DataGridTemplateColumn.HeaderTemplate>
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding DayName, UpdateSourceTrigger=PropertyChanged, TargetNullValue=Все}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -91,7 +98,7 @@
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                                 <Button
-                                    Margin="5 0 0 0"
+                                    Margin="5,0,0,0"
                                     VerticalAlignment="Center"
                                     BorderThickness="0"
                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.AddMainIngredientCommand}"
@@ -102,7 +109,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -127,7 +134,7 @@
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                                 <Button
-                                    Margin="5 0 0 0"
+                                    Margin="5,0,0,0"
                                     VerticalAlignment="Center"
                                     BorderThickness="0"
                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.AddDishTypesCommand}"
@@ -137,7 +144,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -163,7 +170,7 @@
                                                 <Ellipse
                                                     Width="15"
                                                     Height="15"
-                                                    Margin="10 5 0 0"
+                                                    Margin="10,5,0,0"
                                                     VerticalAlignment="Top"
                                                     ToolTip="{Binding ElementName=CalorieTypeNameProxy, Path=Result}">
                                                     <Ellipse.Style>
@@ -198,7 +205,7 @@
                                     </ItemsControl.ItemsPanel>
                                 </ItemsControl>
                                 <Button
-                                    Margin="5 0 0 0"
+                                    Margin="5,0,0,0"
                                     VerticalAlignment="Center"
                                     BorderThickness="0"
                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.AddCalorieTypesCommand}"
@@ -209,7 +216,7 @@
                     </DataGridTemplateColumn.CellTemplate>
 
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Width="1.2*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -236,7 +243,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
@@ -252,14 +259,14 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <!-- Ok and Cancel buttons -->
+        <!--  Ok and Cancel buttons  -->
         <StackPanel
             Grid.Row="2"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button Command="{Binding OkCommand}" Style="{StaticResource OkButton}" />
             <Button
-                Margin="10 0 0 0"
+                Margin="10,0,0,0"
                 Command="{Binding CloseCommand}"
                 Style="{StaticResource CancelButton}" />
         </StackPanel>

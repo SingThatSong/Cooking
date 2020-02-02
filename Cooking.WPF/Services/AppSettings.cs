@@ -24,5 +24,20 @@
         /// Gets or sets applicayion accent (color).
         /// </summary>
         public string Accent { get; set; } = "Teal";
+
+        /// <summary>
+        /// Gets or sets a value indicating whether is window maximized.
+        /// </summary>
+        public bool IsWindowMaximized { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets window width.
+        /// </summary>
+        public double? WindowWidth { get; set; }
+
+        /// <summary>
+        /// Gets or sets window height.
+        /// </summary>
+        public double? WindowHeight { get; set; }
     }
 }

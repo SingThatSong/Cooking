@@ -8,6 +8,7 @@ using Cooking.WPF.Views;
 using Fody;
 using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -25,9 +26,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
+// TODO: Recipe filtering reserved words localization (and, or, not) ?
 // TODO: Replace client recipe filtering with IQuariable filtration
 // TODO: Plurals localization
 // TODO: Move all typesafe enums to tables with localization or to simple enums (IngredientType)
@@ -51,6 +54,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
 // TODO: App users
+// TODO: Replace dialogs with SimpleChildWindow 
 // TODO: Recipe filtering: make Gitlab-like system
 // TODO: Set up failure monitoring
 
@@ -133,6 +137,15 @@ namespace Cooking
 
             ThemeManager.ChangeTheme(Current, options.Value.Theme, options.Value.Accent);
 
+            var paletteHelper = new PaletteHelper();
+            IBaseTheme baseTheme = MaterialDesignThemes.Wpf.Theme.Dark;
+            if (options.Value.Theme == "Light")
+            {
+                baseTheme = MaterialDesignThemes.Wpf.Theme.Light;
+            }
+
+            paletteHelper.SetTheme(MaterialDesignThemes.Wpf.Theme.Create(baseTheme, (Color)ColorConverter.ConvertFromString(options.Value.Accent), (Color)ColorConverter.ConvertFromString(options.Value.Accent)));
+
             // Register main page and main vm - they are constant
             containerRegistry.Register<MainWindowView>();
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
@@ -192,7 +205,28 @@ namespace Cooking
         }
 
         /// <inheritdoc/>
-        protected override Window CreateShell() => Container.Resolve<MainWindowView>();
+        protected override Window CreateShell()
+        {
+            MainWindowView mainWindow = Container.Resolve<MainWindowView>();
+            IOptions<AppSettings> settings = Container.Resolve<IOptions<AppSettings>>();
+
+            if (settings.Value.IsWindowMaximized)
+            {
+                mainWindow.WindowState = WindowState.Maximized;
+            }
+
+            if (settings.Value.WindowWidth.HasValue)
+            {
+                mainWindow.Width = settings.Value.WindowWidth.Value;
+            }
+
+            if (settings.Value.WindowHeight.HasValue)
+            {
+                mainWindow.Height = settings.Value.WindowHeight.Value;
+            }
+
+            return mainWindow;
+        }
 
         /// <inheritdoc/>
         protected override void ConfigureViewModelLocator()
