@@ -135,7 +135,6 @@ namespace Cooking.WPF.Views
                 if (filterText != value)
                 {
                     filterText = value;
-
                     recipeFiltrator.OnFilterTextChanged(value);
                     RecipiesSource.View.Refresh();
                 }

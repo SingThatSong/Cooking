@@ -24,10 +24,10 @@ namespace Cooking.Web.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="SampleDataController"/> class.
         /// </summary>
-        /// <param name="weekService"><see cref="WeekService"/>.</param>
-        public SampleDataController(DayService weekService)
+        /// <param name="dayService"><see cref="WeekService"/>.</param>
+        public SampleDataController(DayService dayService)
         {
-            this.dayService = weekService;
+            this.dayService = dayService;
         }
 
         private string Database => @"C:\Cooking\publish\cooking.db";

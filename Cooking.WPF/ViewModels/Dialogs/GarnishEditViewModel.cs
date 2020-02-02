@@ -79,7 +79,9 @@ namespace Cooking.WPF.Views
         protected override async Task Ok()
         {
             // Check if garnish is already exists
-            if (NameChanged && Garnish.Name != null && AllGarnishNames.Any(x => string.Equals(x, Garnish.Name, StringComparison.InvariantCultureIgnoreCase)))
+            if (NameChanged
+             && Garnish.Name != null
+             && AllGarnishNames.Any(x => string.Equals(x, Garnish.Name, StringComparison.InvariantCultureIgnoreCase)))
             {
                 bool saveAnyway = false;
                 await DialogService.ShowYesNoDialog(localization.GetLocalizedString("GarnishAlreadyExists"),
