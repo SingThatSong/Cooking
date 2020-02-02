@@ -1,7 +1,7 @@
 ﻿using Cooking.WPF.Services;
 using Microsoft.Win32;
 using PhotoSauce.MagicScaler;
-Sausing System;
+using System;
 using System.IO;
 
 namespace Cooking
