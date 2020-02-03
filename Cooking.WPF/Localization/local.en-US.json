@@ -106,5 +106,7 @@
   "CalorieType_Bad": "Too many calories or too many carbs",
   "CalorieType_Sweets": "Sweets",
   "CalorieType_None": "Any",
-  "NoCategory": "No category"
+  "NoCategory": "No category",
+  "Delete": "Delete",
+  "Replace": "Replace"
 }

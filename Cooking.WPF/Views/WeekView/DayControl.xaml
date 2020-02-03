@@ -2,14 +2,12 @@
     x:Class="Cooking.WPF.Views.DayControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:converters="clr-namespace:Cooking.WPF.Converters"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.WPF.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data">
+    xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
+    xmlns:wpf="clr-namespace:Cooking.WPF">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -183,21 +181,17 @@
                         Style="{StaticResource MaterialDesignToolButton}">
                         <materialDesign:PackIcon Kind="EyeCircle" />
                     </Button>
-                    <Button
-                        Width="30"
-                        Padding="2,0,2,0"
-                        materialDesign:RippleAssist.IsCentered="True"
-                        Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.SelectDinnerCommand}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=Day}"
-                        Style="{StaticResource MaterialDesignToolButton}">
-                        <materialDesign:PackIcon Kind="FindReplace" />
-                    </Button>
+
                     <materialDesign:PopupBox Padding="2,0,2,0" Style="{StaticResource MaterialDesignToolPopupBox}">
                         <StackPanel>
                             <Button
+                                Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext.SelectDinnerCommand}"
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}, Path=Day}"
+                                Content="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext.ReplaceCaption}" />
+                            <Button
                                 Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext.DeleteDinnerCommand}"
                                 CommandParameter="{Binding ID}"
-                                Content="Удалить" />
+                                Content="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext.DeleteCaption}" />
                         </StackPanel>
                     </materialDesign:PopupBox>
                 </StackPanel>

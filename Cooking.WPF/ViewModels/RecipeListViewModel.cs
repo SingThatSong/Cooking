@@ -134,6 +134,9 @@ namespace Cooking.WPF.Views
                 {
                     filterText = value;
                     recipeFiltrator.OnFilterTextChanged(value);
+
+                    List<RecipeListViewDto> test = recipeService.GetAllProjected<RecipeListViewDto>(mapper, value);
+
                     RecipiesSource.View?.Refresh();
                     if (RecipiesSource.View is ListCollectionView listCollectionView)
                     {

@@ -137,6 +137,16 @@ namespace Cooking.WPF.Views
         public string? NewRecipeCaption => localization.GetLocalizedString("NewRecipe");
 
         /// <summary>
+        /// Gets localized caption for Delete.
+        /// </summary>
+        public string? DeleteCaption => localization.GetLocalizedString("Delete");
+
+        /// <summary>
+        /// Gets localized caption for Replace.
+        /// </summary>
+        public string? ReplaceCaption => localization.GetLocalizedString("Replace");
+
+        /// <summary>
         /// Gets command to execute on loaded event.
         /// </summary>
         public AsyncDelegateCommand LoadedCommand { get; }

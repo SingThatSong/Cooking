@@ -14,7 +14,6 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Margin="20,0"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
@@ -37,8 +36,11 @@
             True="Collapsed" />
         <converters:EnumToDescriptionConverter x:Key="enumToDescriptionConverter" />
         <converters:NullImageConverter x:Key="nullConverter" />
-        <xctk:InverseBoolConverter x:Key="inverseBoolConverter" />
         <converters:LastCookedConverter x:Key="lastCookedConverter" />
+        <converters:SimpleBooleanConverter
+            x:Key="inverseBoolConverter"
+            False="True"
+            True="False" />
 
         <ObjectDataProvider
             x:Key="calorieTypes"
@@ -298,11 +300,11 @@
                             Margin="0,10,0,0"
                             FontSize="20"
                             Text="{lex:Loc Description}" />
-                        <xctk:RichTextBox
+                        <RichTextBox
                             MaxWidth="1000"
+                            converters:RichTextBoxHelper.DocumentXaml="{Binding Recipe.Description}"
                             BorderThickness="0"
-                            IsReadOnly="True"
-                            Text="{Binding Recipe.Description}" />
+                            IsReadOnly="True" />
 
                         <TextBlock
                             Margin="0,10,0,0"

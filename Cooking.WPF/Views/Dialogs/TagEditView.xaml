@@ -7,8 +7,8 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
-    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     mahapps:DialogParticipation.Register="{Binding}">
 
     <UserControl.Resources>
@@ -33,7 +33,7 @@
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </UserControl.InputBindings>
 
-    <Grid Height="230">
+    <Grid Height="250">
 
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -44,7 +44,7 @@
             <ColumnDefinition Width="Auto" MinWidth="130" />
         </Grid.ColumnDefinitions>
 
-        <!-- Tag edit controls -->
+        <!--  Tag edit controls  -->
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="{Binding NameCaption}" />
@@ -53,29 +53,21 @@
                     Grid.Column="1"
                     Text="{Binding Tag.Name, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Text="{Binding ColorCaption}" />
-                <xctk:ColorPicker
-                    AdvancedTabHeader="{Binding ColorPickerManualCaption}"
-                    AvailableColorsHeader="{Binding ColorPickerAvailableColorsCaption}"
-                    DisplayColorAndName="True"
-                    Foreground="Black"
-                    RecentColorsHeader="{Binding ColorPickerRecentCaption}"
-                    SelectedColor="{Binding Tag.Color, TargetNullValue=Transparent}"
-                    StandardColorsHeader="{Binding ColorPickerFrequentCaption}"
-                    StandardTabHeader="{Binding ColorPickerStandartCaption}" />
+
+                <materialDesign:ColorPicker Color="{Binding Tag.Color}" />
 
                 <TextBlock Text="{Binding CategoryCaption}" />
-                <ComboBox ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}" 
-                          SelectedValue="{Binding Tag.Type, Converter={StaticResource enumToDescriptionConverter}}" />
+                <ComboBox ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}" SelectedValue="{Binding Tag.Type, Converter={StaticResource enumToDescriptionConverter}}" />
             </StackPanel>
         </ScrollViewer>
 
-        <!-- Similar tags to avoid duplicates -->
+        <!--  Similar tags to avoid duplicates  -->
         <ItemsControl
             Grid.Column="1"
-            Margin="20 0 0 0"
+            Margin="20,0,0,0"
             ItemsSource="{Binding SimilarTags}" />
 
-        <!-- Ok and Cancel buttons -->
+        <!--  Ok and Cancel buttons  -->
         <StackPanel
             Grid.Row="2"
             Margin="20"
@@ -88,7 +80,7 @@
                 <icons:PackIconModern Kind="Check" Style="{StaticResource BigIcon}" />
             </Button>
             <Button
-                Margin="10 0 0 0"
+                Margin="10,0,0,0"
                 Command="{Binding CloseCommand}"
                 Style="{StaticResource CancelButton}" />
         </StackPanel>
