@@ -23,11 +23,6 @@
     </UserControl.InputBindings>
 
     <UserControl.Resources>
-
-        <Style x:Key="toolbarButton" TargetType="{x:Type Button}">
-            <Setter Property="CommandTarget" Value="{Binding ElementName=editRichTextbox}" />
-        </Style>
-
         <converters:BooleanToVisibilityConverter
             x:Key="visibleHiddenConverter"
             False="Hidden"
@@ -494,27 +489,22 @@
                                             ItemsSource="{Binding Ingredients}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <StackPanel
-                                                        VerticalAlignment="Center"
-                                                        Orientation="Horizontal"
-                                                        TextElement.FontSize="15">
-                                                        <TextBlock Text="{Binding Ingredient.Name}" />
-                                                        <TextBlock Margin="5,0,0,0" Text="{Binding Amount}" />
-                                                        <TextBlock Margin="5,0,0,0" Text="{Binding MeasureUnit.Name}" />
-                                                        <Button
-                                                            Margin="5,0,0,0"
-                                                            VerticalAlignment="Center"
-                                                            Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientCommand}"
-                                                            CommandParameter="{Binding}"
-                                                            Style="{StaticResource SmallEditButton}" />
-
-                                                        <Button
-                                                            Margin="2,0,0,0"
-                                                            VerticalAlignment="Center"
-                                                            Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientCommand}"
-                                                            CommandParameter="{Binding}"
-                                                            Style="{StaticResource SmallCancelButton}" />
-                                                    </StackPanel>
+                                                    <materialDesign:Chip
+                                                        Margin="0,5,0,0"
+                                                        Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.EditIngredientCommand}"
+                                                        CommandParameter="{Binding}"
+                                                        DeleteCommand="{Binding DataContext.RemoveIngredientCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                                        DeleteCommandParameter="{Binding}"
+                                                        IconBackground="{Binding Color}"
+                                                        IsDeletable="True">
+                                                        <materialDesign:Chip.Content>
+                                                            <TextBlock>
+                                                                <Run Text="{Binding Ingredient.Name, Mode=OneWay}" />
+                                                                <Run Text="{Binding Amount, Mode=OneWay}" />
+                                                                <Run Text="{Binding MeasureUnit.Name, Mode=OneWay}" />
+                                                            </TextBlock>
+                                                        </materialDesign:Chip.Content>
+                                                    </materialDesign:Chip>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                             <ItemsControl.ItemsPanel>
@@ -543,26 +533,22 @@
                             ItemsSource="{Binding Recipe.Ingredients}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel
-                                        VerticalAlignment="Center"
-                                        Orientation="Horizontal"
-                                        TextElement.FontSize="15">
-                                        <TextBlock Text="{Binding Ingredient.Name}" />
-                                        <TextBlock Margin="5,0,0,0" Text="{Binding Amount}" />
-                                        <TextBlock Margin="5,0,0,0" Text="{Binding MeasureUnit.Name}" />
-                                        <Button
-                                            Margin="5,0,0,0"
-                                            VerticalAlignment="Center"
-                                            Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.EditIngredientCommand}"
-                                            CommandParameter="{Binding}"
-                                            Style="{StaticResource SmallEditButton}" />
-                                        <Button
-                                            Margin="2,0,0,0"
-                                            VerticalAlignment="Center"
-                                            Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.RemoveIngredientCommand}"
-                                            CommandParameter="{Binding}"
-                                            Style="{StaticResource SmallCancelButton}" />
-                                    </StackPanel>
+                                    <materialDesign:Chip
+                                        Margin="0,5,0,0"
+                                        Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.EditIngredientCommand}"
+                                        CommandParameter="{Binding}"
+                                        DeleteCommand="{Binding DataContext.RemoveIngredientCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                        DeleteCommandParameter="{Binding}"
+                                        IconBackground="{Binding Color}"
+                                        IsDeletable="True">
+                                        <materialDesign:Chip.Content>
+                                            <TextBlock>
+                                                <Run Text="{Binding Ingredient.Name, Mode=OneWay}" />
+                                                <Run Text="{Binding Amount, Mode=OneWay}" />
+                                                <Run Text="{Binding MeasureUnit.Name, Mode=OneWay}" />
+                                            </TextBlock>
+                                        </materialDesign:Chip.Content>
+                                    </materialDesign:Chip>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                             <ItemsControl.ItemsPanel>
@@ -615,108 +601,54 @@
                     Margin="10,10,10,0"
                     Orientation="Vertical">
                     <TextBlock FontSize="15" Text="{lex:Loc Description}" />
-                    <ToolBarTray>
-                        <ToolBar ClipToBounds="True" Style="{DynamicResource MaterialDesignToolBar}">
-                            <Button
-                                Command="Undo"
-                                ToolBar.OverflowMode="AsNeeded"
-                                ToolTip="Undo">
-                                <materialDesign:PackIcon Kind="Undo" />
-                            </Button>
-                            <Button
-                                Command="Redo"
-                                ToolBar.OverflowMode="AsNeeded"
-                                ToolTip="Redo">
-                                <materialDesign:PackIcon Kind="Redo" />
-                            </Button>
-                            <Separator />
-                            <Button
-                                Command="Cut"
-                                ToolBar.OverflowMode="AsNeeded"
-                                ToolTip="Cut">
-                                <materialDesign:PackIcon Kind="ContentCut" />
-                            </Button>
-                            <Button
-                                Command="Copy"
-                                ToolBar.OverflowMode="AsNeeded"
-                                ToolTip="Copy that stuff">
-                                <materialDesign:PackIcon Kind="ContentCopy" />
-                            </Button>
-                            <Separator />
-                            <Button
-                                Command="Paste"
-                                ToolBar.OverflowMode="AsNeeded"
-                                ToolTip="Paste some stuff">
-                                <materialDesign:PackIcon Kind="ContentPaste" />
-                            </Button>
-                            <Separator />
-                            <ListBox SelectedIndex="0">
-                                <ListBox.ToolTip>
-                                    <StackPanel>
-                                        <TextBlock Text="MaterialDesignToolToggleFlatListBox" />
-                                        <TextBlock Text="Exclusive selection" />
-                                        <TextBlock Text="ListBoxAssist.IsToggle allows more natural toggle behaviour" />
-                                    </StackPanel>
-                                </ListBox.ToolTip>
-                                <ListBoxItem>
-                                    <materialDesign:PackIcon Kind="FormatAlignLeft" />
-                                </ListBoxItem>
-                                <ListBoxItem>
-                                    <materialDesign:PackIcon Kind="FormatAlignCenter" />
-                                </ListBoxItem>
-                                <ListBoxItem>
-                                    <materialDesign:PackIcon Kind="FormatAlignRight" />
-                                </ListBoxItem>
-                                <ListBoxItem>
-                                    <materialDesign:PackIcon Kind="FormatAlignJustify" />
-                                </ListBoxItem>
-                            </ListBox>
-                            <Separator />
-                            <ListBox SelectionMode="Extended">
-                                <ListBox.ToolTip>
-                                    <StackPanel>
-                                        <TextBlock Text="MaterialDesignToolToggleListBox" />
-                                        <TextBlock Text="Multiple selection" />
-                                        <TextBlock Text="ListBoxAssist.IsToggle allows more natural toggle behaviour" />
-                                    </StackPanel>
-                                </ListBox.ToolTip>
-                                <ListBoxItem>
-                                    <materialDesign:PackIcon Kind="FormatBold" />
-                                </ListBoxItem>
-                                <ListBoxItem>
-                                    <materialDesign:PackIcon Kind="FormatItalic" />
-                                </ListBoxItem>
-                                <ListBoxItem x:Name="UnderlineCheckbox">
-                                    <materialDesign:PackIcon Kind="FormatUnderline" />
-                                </ListBoxItem>
-                            </ListBox>
-                            <Separator />
-                            <Label VerticalAlignment="Center" Content="Font size:" />
-                            <ComboBox>
-                                <ComboBoxItem Content="10" />
-                                <ComboBoxItem Content="12" IsSelected="True" />
-                                <ComboBoxItem Content="14" />
-                                <ComboBoxItem Content="16" />
-                            </ComboBox>
-                            <CheckBox>
-                                Check
-                            </CheckBox>
-                            <Button ToolBar.OverflowMode="Always" ToolTip="Take a nap">
-                                <materialDesign:PackIcon Kind="Hotel" />
-                            </Button>
-                            <RadioButton Content="Radio" GroupName="XXX" />
-                            <RadioButton Content="Ga Ga" GroupName="XXX" />
-                            <Separator />
-                            <RadioButton GroupName="YYY" Style="{StaticResource MaterialDesignToolRadioButton}">
-                                <materialDesign:PackIcon Kind="Radio" />
-                            </RadioButton>
-                            <RadioButton GroupName="YYY" Style="{StaticResource MaterialDesignToolRadioButton}">
-                                <materialDesign:PackIcon Kind="EmoticonPoop" />
-                            </RadioButton>
-                            <Separator />
-                            <ToggleButton />
-                        </ToolBar>
-                    </ToolBarTray>
+
+                    <ToolBar ClipToBounds="False" Style="{DynamicResource MaterialDesignToolBar}">
+
+                        <Button Command="EditingCommands.AlignLeft" CommandTarget="{Binding ElementName=editRichTextbox}">
+                            <materialDesign:PackIcon Kind="FormatAlignLeft" />
+                        </Button>
+                        <Button Command="EditingCommands.AlignCenter" CommandTarget="{Binding ElementName=editRichTextbox}">
+                            <materialDesign:PackIcon Kind="FormatAlignCenter" />
+                        </Button>
+                        <Button Command="EditingCommands.AlignRight" CommandTarget="{Binding ElementName=editRichTextbox}">
+                            <materialDesign:PackIcon Kind="FormatAlignRight" />
+                        </Button>
+                        <Button Command="EditingCommands.AlignJustify" CommandTarget="{Binding ElementName=editRichTextbox}">
+                            <materialDesign:PackIcon Kind="FormatAlignJustify" />
+                        </Button>
+
+                        <Separator />
+
+                        <Button Command="EditingCommands.ToggleBold" CommandTarget="{Binding ElementName=editRichTextbox}">
+                            <materialDesign:PackIcon Kind="FormatBold" />
+                        </Button>
+                        <Button Command="EditingCommands.ToggleItalic" CommandTarget="{Binding ElementName=editRichTextbox}">
+                            <materialDesign:PackIcon Kind="FormatItalic" />
+                        </Button>
+                        <Button Command="EditingCommands.ToggleUnderline" CommandTarget="{Binding ElementName=editRichTextbox}">
+                            <materialDesign:PackIcon Kind="FormatUnderline" />
+                        </Button>
+
+                        <Separator />
+
+                        <Button Command="EditingCommands.ToggleBullets" CommandTarget="{Binding ElementName=editRichTextbox}">
+                            <materialDesign:PackIcon Kind="FormatListBulleted" />
+                        </Button>
+                        <Button Command="EditingCommands.ToggleNumbering" CommandTarget="{Binding ElementName=editRichTextbox}">
+                            <materialDesign:PackIcon Kind="FormatListNumbered" />
+                        </Button>
+
+                        <Separator />
+                        <Label VerticalAlignment="Center" Content="Font size:" />
+                        <ComboBox SelectionChanged="ComboBox_SelectionChanged">
+                            <ComboBoxItem Content="10" />
+                            <ComboBoxItem Content="12" IsSelected="True" />
+                            <ComboBoxItem Content="14" />
+                            <ComboBoxItem Content="16" />
+                            <ComboBoxItem Content="20" />
+                            <ComboBoxItem Content="24" />
+                        </ComboBox>
+                    </ToolBar>
                     <RichTextBox
                         x:Name="editRichTextbox"
                         MinHeight="100"

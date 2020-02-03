@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace Cooking.WPF.Views
 {
@@ -32,6 +34,15 @@ namespace Cooking.WPF.Views
                 Verb = "open"
             });
             e.Handled = true;
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (editRichTextbox != null)
+            {
+                var r = new TextRange(editRichTextbox.Selection.Start, editRichTextbox.Selection.End);
+                r.ApplyPropertyValue(TextElement.FontSizeProperty, Convert.ToDouble(((dynamic)e.AddedItems[0]!).Content));
+            }
         }
     }
 }
