@@ -14,6 +14,7 @@ namespace Cooking.WPF.Commands
         /// Gets or sets a value indicating whether command would return false when called CanExecute.
         /// </summary>
         protected bool FreezeWhenBusy { get; set; }
+
         private bool IsBusy
         {
             get => isBusy;

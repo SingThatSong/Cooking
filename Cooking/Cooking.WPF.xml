@@ -324,6 +324,16 @@
             Initializes a new instance of the <see cref="T:Cooking.WPF.Converters.BooleanToVisibilityConverter"/> class.
             </summary>
         </member>
+        <member name="T:Cooking.WPF.Converters.InvertedBooleanToVisibilityConverter">
+            <summary>
+            Implementation of BooleanConverter when true means Collapsed and false means Visible.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Converters.InvertedBooleanToVisibilityConverter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Converters.BooleanToVisibilityConverter"/> class.
+            </summary>
+        </member>
         <member name="T:Cooking.WPF.Converters.SimpleBooleanConverter">
             <summary>
             Straignt implementation of BooleanConverter.
@@ -455,6 +465,16 @@
         </member>
         <member name="M:Cooking.WPF.Converters.RatingConverter.ConvertBack(System.Object,System.Type[],System.Object,System.Globalization.CultureInfo)">
             <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.Converters.RichTextBoxHelper">
+            <summary>
+            Helper to provide value to and from RichTextBox.
+            </summary>
+        </member>
+        <member name="F:Cooking.WPF.Converters.RichTextBoxHelper.DocumentXamlProperty">
+            <summary>
+            Attached property for RichTextBox to bind it's value.
+            </summary>
         </member>
         <member name="T:Cooking.WPF.DTO.CalorieTypeSelection">
             <summary>
@@ -830,6 +850,21 @@
         <member name="P:Cooking.WPF.Services.AppSettings.Accent">
             <summary>
             Gets or sets applicayion accent (color).
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Services.AppSettings.IsWindowMaximized">
+            <summary>
+            Gets or sets a value indicating whether is window maximized.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Services.AppSettings.WindowWidth">
+            <summary>
+            Gets or sets window width.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Services.AppSettings.WindowHeight">
+            <summary>
+            Gets or sets window height.
             </summary>
         </member>
         <member name="T:Cooking.WPF.Services.ILocalization">
@@ -1778,11 +1813,6 @@
             Gets command to execute on loaded event.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.Views.RecipeListViewModel.IsListView">
-            <summary>
-            Gets or sets a value indicating whether current view is list view.
-            </summary>
-        </member>
         <member name="P:Cooking.WPF.Views.RecipeListViewModel.IsTilesView">
             <summary>
             Gets or sets a value indicating whether current view is tiles view.
@@ -1980,6 +2010,16 @@
         <member name="P:Cooking.WPF.Views.SettingsViewModel.CultureSelectionChangedCommand">
             <summary>
             Gets command to be fired when culture combobox's selected language changes.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.SettingsViewModel.OnSelectedAppThemeChanged">
+            <summary>
+            PropertyChanged-injected callbach callde when SelectedAppTheme is changed.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.SettingsViewModel.OnSelectedColorChanged">
+            <summary>
+            PropertyChanged-injected callbach callde when SelectedColor is changed.
             </summary>
         </member>
         <member name="T:Cooking.WPF.Views.ShoppingCartViewModel">
@@ -2984,45 +3024,23 @@
             MainWindowView
             </summary>
         </member>
-        <member name="M:Cooking.MainWindowView.#ctor(Prism.Regions.IRegionManager)">
+        <member name="M:Cooking.MainWindowView.#ctor(Prism.Regions.IRegionManager,Microsoft.Extensions.Options.IOptions{Cooking.WPF.Services.AppSettings},Cooking.WPF.Services.SettingsService)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.MainWindowView"/> class.
             </summary>
             <param name="regionManager">Region manager for Prism navigation.</param>
+            <param name="appSettings">Current application settings.</param>
+            <param name="settingsService">Service for settings update.</param>
+        </member>
+        <member name="M:Cooking.MainWindowView.OnClosing(System.ComponentModel.CancelEventArgs)">
+            <summary>
+            Save current window dimensions on exit.
+            </summary>
+            <param name="e">Cancelable event patten argument.</param>
         </member>
         <member name="M:Cooking.MainWindowView.InitializeComponent">
             <summary>
             InitializeComponent
-            </summary>
-        </member>
-        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-            <summary>
-            GeneratedInternalTypeHelper
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-            <summary>
-            CreateInstance
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            GetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            SetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-            <summary>
-            CreateDelegate
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-            <summary>
-            AddEventHandler
             </summary>
         </member>
     </members>

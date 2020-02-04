@@ -113,11 +113,6 @@ namespace Cooking.WPF.Views
         public DelegateCommand LoadedCommand { get; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether current view is list view.
-        /// </summary>
-        public bool IsListView { get; set; }
-
-        /// <summary>
         /// Gets or sets a value indicating whether current view is tiles view.
         /// </summary>
         public bool IsTilesView { get; set; } = true;
@@ -165,10 +160,6 @@ namespace Cooking.WPF.Views
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
-
-        // Intercepted sets for IsTilesView and IsListView used to toggle each other
-        private void OnIsListViewChanged() => IsTilesView = !IsListView;
-        private void OnIsTilesViewChanged() => IsListView = !IsTilesView;
 
         private void OnRecipeDeleted(Guid id)
         {

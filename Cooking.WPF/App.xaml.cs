@@ -54,7 +54,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
 // TODO: App users
-// TODO: Replace dialogs with SimpleChildWindow 
+// TODO: Replace dialogs with SimpleChildWindow
 // TODO: Recipe filtering: make Gitlab-like system
 // TODO: Set up failure monitoring
 

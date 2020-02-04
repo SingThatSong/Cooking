@@ -57,7 +57,7 @@ namespace Cooking.WPF.Views
             this.localization = localization;
 
             LoadedCommand = new AsyncDelegateCommand(OnLoadedAsync, executeOnce: true);
-            CreateNewWeekCommand = new DelegateCommand(CreateNewWeekAsync);
+            CreateNewWeekCommand = new DelegateCommand(CreateNewWeek);
             CreateShoppingListCommand = new DelegateCommand(CreateShoppingList);
             DeleteCommand = new DelegateCommand(DeleteCurrentWeekAsync);
             SelectNextWeekCommand = new DelegateCommand(SelectNextWeekAsync);
@@ -337,7 +337,7 @@ namespace Cooking.WPF.Views
 
             List<ShoppingListIngredientsGroup> allProducts = dayService.GetWeekShoppingList(WeekStart, WeekEnd);
 
-            ShoppingListIngredientsGroup? noCategoryGroup = allProducts.FirstOrDefault(x => x.IngredientGroupName == null);
+            ShoppingListIngredientsGroup? noCategoryGroup = allProducts.Find(x => x.IngredientGroupName == null);
 
             if (noCategoryGroup != null)
             {
@@ -365,6 +365,7 @@ namespace Cooking.WPF.Views
         }
 
         private bool CanDeleteDay(Guid? day) => day.HasValue;
+
         private async void DeleteCurrentWeekAsync()
         {
             Debug.WriteLine("MainPageViewModel.DeleteCurrentWeekAsync");
@@ -374,9 +375,9 @@ namespace Cooking.WPF.Views
                   successCallback: OnCurrentWeekDeleted);
         }
 
-        private void CreateNewWeekAsync()
+        private void CreateNewWeek()
         {
-            Debug.WriteLine("MainPageViewModel.CreateNewWeekAsync");
+            Debug.WriteLine("MainPageViewModel.CreateNewWeek");
 
             var parameters = new NavigationParameters
             {

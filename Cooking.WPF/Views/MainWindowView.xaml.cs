@@ -38,7 +38,7 @@ namespace Cooking
         /// <summary>
         /// Save current window dimensions on exit.
         /// </summary>
-        /// <param name="e"></param>
+        /// <param name="e">Cancelable event patten argument.</param>
         protected override void OnClosing(CancelEventArgs e)
         {
             appSettings.Value.IsWindowMaximized = WindowState == WindowState.Maximized;
