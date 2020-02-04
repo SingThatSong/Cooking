@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     mahapps:DialogParticipation.Register="{Binding}"
@@ -31,15 +33,58 @@
             <RowDefinition />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        
-        <!-- List of all tags -->
+
+        <!--  List of all tags  -->
         <ItemsControl Name="TagsList" ItemsSource="{Binding Source={StaticResource tags}}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <materialDesign:Flipper VerticalAlignment="Top" Style="{StaticResource MaterialDesignCardFlipper}">
+                        <materialDesign:Flipper.FrontContent>
+                            <Grid Height="50">
+                                <materialDesign:Chip
+                                    Margin="8"
+                                    Background="Transparent"
+                                    Command="{x:Static materialDesign:Flipper.FlipCommand}"
+                                    Content="{Binding Name}"
+                                    Icon=""
+                                    IconBackground="{Binding Color}"
+                                    SnapsToDevicePixels="True"
+                                    TextElement.FontFamily="Segoe UI" />
+                            </Grid>
+                        </materialDesign:Flipper.FrontContent>
+                        <materialDesign:Flipper.BackContent>
+                            <Grid Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button
+                                        HorizontalAlignment="Left"
+                                        Command="{x:Static materialDesign:Flipper.FlipCommand}"
+                                        Style="{StaticResource MaterialDesignToolForegroundButton}">
+                                        <materialDesign:PackIcon HorizontalAlignment="Right" Kind="ArrowLeft" />
+                                    </Button>
+                                    <TextBlock
+                                        Margin="8,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{lex:Loc EditTag}" />
+                                </StackPanel>
+                                <StackPanel Grid.Row="1" Margin="5">
+                                    <TextBox
+                                        materialDesign:HintAssist.Hint="{lex:Loc Name}"
+                                        materialDesign:HintAssist.IsFloating="True"
+                                        Text="{Binding Name}" />
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:Flipper.BackContent>
+                    </materialDesign:Flipper>
+
+
+                    <!--<StackPanel Orientation="Horizontal">
                         <Border
                             Margin="5"
-                            Padding="5 0"
+                            Padding="5,0"
                             Background="{Binding Color}"
                             BorderThickness="0"
                             CornerRadius="3">
@@ -55,20 +100,20 @@
                             </i:Interaction.Triggers>
                         </Border>
                         <Button
-                            Margin="10 0 0 0"
+                            Margin="10,0,0,0"
                             Command="{Binding ElementName=TagsList, Path=DataContext.EditTagCommand}"
                             CommandParameter="{Binding}"
                             Style="{StaticResource MediumEditButton}"
                             Visibility="{Binding ElementName=TagsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" />
                         <Button
                             Grid.Column="4"
-                            Margin="5 0 0 0"
+                            Margin="5,0,0,0"
                             Command="{Binding ElementName=TagsList, Path=DataContext.DeleteTagCommand}"
                             CommandParameter="{Binding ID}"
                             Style="{StaticResource MediumDeleteButton}"
                             Visibility="{Binding ElementName=TagsList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" />
 
-                    </StackPanel>
+                    </StackPanel>-->
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
@@ -78,7 +123,7 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
 
-        <!-- Buttons -->
+        <!--  Buttons  -->
         <StackPanel
             Grid.Row="2"
             HorizontalAlignment="Center"
@@ -93,7 +138,7 @@
                     Kind="Edit" />
             </ToggleButton>
             <Button
-                Margin="10 0 0 0"
+                Margin="10,0,0,0"
                 Command="{Binding AddTagCommand}"
                 Style="{StaticResource AddButton}" />
         </StackPanel>
