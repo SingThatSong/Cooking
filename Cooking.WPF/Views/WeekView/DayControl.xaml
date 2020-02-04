@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:Cooking.WPF.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
-    xmlns:wpf="clr-namespace:Cooking.WPF">
+    x:Name="DayCccontrol">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -28,6 +28,8 @@
                 x:Key="isNotNullToVisibilityConverter"
                 NotNullVisibility="Visible"
                 NullVisibility="Collapsed" />
+
+            <converters:BindingProxy x:Key="proxy" Data="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext}" />
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -97,7 +99,7 @@
                 <Button
                     Width="31"
                     Height="31"
-                    Margin="0,0,55,-20"
+                    Margin="0 0 55 -20"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     materialDesign:ShadowAssist.ShadowDepth="Depth2"
@@ -131,7 +133,7 @@
                     </Button.Style>
                 </Button>
                 <ToggleButton
-                    Margin="0,0,16,-20"
+                    Margin="0 0 16 -20"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     materialDesign:ShadowAssist.ShadowDepth="Depth2"
@@ -155,7 +157,7 @@
                     </ToggleButton.Style>
                 </ToggleButton>
 
-                <StackPanel Grid.Row="1" Margin="8,24,8,0">
+                <StackPanel Grid.Row="1" Margin="8 24 8 0">
                     <lex:LocProxy
                         Name="Proxy"
                         PrependType="True"
@@ -174,24 +176,23 @@
                     Orientation="Horizontal">
                     <Button
                         Width="30"
-                        Padding="2,0,2,0"
+                        Padding="2 0 2 0"
                         materialDesign:RippleAssist.IsCentered="True"
                         Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.ShowRecipeCommand}"
                         CommandParameter="{Binding Dinner.ID}"
                         Style="{StaticResource MaterialDesignToolButton}">
                         <materialDesign:PackIcon Kind="EyeCircle" />
                     </Button>
-
-                    <materialDesign:PopupBox Padding="2,0,2,0" Style="{StaticResource MaterialDesignToolPopupBox}">
+                    <materialDesign:PopupBox Padding="2 0">
                         <StackPanel>
                             <Button
-                                Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext.SelectDinnerCommand}"
-                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=UserControl, Mode=FindAncestor}, Path=Day}"
-                                Content="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext.ReplaceCaption}" />
-                            <Button
-                                Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext.DeleteDinnerCommand}"
+                                Command="{Binding Data.SelectDinnerCommand, Source={StaticResource proxy}}"
                                 CommandParameter="{Binding ID}"
-                                Content="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext.DeleteCaption}" />
+                                Content="{Binding Data.ReplaceCaption, Source={StaticResource proxy}}" />
+                            <Button
+                                Command="{Binding Data.DeleteDinnerCommand, Source={StaticResource proxy}}"
+                                CommandParameter="{Binding ID}"
+                                Content="{Binding Data.DeleteCaption, Source={StaticResource proxy}}" />
                         </StackPanel>
                     </materialDesign:PopupBox>
                 </StackPanel>

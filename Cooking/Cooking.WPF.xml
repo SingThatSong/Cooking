@@ -284,6 +284,19 @@
             InitializeComponent
             </summary>
         </member>
+        <member name="T:Cooking.WPF.Converters.BindingProxy">
+            <summary>
+            Proxy for binding for menus and popups.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Converters.BindingProxy.Data">
+            <summary>
+            Gets or sets property for binding proxy.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Converters.BindingProxy.CreateInstanceCore">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.WPF.Converters.BooleanConverter`1">
             <summary>
             WPF Converter for converting bool values into other types (e.x. Visibility)
@@ -468,12 +481,7 @@
         </member>
         <member name="T:Cooking.WPF.Converters.RichTextBoxHelper">
             <summary>
-            Helper to provide value to and from RichTextBox.
-            </summary>
-        </member>
-        <member name="F:Cooking.WPF.Converters.RichTextBoxHelper.DocumentXamlProperty">
-            <summary>
-            Attached property for RichTextBox to bind it's value.
+            Converter for binding document to RTF string.
             </summary>
         </member>
         <member name="T:Cooking.WPF.DTO.CalorieTypeSelection">
@@ -2380,6 +2388,16 @@
             Gets localized caption for NewRecipe.
             </summary>
         </member>
+        <member name="P:Cooking.WPF.Views.WeekViewModel.DeleteCaption">
+            <summary>
+            Gets localized caption for Delete.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Views.WeekViewModel.ReplaceCaption">
+            <summary>
+            Gets localized caption for Replace.
+            </summary>
+        </member>
         <member name="P:Cooking.WPF.Views.WeekViewModel.LoadedCommand">
             <summary>
             Gets command to execute on loaded event.
@@ -3041,6 +3059,36 @@
         <member name="M:Cooking.MainWindowView.InitializeComponent">
             <summary>
             InitializeComponent
+            </summary>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
             </summary>
         </member>
     </members>
