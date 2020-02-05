@@ -34,7 +34,7 @@
     <PackageReference Include="DotNetProjects.Extended.Wpf.Toolkit" Version="4.6.78" />
     <PackageReference Include="FluentValidation" Version="8.6.1" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0479" />
-    <PackageReference Include="AutoMapper" Version="9.1.0-ci-01617" />
+    <PackageReference Include="AutoMapper" Version="9.1.0-ci-01618" />
     <PackageReference Include="Fody" Version="6.1.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

@@ -53,7 +53,7 @@ namespace Cooking.WPF.Views
         /// Gets all tags list.
         /// </summary>
         public ObservableCollection<TagEdit>? Tags { get; private set; }
-        
+
         /// <summary>
         /// Gets command to create a tag.
         /// </summary>
@@ -82,12 +82,12 @@ namespace Cooking.WPF.Views
         /// <summary>
         /// Gets localized string for EditTag.
         /// </summary>
-        public string EditTagCaption => localization.GetLocalizedString("EditTag");
+        public string? EditTagCaption => localization.GetLocalizedString("EditTag");
 
         /// <summary>
         /// Gets localized string for Name.
         /// </summary>
-        public string NameCaption => localization.GetLocalizedString("Name");
+        public string? NameCaption => localization.GetLocalizedString("Name");
 
         private async Task OnLoaded()
         {

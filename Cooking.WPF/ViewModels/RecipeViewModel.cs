@@ -202,7 +202,7 @@ namespace Cooking.WPF.Views
         /// <inheritdoc/>
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            this.journal = navigationContext.NavigationService.Journal;
+            journal = navigationContext.NavigationService.Journal;
             var recipeId = navigationContext.Parameters[nameof(Recipe)] as Guid?;
             if (recipeId.HasValue)
             {
@@ -242,7 +242,7 @@ namespace Cooking.WPF.Views
             {
                 foreach (IngredientGroupEdit group in Recipe.IngredientGroups)
                 {
-                    if (group.Ingredients != null && group.Ingredients.Contains(ingredient))
+                    if (group.Ingredients?.Contains(ingredient) == true)
                     {
                         group.Ingredients.Remove(ingredient);
                         return;
@@ -397,10 +397,7 @@ namespace Cooking.WPF.Views
             eventAggregator.GetEvent<RecipeDeletedEvent>().Publish(recipeId);
 
             // Journal methods must be called from UI thread
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                journal?.GoBack();
-            });
+            Application.Current.Dispatcher.Invoke(() => journal?.GoBack());
         }
     }
 }

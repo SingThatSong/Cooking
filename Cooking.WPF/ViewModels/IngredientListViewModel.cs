@@ -60,11 +60,6 @@ namespace Cooking.WPF.Views
         public ObservableCollection<IngredientEdit>? Ingredients { get; private set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether current view model is in editing state.
-        /// </summary>
-        public bool IsEditing { get; set; }
-
-        /// <summary>
         /// Gets command to execute on loaded event.
         /// </summary>
         public AsyncDelegateCommand LoadedCommand { get; }

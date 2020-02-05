@@ -80,14 +80,7 @@ namespace Cooking.WPF.Views
         /// <param name="allTags">All tags to select from.</param>
         public void SetTags([AllowNull] IEnumerable<TagEdit>? currentTags, [AllowNull] IEnumerable<TagEdit>? allTags)
         {
-            if (allTags == null)
-            {
-                AllTags = new ObservableCollection<TagEdit>(tagService.GetAllProjected<TagEdit>(mapper));
-            }
-            else
-            {
-                AllTags = new ObservableCollection<TagEdit>(allTags);
-            }
+            AllTags = new ObservableCollection<TagEdit>(allTags ?? tagService.GetAllProjected<TagEdit>(mapper));
 
             AllTags.CollectionChanged += AllTags_CollectionChanged;
 

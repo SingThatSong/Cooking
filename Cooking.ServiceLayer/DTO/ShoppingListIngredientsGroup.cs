@@ -8,7 +8,7 @@ namespace ServiceLayer
     public class ShoppingListIngredientsGroup
     {
         /// <summary>
-        /// Gets name of a group.
+        /// Gets or sets name of a group.
         /// </summary>
         public string? IngredientGroupName { get; set; }
 

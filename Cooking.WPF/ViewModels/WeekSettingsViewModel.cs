@@ -189,14 +189,9 @@ namespace Cooking.WPF.Views
                 IEnumerable<RecipeListViewDto?> selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
                 var recipiesNotSelectedYet = day.RecipeAlternatives.Where(x => !selectedRecipies.Any(selected => selected!.ID == x.ID)).ToList();
 
-                if (recipiesNotSelectedYet.Count > 0)
-                {
-                    day.Recipe = recipiesNotSelectedYet.OrderByDescending(x => recipeService.DaysFromLasCook(x.ID)).First();
-                }
-                else
-                {
-                    day.Recipe = null;
-                }
+                day.Recipe = recipiesNotSelectedYet.Count > 0
+                                ? recipiesNotSelectedYet.OrderByDescending(x => recipeService.DaysFromLasCook(x.ID)).First()
+                                : null;
             }
         }
 

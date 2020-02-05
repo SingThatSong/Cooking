@@ -41,20 +41,9 @@ namespace Cooking.Web
                 .AddNewtonsoftJson();
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
-
-            services.Configure<KestrelServerOptions>(options =>
-            {
-                options.AllowSynchronousIO = true;
-            });
-
-            services.Configure<IISServerOptions>(options =>
-            {
-                options.AllowSynchronousIO = true;
-            });
+            services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/dist");
+            services.Configure<KestrelServerOptions>(options => options.AllowSynchronousIO = true);
+            services.Configure<IISServerOptions>(options => options.AllowSynchronousIO = true);
 
             services.AddSingleton<DayService>();
         }

@@ -41,7 +41,8 @@ namespace Cooking.WPF.Views
             if (editRichTextbox != null)
             {
                 var r = new TextRange(editRichTextbox.Selection.Start, editRichTextbox.Selection.End);
-                r.ApplyPropertyValue(TextElement.FontSizeProperty, Convert.ToDouble(((dynamic)e.AddedItems[0]!).Content));
+                dynamic? addedItem = e.AddedItems[0];
+                r.ApplyPropertyValue(TextElement.FontSizeProperty, Convert.ToDouble(addedItem!.Content));
             }
         }
     }

@@ -14,6 +14,6 @@ namespace Cooking.WPF.Converters
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture) => value ?? DependencyProperty.UnsetValue;
 
         /// <inheritdoc/>
-        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => value;
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => value;
     }
 }

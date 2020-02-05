@@ -139,17 +139,9 @@ namespace Cooking.WPF.Views
             regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
         }
 
-        private void GetAlternativeRecipe(DayPlan day)
-        {
-            if (day.Recipe!.Name == day.RecipeAlternatives.Last().Name)
-            {
-                day.Recipe = day.RecipeAlternatives.First();
-            }
-            else
-            {
-                day.Recipe = day.RecipeAlternatives.SkipWhile(x => x.Name != day.Recipe.Name).Skip(1).First();
-            }
-        }
+        private void GetAlternativeRecipe(DayPlan day) => day.Recipe = day.Recipe!.Name == day.RecipeAlternatives.Last().Name
+                                                                            ? day.RecipeAlternatives?[0]
+                                                                            : day.RecipeAlternatives?.SkipWhile(x => x.Name != day.Recipe.Name).Skip(1).First();
 
         private async void SetRecipeManually(DayPlan day)
         {

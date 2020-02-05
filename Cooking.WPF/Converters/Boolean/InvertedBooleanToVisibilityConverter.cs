@@ -8,7 +8,7 @@ namespace Cooking.WPF.Converters
     public sealed class InvertedBooleanToVisibilityConverter : BooleanConverter<Visibility>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BooleanToVisibilityConverter"/> class.
+        /// Initializes a new instance of the <see cref="InvertedBooleanToVisibilityConverter"/> class.
         /// </summary>
         public InvertedBooleanToVisibilityConverter()
             : base(Visibility.Collapsed, Visibility.Visible)

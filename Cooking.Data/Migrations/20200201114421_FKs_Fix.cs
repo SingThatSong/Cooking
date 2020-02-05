@@ -3,8 +3,12 @@ using System;
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Somehow foreign keys still have _"Table" relationships. Fixing it.
+    /// </summary>
     public partial class FKs_Fix : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             // Disable foreign key checks
@@ -34,7 +38,7 @@ namespace Cooking.Data.Migrations
                         , CONSTRAINT [FK_RecipeIngredients_0_0] FOREIGN KEY ([IngredientId]) REFERENCES [Ingredients] ([ID]) ON DELETE RESTRICT ON UPDATE NO ACTION
                         , CONSTRAINT [FK_RecipeIngredients_1_0] FOREIGN KEY ([IngredientsGroupID]) REFERENCES [IngredientsGroup] ([ID]) ON DELETE CASCADE ON UPDATE NO ACTION
                         , CONSTRAINT [FK_RecipeIngredients_2_0] FOREIGN KEY ([RecipeID]) REFERENCES [_Recipies] ([ID]) ON DELETE CASCADE ON UPDATE NO ACTION
-                        );", 
+                        );",
                         "RecipeIngredients",
                         migrationBuilder);
 
@@ -52,13 +56,18 @@ namespace Cooking.Data.Migrations
             migrationBuilder.Sql("PRAGMA foreign_keys = ON;", suppressTransaction: true);
         }
 
+        /// <inheritdoc/>
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+        }
+
         private void ChangeIDTypes(string originalSql, string tableName, MigrationBuilder migrationBuilder)
         {
             // Rename old Day table to temp
             migrationBuilder.Sql($"ALTER TABLE {tableName} RENAME TO _{tableName};", suppressTransaction: true);
 
-            var sql = originalSql.Replace("_Recipies", "Recipies", StringComparison.Ordinal)
-                                 .Replace("_Tags", "Tags", StringComparison.Ordinal);
+            string sql = originalSql.Replace("_Recipies", "Recipies", StringComparison.Ordinal)
+                                    .Replace("_Tags", "Tags", StringComparison.Ordinal);
 
             // Recreate table with new types for Day
             migrationBuilder.Sql(sql, suppressTransaction: true);
@@ -68,11 +77,6 @@ namespace Cooking.Data.Migrations
 
             // Drop backup
             migrationBuilder.Sql($"DROP TABLE [_{tableName}];", suppressTransaction: true);
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-
         }
     }
 }

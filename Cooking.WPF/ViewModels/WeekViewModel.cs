@@ -200,7 +200,7 @@ namespace Cooking.WPF.Views
         public async void OnNavigatedTo(NavigationContext navigationContext)
         {
             bool? reloadWeek = navigationContext.Parameters[Consts.ReloadWeekParameter] as bool?;
-            if (reloadWeek.HasValue && reloadWeek.Value)
+            if (reloadWeek == true)
             {
                 CurrentWeek = await GetWeekAsync(WeekStart);
             }

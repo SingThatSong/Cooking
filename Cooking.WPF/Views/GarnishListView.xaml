@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     prism:ViewModelLocator.AutoWireViewModel="True">
@@ -30,41 +30,52 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
-        <!-- Garnishes -->
+        <!--  Garnishes  -->
         <ItemsControl Name="GarnishesList" ItemsSource="{Binding Source={StaticResource tags}}">
             <ItemsControl.ItemTemplate>
+
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Border
-                            Width="350"
-                            Margin="5"
-                            Padding="5 0"
-                            BorderThickness="0"
-                            CornerRadius="3">
+                    <Border
+                        Margin="3"
+                        Background="#ff333333"
+                        CornerRadius="2">
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="2"
+                                Direction="290"
+                                ShadowDepth="2"
+                                Color="#ff555555" />
+                        </Border.Effect>
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseUp">
+                                <i:InvokeCommandAction Command="{Binding ElementName=GarnishesList, Path=DataContext.EditGarnishCommand}" CommandParameter="{Binding}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                        <Grid Height="40" MinWidth="200">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="30" />
+                            </Grid.ColumnDefinitions>
                             <TextBlock
+                                Margin="10,0"
                                 VerticalAlignment="Center"
-                                mahapps:ControlsHelper.CornerRadius="5"
-                                FontSize="20"
-                                Text="{Binding Name}"
-                                TextWrapping="Wrap" />
-                        </Border>
-                        <Button
-                            Margin="10 0 0 0"
-                            Command="{Binding ElementName=GarnishesList, Path=DataContext.EditGarnishCommand}"
-                            CommandParameter="{Binding}"
-                            Style="{StaticResource MediumEditButton}"
-                            Visibility="{Binding ElementName=GarnishesList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" />
-
-                        <Button
-                            Grid.Column="4"
-                            Margin="5 0 0 0"
-                            Command="{Binding ElementName=GarnishesList, Path=DataContext.DeleteGarnishCommand}"
-                            CommandParameter="{Binding ID}"
-                            Style="{StaticResource MediumDeleteButton}"
-                            Visibility="{Binding ElementName=GarnishesList, Path=DataContext.IsEditing, Converter={StaticResource booleanToVisibilityConverter}}" />
-
-                    </StackPanel>
+                                FontSize="14"
+                                SnapsToDevicePixels="True"
+                                Text="{Binding Name}" />
+                            <Button
+                                Grid.Column="1"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Command="{Binding ElementName=GarnishesList, Path=DataContext.DeleteGarnishCommand}"
+                                CommandParameter="{Binding ID}"
+                                Content="{materialDesign:PackIcon Close}"
+                                Style="{StaticResource MaterialDesignToolForegroundButton}" />
+                        </Grid>
+                    </Border>
                 </DataTemplate>
+
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -73,22 +84,13 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
 
-        <!-- Buttons -->
+        <!--  Buttons  -->
         <StackPanel
             Grid.Row="2"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <ToggleButton
-                Foreground="LightGray"
-                IsChecked="{Binding IsEditing}"
-                Style="{StaticResource BigToggleButton}">
-                <icons:PackIconModern
-                    Width="20"
-                    Height="20"
-                    Kind="Edit" />
-            </ToggleButton>
             <Button
-                Margin="10 0 0 0"
+                Margin="10,0,0,0"
                 Command="{Binding AddGarnishCommand}"
                 Style="{StaticResource AddButton}" />
         </StackPanel>
