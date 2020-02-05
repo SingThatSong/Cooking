@@ -42,7 +42,7 @@ namespace Cooking.WPF.Views
             this.tagService = tagService;
             this.mapper = mapper;
             this.localization = localization;
-            LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
+            LoadedCommand = new AsyncDelegateCommand(OnLoaded, executeOnce: true);
             AddTagCommand = new DelegateCommand(AddTag);
             DeleteTagCommand = new DelegateCommand<Guid>(DeleteTag);
             ViewTagCommand = new DelegateCommand<TagEdit>(ViewTag);
@@ -53,12 +53,7 @@ namespace Cooking.WPF.Views
         /// Gets all tags list.
         /// </summary>
         public ObservableCollection<TagEdit>? Tags { get; private set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether current view model is in editing state.
-        /// </summary>
-        public bool IsEditing { get; set; }
-
+        
         /// <summary>
         /// Gets command to create a tag.
         /// </summary>
@@ -82,9 +77,19 @@ namespace Cooking.WPF.Views
         /// <summary>
         /// Gets command to execute on loaded event.
         /// </summary>
-        public DelegateCommand LoadedCommand { get; }
+        public AsyncDelegateCommand LoadedCommand { get; }
 
-        private void OnLoaded()
+        /// <summary>
+        /// Gets localized string for EditTag.
+        /// </summary>
+        public string EditTagCaption => localization.GetLocalizedString("EditTag");
+
+        /// <summary>
+        /// Gets localized string for Name.
+        /// </summary>
+        public string NameCaption => localization.GetLocalizedString("Name");
+
+        private async Task OnLoaded()
         {
             Debug.WriteLine("TagsViewModel.OnLoaded");
             List<TagEdit> dbVals = tagService.GetAllProjected<TagEdit>(mapper);

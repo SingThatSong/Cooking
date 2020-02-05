@@ -2216,11 +2216,6 @@
             Gets all tags list.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.Views.TagListViewModel.IsEditing">
-            <summary>
-            Gets or sets a value indicating whether current view model is in editing state.
-            </summary>
-        </member>
         <member name="P:Cooking.WPF.Views.TagListViewModel.AddTagCommand">
             <summary>
             Gets command to create a tag.
@@ -2244,6 +2239,16 @@
         <member name="P:Cooking.WPF.Views.TagListViewModel.LoadedCommand">
             <summary>
             Gets command to execute on loaded event.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Views.TagListViewModel.EditTagCaption">
+            <summary>
+            Gets localized string for EditTag.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Views.TagListViewModel.NameCaption">
+            <summary>
+            Gets localized string for Name.
             </summary>
         </member>
         <member name="T:Cooking.WPF.Views.WeekSettingsViewModel">

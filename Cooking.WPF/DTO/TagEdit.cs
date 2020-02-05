@@ -35,7 +35,7 @@ namespace Cooking.WPF.DTO
         /// <summary>
         /// Gets or sets tag color.
         /// </summary>
-        public string? Color { get; set; }
+        public string? Color { get; set; } = "Red";
 
         /// <summary>
         /// Gets or sets a value indicating whether is tag checked.
