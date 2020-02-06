@@ -57,7 +57,7 @@ namespace Cooking
                     cfg.CreateMap<IngredientsGroup, IngredientGroupEdit>();
 
                     cfg.CreateMap<RecipeEdit, Recipe>()
-                       .AfterMap((src, dest) =>
+                       .AfterMap((_, dest) =>
                        {
                            if (dest.Tags != null)
                            {

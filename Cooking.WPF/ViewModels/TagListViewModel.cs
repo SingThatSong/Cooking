@@ -89,11 +89,13 @@ namespace Cooking.WPF.Views
         /// </summary>
         public string? NameCaption => localization.GetLocalizedString("Name");
 
-        private async Task OnLoaded()
+        private Task OnLoaded()
         {
             Debug.WriteLine("TagsViewModel.OnLoaded");
             List<TagEdit> dbVals = tagService.GetAllProjected<TagEdit>(mapper);
             Tags = new ObservableCollection<TagEdit>(dbVals);
+
+            return Task.CompletedTask;
         }
 
         private void ViewTag(TagEdit tag)
