@@ -9,6 +9,7 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.WPF"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
     prism:ViewModelLocator.AutoWireViewModel="True">
@@ -57,62 +58,56 @@
         </DockPanel>
 
         <!--  Recipies as tiles view  -->
-        <ListView
+        <wpftk:VirtualizingItemsControl
             Name="RecipiesList"
             Grid.Row="1"
             Margin="0 5 0 0"
             ItemsSource="{Binding RecipiesSource.View}"
-            ScrollViewer.CanContentScroll="True"
             VirtualizingPanel.ScrollUnit="Pixel"
             VirtualizingPanel.VirtualizationMode="Recycling"
             VirtualizingStackPanel.IsVirtualizing="True"
             Visibility="{Binding IsTilesView, Converter={StaticResource booleanToVisibilityConverter}}">
-            <ListView.ItemTemplate>
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Width="150" Margin="3 14 3 3">
-                        <TextBlock
-                            Height="60"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="20"
-                            Text="{Binding Name}"
-                            TextAlignment="Center"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="Wrap"
-                            ToolTip="{Binding Name}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseUp">
-                                    <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand}" CommandParameter="{Binding ID}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </TextBlock>
-                        <Image
-                            Width="150"
-                            Height="150"
-                            Source="{Binding FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
-                            Stretch="Uniform">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseUp">
-                                    <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand}" CommandParameter="{Binding ID}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </Image>
-                    </StackPanel>
+                    <materialDesign:Card Width="140" Height="230" Margin="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5*" />
+                                <RowDefinition Height="2*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Stretch"
+                                Source="{Binding FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
+                                Stretch="UniformToFill" />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Margin="8 4"
+                                Text="{Binding Name}"
+                                TextTrimming="WordEllipsis"
+                                TextWrapping="Wrap" />
+                            <Button
+                                Grid.Row="2"
+                                Width="30"
+                                HorizontalAlignment="Right"
+                                materialDesign:RippleAssist.IsCentered="True"
+                                Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand}"
+                                CommandParameter="{Binding ID}"
+                                Style="{StaticResource MaterialDesignToolButton}">
+                                <materialDesign:PackIcon Kind="EyeCircle" />
+                            </Button>
+                        </Grid>
+                    </materialDesign:Card>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemsPanel>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <wpftk:VirtualizingWrapPanel />
+                    <wpftk:VirtualizingWrapPanel ItemSize="145 240" />
                 </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.Template>
-                <ControlTemplate TargetType="{x:Type ListView}">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsPresenter />
-                    </ScrollViewer>
-                </ControlTemplate>
-            </ListView.Template>
-        </ListView>
+            </ItemsControl.ItemsPanel>
+        </wpftk:VirtualizingItemsControl>
 
         <!--  Recipies as list view  -->
         <DataGrid
