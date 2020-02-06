@@ -109,5 +109,7 @@
   "CalorieType_None": "Любой",
   "NoCategory": "Без категории",
   "Delete": "Удалить",
-  "Replace": "Заменить"
+  "Replace": "Заменить",
+  "WasCooked": "Было приготовлено",
+  "WasNotCooked": "Не было приготовлено"
 }

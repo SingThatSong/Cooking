@@ -108,5 +108,7 @@
   "CalorieType_None": "Any",
   "NoCategory": "No category",
   "Delete": "Delete",
-  "Replace": "Replace"
+  "Replace": "Replace",
+  "WasCooked": "Was cooked",
+  "WasNotCooked": "Was not cooked"
 }
