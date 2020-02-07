@@ -44,13 +44,13 @@
                 <icons:PackIconModern Kind="TilesNine" Style="{StaticResource MediumIcon}" />
             </ToggleButton>
             <ToggleButton
-                Margin="10 0 0 0"
+                Margin="10,0,0,0"
                 IsChecked="{Binding IsTilesView, Converter={StaticResource invertedBooleanConverter}}"
                 Style="{StaticResource MediumToggleButton}">
                 <icons:PackIconModern Kind="List" Style="{StaticResource MediumIcon}" />
             </ToggleButton>
             <TextBox
-                Margin="10 0 0 0"
+                Margin="10,0,0,0"
                 mahapps:TextBoxHelper.ClearTextButton="True"
                 mahapps:TextBoxHelper.UseFloatingWatermark="True"
                 mahapps:TextBoxHelper.Watermark="{Binding SearchHelpTextCaption, Mode=OneTime}"
@@ -61,7 +61,7 @@
         <wpftk:VirtualizingItemsControl
             Name="RecipiesList"
             Grid.Row="1"
-            Margin="0 5 0 0"
+            Margin="0,5,0,0"
             ItemsSource="{Binding RecipiesSource.View}"
             VirtualizingPanel.ScrollUnit="Pixel"
             VirtualizingPanel.VirtualizationMode="Recycling"
@@ -69,8 +69,18 @@
             Visibility="{Binding IsTilesView, Converter={StaticResource booleanToVisibilityConverter}}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <materialDesign:Card Width="140" Height="230" Margin="5">
+                    <materialDesign:Card
+                        Width="140"
+                        Height="230"
+                        Margin="5">
                         <Grid>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDown">
+                                    <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand}" CommandParameter="{Binding ID}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+
+
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5*" />
                                 <RowDefinition Height="2*" />
@@ -84,21 +94,39 @@
 
                             <TextBlock
                                 Grid.Row="1"
-                                Margin="8 4"
+                                Margin="8,4"
                                 Text="{Binding Name}"
                                 TextTrimming="WordEllipsis"
                                 TextWrapping="Wrap" />
-                            <Button
-                                Grid.Row="2"
-                                Width="30"
-                                HorizontalAlignment="Right"
-                                materialDesign:RippleAssist.IsCentered="True"
-                                Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand}"
-                                CommandParameter="{Binding ID}"
-                                Style="{StaticResource MaterialDesignToolButton}">
-                                <materialDesign:PackIcon Kind="EyeCircle" />
-                            </Button>
                         </Grid>
+                        <materialDesign:Card.Style>
+                            <Style BasedOn="{StaticResource {x:Type materialDesign:Card}}" TargetType="materialDesign:Card">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <ColorAnimation
+                                                        Storyboard.TargetProperty="Background.Color"
+                                                        To="Gray"
+                                                        Duration="0:0:0.15" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <ColorAnimation
+                                                        Storyboard.TargetProperty="Background.Color"
+                                                        To="Transparent"
+                                                        Duration="0:0:0.3" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </materialDesign:Card.Style>
                     </materialDesign:Card>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -112,7 +140,7 @@
         <!--  Recipies as list view  -->
         <DataGrid
             Grid.Row="1"
-            Margin="0 5 0 0"
+            Margin="0,5,0,0"
             AutoGenerateColumns="False"
             IsReadOnly="True"
             ItemsSource="{Binding RecipiesSource.View}"
@@ -223,11 +251,11 @@
         <!--  Buttons  -->
         <StackPanel
             Grid.Row="2"
-            Margin="0 5 0 0"
+            Margin="0,5,0,0"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button
-                Margin="10 0 0 0"
+                Margin="10,0,0,0"
                 Command="{Binding AddRecipeCommand}"
                 Style="{StaticResource AddButton}" />
         </StackPanel>
