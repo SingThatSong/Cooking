@@ -58,7 +58,7 @@ namespace Cooking
             if (e.InvokedItem is HamburgerMenuItem hamburgerMenuItem
              && hamburgerMenuItem.Tag is string typeName)
             {
-                regionManager.RequestNavigate(Consts.MainContentRegion, typeName);
+                regionManager.NavigateMain(typeName);
             }
         }
     }

@@ -197,13 +197,11 @@ namespace Cooking.WPF.Views
 
         private void ViewRecipe(Guid recipeId)
         {
-            var parameters = new NavigationParameters()
-            {
-                { nameof(RecipeViewModel.Recipe), recipeId }
-            };
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
+            regionManager.NavigateMain(
+                view: nameof(RecipeView),
+                parameters: (nameof(RecipeViewModel.Recipe), recipeId));
         }
 
-        private void AddRecipe() => regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView));
+        private void AddRecipe() => regionManager.NavigateMain(nameof(RecipeView));
     }
 }

@@ -116,27 +116,23 @@ namespace Cooking.WPF.Views
         {
         }
 
-        private void Close() => regionManager.RequestNavigate(Consts.MainContentRegion, nameof(WeekView));
+        private void Close() => regionManager.NavigateMain(nameof(WeekView));
 
         private async void Ok()
         {
             var daysDictionary = Days.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
             await dayService.CreateWeekAsync(WeekStart, daysDictionary);
 
-            var parameters = new NavigationParameters
-            {
-                { Consts.ReloadWeekParameter, true }
-            };
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(WeekView), parameters);
+            regionManager.NavigateMain(
+                view: nameof(RecipeListView),
+                parameters: (Consts.ReloadWeekParameter, true));
         }
 
         private void ShowRecipe(Guid recipeId)
         {
-            var parameters = new NavigationParameters()
-            {
-                { nameof(RecipeViewModel.Recipe), recipeId }
-            };
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
+            regionManager.NavigateMain(
+                view: nameof(RecipeView),
+                parameters: (nameof(RecipeViewModel.Recipe), recipeId));
         }
 
         private void GetAlternativeRecipe(DayPlan day) => day.Recipe = day.Recipe!.Name == day.RecipeAlternatives.Last().Name

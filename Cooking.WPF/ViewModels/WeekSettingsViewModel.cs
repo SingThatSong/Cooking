@@ -150,13 +150,10 @@ namespace Cooking.WPF.Views
             IEnumerable<DayPlan> selectedDays = Days.Skip(1).Where(x => x.IsSelected);
             GenerateRecipies(selectedDays);
 
-            var parameters = new NavigationParameters
-            {
-                { nameof(GeneratedWeekViewModel.Days), selectedDays },
-                { nameof(GeneratedWeekViewModel.WeekStart), WeekStart }
-            };
-
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(GeneratedWeekView), parameters);
+            regionManager.NavigateMain(
+                 view: nameof(GeneratedWeekView),
+                 (nameof(GeneratedWeekViewModel.Days), selectedDays),
+                 (nameof(GeneratedWeekViewModel.WeekStart), WeekStart));
         }
 
         private void GenerateRecipies(IEnumerable<DayPlan> selectedDays)
