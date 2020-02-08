@@ -182,9 +182,7 @@ namespace Cooking.WPF.Views
                     requiredCalorieTyoes.AddRange(day.CalorieTypes.Select(x => x.CalorieType));
                 }
 
-                List<Recipe> filteredRecipies = recipeService.GetRecipiesByParameters(requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
-
-                day.RecipeAlternatives = mapper.Map<List<RecipeListViewDto>>(filteredRecipies);
+                day.RecipeAlternatives = recipeService.GetRecipiesByParametersProjected<RecipeListViewDto>(mapper, requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
 
                 IEnumerable<RecipeListViewDto?> selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
                 var recipiesNotSelectedYet = day.RecipeAlternatives.Where(x => !selectedRecipies.Any(selected => selected!.ID == x.ID)).ToList();

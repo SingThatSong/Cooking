@@ -6,11 +6,12 @@ using WPFLocalizeExtension.Engine;
 namespace Cooking.WPF
 {
     /// <summary>
+    /// <para>
     /// Copied from https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension/blob/16fa1f6168fb803966d8217e5a406685c49d6854/tests/AssemblyTest/StringFormatProxy.cs
     /// and converted to Bindables.Fody
-    /// Github issue to include in library https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension/issues/214
-    ///
-    /// Last update 05.09.2018.
+    /// Github issue to include in library https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension/issues/214.
+    /// </para>
+    /// <para>Last update 05.09.2018.</para>
     /// </summary>
     public class StringFormatProxy : FrameworkElement
     {
@@ -35,6 +36,7 @@ namespace Cooking.WPF
 
         [SuppressMessage("Стиль", "IDE0060", Justification = "args is an argument for OnPropertyChanged injected by Bindables.Fody")]
         [SuppressMessage("Стиль", "CA1801",  Justification = "args is an argument for OnPropertyChanged injected by Bindables.Fody")]
+        [SuppressMessage("Стиль", "RCS1163", Justification = "args is an argument for OnPropertyChanged injected by Bindables.Fody")]
         private static void DataChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             if (sender is StringFormatProxy sfp && sfp.StringFormat != null)

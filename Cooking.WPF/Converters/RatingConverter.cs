@@ -6,14 +6,16 @@ using System.Windows.Media;
 namespace Cooking.WPF.Converters
 {
     /// <summary>
+    /// <para>
     /// <see cref="Controls.Ratings"/> control-specific controller
-    /// Returns current brush for a column
-    ///
-    /// Accepts 3 values: current column index, rating value and rating preview value
-    ///
+    /// Returns current brush for a column.
+    /// </para>
+    /// <para>Accepts 3 values: current column index, rating value and rating preview value.</para>
+    /// <para>
     /// If rating preview is not null and it's value greater or equals to column index (mouse is over one of columns to the right) - returns PreviewBrush
     /// If rating preview is null and rating value greater or equals to column index - returns OnBrush
     /// Otherwise returs OffBrush.
+    /// </para>
     /// </summary>
     public class RatingConverter : IMultiValueConverter
     {
@@ -50,7 +52,7 @@ namespace Cooking.WPF.Converters
         /// <inheritdoc/>
         public object? Convert(object[] values, Type targetType, object? parameter, CultureInfo culture)
         {
-            int parametersCount = 3;
+            const int parametersCount = 3;
             if (values?.Length != parametersCount)
             {
                 return null;
@@ -74,6 +76,6 @@ namespace Cooking.WPF.Converters
         }
 
         /// <inheritdoc/>
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => new[] { Binding.DoNothing };
     }
 }
