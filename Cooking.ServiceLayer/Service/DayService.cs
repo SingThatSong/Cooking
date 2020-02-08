@@ -14,6 +14,8 @@ namespace Cooking.ServiceLayer
     /// </summary>
     public class DayService : CRUDService<Day>
     {
+        private readonly Dictionary<Guid, DateTime?> lastCookedDateCache = new Dictionary<Guid, DateTime?>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DayService"/> class.
         /// </summary>
@@ -31,13 +33,20 @@ namespace Cooking.ServiceLayer
         /// <returns>Date when recipe was last (most recently) cooked or null of recipe was never cooked.</returns>
         public DateTime? GetLastCookedDate(Guid recipeId)
         {
+            if (lastCookedDateCache.ContainsKey(recipeId))
+            {
+                return lastCookedDateCache[recipeId];
+            }
+
             using CookingContext context = ContextFactory.Create();
 
             // TODO: Set Date non-nullable
-            return GetCultureSpecificSet(context).Where(x => x.DinnerID == recipeId && x.DinnerWasCooked && x.Date != null)
-                                                 .OrderByDescending(x => x.Date)
-                                                 .FirstOrDefault()?
-                                                 .Date;
+            DateTime? date = GetCultureSpecificSet(context).Where(x => x.DinnerID == recipeId && x.DinnerWasCooked && x.Date != null)
+                                                           .OrderByDescending(x => x.Date)
+                                                           .FirstOrDefault()?
+                                                           .Date;
+
+            return lastCookedDateCache[recipeId] = date;
         }
 
         /// <summary>
