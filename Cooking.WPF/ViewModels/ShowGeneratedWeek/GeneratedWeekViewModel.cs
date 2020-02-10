@@ -124,7 +124,7 @@ namespace Cooking.WPF.Views
             await dayService.CreateWeekAsync(WeekStart, daysDictionary);
 
             regionManager.NavigateMain(
-                view: nameof(RecipeListView),
+                view: nameof(WeekView),
                 parameters: (Consts.ReloadWeekParameter, true));
         }
 
