@@ -23,6 +23,35 @@
             False="True"
             True="False" />
         <converters:LastCookedConverter x:Key="lastCookedConverter" />
+        <Style
+            x:Key="cardStyle"
+            BasedOn="{StaticResource {x:Type materialDesign:Card}}"
+            TargetType="materialDesign:Card">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="Background.Color"
+                                    To="Gray"
+                                    Duration="0:0:0.15" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard FillBehavior="Stop">
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="Background.Color"
+                                    To="Transparent"
+                                    Duration="0:0:0.3" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
     <i:Interaction.Triggers>
@@ -72,7 +101,8 @@
                     <materialDesign:Card
                         Width="140"
                         Height="230"
-                        Margin="5">
+                        Margin="5"
+                        Style="{StaticResource cardStyle}">
                         <Grid>
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDown">
@@ -99,34 +129,6 @@
                                 TextTrimming="WordEllipsis"
                                 TextWrapping="Wrap" />
                         </Grid>
-                        <materialDesign:Card.Style>
-                            <Style BasedOn="{StaticResource {x:Type materialDesign:Card}}" TargetType="materialDesign:Card">
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Trigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <ColorAnimation
-                                                        Storyboard.TargetProperty="Background.Color"
-                                                        To="Gray"
-                                                        Duration="0:0:0.15" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </Trigger.EnterActions>
-                                        <Trigger.ExitActions>
-                                            <BeginStoryboard>
-                                                <Storyboard FillBehavior="Stop">
-                                                    <ColorAnimation
-                                                        Storyboard.TargetProperty="Background.Color"
-                                                        To="Transparent"
-                                                        Duration="0:0:0.3" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </Trigger.ExitActions>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </materialDesign:Card.Style>
                     </materialDesign:Card>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

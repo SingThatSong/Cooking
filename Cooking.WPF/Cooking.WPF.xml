@@ -1064,6 +1064,28 @@
             </summary>
             <param name="obj">Created recipe.</param>
         </member>
+        <member name="T:Cooking.WPF.Services.ReguinManagerExtentions">
+            <summary>
+            Extentions for <see cref="T:Prism.Regions.IRegionManager"/>.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Services.ReguinManagerExtentions.NavigateMain(Prism.Regions.IRegionManager,System.String,System.ValueTuple{System.String,System.Object}[])">
+            <summary>
+            Navigate for main region.
+            </summary>
+            <param name="regionManager">Manager to execute.</param>
+            <param name="view">View to navigate to.</param>
+            <param name="parameters">Parameters to pass to ViewModel.</param>
+        </member>
+        <member name="M:Cooking.WPF.Services.ReguinManagerExtentions.RequestNavigate(Prism.Regions.IRegionManager,System.String,System.String,System.ValueTuple{System.String,System.Object}[])">
+            <summary>
+            Navigate for main region.
+            </summary>
+            <param name="regionManager">Manager to execute.</param>
+            <param name="region">Region for navigation.</param>
+            <param name="view">View to navigate to.</param>
+            <param name="parameters">Parameters to pass to ViewModel.</param>
+        </member>
         <member name="T:Cooking.WPF.Services.SettingsService">
             <summary>
             Class for configuration updates.
@@ -3076,36 +3098,6 @@
         <member name="M:Cooking.MainWindowView.InitializeComponent">
             <summary>
             InitializeComponent
-            </summary>
-        </member>
-        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-            <summary>
-            GeneratedInternalTypeHelper
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-            <summary>
-            CreateInstance
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            GetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            SetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-            <summary>
-            CreateDelegate
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-            <summary>
-            AddEventHandler
             </summary>
         </member>
     </members>
