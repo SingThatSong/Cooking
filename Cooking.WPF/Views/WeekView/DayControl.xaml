@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Cooking.WPF.Converters"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.WPF.Views"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -70,6 +71,11 @@
 
         <materialDesign:Card Width="200" Height="400">
             <Grid>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.ShowRecipeCommand}" CommandParameter="{Binding Dinner.ID}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <Grid.Style>
                     <Style TargetType="Grid">
                         <Style.Triggers>
@@ -173,34 +179,52 @@
                         Text="{Binding Dinner.Name}"
                         TextWrapping="Wrap" />
                 </StackPanel>
-                <StackPanel
+
+                <materialDesign:PopupBox
                     Grid.Row="2"
                     Margin="8"
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-                    <Button
-                        Width="30"
-                        Padding="2,0,2,0"
-                        materialDesign:RippleAssist.IsCentered="True"
-                        Command="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.ShowRecipeCommand}"
-                        CommandParameter="{Binding Dinner.ID}"
-                        Style="{StaticResource MaterialDesignToolButton}">
-                        <materialDesign:PackIcon Kind="EyeCircle" />
-                    </Button>
-                    <materialDesign:PopupBox Padding="2,0">
-                        <StackPanel>
-                            <Button
-                                Command="{Binding Data.SelectDinnerCommand, Source={StaticResource proxy}}"
-                                CommandParameter="{Binding DayOfWeek}"
-                                Content="{Binding Data.ReplaceCaption, Source={StaticResource proxy}}" />
-                            <Button
-                                Command="{Binding Data.DeleteDinnerCommand, Source={StaticResource proxy}}"
-                                CommandParameter="{Binding ID}"
-                                Content="{Binding Data.DeleteCaption, Source={StaticResource proxy}}" />
-                        </StackPanel>
-                    </materialDesign:PopupBox>
-                </StackPanel>
+                    Padding="2,0"
+                    HorizontalAlignment="Right">
+                    <StackPanel>
+                        <Button
+                            Command="{Binding Data.SelectDinnerCommand, Source={StaticResource proxy}}"
+                            CommandParameter="{Binding DayOfWeek}"
+                            Content="{Binding Data.ReplaceCaption, Source={StaticResource proxy}}" />
+                        <Button
+                            Command="{Binding Data.DeleteDinnerCommand, Source={StaticResource proxy}}"
+                            CommandParameter="{Binding ID}"
+                            Content="{Binding Data.DeleteCaption, Source={StaticResource proxy}}" />
+                    </StackPanel>
+                </materialDesign:PopupBox>
             </Grid>
+            <materialDesign:Card.Style>
+                <Style BasedOn="{StaticResource {x:Type materialDesign:Card}}" TargetType="materialDesign:Card">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetProperty="Background.Color"
+                                            To="Gray"
+                                            Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard FillBehavior="Stop">
+                                        <ColorAnimation
+                                            Storyboard.TargetProperty="Background.Color"
+                                            To="Transparent"
+                                            Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </materialDesign:Card.Style>
         </materialDesign:Card>
 
     </StackPanel>

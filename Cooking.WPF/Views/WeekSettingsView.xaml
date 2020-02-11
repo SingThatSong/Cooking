@@ -39,7 +39,7 @@
 
             <!--  First row style  -->
             <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="DataGridRow">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=PreviousData}}" Value="{x:Null}">
                             <Setter Property="Background" Value="#ff444444" />

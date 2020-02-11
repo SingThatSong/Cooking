@@ -31,19 +31,19 @@
             NullVisibility="Collapsed" />
     </UserControl.Resources>
 
-    <Grid Margin="20 10">
+    <Grid Margin="20,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition />
             <RowDefinition Height="70" />
         </Grid.RowDefinitions>
         <TextBlock FontSize="24" Text="{lex:Loc GeneratedRecipies}" />
-        
-        <!-- Grid of suggested days -->
+
+        <!--  Grid of suggested days  -->
         <DataGrid
             Grid.Row="1"
-            mahapps:ItemHelper.SelectedBackgroundBrush="Transparent"
             AutoGenerateColumns="False"
+            Background="Transparent"
             BorderThickness="0"
             CanUserAddRows="False"
             CanUserSortColumns="False"
@@ -66,7 +66,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
-                                <!-- Text to be shows if no suited recipe is found -->
+                                <!--  Text to be shows if no suited recipe is found  -->
                                 <TextBlock
                                     VerticalAlignment="Center"
                                     Foreground="Red"
@@ -91,8 +91,8 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
-                                
-                                <!-- Control to show when recipe is found -->
+
+                                <!--  Control to show when recipe is found  -->
                                 <StackPanel Orientation="Horizontal">
                                     <StackPanel.Style>
                                         <Style TargetType="StackPanel">
@@ -113,10 +113,10 @@
                                             </Style.Triggers>
                                         </Style>
                                     </StackPanel.Style>
-                                    
-                                    <!-- Get another recipe for a filter -->
+
+                                    <!--  Get another recipe for a filter  -->
                                     <Button
-                                        Margin="5 0 0 0"
+                                        Margin="5,0,0,0"
                                         VerticalAlignment="Center"
                                         BorderThickness="0"
                                         Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.GetAlternativeRecipeCommand}"
@@ -128,8 +128,8 @@
                                         ToolTipService.ToolTip="По выбранным фильтрам нет альтернатив">
                                         <icons:PackIconModern Kind="Refresh" Style="{StaticResource SmallIcon}" />
                                     </Button>
-                                    
-                                    <!-- Suggested recipe name -->
+
+                                    <!--  Suggested recipe name  -->
                                     <TextBlock VerticalAlignment="Center" Text="{Binding Recipe.Name}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseUp">
@@ -137,8 +137,8 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBlock>
-                                    
-                                    <!-- Calorie type image (circle) -->
+
+                                    <!--  Calorie type image (circle)  -->
                                     <lex:LocProxy
                                         x:Name="CalorieTypeNameProxy"
                                         PrependType="True"
@@ -146,7 +146,7 @@
                                     <Ellipse
                                         Width="15"
                                         Height="15"
-                                        Margin="10 5 0 0"
+                                        Margin="10,5,0,0"
                                         VerticalAlignment="Top"
                                         ToolTip="{Binding ElementName=CalorieTypeNameProxy, Path=Result}">
                                         <Ellipse.Style>
@@ -172,11 +172,11 @@
                                         </Ellipse.Style>
                                     </Ellipse>
                                 </StackPanel>
-                                
-                                <!-- Control to show when recipe is manually set -->
+
+                                <!--  Control to show when recipe is manually set  -->
                                 <StackPanel Orientation="Horizontal" Visibility="{Binding SpecificRecipe, Converter={StaticResource isNotNullToVisibilityConverter}}">
-                                    
-                                    <!-- Selected recipe name -->
+
+                                    <!--  Selected recipe name  -->
                                     <TextBlock VerticalAlignment="Center" Text="{Binding SpecificRecipe.Name}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseUp">
@@ -185,7 +185,7 @@
                                         </i:Interaction.Triggers>
                                     </TextBlock>
 
-                                    <!-- Calorie type image (circle) -->
+                                    <!--  Calorie type image (circle)  -->
                                     <lex:LocProxy
                                         x:Name="SpecificCalorieTypeNameProxy"
                                         PrependType="True"
@@ -193,7 +193,7 @@
                                     <Ellipse
                                         Width="15"
                                         Height="15"
-                                        Margin="10 5 0 0"
+                                        Margin="10,5,0,0"
                                         VerticalAlignment="Top"
                                         ToolTip="{Binding ElementName=SpecificCalorieTypeNameProxy, Path=Result}">
                                         <Ellipse.Style>
@@ -218,8 +218,8 @@
                                             </Style>
                                         </Ellipse.Style>
                                     </Ellipse>
-                                    
-                                    <!-- Remove selected manually recipe -->
+
+                                    <!--  Remove selected manually recipe  -->
                                     <Button
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"
@@ -229,7 +229,7 @@
                                         Style="{StaticResource SmallDeleteButton}" />
                                 </StackPanel>
 
-                                <!-- Select recipe manually -->
+                                <!--  Select recipe manually  -->
                                 <Button
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Center"
@@ -243,8 +243,8 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
-        <!-- Buttons -->
+
+        <!--  Buttons  -->
         <StackPanel
             Grid.Row="2"
             HorizontalAlignment="Center"
@@ -259,11 +259,11 @@
                     Kind="Return" />
             </Button>
             <Button
-                Margin="10 0 0 0"
+                Margin="10,0,0,0"
                 Command="{Binding OkCommand}"
                 Style="{StaticResource OkButton}" />
             <Button
-                Margin="10 0 0 0"
+                Margin="10,0,0,0"
                 Command="{Binding CloseCommand}"
                 Style="{StaticResource CancelButton}" />
         </StackPanel>

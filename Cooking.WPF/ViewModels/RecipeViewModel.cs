@@ -303,11 +303,9 @@ namespace Cooking.WPF.Views
 
         private void ViewTag(TagEdit tag)
         {
-            var parameters = new NavigationParameters()
-            {
-                { nameof(RecipeListViewModel.FilterText), $"{Consts.TagSymbol}\"{tag.Name}\"" }
-            };
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeListView), parameters);
+            regionManager.NavigateMain(
+                view: nameof(RecipeListView),
+                parameters: (nameof(RecipeListViewModel.FilterText), $"{Consts.TagSymbol}\"{tag.Name}\""));
         }
 
         private void RemoveTag(TagEdit tag) => Recipe!.Tags!.Remove(tag);

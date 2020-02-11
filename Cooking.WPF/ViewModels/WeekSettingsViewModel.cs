@@ -150,13 +150,10 @@ namespace Cooking.WPF.Views
             IEnumerable<DayPlan> selectedDays = Days.Skip(1).Where(x => x.IsSelected);
             GenerateRecipies(selectedDays);
 
-            var parameters = new NavigationParameters
-            {
-                { nameof(GeneratedWeekViewModel.Days), selectedDays },
-                { nameof(GeneratedWeekViewModel.WeekStart), WeekStart }
-            };
-
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(GeneratedWeekView), parameters);
+            regionManager.NavigateMain(
+                 view: nameof(GeneratedWeekView),
+                 (nameof(GeneratedWeekViewModel.Days), selectedDays),
+                 (nameof(GeneratedWeekViewModel.WeekStart), WeekStart));
         }
 
         private void GenerateRecipies(IEnumerable<DayPlan> selectedDays)
@@ -182,9 +179,7 @@ namespace Cooking.WPF.Views
                     requiredCalorieTyoes.AddRange(day.CalorieTypes.Select(x => x.CalorieType));
                 }
 
-                List<Recipe> filteredRecipies = recipeService.GetRecipiesByParameters(requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
-
-                day.RecipeAlternatives = mapper.Map<List<RecipeListViewDto>>(filteredRecipies);
+                day.RecipeAlternatives = recipeService.GetRecipiesByParametersProjected<RecipeListViewDto>(mapper, requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
 
                 IEnumerable<RecipeListViewDto?> selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
                 var recipiesNotSelectedYet = day.RecipeAlternatives.Where(x => !selectedRecipies.Any(selected => selected!.ID == x.ID)).ToList();

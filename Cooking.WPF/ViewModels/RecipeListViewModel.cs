@@ -14,6 +14,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace Cooking.WPF.Views
@@ -67,7 +69,7 @@ namespace Cooking.WPF.Views
             eventAggregator.GetEvent<RecipeUpdatedEvent>().Subscribe(OnRecipeUpdated, ThreadOption.UIThread);
             eventAggregator.GetEvent<RecipeDeletedEvent>().Subscribe(OnRecipeDeleted, ThreadOption.UIThread);
 
-            LoadedCommand = new DelegateCommand(OnLoaded, executeOnce: true);
+            LoadedCommand = new AsyncDelegateCommand(OnLoaded, executeOnce: true);
 
             ViewRecipeCommand = new DelegateCommand<Guid>(ViewRecipe);
             AddRecipeCommand = new DelegateCommand(AddRecipe);
@@ -110,7 +112,7 @@ namespace Cooking.WPF.Views
         /// <summary>
         /// Gets command to execute on loaded event.
         /// </summary>
-        public DelegateCommand LoadedCommand { get; }
+        public AsyncDelegateCommand LoadedCommand { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether current view is tiles view.
@@ -173,13 +175,15 @@ namespace Cooking.WPF.Views
 
         private void OnRecipeCreated(RecipeEdit obj) => Recipies!.Add(mapper.Map<RecipeListViewDto>(obj));
 
-        private void OnLoaded()
+        private Task OnLoaded()
         {
             Debug.WriteLine("RecepiesViewModel.OnLoaded");
             List<RecipeListViewDto> recipies = recipeService.GetAllMapped<RecipeListViewDto>(container.Resolve<IMapper>());
             Recipies = new ObservableCollection<RecipeListViewDto>(recipies);
 
-            RecipiesSource.Source = Recipies;
+            Application.Current.Dispatcher.Invoke(() => RecipiesSource.Source = Recipies);
+
+            return Task.CompletedTask;
         }
 
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)
@@ -197,13 +201,11 @@ namespace Cooking.WPF.Views
 
         private void ViewRecipe(Guid recipeId)
         {
-            var parameters = new NavigationParameters()
-            {
-                { nameof(RecipeViewModel.Recipe), recipeId }
-            };
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
+            regionManager.NavigateMain(
+                view: nameof(RecipeView),
+                parameters: (nameof(RecipeViewModel.Recipe), recipeId));
         }
 
-        private void AddRecipe() => regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView));
+        private void AddRecipe() => regionManager.NavigateMain(nameof(RecipeView));
     }
 }

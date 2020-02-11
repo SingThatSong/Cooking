@@ -247,11 +247,10 @@ namespace Cooking.WPF.Views
         private void ShowRecipe(Guid recipeId)
         {
             Debug.WriteLine("MainPageViewModel.ShowRecipe");
-            var parameters = new NavigationParameters()
-            {
-                { nameof(RecipeViewModel.Recipe), recipeId }
-            };
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeView), parameters);
+
+            regionManager.NavigateMain(
+                  view: nameof(RecipeView),
+                  parameters: (nameof(RecipeViewModel.Recipe), recipeId));
         }
 
         private async void SelectDinner(DayOfWeek dayOfWeek)
@@ -344,11 +343,9 @@ namespace Cooking.WPF.Views
                 noCategoryGroup.IngredientGroupName = localization.GetLocalizedString("NoCategory");
             }
 
-            var parameters = new NavigationParameters()
-            {
-                { nameof(ShoppingCartViewModel.List), allProducts }
-            };
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(ShoppingCartView), parameters);
+            regionManager.NavigateMain(
+                  view: nameof(ShoppingCartView),
+                  parameters: (nameof(ShoppingCartViewModel.List), allProducts));
         }
 
         private async void DeleteDayAsync(Guid? dayId)
@@ -379,11 +376,9 @@ namespace Cooking.WPF.Views
         {
             Debug.WriteLine("MainPageViewModel.CreateNewWeek");
 
-            var parameters = new NavigationParameters
-            {
-                { nameof(WeekSettingsViewModel.WeekStart), WeekStart }
-            };
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(WeekSettingsView), parameters);
+            regionManager.NavigateMain(
+                  view: nameof(WeekSettingsView),
+                  parameters: (nameof(WeekSettingsViewModel.WeekStart), WeekStart));
         }
 
         private async void OnDayDeleted(Guid dayId)

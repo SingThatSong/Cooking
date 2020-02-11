@@ -4,8 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
+    xmlns:stringProxy="clr-namespace:Cooking.WPF"
     xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
-    Margin="-100 0">
+    Margin="-100,0">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
@@ -17,18 +20,18 @@
             <RowDefinition />
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
-        
-        <!-- Filter text -->
+
+        <!--  Filter text  -->
         <TextBox
             mahapps:TextBoxHelper.UseFloatingWatermark="True"
             mahapps:TextBoxHelper.Watermark="{Binding SearchHelpTextCaption}"
             Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        
-        <!-- List of all filtered recipiest -->
+
+        <!--  List of all filtered recipiest  -->
         <ListView
             Name="RecipiesList"
             Grid.Row="1"
-            Margin="0 5 0 0"
+            Margin="0,5,0,0"
             ItemsSource="{Binding RecipiesSource.View}"
             ScrollViewer.CanContentScroll="True"
             SelectedItem="{Binding SelectedRecipe}"
@@ -37,7 +40,126 @@
             VirtualizingStackPanel.IsVirtualizing="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Width="150" Margin="3">
+                    <materialDesign:Card Width="150" Height="300">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="200" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Stretch"
+                                Source="{Binding FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
+                                Stretch="UniformToFill" />
+
+                            <lex:LocProxy
+                                x:Name="CalorieTypeNameProxy"
+                                PrependType="True"
+                                Source="{Binding CalorieType}" />
+                            <Button
+                                Width="31"
+                                Height="31"
+                                Margin="0,0,55,-20"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                BorderThickness="0"
+                                ToolTip="{Binding ElementName=CalorieTypeNameProxy, Path=Result}">
+                                <Button.Style>
+                                    <Style BasedOn="{StaticResource MaterialDesignFloatingActionMiniButton}" TargetType="Button">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CalorieType}" Value="0">
+                                                <Setter Property="Background" Value="Gray" />
+                                                <Setter Property="BorderBrush" Value="Gray" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CalorieType}" Value="{x:Static model:CalorieType.Fitness}">
+                                                <Setter Property="Background" Value="Green" />
+                                                <Setter Property="BorderBrush" Value="Green" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CalorieType}" Value="{x:Static model:CalorieType.Protein}">
+                                                <Setter Property="Background" Value="Yellow" />
+                                                <Setter Property="BorderBrush" Value="Yellow" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CalorieType}" Value="{x:Static model:CalorieType.Bad}">
+                                                <Setter Property="Background" Value="Orange" />
+                                                <Setter Property="BorderBrush" Value="Orange" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CalorieType}" Value="{x:Static model:CalorieType.Sweets}">
+                                                <Setter Property="Background" Value="Red" />
+                                                <Setter Property="BorderBrush" Value="Red" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                            <stringProxy:StringFormatProxy x:Name="wasCookedProxy" Value="{lex:Loc WasCooked}" />
+                            <stringProxy:StringFormatProxy x:Name="wasNotCookedProxy" Value="{lex:Loc WasNotCooked}" />
+
+                            <ToggleButton
+                                Margin="0,0,10,-20"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                IsChecked="{Binding DinnerWasCooked}">
+                                <ToggleButton.Content>
+                                    <materialDesign:PackIcon Kind="Check" />
+                                </ToggleButton.Content>
+                                <ToggleButton.Style>
+                                    <Style BasedOn="{StaticResource MaterialDesignActionToggleButton}" TargetType="ToggleButton">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter Property="ToolTip" Value="{Binding ElementName=wasCookedProxy, Path=Result}" />
+                                            </Trigger>
+                                            <Trigger Property="IsChecked" Value="False">
+                                                <Setter Property="Background" Value="Gray" />
+                                                <Setter Property="ToolTip" Value="{Binding ElementName=wasNotCookedProxy, Path=Result}" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Margin="8,24,8,0"
+                                VerticalAlignment="Center"
+                                Foreground="LightGray"
+                                Text="{Binding Name}"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                        <materialDesign:Card.Style>
+                            <Style BasedOn="{StaticResource {x:Type materialDesign:Card}}" TargetType="materialDesign:Card">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <ColorAnimation
+                                                        Storyboard.TargetProperty="Background.Color"
+                                                        To="Gray"
+                                                        Duration="0:0:0.15" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard FillBehavior="Stop">
+                                                    <ColorAnimation
+                                                        Storyboard.TargetProperty="Background.Color"
+                                                        To="Transparent"
+                                                        Duration="0:0:0.3" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </materialDesign:Card.Style>
+                    </materialDesign:Card>
+
+
+                    <!--<StackPanel Width="150" Margin="3">
                         <TextBlock
                             Width="150"
                             HorizontalAlignment="Center"
@@ -52,7 +174,7 @@
                             Height="150"
                             Source="{Binding FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
                             Stretch="Uniform" />
-                    </StackPanel>
+                    </StackPanel>-->
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemsPanel>
@@ -68,8 +190,8 @@
                 </ControlTemplate>
             </ListView.Template>
         </ListView>
-        
-        <!-- Ok and Cancel buttons -->
+
+        <!--  Ok and Cancel buttons  -->
         <StackPanel
             Grid.Row="2"
             Margin="20"
@@ -77,7 +199,7 @@
             Orientation="Horizontal">
             <Button Command="{Binding OkCommand}" Style="{StaticResource OkButton}" />
             <Button
-                Margin="10 0 0 0"
+                Margin="10,0,0,0"
                 Command="{Binding CloseCommand}"
                 Style="{StaticResource CancelButton}" />
         </StackPanel>

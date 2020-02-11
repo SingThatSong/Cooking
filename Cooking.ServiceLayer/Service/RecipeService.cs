@@ -88,17 +88,21 @@ namespace Cooking.ServiceLayer
         /// <summary>
         /// Get reipe list filtered by optional parameters.
         /// </summary>
+        /// <typeparam name="T">Type of required projection.</typeparam>
+        /// <param name="mapper">Mapper for projection.</param>
         /// <param name="requiredTags">Filter reipies by tags.</param>
         /// <param name="requiredCalorieTypes">Filter reipies by calorie types.</param>
         /// <param name="maxComplexity">Filter reipies by maximal complexity.</param>
         /// <param name="minRating">Filter reipies by minimal rating.</param>
         /// <param name="onlyNew">Filter out reipies which already was cooked.</param>
         /// <returns>List of filtered recipies.</returns>
-        public List<Recipe> GetRecipiesByParameters(List<Guid>? requiredTags = null,
+        public List<T> GetRecipiesByParametersProjected<T>(IMapper mapper,
+                                                    List<Guid>? requiredTags = null,
                                                     List<CalorieType>? requiredCalorieTypes = null,
                                                     int? maxComplexity = null,
                                                     int? minRating = null,
                                                     bool? onlyNew = false)
+            where T : Entity
         {
             Debug.WriteLine("RecipeService.GetRecipies");
 
@@ -142,7 +146,7 @@ namespace Cooking.ServiceLayer
                 query = query.Where(x => x.Rating >= minRating.Value);
             }
 
-            var queryResult = query.ToList();
+            var queryResult = mapper.ProjectTo<T>(query).ToList();
 
             // Клиентская фильтрация
             if (onlyNew.HasValue && onlyNew.Value)

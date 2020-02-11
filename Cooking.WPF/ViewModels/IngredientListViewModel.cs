@@ -95,11 +95,9 @@ namespace Cooking.WPF.Views
 
         private void ViewIngredient(IngredientEdit ingredient)
         {
-            var parameters = new NavigationParameters()
-            {
-                { nameof(RecipeListViewModel.FilterText), $"{Consts.IngredientSymbol}\"{ingredient.Name}\"" }
-            };
-            regionManager.RequestNavigate(Consts.MainContentRegion, nameof(RecipeListView), parameters);
+            regionManager.NavigateMain(
+                view: nameof(RecipeListView),
+                parameters: (nameof(RecipeListViewModel.FilterText), $"{Consts.IngredientSymbol}\"{ingredient.Name}\""));
         }
 
         private async void DeleteIngredient(Guid ingredientId) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Ingredients!.Single(x => x.ID == ingredientId).Name ?? string.Empty),
