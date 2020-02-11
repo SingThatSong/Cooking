@@ -33,20 +33,20 @@ namespace ServiceLayer
 
                 cfg.CreateMap<IngredientsGroup, IngredientsGroup>()
                    .IncludeBase<Entity, Entity>()
-
-                   // When mapping collections of values, use this to detect the same objects
-                   .EqualityComparison((a, b) => a.ID == b.ID);
+                   .EqualityComparison((a, b) => a.ID == b.ID); // When mapping collections of values, use this to detect the same objects
 
                 cfg.CreateMap<RecipeIngredient, RecipeIngredient>()
                    .IncludeBase<Entity, Entity>()
                    .EqualityComparison((a, b) => a.ID == b.ID);
 
+                cfg.CreateMap<Tag, Tag>()
+                   .ForMember(x => x.Recipies, opts => opts.Ignore()) // Ignore current relationships on tag data update
+                   .IncludeBase<Entity, Entity>();
+
                 // Refactor below
                 // --------------------------
                 cfg.CreateMap<Recipe, Recipe>().IncludeBase<Entity, Entity>();
-
                 cfg.CreateMap<RecipeTag, RecipeTag>();
-                cfg.CreateMap<Tag, Tag>().IncludeBase<Entity, Entity>();
                 cfg.CreateMap<Ingredient, Ingredient>().IncludeBase<Entity, Entity>();
                 cfg.CreateMap<Garnish, Garnish>().IncludeBase<Entity, Entity>();
             }).CreateMapper();
