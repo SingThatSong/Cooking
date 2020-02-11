@@ -7,6 +7,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
     mahapps:DialogParticipation.Register="{Binding}"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
@@ -33,7 +34,7 @@
         </Grid.RowDefinitions>
 
         <!--  List of all tags  -->
-        <ItemsControl Name="TagsList" ItemsSource="{Binding Source={StaticResource tags}}">
+        <wpftk:VirtualizingItemsControl Name="TagsList" ItemsSource="{Binding Source={StaticResource tags}}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border
@@ -54,7 +55,7 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 
-                        <Grid Height="40" MinWidth="200">
+                        <Grid Width="300" Height="40">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30" />
                                 <ColumnDefinition />
@@ -67,11 +68,12 @@
                                 Fill="{Binding Color}" />
                             <TextBlock
                                 Grid.Column="1"
-                                Margin="10,0"
+                                Margin="10 0"
                                 VerticalAlignment="Center"
                                 FontSize="14"
                                 SnapsToDevicePixels="True"
-                                Text="{Binding Name}" />
+                                Text="{Binding Name}"
+                                TextTrimming="CharacterEllipsis" />
                             <Button
                                 Grid.Column="2"
                                 Background="Transparent"
@@ -95,10 +97,10 @@
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Vertical" />
+                    <wpftk:VirtualizingWrapPanel ItemSize="300 40" Orientation="Vertical" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-        </ItemsControl>
+        </wpftk:VirtualizingItemsControl>
 
         <!--  Buttons  -->
         <StackPanel
@@ -106,7 +108,7 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding AddTagCommand}"
                 Style="{StaticResource AddButton}" />
         </StackPanel>
