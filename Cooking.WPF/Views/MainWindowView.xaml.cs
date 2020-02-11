@@ -1,4 +1,5 @@
-﻿using Cooking.WPF.Services;
+﻿using Cooking.WPF.Controls;
+using Cooking.WPF.Services;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.Options;
@@ -56,9 +57,16 @@ namespace Cooking
         private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
         {
             if (e.InvokedItem is HamburgerMenuItem hamburgerMenuItem
-             && hamburgerMenuItem.Tag is string typeName)
+             && hamburgerMenuItem.Tag is string viewName)
             {
-                regionManager.NavigateMain(typeName);
+                if (e.InvokedItem is TagHamburgerMenuItem tagMenuItem)
+                {
+                    regionManager.NavigateMain(viewName, (Consts.TagNameParameter, tagMenuItem.Label));
+                }
+                else
+                {
+                    regionManager.NavigateMain(viewName);
+                }
             }
         }
     }

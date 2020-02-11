@@ -174,6 +174,10 @@ namespace Cooking
             // Variables affect pages, so we set them beforehand
             SetStaticVariables();
 
+            // TODO: remove after introducing data migrator
+            DatabaseService dbService = Container.Resolve<DatabaseService>();
+            dbService.MigrateDatabase();
+
             // Dialog service is constant - we have only one window
             containerRegistry.RegisterInstance(new DialogService(
                                                         Container.Resolve<MainWindowViewModel>(),
@@ -240,16 +244,6 @@ namespace Cooking
                 string viewModelName = $"{viewName}Model, {viewAssemblyName}";
                 return Type.GetType(viewModelName);
             });
-        }
-
-        /// <inheritdoc/>
-        protected override void OnInitialized()
-        {
-            // TODO: remove after introducing data migrator
-            DatabaseService dbService = Container.Resolve<DatabaseService>();
-            dbService.MigrateDatabase();
-
-            base.OnInitialized();
         }
 
         private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)

@@ -1,9 +1,12 @@
-﻿using Cooking.WPF.Services;
+﻿using Cooking.ServiceLayer;
+using Cooking.WPF.Controls;
+using Cooking.WPF.Services;
 using Cooking.WPF.Views;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using WPFLocalizeExtension.Providers;
 
@@ -20,7 +23,8 @@ namespace Cooking
         /// </summary>
         /// <param name="localizationProvider">Localization provider for WPFLocalizeExtension.</param>
         /// <param name="localization">Localization provider dependency.</param>
-        public MainWindowViewModel(ILocalizationProvider localizationProvider, ILocalization localization)
+        /// <param name="tagService">Tag service dependency. Used for menu items generation.</param>
+        public MainWindowViewModel(ILocalizationProvider localizationProvider, ILocalization localization, TagService tagService)
         {
             LocalizationProvider = localizationProvider;
 
@@ -62,6 +66,19 @@ namespace Cooking
                     Tag = nameof(GarnishListView)
                 },
             };
+
+            IEnumerable<TagHamburgerMenuItem> namesForMenuItems = tagService.GetMenuTags()
+                                                                            .Select(x => new TagHamburgerMenuItem()
+                                                                            {
+                                                                                Label = x,
+                                                                                ToolTip = x,
+                                                                                Tag = nameof(RecipeListView)
+                                                                            });
+
+            foreach (HamburgerMenuItem menuItem in namesForMenuItems)
+            {
+                MenuItems.Insert(2, menuItem);
+            }
 
             SelectedMenuItem = MenuItems[0] as HamburgerMenuIconItem;
 

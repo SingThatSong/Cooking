@@ -48,5 +48,10 @@ namespace Cooking.WPF.DTO
         /// TODO: Refactor out from TagEdit.
         /// </summary>
         public bool CanBeRemoved { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this tag should be included as menu item.
+        /// </summary>
+        public bool IsInMenu { get; set; }
     }
 }

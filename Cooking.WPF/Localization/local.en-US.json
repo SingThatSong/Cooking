@@ -110,5 +110,6 @@
   "Delete": "Delete",
   "Replace": "Replace",
   "WasCooked": "Was cooked",
-  "WasNotCooked": "Was not cooked"
+  "WasNotCooked": "Was not cooked",
+  "IsInMenu": "Is in menu"
 }

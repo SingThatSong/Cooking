@@ -5,6 +5,7 @@ namespace Cooking.Data.Model
     /// <summary>
     /// Measurement units hardcoded values.
     /// </summary>
+    // TODO: Localization
     public class MeasureUnit : TypesafeEnum
     {
         /// <summary>

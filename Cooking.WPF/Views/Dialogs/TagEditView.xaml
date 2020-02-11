@@ -33,7 +33,7 @@
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </UserControl.InputBindings>
 
-    <Grid Height="250">
+    <Grid Height="300">
 
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -58,6 +58,9 @@
 
                 <TextBlock Text="{Binding CategoryCaption}" />
                 <ComboBox ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}" SelectedValue="{Binding Tag.Type, Converter={StaticResource enumToDescriptionConverter}}" />
+
+                <TextBlock Text="{Binding IsInMenuCaption}" />
+                <CheckBox IsChecked="{Binding Tag.IsInMenu}" />
             </StackPanel>
         </ScrollViewer>
 

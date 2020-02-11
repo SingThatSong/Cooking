@@ -120,6 +120,11 @@ namespace Cooking.WPF.Views
         public bool IsTilesView { get; set; } = true;
 
         /// <summary>
+        /// Gets or sets a value indicating whether view is filterable.
+        /// </summary>
+        public bool IsFilterable { get; set; } = true;
+
+        /// <summary>
         /// Gets or sets filter text value.
         /// </summary>
         public string? FilterText
@@ -130,13 +135,7 @@ namespace Cooking.WPF.Views
                 if (filterText != value)
                 {
                     filterText = value;
-                    recipeFiltrator.OnFilterTextChanged(value);
-
-                    RecipiesSource.View?.Refresh();
-                    if (RecipiesSource.View is ListCollectionView listCollectionView)
-                    {
-                        RecipiesNotFound = listCollectionView.Count == 0;
-                    }
+                    UpdateRecipiesSource(value);
                 }
             }
         }
@@ -147,6 +146,13 @@ namespace Cooking.WPF.Views
             if (navigationContext.Parameters[nameof(FilterText)] != null)
             {
                 FilterText = (string)navigationContext.Parameters[nameof(FilterText)];
+            }
+
+            // Tag to filter recipies
+            if (navigationContext.Parameters[Consts.TagNameParameter] != null)
+            {
+                IsFilterable = false;
+                FilterText = $"{Consts.TagSymbol}\"{navigationContext.Parameters[Consts.TagNameParameter]}\"";
             }
 
             MainWindowViewModel mainVM = container.Resolve<MainWindowViewModel>();
@@ -181,9 +187,26 @@ namespace Cooking.WPF.Views
             List<RecipeListViewDto> recipies = recipeService.GetAllMapped<RecipeListViewDto>(container.Resolve<IMapper>());
             Recipies = new ObservableCollection<RecipeListViewDto>(recipies);
 
-            Application.Current.Dispatcher.Invoke(() => RecipiesSource.Source = Recipies);
-
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                RecipiesSource.Source = Recipies;
+                if (FilterText != null)
+                {
+                    UpdateRecipiesSource(FilterText);
+                }
+            });
             return Task.CompletedTask;
+        }
+
+        private void UpdateRecipiesSource(string? value)
+        {
+            recipeFiltrator.OnFilterTextChanged(value);
+
+            RecipiesSource.View?.Refresh();
+            if (RecipiesSource.View is ListCollectionView listCollectionView)
+            {
+                RecipiesNotFound = listCollectionView.Count == 0;
+            }
         }
 
         private void RecipiesSource_Filter(object sender, FilterEventArgs e)

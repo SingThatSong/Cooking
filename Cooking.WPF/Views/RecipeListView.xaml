@@ -83,7 +83,8 @@
                 mahapps:TextBoxHelper.ClearTextButton="True"
                 mahapps:TextBoxHelper.UseFloatingWatermark="True"
                 mahapps:TextBoxHelper.Watermark="{Binding SearchHelpTextCaption, Mode=OneTime}"
-                Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Visibility="{Binding IsFilterable, Converter={StaticResource booleanToVisibilityConverter}}" />
         </DockPanel>
 
         <!--  Recipies as tiles view  -->

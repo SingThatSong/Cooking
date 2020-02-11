@@ -4,6 +4,7 @@
     /// Base class for Typesafe enum pattern.
     /// See https://www.infoworld.com/article/3198453/how-to-implement-a-type-safe-enum-pattern-in-c.html .
     /// </summary>
+    // TODO: Work this out
     public abstract class TypesafeEnum
     {
         /// <summary>

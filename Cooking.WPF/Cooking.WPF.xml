@@ -26,9 +26,6 @@
         <member name="M:Cooking.App.ConfigureViewModelLocator">
             <inheritdoc/>
         </member>
-        <member name="M:Cooking.App.OnInitialized">
-            <inheritdoc/>
-        </member>
         <member name="M:Cooking.App.InitializeComponent">
             <summary>
             InitializeComponent
@@ -282,6 +279,11 @@
         <member name="M:Cooking.WPF.Controls.Ratings.InitializeComponent">
             <summary>
             InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Controls.TagHamburgerMenuItem">
+            <summary>
+            Menu item for tag fitlered recipies.
             </summary>
         </member>
         <member name="T:Cooking.WPF.Converters.BindingProxy">
@@ -773,6 +775,11 @@
             <summary>
             Gets or sets a value indicating whether canTagBeRemoved
             TODO: Refactor out from TagEdit.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.TagEdit.IsInMenu">
+            <summary>
+            Gets or sets a value indicating whether this tag should be included as menu item.
             </summary>
         </member>
         <member name="T:Cooking.WPF.DTO.GarnishEditValidator">
@@ -1606,6 +1613,11 @@
             Gets similar tags to avoid duplicates.
             </summary>
         </member>
+        <member name="P:Cooking.WPF.Views.TagEditViewModel.IsInMenuCaption">
+            <summary>
+            Gets localized caption for IsInMenu.
+            </summary>
+        </member>
         <member name="P:Cooking.WPF.Views.TagEditViewModel.CategoryCaption">
             <summary>
             Gets localized caption for Category.
@@ -1858,6 +1870,11 @@
         <member name="P:Cooking.WPF.Views.RecipeListViewModel.IsTilesView">
             <summary>
             Gets or sets a value indicating whether current view is tiles view.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Views.RecipeListViewModel.IsFilterable">
+            <summary>
+            Gets or sets a value indicating whether view is filterable.
             </summary>
         </member>
         <member name="P:Cooking.WPF.Views.RecipeListViewModel.FilterText">
@@ -2949,6 +2966,11 @@
             Parameter for navigating to <see cref="T:Cooking.WPF.Views.WeekViewModel"/> indicating whether current week should be reloaded.
             </summary>
         </member>
+        <member name="F:Cooking.Consts.TagNameParameter">
+            <summary>
+            Parameter for navigating to <see cref="T:Cooking.WPF.Views.RecipeListView"/> indicating tag to filter.
+            </summary>
+        </member>
         <member name="F:Cooking.Consts.LanguageConfigParameter">
             <summary>
             AppSettings language parameter.
@@ -3040,7 +3062,7 @@
             View model for main window.
             </summary>
         </member>
-        <member name="M:Cooking.MainWindowViewModel.#ctor(WPFLocalizeExtension.Providers.ILocalizationProvider,Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.MainWindowViewModel.#ctor(WPFLocalizeExtension.Providers.ILocalizationProvider,Cooking.WPF.Services.ILocalization,Cooking.ServiceLayer.TagService)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.MainWindowViewModel"/> class.
             </summary>

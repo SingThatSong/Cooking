@@ -50,6 +50,11 @@ namespace Cooking.WPF.Views
             : AllTagNames.OrderBy(x => TagCompare(x, Tag.Name)).Take(Consts.HowManyAlternativesToShow);
 
         /// <summary>
+        /// Gets localized caption for IsInMenu.
+        /// </summary>
+        public string? IsInMenuCaption => localization.GetLocalizedString("IsInMenu");
+
+        /// <summary>
         /// Gets localized caption for Category.
         /// </summary>
         public string? CategoryCaption => localization.GetLocalizedString("Category");

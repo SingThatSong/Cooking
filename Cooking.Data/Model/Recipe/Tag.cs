@@ -23,6 +23,11 @@ namespace Cooking.Data.Model
         public string? Color { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this tag should be included as menu item.
+        /// </summary>
+        public bool IsInMenu { get; set; }
+
+        /// <summary>
         /// Gets or sets recipies with this tag.
         /// </summary>
         public virtual List<RecipeTag>? Recipies { get; set; }

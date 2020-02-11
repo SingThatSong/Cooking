@@ -73,6 +73,11 @@ namespace Cooking
         public const string ReloadWeekParameter = "ReloadWeek";
 
         /// <summary>
+        /// Parameter for navigating to <see cref="RecipeListView"/> indicating tag to filter.
+        /// </summary>
+        public const string TagNameParameter = "TagParameter";
+
+        /// <summary>
         /// AppSettings language parameter.
         /// </summary>
         // TODO: remove after introducing object serialization.
