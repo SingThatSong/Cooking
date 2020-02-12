@@ -160,7 +160,19 @@ namespace Cooking.WPF.Views
         }
 
         /// <inheritdoc/>
-        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            var tagNameParameter = navigationContext.Parameters[Consts.TagNameParameter];
+
+            if (tagNameParameter == null && IsFilterable)
+            {
+                return true;
+            }
+            else
+            {
+                return FilterText == $"{Consts.TagSymbol}\"{navigationContext.Parameters[Consts.TagNameParameter]}\"";
+            }
+        }
 
         /// <inheritdoc/>
         public void OnNavigatedFrom(NavigationContext navigationContext)
