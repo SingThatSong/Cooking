@@ -147,7 +147,7 @@ namespace Cooking.WPF.Views
             Ingredients ??= new ObservableCollection<RecipeIngredientEdit>();
             Ingredient.Order = Ingredients.Count + 1;
             Ingredients.Add(Ingredient);
-            Ingredient = new RecipeIngredientEdit() { ID = Guid.NewGuid() };
+            Ingredient = new RecipeIngredientEdit();
         }
 
         private async Task CreateIngredient()
