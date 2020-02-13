@@ -33,14 +33,6 @@ namespace Cooking.WPF.Views
             Garnish = garnish ?? new GarnishEdit();
             this.localization = localization;
             AllGarnishNames = garnishService.GetNames();
-            Garnish.PropertyChanged += (src, e) =>
-            {
-                if (e.PropertyName == nameof(Garnish.Name))
-                {
-                    OnPropertyChanged(nameof(SimilarGarnishes));
-                    NameChanged = true;
-                }
-            };
             LoadedCommand = new DelegateCommand(OnLoaded);
         }
 
@@ -118,6 +110,14 @@ namespace Cooking.WPF.Views
             string? backup = Garnish.Name;
             Garnish.Name = "123";
             Garnish.Name = backup;
+            Garnish.PropertyChanged += (src, e) =>
+            {
+                if (e.PropertyName == nameof(Garnish.Name))
+                {
+                    OnPropertyChanged(nameof(SimilarGarnishes));
+                    NameChanged = true;
+                }
+            };
         }
 
         private int GarnishCompare(string str1, string str2)

@@ -1,7 +1,9 @@
 ﻿using Cooking.Data.Model;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
+using Cooking.WPF.Events;
 using Cooking.WPF.Services;
+using Prism.Events;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -17,7 +19,9 @@ namespace Cooking.WPF.Views
     /// </summary>
     public partial class IngredientEditViewModel : OkCancelViewModel
     {
+        private readonly IngredientService ingredientService;
         private readonly ILocalization localization;
+        private readonly IEventAggregator eventAggregator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IngredientEditViewModel"/> class.
@@ -25,25 +29,22 @@ namespace Cooking.WPF.Views
         /// <param name="ingredientService">Ingredient service dependency.</param>
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="localization">Localization service dependency.</param>
-        /// <param name="ingredient">Ingredient to edit. Null means.</param>
+        /// <param name="eventAggregator">Prism event aggregator.</param>
+        /// <param name="ingredient">Ingredient to edit. Null means new ingredient.</param>
         public IngredientEditViewModel(IngredientService ingredientService,
                                        DialogService dialogService,
                                        ILocalization localization,
+                                       IEventAggregator eventAggregator,
                                        IngredientEdit? ingredient = null)
             : base(dialogService)
         {
+            this.ingredientService = ingredientService;
             this.localization = localization;
+            this.eventAggregator = eventAggregator;
             Ingredient = ingredient ?? new IngredientEdit();
             AllIngredientNames = ingredientService.GetNames();
-            Ingredient.PropertyChanged += (src, e) =>
-            {
-                if (e.PropertyName == nameof(Ingredient.Name))
-                {
-                    OnPropertyChanged(nameof(SimilarIngredients));
-                    NameChanged = true;
-                }
-            };
             LoadedCommand = new DelegateCommand(OnLoaded);
+            DeleteIngredientCommand = new DelegateCommand<Guid>(DeleteIngredient);
         }
 
         /// <summary>
@@ -67,6 +68,11 @@ namespace Cooking.WPF.Views
         /// Gets command to execute on loaded event.
         /// </summary>
         public DelegateCommand LoadedCommand { get; }
+
+        /// <summary>
+        /// Gets comand to delete ingredient.
+        /// </summary>
+        public DelegateCommand<Guid> DeleteIngredientCommand { get; }
 
         /// <summary>
         /// Gets localized name caption.
@@ -140,6 +146,24 @@ namespace Cooking.WPF.Views
             Ingredient.Type = IngredientType.Vegetables;
 
             Ingredient.Type = typeBackup;
+            Ingredient.PropertyChanged += (src, e) =>
+            {
+                if (e.PropertyName == nameof(Ingredient.Name))
+                {
+                    OnPropertyChanged(nameof(SimilarIngredients));
+                    NameChanged = true;
+                }
+            };
+        }
+
+        private async void DeleteIngredient(Guid ingredientId) => await DialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Ingredient.Name),
+                                                                                                   localization.GetLocalizedString("CannotUndo"),
+                                                                                                   successCallback: () => OnIngredientDeleted(ingredientId));
+
+        private async void OnIngredientDeleted(Guid id)
+        {
+            await ingredientService.DeleteAsync(id);
+            eventAggregator.GetEvent<IngredientDeletedEvent>().Publish(id);
         }
     }
 }

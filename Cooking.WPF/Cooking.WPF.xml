@@ -848,6 +848,11 @@
             </summary>
             <param name="localization">Localization provider for eror messages.</param>
         </member>
+        <member name="T:Cooking.WPF.Events.IngredientDeletedEvent">
+            <summary>
+            Prism Event fired when ingredient deleted.
+            </summary>
+        </member>
         <member name="T:Cooking.WPF.Events.RecipeCreatedEvent">
             <summary>
             Prism Event fired when recipe created.
@@ -1302,14 +1307,15 @@
             View model for ingredient edit dialog.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.IngredientEditViewModel.#ctor(ServiceLayer.IngredientService,Cooking.WPF.DialogService,Cooking.WPF.Services.ILocalization,Cooking.WPF.DTO.IngredientEdit)">
+        <member name="M:Cooking.WPF.Views.IngredientEditViewModel.#ctor(ServiceLayer.IngredientService,Cooking.WPF.DialogService,Cooking.WPF.Services.ILocalization,Prism.Events.IEventAggregator,Cooking.WPF.DTO.IngredientEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientEditViewModel"/> class.
             </summary>
             <param name="ingredientService">Ingredient service dependency.</param>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="localization">Localization service dependency.</param>
-            <param name="ingredient">Ingredient to edit. Null means.</param>
+            <param name="eventAggregator">Prism event aggregator.</param>
+            <param name="ingredient">Ingredient to edit. Null means new ingredient.</param>
         </member>
         <member name="P:Cooking.WPF.Views.IngredientEditViewModel.Ingredient">
             <summary>
@@ -1329,6 +1335,11 @@
         <member name="P:Cooking.WPF.Views.IngredientEditViewModel.LoadedCommand">
             <summary>
             Gets command to execute on loaded event.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Views.IngredientEditViewModel.DeleteIngredientCommand">
+            <summary>
+            Gets comand to delete ingredient.
             </summary>
         </member>
         <member name="P:Cooking.WPF.Views.IngredientEditViewModel.NameCaption">
@@ -1774,13 +1785,14 @@
             View model for ingredients list.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.IngredientListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,ServiceLayer.IngredientService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.Views.IngredientListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,ServiceLayer.IngredientService,Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientListViewModel"/> class.
             </summary>
             <param name="regionManager">Region manager for Prism navigation.</param>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="ingredientService">Ingredient service dependency.</param>
+            <param name="eventAggregator">Prism event aggregator dependency.</param>
             <param name="mapper">Mapper dependency.</param>
             <param name="localization">Localization provider dependency.</param>
         </member>
@@ -1797,11 +1809,6 @@
         <member name="P:Cooking.WPF.Views.IngredientListViewModel.AddIngredientCommand">
             <summary>
             Gets command to create new ingredient.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.Views.IngredientListViewModel.DeleteIngredientCommand">
-            <summary>
-            Gets comand to delete ingredient.
             </summary>
         </member>
         <member name="P:Cooking.WPF.Views.IngredientListViewModel.ViewIngredientCommand">
@@ -3121,36 +3128,6 @@
         <member name="M:Cooking.MainWindowView.InitializeComponent">
             <summary>
             InitializeComponent
-            </summary>
-        </member>
-        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-            <summary>
-            GeneratedInternalTypeHelper
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-            <summary>
-            CreateInstance
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            GetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            SetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-            <summary>
-            CreateDelegate
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-            <summary>
-            AddEventHandler
             </summary>
         </member>
     </members>

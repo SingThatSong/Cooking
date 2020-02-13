@@ -162,7 +162,7 @@ namespace Cooking.WPF.Views
         /// <inheritdoc/>
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            var tagNameParameter = navigationContext.Parameters[Consts.TagNameParameter];
+            object tagNameParameter = navigationContext.Parameters[Consts.TagNameParameter];
 
             if (tagNameParameter == null && IsFilterable)
             {

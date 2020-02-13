@@ -32,7 +32,6 @@ namespace Cooking.WPF.Views
             this.localization = localization;
             Tag = tag ?? new TagEdit();
             AllTagNames = tagService.GetTagNames();
-            Tag.PropertyChanged += Tag_PropertyChanged;
             LoadedCommand = new DelegateCommand(OnLoaded);
         }
 
@@ -156,6 +155,7 @@ namespace Cooking.WPF.Views
 
             Tag.Name = nameBackup;
             Tag.Type = typeBackup;
+            Tag.PropertyChanged += Tag_PropertyChanged;
         }
 
         private int TagCompare(string str1, string str2)
