@@ -113,7 +113,7 @@ namespace Cooking.Data.Context
                 .HasOne(x => x.Ingredient)
                 .WithMany()
                 .HasForeignKey(x => x.IngredientId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<RecipeIngredient>()
                 .Ignore(x => x.MeasureUnit);

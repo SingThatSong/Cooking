@@ -1,29 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 namespace Cooking.Data.Migrations
 {
     /// <summary>
-    /// Somehow foreign keys still have _"Table" relationships. Fixing it.
+    /// Set null to Ingredient's FK when ingredient is deleted.
     /// </summary>
-    public partial class FKs_Fix : Migration
+    public partial class DeleteBehaviour : Migration
     {
         /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             // Disable foreign key checks
             migrationBuilder.Sql("PRAGMA foreign_keys = OFF;", suppressTransaction: true);
-
-            ChangeTableNames(@"CREATE TABLE [IngredientsGroup] (
-                              [ID] text NOT NULL
-                            , [Name] text NULL
-                            , [RecipeID] text NULL
-                            , [Culture] text DEFAULT ('ru-RU') NOT NULL
-                            , CONSTRAINT [sqlite_autoindex_IngredientsGroup_1] PRIMARY KEY ([ID])
-                            , CONSTRAINT [FK_IngredientsGroup_0_0] FOREIGN KEY ([RecipeID]) REFERENCES [_Recipies] ([ID]) ON DELETE SET NULL ON UPDATE NO ACTION
-                            );",
-                            "IngredientsGroup",
-                            migrationBuilder);
 
             ChangeTableNames(@"CREATE TABLE [RecipeIngredients] (
                           [ID] text NOT NULL
@@ -35,22 +23,16 @@ namespace Cooking.Data.Migrations
                         , [Order] bigint DEFAULT (0) NOT NULL
                         , [Culture] text DEFAULT ('ru-RU') NOT NULL
                         , CONSTRAINT [sqlite_autoindex_RecipeIngredients_1] PRIMARY KEY ([ID])
-                        , CONSTRAINT [FK_RecipeIngredients_0_0] FOREIGN KEY ([IngredientId]) REFERENCES [Ingredients] ([ID]) ON DELETE RESTRICT ON UPDATE NO ACTION
+                        , CONSTRAINT [FK_RecipeIngredients_0_0] FOREIGN KEY ([IngredientId]) REFERENCES [Ingredients] ([ID]) ON DELETE SET NULL ON UPDATE NO ACTION
                         , CONSTRAINT [FK_RecipeIngredients_1_0] FOREIGN KEY ([IngredientsGroupID]) REFERENCES [IngredientsGroup] ([ID]) ON DELETE CASCADE ON UPDATE NO ACTION
-                        , CONSTRAINT [FK_RecipeIngredients_2_0] FOREIGN KEY ([RecipeID]) REFERENCES [_Recipies] ([ID]) ON DELETE CASCADE ON UPDATE NO ACTION
+                        , CONSTRAINT [FK_RecipeIngredients_2_0] FOREIGN KEY ([RecipeID]) REFERENCES [Recipies] ([ID]) ON DELETE RESTRICT ON UPDATE NO ACTION
                         );",
                         "RecipeIngredients",
                         migrationBuilder);
 
-            ChangeTableNames(@"CREATE TABLE [RecipeTag] (
-                          [RecipeId] text NOT NULL
-                        , [TagId] text NOT NULL
-                        , CONSTRAINT [sqlite_autoindex_RecipeTag_1] PRIMARY KEY ([RecipeId],[TagId])
-                        , CONSTRAINT [FK_RecipeTag_0_0] FOREIGN KEY ([RecipeId]) REFERENCES [_Recipies] ([ID]) ON DELETE CASCADE ON UPDATE NO ACTION
-                        , CONSTRAINT [FK_RecipeTag_1_0] FOREIGN KEY ([TagId]) REFERENCES [_Tags] ([ID]) ON DELETE CASCADE ON UPDATE NO ACTION
-                        );",
-                        "RecipeTag",
-                        migrationBuilder);
+            migrationBuilder.Sql("CREATE INDEX [RecipeIngredients_RecipeIngredients_IX_RecipeIngredients_IngredientId] ON [RecipeIngredients] ([IngredientId] ASC);");
+            migrationBuilder.Sql("CREATE INDEX[RecipeIngredients_RecipeIngredients_IX_RecipeIngredients_IngredientsGroupID] ON[RecipeIngredients]([IngredientsGroupID] ASC);");
+            migrationBuilder.Sql("CREATE INDEX[RecipeIngredients_RecipeIngredients_IX_RecipeIngredients_RecipeID] ON[RecipeIngredients]([RecipeID] ASC);");
 
             // Re-enable foreign key checks
             migrationBuilder.Sql("PRAGMA foreign_keys = ON;", suppressTransaction: true);
@@ -61,13 +43,10 @@ namespace Cooking.Data.Migrations
         {
         }
 
-        private void ChangeTableNames(string originalSql, string tableName, MigrationBuilder migrationBuilder)
+        private void ChangeTableNames(string sql, string tableName, MigrationBuilder migrationBuilder)
         {
             // Rename old Day table to temp
             migrationBuilder.Sql($"ALTER TABLE {tableName} RENAME TO _{tableName};", suppressTransaction: true);
-
-            string sql = originalSql.Replace("_Recipies", "Recipies", StringComparison.Ordinal)
-                                    .Replace("_Tags", "Tags", StringComparison.Ordinal);
 
             // Recreate table with new types for Day
             migrationBuilder.Sql(sql, suppressTransaction: true);
