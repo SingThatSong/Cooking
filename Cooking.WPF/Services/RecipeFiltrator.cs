@@ -108,7 +108,10 @@ namespace Cooking.WPF.Services
                 return;
             }
 
-            recipeCache!.Add(obj.ID, mapper.Map<Recipe>(obj));
+            if (!recipeCache.ContainsKey(obj.ID))
+            {
+                recipeCache.Add(obj.ID, mapper.Map<Recipe>(obj));
+            }
         }
 
         private bool CombinedFilter(RecipeListViewDto recipe, string text) => HasName(recipe, text) || HasTag(recipe, text) || HasIngredient(recipe, text);
@@ -116,9 +119,18 @@ namespace Cooking.WPF.Services
 
         private bool HasTag(RecipeListViewDto recipe, string category)
         {
-            Recipe recipeDb = recipeCache![recipe.ID];
-            return recipeDb.Tags?.Any(x => x.Tag?.Name != null && string.Equals(x.Tag!.Name!, category, StringComparison.InvariantCultureIgnoreCase)) == true
-;
+            Recipe recipeDb;
+            if (recipeCache!.ContainsKey(recipe.ID))
+            {
+                recipeDb = recipeCache[recipe.ID];
+            }
+            else
+            {
+                recipeDb = recipeService.Get(recipe.ID);
+                recipeCache.Add(recipe.ID, recipeDb);
+            }
+
+            return recipeDb.Tags?.Any(x => x.Tag?.Name != null && string.Equals(x.Tag!.Name!, category, StringComparison.InvariantCultureIgnoreCase)) == true;
         }
 
         private bool HasIngredient(RecipeListViewDto recipe, string category)
