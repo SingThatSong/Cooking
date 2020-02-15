@@ -58,7 +58,6 @@
                         ItemsSource="{Binding AllIngredients}"
                         SelectedValue="{Binding Ingredient.Ingredient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         StaysOpenOnEdit="True"
-                        Style="{StaticResource MahApps.Styles.ComboBox.Virtualized}"
                         TextBoxBase.TextChanged="Ingredient_TextChanged" />
 
                     <Button
