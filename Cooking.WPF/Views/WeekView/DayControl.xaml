@@ -188,7 +188,7 @@
                     <StackPanel>
                         <Button
                             Command="{Binding Data.SelectDinnerCommand, Source={StaticResource proxy}}"
-                            CommandParameter="{Binding DayOfWeek}"
+                            CommandParameter="{Binding Day, ElementName=DayCccontrol}"
                             Content="{Binding Data.ReplaceCaption, Source={StaticResource proxy}}" />
                         <Button
                             Command="{Binding Data.DeleteDinnerCommand, Source={StaticResource proxy}}"
