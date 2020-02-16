@@ -6,6 +6,8 @@ using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -44,6 +46,16 @@ namespace Cooking.ServiceLayer
         {
             using CookingContext context = ContextFactory.Create();
             return GetCultureSpecificSet(context).AsNoTracking().ToList();
+        }
+
+        /// <summary>
+        /// Get all entities for a type.
+        /// </summary>
+        /// <returns>All entities for type <see cref="T"/>.</returns>
+        public virtual List<T> GetAll(List<Expression<Func<T, bool>>> expressions)
+        {
+            using CookingContext context = ContextFactory.Create();
+            return GetCultureSpecificSet(context).AsNoTracking().Where("@0(it) or @1(it) or @2(it)", expressions[0], expressions[1], expressions[2]).ToList();
         }
 
         /// <summary>

@@ -134,6 +134,10 @@ namespace Cooking.WPF.Views
             {
                 if (filterText != value)
                 {
+                    //System.Linq.Expressions.Expression<Func<Data.Model.Recipe, bool>> с = x => x.Name.ToUpper().Contains(value.ToUpper());
+                    //System.Linq.Expressions.Expression<Func<Data.Model.Recipe, bool>> a = x => x.Tags.Any(x => x.Tag.Name == value);
+                    //System.Linq.Expressions.Expression<Func<Data.Model.Recipe, bool>> b = x => x.Ingredients.Any(x => x.Ingredient.Name == value) || x.IngredientGroups.Any(x => x.Ingredients.Any(x => x.Ingredient.Name == value));
+                    //List<Data.Model.Recipe> result = recipeService.GetAll(new List<System.Linq.Expressions.Expression<Func<Data.Model.Recipe, bool>>> { a, b, с });
                     filterText = value;
                     UpdateRecipiesSource(value);
                 }
