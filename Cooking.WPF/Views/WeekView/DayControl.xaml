@@ -32,6 +32,7 @@
                 NullVisibility="Collapsed" />
 
             <converters:BindingProxy x:Key="proxy" Data="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext}" />
+            <converters:BindingProxy x:Key="dayProxy" Data="{Binding RelativeSource={RelativeSource AncestorType=local:DayControl, Mode=FindAncestor}}" />
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -188,7 +189,7 @@
                     <StackPanel>
                         <Button
                             Command="{Binding Data.SelectDinnerCommand, Source={StaticResource proxy}}"
-                            CommandParameter="{Binding Day, ElementName=DayCccontrol}"
+                            CommandParameter="{Binding Data.Day, Source={StaticResource dayProxy}}"
                             Content="{Binding Data.ReplaceCaption, Source={StaticResource proxy}}" />
                         <Button
                             Command="{Binding Data.DeleteDinnerCommand, Source={StaticResource proxy}}"
