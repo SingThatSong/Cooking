@@ -30,8 +30,9 @@ using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
+// TODO: Make sure there is no russian in the code
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
-// TODO: Plurals localization
+// TODO: Plurals localization - https://github.com/Humanizr/Humanizer
 // TODO: Move all typesafe enums to tables with localization or to simple enums (IngredientType)
 // TODO: Count calories for recipe
 // TODO: Set calorietype accordingly to counted calories
@@ -39,8 +40,6 @@ using WPFLocalizeExtension.Providers;
 // TODO: Make GetCultureSpecificSet method an extention method
 // TODO: Debug/ Measure method perfomance (benchmark?)
 // TODO: Add debug console logging to methods and constructors
-// TODO: Make sure there is no russian in the code
-// TODO: Move folder names to constants
 // TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
 // TODO: Set all *Caption bindings to be OneTime
 // TODO: Settings for day recipies (breakfast, supper, etc.)
