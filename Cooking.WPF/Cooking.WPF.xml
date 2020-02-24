@@ -1037,44 +1037,10 @@
             Filtration logic for list of recipies.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Services.RecipeFiltrator.#ctor(Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper)">
+        <member name="P:Cooking.WPF.Services.RecipeFiltrator.Instance">
             <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.Services.RecipeFiltrator"/> class.
+            Gets instance of recipe filtrator generator.
             </summary>
-            <param name="recipeService">Recipe service dependency.</param>
-            <param name="eventAggregator">Event aggregator dependency for reacting to events.</param>
-            <param name="mapper">Mapper dependency.</param>
-        </member>
-        <member name="M:Cooking.WPF.Services.RecipeFiltrator.FilterObject(Cooking.WPF.DTO.RecipeListViewDto)">
-            <summary>
-            Filter single object.
-            </summary>
-            <param name="recipe">Recipe to filter.</param>
-            <returns>Whether recipe fits fitler.</returns>
-        </member>
-        <member name="M:Cooking.WPF.Services.RecipeFiltrator.OnFilterTextChanged(System.String)">
-            <summary>
-            Callback called when filter text is changed.
-            </summary>
-            <param name="newText">New value for Filter Text.</param>
-        </member>
-        <member name="M:Cooking.WPF.Services.RecipeFiltrator.OnRecipeDeleted(System.Guid)">
-            <summary>
-            Callback for event when recipe is deleted. Remove it from cache.
-            </summary>
-            <param name="id">ID of deleted recipe.</param>
-        </member>
-        <member name="M:Cooking.WPF.Services.RecipeFiltrator.OnRecipeUpdated(Cooking.WPF.DTO.RecipeEdit)">
-            <summary>
-            Callback for event when recipe is updated. Update it in cache.
-            </summary>
-            <param name="obj">Updated recipe.</param>
-        </member>
-        <member name="M:Cooking.WPF.Services.RecipeFiltrator.OnRecipeCreated(Cooking.WPF.DTO.RecipeEdit)">
-            <summary>
-            Callback for event when recipe is deleted. Remove it from cache.
-            </summary>
-            <param name="obj">Created recipe.</param>
         </member>
         <member name="T:Cooking.WPF.Services.ReguinManagerExtentions">
             <summary>
@@ -1559,14 +1525,13 @@
             View model for recipe selection from a list of recipies.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,AutoMapper.IMapper,Cooking.WPF.Services.RecipeFiltrator,Cooking.WPF.Services.ILocalization,Cooking.WPF.Views.DayPlan)">
+        <member name="M:Cooking.WPF.Views.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization,Cooking.WPF.Views.DayPlan)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeSelectViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="recipeService">Recipe service dependency.</param>
             <param name="mapper">Mapper dependency.</param>
-            <param name="recipeFiltrator">Instance of recipe filtrator.</param>
             <param name="localization">Localization service dependency.</param>
             <param name="day">Day, which settings will be user for filtering.</param>
         </member>
@@ -1592,13 +1557,6 @@
         </member>
         <member name="M:Cooking.WPF.Views.RecipeSelectViewModel.CanOk">
             <inheritdoc/>
-        </member>
-        <member name="M:Cooking.WPF.Views.RecipeSelectViewModel.RecipiesSource_Filter(System.Object,System.Windows.Data.FilterEventArgs)">
-            <summary>
-            Callback to call for each recipe on filtration.
-            </summary>
-            <param name="sender">CollectionViewSource that fired event.</param>
-            <param name="e">Event arguments.</param>
         </member>
         <member name="T:Cooking.WPF.Views.TagEditViewModel">
             <summary>
@@ -1826,7 +1784,7 @@
             View model for a list of recipies.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.RecipeListViewModel.#ctor(Cooking.WPF.DialogService,Prism.Ioc.IContainerExtension,Prism.Regions.IRegionManager,Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.WPF.Services.RecipeFiltrator,Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.Views.RecipeListViewModel.#ctor(Cooking.WPF.DialogService,Prism.Ioc.IContainerExtension,Prism.Regions.IRegionManager,Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeListViewModel"/> class.
             </summary>
@@ -1836,7 +1794,6 @@
             <param name="recipeService">Recipe service dependency.</param>
             <param name="eventAggregator">Dependency on Prism event aggregator.</param>
             <param name="mapper">Mapper dependency.</param>
-            <param name="recipeFiltrator">Dependency on recipe filtrator.</param>
             <param name="localization">Localization provider dependency.</param>
         </member>
         <member name="P:Cooking.WPF.Views.RecipeListViewModel.RecipiesNotFound">
@@ -3128,36 +3085,6 @@
         <member name="M:Cooking.MainWindowView.InitializeComponent">
             <summary>
             InitializeComponent
-            </summary>
-        </member>
-        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-            <summary>
-            GeneratedInternalTypeHelper
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-            <summary>
-            CreateInstance
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            GetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            SetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-            <summary>
-            CreateDelegate
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-            <summary>
-            AddEventHandler
             </summary>
         </member>
     </members>

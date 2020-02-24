@@ -145,7 +145,6 @@ namespace Cooking.WPF.Views
             var viewModel = new RecipeSelectViewModel(dialogService,
                                                       recipeService,
                                                       mapper,
-                                                      container.Resolve<RecipeFiltrator>(),
                                                       container.Resolve<ILocalization>(),
                                                       day);
 

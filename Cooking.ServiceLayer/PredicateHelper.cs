@@ -7,7 +7,7 @@ namespace ServiceLayer
     /// <summary>
     /// Extentions for Expression creation.
     /// </summary>
-    internal static class PredicateHelper
+    public static class PredicateHelper
     {
         /// <summary>
         /// Expression for true. Acts as a basis for expression assembly.

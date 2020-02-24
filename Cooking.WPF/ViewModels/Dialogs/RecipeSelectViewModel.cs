@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Cooking.Data.Model;
 using Cooking.ServiceLayer;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Windows.Data;
 
@@ -16,7 +18,8 @@ namespace Cooking.WPF.Views
     public partial class RecipeSelectViewModel : OkCancelViewModel
     {
         private readonly List<RecipeListViewDto> recipies;
-        private readonly RecipeFiltrator recipeFiltrator;
+        private readonly RecipeService recipeService;
+        private readonly IMapper mapper;
         private readonly ILocalization localization;
         private string? filterText;
 
@@ -26,24 +29,22 @@ namespace Cooking.WPF.Views
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="recipeService">Recipe service dependency.</param>
         /// <param name="mapper">Mapper dependency.</param>
-        /// <param name="recipeFiltrator">Instance of recipe filtrator.</param>
         /// <param name="localization">Localization service dependency.</param>
         /// <param name="day">Day, which settings will be user for filtering.</param>
         public RecipeSelectViewModel(DialogService dialogService,
                                      RecipeService recipeService,
                                      IMapper mapper,
-                                     RecipeFiltrator recipeFiltrator,
                                      ILocalization localization,
                                      DayPlan? day = null)
             : base(dialogService)
         {
-            this.recipeFiltrator = recipeFiltrator;
+            this.recipeService = recipeService;
+            this.mapper = mapper;
             this.localization = localization;
 
             recipies = recipeService.GetAllProjected<RecipeListViewDto>(mapper);
 
             RecipiesSource = new CollectionViewSource() { Source = recipies };
-            RecipiesSource.Filter += RecipiesSource_Filter;
 
             if (day != null)
             {
@@ -135,7 +136,14 @@ namespace Cooking.WPF.Views
                 if (filterText != value)
                 {
                     filterText = value;
-                    recipeFiltrator.OnFilterTextChanged(value);
+
+                    recipies.Clear();
+
+                    Expression<Func<Recipe, bool>> filterExpression = RecipeFiltrator.Instance.Value.GetExpression(value);
+                    List<RecipeListViewDto> newEntries = recipeService.GetProjected<RecipeListViewDto>(filterExpression, mapper);
+
+                    recipies.AddRange(newEntries);
+
                     RecipiesSource.View.Refresh();
                 }
             }
@@ -143,23 +151,5 @@ namespace Cooking.WPF.Views
 
         /// <inheritdoc/>
         protected override bool CanOk() => SelectedRecipe != null;
-
-        /// <summary>
-        /// Callback to call for each recipe on filtration.
-        /// </summary>
-        /// <param name="sender">CollectionViewSource that fired event.</param>
-        /// <param name="e">Event arguments.</param>
-        private void RecipiesSource_Filter(object sender, FilterEventArgs e)
-        {
-            if (string.IsNullOrEmpty(filterText))
-            {
-                return;
-            }
-
-            if (e.Item is RecipeListViewDto recipe)
-            {
-                e.Accepted = recipeFiltrator.FilterObject(recipe);
-            }
-        }
     }
 }

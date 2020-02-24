@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Linq.Dynamic.Core.CustomTypeProviders;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -49,13 +50,20 @@ namespace Cooking.ServiceLayer
         }
 
         /// <summary>
-        /// Get all entities for a type.
+        /// Get all entries filtered by expression and projected to some type.
         /// </summary>
-        /// <returns>All entities for type <see cref="T"/>.</returns>
-        public virtual List<T> GetAll(List<Expression<Func<T, bool>>> expressions)
+        /// <typeparam name="TProjection">Type of projection.</typeparam>
+        /// <param name="predicate">Predicate to filter.</param>
+        /// <param name="mapper">Mapper containing projection.</param>
+        /// <returns>Projected and filtered collection.</returns>
+        public virtual List<TProjection> GetProjected<TProjection>(Expression<Func<T, bool>> predicate, IMapper mapper)
+            where TProjection : Entity
         {
             using CookingContext context = ContextFactory.Create();
-            return GetCultureSpecificSet(context).AsNoTracking().Where("@0(it) or @1(it) or @2(it)", expressions[0], expressions[1], expressions[2]).ToList();
+            IQueryable cultureSpecificSet = GetCultureSpecificSet(context).Where(predicate);
+            return mapper.ProjectTo<TProjection>(cultureSpecificSet)
+                         .AsNoTracking()
+                         .ToList();
         }
 
         /// <summary>

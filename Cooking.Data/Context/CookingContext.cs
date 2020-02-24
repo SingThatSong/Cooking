@@ -2,6 +2,7 @@
 using Cooking.Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Cooking.Data.Context

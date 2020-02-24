@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Cooking.Data.Model;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
@@ -14,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -31,7 +33,6 @@ namespace Cooking.WPF.Views
         private readonly IRegionManager regionManager;
         private readonly RecipeService recipeService;
         private readonly IMapper mapper;
-        private readonly RecipeFiltrator recipeFiltrator;
         private readonly ILocalization localization;
 
         private string? filterText;
@@ -45,7 +46,6 @@ namespace Cooking.WPF.Views
         /// <param name="recipeService">Recipe service dependency.</param>
         /// <param name="eventAggregator">Dependency on Prism event aggregator.</param>
         /// <param name="mapper">Mapper dependency.</param>
-        /// <param name="recipeFiltrator">Dependency on recipe filtrator.</param>
         /// <param name="localization">Localization provider dependency.</param>
         public RecipeListViewModel(DialogService dialogService,
                                  IContainerExtension container,
@@ -53,7 +53,6 @@ namespace Cooking.WPF.Views
                                  RecipeService recipeService,
                                  IEventAggregator eventAggregator,
                                  IMapper mapper,
-                                 RecipeFiltrator recipeFiltrator,
                                  ILocalization localization)
         {
             this.dialogService = dialogService;
@@ -61,7 +60,6 @@ namespace Cooking.WPF.Views
             this.regionManager = regionManager;
             this.recipeService = recipeService;
             this.mapper = mapper;
-            this.recipeFiltrator = recipeFiltrator;
             this.localization = localization;
 
             // Subscribe to events
@@ -75,7 +73,6 @@ namespace Cooking.WPF.Views
             AddRecipeCommand = new DelegateCommand(AddRecipe);
 
             RecipiesSource = new CollectionViewSource();
-            RecipiesSource.Filter += RecipiesSource_Filter;
             RecipiesSource.SortDescriptions.Add(new SortDescription() { PropertyName = nameof(RecipeListViewDto.Name) });
         }
 
@@ -134,10 +131,6 @@ namespace Cooking.WPF.Views
             {
                 if (filterText != value)
                 {
-                    //System.Linq.Expressions.Expression<Func<Data.Model.Recipe, bool>> с = x => x.Name.ToUpper().Contains(value.ToUpper());
-                    //System.Linq.Expressions.Expression<Func<Data.Model.Recipe, bool>> a = x => x.Tags.Any(x => x.Tag.Name == value);
-                    //System.Linq.Expressions.Expression<Func<Data.Model.Recipe, bool>> b = x => x.Ingredients.Any(x => x.Ingredient.Name == value) || x.IngredientGroups.Any(x => x.Ingredients.Any(x => x.Ingredient.Name == value));
-                    //List<Data.Model.Recipe> result = recipeService.GetAll(new List<System.Linq.Expressions.Expression<Func<Data.Model.Recipe, bool>>> { a, b, с });
                     filterText = value;
                     UpdateRecipiesSource(value);
                 }
@@ -216,25 +209,16 @@ namespace Cooking.WPF.Views
 
         private void UpdateRecipiesSource(string? value)
         {
-            recipeFiltrator.OnFilterTextChanged(value);
+            Recipies!.Clear();
 
-            RecipiesSource.View?.Refresh();
+            Expression<Func<Recipe, bool>> filterExpression = RecipeFiltrator.Instance.Value.GetExpression(value);
+            List<RecipeListViewDto> newEntries = recipeService.GetProjected<RecipeListViewDto>(filterExpression, mapper);
+
+            Recipies.AddRange(newEntries);
+
             if (RecipiesSource.View is ListCollectionView listCollectionView)
             {
                 RecipiesNotFound = listCollectionView.Count == 0;
-            }
-        }
-
-        private void RecipiesSource_Filter(object sender, FilterEventArgs e)
-        {
-            if (string.IsNullOrEmpty(filterText))
-            {
-                return;
-            }
-
-            if (e.Item is RecipeListViewDto recipe)
-            {
-                e.Accepted = recipeFiltrator.FilterObject(recipe);
             }
         }
 
