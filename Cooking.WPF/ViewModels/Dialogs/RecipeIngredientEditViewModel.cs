@@ -20,7 +20,6 @@ namespace Cooking.WPF.Views
     {
         private readonly DialogService dialogService;
         private readonly IngredientService ingredientService;
-        private readonly IMapper mapper;
         private readonly ILocalization localization;
 
         /// <summary>
@@ -28,19 +27,16 @@ namespace Cooking.WPF.Views
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="ingredientService">Ingredient service dependency.</param>
-        /// <param name="mapper">Mapper dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
         /// <param name="ingredient">Ingredient to edit.</param>
         public RecipeIngredientEditViewModel(DialogService dialogService,
                                              IngredientService ingredientService,
-                                             IMapper mapper,
                                              ILocalization localization,
                                              RecipeIngredientEdit ingredient)
             : base(dialogService)
         {
             this.dialogService = dialogService;
             this.ingredientService = ingredientService;
-            this.mapper = mapper;
             this.localization = localization;
             Ingredient = ingredient;
 
@@ -48,7 +44,7 @@ namespace Cooking.WPF.Views
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
             CreateIngredientCommand = new AsyncDelegateCommand(CreateIngredient);
 
-            AllIngredients = ingredientService.GetAllProjected<IngredientEdit>(mapper);
+            AllIngredients = ingredientService.GetAllProjected<IngredientEdit>();
             LoadedCommand = new DelegateCommand(OnLoaded);
         }
 
@@ -156,7 +152,7 @@ namespace Cooking.WPF.Views
 
             if (viewModel.DialogResultOk)
             {
-                Guid id = await ingredientService.CreateAsync(mapper.Map<Ingredient>(viewModel.Ingredient));
+                Guid id = await ingredientService.CreateAsync(viewModel.Ingredient);
                 viewModel.Ingredient.ID = id;
                 AllIngredients.Add(viewModel.Ingredient);
                 Ingredient.Ingredient = viewModel.Ingredient;

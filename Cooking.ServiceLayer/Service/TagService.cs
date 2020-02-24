@@ -16,8 +16,8 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <param name="contextFactory">Factory for creating <see cref="CookingContext"/> instances.</param>
         /// <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
-        public TagService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider)
-            : base(contextFactory, cultureProvider)
+        public TagService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider, IMapper mapper)
+            : base(contextFactory, cultureProvider, mapper)
         {
         }
 
@@ -26,13 +26,12 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <typeparam name="T">Type to project result to.</typeparam>
         /// <param name="tagType">Type to filter tags.</param>
-        /// <param name="mapper">Mapper containing.</param>
         /// <returns>Projected list of tags filtered by type.</returns>
         // TODO: remove after introduction of IQueryable parameter in CRUDService
-        public List<T> GetTagsByTypeProjected<T>(TagType tagType, IMapper mapper)
+        public List<T> GetTagsByTypeProjected<T>(TagType tagType)
         {
             using CookingContext context = ContextFactory.Create();
-            return mapper.ProjectTo<T>(GetCultureSpecificSet(context).Where(x => x.Type == tagType)).ToList();
+            return Mapper.ProjectTo<T>(GetCultureSpecificSet(context).Where(x => x.Type == tagType)).ToList();
         }
 
         /// <summary>

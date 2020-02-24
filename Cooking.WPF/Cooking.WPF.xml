@@ -1442,13 +1442,12 @@
             View model for editing ingredient in recipe.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.RecipeIngredientEditViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.IngredientService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization,Cooking.WPF.DTO.RecipeIngredientEdit)">
+        <member name="M:Cooking.WPF.Views.RecipeIngredientEditViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.IngredientService,Cooking.WPF.Services.ILocalization,Cooking.WPF.DTO.RecipeIngredientEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeIngredientEditViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="ingredientService">Ingredient service dependency.</param>
-            <param name="mapper">Mapper dependency.</param>
             <param name="localization">Localization provider dependency.</param>
             <param name="ingredient">Ingredient to edit.</param>
         </member>
@@ -1525,13 +1524,12 @@
             View model for recipe selection from a list of recipies.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization,Cooking.WPF.Views.DayPlan)">
+        <member name="M:Cooking.WPF.Views.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,Cooking.WPF.Services.ILocalization,Cooking.WPF.Views.DayPlan)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeSelectViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="recipeService">Recipe service dependency.</param>
-            <param name="mapper">Mapper dependency.</param>
             <param name="localization">Localization service dependency.</param>
             <param name="day">Day, which settings will be user for filtering.</param>
         </member>
@@ -1643,13 +1641,12 @@
             View model for tag selection.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.Views.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.WPF.Services.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagSelectViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="tagService">Tag service dependency.</param>
-            <param name="mapper">Mapper dependency.</param>
             <param name="localization">Localization provider dependency.</param>
         </member>
         <member name="P:Cooking.WPF.Views.TagSelectViewModel.MeasurementUnits">

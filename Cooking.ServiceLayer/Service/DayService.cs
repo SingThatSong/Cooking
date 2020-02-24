@@ -1,4 +1,5 @@
-﻿using Cooking.Data.Context;
+﻿using AutoMapper;
+using Cooking.Data.Context;
 using Cooking.Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
 using ServiceLayer;
@@ -21,8 +22,8 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <param name="contextFactory">Factory for creating <see cref="CookingContext"/> instances.</param>
         /// <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
-        public DayService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider)
-            : base(contextFactory, cultureProvider)
+        public DayService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider, IMapper mapper)
+            : base(contextFactory, cultureProvider, mapper)
         {
         }
 

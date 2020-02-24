@@ -2,14 +2,10 @@
 using Cooking.Data.Context;
 using Cooking.Data.Model;
 using Microsoft.EntityFrameworkCore;
-using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
-using System.Linq.Dynamic.Core.CustomTypeProviders;
 using System.Linq.Expressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Cooking.ServiceLayer
@@ -28,16 +24,23 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <param name="contextFactory">Context factory for creating <see cref="CookingContext"/>.</param>
         /// <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
-        public CRUDService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider)
+        /// <param name="mapper">Dependency on database-projection mapper.</param>
+        public CRUDService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider, IMapper mapper)
         {
             ContextFactory = contextFactory;
             this.cultureProvider = cultureProvider;
+            Mapper = mapper;
         }
 
         /// <summary>
         /// Gets factory to create database contexts (unit of works).
         /// </summary>
         protected IContextFactory ContextFactory { get; }
+
+        /// <summary>
+        /// Gets dependency on database-projection mapper.
+        /// </summary>
+        protected IMapper Mapper { get; }
 
         /// <summary>
         /// Get all entities for a type.
@@ -54,14 +57,13 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <typeparam name="TProjection">Type of projection.</typeparam>
         /// <param name="predicate">Predicate to filter.</param>
-        /// <param name="mapper">Mapper containing projection.</param>
         /// <returns>Projected and filtered collection.</returns>
-        public virtual List<TProjection> GetProjected<TProjection>(Expression<Func<T, bool>> predicate, IMapper mapper)
+        public virtual List<TProjection> GetProjected<TProjection>(Expression<Func<T, bool>> predicate)
             where TProjection : Entity
         {
             using CookingContext context = ContextFactory.Create();
             IQueryable cultureSpecificSet = GetCultureSpecificSet(context).Where(predicate);
-            return mapper.ProjectTo<TProjection>(cultureSpecificSet)
+            return Mapper.ProjectTo<TProjection>(cultureSpecificSet)
                          .AsNoTracking()
                          .ToList();
         }
@@ -71,14 +73,13 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <typeparam name="TProjection">Type of entry to project to.</typeparam>
         /// <param name="id">ID of entity to find and project.</param>
-        /// <param name="mapper">Mapper, where projection is defined.</param>
         /// <returns>Found projected entity.</returns>
-        public virtual TProjection GetProjected<TProjection>(Guid id, IMapper mapper)
+        public virtual TProjection GetProjected<TProjection>(Guid id)
             where TProjection : Entity
         {
             using CookingContext context = ContextFactory.Create();
             IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context);
-            return mapper.ProjectTo<TProjection>(cultureSpecificSet)
+            return Mapper.ProjectTo<TProjection>(cultureSpecificSet)
                          .AsNoTracking()
                          .FirstOrDefault(x => x.ID == id);
         }
@@ -89,11 +90,11 @@ namespace Cooking.ServiceLayer
         /// <typeparam name="TProjection">Type to project <see cref="T"/> to.</typeparam>
         /// <param name="mapper">Mapper that defines projection.</param>
         /// <returns>List of all projected entities.</returns>
-        public List<TProjection> GetAllProjected<TProjection>(IMapper mapper)
+        public List<TProjection> GetAllProjected<TProjection>()
         {
             using CookingContext context = ContextFactory.Create();
             IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context).AsNoTracking();
-            return mapper.ProjectTo<TProjection>(cultureSpecificSet).ToList();
+            return Mapper.ProjectTo<TProjection>(cultureSpecificSet).ToList();
         }
 
         /// <summary>
@@ -106,6 +107,23 @@ namespace Cooking.ServiceLayer
             using CookingContext context = ContextFactory.Create();
             entity.Culture = GetCurrentCulture();
             await context.Set<T>().AddAsync(entity);
+            await context.SaveChangesAsync().ConfigureAwait(false);
+            return entity.ID;
+        }
+
+        /// <summary>
+        /// Create new entity in database.
+        /// </summary>
+        /// <typeparam name="TProjection">Projection which should be a base for entity. Entity will be created via mapping.</typeparam>
+        /// <param name="entity">Entity to insert into database.</param>
+        /// <returns>ID of created entity.</returns>
+        public async Task<Guid> CreateAsync<TProjection>(TProjection entity)
+            where TProjection : Entity
+        {
+            using CookingContext context = ContextFactory.Create();
+            entity.Culture = GetCurrentCulture();
+            T dbType = Mapper.Map<T>(entity);
+            await context.Set<T>().AddAsync(dbType);
             await context.SaveChangesAsync().ConfigureAwait(false);
             return entity.ID;
         }
@@ -133,7 +151,22 @@ namespace Cooking.ServiceLayer
         {
             using CookingContext context = ContextFactory.Create(useLazyLoading: true);
             T existing = await context.Set<T>().FindAsync(entity.ID);
-            MapperService.Mapper.Map(entity, existing);
+            Mapper.Map(entity, existing);
+            await context.SaveChangesAsync().ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Update existing entity using object as a new state.
+        /// </summary>
+        /// <typeparam name="TProjection">Projection containing part of new state for entity.</typeparam>
+        /// <param name="entity">New state of existing entity.</param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        public async Task UpdateAsync<TProjection>(TProjection entity)
+            where TProjection : Entity
+        {
+            using CookingContext context = ContextFactory.Create();
+            T existing = await context.Set<T>().FindAsync(entity.ID);
+            Mapper.Map(entity, existing);
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
 

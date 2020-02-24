@@ -24,8 +24,8 @@ namespace Cooking.ServiceLayer
         /// <param name="contextFactory">Factory for creating <see cref="CookingContext"/> instances.</param>
         /// <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
         /// <param name="dayService"><see cref="DayService"/> dependency.</param>
-        public RecipeService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider, DayService dayService)
-            : base(contextFactory, cultureProvider)
+        public RecipeService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider, IMapper mapper, DayService dayService)
+            : base(contextFactory, cultureProvider, mapper)
         {
             this.dayService = dayService;
         }
@@ -48,12 +48,11 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <typeparam name="TMap">Type of dto to return.</typeparam>
         /// <param name="id">ID of entity to load and map.</param>
-        /// <param name="mapper">Mapper containing map definition between database entity and <see cref="TMap" />.</param>
         /// <returns>Mapped object.</returns>
-        public TMap GetMapped<TMap>(Guid id, IMapper mapper)
+        public TMap GetMapped<TMap>(Guid id)
         {
             Recipe recipe = Get(id);
-            return mapper.Map<TMap>(recipe);
+            return Mapper.Map<TMap>(recipe);
         }
 
         /// <inheritdoc/>
@@ -79,25 +78,23 @@ namespace Cooking.ServiceLayer
         /// <typeparam name="TMap">Type of dto to return.</typeparam>
         /// <param name="mapper">Mapper containing map definition between database entity and <see cref="TMap" />.</param>
         /// <returns>Mapped object collection.</returns>
-        public List<TMap> GetAllMapped<TMap>(IMapper mapper)
+        public List<TMap> GetAllMapped<TMap>()
         {
             List<Recipe> recipe = GetAll();
-            return mapper.Map<List<TMap>>(recipe);
+            return Mapper.Map<List<TMap>>(recipe);
         }
 
         /// <summary>
         /// Get reipe list filtered by optional parameters.
         /// </summary>
         /// <typeparam name="T">Type of required projection.</typeparam>
-        /// <param name="mapper">Mapper for projection.</param>
         /// <param name="requiredTags">Filter reipies by tags.</param>
         /// <param name="requiredCalorieTypes">Filter reipies by calorie types.</param>
         /// <param name="maxComplexity">Filter reipies by maximal complexity.</param>
         /// <param name="minRating">Filter reipies by minimal rating.</param>
         /// <param name="onlyNew">Filter out reipies which already was cooked.</param>
         /// <returns>List of filtered recipies.</returns>
-        public List<T> GetRecipiesByParametersProjected<T>(IMapper mapper,
-                                                    List<Guid>? requiredTags = null,
+        public List<T> GetRecipiesByParametersProjected<T>(List<Guid>? requiredTags = null,
                                                     List<CalorieType>? requiredCalorieTypes = null,
                                                     int? maxComplexity = null,
                                                     int? minRating = null,
@@ -146,7 +143,7 @@ namespace Cooking.ServiceLayer
                 query = query.Where(x => x.Rating >= minRating.Value);
             }
 
-            var queryResult = mapper.ProjectTo<T>(query).ToList();
+            var queryResult = Mapper.ProjectTo<T>(query).ToList();
 
             // Клиентская фильтрация
             if (onlyNew.HasValue && onlyNew.Value)

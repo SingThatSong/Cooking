@@ -89,7 +89,7 @@ namespace Cooking.WPF.Views
         private Task OnLoaded()
         {
             Debug.WriteLine("GarnishesViewModel.OnLoaded");
-            List<GarnishEdit> dbValues = garnishService.GetAllProjected<GarnishEdit>(mapper);
+            List<GarnishEdit> dbValues = garnishService.GetAllProjected<GarnishEdit>();
             Garnishes = new ObservableCollection<GarnishEdit>(dbValues);
 
             return Task.CompletedTask;
@@ -103,14 +103,14 @@ namespace Cooking.WPF.Views
 
         private async void OnGarnishEdited(GarnishEditViewModel viewModel)
         {
-            await garnishService.UpdateAsync(mapper.Map<Garnish>(viewModel.Garnish));
+            await garnishService.UpdateAsync(viewModel.Garnish);
             GarnishEdit existingGarnish = Garnishes.Single(x => x.ID == viewModel.Garnish.ID);
             mapper.Map(viewModel.Garnish, existingGarnish);
         }
 
         private async void OnNewGarnishCreated(GarnishEditViewModel viewModel)
         {
-            await garnishService.CreateAsync(mapper.Map<Garnish>(viewModel.Garnish));
+            await garnishService.CreateAsync(viewModel.Garnish);
             Garnishes!.Add(viewModel.Garnish);
         }
     }

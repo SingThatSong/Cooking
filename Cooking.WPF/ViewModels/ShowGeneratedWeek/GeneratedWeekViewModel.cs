@@ -141,10 +141,8 @@ namespace Cooking.WPF.Views
 
         private async void SetRecipeManually(DayPlan day)
         {
-            IMapper mapper = container.Resolve<IMapper>();
             var viewModel = new RecipeSelectViewModel(dialogService,
                                                       recipeService,
-                                                      mapper,
                                                       container.Resolve<ILocalization>(),
                                                       day);
 
@@ -152,7 +150,7 @@ namespace Cooking.WPF.Views
 
             if (viewModel.DialogResultOk)
             {
-                day.SpecificRecipe = recipeService.GetMapped<RecipeListViewDto>(viewModel.SelectedRecipe!.ID, mapper);
+                day.SpecificRecipe = recipeService.GetMapped<RecipeListViewDto>(viewModel.SelectedRecipe!.ID);
             }
         }
 

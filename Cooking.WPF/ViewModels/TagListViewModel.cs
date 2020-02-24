@@ -92,7 +92,7 @@ namespace Cooking.WPF.Views
         private Task OnLoaded()
         {
             Debug.WriteLine("TagsViewModel.OnLoaded");
-            List<TagEdit> dbVals = tagService.GetAllProjected<TagEdit>(mapper);
+            List<TagEdit> dbVals = tagService.GetAllProjected<TagEdit>();
             Tags = new ObservableCollection<TagEdit>(dbVals);
 
             return Task.CompletedTask;
@@ -112,7 +112,7 @@ namespace Cooking.WPF.Views
 
             if (viewModel.DialogResultOk)
             {
-                await tagService.UpdateAsync(mapper.Map<Tag>(viewModel.Tag));
+                await tagService.UpdateAsync(viewModel.Tag);
                 TagEdit existingTag = Tags.Single(x => x.ID == tag.ID);
                 mapper.Map(viewModel.Tag, existingTag);
             }
@@ -134,7 +134,7 @@ namespace Cooking.WPF.Views
 
             if (viewModel.DialogResultOk)
             {
-                Guid id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag)).ConfigureAwait(true);
+                Guid id = await tagService.CreateAsync(viewModel.Tag).ConfigureAwait(true);
                 viewModel.Tag.ID = id;
                 Tags!.Add(viewModel.Tag);
             }

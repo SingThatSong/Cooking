@@ -89,7 +89,7 @@ namespace Cooking.WPF.Views
         private Task OnLoaded()
         {
             Debug.WriteLine("IngredientsViewModel.OnLoaded");
-            List<IngredientEdit> dataDb = ingredientService.GetAllProjected<IngredientEdit>(mapper);
+            List<IngredientEdit> dataDb = ingredientService.GetAllProjected<IngredientEdit>();
             Ingredients = new ObservableCollection<IngredientEdit>(dataDb);
 
             return Task.CompletedTask;
@@ -115,14 +115,14 @@ namespace Cooking.WPF.Views
 
         private async void OnIngredientEdited(IngredientEditViewModel viewModel)
         {
-            await ingredientService.UpdateAsync(mapper.Map<Ingredient>(viewModel.Ingredient));
+            await ingredientService.UpdateAsync(viewModel.Ingredient);
             IngredientEdit existing = Ingredients.Single(x => x.ID == viewModel.Ingredient.ID);
             mapper.Map(viewModel.Ingredient, existing);
         }
 
         private async void OnNewIngredientCreated(IngredientEditViewModel viewModel)
         {
-            await ingredientService.CreateAsync(mapper.Map<Ingredient>(viewModel.Ingredient));
+            await ingredientService.CreateAsync(viewModel.Ingredient);
             Ingredients!.Add(viewModel.Ingredient);
         }
 

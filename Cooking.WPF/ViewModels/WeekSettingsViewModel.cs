@@ -179,7 +179,7 @@ namespace Cooking.WPF.Views
                     requiredCalorieTyoes.AddRange(day.CalorieTypes.Select(x => x.CalorieType));
                 }
 
-                day.RecipeAlternatives = recipeService.GetRecipiesByParametersProjected<RecipeListViewDto>(mapper, requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
+                day.RecipeAlternatives = recipeService.GetRecipiesByParametersProjected<RecipeListViewDto>(requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
 
                 IEnumerable<RecipeListViewDto?> selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
                 var recipiesNotSelectedYet = day.RecipeAlternatives.Where(x => !selectedRecipies.Any(selected => selected!.ID == x.ID)).ToList();
@@ -237,7 +237,7 @@ namespace Cooking.WPF.Views
 
         private async Task<ObservableCollection<TagEdit>?> GetTags(TagType type, ObservableCollection<TagEdit> current)
         {
-            List<TagEdit> allTags = tagService.GetTagsByTypeProjected<TagEdit>(type, container.Resolve<IMapper>());
+            List<TagEdit> allTags = tagService.GetTagsByTypeProjected<TagEdit>(type);
 
             allTags.Insert(0, TagEdit.Any);
             allTags[0].IsChecked = false;

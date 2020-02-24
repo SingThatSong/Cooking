@@ -30,14 +30,12 @@ using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Remove mapping from service layer
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
 // TODO: Plurals localization
 // TODO: Move all typesafe enums to tables with localization or to simple enums (IngredientType)
 // TODO: Count calories for recipe
 // TODO: Set calorietype accordingly to counted calories
 // TODO: Add IQueryable as parameter to all selects in CRUDService
-// TODO: Consider making IMapper as a dependency for all CRUDServices
 // TODO: Make GetCultureSpecificSet method an extention method
 // TODO: Debug/ Measure method perfomance (benchmark?)
 // TODO: Add debug console logging to methods and constructors
@@ -78,7 +76,6 @@ using WPFLocalizeExtension.Providers;
 // TODO: Ensure cascade deletions
 // TODO: Ensure effective Db Select (get rid of lazy loading)
 
-// TODO: Replace Extended.WPF.Toolkit when 4.0.0 arrives: https://github.com/xceedsoftware/wpftoolkit/releases
 // TODO: Use Git(Hub/Lab) issues instead of this list :)
 
 // TODO: Add project documentation (Wiki)

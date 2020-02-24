@@ -19,7 +19,6 @@ namespace Cooking.WPF.Views
     {
         private readonly List<RecipeListViewDto> recipies;
         private readonly RecipeService recipeService;
-        private readonly IMapper mapper;
         private readonly ILocalization localization;
         private string? filterText;
 
@@ -28,21 +27,18 @@ namespace Cooking.WPF.Views
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="recipeService">Recipe service dependency.</param>
-        /// <param name="mapper">Mapper dependency.</param>
         /// <param name="localization">Localization service dependency.</param>
         /// <param name="day">Day, which settings will be user for filtering.</param>
         public RecipeSelectViewModel(DialogService dialogService,
                                      RecipeService recipeService,
-                                     IMapper mapper,
                                      ILocalization localization,
                                      DayPlan? day = null)
             : base(dialogService)
         {
             this.recipeService = recipeService;
-            this.mapper = mapper;
             this.localization = localization;
 
-            recipies = recipeService.GetAllProjected<RecipeListViewDto>(mapper);
+            recipies = recipeService.GetAllProjected<RecipeListViewDto>();
 
             RecipiesSource = new CollectionViewSource() { Source = recipies };
 
@@ -140,7 +136,7 @@ namespace Cooking.WPF.Views
                     recipies.Clear();
 
                     Expression<Func<Recipe, bool>> filterExpression = RecipeFiltrator.Instance.Value.GetExpression(value);
-                    List<RecipeListViewDto> newEntries = recipeService.GetProjected<RecipeListViewDto>(filterExpression, mapper);
+                    List<RecipeListViewDto> newEntries = recipeService.GetProjected<RecipeListViewDto>(filterExpression);
 
                     recipies.AddRange(newEntries);
 

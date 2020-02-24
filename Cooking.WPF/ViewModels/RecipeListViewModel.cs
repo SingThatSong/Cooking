@@ -193,7 +193,7 @@ namespace Cooking.WPF.Views
         private Task OnLoaded()
         {
             Debug.WriteLine("RecepiesViewModel.OnLoaded");
-            List<RecipeListViewDto> recipies = recipeService.GetAllMapped<RecipeListViewDto>(container.Resolve<IMapper>());
+            List<RecipeListViewDto> recipies = recipeService.GetAllMapped<RecipeListViewDto>();
             Recipies = new ObservableCollection<RecipeListViewDto>(recipies);
 
             Application.Current.Dispatcher.Invoke(() =>
@@ -209,10 +209,17 @@ namespace Cooking.WPF.Views
 
         private void UpdateRecipiesSource(string? value)
         {
-            Recipies!.Clear();
+            if (Recipies != null)
+            {
+                Recipies!.Clear();
+            }
+            else
+            {
+                Recipies = new ObservableCollection<RecipeListViewDto>();
+            }
 
             Expression<Func<Recipe, bool>> filterExpression = RecipeFiltrator.Instance.Value.GetExpression(value);
-            List<RecipeListViewDto> newEntries = recipeService.GetProjected<RecipeListViewDto>(filterExpression, mapper);
+            List<RecipeListViewDto> newEntries = recipeService.GetProjected<RecipeListViewDto>(filterExpression);
 
             Recipies.AddRange(newEntries);
 

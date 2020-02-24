@@ -1,9 +1,8 @@
 ﻿using Cooking.Data.Model;
 using Cooking.Data.Model.Plan;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 
 namespace Cooking.Data.Context
 {
@@ -22,6 +21,11 @@ namespace Cooking.Data.Context
             DbFilename = dbFilename;
             UseLazyLoading = useLazyLoading;
         }
+
+        public static readonly LoggerFactory _myLoggerFactory =
+                new LoggerFactory(new[] {
+                    new DebugLoggerProvider()
+                });
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CookingContext"/> class.
@@ -79,6 +83,12 @@ namespace Cooking.Data.Context
             {
                 optionsBuilder.UseLazyLoadingProxies();
             }
+
+#if DEBUG
+            optionsBuilder.UseLoggerFactory(_myLoggerFactory);
+            optionsBuilder.EnableSensitiveDataLogging();
+            optionsBuilder.EnableDetailedErrors();
+#endif
         }
 
         /// <inheritdoc/>

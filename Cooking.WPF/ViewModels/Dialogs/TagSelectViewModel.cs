@@ -19,7 +19,6 @@ namespace Cooking.WPF.Views
     public partial class TagSelectViewModel : OkCancelViewModel
     {
         private readonly TagService tagService;
-        private readonly IMapper mapper;
         private readonly ILocalization localization;
 
         /// <summary>
@@ -27,13 +26,11 @@ namespace Cooking.WPF.Views
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="tagService">Tag service dependency.</param>
-        /// <param name="mapper">Mapper dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
-        public TagSelectViewModel(DialogService dialogService, TagService tagService, IMapper mapper, ILocalization localization)
+        public TagSelectViewModel(DialogService dialogService, TagService tagService, ILocalization localization)
             : base(dialogService)
         {
             this.tagService = tagService;
-            this.mapper = mapper;
             this.localization = localization;
             AddTagCommand = new DelegateCommand(AddTag);
         }
@@ -80,7 +77,7 @@ namespace Cooking.WPF.Views
         /// <param name="allTags">All tags to select from.</param>
         public void SetTags([AllowNull] IEnumerable<TagEdit>? currentTags, [AllowNull] IEnumerable<TagEdit>? allTags)
         {
-            AllTags = new ObservableCollection<TagEdit>(allTags ?? tagService.GetAllProjected<TagEdit>(mapper));
+            AllTags = new ObservableCollection<TagEdit>(allTags ?? tagService.GetAllProjected<TagEdit>());
 
             AllTags.CollectionChanged += AllTags_CollectionChanged;
 
@@ -104,7 +101,7 @@ namespace Cooking.WPF.Views
 
             if (viewModel.DialogResultOk)
             {
-                Guid id = await tagService.CreateAsync(mapper.Map<Tag>(viewModel.Tag));
+                Guid id = await tagService.CreateAsync(viewModel.Tag);
                 viewModel.Tag.ID = id;
                 AllTags?.Add(viewModel.Tag);
             }

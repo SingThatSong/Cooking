@@ -206,7 +206,7 @@ namespace Cooking.WPF.Views
             var recipeId = navigationContext.Parameters[nameof(Recipe)] as Guid?;
             if (recipeId.HasValue)
             {
-                Recipe = recipeService.GetMapped<RecipeEdit>(recipeId.Value, container.Resolve<IMapper>());
+                Recipe = recipeService.GetMapped<RecipeEdit>(recipeId.Value);
             }
             else
             {
@@ -369,12 +369,12 @@ namespace Cooking.WPF.Views
         {
             if (Recipe!.ID == Guid.Empty)
             {
-                Recipe.ID = await recipeService.CreateAsync(mapper.Map<Recipe>(Recipe));
+                Recipe.ID = await recipeService.CreateAsync(Recipe);
                 eventAggregator.GetEvent<RecipeCreatedEvent>().Publish(Recipe);
             }
             else
             {
-                await recipeService.UpdateAsync(mapper.Map<Recipe>(Recipe));
+                await recipeService.UpdateAsync(Recipe);
                 eventAggregator.GetEvent<RecipeUpdatedEvent>().Publish(Recipe);
             }
 
