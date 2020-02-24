@@ -145,7 +145,7 @@ namespace Cooking.ServiceLayer
 
             var queryResult = Mapper.ProjectTo<T>(query).ToList();
 
-            // Клиентская фильтрация
+            // Client filtration
             if (onlyNew.HasValue && onlyNew.Value)
             {
                 queryResult = queryResult.Where(x => dayService.GetLastCookedDate(x.ID) == null).ToList();

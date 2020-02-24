@@ -287,7 +287,7 @@ namespace Cooking.WPF.Views
 
             if (!prevWeekFilled)
             {
-                // Нужно напомнить о рецептах на прошедшей неделе
+                // Reminder of recipies on a previous week
                 await dialogService.ShowYesNoDialog(
                       localization.GetLocalizedString("ByTheWay"),
                       localization.GetLocalizedString("YouNeedToMoveRecipies"),

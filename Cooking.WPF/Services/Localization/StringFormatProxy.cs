@@ -25,7 +25,7 @@ namespace Cooking.WPF
         /// Gets or sets value format for proxy.
         /// </summary>
         [DependencyProperty(OnPropertyChanged = nameof(DataChanged))]
-        [SuppressMessage("Naming", "CA1721:Имена свойств не должны совпадать с именами методов get", Justification = "<Ожидание>")]
+        [SuppressMessage("Naming", "CA1721", Justification = "Its natural name for a resulting value")]
         public string Value { get; set; } = string.Empty;
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace Cooking.WPF
         [DependencyProperty]
         public string? Result { get; set; }
 
-        [SuppressMessage("Стиль", "IDE0060", Justification = "args is an argument for OnPropertyChanged injected by Bindables.Fody")]
-        [SuppressMessage("Стиль", "CA1801",  Justification = "args is an argument for OnPropertyChanged injected by Bindables.Fody")]
-        [SuppressMessage("Стиль", "RCS1163", Justification = "args is an argument for OnPropertyChanged injected by Bindables.Fody")]
+        [SuppressMessage("Style", "IDE0060", Justification = "args is an argument for OnPropertyChanged injected by Bindables.Fody")]
+        [SuppressMessage("Style", "CA1801",  Justification = "args is an argument for OnPropertyChanged injected by Bindables.Fody")]
+        [SuppressMessage("Style", "RCS1163", Justification = "args is an argument for OnPropertyChanged injected by Bindables.Fody")]
         private static void DataChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             if (sender is StringFormatProxy sfp && sfp.StringFormat != null)

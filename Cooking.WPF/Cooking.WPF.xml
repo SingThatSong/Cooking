@@ -1146,13 +1146,13 @@
         </member>
         <member name="M:Cooking.WPF.DialogService.ShowCustomMessageAsync``2(System.String,``1)">
             <summary>
-            Отобразить произвольный View в виде диалогового окна.
+            Show any view as dialog.
             </summary>
-            <typeparam name="TDialog">Тип View.</typeparam>
-            <typeparam name="TDialogContent">Тип ViewModel для этого View.</typeparam>
-            <param name="title">Заголовок.</param>
-            <param name="content">Объект ViewModel, который будет использован для View.</param>
-            <returns>Объект ViewModel, который может нести значения, введённые пользователем.</returns>
+            <typeparam name="TDialog">View type.</typeparam>
+            <typeparam name="TDialogContent">ViewModel type.</typeparam>
+            <param name="title">Header.</param>
+            <param name="content">ViewModel object.</param>
+            <returns>ViewModel, used for a view.</returns>
         </member>
         <member name="M:Cooking.WPF.DialogService.ShowOkCancelDialog``2(System.String,``1,System.Action{``1})">
             <summary>

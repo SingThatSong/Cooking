@@ -11,10 +11,10 @@ namespace Cooking.WPF.Converters
     /// <summary>
     /// Converter for binding document to RTF string.
     /// </summary>
-    [SuppressMessage("Стиль", "RCS1163", Justification = "Parameter is required by AttachedProperty")]
-    [SuppressMessage("Стиль", "IDE0060", Justification = "Parameter is required by AttachedProperty")]
-    [SuppressMessage("Стиль", "CA1801", Justification = "Parameter is required by AttachedProperty")]
-    [SuppressMessage("Стиль", "CA1721", Justification = "Names are intended by AttachedProperty")]
+    [SuppressMessage("Style", "RCS1163", Justification = "Parameter is required by AttachedProperty")]
+    [SuppressMessage("Style", "IDE0060", Justification = "Parameter is required by AttachedProperty")]
+    [SuppressMessage("Style", "CA1801", Justification = "Parameter is required by AttachedProperty")]
+    [SuppressMessage("Style", "CA1721", Justification = "Names are intended by AttachedProperty")]
     public sealed class RichTextBoxHelper
     {
         /// <summary>

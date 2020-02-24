@@ -164,7 +164,7 @@ namespace Cooking.ServiceLayer
         public async Task UpdateAsync<TProjection>(TProjection entity)
             where TProjection : Entity
         {
-            using CookingContext context = ContextFactory.Create();
+            using CookingContext context = ContextFactory.Create(useLazyLoading: true);
             T existing = await context.Set<T>().FindAsync(entity.ID);
             Mapper.Map(entity, existing);
             await context.SaveChangesAsync().ConfigureAwait(false);

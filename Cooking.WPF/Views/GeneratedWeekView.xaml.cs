@@ -14,11 +14,6 @@ namespace Cooking.WPF.Views
         public GeneratedWeekView()
         {
             InitializeComponent();
-
-            // Для того, чтобы окно могло работать с нажатием клавиш на клавиатуре
-            // https://stackoverflow.com/a/21352864
-            Focusable = true;
-            Loaded += (s, e) => Keyboard.Focus(this);
         }
     }
 }
