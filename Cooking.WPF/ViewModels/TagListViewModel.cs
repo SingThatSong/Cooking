@@ -113,8 +113,11 @@ namespace Cooking.WPF.Views
             if (viewModel.DialogResultOk)
             {
                 await tagService.UpdateAsync(viewModel.Tag);
-                TagEdit existingTag = Tags.Single(x => x.ID == tag.ID);
-                mapper.Map(viewModel.Tag, existingTag);
+                TagEdit? existingTag = Tags?.Single(x => x.ID == tag.ID);
+                if (existingTag != null)
+                {
+                    mapper.Map(viewModel.Tag, existingTag);
+                }
             }
         }
 

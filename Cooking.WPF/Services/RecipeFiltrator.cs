@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 namespace Cooking.WPF.Services
 {
     // Class contains expressions for database querying, null-checks is not applicable.
-    #pragma warning disable CS8602
+    #pragma warning disable CS8602, CS8604
     // Same for ToLower and Equals methods
     #pragma warning disable CA1304, CA1307, RCS1155
 
@@ -40,5 +40,5 @@ namespace Cooking.WPF.Services
             return (x, str) => x.Ingredients.Any(x => x.Ingredient.Name == str) || x.IngredientGroups.Any(x => x.Ingredients.Any(x => x.Ingredient.Name == str));
         }
     }
-    #pragma warning restore CS8602, CA1304, CA1307, RCS1155
+    #pragma warning restore CS8602, CS8604, CA1304, CA1307, RCS1155
 }

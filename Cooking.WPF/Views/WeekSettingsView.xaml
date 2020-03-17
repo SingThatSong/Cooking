@@ -29,10 +29,12 @@
             Grid.Row="1"
             AutoGenerateColumns="False"
             Background="Transparent"
+            SelectionUnit="FullRow"
             BorderThickness="0"
             CanUserAddRows="False"
             CanUserReorderColumns="False"
             CanUserSortColumns="False"
+            Foreground="{DynamicResource MahApps.Brushes.Text}"
             FontSize="10"
             ItemsSource="{Binding Days}"
             MinRowHeight="46">
@@ -42,7 +44,7 @@
                 <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="DataGridRow">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=PreviousData}}" Value="{x:Null}">
-                            <Setter Property="Background" Value="#ff444444" />
+                            <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Accent3}" />
                             <Setter Property="BorderThickness" Value="0,0,0,2" />
                             <Setter Property="BorderBrush" Value="#ff888888" />
                         </DataTrigger>
@@ -50,6 +52,7 @@
                 </Style>
             </DataGrid.RowStyle>
 
+            <!-- Grid columns -->
             <DataGrid.Columns>
                 <DataGridTemplateColumn Width="50">
                     <DataGridTemplateColumn.CellTemplate>
@@ -62,7 +65,7 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{lex:Loc Day}" />
+                            <TextBlock Text="{lex:Loc Day}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
 
@@ -77,7 +80,7 @@
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{lex:Loc MainIngredient}" />
+                            <TextBlock Text="{lex:Loc MainIngredient}" Foreground="{DynamicResource MahApps.Brushes.Text}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
@@ -113,7 +116,7 @@
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{lex:Loc DishType}" />
+                            <TextBlock Text="{lex:Loc DishType}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
 
@@ -148,7 +151,7 @@
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{lex:Loc CalorieValue}" />
+                            <TextBlock Text="{lex:Loc CalorieValue}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
 
@@ -220,7 +223,7 @@
                 <DataGridTemplateColumn Width="1.2*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{lex:Loc MaxDifficulty}" />
+                            <TextBlock Text="{lex:Loc MaxDifficulty}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
@@ -233,7 +236,7 @@
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{lex:Loc MinRating}" />
+                            <TextBlock Text="{lex:Loc MinRating}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
 
@@ -247,7 +250,7 @@
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{lex:Loc OnlyNewRecipies}" />
+                            <TextBlock Text="{lex:Loc OnlyNewRecipies}" Foreground="{DynamicResource MahApps.Brushes.Text}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>

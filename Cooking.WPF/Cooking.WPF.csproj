@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>if_pan_416389.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
@@ -43,31 +43,31 @@
     <PackageReference Include="AutoMapper.Collection" Version="6.0.0" />
     <PackageReference Include="Bindables.Fody" Version="6.0.0" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" />
-    <PackageReference Include="FluentValidation" Version="9.0.0-preview2" />
+    <PackageReference Include="FluentValidation" Version="9.0.0-preview3" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0479" />
-    <PackageReference Include="AutoMapper" Version="9.1.0-ci-01622" />
+    <PackageReference Include="AutoMapper" Version="9.1.0-ci-01624" />
     <PackageReference Include="Fody" Version="6.1.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="gong-wpf-dragdrop" Version="2.2.0" />
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
-    <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="3.2.0" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0748" />
+    <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="3.4.0" />
     <PackageReference Include="MaterialDesignColors" Version="1.2.3-ci981" />
     <PackageReference Include="MaterialDesignThemes" Version="3.1.0-ci981" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.2">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0-preview.2.20120.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0-preview.1.20120.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0-preview.1.20120.4" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0-preview.1.20120.4" />
     <PackageReference Include="NullGuard.Fody" Version="2.2.0" />
-    <PackageReference Include="PhotoSauce.MagicScaler" Version="0.10.2" />
+    <PackageReference Include="PhotoSauce.MagicScaler" Version="0.10.3" />
     <PackageReference Include="Plafi.DynamicLinq" Version="1.0.0" />
     <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />

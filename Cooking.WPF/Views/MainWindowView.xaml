@@ -151,7 +151,7 @@
                 <Setter Property="ItemContainerStyle" Value="{StaticResource HamburgerMenuCreatorsItemStyle}" />
                 <Setter Property="OptionsItemContainerStyle" Value="{StaticResource HamburgerMenuCreatorsItemStyle}" />
                 <Setter Property="PaneBackground" Value="{DynamicResource MahApps.Brushes.White}" />
-                <Setter Property="PaneForeground" Value="{DynamicResource MahApps.Brushes.Text}" />
+                <Setter Property="PaneForeground" Value="{DynamicResource MahApps.Brushes.Black}" />
                 <Setter Property="ShowSelectionIndicator" Value="True" />
             </Style>
         </ResourceDictionary>

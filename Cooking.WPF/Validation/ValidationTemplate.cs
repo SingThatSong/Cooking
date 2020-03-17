@@ -5,9 +5,11 @@ using Prism.Unity;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace Cooking
 {
@@ -59,9 +61,10 @@ namespace Cooking
         public string? this[string propertyName] => null;
 
         /// <inheritdoc/>
-        public IEnumerable? GetErrors([AllowNull] string propertyName) => validationResult?.Errors
+        public IEnumerable GetErrors([AllowNull] string? propertyName) => validationResult?.Errors
                                                                                .Where(x => x.PropertyName == propertyName)
-                                                                               .Select(x => x.ErrorMessage);
+                                                                               .Select(x => x.ErrorMessage)
+                                                                          ?? new List<string>();
 
         /// <summary>
         /// Internal factory method for FluentValidation validators.
@@ -88,7 +91,7 @@ namespace Cooking
             return validator;
         }
 
-        private void Validate(object sender, PropertyChangedEventArgs e)
+        private void Validate(object? sender, PropertyChangedEventArgs e)
         {
             validationResult = validator?.Validate(target);
             if (validationResult != null)

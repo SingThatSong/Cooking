@@ -107,7 +107,7 @@ namespace Cooking.WPF.Views
             }
         }
 
-        private void AllTags_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void AllTags_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(MainIngredients));
             OnPropertyChanged(nameof(DishTypes));

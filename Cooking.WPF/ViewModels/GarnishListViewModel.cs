@@ -72,7 +72,7 @@ namespace Cooking.WPF.Views
 
         private async void DeleteGarnish(Guid garnishId) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString(
                                                                                                     "SureDelete",
-                                                                                                    Garnishes.Single(x => x.ID == garnishId).Name ?? string.Empty
+                                                                                                    Garnishes?.Single(x => x.ID == garnishId).Name ?? string.Empty
                                                                                                ),
                                                                                                localization.GetLocalizedString("CannotUndo"),
                                                                                                successCallback: () => OnRecipeDeleted(garnishId));
@@ -104,8 +104,11 @@ namespace Cooking.WPF.Views
         private async void OnGarnishEdited(GarnishEditViewModel viewModel)
         {
             await garnishService.UpdateAsync(viewModel.Garnish);
-            GarnishEdit existingGarnish = Garnishes.Single(x => x.ID == viewModel.Garnish.ID);
-            mapper.Map(viewModel.Garnish, existingGarnish);
+            GarnishEdit? existingGarnish = Garnishes?.Single(x => x.ID == viewModel.Garnish.ID);
+            if (existingGarnish != null)
+            {
+                mapper.Map(viewModel.Garnish, existingGarnish);
+            }
         }
 
         private async void OnNewGarnishCreated(GarnishEditViewModel viewModel)

@@ -116,8 +116,11 @@ namespace Cooking.WPF.Views
         private async void OnIngredientEdited(IngredientEditViewModel viewModel)
         {
             await ingredientService.UpdateAsync(viewModel.Ingredient);
-            IngredientEdit existing = Ingredients.Single(x => x.ID == viewModel.Ingredient.ID);
-            mapper.Map(viewModel.Ingredient, existing);
+            IngredientEdit? existing = Ingredients?.Single(x => x.ID == viewModel.Ingredient.ID);
+            if (existing != null)
+            {
+                mapper.Map(viewModel.Ingredient, existing);
+            }
         }
 
         private async void OnNewIngredientCreated(IngredientEditViewModel viewModel)

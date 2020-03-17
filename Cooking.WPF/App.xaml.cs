@@ -115,7 +115,7 @@ namespace Cooking
 
             containerRegistry.RegisterInstance<ILogger>(logger);
 
-            string exeFile = Process.GetCurrentProcess().MainModule.FileName;
+            string? exeFile = Process.GetCurrentProcess().MainModule?.FileName;
             string? directory = Path.GetDirectoryName(exeFile);
 
             IConfigurationRoot configuration = new ConfigurationBuilder()

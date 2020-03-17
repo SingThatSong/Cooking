@@ -134,7 +134,7 @@ namespace Cooking.WPF.Views
             await base.Ok();
         }
 
-        private void Tag_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Tag_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(Tag.Name))
             {

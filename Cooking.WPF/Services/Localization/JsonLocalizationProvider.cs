@@ -168,7 +168,11 @@ namespace Cooking.WPF.Services
 
             string json = File.ReadAllText($@"{Consts.LocalizationFolder}\" + filename);
 
-            localizationCache[culture.Name] = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+            Dictionary<string, string>? deserialized = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+            if (deserialized != null)
+            {
+                localizationCache[culture.Name] = deserialized;
+            }
 
             return true;
         }

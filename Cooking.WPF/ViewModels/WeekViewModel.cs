@@ -260,7 +260,7 @@ namespace Cooking.WPF.Views
 
             if (viewModel.DialogResultOk)
             {
-                DayEdit day = CurrentWeek!.FirstOrDefault(x => x.DayOfWeek == dayOfWeek);
+                DayEdit? day = CurrentWeek!.FirstOrDefault(x => x.DayOfWeek == dayOfWeek);
 
                 if (day != null)
                 {

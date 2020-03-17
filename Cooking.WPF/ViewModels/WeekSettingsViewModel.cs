@@ -134,8 +134,12 @@ namespace Cooking.WPF.Views
             else
             {
                 // We started new week creation - cached view should be deleted from region
-                UserControl view = navigationContext.NavigationService.Region.Views.Cast<UserControl>().FirstOrDefault(x => x.DataContext == this);
-                navigationContext.NavigationService.Region.Remove(view);
+                UserControl? view = navigationContext.NavigationService.Region.Views.Cast<UserControl>().FirstOrDefault(x => x.DataContext == this);
+                if (view != null)
+                {
+                    navigationContext.NavigationService.Region.Remove(view);
+                }
+
                 return false;
             }
         }
@@ -251,27 +255,28 @@ namespace Cooking.WPF.Views
 
             if (viewModel.DialogResultOk)
             {
-                var list = viewModel.AllTags.Where(x => x.IsChecked).ToList();
+                var list = viewModel.AllTags?.Where(x => x.IsChecked).ToList();
 
-                if (list.Any(x => x != TagEdit.Any))
+                if (list != null)
                 {
-                    list.Remove(TagEdit.Any);
-                }
-                else if (list.Count == 0)
-                {
-                    list.Add(TagEdit.Any);
-                }
+                    if (list.Any(x => x != TagEdit.Any))
+                    {
+                        list.Remove(TagEdit.Any);
+                    }
+                    else if (list.Count == 0)
+                    {
+                        list.Add(TagEdit.Any);
+                    }
 
-                return new ObservableCollection<TagEdit>(list);
+                    return new ObservableCollection<TagEdit>(list);
+                }
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
         [SuppressPropertyChangedWarnings]
-        private void OnHeaderValueChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void OnHeaderValueChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (sender is DayPlan dayPlan)
             {

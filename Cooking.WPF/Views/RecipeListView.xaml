@@ -35,7 +35,7 @@
                                 <ColorAnimation
                                     Storyboard.TargetProperty="Background.Color"
                                     To="Gray"
-                                    Duration="0:0:0.15" />
+                                    Duration="0:0:0.1" />
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.EnterActions>
@@ -110,7 +110,6 @@
                                     <i:InvokeCommandAction Command="{Binding ElementName=RecipiesList, Path=DataContext.ViewRecipeCommand}" CommandParameter="{Binding ID}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
-
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5*" />

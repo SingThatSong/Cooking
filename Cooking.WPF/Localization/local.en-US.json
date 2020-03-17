@@ -53,6 +53,7 @@
   "Search": "Search...",
   "Category": "Category",
   "Color": "Color",
+  "Theme": "Theme",
   "SureDelete": "Are you sure you want to delete {0}?",
   "CannotUndo": "There is no way to restore after",
   "NewGarnish": "New garnish",

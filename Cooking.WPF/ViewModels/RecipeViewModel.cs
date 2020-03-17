@@ -270,7 +270,7 @@ namespace Cooking.WPF.Views
             viewModel.SetTags(Recipe!.Tags, null);
             await dialogService.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(localization.GetLocalizedString("AddTags"), viewModel);
 
-            if (viewModel.DialogResultOk)
+            if (viewModel.DialogResultOk && viewModel.AllTags != null)
             {
                 Recipe.Tags = new ObservableCollection<TagEdit>(viewModel.AllTags.Where(x => x.IsChecked));
             }

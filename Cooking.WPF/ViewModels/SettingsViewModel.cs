@@ -107,11 +107,14 @@ namespace Cooking.WPF.Views
 
             // If we cache views, there is no way to update culture in it
             // We guess that lang change is too rare to give up caching, so we restart whole app
-            string exeFile = Process.GetCurrentProcess().MainModule.FileName;
+            string? exeFile = Process.GetCurrentProcess().MainModule?.FileName;
 
-            logger.Information($"Restarting process. Exe filename: {exeFile}. New localization: {localization.CurrentCulture.Name}");
-            Process.Start(exeFile);
-            Application.Current.Shutdown();
+            if (exeFile != null)
+            {
+                logger.Information($"Restarting process. Exe filename: {exeFile}. New localization: {localization.CurrentCulture.Name}");
+                Process.Start(exeFile);
+                Application.Current.Shutdown();
+            }
         }
     }
 }

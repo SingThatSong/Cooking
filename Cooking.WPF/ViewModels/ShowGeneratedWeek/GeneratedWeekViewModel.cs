@@ -120,7 +120,7 @@ namespace Cooking.WPF.Views
 
         private async void Ok()
         {
-            var daysDictionary = Days.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
+            var daysDictionary = Days!.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
             await dayService.CreateWeekAsync(WeekStart, daysDictionary);
 
             regionManager.NavigateMain(
@@ -135,7 +135,7 @@ namespace Cooking.WPF.Views
                 parameters: (nameof(RecipeViewModel.Recipe), recipeId));
         }
 
-        private void GetAlternativeRecipe(DayPlan day) => day.Recipe = day.Recipe!.Name == day.RecipeAlternatives.Last().Name
+        private void GetAlternativeRecipe(DayPlan day) => day.Recipe = day.Recipe!.Name == day.RecipeAlternatives?.Last().Name
                                                                             ? day.RecipeAlternatives?[0]
                                                                             : day.RecipeAlternatives?.SkipWhile(x => x.Name != day.Recipe.Name).Skip(1).First();
 

@@ -129,7 +129,7 @@ namespace Cooking.WPF.Views
             get => filterText;
             set
             {
-                if (filterText != value)
+                if (filterText != value && !string.IsNullOrEmpty(value))
                 {
                     filterText = value;
 

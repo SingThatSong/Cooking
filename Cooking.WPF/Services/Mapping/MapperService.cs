@@ -6,6 +6,9 @@ using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using System.Linq;
 
+// Class contains imperative mapping rules, null-checks are irrelevant
+#pragma warning disable CS8604
+
 namespace Cooking
 {
     /// <summary>
@@ -96,3 +99,5 @@ namespace Cooking
                 });
     }
 }
+
+#pragma warning restore CS8604
