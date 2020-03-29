@@ -32,6 +32,8 @@ using WPFLocalizeExtension.Providers;
 
 // TODO: Make sure there is no russian in the code
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
+// TODO: Icons for tag-menu items
+// TODO: Highlight items like in recipe list
 // TODO: Plurals localization - https://github.com/Humanizr/Humanizer
 // TODO: Move all typesafe enums to tables with localization or to simple enums (IngredientType)
 // TODO: Count calories for recipe
