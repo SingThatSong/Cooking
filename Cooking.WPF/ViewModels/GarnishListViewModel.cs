@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using Cooking.Data.Model.Plan;
+using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Services;
 using PropertyChanged;
 using ServiceLayer;
 using System;

@@ -9,6 +9,7 @@
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:stringProxy="clr-namespace:Cooking.WPF"
     mahapps:DialogParticipation.Register="{Binding}"
     prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.InputBindings>
@@ -115,6 +116,8 @@
                                     </StackPanel.Style>
 
                                     <!--  Get another recipe for a filter  -->
+                                    <stringProxy:StringFormatProxy x:Name="noAlternativesProxy" Value="{lex:Loc NoAlternatives}" />
+
                                     <Button
                                         Margin="5,0,0,0"
                                         VerticalAlignment="Center"
@@ -125,7 +128,7 @@
                                         Style="{StaticResource SmallButton}"
                                         ToolTipService.IsEnabled="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource oppositeConverter}}"
                                         ToolTipService.ShowOnDisabled="True"
-                                        ToolTipService.ToolTip="По выбранным фильтрам нет альтернатив">
+                                        ToolTipService.ToolTip="{Binding ElementName=noAlternativesProxy, Path=Result}">
                                         <icons:PackIconModern Kind="Refresh" Style="{StaticResource SmallIcon}" />
                                     </Button>
 

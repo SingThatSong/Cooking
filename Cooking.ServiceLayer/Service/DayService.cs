@@ -146,8 +146,9 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <param name="weekStart">First day of a period to fetch shopping list.</param>
         /// <param name="weekEnd">Last day of a period to fetch shopping list.</param>
+        /// <param name="localization">Localization provider.</param>
         /// <returns>Shopping list for a week as a collection of ingredient groups.</returns>
-        public List<ShoppingListIngredientsGroup> GetWeekShoppingList(DateTime weekStart, DateTime weekEnd)
+        public List<ShoppingListIngredientsGroup> GetWeekShoppingList(DateTime weekStart, DateTime weekEnd, ILocalization localization)
         {
             using CookingContext context = ContextFactory.Create(useLazyLoading: true);
             var days = GetCultureSpecificSet(context).Where(x => weekStart.Date <= x.Date && x.Date <= weekEnd.Date).ToList();
@@ -165,7 +166,7 @@ namespace Cooking.ServiceLayer
             var allIngredients = ingredients.Union(ingredientsInGroupds);
 
             var ingredientGroups = allIngredients.Where(x => x.Ingredient.Ingredient != null)
-                                                 .GroupBy(x => x.Ingredient.Ingredient!.Type?.Name)
+                                                 .GroupBy(x => x.Ingredient.Ingredient!.TypeID)
                                                  .OrderBy(x => x.Key);
 
             var result = new List<ShoppingListIngredientsGroup>();
@@ -174,7 +175,7 @@ namespace Cooking.ServiceLayer
             {
                 var item = new ShoppingListIngredientsGroup
                 {
-                    IngredientGroupName = ingredientGroup.Key
+                    IngredientGroupName = localization.GetLocalizedString(ingredientGroup.Key)
                 };
 
                 foreach (var ingredient in ingredientGroup.GroupBy(x => x.Ingredient.Ingredient!.Name))

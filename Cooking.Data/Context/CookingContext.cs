@@ -112,9 +112,6 @@ namespace Cooking.Data.Context
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Ingredient>()
-                .Ignore(x => x.Type);
-
             modelBuilder.Entity<Recipe>()
                 .HasMany(x => x.Ingredients)
                 .WithOne()

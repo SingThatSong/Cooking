@@ -21,6 +21,6 @@ namespace Cooking.WPF.DTO
         /// <summary>
         /// Gets or sets ingredient type.
         /// </summary>
-        public IngredientType? Type { get; set; }
+        public IngredientType? TypeID { get; set; }
     }
 }

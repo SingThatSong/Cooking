@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace Cooking.Data.Model
@@ -16,15 +17,7 @@ namespace Cooking.Data.Model
         /// <summary>
         /// Gets or sets ingredient's Type. Typesafe enum, stored in database as int. Ignored in mapping.
         /// </summary>
-        public IngredientType? Type { get; set; }
-
-        /// <summary>
-        /// Gets or sets value to store Typesafe enum.
-        /// </summary>
-        public int? TypeID
-        {
-            get => Type?.ID;
-            set => Type = IngredientType.AllValues.SingleOrDefault(x => x.ID == value);
-        }
+        // TODO: Rename to Type when EF Core 5 will be fixed (EF Core preview2 tested)
+        public IngredientType? TypeID { get; set; }
     }
 }

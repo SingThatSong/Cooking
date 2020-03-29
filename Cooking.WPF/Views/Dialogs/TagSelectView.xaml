@@ -32,14 +32,7 @@
         <ItemsControl MinHeight="200" ItemsSource="{Binding MainIngredients}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border
-                        Margin="3 0 0 3"
-                        Padding="0"
-                        Background="{Binding Color, TargetNullValue=Transparent}"
-                        BorderThickness="0"
-                        CornerRadius="3">
-                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
-                    </Border>
+                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" Style="{StaticResource MaterialDesignUserForegroundCheckBox}" Foreground="{Binding Color, TargetNullValue=White}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
@@ -63,14 +56,7 @@
             ItemsSource="{Binding DishTypes}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border
-                        Margin="3 0 0 3"
-                        Padding="0"
-                        Background="{Binding Color, TargetNullValue=Transparent}"
-                        BorderThickness="0"
-                        CornerRadius="3">
-                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
-                    </Border>
+                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" Style="{StaticResource MaterialDesignUserForegroundCheckBox}" Foreground="{Binding Color, TargetNullValue=White}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
@@ -94,14 +80,7 @@
             ItemsSource="{Binding Occasions}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border
-                        Margin="3 0 0 3"
-                        Padding="0"
-                        Background="{Binding Color, TargetNullValue=Transparent}"
-                        BorderThickness="0"
-                        CornerRadius="3">
-                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
-                    </Border>
+                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" Style="{StaticResource MaterialDesignUserForegroundCheckBox}" Foreground="{Binding Color, TargetNullValue=White}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
@@ -125,14 +104,7 @@
             ItemsSource="{Binding Sources}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border
-                        Margin="3 0 0 3"
-                        Padding="0"
-                        Background="{Binding Color, TargetNullValue=Transparent}"
-                        BorderThickness="0"
-                        CornerRadius="3">
-                        <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
-                    </Border>
+                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" Style="{StaticResource MaterialDesignUserForegroundCheckBox}" Foreground="{Binding Color, TargetNullValue=White}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>

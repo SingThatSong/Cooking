@@ -581,7 +581,7 @@
             Gets or sets ingredient name.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.DTO.IngredientEdit.Type">
+        <member name="P:Cooking.WPF.DTO.IngredientEdit.TypeID">
             <summary>
             Gets or sets ingredient type.
             </summary>
@@ -787,7 +787,7 @@
             FluentValidation Validator for <see cref="T:Cooking.WPF.DTO.GarnishEdit"/>.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.DTO.GarnishEditValidator.#ctor(Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.DTO.GarnishEditValidator.#ctor(Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.GarnishEditValidator"/> class.
             </summary>
@@ -798,7 +798,7 @@
             FluentValidation Validator for <see cref="T:Cooking.WPF.DTO.IngredientEdit"/>.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.DTO.IngredientEditValidator.#ctor(Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.DTO.IngredientEditValidator.#ctor(Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.IngredientEditValidator"/> class.
             </summary>
@@ -809,7 +809,7 @@
             FluentValidation Validator for <see cref="T:Cooking.WPF.DTO.IngredientGroupEdit"/>.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.DTO.IngredientGroupEditValidator.#ctor(Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.DTO.IngredientGroupEditValidator.#ctor(Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.IngredientGroupEditValidator"/> class.
             </summary>
@@ -820,7 +820,7 @@
             FluentValidation Validator for <see cref="T:Cooking.WPF.DTO.RecipeEdit"/>.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.DTO.RecipeEditValidator.#ctor(Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.DTO.RecipeEditValidator.#ctor(Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.RecipeEditValidator"/> class.
             </summary>
@@ -831,7 +831,7 @@
             FluentValidation Validator for <see cref="T:Cooking.WPF.DTO.RecipeIngredientEdit"/>.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.DTO.RecipeIngredientEditValidator.#ctor(Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.DTO.RecipeIngredientEditValidator.#ctor(Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.RecipeIngredientEditValidator"/> class.
             </summary>
@@ -842,7 +842,7 @@
             FluentValidation Validator for <see cref="T:Cooking.WPF.DTO.TagEdit"/>.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.DTO.TagEditValidator.#ctor(Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.DTO.TagEditValidator.#ctor(Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.TagEditValidator"/> class.
             </summary>
@@ -907,40 +907,6 @@
             <summary>
             Gets or sets window height.
             </summary>
-        </member>
-        <member name="T:Cooking.WPF.Services.ILocalization">
-            <summary>
-            Interface for providing localized text.
-            </summary>
-        </member>
-        <member name="M:Cooking.WPF.Services.ILocalization.GetAllValuesFor(System.String)">
-            <summary>
-            Get all values for prefix. Usually prefix is enum type.
-            </summary>
-            <param name="prefix">Key prefix.</param>
-            <returns>All values for selected prefix.</returns>
-        </member>
-        <member name="M:Cooking.WPF.Services.ILocalization.GetLocalizedString(System.Enum)">
-            <summary>
-            Get localized value for enum.
-            </summary>
-            <param name="value">Enum value for localization.</param>
-            <returns>Localized string.</returns>
-        </member>
-        <member name="M:Cooking.WPF.Services.ILocalization.GetLocalizedString(System.String)">
-            <summary>
-            Get localized string for a key.
-            </summary>
-            <param name="key">Key to get a string.</param>
-            <returns>Localized string.</returns>
-        </member>
-        <member name="M:Cooking.WPF.Services.ILocalization.GetLocalizedString(System.String,System.Object[])">
-            <summary>
-            Get formatted and localized string.
-            </summary>
-            <param name="key">Key for a localized string. Will be used as format in string.Format.</param>
-            <param name="args">Arguments for string.Format. Used as provided.</param>
-            <returns>Localized string.</returns>
         </member>
         <member name="T:Cooking.WPF.Services.JsonLocalizationProvider">
             <summary>
@@ -1127,7 +1093,7 @@
             Reference to Mahapps' dialog coordinator.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.DialogService.#ctor(System.Object,MahApps.Metro.Controls.Dialogs.IDialogCoordinator,Prism.Ioc.IContainerExtension,Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.DialogService.#ctor(System.Object,MahApps.Metro.Controls.Dialogs.IDialogCoordinator,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.DialogService"/> class.
             </summary>
@@ -1210,7 +1176,7 @@
             View model for selecting calorie types.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.WPF.Services.ILocalization,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.CalorieTypeSelection})">
+        <member name="M:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.ILocalization,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.CalorieTypeSelection})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel"/> class.
             </summary>
@@ -1228,7 +1194,7 @@
              View model for editing garnishes.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.GarnishEditViewModel.#ctor(Cooking.WPF.DTO.GarnishEdit,ServiceLayer.GarnishService,Cooking.WPF.DialogService,Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.Views.GarnishEditViewModel.#ctor(Cooking.WPF.DTO.GarnishEdit,ServiceLayer.GarnishService,Cooking.WPF.DialogService,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GarnishEditViewModel"/> class.
             </summary>
@@ -1273,7 +1239,7 @@
             View model for ingredient edit dialog.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.IngredientEditViewModel.#ctor(ServiceLayer.IngredientService,Cooking.WPF.DialogService,Cooking.WPF.Services.ILocalization,Prism.Events.IEventAggregator,Cooking.WPF.DTO.IngredientEdit)">
+        <member name="M:Cooking.WPF.Views.IngredientEditViewModel.#ctor(ServiceLayer.IngredientService,Cooking.WPF.DialogService,Cooking.ServiceLayer.ILocalization,Prism.Events.IEventAggregator,Cooking.WPF.DTO.IngredientEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientEditViewModel"/> class.
             </summary>
@@ -1359,7 +1325,7 @@
             View model for dialog of moving recipe to another week.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.MoveRecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.Views.MoveRecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.MoveRecipeViewModel"/> class.
             </summary>
@@ -1442,7 +1408,7 @@
             View model for editing ingredient in recipe.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.RecipeIngredientEditViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.IngredientService,Cooking.WPF.Services.ILocalization,Cooking.WPF.DTO.RecipeIngredientEdit)">
+        <member name="M:Cooking.WPF.Views.RecipeIngredientEditViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.IngredientService,Cooking.ServiceLayer.ILocalization,Cooking.WPF.DTO.RecipeIngredientEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeIngredientEditViewModel"/> class.
             </summary>
@@ -1524,7 +1490,7 @@
             View model for recipe selection from a list of recipies.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,Cooking.WPF.Services.ILocalization,Cooking.WPF.Views.DayPlan)">
+        <member name="M:Cooking.WPF.Views.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,Cooking.ServiceLayer.ILocalization,Cooking.WPF.Views.DayPlan)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeSelectViewModel"/> class.
             </summary>
@@ -1561,7 +1527,7 @@
             View model for editing tags.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.TagEditViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.WPF.Services.ILocalization,Cooking.WPF.DTO.TagEdit)">
+        <member name="M:Cooking.WPF.Views.TagEditViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.ServiceLayer.ILocalization,Cooking.WPF.DTO.TagEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagEditViewModel"/> class.
             </summary>
@@ -1641,7 +1607,7 @@
             View model for tag selection.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.Views.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagSelectViewModel"/> class.
             </summary>
@@ -1701,7 +1667,7 @@
             View model for a list of all garnishes.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.GarnishListViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.GarnishService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.Views.GarnishListViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.GarnishService,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GarnishListViewModel"/> class.
             </summary>
@@ -1740,7 +1706,7 @@
             View model for ingredients list.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.IngredientListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,ServiceLayer.IngredientService,Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.Views.IngredientListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,ServiceLayer.IngredientService,Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientListViewModel"/> class.
             </summary>
@@ -1781,7 +1747,7 @@
             View model for a list of recipies.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.RecipeListViewModel.#ctor(Cooking.WPF.DialogService,Prism.Ioc.IContainerExtension,Prism.Regions.IRegionManager,Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.Views.RecipeListViewModel.#ctor(Cooking.WPF.DialogService,Prism.Ioc.IContainerExtension,Prism.Regions.IRegionManager,Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeListViewModel"/> class.
             </summary>
@@ -1860,7 +1826,7 @@
             Drag-and-drop logic for <see cref="T:Cooking.WPF.Views.RecipeViewModel"/>.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.RecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ImageService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,AutoMapper.IMapper,Prism.Events.IEventAggregator,Cooking.WPF.Services.ILocalization,Prism.Regions.IRegionManager)">
+        <member name="M:Cooking.WPF.Views.RecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ImageService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,AutoMapper.IMapper,Prism.Events.IEventAggregator,Cooking.ServiceLayer.ILocalization,Prism.Regions.IRegionManager)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeViewModel"/> class.
             </summary>
@@ -1998,7 +1964,7 @@
             View model for settings.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.SettingsViewModel.#ctor(Serilog.ILogger,Cooking.WPF.Services.ILocalization,Microsoft.Extensions.Options.IOptions{Cooking.WPF.Services.AppSettings},Cooking.WPF.Services.SettingsService)">
+        <member name="M:Cooking.WPF.Views.SettingsViewModel.#ctor(Serilog.ILogger,Cooking.ServiceLayer.ILocalization,Microsoft.Extensions.Options.IOptions{Cooking.WPF.Services.AppSettings},Cooking.WPF.Services.SettingsService)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.SettingsViewModel"/> class.
             </summary>
@@ -2213,7 +2179,7 @@
             View model for a list of tags.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.TagListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.Views.TagListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagListViewModel"/> class.
             </summary>
@@ -2268,7 +2234,7 @@
             View model for week settings.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.WeekSettingsViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Cooking.ServiceLayer.TagService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,Cooking.WPF.Services.ILocalization,AutoMapper.IMapper)">
+        <member name="M:Cooking.WPF.Views.WeekSettingsViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Cooking.ServiceLayer.TagService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,Cooking.ServiceLayer.ILocalization,AutoMapper.IMapper)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.WeekSettingsViewModel"/> class.
             </summary>
@@ -2329,7 +2295,7 @@
             View model for viewing week schedule.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.WeekViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.DayService,AutoMapper.IMapper,Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.WPF.Views.WeekViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.DayService,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.WeekViewModel"/> class.
             </summary>
@@ -2962,7 +2928,7 @@
             Service for working with images.
             </summary>
         </member>
-        <member name="M:Cooking.ImageService.#ctor(Cooking.WPF.Services.ILocalization)">
+        <member name="M:Cooking.ImageService.#ctor(Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.ImageService"/> class.
             </summary>
@@ -3023,7 +2989,7 @@
             View model for main window.
             </summary>
         </member>
-        <member name="M:Cooking.MainWindowViewModel.#ctor(WPFLocalizeExtension.Providers.ILocalizationProvider,Cooking.WPF.Services.ILocalization,Cooking.ServiceLayer.TagService)">
+        <member name="M:Cooking.MainWindowViewModel.#ctor(WPFLocalizeExtension.Providers.ILocalizationProvider,Cooking.ServiceLayer.ILocalization,Cooking.ServiceLayer.TagService)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.MainWindowViewModel"/> class.
             </summary>

@@ -31,6 +31,7 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
 // TODO: Make sure there is no russian in the code
+// TODO: Set design-time DataContexts for Views
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
 // TODO: Icons for tag-menu items
 // TODO: Highlight items like in recipe list

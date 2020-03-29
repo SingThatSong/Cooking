@@ -113,5 +113,20 @@
   "Replace": "Заменить",
   "WasCooked": "Было приготовлено",
   "WasNotCooked": "Не было приготовлено",
-  "IsInMenu": "В меню"
+  "IsInMenu": "В меню",
+  "NoAlternatives": "По выбранным фильтрам нет альтернатив",
+  "IngredientType_Alcohol": "Алкоголь",
+  "IngredientType_Cereals": "Крупы, бобовые и мука",
+  "IngredientType_Seafood": "Рыба и морепродукты",
+  "IngredientType_Grocery": "Бакалея",
+  "IngredientType_Spice": "Специи и приправы",
+  "IngredientType_Dairy": "Молочные продукты и яйца",
+  "IngredientType_Cheese": "Сыры",
+  "IngredientType_Vegetables": "Овощи и корнеплоды",
+  "IngredientType_Fruits": "Фрукты и ягоды",
+  "IngredientType_Mushrooms": "Грибы",
+  "IngredientType_Herbs": "Зелень и травы",
+  "IngredientType_Meat": "Мясо и птица",
+  "IngredientType_Nuts": "Орехи",
+  "IngredientType_Ready": "Готовые продукты"
 }

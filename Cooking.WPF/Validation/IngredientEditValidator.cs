@@ -1,4 +1,4 @@
-﻿using Cooking.WPF.Services;
+﻿using Cooking.ServiceLayer;
 using FluentValidation;
 
 namespace Cooking.WPF.DTO
@@ -18,7 +18,7 @@ namespace Cooking.WPF.DTO
                 .NotEmpty()
                 .WithMessage(localization.GetLocalizedString("SpecifyName"));
 
-            RuleFor(x => x.Type)
+            RuleFor(x => x.TypeID)
                 .NotNull()
                 .WithMessage(localization.GetLocalizedString("SpecifyIngredientType"));
         }

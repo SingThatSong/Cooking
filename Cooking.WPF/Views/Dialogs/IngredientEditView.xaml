@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Cooking.WPF.Converters"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls">
 
     <i:Interaction.Triggers>
@@ -43,11 +44,12 @@
                 Text="{Binding Ingredient.Name, UpdateSourceTrigger=PropertyChanged}" />
 
             <TextBlock Margin="0,10,0,0" Text="{Binding TypeCaption}" />
-            <ComboBox
+            <lex:EnumComboBox
                 mahapps:TextBoxHelper.ClearTextButton="True"
-                DisplayMemberPath="Name"
                 ItemsSource="{Binding IngredientTypes}"
-                SelectedItem="{Binding Ingredient.Type}" />
+                PrependType="True"
+                SelectedItem="{Binding Ingredient.TypeID}"
+                Style="{StaticResource MaterialDesignComboBox}"/>
         </StackPanel>
 
         <!--  Existing garnishes list  -->

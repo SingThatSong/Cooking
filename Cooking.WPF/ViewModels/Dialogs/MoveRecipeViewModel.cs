@@ -1,4 +1,4 @@
-﻿using Cooking.WPF.Services;
+﻿using Cooking.ServiceLayer;
 using System;
 
 namespace Cooking.WPF.Views

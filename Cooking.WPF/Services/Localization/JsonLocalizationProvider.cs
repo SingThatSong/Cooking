@@ -1,4 +1,4 @@
-﻿using Cooking.WPF.Services;
+﻿using Cooking.ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -112,5 +112,20 @@
   "Replace": "Replace",
   "WasCooked": "Was cooked",
   "WasNotCooked": "Was not cooked",
-  "IsInMenu": "Is in menu"
+  "IsInMenu": "Is in menu",
+  "NoAlternatives": "No alternatives for selected filters",
+  "IngredientType_Alcohol": "Alcohol",
+  "IngredientType_Cereals": "Cereals",
+  "IngredientType_Seafood": "Seafood",
+  "IngredientType_Grocery": "Grocery",
+  "IngredientType_Spice": "Spice",
+  "IngredientType_Dairy": "Dairy",
+  "IngredientType_Cheese": "Cheese",
+  "IngredientType_Vegetables": "Vegetables",
+  "IngredientType_Fruits": "Fruits",
+  "IngredientType_Mushrooms": "Mushrooms",
+  "IngredientType_Herbs": "Herbs",
+  "IngredientType_Meat": "Meat",
+  "IngredientType_Nuts": "Nuts",
+  "IngredientType_Ready": "Ready"
 }

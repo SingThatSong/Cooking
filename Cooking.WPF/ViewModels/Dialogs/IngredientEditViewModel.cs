@@ -1,4 +1,5 @@
 ﻿using Cooking.Data.Model;
+using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Events;
@@ -7,7 +8,6 @@ using Prism.Events;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,6 +45,7 @@ namespace Cooking.WPF.Views
             AllIngredientNames = ingredientService.GetNames();
             LoadedCommand = new DelegateCommand(OnLoaded);
             DeleteIngredientCommand = new DelegateCommand<Guid>(DeleteIngredient);
+            IngredientTypes = Enum.GetValues(typeof(IngredientType)).Cast<IngredientType>().ToList();
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace Cooking.WPF.Views
         /// <summary>
         /// Gets all types of ingredients to select from.
         /// </summary>
-        public ReadOnlyCollection<IngredientType> IngredientTypes => IngredientType.AllValues;
+        public List<IngredientType> IngredientTypes { get; }
 
         /// <summary>
         /// Gets command to execute on loaded event.
@@ -138,14 +139,13 @@ namespace Cooking.WPF.Views
         private void OnLoaded()
         {
             string? nameBackup = Ingredient.Name;
-            IngredientType? typeBackup = Ingredient.Type;
+            IngredientType? typeBackup = Ingredient.TypeID;
 
             Ingredient.Name = "123";
             Ingredient.Name = nameBackup;
-            Ingredient.Type = IngredientType.Spice;
-            Ingredient.Type = IngredientType.Vegetables;
+            Ingredient.TypeID = new IngredientType();
 
-            Ingredient.Type = typeBackup;
+            Ingredient.TypeID = typeBackup;
             Ingredient.PropertyChanged += (src, e) =>
             {
                 if (e.PropertyName == nameof(Ingredient.Name))

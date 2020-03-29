@@ -1,4 +1,4 @@
-﻿using Cooking.WPF.Services;
+﻿using Cooking.ServiceLayer;
 using Microsoft.Win32;
 using PhotoSauce.MagicScaler;
 using System;

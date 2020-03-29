@@ -32,7 +32,7 @@
 
         <!--  List of all ingredients  -->
 
-        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
 
             <wpftk:VirtualizingItemsControl Name="IngredientsList" ItemsSource="{Binding Source={StaticResource ingredients}}">
                 <ItemsControl.ItemTemplate>

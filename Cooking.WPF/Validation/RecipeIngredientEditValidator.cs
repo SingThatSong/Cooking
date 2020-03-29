@@ -1,4 +1,4 @@
-﻿using Cooking.WPF.Services;
+﻿using Cooking.ServiceLayer;
 using FluentValidation;
 
 namespace Cooking.WPF.DTO

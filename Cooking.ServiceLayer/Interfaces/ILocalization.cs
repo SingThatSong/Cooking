@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Cooking.WPF.Services
+namespace Cooking.ServiceLayer
 {
     /// <summary>
     /// Interface for providing localized text.

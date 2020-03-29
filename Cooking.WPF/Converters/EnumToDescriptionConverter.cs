@@ -1,4 +1,5 @@
-﻿using Cooking.WPF.Services;
+﻿using Cooking.ServiceLayer;
+using Cooking.WPF.Services;
 using NullGuard;
 using Prism.Ioc;
 using Prism.Unity;
