@@ -19,7 +19,7 @@ namespace Cooking.WPF.Converters
     public class EnumToDescriptionConverter : IValueConverter
     {
         /// <inheritdoc/>
-        public object? Convert([AllowNull] object? value, Type targetType, [AllowNull] object? parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (Application.Current is PrismApplication prismApplication)
             {
@@ -53,7 +53,7 @@ namespace Cooking.WPF.Converters
         }
 
         /// <inheritdoc/>
-        public object? ConvertBack([AllowNull] object? value, Type? targetType, [AllowNull] object? parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type? targetType, object? parameter, CultureInfo culture)
         {
             if (Application.Current is PrismApplication prismApplication)
             {

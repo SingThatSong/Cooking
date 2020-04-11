@@ -61,7 +61,7 @@ namespace Cooking
         public string? this[string propertyName] => null;
 
         /// <inheritdoc/>
-        public IEnumerable GetErrors([AllowNull] string? propertyName) => validationResult?.Errors
+        public IEnumerable GetErrors(string? propertyName) => validationResult?.Errors
                                                                                .Where(x => x.PropertyName == propertyName)
                                                                                .Select(x => x.ErrorMessage)
                                                                           ?? new List<string>();

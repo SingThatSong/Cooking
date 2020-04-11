@@ -24,9 +24,9 @@
     <AvaloniaResource Remove="SideBar.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.9.999-cibuild0006395-beta" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.9.999-cibuild0006395-beta" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.999-cibuild0006395-beta" />
+    <PackageReference Include="Avalonia" Version="0.9.999-cibuild0006647-beta" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.9.999-cibuild0006647-beta" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.9.999-cibuild0006647-beta" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0-beta3.final">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -3,6 +3,6 @@
   <PropertyChanged />
   <Bindables />
   <Validar />
-  <NullGuard IncludeDebugAssert="false" />
+  <NullGuard IncludeDebugAssert="false" Mode="NullableReferenceTypes" />
   <ConfigureAwait />
 </Weavers>
