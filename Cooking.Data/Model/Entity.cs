@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cooking.Data.Model
 {
@@ -10,6 +11,7 @@ namespace Cooking.Data.Model
         /// <summary>
         /// Gets or sets identificator for entity.
         /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid ID { get; set; }
 
         /// <summary>

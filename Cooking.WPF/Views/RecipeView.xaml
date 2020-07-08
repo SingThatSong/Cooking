@@ -259,7 +259,7 @@
                                         </BulletDecorator>
 
                                         <TextBlock Margin="5,0,0,0" Text="{Binding Amount}" />
-                                        <TextBlock Margin="5,0,0,0" Text="{Binding MeasureUnit.FullName}" />
+                                        <TextBlock Margin="5,0,0,0" Text="{Binding MeasureUnit.Name}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -380,7 +380,7 @@
                         Margin="10,0"
                         materialDesign:HintAssist.Hint="{lex:Loc Name}"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                        Text="{Binding Recipe.Name}" />
+                        Text="{Binding Recipe.Name, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBox
                         Margin="10,10,10,0"
                         materialDesign:HintAssist.Hint="{lex:Loc Source}"

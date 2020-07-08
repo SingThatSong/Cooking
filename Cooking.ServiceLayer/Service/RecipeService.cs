@@ -55,22 +55,6 @@ namespace Cooking.ServiceLayer
             return Mapper.Map<TMap>(recipe);
         }
 
-        /// <inheritdoc/>
-        public override List<Recipe> GetAll()
-        {
-            using CookingContext context = ContextFactory.Create();
-            return GetCultureSpecificSet(context)
-                          .Include(x => x.Tags)
-                             .ThenInclude(x => x.Tag)
-                          .Include(x => x.Ingredients)
-                             .ThenInclude(x => x.Ingredient)
-                          .Include(x => x.IngredientGroups)
-                             .ThenInclude(x => x.Ingredients)
-                                .ThenInclude(x => x.Ingredient)
-                          .AsNoTracking()
-                          .ToList();
-        }
-
         /// <summary>
         /// Load the whole list of entities and all of it's dependencies, then map it to needed dto.
         /// Allows to use custom mappings using IoC containers and <see cref="IMappingAction{TSource, TDestination}" />.
@@ -154,24 +138,22 @@ namespace Cooking.ServiceLayer
             return queryResult.OrderByDescending(x => DaysFromLasCook(x.ID)).ToList();
         }
 
-        /// <summary>
-        /// Get recipe with whole graph.
-        /// </summary>
-        /// <param name="recipeId">ID of recipe to load.</param>
-        /// <returns>Recipe with whole graph.</returns>
-        public Recipe Get(Guid recipeId)
+
+        /// <inheritdoc/>
+        protected override IQueryable<Recipe> GetFullGraph(IQueryable<Recipe> baseQuery)
         {
-            using CookingContext context = ContextFactory.Create();
-            return GetCultureSpecificSet(context)
-                          .Include(x => x.Tags)
-                             .ThenInclude(x => x.Tag)
-                          .Include(x => x.Ingredients)
-                             .ThenInclude(x => x.Ingredient)
-                          .Include(x => x.IngredientGroups)
-                             .ThenInclude(x => x.Ingredients)
+            return baseQuery.Include(x => x.Tags)
+                              .ThenInclude(x => x.Tag)
+                            .Include(x => x.Ingredients)
+                              .ThenInclude(x => x.Ingredient)
+                            .Include(x => x.Ingredients)
+                              .ThenInclude(x => x.MeasureUnit)
+                            .Include(x => x.IngredientGroups)
+                              .ThenInclude(x => x.Ingredients)
                                 .ThenInclude(x => x.Ingredient)
-                          .AsNoTracking()
-                          .Single(x => x.ID == recipeId);
+                            .Include(x => x.IngredientGroups)
+                              .ThenInclude(x => x.Ingredients)
+                                .ThenInclude(x => x.MeasureUnit);
         }
     }
 }

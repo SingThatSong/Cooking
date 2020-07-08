@@ -33,7 +33,7 @@
       </ItemsControl>
     </TabItem>
     <TabItem Header="Рецепты">
-      <Button Command="{Binding Test}" Content="Нажми меня"/>
+      <Button Content="Нажми меня"/>
     </TabItem>
     <TabItem Header="Ингредиенты" />
     <TabItem Header="Теги" />

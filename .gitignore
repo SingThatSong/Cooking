@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/Cooking.Data/Migrations/20200531193635_AddMeasureUnitTable.Designer.cs
+/Cooking.Data/Migrations/20200531193635_AddMeasureUnitTable.cs

@@ -3,18 +3,20 @@ using System;
 using Cooking.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cooking.Data.Migrations
 {
     [DbContext(typeof(CookingContext))]
-    partial class CookingContextModelSnapshot : ModelSnapshot
+    [Migration("20200531193821_AddMeasureUnitTable")]
+    partial class AddMeasureUnitTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.0-preview.8.20357.2");
+                .HasAnnotation("ProductVersion", "5.0.0-preview.6.20279.1");
 
             modelBuilder.Entity("Cooking.Data.Model.Ingredient", b =>
                 {
@@ -28,7 +30,7 @@ namespace Cooking.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("Type")
+                    b.Property<int?>("TypeID")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("ID");
@@ -181,6 +183,9 @@ namespace Cooking.Data.Migrations
 
                     b.Property<Guid?>("MeasureUnitGuid")
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("MeasureUnitID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Order")
                         .HasColumnType("INTEGER");

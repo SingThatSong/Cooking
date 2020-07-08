@@ -6,6 +6,7 @@ using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using NullGuard;
 using PropertyChanged;
+using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,18 +28,20 @@ namespace Cooking.WPF.Views
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="tagService">Tag service dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
-        public TagSelectViewModel(DialogService dialogService, TagService tagService, ILocalization localization)
+        /// <param name="measureUnitService">MeasureUnitService provider dependency.</param>
+        public TagSelectViewModel(DialogService dialogService, TagService tagService, ILocalization localization, MeasureUnitService measureUnitService)
             : base(dialogService)
         {
             this.tagService = tagService;
             this.localization = localization;
+            MeasurementUnits = measureUnitService.GetAll();
             AddTagCommand = new DelegateCommand(AddTag);
         }
 
         /// <summary>
         /// Gets all measurement units to select from.
         /// </summary>
-        public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
+        public List<MeasureUnit> MeasurementUnits { get; }
 
         /// <summary>
         /// Gets command for adding a tag.
@@ -75,7 +78,7 @@ namespace Cooking.WPF.Views
         /// </summary>
         /// <param name="currentTags">Alredy existing tags for editing.</param>
         /// <param name="allTags">All tags to select from.</param>
-        public void SetTags([AllowNull] IEnumerable<TagEdit>? currentTags, [AllowNull] IEnumerable<TagEdit>? allTags)
+        public void SetTags(IEnumerable<TagEdit>? currentTags, IEnumerable<TagEdit>? allTags)
         {
             AllTags = new ObservableCollection<TagEdit>(allTags ?? tagService.GetAllProjected<TagEdit>());
 

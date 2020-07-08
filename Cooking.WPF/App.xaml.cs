@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ControlzEx.Theming;
 using Cooking.Data.Context;
 using Cooking.ServiceLayer;
 using Cooking.WPF;
@@ -6,7 +7,6 @@ using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using Cooking.WPF.Views;
 using Fody;
-using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +31,7 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
 // TODO: Make sure there is no russian in the code
+// TODO: Rename Id to uppercase
 // TODO: Set design-time DataContexts for Views
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
 // TODO: Icons for tag-menu items
@@ -133,7 +134,7 @@ namespace Cooking
 
             containerRegistry.RegisterInstance(options);
 
-            ThemeManager.ChangeTheme(Current, options.Value.Theme, options.Value.Accent);
+            ThemeManager.Current.ChangeTheme(Current, options.Value.Theme, options.Value.Accent);
 
             var paletteHelper = new PaletteHelper();
             IBaseTheme baseTheme = MaterialDesignThemes.Wpf.Theme.Dark;

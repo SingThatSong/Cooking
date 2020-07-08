@@ -143,7 +143,7 @@ namespace Cooking.WPF.Views
 
             Ingredient.Name = "123";
             Ingredient.Name = nameBackup;
-            Ingredient.TypeID = new IngredientType();
+            Ingredient.TypeID = (IngredientType)999;
 
             Ingredient.TypeID = typeBackup;
             Ingredient.PropertyChanged += (src, e) =>

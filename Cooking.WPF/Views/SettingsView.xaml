@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
@@ -25,20 +26,21 @@
     </UserControl.Resources>
 
     <StackPanel
-        Margin="0 20"
+        Margin="0,20"
         HorizontalAlignment="Center"
         Orientation="Vertical">
+        <mahapps:DateTimePicker />
         <TextBlock FontSize="24" Text="{lex:Loc Settings}" />
 
         <!--  Language setting  -->
-        <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
             <TextBlock
                 VerticalAlignment="Center"
                 FontSize="16"
                 Text="{lex:Loc Language}" />
             <ComboBox
                 Width="200"
-                Margin="20 0 0 0"
+                Margin="20,0,0,0"
                 DisplayMemberPath="NativeName"
                 ItemsSource="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=MergedAvailableCultures}"
                 SelectedItem="{Binding Source={x:Static lex:LocalizeDictionary.Instance}, Path=Culture, Mode=TwoWay}">
@@ -51,14 +53,14 @@
         </StackPanel>
 
         <!--  Theme setting  -->
-        <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
             <TextBlock
                 VerticalAlignment="Center"
                 FontSize="16"
                 Text="{lex:Loc Theme}" />
             <ComboBox
                 Width="200"
-                Margin="20 0 0 0"
+                Margin="20,0,0,0"
                 ItemsSource="{Binding AppThemes, Mode=OneTime}"
                 SelectedItem="{Binding SelectedAppTheme, Mode=TwoWay}">
                 <ComboBox.ItemTemplate>
@@ -71,7 +73,7 @@
                                 Stroke="{Binding BorderColorBrush, Mode=OneWay}"
                                 StrokeThickness="1" />
                             <TextBlock
-                                Margin="5 0 0 0"
+                                Margin="5,0,0,0"
                                 FontWeight="Bold"
                                 Text="{Binding BaseColorScheme, Mode=OneWay}" />
                         </StackPanel>
@@ -81,14 +83,14 @@
         </StackPanel>
 
         <!--  Color setting  -->
-        <StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+        <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
             <TextBlock
                 VerticalAlignment="Center"
                 FontSize="16"
                 Text="{lex:Loc Color}" />
             <ComboBox
                 Width="200"
-                Margin="20 0 0 0"
+                Margin="20,0,0,0"
                 ItemsSource="{Binding ColorThemes, Mode=OneTime}"
                 SelectedItem="{Binding SelectedColor, Mode=TwoWay}">
                 <ComboBox.ItemTemplate>
@@ -101,9 +103,9 @@
                                 Stroke="{Binding BorderColorBrush, Mode=OneWay}"
                                 StrokeThickness="1" />
                             <TextBlock
-                                Margin="5 0 0 0"
+                                Margin="5,0,0,0"
                                 FontWeight="Bold"
-                                Text="{Binding Name, Mode=OneWay}" />
+                                Text="{Binding}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>

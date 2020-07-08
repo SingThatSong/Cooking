@@ -44,6 +44,7 @@ namespace Cooking.ServiceLayer
             // TODO: Set Date non-nullable
             DateTime? date = GetCultureSpecificSet(context).Where(x => x.DinnerID == recipeId && x.DinnerWasCooked && x.Date != null)
                                                            .OrderByDescending(x => x.Date)
+                                                           .AsNoTracking()
                                                            .FirstOrDefault()?
                                                            .Date;
 
@@ -150,8 +151,12 @@ namespace Cooking.ServiceLayer
         /// <returns>Shopping list for a week as a collection of ingredient groups.</returns>
         public List<ShoppingListIngredientsGroup> GetWeekShoppingList(DateTime weekStart, DateTime weekEnd, ILocalization localization)
         {
-            using CookingContext context = ContextFactory.Create(useLazyLoading: true);
-            var days = GetCultureSpecificSet(context).Where(x => weekStart.Date <= x.Date && x.Date <= weekEnd.Date).ToList();
+            using CookingContext context = ContextFactory.Create();
+            var days = GetCultureSpecificSet(context).Include(x => x.Dinner)
+                                                         .ThenInclude(x => x.Ingredients)
+                                                     .Include(x => x.Dinner)
+                                                         .ThenInclude(x => x.IngredientGroups)
+                                                     .Where(x => weekStart.Date <= x.Date && x.Date <= weekEnd.Date).ToList();
 
             // Create single list of all ingredients in recipies for a week
             var ingredients = from dinner in days.Where(x => x.Dinner?.Ingredients != null)
@@ -166,7 +171,7 @@ namespace Cooking.ServiceLayer
             var allIngredients = ingredients.Union(ingredientsInGroupds);
 
             var ingredientGroups = allIngredients.Where(x => x.Ingredient.Ingredient != null)
-                                                 .GroupBy(x => x.Ingredient.Ingredient!.TypeID)
+                                                 .GroupBy(x => x.Ingredient.Ingredient!.Type)
                                                  .OrderBy(x => x.Key);
 
             var result = new List<ShoppingListIngredientsGroup>();
@@ -229,7 +234,7 @@ namespace Cooking.ServiceLayer
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task CreateDinner(DateTime dayOnWeek, Guid dinnerId, DayOfWeek dayOfWeek)
         {
-            using CookingContext context = ContextFactory.Create(useLazyLoading: true);
+            using CookingContext context = ContextFactory.Create();
 
             var newDay = new Day()
             {
@@ -269,7 +274,7 @@ namespace Cooking.ServiceLayer
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task MoveDayToNextWeek(Guid dayId, DayOfWeek selectedWeekday)
         {
-            using CookingContext context = ContextFactory.Create(useLazyLoading: true);
+            using CookingContext context = ContextFactory.Create();
             Day day = context.Days.First(x => x.ID == dayId);
 
             // Change date
@@ -304,6 +309,28 @@ namespace Cooking.ServiceLayer
 
             context.RemoveRange(days);
             await context.SaveChangesAsync();
+        }
+
+        /// <inheritdoc/>
+        protected override IQueryable<Day> GetFullGraph(IQueryable<Day> set)
+        {
+            return set.Include(x => x.Dinner)
+                        .ThenInclude(x => x.IngredientGroups)
+                          .ThenInclude(x => x.Ingredients)
+                            .ThenInclude(x => x.Ingredient)
+                      .Include(x => x.Dinner)
+                        .ThenInclude(x => x.IngredientGroups)
+                          .ThenInclude(x => x.Ingredients)
+                            .ThenInclude(x => x.MeasureUnit)
+                      .Include(x => x.Dinner)
+                        .ThenInclude(x => x.Ingredients)
+                          .ThenInclude(x => x.Ingredient)
+                      .Include(x => x.Dinner)
+                        .ThenInclude(x => x.Ingredients)
+                          .ThenInclude(x => x.MeasureUnit)
+                      .Include(x => x.Dinner)
+                        .ThenInclude(x => x.Tags)
+                          .ThenInclude(x => x.Tag);
         }
     }
 }

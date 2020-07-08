@@ -65,13 +65,6 @@ namespace Cooking.Tests
         // Negative tests
         // Async command does not return exceptions to the caller (UI) because of sync nature of ICommand
         [TestMethod]
-        public void Execute_NullInput_ExecutesFunction_ErrorSwallen()
-        {
-            var asyncDelegate = new AsyncDelegateCommand(null);
-            asyncDelegate.Execute();
-        }
-
-        [TestMethod]
         public void Execute_FunctionThrow_ExecutesFunction_ErrorSwallen()
         {
             var asyncDelegate = new AsyncDelegateCommand(() => throw new Exception());

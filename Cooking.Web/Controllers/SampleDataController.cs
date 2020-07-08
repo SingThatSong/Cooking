@@ -67,6 +67,8 @@ namespace Cooking.Web.Controllers
             {
                 result = await context.Recipies.Include(x => x.Ingredients)
                                                   .ThenInclude(x => x.Ingredient)
+                                               .Include(x => x.Ingredients)
+                                                  .ThenInclude(x => x.MeasureUnit)
                                                .Where(x => x.ID == id)
                                                .FirstOrDefaultAsync().ConfigureAwait(false);
             }

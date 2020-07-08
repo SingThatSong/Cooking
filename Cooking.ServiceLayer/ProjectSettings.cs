@@ -1,5 +1,6 @@
 ﻿using Fody;
 using NullGuard;
+using System.Runtime.CompilerServices;
 
 /// <summary>
 /// Global project settings. Replacement of ApplicationInfo.cs.
@@ -10,3 +11,5 @@ using NullGuard;
 
 // Set ConfigureAwait globally
 [assembly: ConfigureAwait(false)]
+
+[assembly: InternalsVisibleTo("Cooking.WPF.Tests")]

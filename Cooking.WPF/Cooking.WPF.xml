@@ -1065,7 +1065,7 @@
             </summary>
             <param name="appSettings">App settings that contains instance of <see cref="T:Cooking.WPF.Services.AppSettings"/>.</param>
         </member>
-        <member name="M:Cooking.WPF.ContextFactory.Create(System.Boolean)">
+        <member name="M:Cooking.WPF.ContextFactory.Create">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.WPF.DialogService">
@@ -1408,13 +1408,14 @@
             View model for editing ingredient in recipe.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.RecipeIngredientEditViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.IngredientService,Cooking.ServiceLayer.ILocalization,Cooking.WPF.DTO.RecipeIngredientEdit)">
+        <member name="M:Cooking.WPF.Views.RecipeIngredientEditViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.IngredientService,Cooking.ServiceLayer.ILocalization,ServiceLayer.MeasureUnitService,Cooking.WPF.DTO.RecipeIngredientEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.RecipeIngredientEditViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="ingredientService">Ingredient service dependency.</param>
             <param name="localization">Localization provider dependency.</param>
+            <param name="measureUnitService">Localization provider dependency.</param>
             <param name="ingredient">Ingredient to edit.</param>
         </member>
         <member name="P:Cooking.WPF.Views.RecipeIngredientEditViewModel.IsCreation">
@@ -1607,13 +1608,14 @@
             View model for tag selection.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.ServiceLayer.ILocalization)">
+        <member name="M:Cooking.WPF.Views.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.ServiceLayer.ILocalization,ServiceLayer.MeasureUnitService)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.TagSelectViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="tagService">Tag service dependency.</param>
             <param name="localization">Localization provider dependency.</param>
+            <param name="measureUnitService">MeasureUnitService provider dependency.</param>
         </member>
         <member name="P:Cooking.WPF.Views.TagSelectViewModel.MeasurementUnits">
             <summary>
@@ -2898,11 +2900,6 @@
             Parameter for navigating to <see cref="T:Cooking.WPF.Views.RecipeListView"/> indicating tag to filter.
             </summary>
         </member>
-        <member name="F:Cooking.Consts.LanguageConfigParameter">
-            <summary>
-            AppSettings language parameter.
-            </summary>
-        </member>
         <member name="F:Cooking.Consts.LocalizationFilename">
             <summary>
             Localization file name without extentions.
@@ -2951,33 +2948,33 @@
             </summary>
             <returns>Instance of <see cref="T:AutoMapper.IConfigurationProvider"/>.</returns>
         </member>
-        <member name="T:Cooking.ValidationTemplate">
+        <member name="T:Cooking.ValidationTemplate`1">
             <summary>
             Validar Validation template for FluentValidation. See https://github.com/Fody/Validar#validation-template-implementations.
             </summary>
         </member>
-        <member name="M:Cooking.ValidationTemplate.#ctor(System.ComponentModel.INotifyPropertyChanged)">
+        <member name="M:Cooking.ValidationTemplate`1.#ctor(`0)">
             <summary>
-            Initializes a new instance of the <see cref="T:Cooking.ValidationTemplate"/> class.
+            Initializes a new instance of the <see cref="T:Cooking.ValidationTemplate`1"/> class.
             </summary>
             <param name="target">Object which will be validated. Injected by Validar into classes.</param>
         </member>
-        <member name="E:Cooking.ValidationTemplate.ErrorsChanged">
+        <member name="E:Cooking.ValidationTemplate`1.ErrorsChanged">
             <inheritdoc/>
         </member>
-        <member name="P:Cooking.ValidationTemplate.HasErrors">
+        <member name="P:Cooking.ValidationTemplate`1.HasErrors">
             <inheritdoc/>
         </member>
-        <member name="P:Cooking.ValidationTemplate.Error">
+        <member name="P:Cooking.ValidationTemplate`1.Error">
             <inheritdoc/>
         </member>
-        <member name="P:Cooking.ValidationTemplate.Item(System.String)">
+        <member name="P:Cooking.ValidationTemplate`1.Item(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:Cooking.ValidationTemplate.GetErrors(System.String)">
+        <member name="M:Cooking.ValidationTemplate`1.GetErrors(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:Cooking.ValidationTemplate.GetValidator(System.Type)">
+        <member name="M:Cooking.ValidationTemplate`1.GetValidator(System.Type)">
             <summary>
             Internal factory method for FluentValidation validators.
             </summary>
@@ -3048,36 +3045,6 @@
         <member name="M:Cooking.MainWindowView.InitializeComponent">
             <summary>
             InitializeComponent
-            </summary>
-        </member>
-        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-            <summary>
-            GeneratedInternalTypeHelper
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-            <summary>
-            CreateInstance
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            GetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            SetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-            <summary>
-            CreateDelegate
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-            <summary>
-            AddEventHandler
             </summary>
         </member>
     </members>

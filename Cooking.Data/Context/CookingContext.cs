@@ -1,5 +1,6 @@
 ﻿using Cooking.Data.Model;
 using Cooking.Data.Model.Plan;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
@@ -11,21 +12,21 @@ namespace Cooking.Data.Context
     /// </summary>
     public class CookingContext : DbContext
     {
+        private static readonly LoggerFactory MyLoggerFactory =
+                new LoggerFactory(new[]
+                {
+                    new DebugLoggerProvider()
+                });
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CookingContext"/> class.
         /// </summary>
         /// <param name="dbFilename">Database file name.</param>
         /// <param name="useLazyLoading">Use lazy loading in this context.</param>
-        public CookingContext(string dbFilename, bool useLazyLoading = false)
+        public CookingContext(string dbFilename)
         {
             DbFilename = dbFilename;
-            UseLazyLoading = useLazyLoading;
         }
-
-        public static readonly LoggerFactory _myLoggerFactory =
-                new LoggerFactory(new[] {
-                    new DebugLoggerProvider()
-                });
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CookingContext"/> class.
@@ -37,10 +38,10 @@ namespace Cooking.Data.Context
         {
         }
 
-        /// <summary>
-        /// Gets a value indicating whether context uses lazy loading.
-        /// </summary>
-        public bool UseLazyLoading { get; }
+        public CookingContext(SqliteConnection connection)
+        {
+            this.connection = connection;
+        }
 
         /// <summary>
         /// Gets or sets days repository.
@@ -73,19 +74,23 @@ namespace Cooking.Data.Context
         public DbSet<Garnish> Garnishes { get; set; }
 
         private string DbFilename { get; }
+        private SqliteConnection connection { get; }
 
         /// <inheritdoc/>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite($"Data Source={DbFilename}");
-
-            if (UseLazyLoading)
+            if (DbFilename != null)
             {
-                optionsBuilder.UseLazyLoadingProxies();
+                optionsBuilder.UseSqlite($"Data Source={DbFilename}");
+            }
+
+            if (connection != null)
+            {
+                optionsBuilder.UseSqlite(connection);
             }
 
 #if DEBUG
-            optionsBuilder.UseLoggerFactory(_myLoggerFactory);
+            optionsBuilder.UseLoggerFactory(MyLoggerFactory);
             optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.EnableDetailedErrors();
 #endif
@@ -117,6 +122,11 @@ namespace Cooking.Data.Context
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Recipe>()
+                .HasMany(x => x.Tags)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<RecipeIngredient>()
                 .HasOne(x => x.Ingredient)
                 .WithMany()
@@ -124,7 +134,9 @@ namespace Cooking.Data.Context
                 .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<RecipeIngredient>()
-                .Ignore(x => x.MeasureUnit);
+                        .HasOne(x => x.MeasureUnit)
+                        .WithMany()
+                        .HasForeignKey(x => x.MeasureUnitGuid);
 
             // Recipe-Tag many-to-many relationship
             modelBuilder.Entity<RecipeTag>()

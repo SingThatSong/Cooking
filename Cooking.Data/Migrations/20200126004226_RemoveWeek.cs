@@ -52,38 +52,6 @@ SELECT [ID]
         /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<byte[]>(
-                name: "WeekID",
-                table: "Day",
-                type: "BLOB",
-                nullable: true);
-
-            migrationBuilder.CreateTable(
-                name: "Weeks",
-                columns: table => new
-                {
-                    ID = table.Column<byte[]>(type: "BLOB", nullable: false),
-                    Culture = table.Column<string>(type: "TEXT", nullable: true),
-                    End = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Start = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Weeks", x => x.ID);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Day_WeekID",
-                table: "Day",
-                column: "WeekID");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Day_Weeks_WeekID",
-                table: "Day",
-                column: "WeekID",
-                principalTable: "Weeks",
-                principalColumn: "ID",
-                onDelete: ReferentialAction.Cascade);
         }
     }
 }

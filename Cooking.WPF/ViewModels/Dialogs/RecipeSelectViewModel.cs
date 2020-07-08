@@ -14,12 +14,11 @@ namespace Cooking.WPF.Views
     /// <summary>
     /// View model for recipe selection from a list of recipies.
     /// </summary>
-    public partial class RecipeSelectViewModel : OkCancelViewModel
+    public class RecipeSelectViewModel : OkCancelViewModel
     {
         private readonly List<RecipeListViewDto> recipies;
         private readonly RecipeService recipeService;
         private readonly ILocalization localization;
-        private string? filterText;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeSelectViewModel"/> class.
@@ -70,14 +69,14 @@ namespace Cooking.WPF.Views
                         if (day.NeededDishTypes?.Count > 1)
                         {
                             sb.Insert(0, '(');
-                            sb.Append(")");
+                            sb.Append(')');
                         }
 
                         sb.Append(" and ");
 
                         if (day.NeededMainIngredients.Count > 1)
                         {
-                            sb.Append("(");
+                            sb.Append('(');
                             needEnd = true;
                         }
                     }
@@ -123,25 +122,25 @@ namespace Cooking.WPF.Views
         /// <summary>
         /// Gets or sets filter text value.
         /// </summary>
-        public string? FilterText
+        public string? FilterText { get; set; }
+
+        public void OnFilterTextChanged()
         {
-            get => filterText;
-            set
+            recipies.Clear();
+            List<RecipeListViewDto> newEntries;
+
+            if (!string.IsNullOrEmpty(FilterText))
             {
-                if (filterText != value && !string.IsNullOrEmpty(value))
-                {
-                    filterText = value;
-
-                    recipies.Clear();
-
-                    Expression<Func<Recipe, bool>> filterExpression = RecipeFiltrator.Instance.Value.GetExpression(value);
-                    List<RecipeListViewDto> newEntries = recipeService.GetProjected<RecipeListViewDto>(filterExpression);
-
-                    recipies.AddRange(newEntries);
-
-                    RecipiesSource.View.Refresh();
-                }
+                Expression<Func<Recipe, bool>> filterExpression = RecipeFiltrator.Instance.Value.GetExpression(FilterText);
+                newEntries = recipeService.GetProjectedClientside<RecipeListViewDto>(filterExpression);
             }
+            else
+            {
+                newEntries = recipeService.GetAllProjected<RecipeListViewDto>();
+            }
+
+            recipies.AddRange(newEntries);
+            RecipiesSource.View.Refresh();
         }
 
         /// <inheritdoc/>

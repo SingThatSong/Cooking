@@ -27,17 +27,21 @@ namespace Cooking.WPF.Views
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="ingredientService">Ingredient service dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
+        /// <param name="measureUnitService">Localization provider dependency.</param>
         /// <param name="ingredient">Ingredient to edit.</param>
         public RecipeIngredientEditViewModel(DialogService dialogService,
                                              IngredientService ingredientService,
                                              ILocalization localization,
+                                             MeasureUnitService measureUnitService,
                                              RecipeIngredientEdit ingredient)
             : base(dialogService)
         {
             this.dialogService = dialogService;
             this.ingredientService = ingredientService;
             this.localization = localization;
+
             Ingredient = ingredient;
+            MeasurementUnits = measureUnitService.GetAll();
 
             AddMultipleCommand = new DelegateCommand(AddMultiple, canExecute: CanOk);
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
@@ -55,7 +59,7 @@ namespace Cooking.WPF.Views
         /// <summary>
         /// Gets values provider for measurement unit selection.
         /// </summary>
-        public ReadOnlyCollection<MeasureUnit> MeasurementUnits => MeasureUnit.AllValues;
+        public List<MeasureUnit> MeasurementUnits { get; }
 
         /// <summary>
         /// Gets localized caption for count.

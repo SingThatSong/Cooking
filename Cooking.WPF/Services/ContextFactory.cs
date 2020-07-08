@@ -21,6 +21,6 @@ namespace Cooking.WPF
         }
 
         /// <inheritdoc/>
-        public CookingContext Create(bool useLazyLoading = false) => new CookingContext(appSettings.Value.DbName, useLazyLoading);
+        public CookingContext Create() => new CookingContext(appSettings.Value.DbName);
     }
 }

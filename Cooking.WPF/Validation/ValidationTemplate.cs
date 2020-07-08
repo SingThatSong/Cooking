@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Internal;
 using FluentValidation.Results;
 using NullGuard;
 using Prism.Unity;
@@ -17,23 +18,24 @@ namespace Cooking
     /// Validar Validation template for FluentValidation. See https://github.com/Fody/Validar#validation-template-implementations.
     /// </summary>
     [NullGuard(ValidationFlags.None)]
-    public class ValidationTemplate : IDataErrorInfo, INotifyDataErrorInfo
+    public class ValidationTemplate<T> : IDataErrorInfo, INotifyDataErrorInfo
+            where T : INotifyPropertyChanged
     {
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IValidator?> Validators = new ConcurrentDictionary<RuntimeTypeHandle, IValidator?>();
+        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IValidator<T>> Validators = new ConcurrentDictionary<RuntimeTypeHandle, IValidator<T>>();
 
-        private readonly INotifyPropertyChanged target;
-        private readonly IValidator? validator;
+        private readonly T target;
+        private readonly IValidator<T> validator;
         private ValidationResult? validationResult;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ValidationTemplate"/> class.
+        /// Initializes a new instance of the <see cref="ValidationTemplate{T}"/> class.
         /// </summary>
         /// <param name="target">Object which will be validated. Injected by Validar into classes.</param>
-        public ValidationTemplate(INotifyPropertyChanged target)
+        public ValidationTemplate(T target)
         {
             this.target = target;
             validator = GetValidator(target.GetType());
-            validationResult = validator?.Validate(target);
+            validationResult = validator?.Validate(new ValidationContext<object>(target));
             target.PropertyChanged += Validate;
         }
 
@@ -71,15 +73,21 @@ namespace Cooking
         /// </summary>
         /// <param name="modelType">Type of object to validate.</param>
         /// <returns>Instance of validator.</returns>
-        private static IValidator? GetValidator(Type modelType)
+        private static IValidator<T> GetValidator(Type modelType)
         {
-            if (!Validators.TryGetValue(modelType.TypeHandle, out IValidator? validator))
+            if (!Validators.TryGetValue(modelType.TypeHandle, out IValidator<T>? validator))
             {
                 string typeName = $"{modelType.Namespace}.{modelType.Name}Validator";
                 Type? type = modelType.Assembly.GetType(typeName, true);
                 if (type != null && Application.Current is PrismApplication app)
                 {
-                    validator = app.Container.Resolve(type) as IValidator;
+                    validator = app.Container.Resolve(type) as IValidator<T>;
+
+                    if (validator == null)
+                    {
+                        throw new InvalidOperationException("Provide validator for type!");
+                    }
+
                     Validators[modelType.TypeHandle] = validator;
                 }
                 else

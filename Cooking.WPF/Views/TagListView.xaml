@@ -39,7 +39,7 @@
                 <DataTemplate>
                     <Border
                         Margin="3"
-                        Background="#ff333333"
+                        Background="{DynamicResource MahApps.Brushes.Gray8}"
                         CornerRadius="2">
                         <Border.Effect>
                             <DropShadowEffect

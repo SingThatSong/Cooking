@@ -21,6 +21,6 @@ namespace Cooking.Web
         }
 
         /// <inheritdoc/>
-        public CookingContext Create(bool useLazyLoading = false) => new CookingContext(configuration["dbName"], useLazyLoading);
+        public CookingContext Create() => new CookingContext(configuration["dbName"]);
     }
 }

@@ -21,7 +21,7 @@ namespace Cooking.WPF.Converters
         /// Gets or sets attached property to serve as a proxy for binding between RichTextBox's document and string in view model.
         /// </summary>
         [AttachedProperty(OnPropertyChanged = nameof(OnDocumentXamlChanged), Options = FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)]
-        public static string? DocumentXaml { get; set; }
+        public static string? DocumentXaml { get; set; } = "";
 
         private static bool IsEditing { get; set; }
 
@@ -52,27 +52,30 @@ namespace Cooking.WPF.Converters
 
             // Parse the XAML to a document (or use XamlReader.Parse())
             string xaml = GetDocumentXaml(dependencyObject);
-            var doc = new FlowDocument();
-            var range = new TextRange(doc.ContentStart, doc.ContentEnd);
+            richTextBox.Document = new FlowDocument();
 
-            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(xaml));
-            range.Load(stream, DataFormats.Rtf);
-
-            // Set the document
-            richTextBox.Document = doc;
-
-            // When the document changes update the source
-            richTextBox.TextChanged += (obj2, e2) =>
+            if (xaml != null)
             {
-                if (richTextBox.Document == doc)
+                // Set the document
+                using var stream = new MemoryStream(Encoding.UTF8.GetBytes(xaml));
+                var range = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
+                range.Load(stream, DataFormats.Rtf);
+            }
+
+            if (richTextBox.Tag == null)
+            {
+                richTextBox.Tag = new object();
+
+                // When the document changes update the source
+                richTextBox.TextChanged += (obj2, e2) =>
                 {
                     IsEditing = true;
                     var buffer = new MemoryStream();
-                    range.Save(buffer, DataFormats.Rtf);
+                    new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd).Save(buffer, DataFormats.Rtf);
                     SetDocumentXaml(richTextBox, Encoding.UTF8.GetString(buffer.ToArray()));
                     IsEditing = false;
-                }
-            };
+                };
+            }
         }
     }
 }

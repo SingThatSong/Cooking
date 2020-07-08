@@ -67,7 +67,7 @@ namespace Cooking.WPF.Views
             ApplyChangesCommand = new AsyncDelegateCommand(ApplyChanges);
             DeleteRecipeCommand = new AsyncDelegateCommand<Guid>(DeleteRecipe, canExecute: CanDeleteRecipe);
 
-            ImageSearchCommand = new DelegateCommand(ImageSearch);
+            ImageSearchCommand = new AsyncDelegateCommand(ImageSearch);
             RemoveImageCommand = new DelegateCommand(RemoveImage, canExecute: CanRemoveImage);
 
             AddTagCommand = new DelegateCommand(AddTag);
@@ -108,7 +108,7 @@ namespace Cooking.WPF.Views
         /// <summary>
         /// Gets command to select image for a recipe.
         /// </summary>
-        public DelegateCommand ImageSearchCommand { get; }
+        public AsyncDelegateCommand ImageSearchCommand { get; }
 
         /// <summary>
         /// Gets command to remove image for a recipe.
@@ -206,7 +206,14 @@ namespace Cooking.WPF.Views
             var recipeId = navigationContext.Parameters[nameof(Recipe)] as Guid?;
             if (recipeId.HasValue)
             {
-                Recipe = recipeService.GetMapped<RecipeEdit>(recipeId.Value);
+                try
+                {
+                    Recipe = recipeService.GetMapped<RecipeEdit>(recipeId.Value);
+                }
+                catch (Exception e)
+                {
+
+                }
             }
             else
             {
@@ -363,7 +370,7 @@ namespace Cooking.WPF.Views
             }
         }
 
-        private void ImageSearch() => Recipe!.ImagePath = imageService.UseImage();
+        private async Task ImageSearch() => Recipe!.ImagePath = imageService.UseImage();
 
         private async Task ApplyChanges()
         {
@@ -391,7 +398,6 @@ namespace Cooking.WPF.Views
         private async void OnRecipeDeleted(Guid recipeId)
         {
             await recipeService.DeleteAsync(recipeId);
-            CloseCommand.Execute();
             eventAggregator.GetEvent<RecipeDeletedEvent>().Publish(recipeId);
 
             // Journal methods must be called from UI thread

@@ -1,7 +1,7 @@
-﻿using Cooking.ServiceLayer;
+﻿using ControlzEx.Theming;
+using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.Services;
-using MahApps.Metro;
 using Microsoft.Extensions.Options;
 using PropertyChanged;
 using Serilog;
@@ -41,17 +41,20 @@ namespace Cooking.WPF.Views
             this.options = options;
             this.settingsService = settingsService;
 
-            AppThemes = ThemeManager.Themes
-                                    .GroupBy(x => x.BaseColorScheme)
-                                    .Select(x => x.First())
-                                    .ToList();
+            AppThemes = ThemeManager.Current.Themes
+                                            .GroupBy(x => x.BaseColorScheme)
+                                            .Select(x => x.First())
+                                            .ToList();
 
-            ColorThemes = ThemeManager.ColorSchemes.OrderBy(x => x.Name).ToList();
+            ColorThemes = ThemeManager.Current.ColorSchemes.OrderBy(x => x).ToList();
 
-            Theme currentTheme = ThemeManager.DetectTheme();
+            Theme? currentTheme = ThemeManager.Current.DetectTheme();
 
-            SelectedAppTheme = AppThemes.First(x => x.BaseColorScheme == currentTheme.BaseColorScheme);
-            SelectedColor = ColorThemes.First(x => x.Name == currentTheme.ColorScheme);
+            if (currentTheme != null)
+            {
+                SelectedAppTheme = AppThemes.First(x => x.BaseColorScheme == currentTheme.BaseColorScheme);
+                SelectedColor = ColorThemes.First(x => x == currentTheme.ColorScheme);
+            }
         }
 
         /// <summary>
@@ -67,12 +70,12 @@ namespace Cooking.WPF.Views
         /// <summary>
         /// Gets all available app themes.
         /// </summary>
-        public List<ColorScheme> ColorThemes { get; }
+        public List<string> ColorThemes { get; }
 
         /// <summary>
         /// Gets or sets selected app theme.
         /// </summary>
-        public ColorScheme SelectedColor { get; set; }
+        public string SelectedColor { get; set; }
 
         /// <summary>
         /// Gets command to be fired when culture combobox's selected language changes.
@@ -84,7 +87,7 @@ namespace Cooking.WPF.Views
         /// </summary>
         public void OnSelectedAppThemeChanged()
         {
-            ThemeManager.ChangeThemeBaseColor(Application.Current, SelectedAppTheme.BaseColorScheme);
+            ThemeManager.Current.ChangeThemeBaseColor(Application.Current, SelectedAppTheme.BaseColorScheme);
 
             options.Value.Theme = SelectedAppTheme.BaseColorScheme;
             settingsService.UpdateAppSettings(options.Value);
@@ -95,9 +98,9 @@ namespace Cooking.WPF.Views
         /// </summary>
         public void OnSelectedColorChanged()
         {
-            ThemeManager.ChangeThemeColorScheme(Application.Current, SelectedColor.Name);
+            ThemeManager.Current.ChangeThemeColorScheme(Application.Current, SelectedColor);
 
-            options.Value.Accent = SelectedColor.Name;
+            options.Value.Accent = SelectedColor;
             settingsService.UpdateAppSettings(options.Value);
         }
 

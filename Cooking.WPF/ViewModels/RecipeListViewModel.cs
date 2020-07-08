@@ -211,21 +211,29 @@ namespace Cooking.WPF.Views
         {
             if (Recipies != null)
             {
-                Recipies!.Clear();
+                Recipies.Clear();
             }
             else
             {
                 Recipies = new ObservableCollection<RecipeListViewDto>();
             }
 
-            Expression<Func<Recipe, bool>> filterExpression = RecipeFiltrator.Instance.Value.GetExpression(value);
-            List<RecipeListViewDto> newEntries = recipeService.GetProjected<RecipeListViewDto>(filterExpression);
+            List<RecipeListViewDto> newEntries;
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                Expression<Func<Recipe, bool>> filterExpression = RecipeFiltrator.Instance.Value.GetExpression(value);
+                newEntries = recipeService.GetProjectedClientside<RecipeListViewDto>(filterExpression);
+            }
+            else
+            {
+                newEntries = recipeService.GetAllProjected<RecipeListViewDto>();
+            }
 
             Recipies.AddRange(newEntries);
 
             if (RecipiesSource.View is ListCollectionView listCollectionView)
             {
-                RecipiesNotFound = listCollectionView.Count == 0;
+                RecipiesNotFound = listCollectionView.IsEmpty;
             }
         }
 

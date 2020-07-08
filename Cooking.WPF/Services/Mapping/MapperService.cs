@@ -4,6 +4,7 @@ using Cooking.Data.Model;
 using Cooking.Data.Model.Plan;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
+using System;
 using System.Linq;
 
 // Class contains imperative mapping rules, null-checks are irrelevant
@@ -50,8 +51,19 @@ namespace Cooking
                     cfg.CreateMap<IngredientEdit, IngredientEdit>()
                        .IncludeBase<Entity, Entity>();
 
-                    cfg.CreateMap<RecipeIngredientEdit, RecipeIngredient>()
+                    cfg.CreateMap<MeasureUnit, MeasureUnit>()
+                       .IncludeBase<Entity, Entity>()
+                       .EqualityComparison((a, b) => a.ID == b.ID);
+
+                    cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>()
                        .EqualityComparison((a, b) => a.ID == b.ID)
+                       .IncludeBase<Entity, Entity>()
+                       .ReverseMap()
+                       .EqualityComparison((a, b) => a.ID == b.ID)
+                        // Do not map ingredient object, it's not new, so db will fail on attempt to create duplicate
+                       .ForMember(x => x.Ingredient, opts => opts.Ignore())
+                       .ForMember(x => x.MeasureUnit, opts => opts.Ignore())
+                       .ForMember(x => x.MeasureUnitGuid, opts => opts.MapFrom(x => x.MeasureUnit != null ? (Guid?)x.MeasureUnit.ID : null))
                        .IncludeBase<Entity, Entity>();
 
                     // Project Recipe from db to displayed in lists
@@ -79,6 +91,7 @@ namespace Cooking
                            }
                        });
 
+
                     // Cleanup below
                     // -----------------------
                     cfg.CreateMap<RecipeIngredientEdit, RecipeIngredientEdit>()
@@ -87,7 +100,6 @@ namespace Cooking
                     cfg.CreateMap<Day, DayEdit>();
                     cfg.CreateMap<Tag, TagEdit>();
                     cfg.CreateMap<Ingredient, IngredientEdit>().ReverseMap();
-                    cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>();
                     cfg.CreateMap<IngredientsGroup, IngredientGroupEdit>();
 
                     cfg.CreateMap<TagEdit, Tag>();

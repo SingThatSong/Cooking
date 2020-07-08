@@ -21,24 +21,26 @@ namespace Cooking.WPF.Services
         /// </summary>
         public static Lazy<FilterContext<Recipe>> Instance { get; } = new Lazy<FilterContext<Recipe>>(() => new FilterContext<Recipe>().AddFilter(Consts.NameSymbol, CombinedFilter(), isDefault: true)
                                                                                                                                        .AddFilter(Consts.IngredientSymbol, HasIngredient())
-                                                                                                                                       .AddFilter(Consts.TagSymbol, HasTag()));
+                                                                                                                                       .AddFilter(Consts.TagSymbol.ToString(), HasTag()));
 
         private static Expression<Func<Recipe, string, bool>> CombinedFilter()
         {
             return (x, str) => x.Name.ToLower().Contains(str.ToLower())
-                            || x.Tags.Any(x => x.Tag.Name.ToLower().Equals(str.ToLower()))
-                            || x.Ingredients.Any(x => x.Ingredient.Name == str) || x.IngredientGroups.Any(x => x.Ingredients.Any(x => x.Ingredient.Name == str));
+                            || (x.Tags != null && x.Tags.Any(x => x.Tag.Name.ToLower().Contains(str.ToLower())))
+                            || (x.Ingredients != null && x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower())))
+                            || (x.IngredientGroups != null && x.IngredientGroups.Any(x => x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower()))));
         }
 
         private static Expression<Func<Recipe, string, bool>> HasTag()
         {
-            return (x, str) => x.Tags.Any(x => x.Tag.Name.ToLower().Equals(str.ToLower()));
+            return (x, str) => x.Tags != null && x.Tags.Any(x => x.Tag.Name.ToLower().Contains(str.ToLower()));
         }
 
         private static Expression<Func<Recipe, string, bool>> HasIngredient()
         {
-            return (x, str) => x.Ingredients.Any(x => x.Ingredient.Name == str) || x.IngredientGroups.Any(x => x.Ingredients.Any(x => x.Ingredient.Name == str));
+            return (x, str) => (x.Ingredients != null && x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower())))
+                            || (x.IngredientGroups != null && x.IngredientGroups.Any(x => x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower()))));
         }
     }
-    #pragma warning restore CS8602, CS8604, CA1304, CA1307, RCS1155
+    #pragma warning restore allr
 }

@@ -10,6 +10,6 @@
         /// </summary>
         /// <param name="useLazyLoading">Use lazy loading in this context.</param>
         /// <returns>Instance of <see cref="CookingContext"/>.</returns>
-        CookingContext Create(bool useLazyLoading = false);
+        CookingContext Create();
     }
 }

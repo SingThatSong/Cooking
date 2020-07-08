@@ -14,7 +14,7 @@ namespace Cooking.ServiceLayer
     /// Basic create-retrieve-update-delete service.
     /// </summary>
     /// <typeparam name="T">Type of entity to work on.</typeparam>
-    public class CRUDService<T>
+    public abstract class CRUDService<T>
         where T : Entity, new()
     {
         private readonly ICurrentCultureProvider cultureProvider;
@@ -46,10 +46,40 @@ namespace Cooking.ServiceLayer
         /// Get all entities for a type.
         /// </summary>
         /// <returns>All entities for type <see cref="T"/>.</returns>
-        public virtual List<T> GetAll()
+        public List<T> GetAll()
         {
             using CookingContext context = ContextFactory.Create();
-            return GetCultureSpecificSet(context).AsNoTracking().ToList();
+            IQueryable<T>? cultureSet = GetCultureSpecificSet(context);
+            IQueryable<T>? fullSet = GetFullGraph(cultureSet);
+
+            return fullSet.AsNoTracking()
+                          .AsSplitQuery()
+                          .ToList();
+        }
+
+
+        /// <summary>
+        /// Get entity with whole graph.
+        /// </summary>
+        /// <param name="id">ID of entity to load.</param>
+        /// <returns>Entity with whole graph.</returns>
+        public T Get(Guid id)
+        {
+            using CookingContext context = ContextFactory.Create();
+            return Get(id, context);
+        }
+
+        private T Get(Guid id, CookingContext context, bool isTracking = false)
+        {
+            IQueryable<T> cultureSet = GetCultureSpecificSet(context);
+            IQueryable<T> fullSet = GetFullGraph(cultureSet);
+
+            if (!isTracking)
+            {
+                fullSet = fullSet.AsNoTracking();
+            }
+
+            return fullSet.AsSplitQuery().Single(x => x.ID == id);
         }
 
         /// <summary>
@@ -66,6 +96,25 @@ namespace Cooking.ServiceLayer
             return Mapper.ProjectTo<TProjection>(cultureSpecificSet)
                          .AsNoTracking()
                          .ToList();
+        }
+
+        /// <summary>
+        /// Get all entries filtered by expression and projected to some type.
+        /// Filtration occurs on client side.
+        /// </summary>
+        /// <typeparam name="TProjection">Type of projection.</typeparam>
+        /// <param name="predicate">Predicate to filter.</param>
+        /// <returns>Projected and filtered collection.</returns>
+        public virtual List<TProjection> GetProjectedClientside<TProjection>(Expression<Func<T, bool>> predicate)
+            where TProjection : Entity
+        {
+            using CookingContext context = ContextFactory.Create();
+            IEnumerable<T>? set = GetCultureSpecificSet(context)
+                                    .AsNoTracking()
+                                    .AsEnumerable()
+                                    .Where(predicate.Compile())
+                                    .ToList();
+            return Mapper.Map<List<TProjection>>(set);
         }
 
         /// <summary>
@@ -125,7 +174,7 @@ namespace Cooking.ServiceLayer
             T dbType = Mapper.Map<T>(entity);
             await context.Set<T>().AddAsync(dbType);
             await context.SaveChangesAsync().ConfigureAwait(false);
-            return entity.ID;
+            return dbType.ID;
         }
 
         /// <summary>
@@ -149,8 +198,8 @@ namespace Cooking.ServiceLayer
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task UpdateAsync(T entity)
         {
-            using CookingContext context = ContextFactory.Create(useLazyLoading: true);
-            T existing = await context.Set<T>().FindAsync(entity.ID);
+            using CookingContext context = ContextFactory.Create();
+            T existing = await GetFullGraph(context.Set<T>()).FirstAsync(x => x.ID == entity.ID);
             Mapper.Map(entity, existing);
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
@@ -164,8 +213,9 @@ namespace Cooking.ServiceLayer
         public async Task UpdateAsync<TProjection>(TProjection entity)
             where TProjection : Entity
         {
-            using CookingContext context = ContextFactory.Create(useLazyLoading: true);
-            T existing = await context.Set<T>().FindAsync(entity.ID);
+            using CookingContext context = ContextFactory.Create();
+
+            T existing = Get(entity.ID, context, isTracking: true);
             Mapper.Map(entity, existing);
             await context.SaveChangesAsync().ConfigureAwait(false);
         }
@@ -186,5 +236,12 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <returns>Current culture name. E.g. "en-US".</returns>
         protected string GetCurrentCulture() => cultureProvider.CurrentCulture.Name;
+
+        /// <summary>
+        /// Get full graph for an entity.
+        /// </summary>
+        /// <param name="baseQuery">Base set for a graph.</param>
+        /// <returns>Full graph for an entity.</returns>
+        protected virtual IQueryable<T> GetFullGraph(IQueryable<T> baseQuery) => baseQuery;
     }
 }

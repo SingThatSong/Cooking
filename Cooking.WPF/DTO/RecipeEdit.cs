@@ -56,7 +56,11 @@ namespace Cooking.WPF.DTO
         /// <summary>
         /// Gets or sets recipe Description. Or recipe itself.
         /// </summary>
-        public string? Description { get; set; }
+        public string? Description 
+        { 
+            get; 
+            set; 
+        }
 
         /// <summary>
         /// Gets or sets how many portions can you cook with single recipe.
