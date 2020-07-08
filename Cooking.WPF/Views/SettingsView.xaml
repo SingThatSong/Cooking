@@ -29,7 +29,6 @@
         Margin="0,20"
         HorizontalAlignment="Center"
         Orientation="Vertical">
-        <mahapps:DateTimePicker />
         <TextBlock FontSize="24" Text="{lex:Loc Settings}" />
 
         <!--  Language setting  -->

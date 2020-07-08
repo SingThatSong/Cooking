@@ -4,6 +4,7 @@ using Avalonia.Markup.Xaml;
 using Cooking.Avalonia.ViewModels;
 using Cooking.Avalonia.Views;
 
+// TODO: Make sure there is no russian in code
 namespace Cooking.Avalonia
 {
     /// <summary>

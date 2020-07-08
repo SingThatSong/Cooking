@@ -43,7 +43,6 @@
     <PackageReference Include="Bindables.Fody" Version="6.0.0" PrivateAssets="All" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" PrivateAssets="All" />
     <PackageReference Include="FluentValidation" Version="9.0.0" />
-    <PackageReference Include="Humanizer.Core.ru" Version="2.8.26" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0479" />
     <PackageReference Include="AutoMapper" Version="10.0.1-alpha.0.2" />
     <PackageReference Include="Fody" Version="6.2.0">
