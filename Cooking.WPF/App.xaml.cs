@@ -30,10 +30,10 @@ using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Rename Id to uppercase
 // TODO: Set design-time DataContexts for Views
-// TODO: Recipe filtering reserved words localization (and, or, not) ?
 // TODO: Icons for tag-menu items
+// TODO: Rename Id to uppercase
+// TODO: Recipe filtering reserved words localization (and, or, not) ?
 // TODO: Highlight items like in recipe list
 // TODO: Move all typesafe enums to tables with localization or to simple enums (IngredientType)
 // TODO: Count calories for recipe
@@ -45,16 +45,18 @@ using WPFLocalizeExtension.Providers;
 // TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
 // TODO: Set all *Caption bindings to be OneTime
 // TODO: Settings for day recipies (breakfast, supper, etc.)
-// TODO: Generate lots of data (millions of entries) and test
+// TODO: Generate lots of data (millions of entries) and test. See: Bogus
 // TODO: Add setting to disable suggestion to correct previous week
 // TODO: Refactor getting full IQuaryable graph for all services
 // TODO: Move this file's parts into different methods
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
 // TODO: App users
-// TODO: Replace dialogs with SimpleChildWindow
+// TODO: Replace dialogs with SimpleChildWindow ? REason: Validation works poorly with dialogs, needed crunches with value resetting
 // TODO: Recipe filtering: make Gitlab-like system
 // TODO: Set up failure monitoring
+// TODO: Replace EqualityComparison with SetGeneratePropertyMaps. See https://github.com/AutoMapper/Automapper.Collection
+// TODO: Restore Maximize button when ControlzEx fixes it for .NET 5
 
 // Git-related
 // TODO: Setup CI
@@ -81,9 +83,8 @@ using WPFLocalizeExtension.Providers;
 
 // TODO: Add project documentation (Wiki)
 
-// TODO: maybe... someday...
+// Things not possible right now
 // TODO: Plurals localization - https://github.com/Humanizr/Humanizer : Not supported! See https://github.com/Humanizr/Humanizer/issues/689
-
 
 // Set Null-check on all func arguments globally
 [assembly: NullGuard(ValidationFlags.Arguments)]
