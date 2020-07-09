@@ -1,42 +1,45 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:Cooking.Avalonia.ViewModels;assembly=Cooking.Avalonia"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Cooking.Avalonia.Views"
-        xmlns:commands="clr-namespace:Cooking.WPF.Commands"
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250"
-        x:Class="Cooking.Avalonia.Views.MainWindow"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="Cooking.Avalonia"
-        Width="1000"
-        Height="650">
+<Window
+    x:Class="Cooking.Avalonia.Views.MainWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:commands="clr-namespace:Cooking.WPF.Commands"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Cooking.Avalonia.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:Cooking.Avalonia.ViewModels;assembly=Cooking.Avalonia"
+    Title="Cooking.Avalonia"
+    Width="1000"
+    Height="650"
+    d:DesignHeight="250"
+    d:DesignWidth="400"
+    Icon="/Assets/avalonia-logo.ico"
+    mc:Ignorable="d">
 
     <Design.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
-  
-  <TabControl Classes="sidebar" >
-    <TabControl.ItemsPanel>
-      <ItemsPanelTemplate>
-        <StackPanel Orientation="Vertical" />
-      </ItemsPanelTemplate>
-    </TabControl.ItemsPanel>
-    
-    <TabItem Header="Главная">
-      <ItemsControl Items="{Binding CurrentWeek.Days}" >
-        <ItemsControl.ItemTemplate>
-          <DataTemplate>
-            <TextBlock Text='{Binding Date}' />
-          </DataTemplate>
-        </ItemsControl.ItemTemplate>
-      </ItemsControl>
-    </TabItem>
-    <TabItem Header="Рецепты">
-      <Button Content="Нажми меня"/>
-    </TabItem>
-    <TabItem Header="Ингредиенты" />
-    <TabItem Header="Теги" />
-    <TabItem Header="Гарниры" />
-  </TabControl>
+
+    <TabControl Classes="sidebar">
+        <TabControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Vertical" />
+            </ItemsPanelTemplate>
+        </TabControl.ItemsPanel>
+
+        <TabItem Name="Sidebar" Header="Главная">
+            <ItemsControl Items="{Binding CurrentWeek.Days}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Date}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </TabItem>
+        <TabItem Header="Рецепты">
+            <Button Content="Нажми меня" />
+        </TabItem>
+        <TabItem Header="Ингредиенты" />
+        <TabItem Header="Теги" />
+        <TabItem Header="Гарниры" />
+    </TabControl>
 </Window>
