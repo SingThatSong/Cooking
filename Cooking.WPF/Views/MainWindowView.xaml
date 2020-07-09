@@ -15,16 +15,17 @@
     lex:LocalizeDictionary.IncludeInvariantCulture="False"
     lex:LocalizeDictionary.Provider="{Binding LocalizationProvider}"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    ShowDialogsOverTitleBar="False">
+    ShowDialogsOverTitleBar="False"
+    ShowMaxRestoreButton="False">
 
     <!--  From https://github.com/MahApps/MahApps.Metro/blob/develop/src/MahApps.Metro.Samples/MahApps.Metro.Demo/HamburgerMenuRipple/HamburgerMenuRipple.xaml  -->
-    <!--  Latest commit 24.05.20  -->
+    <!--  Latest commit 07.07.20  -->
     <mahapps:MetroWindow.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mahapps:HamburgerMenuIconItem}">
                 <Grid Height="48" ToolTip="{Binding ToolTip}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type mahapps:HamburgerMenu}}, Path=CompactPaneLength}" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <ContentControl
@@ -48,15 +49,6 @@
                 x:Key="MahApps.Styles.ListBoxItem.HamburgerMenuItem.Ripple"
                 BasedOn="{StaticResource MahApps.Styles.ListBoxItem.HamburgerMenuItem}"
                 TargetType="{x:Type ListBoxItem}">
-                <Setter Property="mahapps:ItemHelper.ActiveSelectionBackgroundBrush" Value="Transparent" />
-                <Setter Property="mahapps:ItemHelper.ActiveSelectionForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
-                <Setter Property="mahapps:ItemHelper.DisabledForegroundBrush" Value="{DynamicResource MahApps.Brushes.Gray}" />
-                <Setter Property="mahapps:ItemHelper.DisabledSelectedBackgroundBrush" Value="Transparent" />
-                <Setter Property="mahapps:ItemHelper.DisabledSelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.Gray}" />
-                <Setter Property="mahapps:ItemHelper.HoverBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
-                <Setter Property="mahapps:ItemHelper.HoverSelectedBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
-                <Setter Property="mahapps:ItemHelper.SelectedBackgroundBrush" Value="Transparent" />
-                <Setter Property="mahapps:ItemHelper.SelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -139,6 +131,15 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
+                <Setter Property="mahapps:ItemHelper.ActiveSelectionBackgroundBrush" Value="Transparent" />
+                <Setter Property="mahapps:ItemHelper.ActiveSelectionForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
+                <Setter Property="mahapps:ItemHelper.DisabledForegroundBrush" Value="{DynamicResource MahApps.Brushes.Gray}" />
+                <Setter Property="mahapps:ItemHelper.DisabledSelectedBackgroundBrush" Value="Transparent" />
+                <Setter Property="mahapps:ItemHelper.DisabledSelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.Gray}" />
+                <Setter Property="mahapps:ItemHelper.HoverBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
+                <Setter Property="mahapps:ItemHelper.HoverSelectedBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
+                <Setter Property="mahapps:ItemHelper.SelectedBackgroundBrush" Value="Transparent" />
+                <Setter Property="mahapps:ItemHelper.SelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
             </Style>
 
             <Style
@@ -157,7 +158,6 @@
     <mahapps:MetroWindow.WindowButtonCommands>
         <mahapps:WindowButtonCommands Style="{StaticResource MahApps.Styles.WindowButtonCommands.Win10}" />
     </mahapps:MetroWindow.WindowButtonCommands>
-
 
     <!--  Application menu  -->
     <mahapps:HamburgerMenu
