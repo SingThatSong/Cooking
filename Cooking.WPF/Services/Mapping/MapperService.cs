@@ -91,6 +91,9 @@ namespace Cooking
                            }
                        });
 
+                    // Update ingredients group in recipe
+                    cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>()
+                       .EqualityComparison((a, b) => a.ID == b.ID);
 
                     // Cleanup below
                     // -----------------------
@@ -107,7 +110,6 @@ namespace Cooking
                         .ForMember(x => x.TagId, opt => opt.MapFrom(x => x.ID));
 
                     cfg.CreateMap<IngredientGroupEdit, IngredientGroupEdit>();
-                    cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>();
                 });
     }
 }
