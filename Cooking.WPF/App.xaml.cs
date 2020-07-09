@@ -33,29 +33,29 @@ using WPFLocalizeExtension.Providers;
 
 // TODO: Icons for tag-menu items
 // TODO: Rename Id to uppercase
-// TODO: Recipe filtering reserved words localization (and, or, not) ?
+// TODO: Recipe filtering reserved words localization (and, or, not)
 // TODO: Highlight items like in recipe list everywhere
-// TODO: Move all typesafe enums to tables with localization or to simple enums (IngredientType)
 // TODO: Count calories for recipe
 // TODO: Set calorietype accordingly to counted calories
-// TODO: Add IQueryable as parameter to all selects in CRUDService
 // TODO: Make GetCultureSpecificSet method an extention method
 // TODO: Debug/ Measure method perfomance (benchmark?)
-// TODO: Add debug console logging to methods and constructors
 // TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
-// TODO: Set all *Caption bindings to be OneTime
+// TODO: Set all *Caption bindings to be OneTime. N.B. Make sure *Captions needed at all
 // TODO: Settings for day recipies (breakfast, supper, etc.)
 // TODO: Generate lots of data (millions of entries) and test. See: Bogus
 // TODO: Add setting to disable suggestion to correct previous week
-// TODO: Refactor getting full IQuaryable graph for all services
-// TODO: Move this file's parts into different methods
+// TODO: Implement GetFullGraph for all services
+// TODO: Move this file's parts into different methods. Reason: Too many usings above
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
 // TODO: App users
-// TODO: Replace dialogs with SimpleChildWindow ? Reason: Validation works poorly with dialogs, needed crunches with value resetting. Second reason - poor work of Localization.
+// TODO: Research replacement dialogs with SimpleChildWindow. Reason: Validation works poorly with dialogs, needed crunches with value resetting. Second reason - poor work of Localization.
 // TODO: Recipe filtering: make Gitlab-like system
 // TODO: Set up failure monitoring
 // TODO: Replace EqualityComparison with SetGeneratePropertyMaps. See https://github.com/AutoMapper/Automapper.Collection
+// TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration
+// TODO: Add IQueryable as parameter to all selects in CRUDService ?
+// TODO: Add debug console logging to methods and constructors (AOP) ?
 
 // Git-related
 // TODO: Setup CI
@@ -74,8 +74,8 @@ using WPFLocalizeExtension.Providers;
 
 // Db-related
 // TODO: Create installer (Inno setup)
-// TODO: Create db migrator for installer
-// TODO: Ensure cascade deletions
+// TODO: Create db migrator for installer (or just Powershell script? )
+// TODO: Ensure cascade/set null deletions
 // TODO: Ensure effective Db Select (get rid of lazy loading)
 
 // TODO: Use Git(Hub/Lab) issues instead of this list :)
