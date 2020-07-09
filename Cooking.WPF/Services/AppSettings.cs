@@ -28,7 +28,7 @@
         /// <summary>
         /// Gets or sets a value indicating whether is window maximized.
         /// </summary>
-        public bool IsWindowMaximized { get; set; } = false;
+        public bool IsWindowMaximized { get; set; }
 
         /// <summary>
         /// Gets or sets window width.

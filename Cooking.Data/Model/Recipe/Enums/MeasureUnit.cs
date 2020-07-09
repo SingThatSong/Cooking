@@ -8,12 +8,12 @@ namespace Cooking.Data.Model
     public class MeasureUnit : Entity
     {
         /// <summary>
-        /// Gets measurement unit short name.
+        /// Gets or sets measurement unit short name.
         /// </summary>
         public string? Name { get; set; }
 
         /// <summary>
-        /// Gets measurement unit full name.
+        /// Gets or sets measurement unit full name.
         /// </summary>
         public string? FullName { get; set; }
     }

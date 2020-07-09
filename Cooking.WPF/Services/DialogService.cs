@@ -1,5 +1,5 @@
 ﻿using Cooking.ServiceLayer;
-using Cooking.WPF.Views;
+using Cooking.WPF.ViewModels;
 using MahApps.Metro.Controls.Dialogs;
 using Prism.Ioc;
 using System;

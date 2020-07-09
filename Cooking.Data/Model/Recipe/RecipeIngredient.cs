@@ -34,11 +34,9 @@ namespace Cooking.Data.Model
         /// </summary>
         public MeasureUnit? MeasureUnit { get; set; }
 
-        //public int? MeasureUnitID { get; set; }
-
         /// <summary>
         /// Gets or sets store value for <see cref="MeasureUnit"/>.
         /// </summary>
-        public Guid? MeasureUnitGuid { get; set; }
+        public Guid? MeasureUnitID { get; set; }
     }
 }

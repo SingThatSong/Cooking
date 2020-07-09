@@ -5,6 +5,7 @@ namespace Cooking.Data.Migrations
 {
     public partial class AddMeasureUnitTable : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<Guid>(
@@ -31,16 +32,9 @@ namespace Cooking.Data.Migrations
                 name: "IX_RecipeIngredients_MeasureUnitGuid",
                 table: "RecipeIngredients",
                 column: "MeasureUnitGuid");
-
-            //migrationBuilder.AddForeignKey(
-            //    name: "FK_RecipeIngredients_MeasureUnit_MeasureUnitGuid",
-            //    table: "RecipeIngredients",
-            //    column: "MeasureUnitGuid",
-            //    principalTable: "MeasureUnit",
-            //    principalColumn: "ID",
-            //    onDelete: ReferentialAction.Restrict);
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(

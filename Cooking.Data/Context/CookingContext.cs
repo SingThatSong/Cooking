@@ -38,11 +38,6 @@ namespace Cooking.Data.Context
         {
         }
 
-        public CookingContext(SqliteConnection connection)
-        {
-            this.connection = connection;
-        }
-
         /// <summary>
         /// Gets or sets days repository.
         /// </summary>
@@ -74,7 +69,6 @@ namespace Cooking.Data.Context
         public DbSet<Garnish> Garnishes { get; set; }
 
         private string DbFilename { get; }
-        private SqliteConnection connection { get; }
 
         /// <inheritdoc/>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -82,11 +76,6 @@ namespace Cooking.Data.Context
             if (DbFilename != null)
             {
                 optionsBuilder.UseSqlite($"Data Source={DbFilename}");
-            }
-
-            if (connection != null)
-            {
-                optionsBuilder.UseSqlite(connection);
             }
 
 #if DEBUG
@@ -136,7 +125,7 @@ namespace Cooking.Data.Context
             modelBuilder.Entity<RecipeIngredient>()
                         .HasOne(x => x.MeasureUnit)
                         .WithMany()
-                        .HasForeignKey(x => x.MeasureUnitGuid);
+                        .HasForeignKey(x => x.MeasureUnitID);
 
             // Recipe-Tag many-to-many relationship
             modelBuilder.Entity<RecipeTag>()

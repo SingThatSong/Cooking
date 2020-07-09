@@ -154,8 +154,18 @@ namespace Cooking.ServiceLayer
             using CookingContext context = ContextFactory.Create();
             var days = GetCultureSpecificSet(context).Include(x => x.Dinner)
                                                          .ThenInclude(x => x.Ingredients)
+                                                            .ThenInclude(x => x.Ingredient)
+                                                     .Include(x => x.Dinner)
+                                                         .ThenInclude(x => x.Ingredients)
+                                                            .ThenInclude(x => x.MeasureUnit)
                                                      .Include(x => x.Dinner)
                                                          .ThenInclude(x => x.IngredientGroups)
+                                                            .ThenInclude(x => x.Ingredients)
+                                                                .ThenInclude(x => x.Ingredient)
+                                                     .Include(x => x.Dinner)
+                                                         .ThenInclude(x => x.IngredientGroups)
+                                                            .ThenInclude(x => x.Ingredients)
+                                                                .ThenInclude(x => x.MeasureUnit)
                                                      .Where(x => weekStart.Date <= x.Date && x.Date <= weekEnd.Date).ToList();
 
             // Create single list of all ingredients in recipies for a week
@@ -183,18 +193,20 @@ namespace Cooking.ServiceLayer
                     IngredientGroupName = localization.GetLocalizedString(ingredientGroup.Key)
                 };
 
-                foreach (var ingredient in ingredientGroup.GroupBy(x => x.Ingredient.Ingredient!.Name))
+                foreach (var ingredient in ingredientGroup.GroupBy(x => x.Ingredient.Ingredient!.Name).OrderBy(x => x.Key))
                 {
                     var measures = ingredient.GroupBy(x => x.Ingredient.MeasureUnit?.FullName);
                     item.Ingredients.Add(new ShoppingListIngredient()
                     {
                         Name = ingredient.Key,
+
                         IngredientAmounts = measures.Where(x => x.Key != null)
                                                     .Select(x => new ShoppingListAmount()
                                                     {
                                                         MeasurementUnit = x.Key!,
                                                         Amount = x.Where(a => a.Ingredient.Amount.HasValue).Sum(a => a.Ingredient.Amount!.Value)
                                                     }).ToList(),
+
                         RecipiesSources = ingredient.Where(x => x.Dinner.Name != null)
                                                     .Select(x => x.Dinner.Name!)
                                                     .Distinct()

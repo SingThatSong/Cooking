@@ -21,7 +21,7 @@ namespace Cooking.WPF.Converters
         /// Gets or sets attached property to serve as a proxy for binding between RichTextBox's document and string in view model.
         /// </summary>
         [AttachedProperty(OnPropertyChanged = nameof(OnDocumentXamlChanged), Options = FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)]
-        public static string? DocumentXaml { get; set; } = "";
+        public static string? DocumentXaml { get; set; } = string.Empty;
 
         private static bool IsEditing { get; set; }
 

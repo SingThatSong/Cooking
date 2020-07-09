@@ -57,7 +57,6 @@ namespace Cooking.ServiceLayer
                           .ToList();
         }
 
-
         /// <summary>
         /// Get entity with whole graph.
         /// </summary>
@@ -67,19 +66,6 @@ namespace Cooking.ServiceLayer
         {
             using CookingContext context = ContextFactory.Create();
             return Get(id, context);
-        }
-
-        private T Get(Guid id, CookingContext context, bool isTracking = false)
-        {
-            IQueryable<T> cultureSet = GetCultureSpecificSet(context);
-            IQueryable<T> fullSet = GetFullGraph(cultureSet);
-
-            if (!isTracking)
-            {
-                fullSet = fullSet.AsNoTracking();
-            }
-
-            return fullSet.AsSplitQuery().Single(x => x.ID == id);
         }
 
         /// <summary>
@@ -243,5 +229,18 @@ namespace Cooking.ServiceLayer
         /// <param name="baseQuery">Base set for a graph.</param>
         /// <returns>Full graph for an entity.</returns>
         protected virtual IQueryable<T> GetFullGraph(IQueryable<T> baseQuery) => baseQuery;
+
+        private T Get(Guid id, CookingContext context, bool isTracking = false)
+        {
+            IQueryable<T> cultureSet = GetCultureSpecificSet(context);
+            IQueryable<T> fullSet = GetFullGraph(cultureSet);
+
+            if (!isTracking)
+            {
+                fullSet = fullSet.AsNoTracking();
+            }
+
+            return fullSet.AsSplitQuery().Single(x => x.ID == id);
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Cooking.ServiceLayer
     public interface ICurrentCultureProvider
     {
         /// <summary>
-        /// Gets provide current culture.
+        /// Gets current culture.
         /// </summary>
         CultureInfo CurrentCulture { get; }
     }

@@ -2,8 +2,12 @@
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Rename TypeID column to Type.
+    /// </summary>
     public partial class TypeRename : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
@@ -12,6 +16,7 @@ namespace Cooking.Data.Migrations
                 newName: "Type");
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(

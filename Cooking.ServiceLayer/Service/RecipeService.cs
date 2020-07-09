@@ -138,7 +138,6 @@ namespace Cooking.ServiceLayer
             return queryResult.OrderByDescending(x => DaysFromLasCook(x.ID)).ToList();
         }
 
-
         /// <inheritdoc/>
         protected override IQueryable<Recipe> GetFullGraph(IQueryable<Recipe> baseQuery)
         {

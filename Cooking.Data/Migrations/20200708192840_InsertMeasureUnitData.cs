@@ -2,14 +2,14 @@
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Replacement of enum MeasureUnit to database table MeasureUnit.
+    /// </summary>
     public partial class InsertMeasureUnitData : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.DropColumn(
-            //    name: "MeasureUnitID",
-            //    table: "RecipeIngredients");
-
             migrationBuilder.Sql(@"
                 INSERT INTO [MeasureUnit] ([ID], [Culture], [Name], [FullName])
                      VALUES ('35ACBB4B-B650-422A-808A-79415B03A80A', 'ru-RU', 'г', 'грамм');
@@ -86,6 +86,7 @@ namespace Cooking.Data.Migrations
             ");
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(

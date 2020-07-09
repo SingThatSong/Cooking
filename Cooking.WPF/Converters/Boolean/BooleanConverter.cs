@@ -47,6 +47,6 @@ namespace Cooking.WPF.Converters
         }
 
         /// <inheritdoc/>
-        public virtual object ConvertBack(object value, Type targetType, object? parameter, CultureInfo culture) => value is T && EqualityComparer<T>.Default.Equals((T)value, True);
+        public virtual object ConvertBack(object value, Type targetType, object? parameter, CultureInfo culture) => value is T tValue && EqualityComparer<T>.Default.Equals(tValue, True);
     }
 }
