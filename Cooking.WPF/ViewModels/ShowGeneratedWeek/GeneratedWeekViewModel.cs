@@ -1,17 +1,17 @@
-﻿using AutoMapper;
-using Cooking.ServiceLayer;
+﻿using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
+using Cooking.WPF.ViewModels;
+using Cooking.WPF.Views;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
-using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for generated week.
@@ -146,7 +146,7 @@ namespace Cooking.WPF.Views
                                                       container.Resolve<ILocalization>(),
                                                       day);
 
-            await dialogService.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>(content: viewModel);
+            await dialogService.ShowCustomMessageAsync<RecipeSelectView, RecipeSelectViewModel>(content: viewModel);
 
             if (viewModel.DialogResultOk)
             {

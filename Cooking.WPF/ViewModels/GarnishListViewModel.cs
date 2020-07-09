@@ -2,6 +2,7 @@
 using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
+using Cooking.WPF.Views;
 using PropertyChanged;
 using ServiceLayer;
 using System;
@@ -11,7 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for a list of all garnishes.

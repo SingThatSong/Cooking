@@ -1,22 +1,27 @@
 ﻿<mahapps:MetroWindow
-    x:Class="Cooking.MainWindowView"
+    x:Class="Cooking.WPF.Views.MainWindowView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
     Title="{lex:Loc AppTitle}"
     Width="1000"
     Height="650"
+    design:DataContext="{design:DesignInstance viewModels:MainWindowViewModel}"
     lex:LocalizeDictionary.DisableCache="False"
     lex:LocalizeDictionary.IncludeInvariantCulture="False"
     lex:LocalizeDictionary.Provider="{Binding LocalizationProvider}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     ShowDialogsOverTitleBar="False"
-    ShowMaxRestoreButton="False">
+    ShowMaxRestoreButton="False"
+    mc:Ignorable="design">
 
     <!--  From https://github.com/MahApps/MahApps.Metro/blob/develop/src/MahApps.Metro.Samples/MahApps.Metro.Demo/HamburgerMenuRipple/HamburgerMenuRipple.xaml  -->
     <!--  Latest commit 07.07.20  -->

@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     ///  View model for editing garnishes.

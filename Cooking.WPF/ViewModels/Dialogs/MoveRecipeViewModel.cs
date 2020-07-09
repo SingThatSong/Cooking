@@ -1,7 +1,7 @@
 ﻿using Cooking.ServiceLayer;
 using System;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for dialog of moving recipe to another week.

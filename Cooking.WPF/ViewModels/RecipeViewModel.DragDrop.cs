@@ -2,7 +2,7 @@
 using GongSolutions.Wpf.DragDrop;
 using System.Collections.ObjectModel;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// Drag-and-drop logic for <see cref="RecipeViewModel"/>.

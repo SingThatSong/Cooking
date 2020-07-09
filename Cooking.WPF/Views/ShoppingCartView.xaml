@@ -1,85 +1,90 @@
 ﻿<UserControl
-  x:Class="Cooking.WPF.Views.ShoppingCartView"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:prism="http://prismlibrary.com/"
-  Margin="20 0"
-  prism:ViewModelLocator.AutoWireViewModel="True">
+    x:Class="Cooking.WPF.Views.ShoppingCartView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
+    Margin="20,0"
+    design:DataContext="{design:DesignInstance viewModels:ShoppingCartViewModel}"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="design">
 
-  <UserControl.InputBindings>
-    <KeyBinding Key="Esc" Command="{Binding CloseCommand.Value}" />
-  </UserControl.InputBindings>
+    <UserControl.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
+    </UserControl.InputBindings>
 
-  <Grid MinHeight="200" Margin="0 10 0 0">
+    <Grid MinHeight="200" Margin="0,10,0,0">
 
-    <Grid.RowDefinitions>
-      <RowDefinition />
-      <RowDefinition Height="100" />
-    </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
 
-    <!-- Show ingredients grouped by category -->
-    <ItemsControl ItemsSource="{Binding List, Mode=OneTime}">
-      <ItemsControl.ItemTemplate>
-        <DataTemplate>
-          <StackPanel Margin="20 0 0 0" Orientation="Vertical">
-            <TextBlock FontSize="20" Text="{Binding IngredientGroupName}" />
-            <ItemsControl ItemsSource="{Binding Ingredients}">
-              <ItemsControl.ItemTemplate>
+        <!--  Show ingredients grouped by category  -->
+        <ItemsControl ItemsSource="{Binding List, Mode=OneTime}">
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                  <StackPanel Margin="0 10 0 0" Orientation="Vertical">
-                    <TextBlock
-                      FontSize="16"
-                      FontWeight="DemiBold"
-                      Text="{Binding Name}" />
-                    <ItemsControl ItemsSource="{Binding IngredientAmounts}">
-                      <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                          <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Amount}" />
-                            <TextBlock Margin="5 0 0 0" Text="{Binding MeasurementUnit}" />
-                          </StackPanel>
-                        </DataTemplate>
-                      </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding RecipiesSources}">
-                      <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                          <TextBlock Foreground="Gray" Text="{Binding}" />
-                        </DataTemplate>
-                      </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                  </StackPanel>
+                    <StackPanel Margin="20,0,0,0" Orientation="Vertical">
+                        <TextBlock FontSize="20" Text="{Binding IngredientGroupName}" />
+                        <ItemsControl ItemsSource="{Binding Ingredients}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0,10,0,0" Orientation="Vertical">
+                                        <TextBlock
+                                            FontSize="16"
+                                            FontWeight="DemiBold"
+                                            Text="{Binding Name}" />
+                                        <ItemsControl ItemsSource="{Binding IngredientAmounts}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Amount}" />
+                                                        <TextBlock Margin="5,0,0,0" Text="{Binding MeasurementUnit}" />
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <ItemsControl ItemsSource="{Binding RecipiesSources}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Foreground="Gray" Text="{Binding}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
                 </DataTemplate>
-              </ItemsControl.ItemTemplate>
-            </ItemsControl>
-          </StackPanel>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-      <ItemsControl.ItemsPanel>
-        <ItemsPanelTemplate>
-          <StackPanel Orientation="Horizontal" />
-        </ItemsPanelTemplate>
-      </ItemsControl.ItemsPanel>
-      <ItemsControl.Template>
-        <ControlTemplate TargetType="{x:Type ItemsControl}">
-          <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <ItemsPresenter />
-          </ScrollViewer>
-        </ControlTemplate>
-      </ItemsControl.Template>
-    </ItemsControl>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.Template>
+                <ControlTemplate TargetType="{x:Type ItemsControl}">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+        </ItemsControl>
 
-    <!-- Buttons for shopping list -->
-    <StackPanel
-      Grid.Row="2"
-      Margin="20"
-      HorizontalAlignment="Center"
-      Orientation="Horizontal">
+        <!--  Buttons for shopping list  -->
+        <StackPanel
+            Grid.Row="2"
+            Margin="20"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
 
-      <Button
-        Command="{Binding CloseCommand}"
-        Foreground="Red"
-        Style="{StaticResource CancelButton}" />
-    </StackPanel>
-  </Grid>
+            <Button
+                Command="{Binding CloseCommand}"
+                Foreground="Red"
+                Style="{StaticResource CancelButton}" />
+        </StackPanel>
+    </Grid>
 </UserControl>

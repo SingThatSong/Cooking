@@ -3,9 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:Cooking.WPF.Converters"
+    xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
-    xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls">
+    xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
+    design:DataContext="{design:DesignInstance viewModels:IngredientEditViewModel}"
+    mc:Ignorable="design">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -49,7 +54,7 @@
                 ItemsSource="{Binding IngredientTypes}"
                 PrependType="True"
                 SelectedItem="{Binding Ingredient.TypeID}"
-                Style="{StaticResource MaterialDesignComboBox}"/>
+                Style="{StaticResource MaterialDesignComboBox}" />
         </StackPanel>
 
         <!--  Existing garnishes list  -->

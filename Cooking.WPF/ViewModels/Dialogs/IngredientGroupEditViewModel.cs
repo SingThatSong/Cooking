@@ -2,7 +2,7 @@
 using Cooking.WPF.DTO;
 using System.ComponentModel;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for creating/editing ingredient group.

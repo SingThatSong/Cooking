@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Cooking.Data.Model;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
+using Cooking.WPF.Views;
 using Prism.Regions;
 using PropertyChanged;
 using System;
@@ -13,7 +13,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for a list of tags.

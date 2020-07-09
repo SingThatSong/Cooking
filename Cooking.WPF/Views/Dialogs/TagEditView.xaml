@@ -4,12 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:converters="clr-namespace:Cooking.WPF.Converters"
+    xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
-    mahapps:DialogParticipation.Register="{Binding}">
+    xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
+    design:DataContext="{design:DesignInstance viewModels:TagEditViewModel}"
+    mahapps:DialogParticipation.Register="{Binding}"
+    mc:Ignorable="design">
 
     <UserControl.Resources>
         <ObjectDataProvider

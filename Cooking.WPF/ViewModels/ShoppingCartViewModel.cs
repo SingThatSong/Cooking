@@ -5,7 +5,7 @@ using ServiceLayer;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for showing shopping cart.

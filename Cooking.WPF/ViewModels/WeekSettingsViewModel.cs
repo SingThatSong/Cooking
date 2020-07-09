@@ -4,7 +4,7 @@ using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
-using Cooking.WPF.ViewModels;
+using Cooking.WPF.Views;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
@@ -16,7 +16,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for week settings.

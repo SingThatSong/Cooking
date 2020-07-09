@@ -2,6 +2,7 @@
 using Cooking.ServiceLayer;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
+using Cooking.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Windows.Data;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for recipe selection from a list of recipies.
@@ -124,7 +125,14 @@ namespace Cooking.WPF.Views
         /// </summary>
         public string? FilterText { get; set; }
 
-        public void OnFilterTextChanged()
+        /// <inheritdoc/>
+        protected override bool CanOk() => SelectedRecipe != null;
+
+        /// <summary>
+        /// Callback to be called when <see cref="FilterText"/> changed.
+        /// Calling code injected by PropertyChanged.Fody.
+        /// </summary>
+        private void OnFilterTextChanged()
         {
             recipies.Clear();
             List<RecipeListViewDto> newEntries;
@@ -142,8 +150,5 @@ namespace Cooking.WPF.Views
             recipies.AddRange(newEntries);
             RecipiesSource.View.Refresh();
         }
-
-        /// <inheritdoc/>
-        protected override bool CanOk() => SelectedRecipe != null;
     }
 }

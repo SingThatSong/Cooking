@@ -2,6 +2,7 @@
 using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
+using Cooking.WPF.Views;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for editing ingredient in recipe.
@@ -27,7 +28,7 @@ namespace Cooking.WPF.Views
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="ingredientService">Ingredient service dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
-        /// <param name="measureUnitService">Localization provider dependency.</param>
+        /// <param name="measureUnitService">Provider for a list of measurement units.</param>
         /// <param name="ingredient">Ingredient to edit.</param>
         public RecipeIngredientEditViewModel(DialogService dialogService,
                                              IngredientService ingredientService,

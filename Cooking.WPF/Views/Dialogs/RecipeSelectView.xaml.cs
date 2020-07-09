@@ -1,14 +1,14 @@
 ﻿namespace Cooking.WPF.Views
 {
     /// <summary>
-    /// Logic for <see cref="RecipeSelect"/>.
+    /// Logic for <see cref="RecipeSelectView"/>.
     /// </summary>
-    public partial class RecipeSelect
+    public partial class RecipeSelectView
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecipeSelect"/> class.
+        /// Initializes a new instance of the <see cref="RecipeSelectView"/> class.
         /// </summary>
-        public RecipeSelect()
+        public RecipeSelectView()
         {
             InitializeComponent();
         }

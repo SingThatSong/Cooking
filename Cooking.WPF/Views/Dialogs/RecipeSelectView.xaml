@@ -1,14 +1,19 @@
 ﻿<UserControl
-    x:Class="Cooking.WPF.Views.RecipeSelect"
+    x:Class="Cooking.WPF.Views.RecipeSelectView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
     xmlns:stringProxy="clr-namespace:Cooking.WPF"
+    xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
     xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
-    Margin="-100,0">
+    Margin="-100,0"
+    design:DataContext="{design:DesignInstance viewModels:RecipeSelectViewModel}"
+    mc:Ignorable="design">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />

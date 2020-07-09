@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Cooking.Data.Model;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Events;
 using Cooking.WPF.Services;
+using Cooking.WPF.Views;
 using GongSolutions.Wpf.DragDrop;
 using Prism.Events;
 using Prism.Ioc;
@@ -16,7 +16,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for recipe viewing and editing.
@@ -206,14 +206,7 @@ namespace Cooking.WPF.Views
             var recipeId = navigationContext.Parameters[nameof(Recipe)] as Guid?;
             if (recipeId.HasValue)
             {
-                try
-                {
-                    Recipe = recipeService.GetMapped<RecipeEdit>(recipeId.Value);
-                }
-                catch (Exception e)
-                {
-
-                }
+                Recipe = recipeService.GetMapped<RecipeEdit>(recipeId.Value);
             }
             else
             {
@@ -392,8 +385,7 @@ namespace Cooking.WPF.Views
 
         private async Task DeleteRecipe(Guid recipeId) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Recipe!.Name),
                                                                                            localization.GetLocalizedString("CannotUndo"),
-                                                                                           successCallback: () => OnRecipeDeleted(recipeId))
-                                                                          ;
+                                                                                           successCallback: () => OnRecipeDeleted(recipeId));
 
         private async void OnRecipeDeleted(Guid recipeId)
         {

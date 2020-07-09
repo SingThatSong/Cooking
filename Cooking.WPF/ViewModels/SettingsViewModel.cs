@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for settings.

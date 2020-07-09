@@ -4,6 +4,7 @@ using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
+using Cooking.WPF.Views;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
@@ -15,7 +16,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for viewing week schedule.
@@ -256,7 +257,7 @@ namespace Cooking.WPF.Views
         private async void SelectDinner(DayOfWeek dayOfWeek)
         {
             Debug.WriteLine("MainPageViewModel.SelectDinner");
-            RecipeSelectViewModel viewModel = await dialogService.ShowCustomMessageAsync<RecipeSelect, RecipeSelectViewModel>();
+            RecipeSelectViewModel viewModel = await dialogService.ShowCustomMessageAsync<RecipeSelectView, RecipeSelectViewModel>();
 
             if (viewModel.DialogResultOk)
             {

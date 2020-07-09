@@ -1,18 +1,15 @@
-﻿using AutoMapper;
-using Cooking.Data.Model;
+﻿using Cooking.Data.Model;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using Cooking.WPF.Services;
-using NullGuard;
-using PropertyChanged;
+using Cooking.WPF.Views;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for tag selection.

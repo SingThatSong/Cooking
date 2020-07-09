@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WPFLocalizeExtension.Providers;
 
-namespace Cooking
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for main window.

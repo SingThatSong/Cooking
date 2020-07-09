@@ -5,6 +5,7 @@ using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Events;
 using Cooking.WPF.Services;
+using Cooking.WPF.Views;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Regions;
@@ -20,7 +21,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for a list of recipies.

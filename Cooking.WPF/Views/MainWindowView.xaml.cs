@@ -7,7 +7,7 @@ using Prism.Regions;
 using System.ComponentModel;
 using System.Windows;
 
-namespace Cooking
+namespace Cooking.WPF.Views
 {
     /// <summary>
     /// Logic for MainWindow.xaml.
