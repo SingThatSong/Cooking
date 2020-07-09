@@ -5,6 +5,7 @@ using Cooking.ServiceLayer;
 using Cooking.WPF;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
+using Cooking.WPF.ViewModels;
 using Cooking.WPF.Views;
 using Fody;
 using MahApps.Metro.Controls.Dialogs;
@@ -30,11 +31,10 @@ using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Set design-time DataContexts for Views
 // TODO: Icons for tag-menu items
 // TODO: Rename Id to uppercase
 // TODO: Recipe filtering reserved words localization (and, or, not) ?
-// TODO: Highlight items like in recipe list
+// TODO: Highlight items like in recipe list everywhere
 // TODO: Move all typesafe enums to tables with localization or to simple enums (IngredientType)
 // TODO: Count calories for recipe
 // TODO: Set calorietype accordingly to counted calories
@@ -52,11 +52,10 @@ using WPFLocalizeExtension.Providers;
 // TODO: Use static anylizers (PVS Studio)
 // TODO: Dish garnishes select + generate
 // TODO: App users
-// TODO: Replace dialogs with SimpleChildWindow ? REason: Validation works poorly with dialogs, needed crunches with value resetting
+// TODO: Replace dialogs with SimpleChildWindow ? Reason: Validation works poorly with dialogs, needed crunches with value resetting. Second reason - poor work of Localization.
 // TODO: Recipe filtering: make Gitlab-like system
 // TODO: Set up failure monitoring
 // TODO: Replace EqualityComparison with SetGeneratePropertyMaps. See https://github.com/AutoMapper/Automapper.Collection
-// TODO: Restore Maximize button when ControlzEx fixes it for .NET 5
 
 // Git-related
 // TODO: Setup CI
@@ -85,6 +84,7 @@ using WPFLocalizeExtension.Providers;
 
 // Things not possible right now
 // TODO: Plurals localization - https://github.com/Humanizr/Humanizer : Not supported! See https://github.com/Humanizr/Humanizer/issues/689
+// TODO: Restore Maximize button when ControlzEx fixes it for .NET 5
 
 // Set Null-check on all func arguments globally
 [assembly: NullGuard(ValidationFlags.Arguments)]
@@ -242,7 +242,7 @@ namespace Cooking
             {
                 string? viewName = viewType.FullName;
                 string? viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-                string viewModelName = $"{viewName}Model, {viewAssemblyName}";
+                string viewModelName = $"{viewName.Replace("Views", "ViewModels")}Model, {viewAssemblyName}";
                 return Type.GetType(viewModelName);
             });
         }
