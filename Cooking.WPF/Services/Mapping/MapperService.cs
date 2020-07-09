@@ -47,13 +47,10 @@ namespace Cooking
 
                     cfg.CreateMap<IngredientEdit, IngredientEdit>();
 
-                    cfg.CreateMap<MeasureUnit, MeasureUnit>()
-                       .EqualityComparison((a, b) => a.ID == b.ID);
+                    cfg.CreateMap<MeasureUnit, MeasureUnit>();
 
                     cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>()
-                       .EqualityComparison((a, b) => a.ID == b.ID)
                        .ReverseMap()
-                       .EqualityComparison((a, b) => a.ID == b.ID)
                         // Do not map ingredient object, it's not new, so db will fail on attempt to create duplicate
                        .ForMember(x => x.Ingredient, opts => opts.Ignore())
                        .ForMember(x => x.MeasureUnit, opts => opts.Ignore())
