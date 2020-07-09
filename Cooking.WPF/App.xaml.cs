@@ -258,7 +258,7 @@ namespace Cooking
             ILocalizationProvider localization = Container.Resolve<ILocalizationProvider>();
             IOptions<AppSettings> configuration = Container.Resolve<IOptions<AppSettings>>();
 
-            if (!localization.AvailableCultures.Select(x => x.Name).Contains(configuration.Value.Culture))
+            if (!localization.AvailableCultures.Any(x => x.Name == configuration.Value.Culture))
             {
                 string error = string.Format(CultureInfo.InvariantCulture, Consts.LocalizationNotFound, configuration.Value.Culture);
                 MessageBox.Show(error);
