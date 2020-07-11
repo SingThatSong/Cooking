@@ -31,13 +31,12 @@ using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Icons for tag-menu items
 // TODO: Rename Id to uppercase
 // TODO: Recipe filtering reserved words localization (and, or, not)
 // TODO: Highlight items like in recipe list everywhere
 // TODO: Count calories for recipe
 // TODO: Set calorietype accordingly to counted calories
-// TODO: Make GetCultureSpecificSet method an extention method
+// TODO: Make GetCultureSpecificSet method an extention method. Reason: Chaining
 // TODO: Debug/ Measure method perfomance (benchmark?)
 // TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
 // TODO: Set all *Caption bindings to be OneTime. N.B. Make sure *Captions needed at all

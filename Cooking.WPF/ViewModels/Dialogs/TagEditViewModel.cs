@@ -3,6 +3,8 @@ using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
+using Cooking.WPF.Validation;
+using Cooking.WPF.Views;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -33,6 +35,7 @@ namespace Cooking.WPF.ViewModels
             Tag = tag ?? new TagEdit();
             AllTagNames = tagService.GetTagNames();
             LoadedCommand = new DelegateCommand(OnLoaded);
+            AddIconCommand = new AsyncDelegateCommand(AddIcon);
         }
 
         /// <summary>
@@ -53,6 +56,11 @@ namespace Cooking.WPF.ViewModels
         /// </summary>
         public string? IsInMenuCaption => localization.GetLocalizedString("IsInMenu");
 
+        /// <summary>
+        /// Gets localized caption for MenuIcon.
+        /// </summary>
+        public string? MenuIconCaption => localization.GetLocalizedString("MenuIcon");
+        
         /// <summary>
         /// Gets localized caption for Category.
         /// </summary>
@@ -97,21 +105,17 @@ namespace Cooking.WPF.ViewModels
         /// Gets command to execute on loaded event.
         /// </summary>
         public DelegateCommand LoadedCommand { get; }
+
+        /// <summary>
+        /// Gets command to specify tag icon.
+        /// </summary>
+        public AsyncDelegateCommand AddIconCommand { get; }
+
         private bool NameChanged { get; set; }
         private List<string> AllTagNames { get; set; }
 
         /// <inheritdoc/>
-        protected override bool CanOk()
-        {
-            if (Tag is INotifyDataErrorInfo dataErrorInfo)
-            {
-                return !dataErrorInfo.HasErrors;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        protected override bool CanOk() => Tag.IsValid();
 
         /// <inheritdoc/>
         protected override async Task Ok()
@@ -131,7 +135,21 @@ namespace Cooking.WPF.ViewModels
                 }
             }
 
+            if (!Tag.IsInMenu)
+            {
+                Tag.MenuIcon = null;
+            }
+
             await base.Ok();
+        }
+
+        private async Task AddIcon()
+        {
+            IconSelectViewModel result = await DialogService.ShowCustomMessageAsync<IconSelectView, IconSelectViewModel>();
+            if (result.DialogResultOk)
+            {
+                Tag.MenuIcon = result.SelectedIcon;
+            }
         }
 
         private void Tag_PropertyChanged(object? sender, PropertyChangedEventArgs e)

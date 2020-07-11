@@ -2,12 +2,12 @@
 using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
+using Cooking.WPF.Validation;
 using Cooking.WPF.Views;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -118,17 +118,7 @@ namespace Cooking.WPF.ViewModels
         public void OnIngredientChanged() => Ingredient.Ingredient = AllIngredients?.FirstOrDefault(x => x.ID == Ingredient.Ingredient?.ID);
 
         /// <inheritdoc/>
-        protected override bool CanOk()
-        {
-            if (Ingredient is INotifyDataErrorInfo dataErrorInfo)
-            {
-                return !dataErrorInfo.HasErrors;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        protected override bool CanOk() => Ingredient.IsValid();
 
         // WARNING: this is a crunch
         // When we open ingredient creation dialog second+ time, validation cannot see Ingredient being a required property, but when we change it's value - everything is ok

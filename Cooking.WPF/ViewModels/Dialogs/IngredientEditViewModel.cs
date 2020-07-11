@@ -4,11 +4,11 @@ using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Events;
 using Cooking.WPF.Services;
+using Cooking.WPF.Validation;
 using Prism.Events;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -115,17 +115,7 @@ namespace Cooking.WPF.ViewModels
         }
 
         /// <inheritdoc/>
-        protected override bool CanOk()
-        {
-            if (Ingredient is INotifyDataErrorInfo dataErrorInfo)
-            {
-                return !dataErrorInfo.HasErrors;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        protected override bool CanOk() => Ingredient.IsValid();
 
         private int IngredientCompare(string str1, string str2)
              => StringCompare.LevensteinDistance(

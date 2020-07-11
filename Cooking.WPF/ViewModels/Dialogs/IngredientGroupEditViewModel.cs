@@ -1,6 +1,6 @@
 ﻿using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
-using System.ComponentModel;
+using Cooking.WPF.Validation;
 
 namespace Cooking.WPF.ViewModels
 {
@@ -32,17 +32,7 @@ namespace Cooking.WPF.ViewModels
         public DelegateCommand LoadedCommand { get; }
 
         /// <inheritdoc/>
-        protected override bool CanOk()
-        {
-            if (IngredientGroup is INotifyDataErrorInfo dataErrorInfo)
-            {
-                return !dataErrorInfo.HasErrors;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        protected override bool CanOk() => IngredientGroup.IsValid();
 
         // WARNING: this is a crunch
         // When we open ingredient creation dialog second+ time, validation cannot see Ingredient being a required property, but when we change it's value - everything is ok

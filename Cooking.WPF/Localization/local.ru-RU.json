@@ -128,5 +128,7 @@
   "IngredientType_Herbs": "Зелень и травы",
   "IngredientType_Meat": "Мясо и птица",
   "IngredientType_Nuts": "Орехи",
-  "IngredientType_Ready": "Готовые продукты"
+  "IngredientType_Ready": "Готовые продукты",
+  "SpecifyMenuIcon": "Укажите иконку для элемента меню",
+  "MenuIcon": "Иконка:"
 }

@@ -152,9 +152,11 @@ namespace Cooking.WPF.ViewModels
                 IsFilterable = false;
                 FilterText = $"{Consts.TagSymbol}\"{navigationContext.Parameters[Consts.TagNameParameter]}\"";
             }
-
-            MainWindowViewModel mainVM = container.Resolve<MainWindowViewModel>();
-            mainVM.SelectMenuItemByViewType(typeof(RecipeListView));
+            else
+            {
+                MainWindowViewModel mainVM = container.Resolve<MainWindowViewModel>();
+                mainVM.SelectMenuItemByViewType("Рецепты");
+            }
         }
 
         /// <inheritdoc/>

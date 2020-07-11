@@ -22,6 +22,10 @@ namespace Cooking.WPF.DTO
             RuleFor(x => x.Type)
                 .NotEqual((TagType)0)
                 .WithMessage(localization.GetLocalizedString("SpecifyTagType"));
+
+            RuleFor(x => x.MenuIcon)
+                .NotNull().When(x => x.IsInMenu)
+                .WithMessage(localization.GetLocalizedString("SpecifyMenuIcon"));
         }
     }
 }

@@ -782,6 +782,11 @@
             Gets or sets a value indicating whether this tag should be included as menu item.
             </summary>
         </member>
+        <member name="P:Cooking.WPF.DTO.TagEdit.MenuIcon">
+            <summary>
+            Gets or sets a menu icon.
+            </summary>
+        </member>
         <member name="T:Cooking.WPF.DTO.GarnishEditValidator">
             <summary>
             FluentValidation Validator for <see cref="T:Cooking.WPF.DTO.GarnishEdit"/>.
@@ -1171,6 +1176,18 @@
             Gets or sets formatted result.
             </summary>
         </member>
+        <member name="T:Cooking.WPF.Validation.ValidationHelper">
+            <summary>
+            Static class for validation extention methods.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Validation.ValidationHelper.IsValid(System.Object)">
+            <summary>
+            Determines whether object is valid.
+            </summary>
+            <param name="obj">Object to validate.</param>
+            <returns>If object is valid.</returns>
+        </member>
         <member name="T:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel">
             <summary>
             View model for selecting calorie types.
@@ -1233,6 +1250,37 @@
         </member>
         <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModel.CanOk">
             <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.ViewModels.IconSelectViewModel">
+            <summary>
+            View model for selecting calorie types.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.ViewModels.IconSelectViewModel.#ctor(Cooking.WPF.DialogService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.IconSelectViewModel"/> class.
+            </summary>
+            <param name="dialogService">Dialog service dependency to close dialog.</param>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.IconSelectViewModel.LoadedCommand">
+            <summary>
+            Gets command to execute on loaded event.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.IconSelectViewModel.AllValues">
+            <summary>
+            Gets all calorie types to select from.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.IconSelectViewModel.FilterText">
+            <summary>
+            Gets or sets text to filter icons.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.IconSelectViewModel.SelectedIcon">
+            <summary>
+            Gets or sets selected icon.
+            </summary>
         </member>
         <member name="T:Cooking.WPF.ViewModels.IngredientEditViewModel">
             <summary>
@@ -1558,6 +1606,11 @@
             Gets localized caption for IsInMenu.
             </summary>
         </member>
+        <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.MenuIconCaption">
+            <summary>
+            Gets localized caption for MenuIcon.
+            </summary>
+        </member>
         <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.CategoryCaption">
             <summary>
             Gets localized caption for Category.
@@ -1601,6 +1654,11 @@
         <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.LoadedCommand">
             <summary>
             Gets command to execute on loaded event.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.AddIconCommand">
+            <summary>
+            Gets command to specify tag icon.
             </summary>
         </member>
         <member name="M:Cooking.WPF.ViewModels.TagEditViewModel.CanOk">
@@ -1783,7 +1841,7 @@
             Gets all options.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.MainWindowViewModel.SelectMenuItemByViewType(System.Type)">
+        <member name="M:Cooking.WPF.ViewModels.MainWindowViewModel.SelectMenuItemByViewType(System.String)">
             <summary>
             Update Selected menu item.
             </summary>
@@ -2523,6 +2581,24 @@
             InitializeComponent
             </summary>
         </member>
+        <member name="T:Cooking.WPF.Views.IconSelectView">
+            <summary>
+            Logic for <see cref="T:Cooking.WPF.Views.IconSelectView"/>.
+            </summary>
+            <summary>
+            IconSelectView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.IconSelectView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IconSelectView"/> class.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.IconSelectView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
         <member name="T:Cooking.WPF.Views.IngredientEditView">
             <summary>
             Logic for <see cref="T:Cooking.WPF.Views.IngredientEditView"/>.
@@ -3052,36 +3128,6 @@
             </summary>
             <param name="modelType">Type of object to validate.</param>
             <returns>Instance of validator.</returns>
-        </member>
-        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-            <summary>
-            GeneratedInternalTypeHelper
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-            <summary>
-            CreateInstance
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            GetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            SetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-            <summary>
-            CreateDelegate
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-            <summary>
-            AddEventHandler
-            </summary>
         </member>
     </members>
 </doc>

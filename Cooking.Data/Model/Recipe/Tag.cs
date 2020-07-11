@@ -28,6 +28,11 @@ namespace Cooking.Data.Model
         public bool IsInMenu { get; set; }
 
         /// <summary>
+        /// Gets or sets a menu icon.
+        /// </summary>
+        public string? MenuIcon { get; set; }
+
+        /// <summary>
         /// Gets or sets recipies with this tag.
         /// </summary>
         public virtual List<RecipeTag>? Recipies { get; set; }

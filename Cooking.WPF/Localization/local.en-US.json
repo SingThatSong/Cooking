@@ -127,5 +127,7 @@
   "IngredientType_Herbs": "Herbs",
   "IngredientType_Meat": "Meat",
   "IngredientType_Nuts": "Nuts",
-  "IngredientType_Ready": "Ready"
+  "IngredientType_Ready": "Ready",
+  "SpecifyMenuIcon": "Specify menu icon",
+  "MenuIcon": "Menu icon:"
 }

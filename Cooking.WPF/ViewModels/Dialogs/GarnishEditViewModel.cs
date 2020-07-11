@@ -2,6 +2,7 @@
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
+using Cooking.WPF.Validation;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -91,17 +92,7 @@ namespace Cooking.WPF.ViewModels
         }
 
         /// <inheritdoc/>
-        protected override bool CanOk()
-        {
-            if (Garnish is INotifyDataErrorInfo dataErrorInfo)
-            {
-                return !dataErrorInfo.HasErrors;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        protected override bool CanOk() => Garnish.IsValid();
 
         // WARNING: this is a crunch
         // When we open ingredient creation dialog second+ time, validation cannot see Ingredient being a required property, but when we change it's value - everything is ok

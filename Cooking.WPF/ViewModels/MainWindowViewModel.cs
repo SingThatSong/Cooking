@@ -70,8 +70,9 @@ namespace Cooking.WPF.ViewModels
             IEnumerable<TagHamburgerMenuItem> namesForMenuItems = tagService.GetMenuTags()
                                                                             .Select(x => new TagHamburgerMenuItem()
                                                                             {
-                                                                                Label = x,
-                                                                                ToolTip = x,
+                                                                                Label = x.Name,
+                                                                                ToolTip = x.Name,
+                                                                                Icon = new PackIconModern() { Kind = (PackIconModernKind)Enum.Parse(typeof(PackIconModernKind), x.MenuIcon!) },
                                                                                 Tag = nameof(RecipeListView)
                                                                             });
 
@@ -118,6 +119,9 @@ namespace Cooking.WPF.ViewModels
         /// Update Selected menu item.
         /// </summary>
         /// <param name="type">Type of view to activate menu item.</param>
-        public void SelectMenuItemByViewType(Type type) => SelectedMenuItem = MenuItems.FirstOrDefault(x => x.Tag.ToString() == type.Name) as HamburgerMenuIconItem;
+        public void SelectMenuItemByViewType(string text)
+        {
+            SelectedMenuItem = MenuItems.OfType<HamburgerMenuIconItem>().FirstOrDefault(x => x.Label == text);
+        }
     }
 }

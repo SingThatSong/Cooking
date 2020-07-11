@@ -38,7 +38,7 @@
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </UserControl.InputBindings>
 
-    <Grid Height="300">
+    <Grid Height="360">
 
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -52,20 +52,45 @@
         <!--  Tag edit controls  -->
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding NameCaption}" />
+                <TextBlock Margin="0,10,0,0" Text="{Binding NameCaption}" />
                 <TextBox
                     Name="Focused"
                     Grid.Column="1"
                     Text="{Binding Tag.Name, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBlock Text="{Binding ColorCaption}" />
 
+                <TextBlock
+                    Margin="0,10,0,0"
+                    FontSize="12"
+                    Text="{Binding ColorCaption}" />
                 <materialDesign:ColorPicker Color="{Binding Tag.Color}" />
+                <TextBox Text="{Binding Tag.Color, UpdateSourceTrigger=PropertyChanged}" />
 
-                <TextBlock Text="{Binding CategoryCaption}" />
+                <TextBlock Margin="0,10,0,0" Text="{Binding CategoryCaption}" />
                 <ComboBox ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}" SelectedValue="{Binding Tag.Type, Converter={StaticResource enumToDescriptionConverter}}" />
 
-                <TextBlock Text="{Binding IsInMenuCaption}" />
-                <CheckBox IsChecked="{Binding Tag.IsInMenu}" />
+                <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding Tag.IsInMenu}" />
+                    <TextBlock
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding IsInMenuCaption}" />
+                </StackPanel>
+
+                <StackPanel
+                    Margin="0,5,0,0"
+                    Orientation="Horizontal"
+                    Visibility="{Binding Tag.IsInMenu, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock VerticalAlignment="Center" Text="{Binding MenuIconCaption}" />
+                    <icons:PackIconModern
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center"
+                        Kind="{Binding Tag.MenuIcon}" />
+                    <Button
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        Command="{Binding AddIconCommand}"
+                        Style="{StaticResource SmallSearchButton}" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
 

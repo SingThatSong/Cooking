@@ -35,7 +35,7 @@ namespace Cooking.WPF.DTO
         /// <summary>
         /// Gets or sets tag color.
         /// </summary>
-        public string? Color { get; set; } = "Red";
+        public string? Color { get; set; } = "#FFFF0000";
 
         /// <summary>
         /// Gets or sets a value indicating whether is tag checked.
@@ -53,5 +53,10 @@ namespace Cooking.WPF.DTO
         /// Gets or sets a value indicating whether this tag should be included as menu item.
         /// </summary>
         public bool IsInMenu { get; set; }
+
+        /// <summary>
+        /// Gets or sets a menu icon.
+        /// </summary>
+        public string? MenuIcon { get; set; }
     }
 }

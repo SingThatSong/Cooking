@@ -51,12 +51,11 @@ namespace Cooking.ServiceLayer
         /// Get menu items for tags.
         /// </summary>
         /// <returns>Names for menu items.</returns>
-        public List<string> GetMenuTags()
+        public List<Tag> GetMenuTags()
         {
             using CookingContext context = ContextFactory.Create();
             return GetCultureSpecificSet(context)
-                          .Where(x => x.Name != null && x.IsInMenu)
-                          .Select(x => x.Name!)
+                          .Where(x => x.IsInMenu)
                           .ToList();
         }
     }
