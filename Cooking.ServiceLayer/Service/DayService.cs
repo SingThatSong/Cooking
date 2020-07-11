@@ -22,6 +22,7 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <param name="contextFactory">Factory for creating <see cref="CookingContext"/> instances.</param>
         /// <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
+        /// <param name="mapper">Dependency on database-projection mapper.</param>
         public DayService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider, IMapper mapper)
             : base(contextFactory, cultureProvider, mapper)
         {
@@ -41,7 +42,6 @@ namespace Cooking.ServiceLayer
 
             using CookingContext context = ContextFactory.Create();
 
-            // TODO: Set Date non-nullable
             DateTime? date = GetCultureSpecificSet(context).Where(x => x.DinnerID == recipeId && x.DinnerWasCooked && x.Date != null)
                                                            .OrderByDescending(x => x.Date)
                                                            .AsNoTracking()
