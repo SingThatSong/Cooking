@@ -95,11 +95,15 @@ namespace Cooking.ServiceLayer
             where TProjection : Entity
         {
             using CookingContext context = ContextFactory.Create();
-            IEnumerable<T>? set = GetCultureSpecificSet(context)
-                                    .AsNoTracking()
-                                    .AsEnumerable()
-                                    .Where(predicate.Compile())
-                                    .ToList();
+
+            IQueryable<T>? cultureSet = GetCultureSpecificSet(context);
+            IQueryable<T>? fullSet = GetFullGraph(cultureSet);
+
+            IEnumerable<T>? set = fullSet.AsNoTracking()
+                                         .AsEnumerable()
+                                         .Where(predicate.Compile())
+                                         .ToList();
+
             return Mapper.Map<List<TProjection>>(set);
         }
 
