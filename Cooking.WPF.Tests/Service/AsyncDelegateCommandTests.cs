@@ -38,7 +38,7 @@ namespace Cooking.Tests
 
             service.CreateAsync(r);
 
-            var count = service.GetAll().Count();
+            int count = service.GetAll().Count;
             Assert.AreEqual(1, count);
         }
     }

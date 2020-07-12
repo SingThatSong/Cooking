@@ -53,7 +53,7 @@
                 mahapps:TextBoxHelper.ClearTextButton="True"
                 ItemsSource="{Binding IngredientTypes}"
                 PrependType="True"
-                SelectedItem="{Binding Ingredient.TypeID}"
+                SelectedItem="{Binding Ingredient.Type}"
                 Style="{StaticResource MaterialDesignComboBox}" />
         </StackPanel>
 

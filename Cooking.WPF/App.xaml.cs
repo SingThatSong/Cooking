@@ -31,30 +31,32 @@ using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
+// TODO: Research replacement dialogs with SimpleChildWindow. Reason: Validation works poorly with dialogs, needed crunches with value resetting. Second reason - poor work of Localization.
+// TODO: Set all *Caption bindings to be OneTime. N.B. Make sure *Captions needed at all
+
+// TODO: Dish garnishes select + generate
+
+// TODO: Highlight items like in recipe list everywhere
 // TODO: Rename Id to uppercase
 // TODO: Recipe filtering reserved words localization (and, or, not)
-// TODO: Highlight items like in recipe list everywhere
 // TODO: Count calories for recipe
 // TODO: Set calorietype accordingly to counted calories
-// TODO: Make GetCultureSpecificSet method an extention method. Reason: Chaining
-// TODO: Debug/ Measure method perfomance (benchmark?)
 // TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
-// TODO: Set all *Caption bindings to be OneTime. N.B. Make sure *Captions needed at all
 // TODO: Settings for day recipies (breakfast, supper, etc.)
-// TODO: Generate lots of data (millions of entries) and test. See: Bogus
 // TODO: Add setting to disable suggestion to correct previous week
 // TODO: Implement GetFullGraph for all services
 // TODO: Move this file's parts into different methods. Reason: Too many usings above
-// TODO: Use static anylizers (PVS Studio)
-// TODO: Dish garnishes select + generate
 // TODO: App users
-// TODO: Research replacement dialogs with SimpleChildWindow. Reason: Validation works poorly with dialogs, needed crunches with value resetting. Second reason - poor work of Localization.
 // TODO: Recipe filtering: make Gitlab-like system
 // TODO: Set up failure monitoring
 // TODO: Replace EqualityComparison with SetGeneratePropertyMaps. See https://github.com/AutoMapper/Automapper.Collection
 // TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration
 // TODO: Add IQueryable as parameter to all selects in CRUDService ?
 // TODO: Add debug console logging to methods and constructors (AOP) ?
+
+// Refactoring
+// TODO: Cleanup DTOs
+// TODO: Cleanup mappings
 
 // Git-related
 // TODO: Setup CI
@@ -63,19 +65,17 @@ using WPFLocalizeExtension.Providers;
 // TODO: Remove usings in git hooks
 
 // Tests-related
-// TODO: Use fluent assertions
 // TODO: Tests FTW
+// TODO: Use fluent assertions
 // TODO: Configure tests coverage
-
-// Refactoring
-// TODO: Cleanup DTOs
-// TODO: Cleanup mappings
+// TODO: Generate lots of data (millions of entries) and test. See: Bogus
+// TODO: Debug/ Measure method perfomance (benchmark?)
+// TODO: Use static anylizers (PVS Studio)
 
 // Db-related
 // TODO: Create installer (Inno setup)
 // TODO: Create db migrator for installer (or just Powershell script? )
 // TODO: Ensure cascade/set null deletions
-// TODO: Ensure effective Db Select (get rid of lazy loading)
 
 // TODO: Use Git(Hub/Lab) issues instead of this list :)
 
@@ -83,7 +83,7 @@ using WPFLocalizeExtension.Providers;
 
 // Things not possible right now
 // TODO: Plurals localization - https://github.com/Humanizr/Humanizer : Not supported! See https://github.com/Humanizr/Humanizer/issues/689
-// TODO: Restore Maximize button when ControlzEx fixes it for .NET 5
+// TODO: Restore Maximize button when ControlzEx fixes it for .NET 5. See https://github.com/ControlzEx/ControlzEx/issues/120
 
 // Set Null-check on all func arguments globally
 [assembly: NullGuard(ValidationFlags.Arguments)]
@@ -121,19 +121,7 @@ namespace Cooking
 
             containerRegistry.RegisterInstance<ILogger>(logger);
 
-            string? exeFile = Process.GetCurrentProcess().MainModule?.FileName;
-            string? directory = Path.GetDirectoryName(exeFile);
-
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                                                    .SetBasePath(directory)
-                                                    .AddJsonFile(Consts.AppSettingsFilename, optional: false, reloadOnChange: true)
-                                                    .Build();
-
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.Configure<AppSettings>(configuration);
-            ServiceProvider provider = serviceCollection.BuildServiceProvider();
-            IOptions<AppSettings> options = provider.GetRequiredService<IOptions<AppSettings>>();
-
+            IOptions<AppSettings> options = CreateOptions();
             containerRegistry.RegisterInstance(options);
 
             ThemeManager.Current.ChangeTheme(Current, options.Value.Theme, options.Value.Accent);
@@ -241,9 +229,25 @@ namespace Cooking
             {
                 string? viewName = viewType.FullName;
                 string? viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-                string viewModelName = $"{viewName.Replace("Views", "ViewModels")}Model, {viewAssemblyName}";
+                string viewModelName = $"{viewName?.Replace("Views", "ViewModels", StringComparison.Ordinal)}Model, {viewAssemblyName}";
                 return Type.GetType(viewModelName);
             });
+        }
+
+        private static IOptions<AppSettings> CreateOptions()
+        {
+            string? exeFile = Process.GetCurrentProcess().MainModule?.FileName;
+            string? directory = Path.GetDirectoryName(exeFile);
+
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                                                    .SetBasePath(directory)
+                                                    .AddJsonFile(Consts.AppSettingsFilename, optional: false, reloadOnChange: true)
+                                                    .Build();
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.Configure<AppSettings>(configuration);
+            ServiceProvider provider = serviceCollection.BuildServiceProvider();
+            return provider.GetRequiredService<IOptions<AppSettings>>();
         }
 
         private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)

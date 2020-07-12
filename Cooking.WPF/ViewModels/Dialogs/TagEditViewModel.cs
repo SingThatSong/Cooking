@@ -33,7 +33,7 @@ namespace Cooking.WPF.ViewModels
         {
             this.localization = localization;
             Tag = tag ?? new TagEdit();
-            AllTagNames = tagService.GetTagNames();
+            AllTags = tagService.GetAll();
             LoadedCommand = new DelegateCommand(OnLoaded);
             AddIconCommand = new AsyncDelegateCommand(AddIcon);
         }
@@ -49,7 +49,9 @@ namespace Cooking.WPF.ViewModels
         /// </summary>
         public IEnumerable<string>? SimilarTags => string.IsNullOrWhiteSpace(Tag?.Name)
             ? null
-            : AllTagNames.OrderBy(x => TagCompare(x, Tag.Name)).Take(Consts.HowManyAlternativesToShow);
+            : AllTags.OrderBy(x => TagCompare(x.Name, Tag.Name))
+                     .Select(x => x.Name)
+                     .Take(Consts.HowManyAlternativesToShow);
 
         /// <summary>
         /// Gets localized caption for IsInMenu.
@@ -112,7 +114,7 @@ namespace Cooking.WPF.ViewModels
         public AsyncDelegateCommand AddIconCommand { get; }
 
         private bool NameChanged { get; set; }
-        private List<string> AllTagNames { get; set; }
+        private List<Tag> AllTags { get; set; }
 
         /// <inheritdoc/>
         protected override bool CanOk() => Tag.IsValid();
@@ -120,7 +122,7 @@ namespace Cooking.WPF.ViewModels
         /// <inheritdoc/>
         protected override async Task Ok()
         {
-            if (NameChanged && Tag.Name != null && AllTagNames.Any(x => TagCompare(Tag.Name, x) == 0))
+            if (NameChanged && Tag.Name != null && AllTags.Any(x => x.ID != Tag.ID && TagCompare(Tag.Name, x.Name) == 0))
             {
                 bool okAnyway = false;
 

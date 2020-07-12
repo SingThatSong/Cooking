@@ -67,20 +67,12 @@ namespace Cooking.WPF.ViewModels
             AllValues.Source = GetIcons(typeof(PackIconModernKind)).ToList();
         }
 
-        private static IEnumerable<string> GetIcons(Type enumType)
+        private IEnumerable<string> GetIcons(Type enumType)
         {
             return Enum.GetValues(enumType)
                 .OfType<Enum>()
                 .Where(k => k.ToString() != "None")
                 .Select(value => value.ToString());
-        }
-
-        private static string? GetDescription(Enum value)
-        {
-            FieldInfo? fieldInfo = value.GetType().GetField(value.ToString());
-            return fieldInfo?.GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault() is DescriptionAttribute attribute
-                            ? attribute.Description
-                            : value.ToString();
         }
     }
 }

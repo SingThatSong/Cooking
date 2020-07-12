@@ -40,18 +40,15 @@ namespace Cooking
 
                     // Backup dto for editing
                     cfg.CreateMap<GarnishEdit, GarnishEdit>();
-
                     cfg.CreateMap<RecipeEdit, RecipeEdit>();
-
                     cfg.CreateMap<TagEdit, TagEdit>();
-
                     cfg.CreateMap<IngredientEdit, IngredientEdit>();
-
                     cfg.CreateMap<MeasureUnit, MeasureUnit>();
 
                     cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>()
                        .ReverseMap()
-                        // Do not map ingredient object, it's not new, so db will fail on attempt to create duplicate
+
+                        // Do not map ingredient and measure unit object, it's not new, so db will fail on attempt to create duplicate
                        .ForMember(x => x.Ingredient, opts => opts.Ignore())
                        .ForMember(x => x.MeasureUnit, opts => opts.Ignore())
                        .ForMember(x => x.MeasureUnitID, opts => opts.MapFrom(x => x.MeasureUnit != null ? (Guid?)x.MeasureUnit.ID : null));
@@ -79,8 +76,7 @@ namespace Cooking
                        });
 
                     // Update ingredients group in recipe
-                    cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>()
-                       .EqualityComparison((a, b) => a.ID == b.ID);
+                    cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>();
 
                     // Cleanup below
                     // -----------------------

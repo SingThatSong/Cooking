@@ -129,13 +129,13 @@ namespace Cooking.WPF.ViewModels
         private void OnLoaded()
         {
             string? nameBackup = Ingredient.Name;
-            IngredientType? typeBackup = Ingredient.TypeID;
+            IngredientType? typeBackup = Ingredient.Type;
 
             Ingredient.Name = "123";
             Ingredient.Name = nameBackup;
-            Ingredient.TypeID = (IngredientType)999;
+            Ingredient.Type = (IngredientType)999;
 
-            Ingredient.TypeID = typeBackup;
+            Ingredient.Type = typeBackup;
             Ingredient.PropertyChanged += (src, e) =>
             {
                 if (e.PropertyName == nameof(Ingredient.Name))
