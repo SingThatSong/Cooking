@@ -53,13 +53,13 @@
                                 Height="80"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Stretch"
-                                Kind="{Binding Name}" />
+                                Kind="{Binding}" />
 
                             <TextBlock
                                 Grid.Row="1"
                                 Margin="8,4"
                                 FontSize="15"
-                                Text="{Binding Name}"
+                                Text="{Binding}"
                                 TextWrapping="Wrap" />
                         </Grid>
                     </materialDesign:Card>
