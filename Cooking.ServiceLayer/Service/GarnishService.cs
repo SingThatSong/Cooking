@@ -31,6 +31,7 @@ namespace ServiceLayer
         {
             using CookingContext context = ContextFactory.Create();
             return GetCultureSpecificSet(context)
+                          .AsNoTracking()
                           .Where(x => x.Name != null)
                           .Select(x => x.Name!)
                           .ToList();

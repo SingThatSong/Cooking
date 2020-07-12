@@ -93,6 +93,7 @@ namespace Cooking.ServiceLayer
 
             List<Day> weekDays = await GetCultureSpecificSet(context)
                                            .Include(x => x.Dinner)
+                                           .AsNoTracking()
                                            .Where(x => mondayDate <= x.Date && x.Date <= sundayDate)
                                            .ToListAsync();
 
@@ -152,7 +153,8 @@ namespace Cooking.ServiceLayer
         public List<ShoppingListIngredientsGroup> GetWeekShoppingList(DateTime weekStart, DateTime weekEnd, ILocalization localization)
         {
             using CookingContext context = ContextFactory.Create();
-            var days = GetCultureSpecificSet(context).Include(x => x.Dinner)
+            var days = GetCultureSpecificSet(context).AsNoTracking()
+                                                     .Include(x => x.Dinner)
                                                          .ThenInclude(x => x.Ingredients)
                                                             .ThenInclude(x => x.Ingredient)
                                                      .Include(x => x.Dinner)

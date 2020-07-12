@@ -2,6 +2,7 @@
 using Cooking.Data.Context;
 using Cooking.Data.Model;
 using Cooking.ServiceLayer;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,6 +31,7 @@ namespace ServiceLayer
         {
             using CookingContext context = ContextFactory.Create();
             return GetCultureSpecificSet(context)
+                          .AsNoTracking()
                           .Where(x => x.Name != null)
                           .Select(x => x.Name!)
                           .ToList();

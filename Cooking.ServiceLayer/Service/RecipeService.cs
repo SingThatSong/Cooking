@@ -89,6 +89,7 @@ namespace Cooking.ServiceLayer
 
             using CookingContext context = ContextFactory.Create();
             IQueryable<Recipe> query = GetCultureSpecificSet(context)
+                               .AsNoTracking()
                                .Include(x => x.Tags)
                                    .ThenInclude(x => x.Tag)
                                .AsQueryable();

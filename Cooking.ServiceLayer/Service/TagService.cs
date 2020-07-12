@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
 using Cooking.Data.Model;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -42,6 +43,7 @@ namespace Cooking.ServiceLayer
         {
             using CookingContext context = ContextFactory.Create();
             return GetCultureSpecificSet(context)
+                          .AsNoTracking()
                           .Where(x => x.Name != null)
                           .Select(x => x.Name!)
                           .ToList();
@@ -55,6 +57,7 @@ namespace Cooking.ServiceLayer
         {
             using CookingContext context = ContextFactory.Create();
             return GetCultureSpecificSet(context)
+                          .AsNoTracking()
                           .Where(x => x.IsInMenu)
                           .ToList();
         }
