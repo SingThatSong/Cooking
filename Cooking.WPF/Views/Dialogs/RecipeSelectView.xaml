@@ -29,7 +29,7 @@
         <!--  Filter text  -->
         <TextBox
             mahapps:TextBoxHelper.UseFloatingWatermark="True"
-            mahapps:TextBoxHelper.Watermark="{Binding SearchHelpTextCaption}"
+            mahapps:TextBoxHelper.Watermark="{Binding SearchHelpTextCaption, Mode=OneTime}"
             Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <!--  List of all filtered recipiest  -->

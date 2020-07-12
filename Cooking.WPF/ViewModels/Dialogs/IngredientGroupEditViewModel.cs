@@ -37,6 +37,7 @@ namespace Cooking.WPF.ViewModels
         // WARNING: this is a crunch
         // When we open ingredient creation dialog second+ time, validation cannot see Ingredient being a required property, but when we change it's value - everything is ok
         // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
+        // SimpleChildWindow does not help
         private void OnLoaded()
         {
             string? backup = IngredientGroup.Name;

@@ -31,9 +31,6 @@ using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Research replacement dialogs with SimpleChildWindow. Reason: Validation works poorly with dialogs, needed crunches with value resetting. Second reason - poor work of Localization.
-// TODO: Set all *Caption bindings to be OneTime. N.B. Make sure *Captions needed at all
-
 // TODO: Dish garnishes select + generate
 
 // TODO: Highlight items like in recipe list everywhere

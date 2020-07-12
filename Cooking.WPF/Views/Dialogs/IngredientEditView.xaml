@@ -42,13 +42,13 @@
 
         <!--  Ingredient edit controls  -->
         <StackPanel Orientation="Vertical">
-            <TextBlock Text="{Binding NameCaption}" />
+            <TextBlock Text="{Binding NameCaption, Mode=OneTime}" />
             <TextBox
                 Name="Focused"
                 Grid.Column="1"
                 Text="{Binding Ingredient.Name, UpdateSourceTrigger=PropertyChanged}" />
 
-            <TextBlock Margin="0,10,0,0" Text="{Binding TypeCaption}" />
+            <TextBlock Margin="0,10,0,0" Text="{Binding TypeCaption, Mode=OneTime}" />
             <lex:EnumComboBox
                 mahapps:TextBoxHelper.ClearTextButton="True"
                 ItemsSource="{Binding IngredientTypes}"
@@ -62,7 +62,7 @@
             Grid.Column="1"
             Margin="20,0,0,0"
             Orientation="Vertical">
-            <TextBlock Text="{Binding MaybeYouWantCaption}" Visibility="{Binding SimilarIngredients, Converter={StaticResource isNullToVisibilityConverter}}" />
+            <TextBlock Text="{Binding MaybeYouWantCaption, Mode=OneTime}" Visibility="{Binding SimilarIngredients, Converter={StaticResource isNullToVisibilityConverter}}" />
             <ItemsControl
                 Grid.Column="1"
                 Margin="10,10,0,0"

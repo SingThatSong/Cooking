@@ -34,7 +34,7 @@
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
 
-        <TextBlock FontSize="24" Text="{Binding WhereMoveRecipeCaption}" />
+        <TextBlock FontSize="24" Text="{Binding WhereMoveRecipeCaption, Mode=OneTime}" />
 
         <!--  List of all days in week to select from  -->
         <ListView
