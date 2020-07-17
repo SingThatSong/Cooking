@@ -44,6 +44,8 @@ namespace Cooking
                     cfg.CreateMap<TagEdit, TagEdit>();
                     cfg.CreateMap<IngredientEdit, IngredientEdit>();
                     cfg.CreateMap<MeasureUnit, MeasureUnit>();
+                    cfg.CreateMap<RecipeIngredientEdit, RecipeIngredientEdit>();
+                    cfg.CreateMap<IngredientGroupEdit, IngredientGroupEdit>();
 
                     cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>()
                        .ReverseMap()
@@ -76,22 +78,20 @@ namespace Cooking
                        });
 
                     // Update ingredients group in recipe
-                    cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>();
+                    cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>()
+                       .ReverseMap();
 
-                    // Cleanup below
-                    // -----------------------
-                    cfg.CreateMap<RecipeIngredientEdit, RecipeIngredientEdit>();
-                    cfg.CreateMap<Garnish, GarnishEdit>().ReverseMap();
-                    cfg.CreateMap<Day, DayEdit>();
-                    cfg.CreateMap<Tag, TagEdit>();
-                    cfg.CreateMap<Ingredient, IngredientEdit>().ReverseMap();
-                    cfg.CreateMap<IngredientsGroup, IngredientGroupEdit>();
+                    // Project day to display
+                    cfg.CreateMap<Day, DayDisplay>();
 
-                    cfg.CreateMap<TagEdit, Tag>();
+                    // Project enities for editing
+                    cfg.CreateMap<Garnish, GarnishEdit>();  //.ReverseMap();
+                    cfg.CreateMap<Tag, TagEdit>(); //.ReverseMap();
+                    cfg.CreateMap<Ingredient, IngredientEdit>(); //.ReverseMap();
+
+                    // Recipe tag mapping
                     cfg.CreateMap<TagEdit, RecipeTag>()
                         .ForMember(x => x.TagId, opt => opt.MapFrom(x => x.ID));
-
-                    cfg.CreateMap<IngredientGroupEdit, IngredientGroupEdit>();
                 });
     }
 }

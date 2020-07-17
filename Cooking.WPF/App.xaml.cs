@@ -51,10 +51,6 @@ using WPFLocalizeExtension.Providers;
 // TODO: Add IQueryable as parameter to all selects in CRUDService ?
 // TODO: Add debug console logging to methods and constructors (AOP) ?
 
-// Refactoring
-// TODO: Cleanup DTOs
-// TODO: Cleanup mappings
-
 // Git-related
 // TODO: Setup CI
 // TODO: Set autoupgrade https://github.com/ravibpatel/AutoUpdater.NET

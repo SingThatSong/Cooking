@@ -5,9 +5,9 @@ using System.ComponentModel;
 namespace Cooking.WPF.DTO
 {
     /// <summary>
-    /// Dto for day editing and displaying.
+    /// Dto for day displaying.
     /// </summary>
-    public class DayEdit : Entity, INotifyPropertyChanged
+    public class DayDisplay : Entity, INotifyPropertyChanged
     {
         /// <inheritdoc/>
         public event PropertyChangedEventHandler? PropertyChanged;

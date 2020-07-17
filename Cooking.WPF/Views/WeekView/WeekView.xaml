@@ -81,18 +81,18 @@
             Grid.Column="1"
             VerticalScrollBarVisibility="Auto"
             Visibility="{Binding CurrentWeek, Converter={StaticResource isNotNullConverter}}">
-            <WrapPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                TextElement.FontSize="15">
-                <local:DayControl DataContext="{Binding Monday}" Day="{x:Static sys:DayOfWeek.Monday}" />
-                <local:DayControl DataContext="{Binding Tuesday}" Day="{x:Static sys:DayOfWeek.Tuesday}" />
-                <local:DayControl DataContext="{Binding Wednesday}" Day="{x:Static sys:DayOfWeek.Wednesday}" />
-                <local:DayControl DataContext="{Binding Thursday}" Day="{x:Static sys:DayOfWeek.Thursday}" />
-                <local:DayControl DataContext="{Binding Friday}" Day="{x:Static sys:DayOfWeek.Friday}" />
-                <local:DayControl DataContext="{Binding Saturday}" Day="{x:Static sys:DayOfWeek.Saturday}" />
-                <local:DayControl DataContext="{Binding Sunday}" Day="{x:Static sys:DayOfWeek.Sunday}" />
-            </WrapPanel>
+            <ItemsControl ItemsSource="{Binding CurrentWeek}" TextElement.FontSize="15">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:DayControl />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
         </ScrollViewer>
 
         <!--  Week actions  -->

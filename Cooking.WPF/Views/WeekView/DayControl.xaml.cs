@@ -7,7 +7,6 @@ namespace Cooking.WPF.Views
     /// <summary>
     /// Logic for DayControl.xaml.
     /// </summary>
-    [DependencyProperty]
     public partial class DayControl : UserControl
     {
         /// <summary>
@@ -17,10 +16,5 @@ namespace Cooking.WPF.Views
         {
             InitializeComponent();
         }
-
-        /// <summary>
-        /// Gets or sets current day.
-        /// </summary>
-        public DayOfWeek? Day { get; set; }
     }
 }

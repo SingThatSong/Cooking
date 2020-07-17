@@ -87,45 +87,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets or sets week days.
         /// </summary>
-        [AlsoNotifyFor(nameof(Monday), nameof(Tuesday), nameof(Wednesday), nameof(Thursday), nameof(Friday), nameof(Saturday), nameof(Sunday))]
-        public ObservableCollection<DayEdit>? CurrentWeek { get; set; }
-
-        // TODO: Get rid of these properties
-
-        /// <summary>
-        /// Gets monday.
-        /// </summary>
-        public DayEdit? Monday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Monday);
-
-        /// <summary>
-        /// Gets tuesday.
-        /// </summary>
-        public DayEdit? Tuesday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Tuesday);
-
-        /// <summary>
-        /// Gets wednesday.
-        /// </summary>
-        public DayEdit? Wednesday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Wednesday);
-
-        /// <summary>
-        /// Gets thursday.
-        /// </summary>
-        public DayEdit? Thursday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Thursday);
-
-        /// <summary>
-        /// Gets friday.
-        /// </summary>
-        public DayEdit? Friday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Friday);
-
-        /// <summary>
-        /// Gets saturday.
-        /// </summary>
-        public DayEdit? Saturday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Saturday);
-
-        /// <summary>
-        /// Gets sunday.
-        /// </summary>
-        public DayEdit? Sunday => CurrentWeek?.FirstOrDefault(x => x.DayOfWeek == DayOfWeek.Sunday);
+        public ObservableCollection<DayDisplay>? CurrentWeek { get; private set; }
 
         /// <summary>
         /// Gets localized caption for MoveRecipeToNextWeek.
@@ -203,7 +165,7 @@ namespace Cooking.WPF.ViewModels
             bool? reloadWeek = navigationContext.Parameters[Consts.ReloadWeekParameter] as bool?;
             if (reloadWeek == true)
             {
-                CurrentWeek = await GetWeekAsync(WeekStart);
+                ReloadCurrentWeek();
             }
         }
 
@@ -215,21 +177,21 @@ namespace Cooking.WPF.ViewModels
         {
         }
 
-        private async Task<ObservableCollection<DayEdit>?> GetWeekAsync(DateTime dayOfWeek)
+        private async Task<ObservableCollection<DayDisplay>?> GetWeekAsync(DateTime dayOfWeek)
         {
             Debug.WriteLine("MainPageViewModel.GetWeekAsync");
             List<Day>? weekDays = await dayService.GetWeekAsync(dayOfWeek);
             if (weekDays != null)
             {
-                List<DayEdit> weekDaysEdit = mapper.Map<List<DayEdit>>(weekDays);
+                List<DayDisplay> weekDaysEdit = mapper.Map<List<DayDisplay>>(weekDays);
 
-                foreach (DayEdit day in weekDaysEdit)
+                foreach (DayDisplay day in weekDaysEdit)
                 {
                     day.PropertyChanged += (sender, e) =>
                     {
-                        if (e.PropertyName == nameof(DayEdit.DinnerWasCooked))
+                        if (e.PropertyName == nameof(DayDisplay.DinnerWasCooked))
                         {
-                            if (sender is DayEdit dayChanged)
+                            if (sender is DayDisplay dayChanged)
                             {
                                 dayService.SetDinnerWasCooked(dayChanged.ID, dayChanged.DinnerWasCooked);
                             }
@@ -237,7 +199,7 @@ namespace Cooking.WPF.ViewModels
                     };
                 }
 
-                return new ObservableCollection<DayEdit>(weekDaysEdit);
+                return new ObservableCollection<DayDisplay>(weekDaysEdit);
             }
             else
             {
@@ -261,7 +223,7 @@ namespace Cooking.WPF.ViewModels
 
             if (viewModel.DialogResultOk)
             {
-                DayEdit? day = CurrentWeek!.FirstOrDefault(x => x.DayOfWeek == dayOfWeek);
+                DayDisplay? day = CurrentWeek!.FirstOrDefault(x => x.DayOfWeek == dayOfWeek);
 
                 if (day != null)
                 {

@@ -172,7 +172,7 @@
                     <lex:LocProxy
                         Name="Proxy"
                         PrependType="True"
-                        Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=Day}" />
+                        Source="{Binding DayOfWeek}" />
                     <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}" Text="{Binding Result, ElementName=Proxy}" />
                     <TextBlock
                         VerticalAlignment="Center"

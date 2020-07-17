@@ -532,25 +532,25 @@
             Gets or sets a value indicating whether given CalorieType is selected.
             </summary>
         </member>
-        <member name="T:Cooking.WPF.DTO.DayEdit">
+        <member name="T:Cooking.WPF.DTO.DayDisplay">
             <summary>
-            Dto for day editing and displaying.
+            Dto for day displaying.
             </summary>
         </member>
-        <member name="E:Cooking.WPF.DTO.DayEdit.PropertyChanged">
+        <member name="E:Cooking.WPF.DTO.DayDisplay.PropertyChanged">
             <inheritdoc/>
         </member>
-        <member name="P:Cooking.WPF.DTO.DayEdit.DinnerWasCooked">
+        <member name="P:Cooking.WPF.DTO.DayDisplay.DinnerWasCooked">
             <summary>
             Gets or sets a value indicating whether dinner on a given day was cooked.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.DTO.DayEdit.DayOfWeek">
+        <member name="P:Cooking.WPF.DTO.DayDisplay.DayOfWeek">
             <summary>
             Gets or sets day of week for given day.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.DTO.DayEdit.Dinner">
+        <member name="P:Cooking.WPF.DTO.DayDisplay.Dinner">
             <summary>
             Gets or sets dinner that selected to be cooked on given day.
             </summary>
@@ -2431,41 +2431,6 @@
             Gets or sets week days.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.ViewModels.WeekViewModel.Monday">
-            <summary>
-            Gets monday.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.WeekViewModel.Tuesday">
-            <summary>
-            Gets tuesday.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.WeekViewModel.Wednesday">
-            <summary>
-            Gets wednesday.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.WeekViewModel.Thursday">
-            <summary>
-            Gets thursday.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.WeekViewModel.Friday">
-            <summary>
-            Gets friday.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.WeekViewModel.Saturday">
-            <summary>
-            Gets saturday.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.WeekViewModel.Sunday">
-            <summary>
-            Gets sunday.
-            </summary>
-        </member>
         <member name="P:Cooking.WPF.ViewModels.WeekViewModel.MoveRecipeToNextWeekCaption">
             <summary>
             Gets localized caption for MoveRecipeToNextWeek.
@@ -2942,11 +2907,6 @@
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.DayControl"/> class.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.Views.DayControl.Day">
-            <summary>
-            Gets or sets current day.
-            </summary>
-        </member>
         <member name="M:Cooking.WPF.Views.DayControl.InitializeComponent">
             <summary>
             InitializeComponent
@@ -3128,6 +3088,36 @@
             </summary>
             <param name="modelType">Type of object to validate.</param>
             <returns>Instance of validator.</returns>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
         </member>
     </members>
 </doc>
