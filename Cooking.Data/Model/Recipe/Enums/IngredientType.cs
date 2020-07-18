@@ -6,6 +6,7 @@ namespace Cooking.Data.Model
     /// <summary>
     /// Ingredient's type.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1602:Enumeration items should be documented", Justification = "Names are obvious.")]
     public enum IngredientType : int
     {
         Alcohol = 1,

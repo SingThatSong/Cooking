@@ -1845,7 +1845,7 @@
             <summary>
             Update Selected menu item.
             </summary>
-            <param name="type">Type of view to activate menu item.</param>
+            <param name="text">Name of view to activate menu item.</param>
         </member>
         <member name="T:Cooking.WPF.ViewModels.RecipeListViewModel">
             <summary>
@@ -2428,7 +2428,7 @@
         </member>
         <member name="P:Cooking.WPF.ViewModels.WeekViewModel.CurrentWeek">
             <summary>
-            Gets or sets week days.
+            Gets week days.
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.WeekViewModel.MoveRecipeToNextWeekCaption">
@@ -3060,6 +3060,7 @@
             <summary>
             Validar Validation template for FluentValidation. See https://github.com/Fody/Validar#validation-template-implementations.
             </summary>
+            <typeparam name="T">Type of validated object.</typeparam>
         </member>
         <member name="M:Cooking.ValidationTemplate`1.#ctor(`0)">
             <summary>
@@ -3088,36 +3089,6 @@
             </summary>
             <param name="modelType">Type of object to validate.</param>
             <returns>Instance of validator.</returns>
-        </member>
-        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-            <summary>
-            GeneratedInternalTypeHelper
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-            <summary>
-            CreateInstance
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            GetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            SetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-            <summary>
-            CreateDelegate
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-            <summary>
-            AddEventHandler
-            </summary>
         </member>
     </members>
 </doc>

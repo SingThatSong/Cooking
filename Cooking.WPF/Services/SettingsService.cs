@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using Prism.Ioc;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Text.Json;
 
 namespace Cooking.WPF.Services

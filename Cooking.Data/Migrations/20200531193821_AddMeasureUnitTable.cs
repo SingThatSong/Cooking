@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Add table to sotre measure units.
+    /// </summary>
     public partial class AddMeasureUnitTable : Migration
     {
         /// <inheritdoc/>

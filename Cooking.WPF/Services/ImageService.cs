@@ -35,7 +35,7 @@ namespace Cooking
 
             bool? dialogResult = openFileDialog.ShowDialog();
 
-            if (dialogResult.HasValue && dialogResult.Value)
+            if (dialogResult == true)
             {
                 if (File.Exists(openFileDialog.FileName))
                 {

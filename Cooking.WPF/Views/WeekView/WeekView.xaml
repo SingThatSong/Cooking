@@ -6,7 +6,7 @@
     xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:lex="https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension"
     xmlns:local="clr-namespace:Cooking.WPF.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"

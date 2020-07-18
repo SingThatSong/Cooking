@@ -1,0 +1,527 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cooking.ServiceLayer</name>
+    </assembly>
+    <members>
+        <member name="T:ServiceLayer.ShoppingListAmount">
+            <summary>
+            Amount of ingredient in shopping cart list. Read-only.
+            </summary>
+        </member>
+        <member name="P:ServiceLayer.ShoppingListAmount.Amount">
+            <summary>
+            Gets or sets amount of ingredient.
+            </summary>
+        </member>
+        <member name="P:ServiceLayer.ShoppingListAmount.MeasurementUnit">
+            <summary>
+            Gets or sets name of ingredient measurement unit.
+            </summary>
+        </member>
+        <member name="T:ServiceLayer.ShoppingListIngredient">
+            <summary>
+            Ingredient in shopping list. Read-only.
+            </summary>
+        </member>
+        <member name="P:ServiceLayer.ShoppingListIngredient.Name">
+            <summary>
+            Gets or sets ingredient name.
+            </summary>
+        </member>
+        <member name="P:ServiceLayer.ShoppingListIngredient.RecipiesSources">
+            <summary>
+            Gets or sets recipies where this item is present.
+            </summary>
+        </member>
+        <member name="P:ServiceLayer.ShoppingListIngredient.IngredientAmounts">
+            <summary>
+            Gets or sets amounts of this ingredient.
+            </summary>
+        </member>
+        <member name="T:ServiceLayer.ShoppingListIngredientsGroup">
+            <summary>
+            Ingredients in shopping list grouped by type.
+            </summary>
+        </member>
+        <member name="P:ServiceLayer.ShoppingListIngredientsGroup.IngredientGroupName">
+            <summary>
+            Gets or sets name of a group.
+            </summary>
+        </member>
+        <member name="P:ServiceLayer.ShoppingListIngredientsGroup.Ingredients">
+            <summary>
+            Gets ingredients in a group.
+            </summary>
+        </member>
+        <member name="T:ServiceLayer.PredicateHelper">
+            <summary>
+            Extentions for Expression creation.
+            </summary>
+        </member>
+        <member name="M:ServiceLayer.PredicateHelper.True``1">
+            <summary>
+            Expression for true. Acts as a basis for expression assembly.
+            </summary>
+            <typeparam name="T">Any type used in expression chain.</typeparam>
+            <returns>Expression for true.</returns>
+        </member>
+        <member name="M:ServiceLayer.PredicateHelper.False``1">
+            <summary>
+            Expression for false. Acts as a basis for expression assembly.
+            </summary>
+            <typeparam name="T">Any type used in expression chain.</typeparam>
+            <returns>Expression for false.</returns>
+        </member>
+        <member name="M:ServiceLayer.PredicateHelper.Or``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Expression for |.
+            </summary>
+            <typeparam name="T">Any type used in expression chain.</typeparam>
+            <param name="expr1">Left side of expression.</param>
+            <param name="expr2">Right side of expression.</param>
+            <returns>New expression, concatenating left and right expressions with | operator.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ServiceLayer.PredicateHelper.And``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})" -->
+        <member name="T:ServiceLayer.DatabaseService">
+            <summary>
+            Service to perform actions on database itself (e.g. migrations).
+            </summary>
+        </member>
+        <member name="M:ServiceLayer.DatabaseService.#ctor(Cooking.Data.Context.IContextFactory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ServiceLayer.DatabaseService"/> class.
+            </summary>
+            <param name="contextFactory">Factory for <see cref="T:Cooking.Data.Context.CookingContext"/> creation.</param>
+        </member>
+        <member name="M:ServiceLayer.DatabaseService.MigrateDatabase">
+            <summary>
+            Migrate database to current version.
+            </summary>
+        </member>
+        <member name="T:ServiceLayer.GarnishService">
+            <summary>
+            Service for working with garnishes.
+            </summary>
+        </member>
+        <member name="M:ServiceLayer.GarnishService.#ctor(Cooking.Data.Context.IContextFactory,Cooking.ServiceLayer.ICurrentCultureProvider,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ServiceLayer.GarnishService"/> class.
+            </summary>
+            <param name="contextFactory">Factory for creating <see cref="T:Cooking.Data.Context.CookingContext"/> instances.</param>
+            <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
+            <param name="mapper">Dependency on database-projection mapper.</param>
+        </member>
+        <member name="M:ServiceLayer.GarnishService.GetNames">
+            <summary>
+            Get all garnish names.
+            </summary>
+            <returns>All garnish names.</returns>
+        </member>
+        <member name="T:ServiceLayer.IngredientService">
+            <summary>
+            Service for work with ingredients.
+            </summary>
+        </member>
+        <member name="M:ServiceLayer.IngredientService.#ctor(Cooking.Data.Context.IContextFactory,Cooking.ServiceLayer.ICurrentCultureProvider,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ServiceLayer.IngredientService"/> class.
+            </summary>
+            <param name="contextFactory">Factory for creating <see cref="T:Cooking.Data.Context.CookingContext"/> instances.</param>
+            <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
+            <param name="mapper">Dependency on database-projection mapper.</param>
+        </member>
+        <member name="M:ServiceLayer.IngredientService.GetNames">
+            <summary>
+            Get all ingredients' names.
+            </summary>
+            <returns>All ingredients' names.</returns>
+        </member>
+        <member name="T:ServiceLayer.MeasureUnitService">
+            <summary>
+            Service for working with measurement units.
+            </summary>
+        </member>
+        <member name="M:ServiceLayer.MeasureUnitService.#ctor(Cooking.Data.Context.IContextFactory,Cooking.ServiceLayer.ICurrentCultureProvider,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ServiceLayer.MeasureUnitService"/> class.
+            </summary>
+            <param name="contextFactory">Factory for creating <see cref="T:Cooking.Data.Context.CookingContext"/> instances.</param>
+            <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
+            <param name="mapper">Dependency on database-projection mapper.</param>
+        </member>
+        <member name="T:Cooking.ServiceLayer.ICurrentCultureProvider">
+            <summary>
+            Interface for culture provider.
+            </summary>
+        </member>
+        <member name="P:Cooking.ServiceLayer.ICurrentCultureProvider.CurrentCulture">
+            <summary>
+            Gets current culture.
+            </summary>
+        </member>
+        <member name="T:Cooking.ServiceLayer.ILocalization">
+            <summary>
+            Interface for providing localized text.
+            </summary>
+        </member>
+        <member name="M:Cooking.ServiceLayer.ILocalization.GetAllValuesFor(System.String)">
+            <summary>
+            Get all values for prefix. Usually prefix is enum type.
+            </summary>
+            <param name="prefix">Key prefix.</param>
+            <returns>All values for selected prefix.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.ILocalization.GetLocalizedString(System.Enum)">
+            <summary>
+            Get localized value for enum.
+            </summary>
+            <param name="value">Enum value for localization.</param>
+            <returns>Localized string.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.ILocalization.GetLocalizedString(System.String)">
+            <summary>
+            Get localized string for a key.
+            </summary>
+            <param name="key">Key to get a string.</param>
+            <returns>Localized string.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.ILocalization.GetLocalizedString(System.String,System.Object[])">
+            <summary>
+            Get formatted and localized string.
+            </summary>
+            <param name="key">Key for a localized string. Will be used as format in string.Format.</param>
+            <param name="args">Arguments for string.Format. Used as provided.</param>
+            <returns>Localized string.</returns>
+        </member>
+        <member name="T:Cooking.ServiceLayer.CRUDService`1">
+            <summary>
+            Basic create-retrieve-update-delete service.
+            </summary>
+            <typeparam name="T">Type of entity to work on.</typeparam>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.#ctor(Cooking.Data.Context.IContextFactory,Cooking.ServiceLayer.ICurrentCultureProvider,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.ServiceLayer.CRUDService`1"/> class.
+            </summary>
+            <param name="contextFactory">Context factory for creating <see cref="T:Cooking.Data.Context.CookingContext"/>.</param>
+            <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
+            <param name="mapper">Dependency on database-projection mapper.</param>
+        </member>
+        <member name="P:Cooking.ServiceLayer.CRUDService`1.ContextFactory">
+            <summary>
+            Gets factory to create database contexts (unit of works).
+            </summary>
+        </member>
+        <member name="P:Cooking.ServiceLayer.CRUDService`1.Mapper">
+            <summary>
+            Gets dependency on database-projection mapper.
+            </summary>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.GetAll">
+            <summary>
+            Get all entities for a type.
+            </summary>
+            <returns>All entities for type <see cref="!:T"/>.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.Get(System.Guid)">
+            <summary>
+            Get entity with whole graph.
+            </summary>
+            <param name="id">ID of entity to load.</param>
+            <returns>Entity with whole graph.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.GetProjected``1(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Get all entries filtered by expression and projected to some type.
+            </summary>
+            <typeparam name="TProjection">Type of projection.</typeparam>
+            <param name="predicate">Predicate to filter.</param>
+            <returns>Projected and filtered collection.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.GetProjectedClientside``1(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Get all entries filtered by expression and projected to some type.
+            Filtration occurs on client side.
+            </summary>
+            <typeparam name="TProjection">Type of projection.</typeparam>
+            <param name="predicate">Predicate to filter.</param>
+            <returns>Projected and filtered collection.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.GetProjected``1(System.Guid)">
+            <summary>
+            Get entry, projected from <see cref="!:T" />.
+            </summary>
+            <typeparam name="TProjection">Type of entry to project to.</typeparam>
+            <param name="id">ID of entity to find and project.</param>
+            <returns>Found projected entity.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.GetAllProjected``1">
+            <summary>
+            Get all entities of type <see cref="!:T" /> projected to TProjection.
+            </summary>
+            <typeparam name="TProjection">Type to project <see cref="!:T"/> to.</typeparam>
+            <param name="mapper">Mapper that defines projection.</param>
+            <returns>List of all projected entities.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.CreateAsync(`0)">
+            <summary>
+            Create new entity in database.
+            </summary>
+            <param name="entity">Entity to insert into database.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task`1"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.CreateAsync``1(``0)">
+            <summary>
+            Create new entity in database.
+            </summary>
+            <typeparam name="TProjection">Projection which should be a base for entity. Entity will be created via mapping.</typeparam>
+            <param name="entity">Entity to insert into database.</param>
+            <returns>ID of created entity.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.DeleteAsync(System.Guid)">
+            <summary>
+            Remove entity from database.
+            </summary>
+            <param name="id">Id of entity to delete.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.UpdateAsync(`0)">
+            <summary>
+            Update existing entity using object as a new state.
+            </summary>
+            <param name="entity">New state of existing entity.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.UpdateAsync``1(``0)">
+            <summary>
+            Update existing entity using object as a new state.
+            </summary>
+            <typeparam name="TProjection">Projection containing part of new state for entity.</typeparam>
+            <param name="entity">New state of existing entity.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.GetCultureSpecificSet(Cooking.Data.Context.CookingContext)">
+            <summary>
+            Get DbSet for entities filtered by current culture.
+            </summary>
+            <param name="context">Context that set belongs to.</param>
+            <returns>DbSet for entities of type <see cref="!:T"/> filtered by current culture.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.GetCurrentCulture">
+            <summary>
+            Get current culture.
+            </summary>
+            <returns>Current culture name. E.g. "en-US".</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.GetFullGraph(System.Linq.IQueryable{`0})">
+            <summary>
+            Get full graph for an entity.
+            </summary>
+            <param name="baseQuery">Base set for a graph.</param>
+            <returns>Full graph for an entity.</returns>
+        </member>
+        <member name="T:Cooking.ServiceLayer.DayService">
+            <summary>
+            Service for work with days.
+            </summary>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.#ctor(Cooking.Data.Context.IContextFactory,Cooking.ServiceLayer.ICurrentCultureProvider,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.ServiceLayer.DayService"/> class.
+            </summary>
+            <param name="contextFactory">Factory for creating <see cref="T:Cooking.Data.Context.CookingContext"/> instances.</param>
+            <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
+            <param name="mapper">Dependency on database-projection mapper.</param>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.GetLastCookedDate(System.Guid)">
+            <summary>
+            Get a date when recipe was last cooked.
+            </summary>
+            <param name="recipeId">Id of recipe to search last cooked date.</param>
+            <returns>Date when recipe was last (most recently) cooked or null of recipe was never cooked.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.SetDinnerWasCooked(System.Guid,System.Boolean)">
+            <summary>
+            Toggle dinner was cooked on a given day.
+            </summary>
+            <param name="dayId">Id of the day of the dinner.</param>
+            <param name="wasCooked">Indicator of whether dinner was cooked.</param>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.SetDinner(System.Guid,System.Guid)">
+            <summary>
+            Set dinner for an existing day.
+            </summary>
+            <param name="dayId">ID of an existing day to which dinner should be set.</param>
+            <param name="dinnerId">ID of a dinner to be set.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.GetWeekAsync(System.DateTime)">
+            <summary>
+            Load week by date.
+            </summary>
+            <param name="dayOfWeek">Day of week that belongs to required week.</param>
+            <returns>Week which contains provided day or null if no such week exists.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.CreateWeekAsync(System.DateTime,System.Collections.Generic.Dictionary{System.DayOfWeek,System.Nullable{System.Guid}})">
+            <summary>
+            Create new week.
+            </summary>
+            <param name="weekStart">First day of week.</param>
+            <param name="selectedRecepies">Recipies to add to the week.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.DaysFromMonday(System.DayOfWeek)">
+            <summary>
+            Calculate day offset from monday (e.g. tuesday will return 1).
+            </summary>
+            <param name="day">Day of week to calculate distance from monday.</param>
+            <returns>Day offset from monday.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.GetWeekShoppingList(System.DateTime,System.DateTime,Cooking.ServiceLayer.ILocalization)">
+            <summary>
+            Get shopping list for selected week.
+            </summary>
+            <param name="weekStart">First day of a period to fetch shopping list.</param>
+            <param name="weekEnd">Last day of a period to fetch shopping list.</param>
+            <param name="localization">Localization provider.</param>
+            <returns>Shopping list for a week as a collection of ingredient groups.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.IsWeekFilled(System.DateTime)">
+            <summary>
+            Check if all week's existing days' dinners were marked as cooked.
+            </summary>
+            <param name="dayOfWeek">Day of week to determine week itself.</param>
+            <returns>True if week is filled and false if not.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.CreateDinner(System.DateTime,System.Guid,System.DayOfWeek)">
+            <summary>
+            Set dinner for a new day.
+            </summary>
+            <param name="dayOnWeek">Day of week to identify a week.</param>
+            <param name="dinnerId">Dinner to set to the new day.</param>
+            <param name="dayOfWeek">New day's weekday.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.FirstDayOfWeek(System.DateTime)">
+            <summary>
+            Get first day of week for a given day.
+            </summary>
+            <param name="date">Any day on week.</param>
+            <returns>DateTime of monday.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.LastDayOfWeek(System.DateTime)">
+            <summary>
+            Get last day of week for a given day.
+            </summary>
+            <param name="date">Any day on week.</param>
+            <returns>DateTime of sunday.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.MoveDayToNextWeek(System.Guid,System.DayOfWeek)">
+            <summary>
+            Move day to next week.
+            </summary>
+            <param name="dayId">Day to move.</param>
+            <param name="selectedWeekday">Weekday to move day to.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.DeleteWeekAsync(System.DateTime,System.DateTime)">
+            <summary>
+            Delete whole week from database.
+            </summary>
+            <param name="weekStart">First day of a period to which deleted days should belong.</param>
+            <param name="weekEnd">Last day of a period to which deleted days should belong.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.GetFullGraph(System.Linq.IQueryable{Cooking.Data.Model.Plan.Day})">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.ServiceLayer.RecipeService">
+            <summary>
+            Service for work with recipies.
+            </summary>
+        </member>
+        <member name="M:Cooking.ServiceLayer.RecipeService.#ctor(Cooking.Data.Context.IContextFactory,Cooking.ServiceLayer.ICurrentCultureProvider,AutoMapper.IMapper,Cooking.ServiceLayer.DayService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.ServiceLayer.RecipeService"/> class.
+            </summary>
+            <param name="contextFactory">Factory for creating <see cref="T:Cooking.Data.Context.CookingContext"/> instances.</param>
+            <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
+            <param name="mapper">Dependency on database-projection mapper.</param>
+            <param name="dayService"><see cref="T:Cooking.ServiceLayer.DayService"/> dependency.</param>
+        </member>
+        <member name="M:Cooking.ServiceLayer.RecipeService.DaysFromLasCook(System.Guid)">
+            <summary>
+            Get count of days since last recipe preparation.
+            </summary>
+            <param name="recipeId">ID of the recipe for which count needed.</param>
+            <returns>Count of days that passed from last time selected recipe was cooked. E.g. if it was cooked yesterday, returns 1.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.RecipeService.GetMapped``1(System.Guid)">
+            <summary>
+            Load the whole entity and all of it's dependencies, then map it to needed dto.
+            Allows to use custom mappings using IoC containers and <see cref="T:AutoMapper.IMappingAction`2" />.
+            </summary>
+            <typeparam name="TMap">Type of dto to return.</typeparam>
+            <param name="id">ID of entity to load and map.</param>
+            <returns>Mapped object.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.RecipeService.GetAllMapped``1">
+            <summary>
+            Load the whole list of entities and all of it's dependencies, then map it to needed dto.
+            Allows to use custom mappings using IoC containers and <see cref="T:AutoMapper.IMappingAction`2" />.
+            </summary>
+            <typeparam name="TMap">Type of dto to return.</typeparam>
+            <param name="mapper">Mapper containing map definition between database entity and <see cref="!:TMap" />.</param>
+            <returns>Mapped object collection.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.RecipeService.GetRecipiesByParametersProjected``1(System.Collections.Generic.List{System.Guid},System.Collections.Generic.List{Cooking.Data.Model.CalorieType},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Boolean})">
+            <summary>
+            Get reipe list filtered by optional parameters.
+            </summary>
+            <typeparam name="T">Type of required projection.</typeparam>
+            <param name="requiredTags">Filter reipies by tags.</param>
+            <param name="requiredCalorieTypes">Filter reipies by calorie types.</param>
+            <param name="maxComplexity">Filter reipies by maximal complexity.</param>
+            <param name="minRating">Filter reipies by minimal rating.</param>
+            <param name="onlyNew">Filter out reipies which already was cooked.</param>
+            <returns>List of filtered recipies.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.RecipeService.GetFullGraph(System.Linq.IQueryable{Cooking.Data.Model.Recipe})">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.ServiceLayer.TagService">
+            <summary>
+            Service for work with tags.
+            </summary>
+        </member>
+        <member name="M:Cooking.ServiceLayer.TagService.#ctor(Cooking.Data.Context.IContextFactory,Cooking.ServiceLayer.ICurrentCultureProvider,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.ServiceLayer.TagService"/> class.
+            </summary>
+            <param name="contextFactory">Factory for creating <see cref="T:Cooking.Data.Context.CookingContext"/> instances.</param>
+            <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
+            <param name="mapper">Dependency on database-projection mapper.</param>
+        </member>
+        <member name="M:Cooking.ServiceLayer.TagService.GetTagsByTypeProjected``1(Cooking.Data.Model.TagType)">
+            <summary>
+            Get projected list of tags filtered by type.
+            </summary>
+            <typeparam name="T">Type to project result to.</typeparam>
+            <param name="tagType">Type to filter tags.</param>
+            <returns>Projected list of tags filtered by type.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.TagService.GetTagNames">
+            <summary>
+            Get names of all tags.
+            </summary>
+            <returns>Names of all tags.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.TagService.GetMenuTags">
+            <summary>
+            Get menu items for tags.
+            </summary>
+            <returns>Names for menu items.</returns>
+        </member>
+    </members>
+</doc>

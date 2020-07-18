@@ -171,9 +171,9 @@ namespace Cooking.ServiceLayer
                                                      .Where(x => weekStart.Date <= x.Date && x.Date <= weekEnd.Date).ToList();
 
             // Create single list of all ingredients in recipies for a week
-            var ingredients = from dinner in days.Where(x => x.Dinner?.Ingredients != null)
-                              from recipeIngredient in dinner.Dinner!.Ingredients
-                              select new { dinner.Dinner, Ingredient = recipeIngredient };
+            var ingredients          = from dinner in days.Where(x => x.Dinner?.Ingredients != null)
+                                       from recipeIngredient in dinner.Dinner!.Ingredients
+                                       select new { dinner.Dinner, Ingredient = recipeIngredient };
 
             // Include ingredients in groups
             var ingredientsInGroupds = from dinner in days.Where(x => x.Dinner?.IngredientGroups != null)

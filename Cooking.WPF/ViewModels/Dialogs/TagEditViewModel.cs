@@ -47,7 +47,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets similar tags to avoid duplicates.
         /// </summary>
-        public IEnumerable<string>? SimilarTags => string.IsNullOrWhiteSpace(Tag?.Name)
+        public IEnumerable<string?>? SimilarTags => string.IsNullOrWhiteSpace(Tag?.Name)
             ? null
             : AllTags.OrderBy(x => TagCompare(x.Name, Tag.Name))
                      .Select(x => x.Name)
@@ -62,7 +62,7 @@ namespace Cooking.WPF.ViewModels
         /// Gets localized caption for MenuIcon.
         /// </summary>
         public string? MenuIconCaption => localization.GetLocalizedString("MenuIcon");
-        
+
         /// <summary>
         /// Gets localized caption for Category.
         /// </summary>
@@ -179,10 +179,17 @@ namespace Cooking.WPF.ViewModels
             Tag.PropertyChanged += Tag_PropertyChanged;
         }
 
-        private int TagCompare(string str1, string str2)
-         => StringCompare.LevensteinDistance(
+        private int TagCompare(string? str1, string? str2)
+        {
+            if (str1 == null || str2 == null)
+            {
+                return int.MaxValue;
+            }
+
+            return StringCompare.LevensteinDistance(
                     string.Join(" ", str1.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name)),
                     string.Join(" ", str2.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name))
             );
+        }
     }
 }

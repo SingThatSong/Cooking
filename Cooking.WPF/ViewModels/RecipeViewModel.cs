@@ -363,7 +363,7 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async Task ImageSearch() => Recipe!.ImagePath = imageService.UseImage();
+        private async Task ImageSearch() => await Task.Run(() => Recipe!.ImagePath = imageService.UseImage());
 
         private async Task ApplyChanges()
         {

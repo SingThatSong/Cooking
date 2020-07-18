@@ -17,6 +17,7 @@ namespace Cooking
     /// <summary>
     /// Validar Validation template for FluentValidation. See https://github.com/Fody/Validar#validation-template-implementations.
     /// </summary>
+    /// <typeparam name="T">Type of validated object.</typeparam>
     [NullGuard(ValidationFlags.None)]
     public class ValidationTemplate<T> : IDataErrorInfo, INotifyDataErrorInfo
             where T : INotifyPropertyChanged

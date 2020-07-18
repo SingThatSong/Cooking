@@ -18,6 +18,7 @@ namespace ServiceLayer
         /// </summary>
         /// <param name="contextFactory">Factory for creating <see cref="CookingContext"/> instances.</param>
         /// <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
+        /// <param name="mapper">Dependency on database-projection mapper.</param>
         public IngredientService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider, IMapper mapper)
             : base(contextFactory, cultureProvider, mapper)
         {

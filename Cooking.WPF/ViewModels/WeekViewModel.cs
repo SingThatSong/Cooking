@@ -85,7 +85,7 @@ namespace Cooking.WPF.ViewModels
         public bool WeekEdit { get; set; }
 
         /// <summary>
-        /// Gets or sets week days.
+        /// Gets week days.
         /// </summary>
         public ObservableCollection<DayDisplay>? CurrentWeek { get; private set; }
 
@@ -165,7 +165,7 @@ namespace Cooking.WPF.ViewModels
             bool? reloadWeek = navigationContext.Parameters[Consts.ReloadWeekParameter] as bool?;
             if (reloadWeek == true)
             {
-                ReloadCurrentWeek();
+                await ReloadCurrentWeek();
             }
         }
 

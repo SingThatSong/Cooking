@@ -118,7 +118,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Update Selected menu item.
         /// </summary>
-        /// <param name="type">Type of view to activate menu item.</param>
+        /// <param name="text">Name of view to activate menu item.</param>
         public void SelectMenuItemByViewType(string text)
         {
             SelectedMenuItem = MenuItems.OfType<HamburgerMenuIconItem>().FirstOrDefault(x => x.Label == text);

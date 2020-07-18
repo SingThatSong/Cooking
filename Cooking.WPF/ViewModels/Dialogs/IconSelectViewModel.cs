@@ -1,16 +1,8 @@
-﻿using Cooking.Data.Model;
-using Cooking.ServiceLayer;
-using Cooking.WPF.Commands;
-using Cooking.WPF.DTO;
-using Cooking.WPF.Views;
+﻿using Cooking.WPF.Commands;
 using MahApps.Metro.IconPacks;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace Cooking.WPF.ViewModels

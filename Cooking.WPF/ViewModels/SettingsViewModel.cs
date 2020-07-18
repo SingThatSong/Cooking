@@ -65,7 +65,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets or sets selected app theme.
         /// </summary>
-        public Theme SelectedAppTheme { get; set; }
+        public Theme? SelectedAppTheme { get; set; }
 
         /// <summary>
         /// Gets all available app themes.
@@ -75,7 +75,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets or sets selected app theme.
         /// </summary>
-        public string SelectedColor { get; set; }
+        public string? SelectedColor { get; set; }
 
         /// <summary>
         /// Gets command to be fired when culture combobox's selected language changes.
@@ -87,10 +87,13 @@ namespace Cooking.WPF.ViewModels
         /// </summary>
         public void OnSelectedAppThemeChanged()
         {
-            ThemeManager.Current.ChangeThemeBaseColor(Application.Current, SelectedAppTheme.BaseColorScheme);
+            if (SelectedAppTheme != null)
+            {
+                ThemeManager.Current.ChangeThemeBaseColor(Application.Current, SelectedAppTheme.BaseColorScheme);
 
-            options.Value.Theme = SelectedAppTheme.BaseColorScheme;
-            settingsService.UpdateAppSettings(options.Value);
+                options.Value.Theme = SelectedAppTheme.BaseColorScheme;
+                settingsService.UpdateAppSettings(options.Value);
+            }
         }
 
         /// <summary>
@@ -98,10 +101,13 @@ namespace Cooking.WPF.ViewModels
         /// </summary>
         public void OnSelectedColorChanged()
         {
-            ThemeManager.Current.ChangeThemeColorScheme(Application.Current, SelectedColor);
+            if (SelectedColor != null)
+            {
+                ThemeManager.Current.ChangeThemeColorScheme(Application.Current, SelectedColor);
 
-            options.Value.Accent = SelectedColor;
-            settingsService.UpdateAppSettings(options.Value);
+                options.Value.Accent = SelectedColor;
+                settingsService.UpdateAppSettings(options.Value);
+            }
         }
 
         private void ChangeCulture()

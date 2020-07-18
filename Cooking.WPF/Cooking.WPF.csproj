@@ -55,17 +55,17 @@
     <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="4.3.0" />
     <PackageReference Include="MaterialDesignColors" Version="1.2.7-ci1779" />
     <PackageReference Include="MaterialDesignThemes" Version="3.2.0-ci1779" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0-beta3.20366.2">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0-beta3.20367.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0-rc.1.20366.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0-rc.1.20367.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0-rc.1.20366.14" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0-rc.1.20366.14" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0-rc.1.20366.14" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0-rc.1.20368.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0-rc.1.20368.3" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0-rc.1.20368.3" />
     <PackageReference Include="NullGuard.Fody" Version="3.0.0" PrivateAssets="All" />
     <PackageReference Include="PhotoSauce.MagicScaler" Version="0.11.1" />
     <PackageReference Include="Plafi.DynamicLinq" Version="1.0.0" />

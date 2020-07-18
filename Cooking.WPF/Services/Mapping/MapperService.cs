@@ -85,9 +85,12 @@ namespace Cooking
                     cfg.CreateMap<Day, DayDisplay>();
 
                     // Project enities for editing
-                    cfg.CreateMap<Garnish, GarnishEdit>();  //.ReverseMap();
-                    cfg.CreateMap<Tag, TagEdit>(); //.ReverseMap();
-                    cfg.CreateMap<Ingredient, IngredientEdit>(); //.ReverseMap();
+                    cfg.CreateMap<Garnish, GarnishEdit>()
+                       .ReverseMap();
+                    cfg.CreateMap<Tag, TagEdit>()
+                       .ReverseMap();
+                    cfg.CreateMap<Ingredient, IngredientEdit>()
+                       .ReverseMap();
 
                     // Recipe tag mapping
                     cfg.CreateMap<TagEdit, RecipeTag>()

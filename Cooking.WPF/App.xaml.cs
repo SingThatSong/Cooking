@@ -33,6 +33,7 @@ using WPFLocalizeExtension.Providers;
 
 // TODO: Dish garnishes select + generate
 
+// TODO: Esure *Async name for all async methods
 // TODO: Highlight items like in recipe list everywhere
 // TODO: Rename Id to uppercase
 // TODO: Recipe filtering reserved words localization (and, or, not)
@@ -46,10 +47,10 @@ using WPFLocalizeExtension.Providers;
 // TODO: App users
 // TODO: Recipe filtering: make Gitlab-like system
 // TODO: Set up failure monitoring
-// TODO: Replace EqualityComparison with SetGeneratePropertyMaps. See https://github.com/AutoMapper/Automapper.Collection
 // TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration
 // TODO: Add IQueryable as parameter to all selects in CRUDService ?
 // TODO: Add debug console logging to methods and constructors (AOP) ?
+// TODO: Plurals localization - https://github.com/Humanizr/Humanizer : Not supported! See https://github.com/Humanizr/Humanizer/issues/689. Consider using https://github.com/axuno/SmartFormat/wiki/Pluralization
 
 // Git-related
 // TODO: Setup CI
@@ -75,7 +76,6 @@ using WPFLocalizeExtension.Providers;
 // TODO: Add project documentation (Wiki)
 
 // Things not possible right now
-// TODO: Plurals localization - https://github.com/Humanizr/Humanizer : Not supported! See https://github.com/Humanizr/Humanizer/issues/689
 // TODO: Restore Maximize button when ControlzEx fixes it for .NET 5. See https://github.com/ControlzEx/ControlzEx/issues/120
 
 // Set Null-check on all func arguments globally

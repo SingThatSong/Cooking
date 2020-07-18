@@ -32,7 +32,7 @@ namespace Cooking.WPF.Commands
         }
 
         /// <inheritdoc/>
-        protected override bool CanExecuteAsyncInternal(object? parameter) => canExecute != null ? canExecute() : true;
+        protected override bool CanExecuteAsyncInternal(object? parameter) => canExecute == null || canExecute();
 
         /// <inheritdoc/>
         protected override async Task ExecuteAsyncInternal(object? parameter) => await execute();

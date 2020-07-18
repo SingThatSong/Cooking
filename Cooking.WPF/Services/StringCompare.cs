@@ -15,7 +15,7 @@ namespace Cooking.WPF.Services
         /// <param name="str2">String two.</param>
         /// <returns>Levenstein distance between strings.</returns>
         [SuppressMessage("Performance", "CA1814", Justification = "Square array is by the algorithm")]
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312:Variable names should begin with lower-case letter", Justification = "E is definition made in algorithm")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1312:Variable names should begin with lower-case letter", Justification = "E is a definition made in algorithm")]
         public static int LevensteinDistance(string str1, string str2)
         {
             str1 = str1.ToUpperInvariant();

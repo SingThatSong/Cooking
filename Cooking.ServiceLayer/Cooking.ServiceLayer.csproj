@@ -10,6 +10,10 @@
     <NoWarn>1701;1702;CA1062;CA1303;CA1822;CA2227</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DocumentationFile>D:\Repos\Cooking\Cooking.ServiceLayer\Cooking.ServiceLayer.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.0.1-alpha.0.2" />
     <PackageReference Include="AutoMapper.Collection" Version="7.0.0" />
@@ -18,11 +22,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0-beta3.20366.2">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0-beta3.20367.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NullGuard.Fody" Version="3.0.0" />
+    <PackageReference Include="NullGuard.Fody" Version="3.0.0" PrivateAssets="All" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
