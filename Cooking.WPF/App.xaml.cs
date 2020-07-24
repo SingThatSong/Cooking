@@ -35,8 +35,8 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
 // TODO: Dish garnishes select + generate
+// TODO: Exclude Fody libraries from *.deps.json
 
-// TODO: Esure *Async name for all async methods
 // TODO: Highlight items like in recipe list everywhere
 // TODO: Recipe filtering reserved words localization (and, or, not)
 // TODO: Count calories for recipe
@@ -47,12 +47,11 @@ using WPFLocalizeExtension.Providers;
 // TODO: Implement GetFullGraph for all services
 // TODO: Move this file's parts into different methods. Reason: Too many usings above
 // TODO: App users
-// TODO: Recipe filtering: make Gitlab-like system
 // TODO: Set up failure monitoring
 // TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration
-// TODO: Exclude Fody libraries from *.deps.json
 // TODO: Add IQueryable as parameter to all selects in CRUDService ?
 // TODO: Add debug console logging to methods and constructors (AOP) ?
+// TODO: Recipe filtering: make Gitlab-like system
 
 // Git-related
 // TODO: Setup CI

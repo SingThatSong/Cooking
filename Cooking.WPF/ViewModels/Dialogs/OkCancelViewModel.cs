@@ -17,7 +17,7 @@ namespace Cooking.WPF.ViewModels
         {
             DialogService = dialogService;
             CloseCommand = new AsyncDelegateCommand(Close);
-            OkCommand = new AsyncDelegateCommand(Ok, CanOk);
+            OkCommand = new AsyncDelegateCommand(OkAsync, CanOk);
         }
 
         /// <inheritdoc/>
@@ -59,7 +59,7 @@ namespace Cooking.WPF.ViewModels
         /// Close current dialog and set <see cref="DialogResultOk"/> to true.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        protected virtual async Task Ok()
+        protected virtual async Task OkAsync()
         {
             DialogResultOk = true;
             await Close();

@@ -70,7 +70,7 @@ namespace Cooking.ServiceLayer
         /// <param name="dayID">ID of an existing day to which dinner should be set.</param>
         /// <param name="dinnerID">ID of a dinner to be set.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public async Task SetDinner(Guid dayID, Guid dinnerID)
+        public async Task SetDinnerAsync(Guid dayID, Guid dinnerID)
         {
             using CookingContext context = ContextFactory.Create();
             Day dayDb = await context.Days.FindAsync(dayID);
@@ -228,7 +228,7 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <param name="dayOfWeek">Day of week to determine week itself.</param>
         /// <returns>True if week is filled and false if not.</returns>
-        public async Task<bool> IsWeekFilled(DateTime dayOfWeek)
+        public async Task<bool> IsWeekFilledAsync(DateTime dayOfWeek)
         {
             List<Day>? weekdays = await GetWeekAsync(dayOfWeek);
 
@@ -247,7 +247,7 @@ namespace Cooking.ServiceLayer
         /// <param name="dinnerID">Dinner to set to the new day.</param>
         /// <param name="dayOfWeek">New day's weekday.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public async Task CreateDinner(DateTime dayOnWeek, Guid dinnerID, DayOfWeek dayOfWeek)
+        public async Task CreateDinnerAsync(DateTime dayOnWeek, Guid dinnerID, DayOfWeek dayOfWeek)
         {
             using CookingContext context = ContextFactory.Create();
 
@@ -287,7 +287,7 @@ namespace Cooking.ServiceLayer
         /// <param name="dayID">Day to move.</param>
         /// <param name="selectedWeekday">Weekday to move day to.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public async Task MoveDayToNextWeek(Guid dayID, DayOfWeek selectedWeekday)
+        public async Task MoveDayToNextWeekAsync(Guid dayID, DayOfWeek selectedWeekday)
         {
             using CookingContext context = ContextFactory.Create();
             Day day = context.Days.First(x => x.ID == dayID);

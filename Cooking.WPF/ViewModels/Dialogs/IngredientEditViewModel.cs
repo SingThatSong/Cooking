@@ -44,7 +44,7 @@ namespace Cooking.WPF.ViewModels
             Ingredient = ingredient ?? new IngredientEdit();
             AllIngredientNames = ingredientService.GetNames();
             LoadedCommand = new DelegateCommand(OnLoaded);
-            DeleteIngredientCommand = new DelegateCommand<Guid>(DeleteIngredient);
+            DeleteIngredientCommand = new DelegateCommand<Guid>(DeleteIngredientAsync);
             IngredientTypes = Enum.GetValues(typeof(IngredientType)).Cast<IngredientType>().ToList();
         }
 
@@ -94,14 +94,14 @@ namespace Cooking.WPF.ViewModels
         private List<string> AllIngredientNames { get; set; }
 
         /// <inheritdoc/>
-        protected override async Task Ok()
+        protected override async Task OkAsync()
         {
             if (NameChanged
              && Ingredient.Name != null
              && AllIngredientNames.Any(x => string.Equals(x, Ingredient.Name, StringComparison.InvariantCultureIgnoreCase)))
             {
                 bool saveAnyway = false;
-                await DialogService.ShowYesNoDialog(localization.GetLocalizedString("IngredientAlreadyExists"),
+                await DialogService.ShowYesNoDialogAsync(localization.GetLocalizedString("IngredientAlreadyExists"),
                                                     localization.GetLocalizedString("SaveAnyway"),
                                                     successCallback: () => saveAnyway = true);
 
@@ -111,7 +111,7 @@ namespace Cooking.WPF.ViewModels
                 }
             }
 
-            await base.Ok();
+            await base.OkAsync();
         }
 
         /// <inheritdoc/>
@@ -147,11 +147,11 @@ namespace Cooking.WPF.ViewModels
             };
         }
 
-        private async void DeleteIngredient(Guid ingredientID) => await DialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Ingredient.Name),
-                                                                                                   localization.GetLocalizedString("CannotUndo"),
-                                                                                                   successCallback: () => OnIngredientDeleted(ingredientID));
+        private async void DeleteIngredientAsync(Guid ingredientID) => await DialogService.ShowYesNoDialogAsync(localization.GetLocalizedString("SureDelete", Ingredient.Name),
+                                                                                                                localization.GetLocalizedString("CannotUndo"),
+                                                                                                                successCallback: () => OnIngredientDeletedAsync(ingredientID));
 
-        private async void OnIngredientDeleted(Guid id)
+        private async void OnIngredientDeletedAsync(Guid id)
         {
             await ingredientService.DeleteAsync(id);
             eventAggregator.GetEvent<IngredientDeletedEvent>().Publish(id);

@@ -70,7 +70,7 @@ namespace Cooking.WPF.ViewModels
         private List<string> AllGarnishNames { get; set; }
 
         /// <inheritdoc/>
-        protected override async Task Ok()
+        protected override async Task OkAsync()
         {
             // Check if garnish is already exists
             if (NameChanged
@@ -78,7 +78,7 @@ namespace Cooking.WPF.ViewModels
              && AllGarnishNames.Any(x => string.Equals(x, Garnish.Name, StringComparison.InvariantCultureIgnoreCase)))
             {
                 bool saveAnyway = false;
-                await DialogService.ShowYesNoDialog(localization.GetLocalizedString("GarnishAlreadyExists"),
+                await DialogService.ShowYesNoDialogAsync(localization.GetLocalizedString("GarnishAlreadyExists"),
                                                     localization.GetLocalizedString("SaveAnyway"),
                                                     successCallback: () => saveAnyway = true);
 
@@ -88,7 +88,7 @@ namespace Cooking.WPF.ViewModels
                 }
             }
 
-            await base.Ok();
+            await base.OkAsync();
         }
 
         /// <inheritdoc/>

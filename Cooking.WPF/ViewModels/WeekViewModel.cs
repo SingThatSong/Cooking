@@ -57,16 +57,16 @@ namespace Cooking.WPF.ViewModels
             this.mapper = mapper;
             this.localization = localization;
 
-            LoadedCommand = new AsyncDelegateCommand(OnLoadedAsync, executeOnce: true);
             CreateNewWeekCommand = new DelegateCommand(CreateNewWeek);
             CreateShoppingListCommand = new DelegateCommand(CreateShoppingList);
-            DeleteCommand = new DelegateCommand(DeleteCurrentWeekAsync);
-            SelectNextWeekCommand = new DelegateCommand(SelectNextWeekAsync);
-            SelectPreviousWeekCommand = new DelegateCommand(SelectPreviousWeekAsync);
+            DeleteCommand = new AsyncDelegateCommand(DeleteCurrentWeekAsync);
+            DeleteDinnerCommand = new AsyncDelegateCommand<Guid?>(DeleteDayAsync, canExecute: CanDeleteDay);
+            LoadedCommand = new AsyncDelegateCommand(OnLoadedAsync, executeOnce: true);
+            MoveRecipeCommand = new AsyncDelegateCommand<Guid>(MoveRecipeAsync);
+            SelectDinnerCommand = new AsyncDelegateCommand<DayOfWeek>(SelectDinnerAsync);
+            SelectNextWeekCommand = new AsyncDelegateCommand(SelectNextWeekAsync);
+            SelectPreviousWeekCommand = new AsyncDelegateCommand(SelectPreviousWeekAsync);
             ShowRecipeCommand = new DelegateCommand<Guid>(ShowRecipe);
-            DeleteDinnerCommand = new DelegateCommand<Guid?>(DeleteDayAsync, canExecute: CanDeleteDay);
-            SelectDinnerCommand = new DelegateCommand<DayOfWeek>(SelectDinner);
-            MoveRecipeCommand = new DelegateCommand<Guid>(MoveRecipe);
         }
 
         /// <summary>
@@ -127,17 +127,17 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets command to delete current week.
         /// </summary>
-        public DelegateCommand DeleteCommand { get; }
+        public AsyncDelegateCommand DeleteCommand { get; }
 
         /// <summary>
         /// Gets command to move to the next week.
         /// </summary>
-        public DelegateCommand SelectNextWeekCommand { get; }
+        public AsyncDelegateCommand SelectNextWeekCommand { get; }
 
         /// <summary>
         /// Gets command to move to the previous week.
         /// </summary>
-        public DelegateCommand SelectPreviousWeekCommand { get; }
+        public AsyncDelegateCommand SelectPreviousWeekCommand { get; }
 
         /// <summary>
         /// Gets command to show recipe's detail.
@@ -147,17 +147,17 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets command to move existing recipe to the next week.
         /// </summary>
-        public DelegateCommand<Guid> MoveRecipeCommand { get; }
+        public AsyncDelegateCommand<Guid> MoveRecipeCommand { get; }
 
         /// <summary>
         /// Gets command to choose a recipe for a day.
         /// </summary>
-        public DelegateCommand<DayOfWeek> SelectDinnerCommand { get; }
+        public AsyncDelegateCommand<DayOfWeek> SelectDinnerCommand { get; }
 
         /// <summary>
         /// Gets command to delete a day.
         /// </summary>
-        public DelegateCommand<Guid?> DeleteDinnerCommand { get; }
+        public AsyncDelegateCommand<Guid?> DeleteDinnerCommand { get; }
 
         /// <inheritdoc/>
         public async void OnNavigatedTo(NavigationContext navigationContext)
@@ -165,7 +165,7 @@ namespace Cooking.WPF.ViewModels
             bool? reloadWeek = navigationContext.Parameters[Consts.ReloadWeekParameter] as bool?;
             if (reloadWeek == true)
             {
-                await ReloadCurrentWeek();
+                await ReloadCurrentWeekAsync();
             }
         }
 
@@ -216,7 +216,7 @@ namespace Cooking.WPF.ViewModels
                   parameters: (nameof(RecipeViewModel.Recipe), recipeID));
         }
 
-        private async void SelectDinner(DayOfWeek dayOfWeek)
+        private async Task SelectDinnerAsync(DayOfWeek dayOfWeek)
         {
             Debug.WriteLine("MainPageViewModel.SelectDinner");
             RecipeSelectViewModel viewModel = await dialogService.ShowCustomMessageAsync<RecipeSelectView, RecipeSelectViewModel>();
@@ -227,31 +227,31 @@ namespace Cooking.WPF.ViewModels
 
                 if (day != null)
                 {
-                    await dayService.SetDinner(day.ID, viewModel.SelectedRecipe!.ID);
+                    await dayService.SetDinnerAsync(day.ID, viewModel.SelectedRecipe!.ID);
                 }
                 else
                 {
-                    await dayService.CreateDinner(WeekStart, viewModel.SelectedRecipe!.ID, dayOfWeek);
+                    await dayService.CreateDinnerAsync(WeekStart, viewModel.SelectedRecipe!.ID, dayOfWeek);
                 }
 
-                await ReloadCurrentWeek();
+                await ReloadCurrentWeekAsync();
             }
         }
 
-        private async Task ReloadCurrentWeek() => CurrentWeek = await GetWeekAsync(WeekStart);
+        private async Task ReloadCurrentWeekAsync() => CurrentWeek = await GetWeekAsync(WeekStart);
 
         private async Task OnLoadedAsync()
         {
             Debug.WriteLine("MainPageViewModel.OnLoadedAsync");
-            await SetWeekByDay(DateTime.Now);
+            await SetWeekByDayAsync(DateTime.Now);
 
             DateTime dayOnPreviousWeek = dayService.FirstDayOfWeek(DateTime.Now).AddDays(-1);
-            bool prevWeekFilled = await dayService.IsWeekFilled(dayOnPreviousWeek);
+            bool prevWeekFilled = await dayService.IsWeekFilledAsync(dayOnPreviousWeek);
 
             if (!prevWeekFilled)
             {
                 // Reminder of recipies on a previous week
-                await dialogService.ShowYesNoDialog(
+                await dialogService.ShowYesNoDialogAsync(
                       localization.GetLocalizedString("ByTheWay"),
                       localization.GetLocalizedString("YouNeedToMoveRecipies"),
                       successCallback: () => SelectPreviousWeekCommand.Execute()
@@ -259,33 +259,33 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async void MoveRecipe(Guid dayID)
+        private async Task MoveRecipeAsync(Guid dayID)
         {
             Debug.WriteLine("MainPageViewModel.MoveRecipe");
             MoveRecipeViewModel viewModel = await dialogService.ShowCustomMessageAsync<MoveRecipeView, MoveRecipeViewModel>();
 
             if (viewModel.DialogResultOk)
             {
-                await dayService.MoveDayToNextWeek(dayID, viewModel.SelectedDay!.Value);
-                await ReloadCurrentWeek();
+                await dayService.MoveDayToNextWeekAsync(dayID, viewModel.SelectedDay!.Value);
+                await ReloadCurrentWeekAsync();
             }
         }
 
-        private async void SelectPreviousWeekAsync()
+        private async Task SelectPreviousWeekAsync()
         {
             Debug.WriteLine("MainPageViewModel.SelectPreviousWeekAsync");
             DateTime dayOnPreviousWeek = WeekStart.AddDays(-1);
-            await SetWeekByDay(dayOnPreviousWeek);
+            await SetWeekByDayAsync(dayOnPreviousWeek);
         }
 
-        private async void SelectNextWeekAsync()
+        private async Task SelectNextWeekAsync()
         {
             Debug.WriteLine("MainPageViewModel.SelectNextWeekAsync");
             DateTime dayOnNextWeek = WeekEnd.AddDays(1);
-            await SetWeekByDay(dayOnNextWeek);
+            await SetWeekByDayAsync(dayOnNextWeek);
         }
 
-        private async Task SetWeekByDay(DateTime date)
+        private async Task SetWeekByDayAsync(DateTime date)
         {
             Debug.WriteLine("MainPageViewModel.SetWeekByDay");
             CurrentWeek = await GetWeekAsync(date);
@@ -311,46 +311,43 @@ namespace Cooking.WPF.ViewModels
                   parameters: (nameof(ShoppingCartViewModel.List), allProducts));
         }
 
-        private async void DeleteDayAsync(Guid? dayID)
+        private async Task DeleteDayAsync(Guid? dayID)
         {
             if (dayID != null)
             {
                 Debug.WriteLine("MainPageViewModel.DeleteDayAsync");
                 DayOfWeek dayOfWeek = CurrentWeek!.Single(x => x.ID == dayID).DayOfWeek;
-                await dialogService.ShowYesNoDialog(
+                await dialogService.ShowYesNoDialogAsync(
                       localization.GetLocalizedString("SureDelete", localization.GetLocalizedString(dayOfWeek) ?? string.Empty),
                       localization.GetLocalizedString("CannotUndo"),
-                      successCallback: () => OnDayDeleted(dayID.Value));
+                      successCallback: () => OnDayDeletedAsync(dayID.Value));
             }
         }
 
         private bool CanDeleteDay(Guid? day) => day.HasValue;
 
-        private async void DeleteCurrentWeekAsync()
+        private async Task DeleteCurrentWeekAsync()
         {
-            Debug.WriteLine("MainPageViewModel.DeleteCurrentWeekAsync");
-            await dialogService.ShowYesNoDialog(
+            await dialogService.ShowYesNoDialogAsync(
                   localization.GetLocalizedString("SureDelete", localization.GetLocalizedString("Week") ?? string.Empty),
                   localization.GetLocalizedString("CannotUndo"),
-                  successCallback: OnCurrentWeekDeleted);
+                  successCallback: async () => await OnCurrentWeekDeletedAsync());
         }
 
         private void CreateNewWeek()
         {
-            Debug.WriteLine("MainPageViewModel.CreateNewWeek");
-
             regionManager.NavigateMain(
                   view: nameof(WeekSettingsView),
                   parameters: (nameof(WeekSettingsViewModel.WeekStart), WeekStart));
         }
 
-        private async void OnDayDeleted(Guid dayID)
+        private async Task OnDayDeletedAsync(Guid dayID)
         {
             await dayService.DeleteAsync(dayID);
-            await ReloadCurrentWeek();
+            await ReloadCurrentWeekAsync();
         }
 
-        private async void OnCurrentWeekDeleted()
+        private async Task OnCurrentWeekDeletedAsync()
         {
             // call buisness function
             await dayService.DeleteWeekAsync(WeekStart, WeekEnd);

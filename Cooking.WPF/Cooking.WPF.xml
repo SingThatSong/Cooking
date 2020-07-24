@@ -1122,7 +1122,7 @@
             <param name="content">ViewModel object.</param>
             <returns>ViewModel, used for a view.</returns>
         </member>
-        <member name="M:Cooking.WPF.DialogService.ShowOkCancelDialog``2(System.String,``1,System.Action{``1})">
+        <member name="M:Cooking.WPF.DialogService.ShowOkCancelDialogAsync``2(System.String,``1,System.Action{``1})">
             <summary>
             Show custom dialog with ok/cancel options and run callback on success.
             </summary>
@@ -1133,7 +1133,7 @@
             <param name="successCallback">Callback to be called when user pressed ok.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
         </member>
-        <member name="M:Cooking.WPF.DialogService.ShowYesNoDialog(System.String,System.String,System.Action)">
+        <member name="M:Cooking.WPF.DialogService.ShowYesNoDialogAsync(System.String,System.String,System.Action)">
             <summary>
             Show standart yes/no dialog with callback on yes.
             </summary>
@@ -1242,7 +1242,7 @@
             Gets command to execute on loaded event.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModel.Ok">
+        <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModel.OkAsync">
             <inheritdoc/>
         </member>
         <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModel.CanOk">
@@ -1334,7 +1334,7 @@
             Gets localized suggestion caption.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.IngredientEditViewModel.Ok">
+        <member name="M:Cooking.WPF.ViewModels.IngredientEditViewModel.OkAsync">
             <inheritdoc/>
         </member>
         <member name="M:Cooking.WPF.ViewModels.IngredientEditViewModel.CanOk">
@@ -1436,7 +1436,7 @@
             </summary>
             <returns>Ture if ok button can be pressed.</returns>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.OkCancelViewModel.Ok">
+        <member name="M:Cooking.WPF.ViewModels.OkCancelViewModel.OkAsync">
             <summary>
             Close current dialog and set <see cref="P:Cooking.WPF.ViewModels.OkCancelViewModel.DialogResultOk"/> to true.
             </summary>
@@ -1661,7 +1661,7 @@
         <member name="M:Cooking.WPF.ViewModels.TagEditViewModel.CanOk">
             <inheritdoc/>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.TagEditViewModel.Ok">
+        <member name="M:Cooking.WPF.ViewModels.TagEditViewModel.OkAsync">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.WPF.ViewModels.TagSelectViewModel">
@@ -1720,7 +1720,7 @@
             <param name="currentTags">Alredy existing tags for editing.</param>
             <param name="allTags">All tags to select from.</param>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.TagSelectViewModel.AddTag">
+        <member name="M:Cooking.WPF.ViewModels.TagSelectViewModel.AddTagAsync">
             <summary>
             Add new tag.
             </summary>

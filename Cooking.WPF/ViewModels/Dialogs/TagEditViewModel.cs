@@ -35,7 +35,7 @@ namespace Cooking.WPF.ViewModels
             Tag = tag ?? new TagEdit();
             AllTags = tagService.GetAll();
             LoadedCommand = new DelegateCommand(OnLoaded);
-            AddIconCommand = new AsyncDelegateCommand(AddIcon);
+            AddIconCommand = new AsyncDelegateCommand(AddIconAsync);
         }
 
         /// <summary>
@@ -120,13 +120,13 @@ namespace Cooking.WPF.ViewModels
         protected override bool CanOk() => Tag.IsValid();
 
         /// <inheritdoc/>
-        protected override async Task Ok()
+        protected override async Task OkAsync()
         {
             if (NameChanged && Tag.Name != null && AllTags.Any(x => x.ID != Tag.ID && TagCompare(Tag.Name, x.Name) == 0))
             {
                 bool okAnyway = false;
 
-                await DialogService.ShowYesNoDialog(
+                await DialogService.ShowYesNoDialogAsync(
                    localization.GetLocalizedString("TagAlreadyExists"),
                    localization.GetLocalizedString("SaveAnyway"),
                    successCallback: () => okAnyway = true);
@@ -142,10 +142,10 @@ namespace Cooking.WPF.ViewModels
                 Tag.MenuIcon = null;
             }
 
-            await base.Ok();
+            await base.OkAsync();
         }
 
-        private async Task AddIcon()
+        private async Task AddIconAsync()
         {
             IconSelectViewModel result = await DialogService.ShowCustomMessageAsync<IconSelectView, IconSelectViewModel>();
             if (result.DialogResultOk)

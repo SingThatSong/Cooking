@@ -2,7 +2,6 @@
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
-using Cooking.WPF.ViewModels;
 using Cooking.WPF.Views;
 using Prism.Ioc;
 using Prism.Regions;
@@ -10,6 +9,7 @@ using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Cooking.WPF.ViewModels
 {
@@ -48,11 +48,11 @@ namespace Cooking.WPF.ViewModels
 
             ReturnCommand = new DelegateCommand(Return);
             DeleteRecipeManuallyCommand = new DelegateCommand<DayPlan>(DeleteRecipeManually);
-            SetRecipeManuallyCommand = new DelegateCommand<DayPlan>(SetRecipeManually);
+            SetRecipeManuallyCommand = new AsyncDelegateCommand<DayPlan>(SetRecipeManuallyAsync);
             GetAlternativeRecipeCommand = new DelegateCommand<DayPlan>(GetAlternativeRecipe, canExecute: (day) => day?.RecipeAlternatives?.Count > 1);
             ShowRecipeCommand = new DelegateCommand<Guid>(ShowRecipe);
             CloseCommand = new DelegateCommand(Close);
-            OkCommand = new DelegateCommand(Ok);
+            OkCommand = new AsyncDelegateCommand(OkAsync);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets command to set recipe manually.
         /// </summary>
-        public DelegateCommand<DayPlan> SetRecipeManuallyCommand { get; }
+        public AsyncDelegateCommand<DayPlan> SetRecipeManuallyCommand { get; }
 
         /// <summary>
         /// Gets command to return to previous window.
@@ -93,7 +93,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets command to accept generated week.
         /// </summary>
-        public DelegateCommand OkCommand { get; }
+        public AsyncDelegateCommand OkCommand { get; }
 
         /// <summary>
         /// Gets command to close current dialog.
@@ -118,7 +118,7 @@ namespace Cooking.WPF.ViewModels
 
         private void Close() => regionManager.NavigateMain(nameof(WeekView));
 
-        private async void Ok()
+        private async Task OkAsync()
         {
             var daysDictionary = Days!.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
             await dayService.CreateWeekAsync(WeekStart, daysDictionary);
@@ -139,7 +139,7 @@ namespace Cooking.WPF.ViewModels
                                                                             ? day.RecipeAlternatives?[0]
                                                                             : day.RecipeAlternatives?.SkipWhile(x => x.Name != day.Recipe.Name).Skip(1).First();
 
-        private async void SetRecipeManually(DayPlan day)
+        private async Task SetRecipeManuallyAsync(DayPlan day)
         {
             var viewModel = new RecipeSelectViewModel(dialogService,
                                                       recipeService,

@@ -55,8 +55,8 @@ namespace Cooking.WPF.ViewModels
             this.mapper = mapper;
             this.localization = localization;
             LoadedCommand = new AsyncDelegateCommand(OnLoaded, executeOnce: true);
-            AddIngredientCommand = new DelegateCommand(AddIngredient);
-            EditIngredientCommand = new DelegateCommand<IngredientEdit>(EditIngredient);
+            AddIngredientCommand = new AsyncDelegateCommand(AddIngredientAsync);
+            EditIngredientCommand = new AsyncDelegateCommand<IngredientEdit>(EditIngredientAsync);
             ViewIngredientCommand = new DelegateCommand<IngredientEdit>(ViewIngredient);
 
             eventAggregator.GetEvent<IngredientDeletedEvent>().Subscribe(OnIngredientDeleted);
@@ -75,7 +75,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets command to create new ingredient.
         /// </summary>
-        public DelegateCommand AddIngredientCommand { get; }
+        public AsyncDelegateCommand AddIngredientCommand { get; }
 
         /// <summary>
         /// Gets command to view ingredient.
@@ -85,7 +85,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets command to edit ingredient.
         /// </summary>
-        public DelegateCommand<IngredientEdit> EditIngredientCommand { get; }
+        public AsyncDelegateCommand<IngredientEdit> EditIngredientCommand { get; }
 
         private Task OnLoaded()
         {
@@ -103,18 +103,18 @@ namespace Cooking.WPF.ViewModels
                 parameters: (nameof(RecipeListViewModel.FilterText), $"{Consts.IngredientSymbol}\"{ingredient.Name}\""));
         }
 
-        private async void AddIngredient() => await dialogService.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"),
-                                                                                                                                  successCallback: OnNewIngredientCreated);
+        private async Task AddIngredientAsync() => await dialogService.ShowOkCancelDialogAsync<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"),
+                                                                                                                                            successCallback: async viewModel => await OnNewIngredientCreated(viewModel));
 
-        private async void EditIngredient(IngredientEdit ingredient)
+        private async Task EditIngredientAsync(IngredientEdit ingredient)
         {
             var viewModel = new IngredientEditViewModel(ingredientService, dialogService, localization, eventAggregator, mapper.Map<IngredientEdit>(ingredient));
-            await dialogService.ShowOkCancelDialog<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("EditIngredient"),
-                                                                                                viewModel,
-                                                                                                successCallback: OnIngredientEdited);
+            await dialogService.ShowOkCancelDialogAsync<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("EditIngredient"),
+                                                                                                     viewModel,
+                                                                                                     successCallback: async viewModel => await OnIngredientEditedAsync(viewModel));
         }
 
-        private async void OnIngredientEdited(IngredientEditViewModel viewModel)
+        private async Task OnIngredientEditedAsync(IngredientEditViewModel viewModel)
         {
             await ingredientService.UpdateAsync(viewModel.Ingredient);
             IngredientEdit? existing = Ingredients?.Single(x => x.ID == viewModel.Ingredient.ID);
@@ -124,7 +124,7 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async void OnNewIngredientCreated(IngredientEditViewModel viewModel)
+        private async Task OnNewIngredientCreated(IngredientEditViewModel viewModel)
         {
             await ingredientService.CreateAsync(viewModel.Ingredient);
             Ingredients!.Add(viewModel.Ingredient);

@@ -40,9 +40,9 @@ namespace Cooking.WPF.ViewModels
             this.mapper = mapper;
             this.localization = localization;
             LoadedCommand = new AsyncDelegateCommand(OnLoaded, executeOnce: true);
-            AddGarnishCommand = new DelegateCommand(AddGarnish);
-            DeleteGarnishCommand = new DelegateCommand<Guid>(DeleteGarnish);
-            EditGarnishCommand = new DelegateCommand<GarnishEdit>(EditGarnish);
+            AddGarnishCommand = new AsyncDelegateCommand(AddGarnishAsync);
+            DeleteGarnishCommand = new AsyncDelegateCommand<Guid>(DeleteGarnishAsync);
+            EditGarnishCommand = new AsyncDelegateCommand<GarnishEdit>(EditGarnishAsync);
         }
 
         /// <summary>
@@ -58,32 +58,32 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets command to add new garnish.
         /// </summary>
-        public DelegateCommand AddGarnishCommand { get; }
+        public AsyncDelegateCommand AddGarnishCommand { get; }
 
         /// <summary>
         /// Gets command to edit garnish.
         /// </summary>
-        public DelegateCommand<GarnishEdit> EditGarnishCommand { get; }
+        public AsyncDelegateCommand<GarnishEdit> EditGarnishCommand { get; }
 
         /// <summary>
         /// Gets command to remove garnish.
         /// </summary>
-        public DelegateCommand<Guid> DeleteGarnishCommand { get; }
+        public AsyncDelegateCommand<Guid> DeleteGarnishCommand { get; }
 
-        private async void DeleteGarnish(Guid garnishID) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString(
-                                                                                                    "SureDelete",
-                                                                                                    Garnishes?.Single(x => x.ID == garnishID).Name ?? string.Empty
-                                                                                               ),
-                                                                                               localization.GetLocalizedString("CannotUndo"),
-                                                                                               successCallback: () => OnDeleted(garnishID));
+        private async Task DeleteGarnishAsync(Guid garnishID) => await dialogService.ShowYesNoDialogAsync(localization.GetLocalizedString(
+                                                                                                               "SureDelete",
+                                                                                                               Garnishes?.Single(x => x.ID == garnishID).Name ?? string.Empty
+                                                                                                          ),
+                                                                                                          localization.GetLocalizedString("CannotUndo"),
+                                                                                                          successCallback: async () => await OnDeletedAsync(garnishID));
 
-        private async void AddGarnish() => await dialogService.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("NewGarnish"),
-                                                                                                                      successCallback: OnNewGarnishCreated);
+        private async Task AddGarnishAsync() => await dialogService.ShowOkCancelDialogAsync<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("NewGarnish"),
+                                                                                                                                   successCallback: async viewModel => await OnNewGarnishCreatedAsync(viewModel));
 
-        private async void EditGarnish(GarnishEdit garnish)
+        private async Task EditGarnishAsync(GarnishEdit garnish)
         {
             var viewModel = new GarnishEditViewModel(mapper.Map<GarnishEdit>(garnish), garnishService, dialogService, localization);
-            await dialogService.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("EditGarnish"), viewModel, successCallback: OnGarnishEdited);
+            await dialogService.ShowOkCancelDialogAsync<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("EditGarnish"), viewModel, successCallback: async viewModel => await OnGarnishEditedAsync(viewModel));
         }
 
         private Task OnLoaded()
@@ -95,13 +95,13 @@ namespace Cooking.WPF.ViewModels
             return Task.CompletedTask;
         }
 
-        private async void OnDeleted(Guid garnishID)
+        private async Task OnDeletedAsync(Guid garnishID)
         {
             await garnishService.DeleteAsync(garnishID).ConfigureAwait(true);
             Garnishes!.Remove(Garnishes.Single(x => x.ID == garnishID));
         }
 
-        private async void OnGarnishEdited(GarnishEditViewModel viewModel)
+        private async Task OnGarnishEditedAsync(GarnishEditViewModel viewModel)
         {
             await garnishService.UpdateAsync(viewModel.Garnish);
             GarnishEdit? existingGarnish = Garnishes?.Single(x => x.ID == viewModel.Garnish.ID);
@@ -111,7 +111,7 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async void OnNewGarnishCreated(GarnishEditViewModel viewModel)
+        private async Task OnNewGarnishCreatedAsync(GarnishEditViewModel viewModel)
         {
             await garnishService.CreateAsync(viewModel.Garnish);
             Garnishes!.Add(viewModel.Garnish);

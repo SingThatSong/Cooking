@@ -72,9 +72,9 @@ namespace Cooking.WPF.ViewModels
             };
 
             Days[0].PropertyChanged += OnHeaderValueChanged;
-            AddMainIngredientCommand = new DelegateCommand<DayPlan>(AddMainIngredient);
-            AddDishTypesCommand = new DelegateCommand<DayPlan>(AddDishTypes);
-            AddCalorieTypesCommand = new DelegateCommand<DayPlan>(AddCalorieTypes);
+            AddMainIngredientCommand = new AsyncDelegateCommand<DayPlan>(AddMainIngredientAsync);
+            AddDishTypesCommand = new AsyncDelegateCommand<DayPlan>(AddDishTypesAsync);
+            AddCalorieTypesCommand = new AsyncDelegateCommand<DayPlan>(AddCalorieTypesAsync);
             CloseCommand = new DelegateCommand(Close, CanClose);
             OkCommand = new DelegateCommand(Ok);
         }
@@ -92,17 +92,17 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets command to select required main ingredients.
         /// </summary>
-        public DelegateCommand<DayPlan> AddMainIngredientCommand { get; }
+        public AsyncDelegateCommand<DayPlan> AddMainIngredientCommand { get; }
 
         /// <summary>
         /// Gets command to select dish types.
         /// </summary>
-        public DelegateCommand<DayPlan> AddDishTypesCommand { get; }
+        public AsyncDelegateCommand<DayPlan> AddDishTypesCommand { get; }
 
         /// <summary>
         /// Gets command to add calorie types.
         /// </summary>
-        public DelegateCommand<DayPlan> AddCalorieTypesCommand { get; }
+        public AsyncDelegateCommand<DayPlan> AddCalorieTypesCommand { get; }
 
         /// <summary>
         /// Gets command to proceed with selected settings.
@@ -197,7 +197,7 @@ namespace Cooking.WPF.ViewModels
         private bool CanClose() => navigationContext?.NavigationService.Journal.CanGoBack ?? false;
         private void Close() => navigationContext!.NavigationService.Journal.GoBack();
 
-        private async void AddCalorieTypes(DayPlan day)
+        private async Task AddCalorieTypesAsync(DayPlan day)
         {
             var viewModel = new CalorieTypeSelectViewModel(dialogService, localization, day.CalorieTypes);
             await dialogService.ShowCustomMessageAsync<CalorieTypeSelectView, CalorieTypeSelectViewModel>(localization.GetLocalizedString("CalorieTyoes"), viewModel);
@@ -219,9 +219,9 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async void AddDishTypes(DayPlan day)
+        private async Task AddDishTypesAsync(DayPlan day)
         {
-            ObservableCollection<TagEdit>? tags = await GetTags(TagType.DishType, day.NeededDishTypes);
+            ObservableCollection<TagEdit>? tags = await GetTagsAsync(TagType.DishType, day.NeededDishTypes);
 
             if (tags != null)
             {
@@ -229,9 +229,9 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async void AddMainIngredient(DayPlan day)
+        private async Task AddMainIngredientAsync(DayPlan day)
         {
-            ObservableCollection<TagEdit>? tags = await GetTags(TagType.MainIngredient, day.NeededMainIngredients);
+            ObservableCollection<TagEdit>? tags = await GetTagsAsync(TagType.MainIngredient, day.NeededMainIngredients);
 
             if (tags != null)
             {
@@ -239,7 +239,7 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async Task<ObservableCollection<TagEdit>?> GetTags(TagType type, ObservableCollection<TagEdit> current)
+        private async Task<ObservableCollection<TagEdit>?> GetTagsAsync(TagType type, ObservableCollection<TagEdit> current)
         {
             List<TagEdit> allTags = tagService.GetTagsByTypeProjected<TagEdit>(type);
 

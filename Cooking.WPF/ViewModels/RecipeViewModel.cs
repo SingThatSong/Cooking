@@ -64,23 +64,23 @@ namespace Cooking.WPF.ViewModels
             this.regionManager = regionManager;
 
             CloseCommand = new DelegateCommand(Close);
-            ApplyChangesCommand = new AsyncDelegateCommand(ApplyChanges);
-            DeleteRecipeCommand = new AsyncDelegateCommand<Guid>(DeleteRecipe, canExecute: CanDeleteRecipe);
+            ApplyChangesCommand = new AsyncDelegateCommand(ApplyChangesAsync);
+            DeleteRecipeCommand = new AsyncDelegateCommand<Guid>(DeleteRecipeAsync, canExecute: CanDeleteRecipe);
 
-            ImageSearchCommand = new AsyncDelegateCommand(ImageSearch);
+            ImageSearchCommand = new AsyncDelegateCommand(ImageSearchAsync);
             RemoveImageCommand = new DelegateCommand(RemoveImage, canExecute: CanRemoveImage);
 
-            AddTagCommand = new DelegateCommand(AddTag);
+            AddTagCommand = new AsyncDelegateCommand(AddTagAsync);
             RemoveTagCommand = new DelegateCommand<TagEdit>(RemoveTag);
             ViewTagCommand = new DelegateCommand<TagEdit>(ViewTag);
 
-            AddIngredientGroupCommand = new DelegateCommand(AddIngredientGroup);
-            EditIngredientGroupCommand = new AsyncDelegateCommand<IngredientGroupEdit>(EditIngredientGroup);
-            AddIngredientToGroupCommand = new DelegateCommand<IngredientGroupEdit>(AddIngredientToGroup);
+            AddIngredientGroupCommand = new AsyncDelegateCommand(AddIngredientGroupAsync);
+            EditIngredientGroupCommand = new AsyncDelegateCommand<IngredientGroupEdit>(EditIngredientGroupAsync);
+            AddIngredientToGroupCommand = new AsyncDelegateCommand<IngredientGroupEdit>(AddIngredientToGroupAsync);
             RemoveIngredientGroupCommand = new DelegateCommand<IngredientGroupEdit>(RemoveIngredientGroup);
 
-            AddIngredientCommand = new DelegateCommand(AddIngredient);
-            EditIngredientCommand = new AsyncDelegateCommand<RecipeIngredientEdit>(EditIngredient);
+            AddIngredientCommand = new AsyncDelegateCommand(AddIngredientAsync);
+            EditIngredientCommand = new AsyncDelegateCommand<RecipeIngredientEdit>(EditIngredientAsync);
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
         }
 
@@ -118,17 +118,17 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets command to add ingredient.
         /// </summary>
-        public DelegateCommand AddIngredientCommand { get; }
+        public AsyncDelegateCommand AddIngredientCommand { get; }
 
         /// <summary>
         /// Gets command to add tag to a recipe.
         /// </summary>
-        public DelegateCommand AddTagCommand { get; }
+        public AsyncDelegateCommand AddTagCommand { get; }
 
         /// <summary>
         /// Gets command to add ingredients group to a recipe.
         /// </summary>
-        public DelegateCommand AddIngredientGroupCommand { get; }
+        public AsyncDelegateCommand AddIngredientGroupCommand { get; }
 
         /// <summary>
         /// Gets command to remove tag from a recipe.
@@ -143,7 +143,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets command to add ingredient to a group.
         /// </summary>
-        public DelegateCommand<IngredientGroupEdit> AddIngredientToGroupCommand { get; }
+        public AsyncDelegateCommand<IngredientGroupEdit> AddIngredientToGroupCommand { get; }
 
         /// <summary>
         /// Gets command to remove ingredient from a group.
@@ -251,7 +251,7 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async Task EditIngredient(RecipeIngredientEdit ingredient)
+        private async Task EditIngredientAsync(RecipeIngredientEdit ingredient)
         {
             RecipeIngredientEditViewModel viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.Ingredient = ingredient;
@@ -264,7 +264,7 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async void AddTag()
+        private async Task AddTagAsync()
         {
             TagSelectViewModel viewModel = container.Resolve<TagSelectViewModel>();
             viewModel.SetTags(Recipe!.Tags, null);
@@ -276,7 +276,7 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async void AddIngredientGroup()
+        private async Task AddIngredientGroupAsync()
         {
             var viewModel = new IngredientGroupEditViewModel(dialogService, new IngredientGroupEdit());
             await dialogService.ShowCustomMessageAsync<IngredientGroupEditView, IngredientGroupEditViewModel>(localization.GetLocalizedString("AddIngredientsGroup"), viewModel)
@@ -289,7 +289,7 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async Task EditIngredientGroup(IngredientGroupEdit group)
+        private async Task EditIngredientGroupAsync(IngredientGroupEdit group)
         {
             var viewModel = new IngredientGroupEditViewModel(dialogService, group);
             await dialogService.ShowCustomMessageAsync<IngredientGroupEditView, IngredientGroupEditViewModel>(localization.GetLocalizedString("EditIngredientsGroup"), viewModel)
@@ -313,7 +313,7 @@ namespace Cooking.WPF.ViewModels
 
         private bool CanRemoveImage() => Recipe?.ImagePath != null;
 
-        private async void AddIngredient()
+        private async Task AddIngredientAsync()
         {
             RecipeIngredientEditViewModel viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.IsCreation = true;
@@ -338,7 +338,7 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async void AddIngredientToGroup(IngredientGroupEdit group)
+        private async Task AddIngredientToGroupAsync(IngredientGroupEdit group)
         {
             RecipeIngredientEditViewModel viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.IsCreation = true;
@@ -363,9 +363,9 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async Task ImageSearch() => await Task.Run(() => Recipe!.ImagePath = imageService.UseImage());
+        private async Task ImageSearchAsync() => await Task.Run(() => Recipe!.ImagePath = imageService.UseImage());
 
-        private async Task ApplyChanges()
+        private async Task ApplyChangesAsync()
         {
             if (Recipe!.ID == Guid.Empty)
             {
@@ -383,11 +383,11 @@ namespace Cooking.WPF.ViewModels
             IsRecipeCreation = false;
         }
 
-        private async Task DeleteRecipe(Guid recipeID) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Recipe!.Name),
+        private async Task DeleteRecipeAsync(Guid recipeID) => await dialogService.ShowYesNoDialogAsync(localization.GetLocalizedString("SureDelete", Recipe!.Name),
                                                                                            localization.GetLocalizedString("CannotUndo"),
-                                                                                           successCallback: () => OnRecipeDeleted(recipeID));
+                                                                                           successCallback: async () => await OnRecipeDeletedAsync(recipeID));
 
-        private async void OnRecipeDeleted(Guid recipeID)
+        private async Task OnRecipeDeletedAsync(Guid recipeID)
         {
             await recipeService.DeleteAsync(recipeID);
             eventAggregator.GetEvent<RecipeDeletedEvent>().Publish(recipeID);

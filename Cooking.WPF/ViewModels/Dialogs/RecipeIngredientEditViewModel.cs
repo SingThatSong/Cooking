@@ -46,7 +46,7 @@ namespace Cooking.WPF.ViewModels
 
             AddMultipleCommand = new DelegateCommand(AddMultiple, canExecute: CanOk);
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
-            CreateIngredientCommand = new AsyncDelegateCommand(CreateIngredient);
+            CreateIngredientCommand = new AsyncDelegateCommand(CreateIngredientAsync);
 
             AllIngredients = ingredientService.GetAllProjected<IngredientEdit>();
             LoadedCommand = new DelegateCommand(OnLoaded);
@@ -141,7 +141,7 @@ namespace Cooking.WPF.ViewModels
             Ingredient = new RecipeIngredientEdit();
         }
 
-        private async Task CreateIngredient()
+        private async Task CreateIngredientAsync()
         {
             IngredientEditViewModel viewModel = await dialogService.ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"));
 

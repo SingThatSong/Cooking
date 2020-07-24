@@ -43,10 +43,10 @@ namespace Cooking.WPF.ViewModels
             this.mapper = mapper;
             this.localization = localization;
             LoadedCommand = new AsyncDelegateCommand(OnLoaded, executeOnce: true);
-            AddTagCommand = new DelegateCommand(AddTag);
-            DeleteTagCommand = new DelegateCommand<Guid>(DeleteTag);
+            AddTagCommand = new AsyncDelegateCommand(AddTagAsync);
+            DeleteTagCommand = new AsyncDelegateCommand<Guid>(DeleteTagAsync);
             ViewTagCommand = new DelegateCommand<TagEdit>(ViewTag);
-            EditTagCommand = new AsyncDelegateCommand<TagEdit>(EditTag);
+            EditTagCommand = new AsyncDelegateCommand<TagEdit>(EditTagAsync);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets command to create a tag.
         /// </summary>
-        public DelegateCommand AddTagCommand { get; }
+        public AsyncDelegateCommand AddTagCommand { get; }
 
         /// <summary>
         /// Gets command to move to recipies list filtered by selected tag.
@@ -72,7 +72,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets command to delete a tag.
         /// </summary>
-        public DelegateCommand<Guid> DeleteTagCommand { get; }
+        public AsyncDelegateCommand<Guid> DeleteTagCommand { get; }
 
         /// <summary>
         /// Gets command to execute on loaded event.
@@ -105,7 +105,7 @@ namespace Cooking.WPF.ViewModels
                  parameters: (nameof(RecipeListViewModel.FilterText), $"{Consts.TagSymbol}\"{tag.Name}\""));
         }
 
-        private async Task EditTag(TagEdit tag)
+        private async Task EditTagAsync(TagEdit tag)
         {
             var viewModel = new TagEditViewModel(dialogService, tagService, localization, mapper.Map<TagEdit>(tag));
             await dialogService.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("EditTag"), viewModel);
@@ -121,17 +121,17 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async void DeleteTag(Guid recipeID) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Tags!.Single(x => x.ID == recipeID).Name ?? string.Empty),
-                                                                                        localization.GetLocalizedString("CannotUndo"),
-                                                                                        successCallback: () => OnTagDeleted(recipeID));
+        private async Task DeleteTagAsync(Guid recipeID) => await dialogService.ShowYesNoDialogAsync(localization.GetLocalizedString("SureDelete", Tags!.Single(x => x.ID == recipeID).Name ?? string.Empty),
+                                                                                                     localization.GetLocalizedString("CannotUndo"),
+                                                                                                     successCallback: async () => await OnTagDeletedAsync(recipeID));
 
-        private async void OnTagDeleted(Guid recipeID)
+        private async Task OnTagDeletedAsync(Guid recipeID)
         {
             await tagService.DeleteAsync(recipeID).ConfigureAwait(true);
             Tags!.Remove(Tags.Single(x => x.ID == recipeID));
         }
 
-        private async void AddTag()
+        private async Task AddTagAsync()
         {
             TagEditViewModel viewModel = await dialogService.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag")).ConfigureAwait(true);
 

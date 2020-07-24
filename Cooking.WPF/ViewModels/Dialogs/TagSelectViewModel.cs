@@ -32,7 +32,7 @@ namespace Cooking.WPF.ViewModels
             this.tagService = tagService;
             this.localization = localization;
             MeasurementUnits = measureUnitService.GetAll();
-            AddTagCommand = new DelegateCommand(AddTag);
+            AddTagCommand = new DelegateCommand(AddTagAsync);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Add new tag.
         /// </summary>
-        public async void AddTag()
+        public async void AddTagAsync()
         {
             TagEditViewModel viewModel = await DialogService.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag"));
 

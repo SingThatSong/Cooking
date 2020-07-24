@@ -353,7 +353,7 @@
             <param name="dayID">Id of the day of the dinner.</param>
             <param name="wasCooked">Indicator of whether dinner was cooked.</param>
         </member>
-        <member name="M:Cooking.ServiceLayer.DayService.SetDinner(System.Guid,System.Guid)">
+        <member name="M:Cooking.ServiceLayer.DayService.SetDinnerAsync(System.Guid,System.Guid)">
             <summary>
             Set dinner for an existing day.
             </summary>
@@ -392,14 +392,14 @@
             <param name="localization">Localization provider.</param>
             <returns>Shopping list for a week as a collection of ingredient groups.</returns>
         </member>
-        <member name="M:Cooking.ServiceLayer.DayService.IsWeekFilled(System.DateTime)">
+        <member name="M:Cooking.ServiceLayer.DayService.IsWeekFilledAsync(System.DateTime)">
             <summary>
             Check if all week's existing days' dinners were marked as cooked.
             </summary>
             <param name="dayOfWeek">Day of week to determine week itself.</param>
             <returns>True if week is filled and false if not.</returns>
         </member>
-        <member name="M:Cooking.ServiceLayer.DayService.CreateDinner(System.DateTime,System.Guid,System.DayOfWeek)">
+        <member name="M:Cooking.ServiceLayer.DayService.CreateDinnerAsync(System.DateTime,System.Guid,System.DayOfWeek)">
             <summary>
             Set dinner for a new day.
             </summary>
@@ -422,7 +422,7 @@
             <param name="date">Any day on week.</param>
             <returns>DateTime of sunday.</returns>
         </member>
-        <member name="M:Cooking.ServiceLayer.DayService.MoveDayToNextWeek(System.Guid,System.DayOfWeek)">
+        <member name="M:Cooking.ServiceLayer.DayService.MoveDayToNextWeekAsync(System.Guid,System.DayOfWeek)">
             <summary>
             Move day to next week.
             </summary>

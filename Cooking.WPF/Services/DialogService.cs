@@ -117,7 +117,7 @@ namespace Cooking.WPF
         /// <param name="content">ViewModel. May be null - will be resolved using IoC container.</param>
         /// <param name="successCallback">Callback to be called when user pressed ok.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public virtual async Task ShowOkCancelDialog<TDialog, TDialogContent>(string? title = null, TDialogContent? content = null, Action<TDialogContent>? successCallback = null)
+        public virtual async Task ShowOkCancelDialogAsync<TDialog, TDialogContent>(string? title = null, TDialogContent? content = null, Action<TDialogContent>? successCallback = null)
             where TDialog : UserControl, new()
             where TDialogContent : OkCancelViewModel
         {
@@ -150,7 +150,7 @@ namespace Cooking.WPF
         /// <param name="message">Message for dialog.</param>
         /// <param name="successCallback">Callback called when user chose yes.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public virtual async Task ShowYesNoDialog(string? title = null, string? message = null, Action? successCallback = null)
+        public virtual async Task ShowYesNoDialogAsync(string? title = null, string? message = null, Action? successCallback = null)
         {
             MessageDialogResult result = await dialogCoordinator.ShowMessageAsync(
                                                 viewModel,
