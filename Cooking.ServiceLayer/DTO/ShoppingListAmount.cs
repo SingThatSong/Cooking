@@ -1,4 +1,6 @@
-﻿namespace ServiceLayer
+﻿using SmartFormat;
+
+namespace ServiceLayer
 {
     /// <summary>
     /// Amount of ingredient in shopping cart list. Read-only.
@@ -11,8 +13,13 @@
         public double Amount { get; set; }
 
         /// <summary>
-        /// Gets or sets name of ingredient measurement unit.
+        /// Gets or sets name of ingredient measurement unit plural forms.
         /// </summary>
-        public string? MeasurementUnit { get; set; }
+        public string? MeasurementUnitPluralization { get; set; }
+
+        /// <summary>
+        /// Gets name of ingredient measurement unit.
+        /// </summary>
+        public string? MeasurementUnit => MeasurementUnitPluralization != null ? Smart.Format($"{{0:{MeasurementUnitPluralization}}}", Amount) : null;
     }
 }

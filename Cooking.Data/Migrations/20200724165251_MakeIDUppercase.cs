@@ -8,7 +8,7 @@ namespace Cooking.Data.Migrations
         {
             // Inconsistency fix: removing recipetags values where recipe is deleted
             migrationBuilder.Sql("delete from RecipeIngredients where RecipeID not in (select ID from Recipies);", suppressTransaction: true);
-            
+
             // Disable foreign key checks
             migrationBuilder.Sql("PRAGMA foreign_keys = OFF;", suppressTransaction: true);
 

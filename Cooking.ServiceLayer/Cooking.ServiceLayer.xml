@@ -14,9 +14,14 @@
             Gets or sets amount of ingredient.
             </summary>
         </member>
+        <member name="P:ServiceLayer.ShoppingListAmount.MeasurementUnitPluralization">
+            <summary>
+            Gets or sets name of ingredient measurement unit plural forms.
+            </summary>
+        </member>
         <member name="P:ServiceLayer.ShoppingListAmount.MeasurementUnit">
             <summary>
-            Gets or sets name of ingredient measurement unit.
+            Gets name of ingredient measurement unit.
             </summary>
         </member>
         <member name="T:ServiceLayer.ShoppingListIngredient">

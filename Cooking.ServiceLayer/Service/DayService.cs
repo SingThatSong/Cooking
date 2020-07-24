@@ -197,7 +197,7 @@ namespace Cooking.ServiceLayer
 
                 foreach (var ingredient in ingredientGroup.GroupBy(x => x.Ingredient.Ingredient!.Name).OrderBy(x => x.Key))
                 {
-                    var measures = ingredient.GroupBy(x => x.Ingredient.MeasureUnit?.FullName);
+                    var measures = ingredient.GroupBy(x => x.Ingredient.MeasureUnit?.FullNamePluralization);
                     item.Ingredients.Add(new ShoppingListIngredient()
                     {
                         Name = ingredient.Key,
@@ -205,8 +205,9 @@ namespace Cooking.ServiceLayer
                         IngredientAmounts = measures.Where(x => x.Key != null)
                                                     .Select(x => new ShoppingListAmount()
                                                     {
-                                                        MeasurementUnit = x.Key!,
-                                                        Amount = x.Where(a => a.Ingredient.Amount.HasValue).Sum(a => a.Ingredient.Amount!.Value)
+                                                        MeasurementUnitPluralization = x.Key!,
+                                                        Amount = x.Where(a => a.Ingredient.Amount.HasValue)
+                                                                  .Sum(a => a.Ingredient.Amount!.Value)
                                                     }).ToList(),
 
                         RecipiesSources = ingredient.Where(x => x.Dinner.Name != null)

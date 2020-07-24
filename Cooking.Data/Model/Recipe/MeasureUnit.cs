@@ -16,5 +16,10 @@ namespace Cooking.Data.Model
         /// Gets or sets measurement unit full name.
         /// </summary>
         public string? FullName { get; set; }
+
+        /// <summary>
+        /// Gets or sets measurement unit full name pluralization in current language.
+        /// </summary>
+        public string FullNamePluralization { get; set; }
     }
 }

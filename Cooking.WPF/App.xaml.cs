@@ -21,6 +21,8 @@ using Prism.Unity;
 using Serilog;
 using Serilog.Core;
 using ServiceLayer;
+using SmartFormat;
+using SmartFormat.Extensions;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -48,7 +50,6 @@ using WPFLocalizeExtension.Providers;
 // TODO: Recipe filtering: make Gitlab-like system
 // TODO: Set up failure monitoring
 // TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration
-// TODO: Plurals localization - https://github.com/Humanizr/Humanizer : Not supported! See https://github.com/Humanizr/Humanizer/issues/689. Consider using https://github.com/axuno/SmartFormat/wiki/Pluralization
 // TODO: Exclude Fody libraries from *.deps.json
 // TODO: Add IQueryable as parameter to all selects in CRUDService ?
 // TODO: Add debug console logging to methods and constructors (AOP) ?
@@ -227,7 +228,7 @@ namespace Cooking
             var serviceCollection = new ServiceCollection();
             serviceCollection.Configure<AppSettings>(configuration);
             ServiceProvider provider = serviceCollection.BuildServiceProvider();
-            
+
             return provider.GetRequiredService<IOptions<AppSettings>>();
         }
 
@@ -253,7 +254,9 @@ namespace Cooking
         private void SetStaticVariables()
         {
             IOptions<AppSettings> configuration = Container.Resolve<IOptions<AppSettings>>();
-            LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(configuration.Value.Culture);
+            var currentCulture = CultureInfo.GetCultureInfo(configuration.Value.Culture);
+            LocalizeDictionary.Instance.Culture = currentCulture;
+            Smart.Default.GetFormatterExtension<PluralLocalizationFormatter>().DefaultTwoLetterISOLanguageName = currentCulture.TwoLetterISOLanguageName;
 
             ILocalization localization = Container.Resolve<ILocalization>();
             TagEdit.Any.Name = localization.GetLocalizedString("Any");
