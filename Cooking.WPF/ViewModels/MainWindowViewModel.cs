@@ -72,7 +72,7 @@ namespace Cooking.WPF.ViewModels
                                                                             {
                                                                                 Label = x.Name,
                                                                                 ToolTip = x.Name,
-                                                                                Icon = new PackIconModern() { Kind = (PackIconModernKind)Enum.Parse(typeof(PackIconModernKind), x.MenuIcon!) },
+                                                                                Icon = x.MenuIcon != null ? new PackIconModern() { Kind = (PackIconModernKind)Enum.Parse(typeof(PackIconModernKind), x.MenuIcon) } : null,
                                                                                 Tag = nameof(RecipeListView)
                                                                             });
 

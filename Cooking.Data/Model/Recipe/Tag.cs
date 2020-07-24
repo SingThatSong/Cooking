@@ -35,6 +35,6 @@ namespace Cooking.Data.Model
         /// <summary>
         /// Gets or sets recipies with this tag.
         /// </summary>
-        public virtual List<RecipeTag>? Recipies { get; set; }
+        public virtual List<Recipe>? Recipies { get; set; }
     }
 }

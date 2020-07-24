@@ -147,9 +147,9 @@ namespace Cooking.WPF.ViewModels
             };
         }
 
-        private async void DeleteIngredient(Guid ingredientId) => await DialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Ingredient.Name),
+        private async void DeleteIngredient(Guid ingredientID) => await DialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Ingredient.Name),
                                                                                                    localization.GetLocalizedString("CannotUndo"),
-                                                                                                   successCallback: () => OnIngredientDeleted(ingredientId));
+                                                                                                   successCallback: () => OnIngredientDeleted(ingredientID));
 
         private async void OnIngredientDeleted(Guid id)
         {

@@ -70,12 +70,12 @@ namespace Cooking.WPF.ViewModels
         /// </summary>
         public DelegateCommand<Guid> DeleteGarnishCommand { get; }
 
-        private async void DeleteGarnish(Guid garnishId) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString(
+        private async void DeleteGarnish(Guid garnishID) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString(
                                                                                                     "SureDelete",
-                                                                                                    Garnishes?.Single(x => x.ID == garnishId).Name ?? string.Empty
+                                                                                                    Garnishes?.Single(x => x.ID == garnishID).Name ?? string.Empty
                                                                                                ),
                                                                                                localization.GetLocalizedString("CannotUndo"),
-                                                                                               successCallback: () => OnRecipeDeleted(garnishId));
+                                                                                               successCallback: () => OnDeleted(garnishID));
 
         private async void AddGarnish() => await dialogService.ShowOkCancelDialog<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("NewGarnish"),
                                                                                                                       successCallback: OnNewGarnishCreated);
@@ -95,10 +95,10 @@ namespace Cooking.WPF.ViewModels
             return Task.CompletedTask;
         }
 
-        private async void OnRecipeDeleted(Guid recipeId)
+        private async void OnDeleted(Guid garnishID)
         {
-            await garnishService.DeleteAsync(recipeId).ConfigureAwait(true);
-            Garnishes!.Remove(Garnishes.Single(x => x.ID == recipeId));
+            await garnishService.DeleteAsync(garnishID).ConfigureAwait(true);
+            Garnishes!.Remove(Garnishes.Single(x => x.ID == garnishID));
         }
 
         private async void OnGarnishEdited(GarnishEditViewModel viewModel)

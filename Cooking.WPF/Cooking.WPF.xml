@@ -23,9 +23,6 @@
         <member name="M:Cooking.App.CreateShell">
             <inheritdoc/>
         </member>
-        <member name="M:Cooking.App.ConfigureViewModelLocator">
-            <inheritdoc/>
-        </member>
         <member name="M:Cooking.App.InitializeComponent">
             <summary>
             InitializeComponent

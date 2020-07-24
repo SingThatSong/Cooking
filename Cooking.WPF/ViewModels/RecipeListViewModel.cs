@@ -240,11 +240,11 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private void ViewRecipe(Guid recipeId)
+        private void ViewRecipe(Guid recipeID)
         {
             regionManager.NavigateMain(
                 view: nameof(RecipeView),
-                parameters: (nameof(RecipeViewModel.Recipe), recipeId));
+                parameters: (nameof(RecipeViewModel.Recipe), recipeID));
         }
 
         private void AddRecipe() => regionManager.NavigateMain(nameof(RecipeView));

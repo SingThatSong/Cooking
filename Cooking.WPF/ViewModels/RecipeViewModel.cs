@@ -203,10 +203,10 @@ namespace Cooking.WPF.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             journal = navigationContext.NavigationService.Journal;
-            var recipeId = navigationContext.Parameters[nameof(Recipe)] as Guid?;
-            if (recipeId.HasValue)
+            var recipeID = navigationContext.Parameters[nameof(Recipe)] as Guid?;
+            if (recipeID.HasValue)
             {
-                Recipe = recipeService.GetMapped<RecipeEdit>(recipeId.Value);
+                Recipe = recipeService.GetMapped<RecipeEdit>(recipeID.Value);
             }
             else
             {
@@ -383,14 +383,14 @@ namespace Cooking.WPF.ViewModels
             IsRecipeCreation = false;
         }
 
-        private async Task DeleteRecipe(Guid recipeId) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Recipe!.Name),
+        private async Task DeleteRecipe(Guid recipeID) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Recipe!.Name),
                                                                                            localization.GetLocalizedString("CannotUndo"),
-                                                                                           successCallback: () => OnRecipeDeleted(recipeId));
+                                                                                           successCallback: () => OnRecipeDeleted(recipeID));
 
-        private async void OnRecipeDeleted(Guid recipeId)
+        private async void OnRecipeDeleted(Guid recipeID)
         {
-            await recipeService.DeleteAsync(recipeId);
-            eventAggregator.GetEvent<RecipeDeletedEvent>().Publish(recipeId);
+            await recipeService.DeleteAsync(recipeID);
+            eventAggregator.GetEvent<RecipeDeletedEvent>().Publish(recipeID);
 
             // Journal methods must be called from UI thread
             Application.Current.Dispatcher.Invoke(() => journal?.GoBack());

@@ -121,14 +121,14 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async void DeleteTag(Guid recipeId) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Tags!.Single(x => x.ID == recipeId).Name ?? string.Empty),
+        private async void DeleteTag(Guid recipeID) => await dialogService.ShowYesNoDialog(localization.GetLocalizedString("SureDelete", Tags!.Single(x => x.ID == recipeID).Name ?? string.Empty),
                                                                                         localization.GetLocalizedString("CannotUndo"),
-                                                                                        successCallback: () => OnTagDeleted(recipeId));
+                                                                                        successCallback: () => OnTagDeleted(recipeID));
 
-        private async void OnTagDeleted(Guid recipeId)
+        private async void OnTagDeleted(Guid recipeID)
         {
-            await tagService.DeleteAsync(recipeId).ConfigureAwait(true);
-            Tags!.Remove(Tags.Single(x => x.ID == recipeId));
+            await tagService.DeleteAsync(recipeID).ConfigureAwait(true);
+            Tags!.Remove(Tags.Single(x => x.ID == recipeID));
         }
 
         private async void AddTag()

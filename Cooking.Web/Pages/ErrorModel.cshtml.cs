@@ -13,16 +13,16 @@ namespace Cooking.Web.Pages
         /// <summary>
         /// Gets or sets id of request in error.
         /// </summary>
-        public string? RequestId { get; set; }
+        public string? RequestID { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether to show request ID.
         /// </summary>
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public bool ShowRequestID => !string.IsNullOrEmpty(RequestID);
 
         /// <summary>
         /// What to do on get.
         /// </summary>
-        public void OnGet() => RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+        public void OnGet() => RequestID = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
     }
 }

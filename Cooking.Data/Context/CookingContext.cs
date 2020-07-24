@@ -12,11 +12,13 @@ namespace Cooking.Data.Context
     /// </summary>
     public class CookingContext : DbContext
     {
+#if DEBUG
         private static readonly LoggerFactory MyLoggerFactory =
                 new LoggerFactory(new[]
                 {
                     new DebugLoggerProvider()
                 });
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CookingContext"/> class.
@@ -111,15 +113,10 @@ namespace Cooking.Data.Context
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Recipe>()
-                .HasMany(x => x.Tags)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
-
             modelBuilder.Entity<RecipeIngredient>()
                 .HasOne(x => x.Ingredient)
                 .WithMany()
-                .HasForeignKey(x => x.IngredientId)
+                .HasForeignKey(x => x.IngredientID)
                 .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<RecipeIngredient>()
@@ -127,17 +124,9 @@ namespace Cooking.Data.Context
                         .WithMany()
                         .HasForeignKey(x => x.MeasureUnitID);
 
-            // Recipe-Tag many-to-many relationship
-            modelBuilder.Entity<RecipeTag>()
-                .HasKey(bc => new { bc.RecipeId, bc.TagId });
-            modelBuilder.Entity<RecipeTag>()
-                .HasOne(bc => bc.Recipe)
-                .WithMany(b => b.Tags)
-                .HasForeignKey(bc => bc.RecipeId);
-            modelBuilder.Entity<RecipeTag>()
-                .HasOne(bc => bc.Tag)
-                .WithMany(b => b.Recipies)
-                .HasForeignKey(bc => bc.TagId);
+            modelBuilder.Entity<Recipe>()
+                        .HasMany(bc => bc.Tags)
+                        .WithMany(b => b.Recipies);
         }
     }
 }

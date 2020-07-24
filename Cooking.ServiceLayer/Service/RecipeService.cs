@@ -34,11 +34,11 @@ namespace Cooking.ServiceLayer
         /// <summary>
         /// Get count of days since last recipe preparation.
         /// </summary>
-        /// <param name="recipeId">ID of the recipe for which count needed.</param>
+        /// <param name="recipeID">ID of the recipe for which count needed.</param>
         /// <returns>Count of days that passed from last time selected recipe was cooked. E.g. if it was cooked yesterday, returns 1.</returns>
-        public int DaysFromLasCook(Guid recipeId)
+        public int DaysFromLasCook(Guid recipeID)
         {
-            DateTime? date = dayService.GetLastCookedDate(recipeId);
+            DateTime? date = dayService.GetLastCookedDate(recipeID);
 
             return date != null ? (int)(DateTime.Now - date.Value).TotalDays : int.MaxValue;
         }
@@ -92,7 +92,6 @@ namespace Cooking.ServiceLayer
             IQueryable<Recipe> query = GetCultureSpecificSet(context)
                                .AsNoTracking()
                                .Include(x => x.Tags)
-                                   .ThenInclude(x => x.Tag)
                                .AsQueryable();
 
             if (requiredTags != null && requiredTags.Count > 0)
@@ -101,7 +100,6 @@ namespace Cooking.ServiceLayer
 
                 foreach (Guid tag in requiredTags)
                 {
-                    predicate = predicate.Or(x => x.Tags.Any(t => t.Tag!.ID == tag));
                 }
 
                 query = query.Where(predicate);
@@ -144,7 +142,6 @@ namespace Cooking.ServiceLayer
         protected override IQueryable<Recipe> GetFullGraph(IQueryable<Recipe> baseQuery)
         {
             return baseQuery.Include(x => x.Tags)
-                              .ThenInclude(x => x.Tag)
                             .Include(x => x.Ingredients)
                               .ThenInclude(x => x.Ingredient)
                             .Include(x => x.Ingredients)

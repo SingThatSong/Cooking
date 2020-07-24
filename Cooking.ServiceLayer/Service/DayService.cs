@@ -31,35 +31,35 @@ namespace Cooking.ServiceLayer
         /// <summary>
         /// Get a date when recipe was last cooked.
         /// </summary>
-        /// <param name="recipeId">Id of recipe to search last cooked date.</param>
+        /// <param name="recipeID">Id of recipe to search last cooked date.</param>
         /// <returns>Date when recipe was last (most recently) cooked or null of recipe was never cooked.</returns>
-        public DateTime? GetLastCookedDate(Guid recipeId)
+        public DateTime? GetLastCookedDate(Guid recipeID)
         {
-            if (lastCookedDateCache.ContainsKey(recipeId))
+            if (lastCookedDateCache.ContainsKey(recipeID))
             {
-                return lastCookedDateCache[recipeId];
+                return lastCookedDateCache[recipeID];
             }
 
             using CookingContext context = ContextFactory.Create();
 
-            DateTime? date = GetCultureSpecificSet(context).Where(x => x.DinnerID == recipeId && x.DinnerWasCooked && x.Date != null)
+            DateTime? date = GetCultureSpecificSet(context).Where(x => x.DinnerID == recipeID && x.DinnerWasCooked && x.Date != null)
                                                            .OrderByDescending(x => x.Date)
                                                            .AsNoTracking()
                                                            .FirstOrDefault()?
                                                            .Date;
 
-            return lastCookedDateCache[recipeId] = date;
+            return lastCookedDateCache[recipeID] = date;
         }
 
         /// <summary>
         /// Toggle dinner was cooked on a given day.
         /// </summary>
-        /// <param name="dayId">Id of the day of the dinner.</param>
+        /// <param name="dayID">Id of the day of the dinner.</param>
         /// <param name="wasCooked">Indicator of whether dinner was cooked.</param>
-        public void SetDinnerWasCooked(Guid dayId, bool wasCooked)
+        public void SetDinnerWasCooked(Guid dayID, bool wasCooked)
         {
             using CookingContext context = ContextFactory.Create();
-            Day dayDb = context.Days.Find(dayId);
+            Day dayDb = context.Days.Find(dayID);
             dayDb.DinnerWasCooked = wasCooked;
             context.SaveChanges();
         }
@@ -67,14 +67,14 @@ namespace Cooking.ServiceLayer
         /// <summary>
         /// Set dinner for an existing day.
         /// </summary>
-        /// <param name="dayId">ID of an existing day to which dinner should be set.</param>
-        /// <param name="dinnerId">ID of a dinner to be set.</param>
+        /// <param name="dayID">ID of an existing day to which dinner should be set.</param>
+        /// <param name="dinnerID">ID of a dinner to be set.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public async Task SetDinner(Guid dayId, Guid dinnerId)
+        public async Task SetDinner(Guid dayID, Guid dinnerID)
         {
             using CookingContext context = ContextFactory.Create();
-            Day dayDb = await context.Days.FindAsync(dayId);
-            dayDb.DinnerID = dinnerId;
+            Day dayDb = await context.Days.FindAsync(dayID);
+            dayDb.DinnerID = dinnerID;
             context.SaveChanges();
         }
 
@@ -243,16 +243,16 @@ namespace Cooking.ServiceLayer
         /// Set dinner for a new day.
         /// </summary>
         /// <param name="dayOnWeek">Day of week to identify a week.</param>
-        /// <param name="dinnerId">Dinner to set to the new day.</param>
+        /// <param name="dinnerID">Dinner to set to the new day.</param>
         /// <param name="dayOfWeek">New day's weekday.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public async Task CreateDinner(DateTime dayOnWeek, Guid dinnerId, DayOfWeek dayOfWeek)
+        public async Task CreateDinner(DateTime dayOnWeek, Guid dinnerID, DayOfWeek dayOfWeek)
         {
             using CookingContext context = ContextFactory.Create();
 
             var newDay = new Day()
             {
-                DinnerID = dinnerId,
+                DinnerID = dinnerID,
                 Date = FirstDayOfWeek(dayOnWeek).AddDays(DaysFromMonday(dayOfWeek)),
                 DayOfWeek = dayOfWeek,
                 Culture = GetCurrentCulture()
@@ -283,13 +283,13 @@ namespace Cooking.ServiceLayer
         /// <summary>
         /// Move day to next week.
         /// </summary>
-        /// <param name="dayId">Day to move.</param>
+        /// <param name="dayID">Day to move.</param>
         /// <param name="selectedWeekday">Weekday to move day to.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public async Task MoveDayToNextWeek(Guid dayId, DayOfWeek selectedWeekday)
+        public async Task MoveDayToNextWeek(Guid dayID, DayOfWeek selectedWeekday)
         {
             using CookingContext context = ContextFactory.Create();
-            Day day = context.Days.First(x => x.ID == dayId);
+            Day day = context.Days.First(x => x.ID == dayID);
 
             // Change date
             DateTime dayOnNextWeek = LastDayOfWeek(day.Date).AddDays(1);
@@ -343,8 +343,7 @@ namespace Cooking.ServiceLayer
                         .ThenInclude(x => x.Ingredients)
                           .ThenInclude(x => x.MeasureUnit)
                       .Include(x => x.Dinner)
-                        .ThenInclude(x => x.Tags)
-                          .ThenInclude(x => x.Tag);
+                        .ThenInclude(x => x.Tags);
         }
     }
 }

@@ -10,6 +10,7 @@ using Cooking.WPF.Views;
 using Fody;
 using MahApps.Metro.Controls.Dialogs;
 using MaterialDesignThemes.Wpf;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -35,7 +36,6 @@ using WPFLocalizeExtension.Providers;
 
 // TODO: Esure *Async name for all async methods
 // TODO: Highlight items like in recipe list everywhere
-// TODO: Rename Id to uppercase
 // TODO: Recipe filtering reserved words localization (and, or, not)
 // TODO: Count calories for recipe
 // TODO: Set calorietype accordingly to counted calories
@@ -48,9 +48,10 @@ using WPFLocalizeExtension.Providers;
 // TODO: Recipe filtering: make Gitlab-like system
 // TODO: Set up failure monitoring
 // TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration
+// TODO: Plurals localization - https://github.com/Humanizr/Humanizer : Not supported! See https://github.com/Humanizr/Humanizer/issues/689. Consider using https://github.com/axuno/SmartFormat/wiki/Pluralization
+// TODO: Exclude Fody libraries from *.deps.json
 // TODO: Add IQueryable as parameter to all selects in CRUDService ?
 // TODO: Add debug console logging to methods and constructors (AOP) ?
-// TODO: Plurals localization - https://github.com/Humanizr/Humanizer : Not supported! See https://github.com/Humanizr/Humanizer/issues/689. Consider using https://github.com/axuno/SmartFormat/wiki/Pluralization
 
 // Git-related
 // TODO: Setup CI
@@ -213,20 +214,6 @@ namespace Cooking
             return mainWindow;
         }
 
-        /// <inheritdoc/>
-        protected override void ConfigureViewModelLocator()
-        {
-            base.ConfigureViewModelLocator();
-
-            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
-            {
-                string? viewName = viewType.FullName;
-                string? viewAssemblyName = viewType.GetTypeInfo().Assembly.FullName;
-                string viewModelName = $"{viewName?.Replace("Views", "ViewModels", StringComparison.Ordinal)}Model, {viewAssemblyName}";
-                return Type.GetType(viewModelName);
-            });
-        }
-
         private static IOptions<AppSettings> CreateOptions()
         {
             string? exeFile = Process.GetCurrentProcess().MainModule?.FileName;
@@ -240,6 +227,7 @@ namespace Cooking
             var serviceCollection = new ServiceCollection();
             serviceCollection.Configure<AppSettings>(configuration);
             ServiceProvider provider = serviceCollection.BuildServiceProvider();
+            
             return provider.GetRequiredService<IOptions<AppSettings>>();
         }
 

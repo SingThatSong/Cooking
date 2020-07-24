@@ -338,22 +338,22 @@
             <summary>
             Get a date when recipe was last cooked.
             </summary>
-            <param name="recipeId">Id of recipe to search last cooked date.</param>
+            <param name="recipeID">Id of recipe to search last cooked date.</param>
             <returns>Date when recipe was last (most recently) cooked or null of recipe was never cooked.</returns>
         </member>
         <member name="M:Cooking.ServiceLayer.DayService.SetDinnerWasCooked(System.Guid,System.Boolean)">
             <summary>
             Toggle dinner was cooked on a given day.
             </summary>
-            <param name="dayId">Id of the day of the dinner.</param>
+            <param name="dayID">Id of the day of the dinner.</param>
             <param name="wasCooked">Indicator of whether dinner was cooked.</param>
         </member>
         <member name="M:Cooking.ServiceLayer.DayService.SetDinner(System.Guid,System.Guid)">
             <summary>
             Set dinner for an existing day.
             </summary>
-            <param name="dayId">ID of an existing day to which dinner should be set.</param>
-            <param name="dinnerId">ID of a dinner to be set.</param>
+            <param name="dayID">ID of an existing day to which dinner should be set.</param>
+            <param name="dinnerID">ID of a dinner to be set.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
         </member>
         <member name="M:Cooking.ServiceLayer.DayService.GetWeekAsync(System.DateTime)">
@@ -399,7 +399,7 @@
             Set dinner for a new day.
             </summary>
             <param name="dayOnWeek">Day of week to identify a week.</param>
-            <param name="dinnerId">Dinner to set to the new day.</param>
+            <param name="dinnerID">Dinner to set to the new day.</param>
             <param name="dayOfWeek">New day's weekday.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
         </member>
@@ -421,7 +421,7 @@
             <summary>
             Move day to next week.
             </summary>
-            <param name="dayId">Day to move.</param>
+            <param name="dayID">Day to move.</param>
             <param name="selectedWeekday">Weekday to move day to.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
         </member>
@@ -454,7 +454,7 @@
             <summary>
             Get count of days since last recipe preparation.
             </summary>
-            <param name="recipeId">ID of the recipe for which count needed.</param>
+            <param name="recipeID">ID of the recipe for which count needed.</param>
             <returns>Count of days that passed from last time selected recipe was cooked. E.g. if it was cooked yesterday, returns 1.</returns>
         </member>
         <member name="M:Cooking.ServiceLayer.RecipeService.GetMapped``1(System.Guid)">

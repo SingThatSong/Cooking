@@ -207,13 +207,13 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private void ShowRecipe(Guid recipeId)
+        private void ShowRecipe(Guid recipeID)
         {
             Debug.WriteLine("MainPageViewModel.ShowRecipe");
 
             regionManager.NavigateMain(
                   view: nameof(RecipeView),
-                  parameters: (nameof(RecipeViewModel.Recipe), recipeId));
+                  parameters: (nameof(RecipeViewModel.Recipe), recipeID));
         }
 
         private async void SelectDinner(DayOfWeek dayOfWeek)
@@ -259,14 +259,14 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
-        private async void MoveRecipe(Guid dayId)
+        private async void MoveRecipe(Guid dayID)
         {
             Debug.WriteLine("MainPageViewModel.MoveRecipe");
             MoveRecipeViewModel viewModel = await dialogService.ShowCustomMessageAsync<MoveRecipeView, MoveRecipeViewModel>();
 
             if (viewModel.DialogResultOk)
             {
-                await dayService.MoveDayToNextWeek(dayId, viewModel.SelectedDay!.Value);
+                await dayService.MoveDayToNextWeek(dayID, viewModel.SelectedDay!.Value);
                 await ReloadCurrentWeek();
             }
         }
@@ -311,16 +311,16 @@ namespace Cooking.WPF.ViewModels
                   parameters: (nameof(ShoppingCartViewModel.List), allProducts));
         }
 
-        private async void DeleteDayAsync(Guid? dayId)
+        private async void DeleteDayAsync(Guid? dayID)
         {
-            if (dayId != null)
+            if (dayID != null)
             {
                 Debug.WriteLine("MainPageViewModel.DeleteDayAsync");
-                DayOfWeek dayOfWeek = CurrentWeek!.Single(x => x.ID == dayId).DayOfWeek;
+                DayOfWeek dayOfWeek = CurrentWeek!.Single(x => x.ID == dayID).DayOfWeek;
                 await dialogService.ShowYesNoDialog(
                       localization.GetLocalizedString("SureDelete", localization.GetLocalizedString(dayOfWeek) ?? string.Empty),
                       localization.GetLocalizedString("CannotUndo"),
-                      successCallback: () => OnDayDeleted(dayId.Value));
+                      successCallback: () => OnDayDeleted(dayID.Value));
             }
         }
 
@@ -344,9 +344,9 @@ namespace Cooking.WPF.ViewModels
                   parameters: (nameof(WeekSettingsViewModel.WeekStart), WeekStart));
         }
 
-        private async void OnDayDeleted(Guid dayId)
+        private async void OnDayDeleted(Guid dayID)
         {
-            await dayService.DeleteAsync(dayId);
+            await dayService.DeleteAsync(dayID);
             await ReloadCurrentWeek();
         }
 

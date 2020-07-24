@@ -128,11 +128,11 @@ namespace Cooking.WPF.ViewModels
                 parameters: (Consts.ReloadWeekParameter, true));
         }
 
-        private void ShowRecipe(Guid recipeId)
+        private void ShowRecipe(Guid recipeID)
         {
             regionManager.NavigateMain(
                 view: nameof(RecipeView),
-                parameters: (nameof(RecipeViewModel.Recipe), recipeId));
+                parameters: (nameof(RecipeViewModel.Recipe), recipeID));
         }
 
         private void GetAlternativeRecipe(DayPlan day) => day.Recipe = day.Recipe!.Name == day.RecipeAlternatives?.Last().Name

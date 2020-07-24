@@ -61,21 +61,10 @@ namespace Cooking
 
                     // Project Recipe from db to displayed in recipe view
                     cfg.CreateMap<Recipe, RecipeEdit>()
-                       .ForMember(x => x.Tags, opt => opt.MapFrom(x => x.Tags.Select(t => t.Tag)))
                        .AfterMap<RecipeConverter>();
 
                     // Update db entry
-                    cfg.CreateMap<RecipeEdit, Recipe>()
-                       .AfterMap((_, dest) =>
-                       {
-                           if (dest.Tags != null)
-                           {
-                               foreach (RecipeTag tag in dest.Tags)
-                               {
-                                   tag.RecipeId = dest.ID;
-                               }
-                           }
-                       });
+                    cfg.CreateMap<RecipeEdit, Recipe>();
 
                     // Update ingredients group in recipe
                     cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>()
@@ -91,10 +80,6 @@ namespace Cooking
                        .ReverseMap();
                     cfg.CreateMap<Ingredient, IngredientEdit>()
                        .ReverseMap();
-
-                    // Recipe tag mapping
-                    cfg.CreateMap<TagEdit, RecipeTag>()
-                        .ForMember(x => x.TagId, opt => opt.MapFrom(x => x.ID));
                 });
     }
 }

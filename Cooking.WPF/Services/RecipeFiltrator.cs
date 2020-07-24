@@ -26,14 +26,13 @@ namespace Cooking.WPF.Services
         private static Expression<Func<Recipe, string, bool>> CombinedFilter()
         {
             return (x, str) => x.Name.ToLower().Contains(str.ToLower())
-                            || (x.Tags != null && x.Tags.Any(x => x.Tag.Name.ToLower().Contains(str.ToLower())))
                             || (x.Ingredients != null && x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower())))
                             || (x.IngredientGroups != null && x.IngredientGroups.Any(x => x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower()))));
         }
 
         private static Expression<Func<Recipe, string, bool>> HasTag()
         {
-            return (x, str) => x.Tags != null && x.Tags.Any(x => x.Tag.Name.ToLower().Contains(str.ToLower()));
+            return (x, str) => x.Tags != null && x.Tags.Any(x => x.Name.ToLower().Contains(str.ToLower()));
         }
 
         private static Expression<Func<Recipe, string, bool>> HasIngredient()
