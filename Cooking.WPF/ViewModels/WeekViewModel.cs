@@ -320,7 +320,7 @@ namespace Cooking.WPF.ViewModels
                 await dialogService.ShowYesNoDialogAsync(
                       localization.GetLocalizedString("SureDelete", localization.GetLocalizedString(dayOfWeek) ?? string.Empty),
                       localization.GetLocalizedString("CannotUndo"),
-                      successCallback: () => OnDayDeletedAsync(dayID.Value));
+                      successCallback: async () => await OnDayDeletedAsync(dayID.Value));
             }
         }
 
@@ -350,7 +350,7 @@ namespace Cooking.WPF.ViewModels
         private async Task OnCurrentWeekDeletedAsync()
         {
             // call buisness function
-            await dayService.DeleteWeekAsync(WeekStart, WeekEnd);
+            await dayService.DeleteWeekAsync(WeekStart);
 
             // update state
             CurrentWeek = null;

@@ -113,6 +113,14 @@ namespace Cooking.Data.Context
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Recipe>()
+                        .HasMany(r => r.Tags)
+                        .WithMany(t => t.Recipies);
+
+            modelBuilder.Entity<Recipe>()
+                        .HasMany(r => r.Garnishes)
+                        .WithMany(g => g.Recipies);
+
             modelBuilder.Entity<RecipeIngredient>()
                 .HasOne(x => x.Ingredient)
                 .WithMany()
@@ -123,10 +131,6 @@ namespace Cooking.Data.Context
                         .HasOne(x => x.MeasureUnit)
                         .WithMany()
                         .HasForeignKey(x => x.MeasureUnitID);
-
-            modelBuilder.Entity<Recipe>()
-                        .HasMany(bc => bc.Tags)
-                        .WithMany(b => b.Recipies);
         }
     }
 }

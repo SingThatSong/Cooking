@@ -210,6 +210,40 @@
             <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
             <returns>If this command can be executed.</returns>
         </member>
+        <member name="T:Cooking.WPF.Controls.ListBoxMultiselectionBehaviour">
+            <summary>
+            Behaviour for binding SelectedItems.
+            N.B. ListBox must have SelectionMode="Multiple".
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Controls.ListBoxMultiselectionBehaviour.SelectedItems">
+            <summary>
+            Gets or sets getter/Setter for DependencyProperty, bound to the DataContext's SelectedItems ObservableCollection.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Controls.ListBoxMultiselectionBehaviour.CollectionChangedSuspended">
+            <summary>
+            Gets or sets a value indicating whether collection is mutating.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Controls.ListBoxMultiselectionBehaviour.OnAttached">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Controls.ListBoxMultiselectionBehaviour.OnSelectedItemsPropertyChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            PropertyChanged handler for DependencyProperty "SelectedItems".
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Controls.ListBoxMultiselectionBehaviour.ContextSelectedItems_CollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)">
+            <summary>
+            Fires when ViewModel's SelectedItems collection is changed.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Controls.ListBoxMultiselectionBehaviour.AssociatedObject_SelectionChanged(System.Object,System.Windows.Controls.SelectionChangedEventArgs)">
+            <summary>
+            Fires when ListBox's SelectedItems collection is changed.
+            </summary>
+        </member>
         <member name="T:Cooking.WPF.Controls.Ratings">
             <summary>
             Ratings control.
@@ -626,6 +660,11 @@
         <member name="P:Cooking.WPF.DTO.RecipeEdit.Tags">
             <summary>
             Gets or sets ingredient tags in recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.DTO.RecipeEdit.Garnishes">
+            <summary>
+            Gets or sets garnishes for recipe.
             </summary>
         </member>
         <member name="P:Cooking.WPF.DTO.RecipeEdit.LastCooked">
@@ -1208,7 +1247,7 @@
              View model for editing garnishes.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModel.#ctor(Cooking.WPF.DTO.GarnishEdit,ServiceLayer.GarnishService,Cooking.WPF.DialogService,Cooking.ServiceLayer.ILocalization)">
+        <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModel.#ctor(Cooking.WPF.DTO.GarnishEdit,Cooking.ServiceLayer.GarnishService,Cooking.WPF.DialogService,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.GarnishEditViewModel"/> class.
             </summary>
@@ -1247,6 +1286,40 @@
         </member>
         <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModel.CanOk">
             <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.ViewModels.GarnishSelectViewModel">
+            <summary>
+            View model for tag selection.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.ViewModels.GarnishSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.GarnishService,Cooking.ServiceLayer.ILocalization,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.GarnishEdit})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.GarnishSelectViewModel"/> class.
+            </summary>
+            <param name="dialogService">Dialog service dependency.</param>
+            <param name="garnishService">Tag service dependency.</param>
+            <param name="localization">Localization provider dependency.</param>
+            <param name="selectedGarnishes">Loc25 provider dependency.</param>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.GarnishSelectViewModel.AddGarnishCommand">
+            <summary>
+            Gets command for adding a tag.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.GarnishSelectViewModel.AllGarnishes">
+            <summary>
+            Gets all tags to choose from.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.GarnishSelectViewModel.SelectedItems">
+            <summary>
+            Gets or sets all selected tags.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.ViewModels.GarnishSelectViewModel.AddGarnishAsync">
+            <summary>
+            Add new tag.
+            </summary>
         </member>
         <member name="T:Cooking.WPF.ViewModels.IconSelectViewModel">
             <summary>
@@ -1406,7 +1479,7 @@
         </member>
         <member name="P:Cooking.WPF.ViewModels.OkCancelViewModel.DialogResultOk">
             <summary>
-            Gets a value indicating whether result of dialog execution - ok or not.
+            Gets a value indicating whether result of dialog execution is ok.
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.OkCancelViewModel.OkCommand">
@@ -1669,19 +1742,15 @@
             View model for tag selection.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.ServiceLayer.ILocalization,ServiceLayer.MeasureUnitService)">
+        <member name="M:Cooking.WPF.ViewModels.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.ServiceLayer.ILocalization,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.TagEdit},System.Collections.Generic.IList{Cooking.WPF.DTO.TagEdit})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.TagSelectViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="tagService">Tag service dependency.</param>
             <param name="localization">Localization provider dependency.</param>
-            <param name="measureUnitService">MeasureUnitService provider dependency.</param>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.TagSelectViewModel.MeasurementUnits">
-            <summary>
-            Gets all measurement units to select from.
-            </summary>
+            <param name="allTags">All tags to select from.</param>
+            <param name="selectedTags">Alredy existing tags for editing.</param>
         </member>
         <member name="P:Cooking.WPF.ViewModels.TagSelectViewModel.AddTagCommand">
             <summary>
@@ -1691,6 +1760,11 @@
         <member name="P:Cooking.WPF.ViewModels.TagSelectViewModel.AllTags">
             <summary>
             Gets all tags to choose from.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.TagSelectViewModel.SelectedItems">
+            <summary>
+            Gets or sets all selected tags.
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.TagSelectViewModel.MainIngredients">
@@ -1713,13 +1787,6 @@
             Gets sources tags.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.TagSelectViewModel.SetTags(System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.TagEdit},System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.TagEdit})">
-            <summary>
-            Pass data parameters so we can use IoC in constructor.
-            </summary>
-            <param name="currentTags">Alredy existing tags for editing.</param>
-            <param name="allTags">All tags to select from.</param>
-        </member>
         <member name="M:Cooking.WPF.ViewModels.TagSelectViewModel.AddTagAsync">
             <summary>
             Add new tag.
@@ -1730,7 +1797,7 @@
             View model for a list of all garnishes.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.GarnishListViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.GarnishService,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
+        <member name="M:Cooking.WPF.ViewModels.GarnishListViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.GarnishService,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.GarnishListViewModel"/> class.
             </summary>
@@ -1928,7 +1995,7 @@
             Drag-and-drop logic for <see cref="T:Cooking.WPF.ViewModels.RecipeViewModel"/>.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.RecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ImageService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,AutoMapper.IMapper,Prism.Events.IEventAggregator,Cooking.ServiceLayer.ILocalization,Prism.Regions.IRegionManager)">
+        <member name="M:Cooking.WPF.ViewModels.RecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ImageService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,Cooking.ServiceLayer.GarnishService,AutoMapper.IMapper,Prism.Events.IEventAggregator,Cooking.ServiceLayer.ILocalization,Prism.Regions.IRegionManager)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.RecipeViewModel"/> class.
             </summary>
@@ -1936,6 +2003,7 @@
             <param name="imageService">Service for working with images.</param>
             <param name="container">IoC container.</param>
             <param name="recipeService">Recipe service dependency.</param>
+            <param name="garnishService">Garnish service dependency.</param>
             <param name="mapper">Mapper dependency.</param>
             <param name="eventAggregator">Dependency on Prism event aggregator.</param>
             <param name="localization">Localization provider dependency.</param>
@@ -1978,6 +2046,11 @@
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.RecipeViewModel.AddTagCommand">
+            <summary>
+            Gets command to add tag to a recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.RecipeViewModel.AddGarnishCommand">
             <summary>
             Gets command to add tag to a recipe.
             </summary>
@@ -2539,6 +2612,24 @@
             </summary>
         </member>
         <member name="M:Cooking.WPF.Views.GarnishEditView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.Views.GarnishSelectView">
+            <summary>
+            Logic for <see cref="T:Cooking.WPF.Views.GarnishSelectView"/>.
+            </summary>
+            <summary>
+            GarnishSelectView
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.GarnishSelectView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GarnishSelectView"/> class.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Views.GarnishSelectView.InitializeComponent">
             <summary>
             InitializeComponent
             </summary>

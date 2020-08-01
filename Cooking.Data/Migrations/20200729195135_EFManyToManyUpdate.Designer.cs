@@ -3,18 +3,20 @@ using System;
 using Cooking.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cooking.Data.Migrations
 {
     [DbContext(typeof(CookingContext))]
-    partial class CookingContextModelSnapshot : ModelSnapshot
+    [Migration("20200729195135_EFManyToManyUpdate")]
+    partial class EFManyToManyUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.0-rc.1.20381.1");
+                .HasAnnotation("ProductVersion", "5.0.0-rc.1.20378.4");
 
             modelBuilder.Entity("Cooking.Data.Model.Ingredient", b =>
                 {
@@ -234,21 +236,6 @@ namespace Cooking.Data.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("GarnishRecipe", b =>
-                {
-                    b.Property<Guid>("GarnishID")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("RecipeID")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("GarnishID", "RecipeID");
-
-                    b.HasIndex("RecipeID");
-
-                    b.ToTable("GarnishRecipe");
-                });
-
             modelBuilder.Entity("RecipeTag", b =>
                 {
                     b.Property<Guid>("RecipeID")
@@ -301,21 +288,6 @@ namespace Cooking.Data.Migrations
                         .WithMany("Ingredients")
                         .HasForeignKey("RecipeID")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("GarnishRecipe", b =>
-                {
-                    b.HasOne("Cooking.Data.Model.Plan.Garnish", null)
-                        .WithMany()
-                        .HasForeignKey("GarnishID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Cooking.Data.Model.Recipe", null)
-                        .WithMany()
-                        .HasForeignKey("RecipeID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("RecipeTag", b =>

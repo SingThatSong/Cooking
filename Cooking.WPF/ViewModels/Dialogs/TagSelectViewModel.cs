@@ -25,20 +25,19 @@ namespace Cooking.WPF.ViewModels
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="tagService">Tag service dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
-        /// <param name="measureUnitService">MeasureUnitService provider dependency.</param>
-        public TagSelectViewModel(DialogService dialogService, TagService tagService, ILocalization localization, MeasureUnitService measureUnitService)
+        /// <param name="allTags">All tags to select from.</param>
+        /// <param name="selectedTags">Alredy existing tags for editing.</param>
+        public TagSelectViewModel(DialogService dialogService, TagService tagService, ILocalization localization, IEnumerable<TagEdit> selectedTags, IList<TagEdit>? allTags = null)
             : base(dialogService)
         {
             this.tagService = tagService;
             this.localization = localization;
-            MeasurementUnits = measureUnitService.GetAll();
             AddTagCommand = new DelegateCommand(AddTagAsync);
-        }
+            AllTags = new ObservableCollection<TagEdit>(allTags ?? tagService.GetAllProjected<TagEdit>());
+            SelectedItems.AddRange(AllTags.Intersect(selectedTags));
 
-        /// <summary>
-        /// Gets all measurement units to select from.
-        /// </summary>
-        public List<MeasureUnit> MeasurementUnits { get; }
+            AllTags.CollectionChanged += AllTags_CollectionChanged;
+        }
 
         /// <summary>
         /// Gets command for adding a tag.
@@ -49,6 +48,11 @@ namespace Cooking.WPF.ViewModels
         /// Gets all tags to choose from.
         /// </summary>
         public ObservableCollection<TagEdit>? AllTags { get; private set; }
+
+        /// <summary>
+        /// Gets or sets all selected tags.
+        /// </summary>
+        public ObservableCollection<TagEdit> SelectedItems { get; set; } = new ObservableCollection<TagEdit>();
 
         /// <summary>
         /// Gets main ingredient tags.
@@ -71,28 +75,6 @@ namespace Cooking.WPF.ViewModels
         public IEnumerable<TagEdit>? Sources => AllTags?.Where(x => x.Type == TagType.Source);
 
         /// <summary>
-        /// Pass data parameters so we can use IoC in constructor.
-        /// </summary>
-        /// <param name="currentTags">Alredy existing tags for editing.</param>
-        /// <param name="allTags">All tags to select from.</param>
-        public void SetTags(IEnumerable<TagEdit>? currentTags, IEnumerable<TagEdit>? allTags)
-        {
-            AllTags = new ObservableCollection<TagEdit>(allTags ?? tagService.GetAllProjected<TagEdit>());
-
-            AllTags.CollectionChanged += AllTags_CollectionChanged;
-
-            if (currentTags != null)
-            {
-                IEnumerable<TagEdit> tagsSelected = AllTags.Where(x => currentTags.Any(ct => ct.ID == x.ID));
-
-                foreach (TagEdit tag in tagsSelected)
-                {
-                    tag.IsChecked = true;
-                }
-            }
-        }
-
-        /// <summary>
         /// Add new tag.
         /// </summary>
         public async void AddTagAsync()
@@ -101,8 +83,7 @@ namespace Cooking.WPF.ViewModels
 
             if (viewModel.DialogResultOk)
             {
-                Guid id = await tagService.CreateAsync(viewModel.Tag);
-                viewModel.Tag.ID = id;
+                viewModel.Tag.ID = await tagService.CreateAsync(viewModel.Tag);
                 AllTags?.Add(viewModel.Tag);
             }
         }

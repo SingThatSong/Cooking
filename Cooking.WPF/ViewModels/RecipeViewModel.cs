@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Cooking.Data.Model.Plan;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
@@ -11,10 +12,12 @@ using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace Cooking.WPF.ViewModels
 {
@@ -28,6 +31,7 @@ namespace Cooking.WPF.ViewModels
         private readonly ImageService imageService;
         private readonly IContainerExtension container;
         private readonly RecipeService recipeService;
+        private readonly GarnishService garnishService;
         private readonly IMapper mapper;
         private readonly IEventAggregator eventAggregator;
         private readonly ILocalization localization;
@@ -41,6 +45,7 @@ namespace Cooking.WPF.ViewModels
         /// <param name="imageService">Service for working with images.</param>
         /// <param name="container">IoC container.</param>
         /// <param name="recipeService">Recipe service dependency.</param>
+        /// <param name="garnishService">Garnish service dependency.</param>
         /// <param name="mapper">Mapper dependency.</param>
         /// <param name="eventAggregator">Dependency on Prism event aggregator.</param>
         /// <param name="localization">Localization provider dependency.</param>
@@ -49,6 +54,7 @@ namespace Cooking.WPF.ViewModels
                                ImageService imageService,
                                IContainerExtension container,
                                RecipeService recipeService,
+                               GarnishService garnishService,
                                IMapper mapper,
                                IEventAggregator eventAggregator,
                                ILocalization localization,
@@ -58,6 +64,7 @@ namespace Cooking.WPF.ViewModels
             this.imageService = imageService;
             this.container = container;
             this.recipeService = recipeService;
+            this.garnishService = garnishService;
             this.mapper = mapper;
             this.eventAggregator = eventAggregator;
             this.localization = localization;
@@ -82,6 +89,8 @@ namespace Cooking.WPF.ViewModels
             AddIngredientCommand = new AsyncDelegateCommand(AddIngredientAsync);
             EditIngredientCommand = new AsyncDelegateCommand<RecipeIngredientEdit>(EditIngredientAsync);
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
+
+            AddGarnishCommand = new AsyncDelegateCommand(AddGarnish);
         }
 
         /// <summary>
@@ -124,6 +133,11 @@ namespace Cooking.WPF.ViewModels
         /// Gets command to add tag to a recipe.
         /// </summary>
         public AsyncDelegateCommand AddTagCommand { get; }
+
+        /// <summary>
+        /// Gets command to add tag to a recipe.
+        /// </summary>
+        public AsyncDelegateCommand AddGarnishCommand { get; }
 
         /// <summary>
         /// Gets command to add ingredients group to a recipe.
@@ -264,15 +278,31 @@ namespace Cooking.WPF.ViewModels
             }
         }
 
+        private async Task AddGarnish()
+        {
+            GarnishSelectViewModel viewModel = container.Resolve<GarnishSelectViewModel>((typeof(IEnumerable<GarnishEdit>), Recipe!.Garnishes));
+            await dialogService.ShowCustomMessageAsync<GarnishSelectView, GarnishSelectViewModel>(localization.GetLocalizedString("AddGarnishes"), viewModel);
+
+            if (viewModel.DialogResultOk)
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Recipe!.Garnishes.Clear();
+                    Recipe!.Garnishes.AddRange(viewModel.SelectedItems);
+                });
+            }
+        }
+
         private async Task AddTagAsync()
         {
-            TagSelectViewModel viewModel = container.Resolve<TagSelectViewModel>();
-            viewModel.SetTags(Recipe!.Tags, null);
+            TagSelectViewModel viewModel = container.Resolve<TagSelectViewModel>(
+                (typeof(IEnumerable<TagEdit>), Recipe!.Tags)
+            );
             await dialogService.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(localization.GetLocalizedString("AddTags"), viewModel);
 
-            if (viewModel.DialogResultOk && viewModel.AllTags != null)
+            if (viewModel.DialogResultOk)
             {
-                Recipe.Tags = new ObservableCollection<TagEdit>(viewModel.AllTags.Where(x => x.IsChecked));
+                Recipe.Tags = viewModel.SelectedItems;
             }
         }
 

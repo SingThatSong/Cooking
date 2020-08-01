@@ -18,5 +18,15 @@ namespace Cooking.Data.Model
         /// Gets or sets entity's culture. Used for localization.
         /// </summary>
         public string? Culture { get; set; }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj) => obj switch
+                                                   {
+                                                       Entity entity => ID.Equals(entity.ID),
+                                                       _ => false
+                                                   };
+
+        /// <inheritdoc/>
+        public override int GetHashCode() => ID.GetHashCode();
     }
 }

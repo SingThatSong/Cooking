@@ -10,13 +10,11 @@ using Cooking.WPF.Views;
 using Fody;
 using MahApps.Metro.Controls.Dialogs;
 using MaterialDesignThemes.Wpf;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NullGuard;
 using Prism.Ioc;
-using Prism.Mvvm;
 using Prism.Unity;
 using Serilog;
 using Serilog.Core;
@@ -28,30 +26,20 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
 // TODO: Dish garnishes select + generate
-// TODO: Exclude Fody libraries from *.deps.json
 
 // TODO: Highlight items like in recipe list everywhere
 // TODO: Recipe filtering reserved words localization (and, or, not)
-// TODO: Count calories for recipe
-// TODO: Set calorietype accordingly to counted calories
 // TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
-// TODO: Settings for day recipies (breakfast, supper, etc.)
 // TODO: Add setting to disable suggestion to correct previous week
-// TODO: Implement GetFullGraph for all services
 // TODO: Move this file's parts into different methods. Reason: Too many usings above
-// TODO: App users
-// TODO: Set up failure monitoring
-// TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration
 // TODO: Add IQueryable as parameter to all selects in CRUDService ?
 // TODO: Add debug console logging to methods and constructors (AOP) ?
-// TODO: Recipe filtering: make Gitlab-like system
 
 // Git-related
 // TODO: Setup CI
@@ -71,6 +59,15 @@ using WPFLocalizeExtension.Providers;
 // TODO: Create installer (Inno setup)
 // TODO: Create db migrator for installer (or just Powershell script? )
 // TODO: Ensure cascade/set null deletions
+// TODO: Ensure db constraints and fks
+
+// New features/plans
+// TODO: Count calories for recipe
+// TODO: Set calorietype accordingly to counted calories
+// TODO: Settings for day recipies (breakfast, supper, etc.)
+// TODO: App users
+// TODO: Set up failure monitoring
+// TODO: Recipe filtering: make Gitlab-like system
 
 // TODO: Use Git(Hub/Lab) issues instead of this list :)
 
@@ -78,6 +75,8 @@ using WPFLocalizeExtension.Providers;
 
 // Things not possible right now
 // TODO: Restore Maximize button when ControlzEx fixes it for .NET 5. See https://github.com/ControlzEx/ControlzEx/issues/120
+// TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration. Not available now, See https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/issues/1896
+// TODO: Fix publishing: dotnet publish isnt working, single file isnt working, lib trimming isnt working
 
 // Set Null-check on all func arguments globally
 [assembly: NullGuard(ValidationFlags.Arguments)]

@@ -182,25 +182,25 @@ namespace Cooking.ServiceLayer
 
             var allIngredients = ingredients.Union(ingredientsInGroupds);
 
-            var ingredientGroups = allIngredients.Where(x => x.Ingredient.Ingredient != null)
+            var ingredientsGroupedByType = allIngredients.Where(x => x.Ingredient.Ingredient != null)
                                                  .GroupBy(x => x.Ingredient.Ingredient!.Type)
                                                  .OrderBy(x => x.Key);
 
             var result = new List<ShoppingListIngredientsGroup>();
 
-            foreach (var ingredientGroup in ingredientGroups)
+            foreach (var ingredientTypeGroup in ingredientsGroupedByType)
             {
                 var item = new ShoppingListIngredientsGroup
                 {
-                    IngredientGroupName = localization.GetLocalizedString(ingredientGroup.Key)
+                    IngredientGroupName = localization.GetLocalizedString(ingredientTypeGroup.Key)
                 };
 
-                foreach (var ingredient in ingredientGroup.GroupBy(x => x.Ingredient.Ingredient!.Name).OrderBy(x => x.Key))
+                foreach (var ingredientNameGroup in ingredientTypeGroup.GroupBy(x => x.Ingredient.Ingredient!.Name).OrderBy(x => x.Key))
                 {
-                    var measures = ingredient.GroupBy(x => x.Ingredient.MeasureUnit?.FullNamePluralization);
+                    var measures = ingredientNameGroup.GroupBy(x => x.Ingredient.MeasureUnit?.FullNamePluralization);
                     item.Ingredients.Add(new ShoppingListIngredient()
                     {
-                        Name = ingredient.Key,
+                        Name = ingredientNameGroup.Key,
 
                         IngredientAmounts = measures.Where(x => x.Key != null)
                                                     .Select(x => new ShoppingListAmount()
@@ -208,12 +208,13 @@ namespace Cooking.ServiceLayer
                                                         MeasurementUnitPluralization = x.Key!,
                                                         Amount = x.Where(a => a.Ingredient.Amount.HasValue)
                                                                   .Sum(a => a.Ingredient.Amount!.Value)
-                                                    }).ToList(),
+                                                    })
+                                                    .ToList(),
 
-                        RecipiesSources = ingredient.Where(x => x.Dinner.Name != null)
-                                                    .Select(x => x.Dinner.Name!)
-                                                    .Distinct()
-                                                    .ToList()
+                        RecipiesSources = ingredientNameGroup.Where(x => x.Dinner.Name != null)
+                                                             .Select(x => x.Dinner.Name!)
+                                                             .Distinct()
+                                                             .ToList()
                     });
                 }
 
@@ -306,13 +307,13 @@ namespace Cooking.ServiceLayer
         /// Delete whole week from database.
         /// </summary>
         /// <param name="weekStart">First day of a period to which deleted days should belong.</param>
-        /// <param name="weekEnd">Last day of a period to which deleted days should belong.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public async Task DeleteWeekAsync(DateTime weekStart, DateTime weekEnd)
+        public async Task DeleteWeekAsync(DateTime weekStart)
         {
+            DateTime weekEnd = LastDayOfWeek(weekStart);
             using CookingContext context = ContextFactory.Create();
-
             IEnumerable<Day> days = GetCultureSpecificSet(context)
+                                        .AsNoTracking()
                                         .Where(x => weekStart.Date <= x.Date && x.Date <= weekEnd.Date)
                                         .Select(x => x.ID)
 

@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Cooking.WPF.ViewModels
@@ -247,28 +248,33 @@ namespace Cooking.WPF.ViewModels
             allTags[0].IsChecked = false;
             allTags.ForEach(x => x.Type = type);
 
-            TagSelectViewModel viewModel = container.Resolve<TagSelectViewModel>();
-            viewModel.SetTags(current, allTags);
+            TagSelectViewModel viewModel = container.Resolve<TagSelectViewModel>(
+                (typeof(IEnumerable<TagEdit>), current),
+                (typeof(IList<TagEdit>), allTags)
+            );
 
             string header = string.Format(localization.CurrentCulture, localization.GetLocalizedString("CategoriesOf") ?? "{0}", localization.GetLocalizedString(type));
             await dialogService.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(header, viewModel);
 
             if (viewModel.DialogResultOk)
             {
-                var list = viewModel.AllTags?.Where(x => x.IsChecked).ToList();
+                ObservableCollection<TagEdit>? list = viewModel.SelectedItems;
 
                 if (list != null)
                 {
-                    if (list.Any(x => x != TagEdit.Any))
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
-                        list.Remove(TagEdit.Any);
-                    }
-                    else if (list.Count == 0)
-                    {
-                        list.Add(TagEdit.Any);
-                    }
+                        if (list.Any(x => x != TagEdit.Any))
+                        {
+                            list.Remove(TagEdit.Any);
+                        }
+                        else if (list.Count == 0)
+                        {
+                            list.Add(TagEdit.Any);
+                        }
+                    });
 
-                    return new ObservableCollection<TagEdit>(list);
+                    return list;
                 }
             }
 

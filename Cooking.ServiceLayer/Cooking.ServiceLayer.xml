@@ -104,25 +104,6 @@
             Migrate database to current version.
             </summary>
         </member>
-        <member name="T:ServiceLayer.GarnishService">
-            <summary>
-            Service for working with garnishes.
-            </summary>
-        </member>
-        <member name="M:ServiceLayer.GarnishService.#ctor(Cooking.Data.Context.IContextFactory,Cooking.ServiceLayer.ICurrentCultureProvider,AutoMapper.IMapper)">
-            <summary>
-            Initializes a new instance of the <see cref="T:ServiceLayer.GarnishService"/> class.
-            </summary>
-            <param name="contextFactory">Factory for creating <see cref="T:Cooking.Data.Context.CookingContext"/> instances.</param>
-            <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
-            <param name="mapper">Dependency on database-projection mapper.</param>
-        </member>
-        <member name="M:ServiceLayer.GarnishService.GetNames">
-            <summary>
-            Get all garnish names.
-            </summary>
-            <returns>All garnish names.</returns>
-        </member>
         <member name="T:ServiceLayer.IngredientService">
             <summary>
             Service for work with ingredients.
@@ -430,16 +411,34 @@
             <param name="selectedWeekday">Weekday to move day to.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
         </member>
-        <member name="M:Cooking.ServiceLayer.DayService.DeleteWeekAsync(System.DateTime,System.DateTime)">
+        <member name="M:Cooking.ServiceLayer.DayService.DeleteWeekAsync(System.DateTime)">
             <summary>
             Delete whole week from database.
             </summary>
             <param name="weekStart">First day of a period to which deleted days should belong.</param>
-            <param name="weekEnd">Last day of a period to which deleted days should belong.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
         </member>
         <member name="M:Cooking.ServiceLayer.DayService.GetFullGraph(System.Linq.IQueryable{Cooking.Data.Model.Plan.Day})">
             <inheritdoc/>
+        </member>
+        <member name="T:Cooking.ServiceLayer.GarnishService">
+            <summary>
+            Service for working with garnishes.
+            </summary>
+        </member>
+        <member name="M:Cooking.ServiceLayer.GarnishService.#ctor(Cooking.Data.Context.IContextFactory,Cooking.ServiceLayer.ICurrentCultureProvider,AutoMapper.IMapper)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.ServiceLayer.GarnishService"/> class.
+            </summary>
+            <param name="contextFactory">Factory for creating <see cref="T:Cooking.Data.Context.CookingContext"/> instances.</param>
+            <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
+            <param name="mapper">Dependency on database-projection mapper.</param>
+        </member>
+        <member name="M:Cooking.ServiceLayer.GarnishService.GetNames">
+            <summary>
+            Get all garnish names.
+            </summary>
+            <returns>All garnish names.</returns>
         </member>
         <member name="T:Cooking.ServiceLayer.RecipeService">
             <summary>
@@ -477,7 +476,6 @@
             Allows to use custom mappings using IoC containers and <see cref="T:AutoMapper.IMappingAction`2" />.
             </summary>
             <typeparam name="TMap">Type of dto to return.</typeparam>
-            <param name="mapper">Mapper containing map definition between database entity and <see cref="!:TMap" />.</param>
             <returns>Mapped object collection.</returns>
         </member>
         <member name="M:Cooking.ServiceLayer.RecipeService.GetRecipiesByParametersProjected``1(System.Collections.Generic.List{System.Guid},System.Collections.Generic.List{Cooking.Data.Model.CalorieType},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Boolean})">

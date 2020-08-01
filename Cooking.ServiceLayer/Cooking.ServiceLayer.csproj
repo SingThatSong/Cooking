@@ -18,16 +18,16 @@
     <PackageReference Include="AutoMapper" Version="10.0.1-alpha.0.2" />
     <PackageReference Include="AutoMapper.Collection" Version="7.0.0" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" />
-    <PackageReference Include="Fody" Version="6.2.0">
+    <PackageReference Include="Fody" Version="6.2.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0-beta3.20374.1">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0-beta3.20380.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="NullGuard.Fody" Version="3.0.0" PrivateAssets="All" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.205">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

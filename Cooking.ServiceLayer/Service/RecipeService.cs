@@ -61,7 +61,6 @@ namespace Cooking.ServiceLayer
         /// Allows to use custom mappings using IoC containers and <see cref="IMappingAction{TSource, TDestination}" />.
         /// </summary>
         /// <typeparam name="TMap">Type of dto to return.</typeparam>
-        /// <param name="mapper">Mapper containing map definition between database entity and <see cref="TMap" />.</param>
         /// <returns>Mapped object collection.</returns>
         public List<TMap> GetAllMapped<TMap>()
         {
@@ -142,6 +141,7 @@ namespace Cooking.ServiceLayer
         protected override IQueryable<Recipe> GetFullGraph(IQueryable<Recipe> baseQuery)
         {
             return baseQuery.Include(x => x.Tags)
+                            .Include(x => x.Garnishes)
                             .Include(x => x.Ingredients)
                               .ThenInclude(x => x.Ingredient)
                             .Include(x => x.Ingredients)

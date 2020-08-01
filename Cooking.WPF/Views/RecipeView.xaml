@@ -153,6 +153,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -174,6 +175,7 @@
                             StringFormat="{lex:Loc PortionsCount}"
                             Value="{Binding Recipe.PortionsCount}" />
                         <TextBlock
+                            Margin="0,0,0,10"
                             FontSize="20"
                             Text="{Binding Result, ElementName=portionsCountProxy}"
                             TextWrapping="Wrap">
@@ -189,7 +191,6 @@
                         </TextBlock>
 
                         <TextBlock
-                            Margin="0,10,0,0"
                             VerticalAlignment="Center"
                             FontSize="20"
                             Text="{lex:Loc Ingredients}" />
@@ -274,10 +275,40 @@
                         </ItemsControl>
                     </StackPanel>
 
+                    <!--  Garnishes  -->
+                    <StackPanel Grid.Column="2" Orientation="Vertical">
+
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="20"
+                            Text="{lex:Loc Garnishes}" />
+
+                        <ItemsControl ItemsSource="{Binding Recipe.Garnishes}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <BulletDecorator>
+                                        <BulletDecorator.Bullet>
+                                            <Ellipse
+                                                Width="5"
+                                                Height="5"
+                                                Fill="Gray" />
+                                        </BulletDecorator.Bullet>
+                                        <TextBlock Margin="5,0,0,0" Text="{Binding Name}" />
+                                    </BulletDecorator>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </StackPanel>
+
                     <!--  Other parts of recipe  -->
                     <StackPanel
                         Grid.Row="1"
-                        Grid.ColumnSpan="2"
+                        Grid.ColumnSpan="3"
                         Margin="0,20,0,0"
                         Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
@@ -597,6 +628,40 @@
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                     </ItemsControl>
+
+                    <!--  Garnishes  -->
+                    <StackPanel Margin="10,10,10,0" Orientation="Horizontal">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                            Text="{lex:Loc Garnishes}" />
+                        <Button
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            BorderThickness="0"
+                            Command="{Binding AddGarnishCommand}"
+                            Style="{StaticResource SmallAddButton}" />
+                    </StackPanel>
+
+                    <ItemsControl Margin="10,0" ItemsSource="{Binding Recipe.Garnishes}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <materialDesign:Chip
+                                    Margin="0,5,0,0"
+                                    Content="{Binding Name}"
+                                    DeleteCommand="{Binding DataContext.RemoveTagCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                    DeleteCommandParameter="{Binding}"
+                                    IconBackground="{Binding Color}"
+                                    IsDeletable="True" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+
                 </StackPanel>
 
                 <!--  Description  -->

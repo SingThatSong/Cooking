@@ -1,0 +1,89 @@
+﻿<UserControl
+    x:Class="Cooking.WPF.Views.GarnishSelectView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Cooking.WPF.Controls"
+    xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
+    Margin="-200,0"
+    design:DataContext="{design:DesignInstance viewModels:GarnishSelectViewModel}"
+    mc:Ignorable="design">
+
+    <UserControl.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
+    </UserControl.InputBindings>
+
+    <Grid
+        MinHeight="200"
+        MaxHeight="600"
+        Margin="0,10,0,0"
+        HorizontalAlignment="Center">
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="50" />
+        </Grid.ColumnDefinitions>
+
+        <!--  Main ingredients list  -->
+        <ListBox ItemsSource="{Binding AllGarnishes}" SelectionMode="Multiple">
+            <i:Interaction.Behaviors>
+                <controls:ListBoxMultiselectionBehaviour SelectedItems="{Binding SelectedItems, Mode=TwoWay}" />
+            </i:Interaction.Behaviors>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox
+                        Content="{Binding Name}"
+                        IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}"
+                        Style="{StaticResource MaterialDesignUserForegroundCheckBox}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.Template>
+                <ControlTemplate TargetType="{x:Type ItemsControl}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
+        </ListBox>
+
+        <!--  Button to add new garnish  -->
+        <Button
+            Grid.Column="5"
+            Margin="10,0,0,0"
+            Command="{Binding AddGarnishCommand}"
+            Style="{StaticResource MediumAddButton}" />
+
+        <!--  Ok and Cancel buttons  -->
+        <StackPanel
+            Grid.Row="2"
+            Grid.ColumnSpan="4"
+            Margin="20"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                Command="{Binding OkCommand}"
+                Foreground="Green"
+                Style="{StaticResource BigButton}">
+                <icons:PackIconModern Kind="Check" Style="{StaticResource BigIcon}" />
+            </Button>
+            <Button
+                Margin="10,0,0,0"
+                Command="{Binding CloseCommand}"
+                Style="{StaticResource CancelButton}" />
+
+        </StackPanel>
+    </Grid>
+</UserControl>

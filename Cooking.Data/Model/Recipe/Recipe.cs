@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cooking.Data.Model.Plan;
+using System;
 using System.Collections.Generic;
 
 namespace Cooking.Data.Model
@@ -62,5 +63,10 @@ namespace Cooking.Data.Model
         /// Gets or sets recipe tags.
         /// </summary>
         public virtual List<Tag>? Tags { get; set; }
+
+        /// <summary>
+        /// Gets or sets garnishes suitable for this recipe.
+        /// </summary>
+        public virtual List<Garnish>? Garnishes { get; set; }
     }
 }

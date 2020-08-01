@@ -24,7 +24,7 @@ namespace Cooking.WPF.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// Gets a value indicating whether result of dialog execution - ok or not.
+        /// Gets a value indicating whether result of dialog execution is ok.
         /// </summary>
         public bool DialogResultOk { get; private set; }
 

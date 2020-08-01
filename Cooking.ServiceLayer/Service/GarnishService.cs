@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ServiceLayer
+namespace Cooking.ServiceLayer
 {
     /// <summary>
     /// Service for working with garnishes.
