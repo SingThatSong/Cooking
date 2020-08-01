@@ -281,7 +281,8 @@
                         <TextBlock
                             VerticalAlignment="Center"
                             FontSize="20"
-                            Text="{lex:Loc Garnishes}" />
+                            Text="{lex:Loc Garnishes}"
+                            Visibility="{Binding Recipe.Garnishes, Converter={StaticResource CollectionNotEmptyConverter}}" />
 
                         <ItemsControl ItemsSource="{Binding Recipe.Garnishes}">
                             <ItemsControl.ItemTemplate>

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Cooking.WPF.ViewModels
 {
@@ -123,9 +124,12 @@ namespace Cooking.WPF.ViewModels
             var daysDictionary = Days!.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
             await dayService.CreateWeekAsync(WeekStart, daysDictionary);
 
-            regionManager.NavigateMain(
-                view: nameof(WeekView),
-                parameters: (Consts.ReloadWeekParameter, true));
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                regionManager.NavigateMain(
+                    view: nameof(WeekView),
+                    parameters: (Consts.ReloadWeekParameter, true));
+            });
         }
 
         private void ShowRecipe(Guid recipeID)

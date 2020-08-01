@@ -18,13 +18,6 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <UserControl.Resources>
-        <converters:IsNullToVisibilityConverter
-            x:Key="isNullToVisibilityConverter"
-            NotNullVisibility="Visible"
-            NullVisibility="Collapsed" />
-    </UserControl.Resources>
-
     <UserControl.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </UserControl.InputBindings>
@@ -62,7 +55,7 @@
             Grid.Column="1"
             Margin="20,0,0,0"
             Orientation="Vertical">
-            <TextBlock Text="{Binding MaybeYouWantCaption, Mode=OneTime}" Visibility="{Binding SimilarIngredients, Converter={StaticResource isNullToVisibilityConverter}}" />
+            <TextBlock Text="{Binding MaybeYouWantCaption, Mode=OneTime}" Visibility="{Binding SimilarIngredients, Converter={StaticResource IsNotNullToVisibilityConverter}}" />
             <ItemsControl
                 Grid.Column="1"
                 Margin="10,10,0,0"

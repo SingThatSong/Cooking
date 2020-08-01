@@ -399,6 +399,27 @@
             <param name="trueValue">Bool value that will be used as true.</param>
             <param name="falseValue">Bool value that will be used as false.</param>
         </member>
+        <member name="T:Cooking.WPF.Converters.CollectionEmptyToVisibilityConverter">
+            <summary>
+            Converter that returns Visibility based on whether collection is empty.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Converters.CollectionEmptyToVisibilityConverter.CollectionEmptyVisibility">
+            <summary>
+            Gets or sets visibility which will be used when converted value is null.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Converters.CollectionEmptyToVisibilityConverter.CollectionNotEmptyVisibility">
+            <summary>
+            Gets or sets visibility which will be used when converted value is not null.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Converters.CollectionEmptyToVisibilityConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Converters.CollectionEmptyToVisibilityConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.WPF.Converters.EnumToDescriptionConverter">
             <summary>
             Converter for displaying <see cref="T:System.ComponentModel.DescriptionAttribute"/> values from enums.
@@ -444,7 +465,7 @@
         </member>
         <member name="T:Cooking.WPF.Converters.MultiplyConverter">
             <summary>
-            Converter which returns multiplication of its parameters. All of the parameters must be convertable to double (e.g. int, double, float, etc.).
+            Converter which returns multiplication of its parameters. All parameters must be convertable to double (e.g. int, double, float, etc.).
             </summary>
         </member>
         <member name="M:Cooking.WPF.Converters.MultiplyConverter.Convert(System.Object[],System.Type,System.Object,System.Globalization.CultureInfo)">
@@ -3177,6 +3198,36 @@
             </summary>
             <param name="modelType">Type of object to validate.</param>
             <returns>Instance of validator.</returns>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
         </member>
     </members>
 </doc>

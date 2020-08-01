@@ -272,7 +272,7 @@ namespace Cooking.ServiceLayer
         public DateTime FirstDayOfWeek(DateTime date)
         {
             int daysFromMonday = DaysFromMonday(date.DayOfWeek);
-            return date.AddDays(daysFromMonday * -1);
+            return StartOfDay(date.AddDays(daysFromMonday * -1));
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <param name="date">Any day on week.</param>
         /// <returns>DateTime of sunday.</returns>
-        public DateTime LastDayOfWeek(DateTime date) => FirstDayOfWeek(date).AddDays(6);
+        public DateTime LastDayOfWeek(DateTime date) => EndOfDay(FirstDayOfWeek(date).AddDays(6));
 
         /// <summary>
         /// Move day to next week.
@@ -314,7 +314,7 @@ namespace Cooking.ServiceLayer
             using CookingContext context = ContextFactory.Create();
             IEnumerable<Day> days = GetCultureSpecificSet(context)
                                         .AsNoTracking()
-                                        .Where(x => weekStart.Date <= x.Date && x.Date <= weekEnd.Date)
+                                        .Where(x => weekStart <= x.Date && x.Date <= weekEnd)
                                         .Select(x => x.ID)
 
                                         // Load ids from database
@@ -347,5 +347,19 @@ namespace Cooking.ServiceLayer
                       .Include(x => x.Dinner)
                         .ThenInclude(x => x.Tags);
         }
+
+        /// <summary>
+        /// Gets start of a given date.
+        /// </summary>
+        /// <param name="date">Date.</param>
+        /// <returns>Start of a given date.</returns>
+        private DateTime StartOfDay(DateTime date) => date.Date;
+
+        /// <summary>
+        /// Gets start of a given date.
+        /// </summary>
+        /// <param name="date">Date.</param>
+        /// <returns>Start of a given date.</returns>
+        private DateTime EndOfDay(DateTime date) => date.Date.AddDays(1).AddTicks(-1);
     }
 }

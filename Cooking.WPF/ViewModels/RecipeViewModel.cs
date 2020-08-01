@@ -190,7 +190,7 @@ namespace Cooking.WPF.ViewModels
         public bool IsEditing { get; set; }
 
         /// <inheritdoc/>
-        public bool KeepAlive => false;
+        public bool KeepAlive => true;
 
         /// <summary>
         /// Gets or sets backup of recipe for edit cancellation.
@@ -216,6 +216,11 @@ namespace Cooking.WPF.ViewModels
         /// <inheritdoc/>
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+            if (Recipe != null)
+            {
+                return;
+            }
+
             journal = navigationContext.NavigationService.Journal;
             var recipeID = navigationContext.Parameters[nameof(Recipe)] as Guid?;
             if (recipeID.HasValue)
@@ -231,7 +236,11 @@ namespace Cooking.WPF.ViewModels
         }
 
         /// <inheritdoc/>
-        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            var recipeID = navigationContext.Parameters[nameof(Recipe)] as Guid?;
+            return recipeID.HasValue && Recipe != null && recipeID == Recipe.ID;
+        }
 
         /// <inheritdoc/>
         public void OnNavigatedFrom(NavigationContext navigationContext)

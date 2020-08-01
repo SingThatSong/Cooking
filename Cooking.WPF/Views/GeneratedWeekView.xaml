@@ -27,14 +27,6 @@
             False="True"
             True="False" />
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
-        <converters:IsNullToVisibilityConverter
-            x:Key="isNullToVisibilityConverter"
-            NotNullVisibility="Collapsed"
-            NullVisibility="Visible" />
-        <converters:IsNullToVisibilityConverter
-            x:Key="isNotNullToVisibilityConverter"
-            NotNullVisibility="Visible"
-            NullVisibility="Collapsed" />
     </UserControl.Resources>
 
     <Grid Margin="20,10">
@@ -82,15 +74,15 @@
                                             <Style.Triggers>
                                                 <MultiDataTrigger>
                                                     <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding Recipe, Converter={StaticResource isNullToVisibilityConverter}}" Value="Visible" />
-                                                        <Condition Binding="{Binding SpecificRecipe, Converter={StaticResource isNullToVisibilityConverter}}" Value="Visible" />
+                                                        <Condition Binding="{Binding Recipe, Converter={StaticResource IsNullToVisibilityConverter}}" Value="Visible" />
+                                                        <Condition Binding="{Binding SpecificRecipe, Converter={StaticResource IsNullToVisibilityConverter}}" Value="Visible" />
                                                     </MultiDataTrigger.Conditions>
                                                     <Setter Property="Visibility" Value="Visible" />
                                                 </MultiDataTrigger>
-                                                <DataTrigger Binding="{Binding SpecificRecipe, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible">
+                                                <DataTrigger Binding="{Binding SpecificRecipe, Converter={StaticResource IsNotNullToVisibilityConverter}}" Value="Visible">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Recipe, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible">
+                                                <DataTrigger Binding="{Binding Recipe, Converter={StaticResource IsNotNullToVisibilityConverter}}" Value="Visible">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -105,15 +97,15 @@
                                             <Style.Triggers>
                                                 <MultiDataTrigger>
                                                     <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding Recipe, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible" />
-                                                        <Condition Binding="{Binding SpecificRecipe, Converter={StaticResource isNullToVisibilityConverter}}" Value="Visible" />
+                                                        <Condition Binding="{Binding Recipe, Converter={StaticResource IsNotNullToVisibilityConverter}}" Value="Visible" />
+                                                        <Condition Binding="{Binding SpecificRecipe, Converter={StaticResource IsNullToVisibilityConverter}}" Value="Visible" />
                                                     </MultiDataTrigger.Conditions>
                                                     <Setter Property="Visibility" Value="Visible" />
                                                 </MultiDataTrigger>
-                                                <DataTrigger Binding="{Binding SpecificRecipe, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible">
+                                                <DataTrigger Binding="{Binding SpecificRecipe, Converter={StaticResource IsNotNullToVisibilityConverter}}" Value="Visible">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Recipe, Converter={StaticResource isNullToVisibilityConverter}}" Value="Visible">
+                                                <DataTrigger Binding="{Binding Recipe, Converter={StaticResource IsNullToVisibilityConverter}}" Value="Visible">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -182,7 +174,7 @@
                                 </StackPanel>
 
                                 <!--  Control to show when recipe is manually set  -->
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding SpecificRecipe, Converter={StaticResource isNotNullToVisibilityConverter}}">
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding SpecificRecipe, Converter={StaticResource IsNotNullToVisibilityConverter}}">
 
                                     <!--  Selected recipe name  -->
                                     <TextBlock VerticalAlignment="Center" Text="{Binding SpecificRecipe.Name}">

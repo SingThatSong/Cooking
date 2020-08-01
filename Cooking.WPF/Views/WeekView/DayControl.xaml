@@ -22,14 +22,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
-            <converters:IsNullToVisibilityConverter
-                x:Key="isNullConverter"
-                NotNullVisibility="Collapsed"
-                NullVisibility="Visible" />
-            <converters:IsNullToVisibilityConverter
-                x:Key="isNotNullToVisibilityConverter"
-                NotNullVisibility="Visible"
-                NullVisibility="Collapsed" />
 
             <converters:BindingProxy x:Key="proxy" Data="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext}" />
             <converters:BindingProxy x:Key="dayProxy" Data="{Binding RelativeSource={RelativeSource AncestorType=local:DayControl, Mode=FindAncestor}}" />
@@ -47,20 +39,20 @@
                 <Style.Triggers>
                     <MultiDataTrigger>
                         <MultiDataTrigger.Conditions>
-                            <Condition Binding="{Binding Path=Dinner, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible" />
+                            <Condition Binding="{Binding Path=Dinner, Converter={StaticResource IsNotNullToVisibilityConverter}}" Value="Visible" />
                             <Condition Binding="{Binding Path=DataContext.WeekEdit, RelativeSource={RelativeSource AncestorType=local:WeekView}}" Value="False" />
                         </MultiDataTrigger.Conditions>
                         <MultiDataTrigger.Setters>
                             <Setter Property="Visibility" Value="Collapsed" />
                         </MultiDataTrigger.Setters>
                     </MultiDataTrigger>
-                    <DataTrigger Binding="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Collapsed">
+                    <DataTrigger Binding="{Binding Converter={StaticResource IsNotNullToVisibilityConverter}}" Value="Collapsed">
                         <Setter Property="Visibility" Value="Collapsed" />
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Path=Dinner, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Collapsed">
+                    <DataTrigger Binding="{Binding Path=Dinner, Converter={StaticResource IsNotNullToVisibilityConverter}}" Value="Collapsed">
                         <Setter Property="Visibility" Value="Collapsed" />
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Path=Dinner, Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Visible">
+                    <DataTrigger Binding="{Binding Path=Dinner, Converter={StaticResource IsNotNullToVisibilityConverter}}" Value="Visible">
                         <Setter Property="Visibility" Value="Visible" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView}, Path=DataContext.WeekEdit}" Value="True">
@@ -80,7 +72,7 @@
                 <Grid.Style>
                     <Style TargetType="Grid">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Converter={StaticResource isNotNullToVisibilityConverter}}" Value="Collapsed">
+                            <DataTrigger Binding="{Binding Converter={StaticResource IsNotNullToVisibilityConverter}}" Value="Collapsed">
                                 <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
                             <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=local:WeekView, Mode=FindAncestor}, Path=DataContext.WeekEdit}" Value="True">

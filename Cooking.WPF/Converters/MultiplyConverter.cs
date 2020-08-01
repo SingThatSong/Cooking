@@ -2,11 +2,12 @@
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
+using static System.Convert;
 
 namespace Cooking.WPF.Converters
 {
     /// <summary>
-    /// Converter which returns multiplication of its parameters. All of the parameters must be convertable to double (e.g. int, double, float, etc.).
+    /// Converter which returns multiplication of its parameters. All parameters must be convertable to double (e.g. int, double, float, etc.).
     /// </summary>
     public class MultiplyConverter : IMultiValueConverter
     {
@@ -18,11 +19,11 @@ namespace Cooking.WPF.Converters
                 return Binding.DoNothing;
             }
 
-            double result = System.Convert.ToDouble(values[0], CultureInfo.InvariantCulture);
+            double result = ToDouble(values[0], CultureInfo.InvariantCulture);
 
             foreach (object val in values.Skip(1))
             {
-                result *= System.Convert.ToDouble(val, CultureInfo.InvariantCulture);
+                result *= ToDouble(val, CultureInfo.InvariantCulture);
             }
 
             return result;

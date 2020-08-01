@@ -38,7 +38,6 @@ using WPFLocalizeExtension.Providers;
 // TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
 // TODO: Add setting to disable suggestion to correct previous week
 // TODO: Move this file's parts into different methods. Reason: Too many usings above
-// TODO: Add IQueryable as parameter to all selects in CRUDService ?
 // TODO: Add debug console logging to methods and constructors (AOP) ?
 
 // Git-related

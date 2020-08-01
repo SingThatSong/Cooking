@@ -49,7 +49,7 @@ namespace Cooking.ServiceLayer
         public List<T> GetAll()
         {
             using CookingContext context = ContextFactory.Create();
-            IQueryable<T>? cultureSet = GetCultureSpecificSet(context);
+            IQueryable<T> cultureSet = GetCultureSpecificSet(context);
             IQueryable<T>? fullSet = GetFullGraph(cultureSet);
 
             return fullSet.AsNoTracking()
@@ -96,7 +96,7 @@ namespace Cooking.ServiceLayer
         {
             using CookingContext context = ContextFactory.Create();
 
-            IQueryable<T>? cultureSet = GetCultureSpecificSet(context);
+            IQueryable<T> cultureSet = GetCultureSpecificSet(context);
             IQueryable<T>? fullSet = GetFullGraph(cultureSet);
 
             IEnumerable<T>? set = fullSet.AsNoTracking()

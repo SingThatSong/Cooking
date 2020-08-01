@@ -421,6 +421,20 @@
         <member name="M:Cooking.ServiceLayer.DayService.GetFullGraph(System.Linq.IQueryable{Cooking.Data.Model.Plan.Day})">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.ServiceLayer.DayService.StartOfDay(System.DateTime)">
+            <summary>
+            Gets start of a given date.
+            </summary>
+            <param name="date">Date.</param>
+            <returns>Start of a given date.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.EndOfDay(System.DateTime)">
+            <summary>
+            Gets start of a given date.
+            </summary>
+            <param name="date">Date.</param>
+            <returns>Start of a given date.</returns>
+        </member>
         <member name="T:Cooking.ServiceLayer.GarnishService">
             <summary>
             Service for working with garnishes.
