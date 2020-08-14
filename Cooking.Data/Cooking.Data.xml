@@ -1,0 +1,669 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cooking.Data</name>
+    </assembly>
+    <members>
+        <member name="T:Cooking.Data.Context.CookingContext">
+            <summary>
+            Single database context for the project.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Context.CookingContext.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.Data.Context.CookingContext"/> class.
+            </summary>
+            <param name="dbFilename">Database file name.</param>
+            <param name="useLazyLoading">Use lazy loading in this context.</param>
+        </member>
+        <member name="M:Cooking.Data.Context.CookingContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{Cooking.Data.Context.CookingContext})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.Data.Context.CookingContext"/> class.
+            Cooking context for migrations.
+            </summary>
+            <param name="dbContextOptions">Prepared context options.</param>
+        </member>
+        <member name="P:Cooking.Data.Context.CookingContext.Days">
+            <summary>
+            Gets or sets days repository.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Context.CookingContext.Recipies">
+            <summary>
+            Gets or sets recipies repository.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Context.CookingContext.Ingredients">
+            <summary>
+            Gets or sets ingredients repository.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Context.CookingContext.RecipeIngredients">
+            <summary>
+            Gets or sets ingredients in recipe repository.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Context.CookingContext.Tags">
+            <summary>
+            Gets or sets tags repository.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Context.CookingContext.Garnishes">
+            <summary>
+            Gets or sets garnishes repository.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Context.CookingContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Context.CookingContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Context.IContextFactory">
+            <summary>
+            Factory for <see cref="T:Cooking.Data.Context.CookingContext"/> creation.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Context.IContextFactory.Create">
+            <summary>
+            Method to create <see cref="T:Cooking.Data.Context.CookingContext"/>.
+            </summary>
+            <param name="useLazyLoading">Use lazy loading in this context.</param>
+            <returns>Instance of <see cref="T:Cooking.Data.Context.CookingContext"/>.</returns>
+        </member>
+        <member name="T:Cooking.Data.Migrations.Initial">
+            <summary>
+            Initial migration.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.Initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.IngredientOrder">
+            <summary>
+            Ingredient order migration.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.IngredientOrder.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.IngredientOrder.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.RecipeSource">
+            <summary>
+            Migration to add source for recipe.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.RecipeSource.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.RecipeSource.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.Ratings">
+            <summary>
+            Ratings added for recipies.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.Ratings.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.Ratings.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.IngredientType">
+            <summary>
+            Migration to add type to ingredients.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.IngredientType.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.IngredientType.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.DaysDateNullable">
+            <summary>
+            Set Date for day nullable.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.DaysDateNullable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.DaysDateNullable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.DayTableUpdate">
+            <summary>
+            Cascade delete on Day table.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.DayTableUpdate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.DayTableUpdate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.NameUnique">
+            <summary>
+            Migration to enforce that recipe names must be unique.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.NameUnique.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.NameUnique.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.AddGarnish">
+            <summary>
+            Migration to add garnishes.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.AddGarnish.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.AddGarnish.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.RemoveDayNotRemovesWeek">
+            <summary>
+            Migration to ensure that day removal do not remove week.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.RemoveDayNotRemovesWeek.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.RemoveDayNotRemovesWeek.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.DayWeekRelation">
+            <summary>
+            Migration to change week-days relation from set of FKs to one-to-many.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.DayWeekRelation.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.DayWeekRelation.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.DayWeek">
+            <summary>
+            Move data accordingly to prev. migration.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.DayWeek.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.DayWeek.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.AddLocalization">
+            <summary>
+            Migration to add localization to all tables.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.AddLocalization.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.AddLocalization.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.RemoveWeek">
+            <summary>
+            Migration to remove Week table.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.RemoveWeek.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.RemoveWeek.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.Change_Id_Types">
+            <summary>
+            Change type of IDs to text due to https://docs.microsoft.com/ru-ru/ef/core/what-is-new/ef-core-3.0/breaking-changes#guid.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.Change_Id_Types.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.Change_Id_Types.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.Add_Day_Constraints">
+            <summary>
+            Days now should always have dinner and date.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.Add_Day_Constraints.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.Add_Day_Constraints.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.FKs_Fix">
+            <summary>
+            Somehow foreign keys still have _"Table" relationships. Fixing it.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.FKs_Fix.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.FKs_Fix.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.IncludeTagInMenu">
+            <summary>
+            Add support for including tag in menu.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.IncludeTagInMenu.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.IncludeTagInMenu.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.DeleteBehaviour">
+            <summary>
+            Set null to Ingredient's FK when ingredient is deleted.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.DeleteBehaviour.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.DeleteBehaviour.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.AddMeasureUnitTable">
+            <summary>
+            Add table to sotre measure units.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.AddMeasureUnitTable.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.AddMeasureUnitTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.TypeRename">
+            <summary>
+            Rename TypeID column to Type.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.TypeRename.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.TypeRename.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.InsertMeasureUnitData">
+            <summary>
+            Replacement of enum MeasureUnit to database table MeasureUnit.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.InsertMeasureUnitData.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.InsertMeasureUnitData.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.UpdateRecipeIngredients">
+            <summary>
+            Remove old MeasureUnitID and set new one with reference to the table.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.UpdateRecipeIngredients.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.UpdateRecipeIngredients.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.AddTagMenuIcon">
+            <summary>
+            Migration to add property to keep selected icon for a tag.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.AddTagMenuIcon.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.AddTagMenuIcon.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.EFCoreNamingUpdate">
+            <summary>
+            Migration to address EF Core new namings.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.EFCoreNamingUpdate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.EFCoreNamingUpdate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.CookingContextFactory">
+            <summary>
+            Cooking context factory to create contexts for migrations.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.CookingContextFactory.CreateDbContext(System.String[])">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Model.Entity">
+            <summary>
+            Base class for database entities.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Entity.ID">
+            <summary>
+            Gets or sets identificator for entity.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Entity.Culture">
+            <summary>
+            Gets or sets entity's culture. Used for localization.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Model.Entity.Equals(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Model.Entity.GetHashCode">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Model.Plan.Day">
+            <summary>
+            Day database entity.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Plan.Day.DinnerID">
+            <summary>
+            Gets or sets foreign key for <see cref="P:Cooking.Data.Model.Plan.Day.Dinner"/>.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Plan.Day.Dinner">
+            <summary>
+            Gets or sets dinner recipe entity.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Plan.Day.DinnerWasCooked">
+            <summary>
+            Gets or sets a value indicating whether dinner was cooked.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Plan.Day.Date">
+            <summary>
+            Gets or sets day date.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Plan.Day.DayOfWeek">
+            <summary>
+            Gets or sets day's weekday.
+            </summary>
+        </member>
+        <member name="T:Cooking.Data.Model.Plan.Garnish">
+            <summary>
+            Garnish database entity.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Plan.Garnish.Name">
+            <summary>
+            Gets or sets name for garnish.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Plan.Garnish.Recipies">
+            <summary>
+            Gets or sets recipies with this garnish.
+            </summary>
+        </member>
+        <member name="T:Cooking.Data.Model.CalorieType">
+            <summary>
+            Type of calories for recipe.
+            </summary>
+        </member>
+        <member name="F:Cooking.Data.Model.CalorieType.None">
+            <summary>
+            CalorieType not selected.
+            </summary>
+        </member>
+        <member name="F:Cooking.Data.Model.CalorieType.Fitness">
+            <summary>
+            Low carbs recipe.
+            </summary>
+        </member>
+        <member name="F:Cooking.Data.Model.CalorieType.Protein">
+            <summary>
+            Protein rich recipe.
+            </summary>
+        </member>
+        <member name="F:Cooking.Data.Model.CalorieType.Bad">
+            <summary>
+            Hight carbs recipe.
+            </summary>
+        </member>
+        <member name="F:Cooking.Data.Model.CalorieType.Sweets">
+            <summary>
+            Sweets.
+            </summary>
+        </member>
+        <member name="T:Cooking.Data.Model.IngredientType">
+            <summary>
+            Ingredient's type.
+            </summary>
+        </member>
+        <member name="T:Cooking.Data.Model.TagType">
+            <summary>
+            Type of Tag enumeration.
+            </summary>
+        </member>
+        <member name="F:Cooking.Data.Model.TagType.DishType">
+            <summary>
+            DishType
+            </summary>
+        </member>
+        <member name="F:Cooking.Data.Model.TagType.MainIngredient">
+            <summary>
+            MainIngredient
+            </summary>
+        </member>
+        <member name="F:Cooking.Data.Model.TagType.Occasion">
+            <summary>
+            Occasion
+            </summary>
+        </member>
+        <member name="F:Cooking.Data.Model.TagType.Source">
+            <summary>
+            Source
+            </summary>
+        </member>
+        <member name="T:Cooking.Data.Model.Ingredient">
+            <summary>
+            Ingredient database entity.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Ingredient.Name">
+            <summary>
+            Gets or sets ingredient's name.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Ingredient.Type">
+            <summary>
+            Gets or sets ingredient's Type. Typesafe enum, stored in database as int. Ignored in mapping.
+            </summary>
+        </member>
+        <member name="T:Cooking.Data.Model.IngredientsGroup">
+            <summary>
+            Database entity for group of ingredients. E.g. souce in recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.IngredientsGroup.Name">
+            <summary>
+            Gets or sets ingredient group name.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.IngredientsGroup.Ingredients">
+            <summary>
+            Gets or sets ingredients in group.
+            </summary>
+        </member>
+        <member name="T:Cooking.Data.Model.MeasureUnit">
+            <summary>
+            Measurement units hardcoded values.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.MeasureUnit.Name">
+            <summary>
+            Gets or sets measurement unit short name.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.MeasureUnit.FullName">
+            <summary>
+            Gets or sets measurement unit full name.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.MeasureUnit.FullNamePluralization">
+            <summary>
+            Gets or sets measurement unit full name pluralization in current language.
+            </summary>
+        </member>
+        <member name="T:Cooking.Data.Model.Recipe">
+            <summary>
+            Recipe database entity.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Recipe.Name">
+            <summary>
+            Gets or sets recipe name.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Recipe.SourceUrl">
+            <summary>
+            Gets or sets source of recipe. E.g. some website or granny's hidden cookbook.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Recipe.ImagePath">
+            <summary>
+            Gets or sets path to recipie's image.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Recipe.Description">
+            <summary>
+            Gets or sets recipe description. Recipe per se. RTF format.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Recipe.Difficulty">
+            <summary>
+            Gets or sets recipe difficulty.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Recipe.Rating">
+            <summary>
+            Gets or sets recipe rating.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Recipe.PortionsCount">
+            <summary>
+            Gets or sets portions count for one cook.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Recipe.CalorieType">
+            <summary>
+            Gets or sets calorie type for recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Recipe.IngredientGroups">
+            <summary>
+            Gets or sets ingredient groups in recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Recipe.Ingredients">
+            <summary>
+            Gets or sets ingredients in recipe itself.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Recipe.Tags">
+            <summary>
+            Gets or sets recipe tags.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Recipe.Garnishes">
+            <summary>
+            Gets or sets garnishes suitable for this recipe.
+            </summary>
+        </member>
+        <member name="T:Cooking.Data.Model.RecipeIngredient">
+            <summary>
+            Entity for ingredient in recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.RecipeIngredient.Order">
+            <summary>
+            Gets or sets order in resipe's ingredients list.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.RecipeIngredient.IngredientID">
+            <summary>
+            Gets or sets foreign key for <see cref="P:Cooking.Data.Model.RecipeIngredient.Ingredient"/>.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.RecipeIngredient.Ingredient">
+            <summary>
+            Gets or sets related ingredient.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.RecipeIngredient.Amount">
+            <summary>
+            Gets or sets amount of ingredient in recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.RecipeIngredient.MeasureUnit">
+            <summary>
+            Gets or sets measurement unit for <see cref="P:Cooking.Data.Model.RecipeIngredient.Amount"/>. Ignored in mapping.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.RecipeIngredient.MeasureUnitID">
+            <summary>
+            Gets or sets store value for <see cref="P:Cooking.Data.Model.RecipeIngredient.MeasureUnit"/>.
+            </summary>
+        </member>
+        <member name="T:Cooking.Data.Model.Tag">
+            <summary>
+            Database entity for tag.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Tag.Name">
+            <summary>
+            Gets or sets tag name.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Tag.Type">
+            <summary>
+            Gets or sets tag type.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Tag.Color">
+            <summary>
+            Gets or sets tag color.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Tag.IsInMenu">
+            <summary>
+            Gets or sets a value indicating whether this tag should be included as menu item.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Tag.MenuIcon">
+            <summary>
+            Gets or sets a menu icon.
+            </summary>
+        </member>
+        <member name="P:Cooking.Data.Model.Tag.Recipies">
+            <summary>
+            Gets or sets recipies with this tag.
+            </summary>
+        </member>
+    </members>
+</doc>
