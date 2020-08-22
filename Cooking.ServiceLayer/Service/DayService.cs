@@ -15,7 +15,7 @@ namespace Cooking.ServiceLayer
     /// </summary>
     public class DayService : CRUDService<Day>
     {
-        private readonly Dictionary<Guid, DateTime?> lastCookedDateCache = new Dictionary<Guid, DateTime?>();
+        private static readonly Dictionary<Guid, DateTime?> LastCookedDateCache = new Dictionary<Guid, DateTime?>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DayService"/> class.
@@ -29,15 +29,33 @@ namespace Cooking.ServiceLayer
         }
 
         /// <summary>
+        /// Load last cooked dates for all recipies to fill the cache.
+        /// </summary>
+        public void InitCache()
+        {
+            using CookingContext context = ContextFactory.Create();
+
+            var allDaysCooked = GetCultureSpecificSet(context)
+                                         .Where(x => x.DinnerWasCooked && x.Date != null)
+                                         .AsNoTracking()
+                                         .ToList();
+
+            foreach (IGrouping<Guid, Day> daysCookedForRecipe in allDaysCooked.GroupBy(x => x.DinnerID))
+            {
+                LastCookedDateCache[daysCookedForRecipe.Key] = daysCookedForRecipe.OrderBy(x => x.Date).Last().Date;
+            }
+        }
+
+        /// <summary>
         /// Get a date when recipe was last cooked.
         /// </summary>
         /// <param name="recipeID">Id of recipe to search last cooked date.</param>
         /// <returns>Date when recipe was last (most recently) cooked or null of recipe was never cooked.</returns>
         public DateTime? GetLastCookedDate(Guid recipeID)
         {
-            if (lastCookedDateCache.ContainsKey(recipeID))
+            if (LastCookedDateCache.ContainsKey(recipeID))
             {
-                return lastCookedDateCache[recipeID];
+                return LastCookedDateCache[recipeID];
             }
 
             using CookingContext context = ContextFactory.Create();
@@ -48,7 +66,7 @@ namespace Cooking.ServiceLayer
                                                            .FirstOrDefault()?
                                                            .Date;
 
-            return lastCookedDateCache[recipeID] = date;
+            return LastCookedDateCache[recipeID] = date;
         }
 
         /// <summary>
@@ -124,7 +142,7 @@ namespace Cooking.ServiceLayer
             }
 
             await context.AddRangeAsync(days);
-            await context.SaveChangesAsync().ConfigureAwait(false);
+            await context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -153,8 +171,10 @@ namespace Cooking.ServiceLayer
         public List<ShoppingListIngredientsGroup> GetWeekShoppingList(DateTime weekStart, DateTime weekEnd, ILocalization localization)
         {
             using CookingContext context = ContextFactory.Create();
-            var days = GetCultureSpecificSet(context).AsNoTracking()
-                                                     .Include(x => x.Dinner)
+
+            // Includes for database querying, null-checks are not applicable.
+            #pragma warning disable CS8602, CS8604
+            var days = GetCultureSpecificSet(context).Include(x => x.Dinner)
                                                          .ThenInclude(x => x.Ingredients)
                                                             .ThenInclude(x => x.Ingredient)
                                                      .Include(x => x.Dinner)
@@ -168,7 +188,10 @@ namespace Cooking.ServiceLayer
                                                          .ThenInclude(x => x.IngredientGroups)
                                                             .ThenInclude(x => x.Ingredients)
                                                                 .ThenInclude(x => x.MeasureUnit)
-                                                     .Where(x => weekStart.Date <= x.Date && x.Date <= weekEnd.Date).ToList();
+                                                     .Where(x => weekStart.Date <= x.Date && x.Date <= weekEnd.Date)
+                                                     .AsNoTracking()
+                                                     .ToList();
+            #pragma warning restore CS8602, CS8604
 
             // Create single list of all ingredients in recipies for a week
             var ingredients          = from dinner in days.Where(x => x.Dinner?.Ingredients != null)
@@ -183,8 +206,8 @@ namespace Cooking.ServiceLayer
             var allIngredients = ingredients.Union(ingredientsInGroupds);
 
             var ingredientsGroupedByType = allIngredients.Where(x => x.Ingredient.Ingredient != null)
-                                                 .GroupBy(x => x.Ingredient.Ingredient!.Type)
-                                                 .OrderBy(x => x.Key);
+                                                         .GroupBy(x => x.Ingredient.Ingredient!.Type)
+                                                         .OrderBy(x => x.Key);
 
             var result = new List<ShoppingListIngredientsGroup>();
 
@@ -300,7 +323,7 @@ namespace Cooking.ServiceLayer
             // Change weekday
             day.DayOfWeek = selectedWeekday;
 
-            await context.SaveChangesAsync().ConfigureAwait(false);
+            await context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -330,6 +353,8 @@ namespace Cooking.ServiceLayer
         /// <inheritdoc/>
         protected override IQueryable<Day> GetFullGraph(IQueryable<Day> set)
         {
+            // Includes for database querying, null-checks are not applicable.
+#pragma warning disable CS8602, CS8604
             return set.Include(x => x.Dinner)
                         .ThenInclude(x => x.IngredientGroups)
                           .ThenInclude(x => x.Ingredients)
@@ -346,6 +371,7 @@ namespace Cooking.ServiceLayer
                           .ThenInclude(x => x.MeasureUnit)
                       .Include(x => x.Dinner)
                         .ThenInclude(x => x.Tags);
+#pragma warning restore CS8602, CS8604
         }
 
         /// <summary>

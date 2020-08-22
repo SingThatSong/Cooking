@@ -45,7 +45,7 @@ namespace Cooking.ServiceLayer
         /// <summary>
         /// Get all entities for a type.
         /// </summary>
-        /// <returns>All entities for type <see cref="T"/>.</returns>
+        /// <returns>All entities for type <typeparamref name="T" />.</returns>
         public List<T> GetAll()
         {
             using CookingContext context = ContextFactory.Create();
@@ -108,7 +108,7 @@ namespace Cooking.ServiceLayer
         }
 
         /// <summary>
-        /// Get entry, projected from <see cref="T" />.
+        /// Get entry, projected from <typeparamref name="T" />.
         /// </summary>
         /// <typeparam name="TProjection">Type of entry to project to.</typeparam>
         /// <param name="id">ID of entity to find and project.</param>
@@ -124,16 +124,27 @@ namespace Cooking.ServiceLayer
         }
 
         /// <summary>
-        /// Get all entities of type <see cref="T" /> projected to TProjection.
+        /// Get all entities of type <typeparamref name="T" /> projected to TProjection.
         /// </summary>
-        /// <typeparam name="TProjection">Type to project <see cref="T"/> to.</typeparam>
-        /// <param name="mapper">Mapper that defines projection.</param>
+        /// <typeparam name="TProjection">Type to project <typeparamref name="T" /> to.</typeparam>
         /// <returns>List of all projected entities.</returns>
         public List<TProjection> GetAllProjected<TProjection>()
         {
             using CookingContext context = ContextFactory.Create();
             IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context).AsNoTracking();
             return Mapper.ProjectTo<TProjection>(cultureSpecificSet).ToList();
+        }
+
+        /// <summary>
+        /// Get all entities of type <typeparamref name="T" /> projected to TProjection.
+        /// </summary>
+        /// <typeparam name="TProjection">Type to project <typeparamref name="T" /> to.</typeparam>
+        /// <returns>List of all projected entities.</returns>
+        public List<TProjection> GetAllMapped<TProjection>()
+        {
+            using CookingContext context = ContextFactory.Create();
+            IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context).AsNoTracking();
+            return Mapper.Map<List<TProjection>>(cultureSpecificSet.ToList());
         }
 
         /// <summary>
@@ -146,7 +157,7 @@ namespace Cooking.ServiceLayer
             using CookingContext context = ContextFactory.Create();
             entity.Culture = GetCurrentCulture();
             await context.Set<T>().AddAsync(entity);
-            await context.SaveChangesAsync().ConfigureAwait(false);
+            await context.SaveChangesAsync();
             return entity.ID;
         }
 
@@ -163,7 +174,7 @@ namespace Cooking.ServiceLayer
             entity.Culture = GetCurrentCulture();
             T dbType = Mapper.Map<T>(entity);
             await context.Set<T>().AddAsync(dbType);
-            await context.SaveChangesAsync().ConfigureAwait(false);
+            await context.SaveChangesAsync();
             return dbType.ID;
         }
 
@@ -178,7 +189,7 @@ namespace Cooking.ServiceLayer
 
             // Remove entity without loading it, using stub object.
             context.Set<T>().Remove(new T { ID = id });
-            await context.SaveChangesAsync().ConfigureAwait(false);
+            await context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -191,7 +202,7 @@ namespace Cooking.ServiceLayer
             using CookingContext context = ContextFactory.Create();
             T existing = await GetFullGraph(context.Set<T>()).FirstAsync(x => x.ID == entity.ID);
             Mapper.Map(entity, existing);
-            await context.SaveChangesAsync().ConfigureAwait(false);
+            await context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -207,14 +218,14 @@ namespace Cooking.ServiceLayer
 
             T existing = Get(entity.ID, context, isTracking: true);
             Mapper.Map(entity, existing);
-            await context.SaveChangesAsync().ConfigureAwait(false);
+            await context.SaveChangesAsync();
         }
 
         /// <summary>
         /// Get DbSet for entities filtered by current culture.
         /// </summary>
         /// <param name="context">Context that set belongs to.</param>
-        /// <returns>DbSet for entities of type <see cref="T"/> filtered by current culture.</returns>
+        /// <returns>DbSet for entities of type <typeparamref name="T" /> filtered by current culture.</returns>
         protected IQueryable<T> GetCultureSpecificSet(CookingContext context)
         {
             string currentCulure = GetCurrentCulture();
@@ -236,8 +247,8 @@ namespace Cooking.ServiceLayer
 
         private T Get(Guid id, CookingContext context, bool isTracking = false)
         {
-            IQueryable<T> cultureSet = GetCultureSpecificSet(context);
-            IQueryable<T> fullSet = GetFullGraph(cultureSet);
+            IQueryable<T> set = context.Set<T>();
+            IQueryable<T> fullSet = GetFullGraph(set);
 
             if (!isTracking)
             {

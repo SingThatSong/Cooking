@@ -57,18 +57,6 @@ namespace Cooking.ServiceLayer
         }
 
         /// <summary>
-        /// Load the whole list of entities and all of it's dependencies, then map it to needed dto.
-        /// Allows to use custom mappings using IoC containers and <see cref="IMappingAction{TSource, TDestination}" />.
-        /// </summary>
-        /// <typeparam name="TMap">Type of dto to return.</typeparam>
-        /// <returns>Mapped object collection.</returns>
-        public List<TMap> GetAllMapped<TMap>()
-        {
-            List<Recipe> recipe = GetAll();
-            return Mapper.Map<List<TMap>>(recipe);
-        }
-
-        /// <summary>
         /// Get reipe list filtered by optional parameters.
         /// </summary>
         /// <typeparam name="T">Type of required projection.</typeparam>
@@ -89,31 +77,19 @@ namespace Cooking.ServiceLayer
 
             using CookingContext context = ContextFactory.Create();
             IQueryable<Recipe> query = GetCultureSpecificSet(context)
-                               .AsNoTracking()
-                               .Include(x => x.Tags)
-                               .AsQueryable();
+                                            .Include(x => x.Tags)
+                                            .AsNoTracking()
+                                            .AsQueryable()
+                                            .AsSplitQuery();
 
-            if (requiredTags != null && requiredTags.Count > 0)
+            if (requiredTags?.Count > 0)
             {
-                Expression<Func<Recipe, bool>> predicate = PredicateHelper.False<Recipe>();
-
-                foreach (Guid tag in requiredTags)
-                {
-                }
-
-                query = query.Where(predicate);
+                query = query.Where(x => x.Tags.Any(t => requiredTags.Contains(t.ID)));
             }
 
-            if (requiredCalorieTypes != null && requiredCalorieTypes.Count > 0)
+            if (requiredCalorieTypes?.Count > 0)
             {
-                Expression<Func<Recipe, bool>> predicate = PredicateHelper.False<Recipe>();
-
-                foreach (CalorieType calorieType in requiredCalorieTypes)
-                {
-                    predicate = predicate.Or(p => p.CalorieType == calorieType);
-                }
-
-                query = query.Where(predicate);
+                query = query.Where(x => requiredCalorieTypes.Contains(x.CalorieType));
             }
 
             if (maxComplexity.HasValue)

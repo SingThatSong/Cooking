@@ -59,35 +59,6 @@
             Gets ingredients in a group.
             </summary>
         </member>
-        <member name="T:ServiceLayer.PredicateHelper">
-            <summary>
-            Extentions for Expression creation.
-            </summary>
-        </member>
-        <member name="M:ServiceLayer.PredicateHelper.True``1">
-            <summary>
-            Expression for true. Acts as a basis for expression assembly.
-            </summary>
-            <typeparam name="T">Any type used in expression chain.</typeparam>
-            <returns>Expression for true.</returns>
-        </member>
-        <member name="M:ServiceLayer.PredicateHelper.False``1">
-            <summary>
-            Expression for false. Acts as a basis for expression assembly.
-            </summary>
-            <typeparam name="T">Any type used in expression chain.</typeparam>
-            <returns>Expression for false.</returns>
-        </member>
-        <member name="M:ServiceLayer.PredicateHelper.Or``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
-            <summary>
-            Expression for |.
-            </summary>
-            <typeparam name="T">Any type used in expression chain.</typeparam>
-            <param name="expr1">Left side of expression.</param>
-            <param name="expr2">Right side of expression.</param>
-            <returns>New expression, concatenating left and right expressions with | operator.</returns>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:ServiceLayer.PredicateHelper.And``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})" -->
         <member name="T:ServiceLayer.DatabaseService">
             <summary>
             Service to perform actions on database itself (e.g. migrations).
@@ -208,7 +179,7 @@
             <summary>
             Get all entities for a type.
             </summary>
-            <returns>All entities for type <see cref="!:T"/>.</returns>
+            <returns>All entities for type <typeparamref name="T" />.</returns>
         </member>
         <member name="M:Cooking.ServiceLayer.CRUDService`1.Get(System.Guid)">
             <summary>
@@ -236,7 +207,7 @@
         </member>
         <member name="M:Cooking.ServiceLayer.CRUDService`1.GetProjected``1(System.Guid)">
             <summary>
-            Get entry, projected from <see cref="!:T" />.
+            Get entry, projected from <typeparamref name="T" />.
             </summary>
             <typeparam name="TProjection">Type of entry to project to.</typeparam>
             <param name="id">ID of entity to find and project.</param>
@@ -244,10 +215,16 @@
         </member>
         <member name="M:Cooking.ServiceLayer.CRUDService`1.GetAllProjected``1">
             <summary>
-            Get all entities of type <see cref="!:T" /> projected to TProjection.
+            Get all entities of type <typeparamref name="T" /> projected to TProjection.
             </summary>
-            <typeparam name="TProjection">Type to project <see cref="!:T"/> to.</typeparam>
-            <param name="mapper">Mapper that defines projection.</param>
+            <typeparam name="TProjection">Type to project <typeparamref name="T" /> to.</typeparam>
+            <returns>List of all projected entities.</returns>
+        </member>
+        <member name="M:Cooking.ServiceLayer.CRUDService`1.GetAllMapped``1">
+            <summary>
+            Get all entities of type <typeparamref name="T" /> projected to TProjection.
+            </summary>
+            <typeparam name="TProjection">Type to project <typeparamref name="T" /> to.</typeparam>
             <returns>List of all projected entities.</returns>
         </member>
         <member name="M:Cooking.ServiceLayer.CRUDService`1.CreateAsync(`0)">
@@ -292,7 +269,7 @@
             Get DbSet for entities filtered by current culture.
             </summary>
             <param name="context">Context that set belongs to.</param>
-            <returns>DbSet for entities of type <see cref="!:T"/> filtered by current culture.</returns>
+            <returns>DbSet for entities of type <typeparamref name="T" /> filtered by current culture.</returns>
         </member>
         <member name="M:Cooking.ServiceLayer.CRUDService`1.GetCurrentCulture">
             <summary>
@@ -319,6 +296,11 @@
             <param name="contextFactory">Factory for creating <see cref="T:Cooking.Data.Context.CookingContext"/> instances.</param>
             <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
             <param name="mapper">Dependency on database-projection mapper.</param>
+        </member>
+        <member name="M:Cooking.ServiceLayer.DayService.InitCache">
+            <summary>
+            Load last cooked dates for all recipies to fill the cache.
+            </summary>
         </member>
         <member name="M:Cooking.ServiceLayer.DayService.GetLastCookedDate(System.Guid)">
             <summary>
@@ -483,14 +465,6 @@
             <typeparam name="TMap">Type of dto to return.</typeparam>
             <param name="id">ID of entity to load and map.</param>
             <returns>Mapped object.</returns>
-        </member>
-        <member name="M:Cooking.ServiceLayer.RecipeService.GetAllMapped``1">
-            <summary>
-            Load the whole list of entities and all of it's dependencies, then map it to needed dto.
-            Allows to use custom mappings using IoC containers and <see cref="T:AutoMapper.IMappingAction`2" />.
-            </summary>
-            <typeparam name="TMap">Type of dto to return.</typeparam>
-            <returns>Mapped object collection.</returns>
         </member>
         <member name="M:Cooking.ServiceLayer.RecipeService.GetRecipiesByParametersProjected``1(System.Collections.Generic.List{System.Guid},System.Collections.Generic.List{Cooking.Data.Model.CalorieType},System.Nullable{System.Int32},System.Nullable{System.Int32},System.Nullable{System.Boolean})">
             <summary>
