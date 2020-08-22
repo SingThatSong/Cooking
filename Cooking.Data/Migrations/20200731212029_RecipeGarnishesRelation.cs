@@ -3,8 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Add relation between recipies and garnishes.
+    /// </summary>
     public partial class RecipeGarnishesRelation : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -37,6 +41,7 @@ namespace Cooking.Data.Migrations
                 column: "RecipeID");
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200722231149_test")]
     partial class AddManyToManyMigration
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200211210810_IncludeTagInMenu")]
     partial class IncludeTagInMenu
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

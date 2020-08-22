@@ -11,6 +11,7 @@ namespace Cooking.Data.Migrations
     [Migration("20181107223127_Initial")]
     partial class Initial
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder

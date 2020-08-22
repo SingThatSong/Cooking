@@ -24,7 +24,6 @@ namespace Cooking.Data.Context
         /// Initializes a new instance of the <see cref="CookingContext"/> class.
         /// </summary>
         /// <param name="dbFilename">Database file name.</param>
-        /// <param name="useLazyLoading">Use lazy loading in this context.</param>
         public CookingContext(string dbFilename)
         {
             DbFilename = dbFilename;

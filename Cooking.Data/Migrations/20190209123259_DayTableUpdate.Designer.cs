@@ -11,6 +11,7 @@ namespace Cooking.Data.Migrations
     [Migration("20190209123259_actual")]
     partial class DayTableUpdate
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 

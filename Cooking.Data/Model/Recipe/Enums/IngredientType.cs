@@ -6,7 +6,7 @@ namespace Cooking.Data.Model
     /// <summary>
     /// Ingredient's type.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1602:Enumeration items should be documented", Justification = "Names are obvious.")]
+#pragma warning disable CS1591, SA1602 // Names are self-explanatory.
     public enum IngredientType : int
     {
         Alcohol = 1,
@@ -24,4 +24,5 @@ namespace Cooking.Data.Model
         Nuts = 13,
         Ready = 14,
     }
+#pragma warning restore CS1591
 }

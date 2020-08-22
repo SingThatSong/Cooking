@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200213202854_DeleteBehaviour")]
     partial class DeleteBehaviour
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

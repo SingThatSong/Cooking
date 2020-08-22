@@ -11,6 +11,7 @@ namespace Cooking.Data.Migrations
     [Migration("20181108130532_IngredientOrder")]
     partial class IngredientOrder
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder

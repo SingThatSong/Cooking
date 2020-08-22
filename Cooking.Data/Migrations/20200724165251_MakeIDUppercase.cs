@@ -2,8 +2,12 @@
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Rename Id to ID.
+    /// </summary>
     public partial class MakeIDUppercase : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             // Inconsistency fix: removing recipetags values where recipe is deleted
@@ -38,6 +42,7 @@ namespace Cooking.Data.Migrations
             migrationBuilder.Sql("PRAGMA foreign_keys = ON;", suppressTransaction: true);
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(

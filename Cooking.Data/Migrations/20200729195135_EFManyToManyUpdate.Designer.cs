@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200729195135_EFManyToManyUpdate")]
     partial class EFManyToManyUpdate
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

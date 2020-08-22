@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200724221114_MeasureUnitPluralization")]
     partial class MeasureUnitPluralization
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

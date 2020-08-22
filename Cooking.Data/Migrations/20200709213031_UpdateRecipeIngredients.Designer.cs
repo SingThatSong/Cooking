@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200709213031_UpdateRecipeIngredients")]
     partial class UpdateRecipeIngredients
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

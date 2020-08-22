@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200126004226_RemoveWeek")]
     partial class RemoveWeek
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

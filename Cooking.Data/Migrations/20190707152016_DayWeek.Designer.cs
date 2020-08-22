@@ -11,6 +11,7 @@ namespace Cooking.Data.Migrations
     [Migration("20190707152016_DayWeek")]
     partial class DayWeek
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 

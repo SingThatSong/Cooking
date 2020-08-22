@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200813234806_EFCoreNamingUpdate")]
     partial class EFCoreNamingUpdate
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

@@ -11,6 +11,7 @@ namespace Cooking.Data.Migrations
     [Migration("20190524195540_NameUnique")]
     partial class NameUnique
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 

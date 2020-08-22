@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200531202130_TypeRename")]
     partial class TypeRename
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

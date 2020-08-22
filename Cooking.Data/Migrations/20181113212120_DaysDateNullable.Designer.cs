@@ -11,6 +11,7 @@ namespace Cooking.Data.Migrations
     [Migration("20181113212120_DaysDateNullable")]
     partial class DaysDateNullable
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 

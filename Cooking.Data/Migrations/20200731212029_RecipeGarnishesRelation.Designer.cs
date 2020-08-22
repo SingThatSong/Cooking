@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200731212029_RecipeGarnishesRelation")]
     partial class RecipeGarnishesRelation
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

@@ -14,7 +14,6 @@
             Initializes a new instance of the <see cref="T:Cooking.Data.Context.CookingContext"/> class.
             </summary>
             <param name="dbFilename">Database file name.</param>
-            <param name="useLazyLoading">Use lazy loading in this context.</param>
         </member>
         <member name="M:Cooking.Data.Context.CookingContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{Cooking.Data.Context.CookingContext})">
             <summary>
@@ -68,7 +67,6 @@
             <summary>
             Method to create <see cref="T:Cooking.Data.Context.CookingContext"/>.
             </summary>
-            <param name="useLazyLoading">Use lazy loading in this context.</param>
             <returns>Instance of <see cref="T:Cooking.Data.Context.CookingContext"/>.</returns>
         </member>
         <member name="T:Cooking.Data.Migrations.Initial">
@@ -82,6 +80,9 @@
         <member name="M:Cooking.Data.Migrations.Initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.Data.Migrations.Initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.Data.Migrations.IngredientOrder">
             <summary>
             Ingredient order migration.
@@ -91,6 +92,9 @@
             <inheritdoc/>
         </member>
         <member name="M:Cooking.Data.Migrations.IngredientOrder.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.IngredientOrder.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.Data.Migrations.RecipeSource">
@@ -104,6 +108,9 @@
         <member name="M:Cooking.Data.Migrations.RecipeSource.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.Data.Migrations.RecipeSource.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.Data.Migrations.Ratings">
             <summary>
             Ratings added for recipies.
@@ -113,6 +120,9 @@
             <inheritdoc/>
         </member>
         <member name="M:Cooking.Data.Migrations.Ratings.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.Ratings.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.Data.Migrations.IngredientType">
@@ -126,6 +136,9 @@
         <member name="M:Cooking.Data.Migrations.IngredientType.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.Data.Migrations.IngredientType.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.Data.Migrations.DaysDateNullable">
             <summary>
             Set Date for day nullable.
@@ -135,6 +148,9 @@
             <inheritdoc/>
         </member>
         <member name="M:Cooking.Data.Migrations.DaysDateNullable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.DaysDateNullable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.Data.Migrations.DayTableUpdate">
@@ -148,6 +164,9 @@
         <member name="M:Cooking.Data.Migrations.DayTableUpdate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.Data.Migrations.DayTableUpdate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.Data.Migrations.NameUnique">
             <summary>
             Migration to enforce that recipe names must be unique.
@@ -157,6 +176,9 @@
             <inheritdoc/>
         </member>
         <member name="M:Cooking.Data.Migrations.NameUnique.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.NameUnique.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.Data.Migrations.AddGarnish">
@@ -170,6 +192,9 @@
         <member name="M:Cooking.Data.Migrations.AddGarnish.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.Data.Migrations.AddGarnish.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.Data.Migrations.RemoveDayNotRemovesWeek">
             <summary>
             Migration to ensure that day removal do not remove week.
@@ -179,6 +204,9 @@
             <inheritdoc/>
         </member>
         <member name="M:Cooking.Data.Migrations.RemoveDayNotRemovesWeek.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.RemoveDayNotRemovesWeek.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.Data.Migrations.DayWeekRelation">
@@ -192,6 +220,9 @@
         <member name="M:Cooking.Data.Migrations.DayWeekRelation.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.Data.Migrations.DayWeekRelation.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.Data.Migrations.DayWeek">
             <summary>
             Move data accordingly to prev. migration.
@@ -201,6 +232,9 @@
             <inheritdoc/>
         </member>
         <member name="M:Cooking.Data.Migrations.DayWeek.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.DayWeek.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.Data.Migrations.AddLocalization">
@@ -214,6 +248,9 @@
         <member name="M:Cooking.Data.Migrations.AddLocalization.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.Data.Migrations.AddLocalization.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.Data.Migrations.RemoveWeek">
             <summary>
             Migration to remove Week table.
@@ -223,6 +260,9 @@
             <inheritdoc/>
         </member>
         <member name="M:Cooking.Data.Migrations.RemoveWeek.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.RemoveWeek.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.Data.Migrations.Change_Id_Types">
@@ -236,6 +276,9 @@
         <member name="M:Cooking.Data.Migrations.Change_Id_Types.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.Data.Migrations.Change_Id_Types.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.Data.Migrations.Add_Day_Constraints">
             <summary>
             Days now should always have dinner and date.
@@ -245,6 +288,9 @@
             <inheritdoc/>
         </member>
         <member name="M:Cooking.Data.Migrations.Add_Day_Constraints.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.Add_Day_Constraints.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.Data.Migrations.FKs_Fix">
@@ -258,6 +304,9 @@
         <member name="M:Cooking.Data.Migrations.FKs_Fix.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.Data.Migrations.FKs_Fix.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.Data.Migrations.IncludeTagInMenu">
             <summary>
             Add support for including tag in menu.
@@ -267,6 +316,9 @@
             <inheritdoc/>
         </member>
         <member name="M:Cooking.Data.Migrations.IncludeTagInMenu.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.IncludeTagInMenu.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.Data.Migrations.DeleteBehaviour">
@@ -280,6 +332,9 @@
         <member name="M:Cooking.Data.Migrations.DeleteBehaviour.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.Data.Migrations.DeleteBehaviour.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.Data.Migrations.AddMeasureUnitTable">
             <summary>
             Add table to sotre measure units.
@@ -289,6 +344,9 @@
             <inheritdoc/>
         </member>
         <member name="M:Cooking.Data.Migrations.AddMeasureUnitTable.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.AddMeasureUnitTable.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.Data.Migrations.TypeRename">
@@ -302,6 +360,9 @@
         <member name="M:Cooking.Data.Migrations.TypeRename.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.Data.Migrations.TypeRename.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.Data.Migrations.InsertMeasureUnitData">
             <summary>
             Replacement of enum MeasureUnit to database table MeasureUnit.
@@ -311,6 +372,9 @@
             <inheritdoc/>
         </member>
         <member name="M:Cooking.Data.Migrations.InsertMeasureUnitData.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.InsertMeasureUnitData.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.Data.Migrations.UpdateRecipeIngredients">
@@ -324,6 +388,9 @@
         <member name="M:Cooking.Data.Migrations.UpdateRecipeIngredients.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.Data.Migrations.UpdateRecipeIngredients.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.Data.Migrations.AddTagMenuIcon">
             <summary>
             Migration to add property to keep selected icon for a tag.
@@ -335,6 +402,79 @@
         <member name="M:Cooking.Data.Migrations.AddTagMenuIcon.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.Data.Migrations.AddTagMenuIcon.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.AddManyToManyMigration">
+            <summary>
+            Add many-to-many migration between recipies and tags.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.AddManyToManyMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.AddManyToManyMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.AddManyToManyMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.MakeIDUppercase">
+            <summary>
+            Rename Id to ID.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.MakeIDUppercase.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.MakeIDUppercase.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.MakeIDUppercase.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.MeasureUnitPluralization">
+            <summary>
+            Add pluralization for measurement units.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.MeasureUnitPluralization.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.MeasureUnitPluralization.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.MeasureUnitPluralization.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.EFManyToManyUpdate">
+            <summary>
+            Add Code First update made in EF Core.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.EFManyToManyUpdate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.EFManyToManyUpdate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.EFManyToManyUpdate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Data.Migrations.RecipeGarnishesRelation">
+            <summary>
+            Add relation between recipies and garnishes.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Migrations.RecipeGarnishesRelation.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.RecipeGarnishesRelation.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.RecipeGarnishesRelation.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.Data.Migrations.EFCoreNamingUpdate">
             <summary>
             Migration to address EF Core new namings.
@@ -344,6 +484,9 @@
             <inheritdoc/>
         </member>
         <member name="M:Cooking.Data.Migrations.EFCoreNamingUpdate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Data.Migrations.EFCoreNamingUpdate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc/>
         </member>
         <member name="T:Cooking.Data.Migrations.CookingContextFactory">
@@ -462,22 +605,22 @@
         </member>
         <member name="F:Cooking.Data.Model.TagType.DishType">
             <summary>
-            DishType
+            DishType.
             </summary>
         </member>
         <member name="F:Cooking.Data.Model.TagType.MainIngredient">
             <summary>
-            MainIngredient
+            MainIngredient.
             </summary>
         </member>
         <member name="F:Cooking.Data.Model.TagType.Occasion">
             <summary>
-            Occasion
+            Occasion.
             </summary>
         </member>
         <member name="F:Cooking.Data.Model.TagType.Source">
             <summary>
-            Source
+            Source.
             </summary>
         </member>
         <member name="T:Cooking.Data.Model.Ingredient">
@@ -514,6 +657,18 @@
             <summary>
             Measurement units hardcoded values.
             </summary>
+        </member>
+        <member name="M:Cooking.Data.Model.MeasureUnit.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.Data.Model.MeasureUnit"/> class.
+            </summary>
+        </member>
+        <member name="M:Cooking.Data.Model.MeasureUnit.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.Data.Model.MeasureUnit"/> class.
+            </summary>
+            <param name="name">Name of a measure unit.</param>
+            <param name="fullNamePluralization">Pluralizations for measure unit.</param>
         </member>
         <member name="P:Cooking.Data.Model.MeasureUnit.Name">
             <summary>

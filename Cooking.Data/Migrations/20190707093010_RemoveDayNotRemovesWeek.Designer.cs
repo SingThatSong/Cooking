@@ -11,6 +11,7 @@ namespace Cooking.Data.Migrations
     [Migration("20190707093010_RemoveDayNotRemovesWeek")]
     partial class RemoveDayNotRemovesWeek
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 

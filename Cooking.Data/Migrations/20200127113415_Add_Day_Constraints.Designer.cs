@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200127113415_Add_Day_Constraints")]
     partial class Add_Day_Constraints
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

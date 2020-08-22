@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200724165251_MakeIDUppercase")]
     partial class MakeIDUppercase
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

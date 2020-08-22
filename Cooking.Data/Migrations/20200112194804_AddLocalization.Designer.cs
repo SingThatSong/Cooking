@@ -11,6 +11,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200112194804_AddLocalization")]
     partial class AddLocalization
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 

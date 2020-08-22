@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200201114421_FKs_Fix")]
     partial class FKs_Fix
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

@@ -2,8 +2,12 @@
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Add pluralization for measurement units.
+    /// </summary>
     public partial class MeasureUnitPluralization : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
@@ -55,6 +59,7 @@ namespace Cooking.Data.Migrations
                      WHERE ID = 'A072CB35-8FF7-4ACD-BCD6-23C7E3F64D8A';");
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(

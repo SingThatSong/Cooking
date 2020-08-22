@@ -11,6 +11,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200127103438_change_id_types")]
     partial class Change_Id_Types
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618

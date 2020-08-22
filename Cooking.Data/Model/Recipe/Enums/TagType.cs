@@ -8,22 +8,22 @@ namespace Cooking.Data.Model
     public enum TagType
     {
         /// <summary>
-        /// DishType
+        /// DishType.
         /// </summary>
         DishType = 1,
 
         /// <summary>
-        /// MainIngredient
+        /// MainIngredient.
         /// </summary>
         MainIngredient = 2,
 
         /// <summary>
-        /// Occasion
+        /// Occasion.
         /// </summary>
         Occasion = 3,
 
         /// <summary>
-        /// Source
+        /// Source.
         /// </summary>
         Source = 4
     }

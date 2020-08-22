@@ -11,6 +11,7 @@ namespace Cooking.Data.Migrations
     [Migration("20190620190149_AddGarnish")]
     partial class AddGarnish
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 

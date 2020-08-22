@@ -2,8 +2,12 @@
 
 namespace Cooking.Data.Migrations
 {
+    /// <summary>
+    /// Add many-to-many migration between recipies and tags.
+    /// </summary>
     public partial class AddManyToManyMigration : Migration
     {
+        /// <inheritdoc/>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             // Inconsistency fix: removing recipetags values where recipe is deleted
@@ -55,6 +59,7 @@ namespace Cooking.Data.Migrations
             migrationBuilder.Sql("PRAGMA foreign_keys = ON;", suppressTransaction: true);
         }
 
+        /// <inheritdoc/>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(

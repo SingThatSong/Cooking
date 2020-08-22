@@ -12,6 +12,7 @@ namespace Cooking.Data.Migrations
     [Migration("20200531193821_AddMeasureUnitTable")]
     partial class AddMeasureUnitTable
     {
+        /// <inheritdoc/>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
