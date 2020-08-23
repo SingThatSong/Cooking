@@ -10,6 +10,14 @@ namespace Cooking.ServiceLayer
     public interface ILocalization : ICurrentCultureProvider
     {
         /// <summary>
+        /// Get localized string for a key.
+        /// Shortcut for <see cref="GetLocalizedString(string)"/>.
+        /// </summary>
+        /// <param name="key">Key to get a string.</param>
+        /// <returns>Localized string.</returns>
+        string? this[string key] { get; }
+
+        /// <summary>
         /// Get all values for prefix. Usually prefix is enum type.
         /// </summary>
         /// <param name="prefix">Key prefix.</param>

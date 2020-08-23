@@ -122,6 +122,14 @@
             Interface for providing localized text.
             </summary>
         </member>
+        <member name="P:Cooking.ServiceLayer.ILocalization.Item(System.String)">
+            <summary>
+            Get localized string for a key.
+            Shortcut for <see cref="M:Cooking.ServiceLayer.ILocalization.GetLocalizedString(System.String)"/>.
+            </summary>
+            <param name="key">Key to get a string.</param>
+            <returns>Localized string.</returns>
+        </member>
         <member name="M:Cooking.ServiceLayer.ILocalization.GetAllValuesFor(System.String)">
             <summary>
             Get all values for prefix. Usually prefix is enum type.

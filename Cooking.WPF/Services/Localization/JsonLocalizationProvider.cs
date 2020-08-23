@@ -55,6 +55,9 @@ namespace Cooking.WPF.Services
         public CultureInfo CurrentCulture => LocalizeDictionary.Instance.Culture;
 
         /// <inheritdoc/>
+        public string? this[string key] => GetLocalizedString(key);
+
+        /// <inheritdoc/>
         public FullyQualifiedResourceKeyBase GetFullyQualifiedResourceKey(string key, DependencyObject? target) => new FQAssemblyDictionaryKey(key);
 
         /// <inheritdoc/>
