@@ -55,7 +55,7 @@ namespace Cooking.WPF.Services
         public CultureInfo CurrentCulture => LocalizeDictionary.Instance.Culture;
 
         /// <inheritdoc/>
-        public FullyQualifiedResourceKeyBase GetFullyQualifiedResourceKey(string key, DependencyObject target) => new FQAssemblyDictionaryKey(key);
+        public FullyQualifiedResourceKeyBase GetFullyQualifiedResourceKey(string key, DependencyObject? target) => new FQAssemblyDictionaryKey(key);
 
         /// <inheritdoc/>
         public object? GetLocalizedObject(string key, DependencyObject? target, CultureInfo culture)
@@ -69,24 +69,22 @@ namespace Cooking.WPF.Services
                 else
                 {
                     ProviderError?.Invoke(this, new ProviderErrorEventArgs(target, key, "No such key"));
+                    return null;
                 }
             }
             else
             {
-                if (InitCache(culture))
+                InitCache(culture);
+                if (localizationCache[culture.Name].ContainsKey(key))
                 {
-                    if (localizationCache[culture.Name].ContainsKey(key))
-                    {
-                        return localizationCache[culture.Name][key];
-                    }
-                    else
-                    {
-                        ProviderError?.Invoke(this, new ProviderErrorEventArgs(target, key, "No such key"));
-                    }
+                    return localizationCache[culture.Name][key];
+                }
+                else
+                {
+                    ProviderError?.Invoke(this, new ProviderErrorEventArgs(target, key, "No such key"));
+                    return null;
                 }
             }
-
-            return null;
         }
 
         /// <summary>
@@ -136,22 +134,26 @@ namespace Cooking.WPF.Services
             {
                 return localizationCache[culture.Name]
                             .Where(x => x.Key.StartsWith($"{prefix}_", StringComparison.Ordinal))
-                            .ToDictionary(x => x.Key.Substring(x.Key.IndexOf('_', StringComparison.Ordinal) + 1), x => x.Value);
+                            .ToDictionary(x =>
+                            {
+                                int indexAfterUnderscore = x.Key.IndexOf('_', StringComparison.Ordinal) + 1;
+                                return x.Key[indexAfterUnderscore..];
+                            }, x => x.Value);
             }
             else
             {
-                if (InitCache(culture))
-                {
-                    return localizationCache[culture.Name]
-                                .Where(x => x.Key.StartsWith($"{prefix}_", StringComparison.Ordinal))
-                                .ToDictionary(x => x.Key.Substring(x.Key.IndexOf('_', StringComparison.Ordinal) + 1), x => x.Value);
-                }
+                InitCache(culture);
+                return localizationCache[culture.Name]
+                            .Where(x => x.Key.StartsWith($"{prefix}_", StringComparison.Ordinal))
+                            .ToDictionary(x =>
+                            {
+                                int indexAfterUnderscore = x.Key.IndexOf('_', StringComparison.Ordinal) + 1;
+                                return x.Key[indexAfterUnderscore..];
+                            }, x => x.Value);
             }
-
-            return new Dictionary<string, string>();
         }
 
-        private bool InitCache(CultureInfo culture)
+        private void InitCache(CultureInfo culture)
         {
             string filename = Consts.LocalizationFilename;
             if (culture.Name.Length != 0)
@@ -160,12 +162,6 @@ namespace Cooking.WPF.Services
             }
 
             filename += ".json";
-
-            if (!File.Exists($@"{Consts.LocalizationFolder}\" + filename))
-            {
-                return false;
-            }
-
             string json = File.ReadAllText($@"{Consts.LocalizationFolder}\" + filename);
 
             Dictionary<string, string>? deserialized = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
@@ -173,8 +169,6 @@ namespace Cooking.WPF.Services
             {
                 localizationCache[culture.Name] = deserialized;
             }
-
-            return true;
         }
     }
 }
