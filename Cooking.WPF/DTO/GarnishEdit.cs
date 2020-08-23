@@ -8,11 +8,8 @@ namespace Cooking.WPF.DTO
     /// Dto for garnish editing.
     /// </summary>
     [InjectValidation]
-    public class GarnishEdit : Entity, INotifyPropertyChanged
+    public class GarnishEdit : EntityNotify
     {
-        /// <inheritdoc/>
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         /// <summary>
         /// Gets or sets garnish name.
         /// </summary>

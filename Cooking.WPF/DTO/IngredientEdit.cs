@@ -8,11 +8,8 @@ namespace Cooking.WPF.DTO
     /// Sto for ingredient editing.
     /// </summary>
     [InjectValidation]
-    public class IngredientEdit : Entity, INotifyPropertyChanged
+    public class IngredientEdit : EntityNotify
     {
-        /// <inheritdoc/>
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         /// <summary>
         /// Gets or sets ingredient name.
         /// </summary>

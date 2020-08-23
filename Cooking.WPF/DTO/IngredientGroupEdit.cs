@@ -9,9 +9,8 @@ namespace Cooking.WPF.DTO
     /// <summary>
     /// Dto for ingredient group editing.
     /// </summary>
-    [AddINotifyPropertyChangedInterface]
     [InjectValidation]
-    public class IngredientGroupEdit : Entity
+    public class IngredientGroupEdit : EntityNotify
     {
         /// <summary>
         /// Gets or sets ingredient group name.

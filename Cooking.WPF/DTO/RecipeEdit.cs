@@ -11,9 +11,8 @@ namespace Cooking.WPF.DTO
     /// <summary>
     /// Dto for recipe editing and view.
     /// </summary>
-    [AddINotifyPropertyChangedInterface]
     [InjectValidation]
-    public class RecipeEdit : Entity
+    public class RecipeEdit : EntityNotify
     {
         /// <summary>
         /// Gets or sets image path.

@@ -7,11 +7,8 @@ namespace Cooking.WPF.DTO
     /// <summary>
     /// Dto for day displaying.
     /// </summary>
-    public class DayDisplay : Entity, INotifyPropertyChanged
+    public class DayDisplay : EntityNotify
     {
-        /// <inheritdoc/>
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         /// <summary>
         /// Gets or sets a value indicating whether dinner on a given day was cooked.
         /// </summary>

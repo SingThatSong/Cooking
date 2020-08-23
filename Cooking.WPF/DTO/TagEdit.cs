@@ -8,7 +8,7 @@ namespace Cooking.WPF.DTO
     /// Dto for tag edit.
     /// </summary>
     [InjectValidation]
-    public class TagEdit : Entity, INotifyPropertyChanged
+    public class TagEdit : EntityNotify
     {
         /// <summary>
         /// Any tag for selection.
@@ -18,9 +18,6 @@ namespace Cooking.WPF.DTO
         {
             CanBeRemoved = false
         };
-
-        /// <inheritdoc/>
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Gets or sets tag name.

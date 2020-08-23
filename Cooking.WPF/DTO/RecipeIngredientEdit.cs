@@ -1,5 +1,6 @@
 ﻿using Cooking.Data.Model;
 using PropertyChanged;
+using System;
 using System.Threading;
 using Validar;
 
@@ -9,15 +10,13 @@ namespace Cooking.WPF.DTO
     /// DTO for edit ingredient in recipe.
     /// </summary>
     [InjectValidation]
-    [AddINotifyPropertyChangedInterface]
-    public class RecipeIngredientEdit : Entity
+    public class RecipeIngredientEdit : EntityNotify
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeIngredientEdit"/> class.
         /// </summary>
         public RecipeIngredientEdit()
         {
-            Culture = Thread.CurrentThread.CurrentUICulture.Name;
         }
 
         /// <summary>

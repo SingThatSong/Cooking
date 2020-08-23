@@ -7,8 +7,7 @@ namespace Cooking.WPF.DTO
     /// <summary>
     /// Shallow recipe DTO for showing in lists.
     /// </summary>
-    [AddINotifyPropertyChangedInterface]
-    public class RecipeListViewDto : Entity
+    public class RecipeListViewDto : EntityNotify
     {
         /// <summary>
         /// Gets or sets recipe name.

@@ -7,9 +7,6 @@ using Cooking.WPF.Services;
 using System;
 using System.Linq;
 
-// Class contains imperative mapping rules, null-checks are irrelevant
-#pragma warning disable CS8604
-
 namespace Cooking
 {
     /// <summary>
@@ -23,65 +20,70 @@ namespace Cooking
         /// <returns>Instance of <see cref="IConfigurationProvider"/>.</returns>
         public static IConfigurationProvider CreateMapper()
             => new MapperConfiguration(cfg =>
-                {
-                    cfg.AllowNullDestinationValues = true;
-                    cfg.AddCollectionMappers();
+            {
+                cfg.AllowNullDestinationValues = true;
+                cfg.AddCollectionMappers();
 
-                    // Base mapping for db-dto mappings
-                    cfg.CreateMap<Entity, Entity>()
-                       .EqualityComparison((a, b) => a.ID == b.ID)
-                       .IncludeAllDerived();
+                cfg.ShouldMapProperty = _ => false;
+                cfg.ShouldMapField = _ => true;
 
-                    // Map created recipe to displayed in list
-                    cfg.CreateMap<RecipeEdit, RecipeListViewDto>()
+                // Base mapping for db-dto mappings
+                cfg.CreateMap<Entity, Entity>()
+                   .EqualityComparison((a, b) => a.ID == b.ID)
+                   .IncludeAllDerived();
 
-                       // It is a new recipe, so we just set LastCooked to infinity
-                       .ForMember(x => x.LastCooked, opts => opts.MapFrom(_ => int.MaxValue));
+                cfg.CreateMap<Entity, EntityNotify>()
+                   .AfterMap((_, dest) => dest.RaiseChanged())
+                   .IncludeAllDerived();
 
-                    // Backup dto for editing
-                    cfg.CreateMap<GarnishEdit, GarnishEdit>();
-                    cfg.CreateMap<RecipeEdit, RecipeEdit>();
-                    cfg.CreateMap<TagEdit, TagEdit>();
-                    cfg.CreateMap<IngredientEdit, IngredientEdit>();
-                    cfg.CreateMap<MeasureUnit, MeasureUnit>();
-                    cfg.CreateMap<RecipeIngredientEdit, RecipeIngredientEdit>();
-                    cfg.CreateMap<IngredientGroupEdit, IngredientGroupEdit>();
+                // Map created recipe to displayed in list
+                cfg.CreateMap<RecipeEdit, RecipeListViewDto>()
 
-                    cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>()
-                       .ReverseMap()
+                   // It is a new recipe, so we just set LastCooked to infinity
+                   .ForMember(x => x.LastCooked, opts => opts.MapFrom(_ => int.MaxValue));
 
-                        // Do not map ingredient and measure unit object, it's not new, so db will fail on attempt to create duplicate
-                       .ForMember(x => x.Ingredient, opts => opts.Ignore())
-                       .ForMember(x => x.MeasureUnit, opts => opts.Ignore())
-                       .ForMember(x => x.MeasureUnitID, opts => opts.MapFrom(x => x.MeasureUnit != null ? (Guid?)x.MeasureUnit.ID : null));
+                // Backup dto for editing
+                cfg.CreateMap<GarnishEdit, GarnishEdit>();
+                cfg.CreateMap<RecipeEdit, RecipeEdit>();
+                cfg.CreateMap<TagEdit, TagEdit>();
+                cfg.CreateMap<IngredientEdit, IngredientEdit>();
+                cfg.CreateMap<MeasureUnit, MeasureUnit>();
+                cfg.CreateMap<RecipeIngredientEdit, RecipeIngredientEdit>();
+                cfg.CreateMap<IngredientGroupEdit, IngredientGroupEdit>();
 
-                    // Project Recipe from db to displayed in lists
-                    cfg.CreateMap<Recipe, RecipeListViewDto>()
-                       .AfterMap<RecipeDtoConverter>();
+                cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>()
+                   .ReverseMap()
 
-                    // Project Recipe from db to displayed in recipe view
-                    cfg.CreateMap<Recipe, RecipeEdit>()
-                       .AfterMap<RecipeConverter>();
+                    // Do not map ingredient and measure unit object, it's not new, so db will fail on attempt to create duplicate
+                   .ForMember(x => x.Ingredient, opts => opts.Ignore())
+                   .ForMember(x => x.MeasureUnit, opts => opts.Ignore())
+                   .ForMember(x => x.MeasureUnitID, opts => opts.MapFrom(x => x.MeasureUnit != null ? (Guid?)x.MeasureUnit.ID : null));
 
-                    // Update db entry
-                    cfg.CreateMap<RecipeEdit, Recipe>();
+                // Project Recipe from db to displayed in lists
+                cfg.CreateMap<Recipe, RecipeListViewDto>()
+                   .AfterMap<RecipeDtoConverter>();
 
-                    // Update ingredients group in recipe
-                    cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>()
-                       .ReverseMap();
+                // Project Recipe from db to displayed in recipe view
+                cfg.CreateMap<Recipe, RecipeEdit>()
+                   .AfterMap<RecipeConverter>();
 
-                    // Project day to display
-                    cfg.CreateMap<Day, DayDisplay>();
+                // Update db entry
+                cfg.CreateMap<RecipeEdit, Recipe>();
 
-                    // Project enities for editing
-                    cfg.CreateMap<Garnish, GarnishEdit>()
-                       .ReverseMap();
-                    cfg.CreateMap<Tag, TagEdit>()
-                       .ReverseMap();
-                    cfg.CreateMap<Ingredient, IngredientEdit>()
-                       .ReverseMap();
-                });
+                // Update ingredients group in recipe
+                cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>()
+                   .ReverseMap();
+
+                // Project day to display
+                cfg.CreateMap<Day, DayDisplay>();
+
+                // Project enities for editing
+                cfg.CreateMap<Garnish, GarnishEdit>()
+                   .ReverseMap();
+                cfg.CreateMap<Tag, TagEdit>()
+                   .ReverseMap();
+                cfg.CreateMap<Ingredient, IngredientEdit>()
+                   .ReverseMap();
+             });
     }
 }
-
-#pragma warning restore CS8604
