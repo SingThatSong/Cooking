@@ -90,26 +90,6 @@ namespace Cooking.WPF.ViewModels
         public ObservableCollection<DayDisplay>? CurrentWeek { get; private set; }
 
         /// <summary>
-        /// Gets localized caption for MoveRecipeToNextWeek.
-        /// </summary>
-        public string? MoveRecipeToNextWeekCaption => localization.GetLocalizedString("MoveRecipeToNextWeek");
-
-        /// <summary>
-        /// Gets localized caption for NewRecipe.
-        /// </summary>
-        public string? NewRecipeCaption => localization.GetLocalizedString("NewRecipe");
-
-        /// <summary>
-        /// Gets localized caption for Delete.
-        /// </summary>
-        public string? DeleteCaption => localization.GetLocalizedString("Delete");
-
-        /// <summary>
-        /// Gets localized caption for Replace.
-        /// </summary>
-        public string? ReplaceCaption => localization.GetLocalizedString("Replace");
-
-        /// <summary>
         /// Gets command to execute on loaded event.
         /// </summary>
         public AsyncDelegateCommand LoadedCommand { get; }
@@ -251,9 +231,9 @@ namespace Cooking.WPF.ViewModels
             if (!prevWeekFilled)
             {
                 // Reminder of recipies on a previous week
-                await dialogService.ShowYesNoDialogAsync(
-                      localization.GetLocalizedString("ByTheWay"),
-                      localization.GetLocalizedString("YouNeedToMoveRecipies"),
+                await dialogService.ShowLocalizedYesNoDialogAsync(
+                      "ByTheWay",
+                      "YouNeedToMoveRecipies",
                       successCallback: () => SelectPreviousWeekCommand.Execute()
                 );
             }

@@ -17,21 +17,18 @@ namespace Cooking.WPF.ViewModels
     public partial class TagSelectViewModel : OkCancelViewModel
     {
         private readonly TagService tagService;
-        private readonly ILocalization localization;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TagSelectViewModel"/> class.
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="tagService">Tag service dependency.</param>
-        /// <param name="localization">Localization provider dependency.</param>
-        /// <param name="allTags">All tags to select from.</param>
         /// <param name="selectedTags">Alredy existing tags for editing.</param>
-        public TagSelectViewModel(DialogService dialogService, TagService tagService, ILocalization localization, IEnumerable<TagEdit> selectedTags, IList<TagEdit>? allTags = null)
+        /// <param name="allTags">All tags to select from.</param>
+        public TagSelectViewModel(DialogService dialogService, TagService tagService, IEnumerable<TagEdit> selectedTags, IList<TagEdit>? allTags = null)
             : base(dialogService)
         {
             this.tagService = tagService;
-            this.localization = localization;
             AddTagCommand = new DelegateCommand(AddTagAsync);
             AllTags = new ObservableCollection<TagEdit>(allTags ?? tagService.GetAllProjected<TagEdit>());
             SelectedItems.AddRange(AllTags.Intersect(selectedTags));
@@ -79,7 +76,7 @@ namespace Cooking.WPF.ViewModels
         /// </summary>
         public async void AddTagAsync()
         {
-            TagEditViewModel viewModel = await DialogService.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag"));
+            TagEditViewModel viewModel = await DialogService.ShowCustomLocalizedMessageAsync<TagEditView, TagEditViewModel>("NewTag");
 
             if (viewModel.DialogResultOk)
             {

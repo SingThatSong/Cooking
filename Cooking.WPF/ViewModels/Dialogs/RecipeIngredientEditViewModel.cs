@@ -1,9 +1,9 @@
 ﻿using Cooking.Data.Model;
-using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Validation;
 using Cooking.WPF.Views;
+using PropertyChanged;
 using ServiceLayer;
 using System;
 using System.Collections.Generic;
@@ -20,26 +20,22 @@ namespace Cooking.WPF.ViewModels
     {
         private readonly DialogService dialogService;
         private readonly IngredientService ingredientService;
-        private readonly ILocalization localization;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeIngredientEditViewModel"/> class.
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="ingredientService">Ingredient service dependency.</param>
-        /// <param name="localization">Localization provider dependency.</param>
         /// <param name="measureUnitService">Provider for a list of measurement units.</param>
         /// <param name="ingredient">Ingredient to edit.</param>
         public RecipeIngredientEditViewModel(DialogService dialogService,
                                              IngredientService ingredientService,
-                                             ILocalization localization,
                                              MeasureUnitService measureUnitService,
                                              RecipeIngredientEdit ingredient)
             : base(dialogService)
         {
             this.dialogService = dialogService;
             this.ingredientService = ingredientService;
-            this.localization = localization;
 
             Ingredient = ingredient;
             MeasurementUnits = measureUnitService.GetAll();
@@ -49,7 +45,6 @@ namespace Cooking.WPF.ViewModels
             CreateIngredientCommand = new AsyncDelegateCommand(CreateIngredientAsync);
 
             AllIngredients = ingredientService.GetAllProjected<IngredientEdit>();
-            LoadedCommand = new DelegateCommand(OnLoaded);
         }
 
         /// <summary>
@@ -61,26 +56,6 @@ namespace Cooking.WPF.ViewModels
         /// Gets values provider for measurement unit selection.
         /// </summary>
         public List<MeasureUnit> MeasurementUnits { get; }
-
-        /// <summary>
-        /// Gets localized caption for count.
-        /// </summary>
-        public string? CountCaption => localization.GetLocalizedString("Count");
-
-        /// <summary>
-        /// Gets localized caption for ingredient.
-        /// </summary>
-        public string? IngredientCaption => localization.GetLocalizedString("Ingredient");
-
-        /// <summary>
-        /// Gets localized caption for measurement unit.
-        /// </summary>
-        public string? MeasurementUnitCaption => localization.GetLocalizedString("MeasurementUnit");
-
-        /// <summary>
-        /// Gets command to execute on loaded event.
-        /// </summary>
-        public DelegateCommand LoadedCommand { get; }
 
         /// <summary>
         /// Gets command for saving current ingredient in recipe to cache and creating a new one.
@@ -100,6 +75,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets or sets crrently edited ingredient.
         /// </summary>
+        [DoNotCheckEquality]
         public RecipeIngredientEdit Ingredient { get; set; }
 
         /// <summary>
@@ -120,17 +96,6 @@ namespace Cooking.WPF.ViewModels
         /// <inheritdoc/>
         protected override bool CanOk() => Ingredient.IsValid();
 
-        // WARNING: this is a crunch
-        // When we open ingredient creation dialog second+ time, validation cannot see Ingredient being a required property, but when we change it's value - everything is ok
-        // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
-        // SimpleChildWindow does not help
-        private void OnLoaded()
-        {
-            IngredientEdit? backup = Ingredient.Ingredient;
-            Ingredient.Ingredient = new IngredientEdit();
-            Ingredient.Ingredient = backup;
-        }
-
         private void RemoveIngredient(RecipeIngredientEdit i) => Ingredients!.Remove(i);
 
         private void AddMultiple()
@@ -143,7 +108,7 @@ namespace Cooking.WPF.ViewModels
 
         private async Task CreateIngredientAsync()
         {
-            IngredientEditViewModel viewModel = await dialogService.ShowCustomMessageAsync<IngredientEditView, IngredientEditViewModel>(localization.GetLocalizedString("NewIngredient"));
+            IngredientEditViewModel viewModel = await dialogService.ShowCustomLocalizedMessageAsync<IngredientEditView, IngredientEditViewModel>("NewIngredient");
 
             if (viewModel.DialogResultOk)
             {

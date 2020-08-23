@@ -2,12 +2,12 @@
 using Cooking.ServiceLayer;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
-using Cooking.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Windows;
 using System.Windows.Data;
 
 namespace Cooking.WPF.ViewModels
@@ -19,27 +19,26 @@ namespace Cooking.WPF.ViewModels
     {
         private readonly List<RecipeListViewDto> recipies;
         private readonly RecipeService recipeService;
-        private readonly ILocalization localization;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeSelectViewModel"/> class.
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="recipeService">Recipe service dependency.</param>
-        /// <param name="localization">Localization service dependency.</param>
         /// <param name="day">Day, which settings will be user for filtering.</param>
         public RecipeSelectViewModel(DialogService dialogService,
                                      RecipeService recipeService,
-                                     ILocalization localization,
                                      DayPlan? day = null)
             : base(dialogService)
         {
             this.recipeService = recipeService;
-            this.localization = localization;
 
             recipies = recipeService.GetAllProjected<RecipeListViewDto>();
 
-            RecipiesSource = new CollectionViewSource() { Source = recipies };
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                RecipiesSource = new CollectionViewSource() { Source = recipies };
+            });
 
             if (day != null)
             {
@@ -113,12 +112,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets recipies collection to choose from.
         /// </summary>
-        public CollectionViewSource RecipiesSource { get; }
-
-        /// <summary>
-        /// Gets caption for search help placeholder.
-        /// </summary>
-        public string? SearchHelpTextCaption => localization.GetLocalizedString("SearchHelpText", Consts.IngredientSymbol, Consts.TagSymbol);
+        public CollectionViewSource? RecipiesSource { get; private set; }
 
         /// <summary>
         /// Gets or sets filter text value.
@@ -148,7 +142,11 @@ namespace Cooking.WPF.ViewModels
             }
 
             recipies.AddRange(newEntries);
-            RecipiesSource.View.Refresh();
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                RecipiesSource?.View.Refresh();
+            });
         }
     }
 }

@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:lex="https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -29,7 +29,7 @@
         <!--  Filter text  -->
         <TextBox
             mahapps:TextBoxHelper.UseFloatingWatermark="True"
-            mahapps:TextBoxHelper.Watermark="{Binding SearchHelpTextCaption, Mode=OneTime}"
+            mahapps:TextBoxHelper.Watermark="{lex:Loc SearchHelpText}"
             Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <!--  List of all filtered recipiest  -->
@@ -98,9 +98,6 @@
                                 </Button.Style>
                             </Button>
 
-                            <stringProxy:StringFormatProxy x:Name="wasCookedProxy" Value="{lex:Loc WasCooked}" />
-                            <stringProxy:StringFormatProxy x:Name="wasNotCookedProxy" Value="{lex:Loc WasNotCooked}" />
-
                             <ToggleButton
                                 Margin="0,0,10,-20"
                                 HorizontalAlignment="Right"
@@ -114,11 +111,11 @@
                                     <Style BasedOn="{StaticResource MaterialDesignActionToggleButton}" TargetType="ToggleButton">
                                         <Style.Triggers>
                                             <Trigger Property="IsChecked" Value="True">
-                                                <Setter Property="ToolTip" Value="{Binding ElementName=wasCookedProxy, Path=Result}" />
+                                                <Setter Property="ToolTip" Value="{lex:Loc WasCooked}" />
                                             </Trigger>
                                             <Trigger Property="IsChecked" Value="False">
                                                 <Setter Property="Background" Value="Gray" />
-                                                <Setter Property="ToolTip" Value="{Binding ElementName=wasNotCookedProxy, Path=Result}" />
+                                                <Setter Property="ToolTip" Value="{lex:Loc WasNotCooked}" />
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>

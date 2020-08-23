@@ -24,8 +24,7 @@ namespace Cooking.WPF.Services
         /// <inheritdoc/>
         public void Process(Recipe source, RecipeListViewDto destination, ResolutionContext context)
         {
-            int daysFromLastCook = recipeService.DaysFromLasCook(destination.ID);
-            destination.LastCooked = daysFromLastCook;
+            destination.LastCooked = recipeService.DaysFromLasCook(destination.ID);
         }
     }
 }

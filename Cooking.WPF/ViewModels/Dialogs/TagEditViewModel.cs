@@ -19,19 +19,15 @@ namespace Cooking.WPF.ViewModels
     /// </summary>
     public partial class TagEditViewModel : OkCancelViewModel
     {
-        private readonly ILocalization localization;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="TagEditViewModel"/> class.
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="tagService">Tag service dependency.</param>
-        /// <param name="localization">Localization provider dependency.</param>
         /// <param name="tag">Tag to edit. Null means new tag creation.</param>
-        public TagEditViewModel(DialogService dialogService, TagService tagService, ILocalization localization, TagEdit? tag = null)
+        public TagEditViewModel(DialogService dialogService, TagService tagService, TagEdit? tag = null)
             : base(dialogService)
         {
-            this.localization = localization;
             Tag = tag ?? new TagEdit();
             AllTags = tagService.GetAll();
             LoadedCommand = new DelegateCommand(OnLoaded);
@@ -52,56 +48,6 @@ namespace Cooking.WPF.ViewModels
             : AllTags.OrderBy(x => TagCompare(x.Name, Tag.Name))
                      .Select(x => x.Name)
                      .Take(Consts.HowManyAlternativesToShow);
-
-        /// <summary>
-        /// Gets localized caption for IsInMenu.
-        /// </summary>
-        public string? IsInMenuCaption => localization.GetLocalizedString("IsInMenu");
-
-        /// <summary>
-        /// Gets localized caption for MenuIcon.
-        /// </summary>
-        public string? MenuIconCaption => localization.GetLocalizedString("MenuIcon");
-
-        /// <summary>
-        /// Gets localized caption for Category.
-        /// </summary>
-        public string? CategoryCaption => localization.GetLocalizedString("Category");
-
-        /// <summary>
-        /// Gets localized caption for Color.
-        /// </summary>
-        public string? ColorCaption => localization.GetLocalizedString("Color");
-
-        /// <summary>
-        /// Gets localized caption for Name.
-        /// </summary>
-        public string? NameCaption => localization.GetLocalizedString("Name");
-
-        /// <summary>
-        /// Gets localized caption for ColorPicker's Manual.
-        /// </summary>
-        public string? ColorPickerManualCaption => localization.GetLocalizedString("ColorPicker_Manual");
-
-        /// <summary>
-        /// Gets localized caption for ColorPicker's AvailableColors.
-        /// </summary>
-        public string? ColorPickerAvailableColorsCaption => localization.GetLocalizedString("ColorPicker_AvailableColors");
-
-        /// <summary>
-        /// Gets localized caption for ColorPicker's Recent.
-        /// </summary>
-        public string? ColorPickerRecentCaption => localization.GetLocalizedString("ColorPicker_Recent");
-
-        /// <summary>
-        /// Gets localized caption for ColorPicker's Frequent.
-        /// </summary>
-        public string? ColorPickerFrequentCaption => localization.GetLocalizedString("ColorPicker_Frequent");
-
-        /// <summary>
-        /// Gets localized caption for ColorPicker's Standart.
-        /// </summary>
-        public string? ColorPickerStandartCaption => localization.GetLocalizedString("ColorPicker_Standart");
 
         /// <summary>
         /// Gets command to execute on loaded event.
@@ -126,9 +72,9 @@ namespace Cooking.WPF.ViewModels
             {
                 bool okAnyway = false;
 
-                await DialogService.ShowYesNoDialogAsync(
-                   localization.GetLocalizedString("TagAlreadyExists"),
-                   localization.GetLocalizedString("SaveAnyway"),
+                await DialogService.ShowLocalizedYesNoDialogAsync(
+                   "TagAlreadyExists",
+                   "SaveAnyway",
                    successCallback: () => okAnyway = true);
 
                 if (!okAnyway)

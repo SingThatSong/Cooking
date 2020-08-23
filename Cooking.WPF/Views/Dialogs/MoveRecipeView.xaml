@@ -5,6 +5,7 @@
     xmlns:System="clr-namespace:System;assembly=System.Runtime"
     xmlns:converters="clr-namespace:Cooking.WPF.Converters"
     xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
     design:DataContext="{design:DesignInstance viewModels:MoveRecipeViewModel}"
@@ -34,7 +35,7 @@
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
 
-        <TextBlock FontSize="24" Text="{Binding WhereMoveRecipeCaption, Mode=OneTime}" />
+        <TextBlock FontSize="24" Text="{lex:Loc WhereMoveRecipe}" />
 
         <!--  List of all days in week to select from  -->
         <ListView

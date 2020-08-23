@@ -5,7 +5,7 @@
     xmlns:converters="clr-namespace:Cooking.WPF.Converters"
     xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:lex="https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
@@ -34,28 +34,30 @@
         </Grid.ColumnDefinitions>
 
         <!--  Ingredient edit controls  -->
-        <StackPanel Orientation="Vertical">
-            <TextBlock Text="{Binding NameCaption, Mode=OneTime}" />
-            <TextBox
-                Name="Focused"
-                Grid.Column="1"
-                Text="{Binding Ingredient.Name, UpdateSourceTrigger=PropertyChanged}" />
+        <AdornerDecorator>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{lex:Loc Name}" />
+                <TextBox
+                    Name="Focused"
+                    Grid.Column="1"
+                    Text="{Binding Ingredient.Name, UpdateSourceTrigger=PropertyChanged}" />
 
-            <TextBlock Margin="0,10,0,0" Text="{Binding TypeCaption, Mode=OneTime}" />
-            <lex:EnumComboBox
-                mahapps:TextBoxHelper.ClearTextButton="True"
-                ItemsSource="{Binding IngredientTypes}"
-                PrependType="True"
-                SelectedItem="{Binding Ingredient.Type}"
-                Style="{StaticResource MaterialDesignComboBox}" />
-        </StackPanel>
+                <TextBlock Margin="0,10,0,0" Text="{lex:Loc Type}" />
+                <lex:EnumComboBox
+                    mahapps:TextBoxHelper.ClearTextButton="True"
+                    ItemsSource="{Binding IngredientTypes}"
+                    PrependType="True"
+                    SelectedItem="{Binding Ingredient.Type}"
+                    Style="{StaticResource MaterialDesignComboBox}" />
+            </StackPanel>
+        </AdornerDecorator>
 
         <!--  Existing garnishes list  -->
         <StackPanel
             Grid.Column="1"
             Margin="20,0,0,0"
             Orientation="Vertical">
-            <TextBlock Text="{Binding MaybeYouWantCaption, Mode=OneTime}" Visibility="{Binding SimilarIngredients, Converter={StaticResource IsNotNullToVisibilityConverter}}" />
+            <TextBlock Text="{lex:Loc MaybeYouWant}" Visibility="{Binding SimilarIngredients, Converter={StaticResource IsNotNullToVisibilityConverter}}" />
             <ItemsControl
                 Grid.Column="1"
                 Margin="10,10,0,0"

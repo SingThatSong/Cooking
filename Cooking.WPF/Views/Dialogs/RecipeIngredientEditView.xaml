@@ -6,6 +6,7 @@
     xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
@@ -45,45 +46,47 @@
 
         <!--  Current ingredient edit  -->
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical">
+            <AdornerDecorator>
+                <StackPanel Orientation="Vertical">
 
-                <TextBlock Margin="0,10,0,0" Text="{Binding IngredientCaption, Mode=OneTime}" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="25" />
-                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="0,10,0,0" Text="{lex:Loc Ingredient}" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="25" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox
+                            x:Name="Ingredient"
+                            mahapps:TextBoxHelper.ClearTextButton="True"
+                            DisplayMemberPath="Name"
+                            IsDropDownOpen="False"
+                            IsEditable="True"
+                            IsTextSearchEnabled="False"
+                            ItemsSource="{Binding AllIngredients}"
+                            SelectedValue="{Binding Ingredient.Ingredient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            StaysOpenOnEdit="True"
+                            TextBoxBase.TextChanged="Ingredient_TextChanged" />
+
+                        <Button
+                            Grid.Column="1"
+                            BorderThickness="0"
+                            Command="{Binding CreateIngredientCommand}"
+                            Foreground="Green"
+                            Style="{StaticResource SmallButton}">
+                            <icons:PackIconModern Kind="Add" Style="{StaticResource SmallIcon}" />
+                        </Button>
+                    </Grid>
+                    <TextBlock Margin="0,10,0,0" Text="{lex:Loc Count}" />
+                    <TextBox Text="{Binding Ingredient.Amount}" />
+
+                    <TextBlock Margin="0,10,0,0" Text="{lex:Loc MeasurementUnit}" />
                     <ComboBox
-                        x:Name="Ingredient"
                         mahapps:TextBoxHelper.ClearTextButton="True"
-                        DisplayMemberPath="Name"
-                        IsDropDownOpen="False"
-                        IsEditable="True"
-                        IsTextSearchEnabled="False"
-                        ItemsSource="{Binding AllIngredients}"
-                        SelectedValue="{Binding Ingredient.Ingredient, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        StaysOpenOnEdit="True"
-                        TextBoxBase.TextChanged="Ingredient_TextChanged" />
-
-                    <Button
-                        Grid.Column="1"
-                        BorderThickness="0"
-                        Command="{Binding CreateIngredientCommand}"
-                        Foreground="Green"
-                        Style="{StaticResource SmallButton}">
-                        <icons:PackIconModern Kind="Add" Style="{StaticResource SmallIcon}" />
-                    </Button>
-                </Grid>
-                <TextBlock Margin="0,10,0,0" Text="{Binding CountCaption, Mode=OneTime}" />
-                <TextBox Text="{Binding Ingredient.Amount}" />
-
-                <TextBlock Margin="0,10,0,0" Text="{Binding MeasurementUnitCaption, Mode=OneTime}" />
-                <ComboBox
-                    mahapps:TextBoxHelper.ClearTextButton="True"
-                    DisplayMemberPath="FullName"
-                    ItemsSource="{Binding MeasurementUnits}"
-                    SelectedValue="{Binding Ingredient.MeasureUnit}" />
-            </StackPanel>
+                        DisplayMemberPath="FullName"
+                        ItemsSource="{Binding MeasurementUnits}"
+                        SelectedValue="{Binding Ingredient.MeasureUnit}" />
+                </StackPanel>
+            </AdornerDecorator>
         </ScrollViewer>
 
         <!--  Created ingredients in cache  -->

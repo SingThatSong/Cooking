@@ -102,6 +102,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets or sets recipe to be viewed or edited.
         /// </summary>
+        [DoNotCheckEquality]
         public RecipeEdit? Recipe { get; set; }
 
         /// <summary>
@@ -195,7 +196,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets or sets backup of recipe for edit cancellation.
         /// </summary>
-        private RecipeEdit? RecipeBackup { get; set; }
+        public RecipeEdit? RecipeEdit { get; set; }
 
         /// <summary>
         /// Intercepted by PropertyChanged change of <see cref="IsEditing"/> property.
@@ -205,11 +206,14 @@ namespace Cooking.WPF.ViewModels
         {
             if (IsEditing)
             {
-                RecipeBackup = mapper.Map<RecipeEdit>(Recipe);
-            }
-            else if (RecipeBackup != null)
-            {
-                Recipe = mapper.Map<RecipeEdit>(RecipeBackup);
+                if (RecipeEdit == null)
+                {
+                    RecipeEdit = mapper.Map<RecipeEdit>(Recipe);
+                }
+                else
+                {
+                    mapper.Map(Recipe, RecipeEdit);
+                }
             }
         }
 
@@ -279,7 +283,7 @@ namespace Cooking.WPF.ViewModels
             RecipeIngredientEditViewModel viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.Ingredient = ingredient;
 
-            await dialogService.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>(localization.GetLocalizedString("EditIngredient"), viewModel);
+            await dialogService.ShowCustomLocalizedMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("EditIngredient", viewModel);
 
             if (viewModel.DialogResultOk)
             {
@@ -290,7 +294,7 @@ namespace Cooking.WPF.ViewModels
         private async Task AddGarnish()
         {
             GarnishSelectViewModel viewModel = container.Resolve<GarnishSelectViewModel>((typeof(IEnumerable<GarnishEdit>), Recipe!.Garnishes));
-            await dialogService.ShowCustomMessageAsync<GarnishSelectView, GarnishSelectViewModel>(localization.GetLocalizedString("AddGarnishes"), viewModel);
+            await dialogService.ShowCustomLocalizedMessageAsync<GarnishSelectView, GarnishSelectViewModel>("AddGarnishes", viewModel);
 
             if (viewModel.DialogResultOk)
             {
@@ -307,7 +311,7 @@ namespace Cooking.WPF.ViewModels
             TagSelectViewModel viewModel = container.Resolve<TagSelectViewModel>(
                 (typeof(IEnumerable<TagEdit>), Recipe!.Tags)
             );
-            await dialogService.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(localization.GetLocalizedString("AddTags"), viewModel);
+            await dialogService.ShowCustomLocalizedMessageAsync<TagSelectView, TagSelectViewModel>("AddTags", viewModel);
 
             if (viewModel.DialogResultOk)
             {
@@ -318,7 +322,7 @@ namespace Cooking.WPF.ViewModels
         private async Task AddIngredientGroupAsync()
         {
             var viewModel = new IngredientGroupEditViewModel(dialogService, new IngredientGroupEdit());
-            await dialogService.ShowCustomMessageAsync<IngredientGroupEditView, IngredientGroupEditViewModel>(localization.GetLocalizedString("AddIngredientsGroup"), viewModel)
+            await dialogService.ShowCustomLocalizedMessageAsync<IngredientGroupEditView, IngredientGroupEditViewModel>("AddIngredientsGroup", viewModel)
                              .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
@@ -331,7 +335,7 @@ namespace Cooking.WPF.ViewModels
         private async Task EditIngredientGroupAsync(IngredientGroupEdit group)
         {
             var viewModel = new IngredientGroupEditViewModel(dialogService, group);
-            await dialogService.ShowCustomMessageAsync<IngredientGroupEditView, IngredientGroupEditViewModel>(localization.GetLocalizedString("EditIngredientsGroup"), viewModel)
+            await dialogService.ShowCustomLocalizedMessageAsync<IngredientGroupEditView, IngredientGroupEditViewModel>("EditIngredientsGroup", viewModel)
                              .ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
@@ -357,7 +361,7 @@ namespace Cooking.WPF.ViewModels
             RecipeIngredientEditViewModel viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.IsCreation = true;
 
-            await dialogService.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>(localization.GetLocalizedString("AddIngredient"), viewModel).ConfigureAwait(true);
+            await dialogService.ShowCustomLocalizedMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("AddIngredient", viewModel).ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
@@ -382,7 +386,7 @@ namespace Cooking.WPF.ViewModels
             RecipeIngredientEditViewModel viewModel = container.Resolve<RecipeIngredientEditViewModel>();
             viewModel.IsCreation = true;
 
-            await dialogService.ShowCustomMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>(localization.GetLocalizedString("AddIngredient"), viewModel).ConfigureAwait(true);
+            await dialogService.ShowCustomLocalizedMessageAsync<RecipeIngredientEditView, RecipeIngredientEditViewModel>("AddIngredient", viewModel).ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {
@@ -406,25 +410,25 @@ namespace Cooking.WPF.ViewModels
 
         private async Task ApplyChangesAsync()
         {
-            if (Recipe!.ID == Guid.Empty)
+            if (RecipeEdit!.ID == Guid.Empty)
             {
-                Recipe.ID = await recipeService.CreateAsync(Recipe);
-                eventAggregator.GetEvent<RecipeCreatedEvent>().Publish(Recipe);
+                RecipeEdit.ID = await recipeService.CreateAsync(RecipeEdit);
+                eventAggregator.GetEvent<RecipeCreatedEvent>().Publish(RecipeEdit);
             }
             else
             {
-                await recipeService.UpdateAsync(Recipe);
-                eventAggregator.GetEvent<RecipeUpdatedEvent>().Publish(Recipe);
+                await recipeService.UpdateAsync(RecipeEdit);
+                eventAggregator.GetEvent<RecipeUpdatedEvent>().Publish(RecipeEdit);
             }
 
-            RecipeBackup = null;
+            mapper.Map(RecipeEdit, Recipe);
             IsEditing = false;
             IsRecipeCreation = false;
         }
 
         private async Task DeleteRecipeAsync(Guid recipeID) => await dialogService.ShowYesNoDialogAsync(localization.GetLocalizedString("SureDelete", Recipe!.Name),
-                                                                                           localization.GetLocalizedString("CannotUndo"),
-                                                                                           successCallback: async () => await OnRecipeDeletedAsync(recipeID));
+                                                                                                        localization.GetLocalizedString("CannotUndo"),
+                                                                                                        successCallback: async () => await OnRecipeDeletedAsync(recipeID));
 
         private async Task OnRecipeDeletedAsync(Guid recipeID)
         {

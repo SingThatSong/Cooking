@@ -589,9 +589,6 @@
             Dto for day displaying.
             </summary>
         </member>
-        <member name="E:Cooking.WPF.DTO.DayDisplay.PropertyChanged">
-            <inheritdoc/>
-        </member>
         <member name="P:Cooking.WPF.DTO.DayDisplay.DinnerWasCooked">
             <summary>
             Gets or sets a value indicating whether dinner on a given day was cooked.
@@ -607,13 +604,23 @@
             Gets or sets dinner that selected to be cooked on given day.
             </summary>
         </member>
+        <member name="T:Cooking.WPF.DTO.EntityNotify">
+            <summary>
+            Entity with interface notification.
+            </summary>
+        </member>
+        <member name="E:Cooking.WPF.DTO.EntityNotify.PropertyChanged">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.DTO.EntityNotify.RaiseChanged">
+            <summary>
+            Raise event with interface notification.
+            </summary>
+        </member>
         <member name="T:Cooking.WPF.DTO.GarnishEdit">
             <summary>
             Dto for garnish editing.
             </summary>
-        </member>
-        <member name="E:Cooking.WPF.DTO.GarnishEdit.PropertyChanged">
-            <inheritdoc/>
         </member>
         <member name="P:Cooking.WPF.DTO.GarnishEdit.Name">
             <summary>
@@ -624,9 +631,6 @@
             <summary>
             Sto for ingredient editing.
             </summary>
-        </member>
-        <member name="E:Cooking.WPF.DTO.IngredientEdit.PropertyChanged">
-            <inheritdoc/>
         </member>
         <member name="P:Cooking.WPF.DTO.IngredientEdit.Name">
             <summary>
@@ -803,9 +807,6 @@
             Any tag for selection.
             TODO: Refactor out from TagEdit.
             </summary>
-        </member>
-        <member name="E:Cooking.WPF.DTO.TagEdit.PropertyChanged">
-            <inheritdoc/>
         </member>
         <member name="P:Cooking.WPF.DTO.TagEdit.Name">
             <summary>
@@ -1182,6 +1183,16 @@
             <param name="content">ViewModel object.</param>
             <returns>ViewModel, used for a view.</returns>
         </member>
+        <member name="M:Cooking.WPF.DialogService.ShowCustomLocalizedMessageAsync``2(System.String,``1)">
+            <summary>
+            Show any view as dialog.
+            </summary>
+            <typeparam name="TDialog">View type.</typeparam>
+            <typeparam name="TDialogContent">ViewModel type.</typeparam>
+            <param name="titleToken">Header localization token.</param>
+            <param name="content">ViewModel object.</param>
+            <returns>ViewModel, used for a view.</returns>
+        </member>
         <member name="M:Cooking.WPF.DialogService.ShowOkCancelDialogAsync``2(System.String,``1,System.Action{``1})">
             <summary>
             Show custom dialog with ok/cancel options and run callback on success.
@@ -1191,6 +1202,15 @@
             <param name="title">Title of dialog.</param>
             <param name="content">ViewModel. May be null - will be resolved using IoC container.</param>
             <param name="successCallback">Callback to be called when user pressed ok.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
+        </member>
+        <member name="M:Cooking.WPF.DialogService.ShowLocalizedYesNoDialogAsync(System.String,System.String,System.Action)">
+            <summary>
+            Show standart yes/no dialog with callback on yes.
+            </summary>
+            <param name="titleToken">Dialog title localization token.</param>
+            <param name="messageToken">Dialog message localization token.</param>
+            <param name="successCallback">Callback called when user chose yes.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
         </member>
         <member name="M:Cooking.WPF.DialogService.ShowYesNoDialogAsync(System.String,System.String,System.Action)">
@@ -1208,31 +1228,6 @@
             </summary>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the result of the asynchronous operation.</returns>
         </member>
-        <member name="T:Cooking.WPF.StringFormatProxy">
-            <summary>
-            <para>
-            Copied from https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension/blob/16fa1f6168fb803966d8217e5a406685c49d6854/tests/AssemblyTest/StringFormatProxy.cs
-            and converted to Bindables.Fody
-            Github issue to include in library https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension/issues/214.
-            </para>
-            <para>Last update 05.09.2018.</para>
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.StringFormatProxy.StringFormat">
-            <summary>
-            Gets or sets string format for proxy.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.StringFormatProxy.Value">
-            <summary>
-            Gets or sets value format for proxy.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.StringFormatProxy.Result">
-            <summary>
-            Gets or sets formatted result.
-            </summary>
-        </member>
         <member name="T:Cooking.WPF.Validation.ValidationHelper">
             <summary>
             Static class for validation extention methods.
@@ -1244,6 +1239,16 @@
             </summary>
             <param name="obj">Object to validate.</param>
             <returns>If object is valid.</returns>
+        </member>
+        <member name="T:Cooking.WPF.ViewModels.GarnishEditViewModelValidator">
+            <summary>
+            Test.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModelValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.GarnishEditViewModelValidator"/> class.
+            </summary>
         </member>
         <member name="T:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel">
             <summary>
@@ -1268,28 +1273,17 @@
              View model for editing garnishes.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModel.#ctor(Cooking.WPF.DTO.GarnishEdit,Cooking.ServiceLayer.GarnishService,Cooking.WPF.DialogService,Cooking.ServiceLayer.ILocalization)">
+        <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModel.#ctor(Cooking.WPF.DTO.GarnishEdit,Cooking.ServiceLayer.GarnishService,Cooking.WPF.DialogService)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.GarnishEditViewModel"/> class.
             </summary>
             <param name="garnish">Garnish to edit.</param>
             <param name="garnishService">Garnish service dependency.</param>
             <param name="dialogService">Dialog service dependency.</param>
-            <param name="localization">Localization dependency.</param>
         </member>
         <member name="P:Cooking.WPF.ViewModels.GarnishEditViewModel.Garnish">
             <summary>
             Gets or sets garnish to be edited.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.GarnishEditViewModel.NameCaption">
-            <summary>
-            Gets localized name caption.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.GarnishEditViewModel.MaybeYouWantCaption">
-            <summary>
-            Gets localized suggestion caption.
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.GarnishEditViewModel.SimilarGarnishes">
@@ -1305,21 +1299,17 @@
         <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModel.OkAsync">
             <inheritdoc/>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModel.CanOk">
-            <inheritdoc/>
-        </member>
         <member name="T:Cooking.WPF.ViewModels.GarnishSelectViewModel">
             <summary>
             View model for tag selection.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.GarnishSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.GarnishService,Cooking.ServiceLayer.ILocalization,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.GarnishEdit})">
+        <member name="M:Cooking.WPF.ViewModels.GarnishSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.GarnishService,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.GarnishEdit})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.GarnishSelectViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="garnishService">Tag service dependency.</param>
-            <param name="localization">Localization provider dependency.</param>
             <param name="selectedGarnishes">Loc25 provider dependency.</param>
         </member>
         <member name="P:Cooking.WPF.ViewModels.GarnishSelectViewModel.AddGarnishCommand">
@@ -1413,21 +1403,6 @@
             Gets comand to delete ingredient.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.ViewModels.IngredientEditViewModel.NameCaption">
-            <summary>
-            Gets localized name caption.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.IngredientEditViewModel.TypeCaption">
-            <summary>
-            Gets localized type caption.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.IngredientEditViewModel.MaybeYouWantCaption">
-            <summary>
-            Gets localized suggestion caption.
-            </summary>
-        </member>
         <member name="M:Cooking.WPF.ViewModels.IngredientEditViewModel.OkAsync">
             <inheritdoc/>
         </member>
@@ -1464,17 +1439,11 @@
             View model for dialog of moving recipe to another week.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.MoveRecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.ILocalization)">
+        <member name="M:Cooking.WPF.ViewModels.MoveRecipeViewModel.#ctor(Cooking.WPF.DialogService)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.MoveRecipeViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
-            <param name="localization">Localization provider dependency.</param>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.MoveRecipeViewModel.WhereMoveRecipeCaption">
-            <summary>
-            Gets caption for WhereToMove.
-            </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.MoveRecipeViewModel.SelectedDay">
             <summary>
@@ -1547,13 +1516,12 @@
             View model for editing ingredient in recipe.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.IngredientService,Cooking.ServiceLayer.ILocalization,ServiceLayer.MeasureUnitService,Cooking.WPF.DTO.RecipeIngredientEdit)">
+        <member name="M:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.IngredientService,ServiceLayer.MeasureUnitService,Cooking.WPF.DTO.RecipeIngredientEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="ingredientService">Ingredient service dependency.</param>
-            <param name="localization">Localization provider dependency.</param>
             <param name="measureUnitService">Provider for a list of measurement units.</param>
             <param name="ingredient">Ingredient to edit.</param>
         </member>
@@ -1565,26 +1533,6 @@
         <member name="P:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel.MeasurementUnits">
             <summary>
             Gets values provider for measurement unit selection.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel.CountCaption">
-            <summary>
-            Gets localized caption for count.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel.IngredientCaption">
-            <summary>
-            Gets localized caption for ingredient.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel.MeasurementUnitCaption">
-            <summary>
-            Gets localized caption for measurement unit.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel.LoadedCommand">
-            <summary>
-            Gets command to execute on loaded event.
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel.AddMultipleCommand">
@@ -1630,13 +1578,12 @@
             View model for recipe selection from a list of recipies.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,Cooking.ServiceLayer.ILocalization,Cooking.WPF.ViewModels.DayPlan)">
+        <member name="M:Cooking.WPF.ViewModels.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,Cooking.WPF.ViewModels.DayPlan)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.RecipeSelectViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="recipeService">Recipe service dependency.</param>
-            <param name="localization">Localization service dependency.</param>
             <param name="day">Day, which settings will be user for filtering.</param>
         </member>
         <member name="P:Cooking.WPF.ViewModels.RecipeSelectViewModel.SelectedRecipe">
@@ -1647,11 +1594,6 @@
         <member name="P:Cooking.WPF.ViewModels.RecipeSelectViewModel.RecipiesSource">
             <summary>
             Gets recipies collection to choose from.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.RecipeSelectViewModel.SearchHelpTextCaption">
-            <summary>
-            Gets caption for search help placeholder.
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.RecipeSelectViewModel.FilterText">
@@ -1673,13 +1615,12 @@
             View model for editing tags.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.TagEditViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.ServiceLayer.ILocalization,Cooking.WPF.DTO.TagEdit)">
+        <member name="M:Cooking.WPF.ViewModels.TagEditViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.WPF.DTO.TagEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.TagEditViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="tagService">Tag service dependency.</param>
-            <param name="localization">Localization provider dependency.</param>
             <param name="tag">Tag to edit. Null means new tag creation.</param>
         </member>
         <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.Tag">
@@ -1690,56 +1631,6 @@
         <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.SimilarTags">
             <summary>
             Gets similar tags to avoid duplicates.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.IsInMenuCaption">
-            <summary>
-            Gets localized caption for IsInMenu.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.MenuIconCaption">
-            <summary>
-            Gets localized caption for MenuIcon.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.CategoryCaption">
-            <summary>
-            Gets localized caption for Category.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.ColorCaption">
-            <summary>
-            Gets localized caption for Color.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.NameCaption">
-            <summary>
-            Gets localized caption for Name.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.ColorPickerManualCaption">
-            <summary>
-            Gets localized caption for ColorPicker's Manual.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.ColorPickerAvailableColorsCaption">
-            <summary>
-            Gets localized caption for ColorPicker's AvailableColors.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.ColorPickerRecentCaption">
-            <summary>
-            Gets localized caption for ColorPicker's Recent.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.ColorPickerFrequentCaption">
-            <summary>
-            Gets localized caption for ColorPicker's Frequent.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.ColorPickerStandartCaption">
-            <summary>
-            Gets localized caption for ColorPicker's Standart.
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.LoadedCommand">
@@ -1763,15 +1654,14 @@
             View model for tag selection.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.ServiceLayer.ILocalization,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.TagEdit},System.Collections.Generic.IList{Cooking.WPF.DTO.TagEdit})">
+        <member name="M:Cooking.WPF.ViewModels.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.TagEdit},System.Collections.Generic.IList{Cooking.WPF.DTO.TagEdit})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.TagSelectViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="tagService">Tag service dependency.</param>
-            <param name="localization">Localization provider dependency.</param>
-            <param name="allTags">All tags to select from.</param>
             <param name="selectedTags">Alredy existing tags for editing.</param>
+            <param name="allTags">All tags to select from.</param>
         </member>
         <member name="P:Cooking.WPF.ViewModels.TagSelectViewModel.AddTagCommand">
             <summary>
@@ -1898,18 +1788,12 @@
             View model for main window.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.MainWindowViewModel.#ctor(WPFLocalizeExtension.Providers.ILocalizationProvider,Cooking.ServiceLayer.ILocalization,Cooking.ServiceLayer.TagService)">
+        <member name="M:Cooking.WPF.ViewModels.MainWindowViewModel.#ctor(Cooking.ServiceLayer.ILocalization,Cooking.ServiceLayer.TagService)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.MainWindowViewModel"/> class.
             </summary>
-            <param name="localizationProvider">Localization provider for WPFLocalizeExtension.</param>
             <param name="localization">Localization provider dependency.</param>
             <param name="tagService">Tag service dependency. Used for menu items generation.</param>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.MainWindowViewModel.LocalizationProvider">
-            <summary>
-            Gets localization provider for WPFLocalizeExtension.
-            </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.MainWindowViewModel.SelectedMenuItem">
             <summary>
@@ -1962,11 +1846,6 @@
         <member name="P:Cooking.WPF.ViewModels.RecipeListViewModel.Recipies">
             <summary>
             Gets source collection of recipies.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.RecipeListViewModel.SearchHelpTextCaption">
-            <summary>
-            Gets caption for search help placeholder.
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.RecipeListViewModel.AddRecipeCommand">
@@ -2129,7 +2008,7 @@
         <member name="P:Cooking.WPF.ViewModels.RecipeViewModel.KeepAlive">
             <inheritdoc/>
         </member>
-        <member name="P:Cooking.WPF.ViewModels.RecipeViewModel.RecipeBackup">
+        <member name="P:Cooking.WPF.ViewModels.RecipeViewModel.RecipeEdit">
             <summary>
             Gets or sets backup of recipe for edit cancellation.
             </summary>
@@ -2415,16 +2294,6 @@
             Gets command to execute on loaded event.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.ViewModels.TagListViewModel.EditTagCaption">
-            <summary>
-            Gets localized string for EditTag.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.TagListViewModel.NameCaption">
-            <summary>
-            Gets localized string for Name.
-            </summary>
-        </member>
         <member name="T:Cooking.WPF.ViewModels.WeekSettingsViewModel">
             <summary>
             View model for week settings.
@@ -2520,26 +2389,6 @@
         <member name="P:Cooking.WPF.ViewModels.WeekViewModel.CurrentWeek">
             <summary>
             Gets week days.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.WeekViewModel.MoveRecipeToNextWeekCaption">
-            <summary>
-            Gets localized caption for MoveRecipeToNextWeek.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.WeekViewModel.NewRecipeCaption">
-            <summary>
-            Gets localized caption for NewRecipe.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.WeekViewModel.DeleteCaption">
-            <summary>
-            Gets localized caption for Delete.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.WeekViewModel.ReplaceCaption">
-            <summary>
-            Gets localized caption for Replace.
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.WeekViewModel.LoadedCommand">
@@ -3198,36 +3047,6 @@
             </summary>
             <param name="modelType">Type of object to validate.</param>
             <returns>Instance of validator.</returns>
-        </member>
-        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-            <summary>
-            GeneratedInternalTypeHelper
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-            <summary>
-            CreateInstance
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            GetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            SetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-            <summary>
-            CreateDelegate
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-            <summary>
-            AddEventHandler
-            </summary>
         </member>
     </members>
 </doc>

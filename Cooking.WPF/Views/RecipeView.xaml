@@ -8,7 +8,7 @@
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:lex="https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.WPF"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -78,16 +78,12 @@
                 <!--  Recipe name  -->
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontSize="26" Text="{Binding Recipe.Name}" />
-                    <lex:LocProxy
-                        x:Name="CalorieTypeNameProxy"
-                        PrependType="True"
-                        Source="{Binding Recipe.CalorieType}" />
                     <Ellipse
                         Width="15"
                         Height="15"
                         Margin="10,8,0,0"
                         VerticalAlignment="Center"
-                        ToolTip="{Binding ElementName=CalorieTypeNameProxy, Path=Result}">
+                        ToolTip="{lex:Loc {Binding Recipe.CalorieType, Converter={lex:PrependTypeConverter}}}">
                         <Ellipse.Style>
                             <Style TargetType="Ellipse">
                                 <Style.Triggers>
@@ -128,18 +124,20 @@
                 </TextBlock>
 
                 <!--  When recipe was last cooked  -->
-                <local:StringFormatProxy
-                    x:Name="lastCookedStringFormat"
-                    StringFormat="{lex:Loc LastCookedFormat}"
-                    Value="{Binding Recipe.LastCooked, Converter={StaticResource lastCookedConverter}}" />
-                <local:StringFormatProxy x:Name="newRecipeProxy" Value="{lex:Loc NewRecipe}" />
                 <TextBlock TextWrapping="Wrap">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
-                            <Setter Property="Text" Value="{Binding Result, ElementName=lastCookedStringFormat}" />
+                            <Setter Property="Text">
+                                <Setter.Value>
+                                    <MultiBinding Converter="{lex:StringFormatConverter}">
+                                        <lex:BLoc Key="LastCookedFormat" />
+                                        <Binding Converter="{StaticResource lastCookedConverter}" Path="Recipe.LastCooked" />
+                                    </MultiBinding>
+                                </Setter.Value>
+                            </Setter>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Recipe.LastCooked}" Value="{x:Static System:Int32.MaxValue}">
-                                    <Setter Property="Text" Value="{Binding Result, ElementName=newRecipeProxy}" />
+                                    <Setter Property="Text" Value="{lex:Loc NewRecipe}" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
@@ -170,14 +168,9 @@
                     <!--  Ingredients  -->
                     <StackPanel Grid.Column="1" Orientation="Vertical">
 
-                        <local:StringFormatProxy
-                            x:Name="portionsCountProxy"
-                            StringFormat="{lex:Loc PortionsCount}"
-                            Value="{Binding Recipe.PortionsCount}" />
                         <TextBlock
                             Margin="0,0,0,10"
                             FontSize="20"
-                            Text="{Binding Result, ElementName=portionsCountProxy}"
                             TextWrapping="Wrap">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
@@ -188,6 +181,13 @@
                                     </Style.Triggers>
                                 </Style>
                             </TextBlock.Style>
+
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{lex:StringFormatConverter}">
+                                    <lex:BLoc Key="PortionsCount" />
+                                    <Binding Path="Recipe.PortionsCount" />
+                                </MultiBinding>
+                            </TextBlock.Text>
                         </TextBlock>
 
                         <TextBlock
@@ -392,7 +392,7 @@
                     <StackPanel Margin="10,0" Orientation="Vertical">
                         <Image
                             MaxHeight="150"
-                            Source="{Binding Recipe.FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
+                            Source="{Binding RecipeEdit.FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
                             Stretch="Uniform" />
                         <StackPanel
                             Margin="0,10,0,0"
@@ -415,12 +415,12 @@
                         Margin="10,0"
                         materialDesign:HintAssist.Hint="{lex:Loc Name}"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                        Text="{Binding Recipe.Name, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding RecipeEdit.Name, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBox
                         Margin="10,10,10,0"
                         materialDesign:HintAssist.Hint="{lex:Loc Source}"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                        Text="{Binding Recipe.SourceUrl}" />
+                        Text="{Binding RecipeEdit.SourceUrl}" />
                     <Grid Margin="10,10,10,0" HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -428,7 +428,7 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Vertical">
                             <TextBlock FontSize="15" Text="{lex:Loc Difficulty}" />
-                            <controls:Ratings MaxRating="5" RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
+                            <controls:Ratings MaxRating="5" RatingValue="{Binding RecipeEdit.Difficulty, Mode=TwoWay}" />
                         </StackPanel>
                         <StackPanel
                             Grid.Column="1"
@@ -436,7 +436,7 @@
                             Margin="20,0,0,0"
                             Orientation="Vertical">
                             <TextBlock FontSize="15" Text="{lex:Loc Rating}" />
-                            <controls:Ratings MaxRating="10" RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
+                            <controls:Ratings MaxRating="10" RatingValue="{Binding RecipeEdit.Rating, Mode=TwoWay}" />
                         </StackPanel>
                     </Grid>
                     <ComboBox
@@ -444,14 +444,14 @@
                         materialDesign:HintAssist.Hint="{lex:Loc Type}"
                         materialDesign:TextFieldAssist.HasClearButton="True"
                         ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}"
-                        SelectedValue="{Binding Recipe.CalorieType, Converter={StaticResource enumToDescriptionConverter}, Mode=TwoWay}"
+                        SelectedValue="{Binding RecipeEdit.CalorieType, Converter={StaticResource enumToDescriptionConverter}, Mode=TwoWay}"
                         Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                         Text="{lex:Loc ChooseCalorieType}" />
                     <TextBox
                         Margin="10,10,10,0"
                         materialDesign:HintAssist.Hint="{lex:Loc PortionsCountHeader}"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                        Text="{Binding Recipe.PortionsCount}" />
+                        Text="{Binding RecipeEdit.PortionsCount}" />
                 </StackPanel>
 
                 <!--  Right part with ingredients and tags  -->
@@ -484,7 +484,7 @@
                         </StackPanel>
 
                         <!--  Ingredient groups  -->
-                        <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
+                        <ItemsControl ItemsSource="{Binding RecipeEdit.IngredientGroups}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="0,0,0,20" Orientation="Vertical">
@@ -567,7 +567,7 @@
                             dd:DragDrop.DropHandler="{Binding}"
                             dd:DragDrop.IsDragSource="True"
                             dd:DragDrop.IsDropTarget="True"
-                            ItemsSource="{Binding Recipe.Ingredients}">
+                            ItemsSource="{Binding RecipeEdit.Ingredients}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <materialDesign:Chip
@@ -610,7 +610,7 @@
                             Style="{StaticResource SmallAddButton}" />
                     </StackPanel>
 
-                    <ItemsControl Margin="10,0" ItemsSource="{Binding Recipe.Tags}">
+                    <ItemsControl Margin="10,0" ItemsSource="{Binding RecipeEdit.Tags}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <materialDesign:Chip
@@ -644,7 +644,7 @@
                             Style="{StaticResource SmallAddButton}" />
                     </StackPanel>
 
-                    <ItemsControl Margin="10,0" ItemsSource="{Binding Recipe.Garnishes}">
+                    <ItemsControl Margin="10,0" ItemsSource="{Binding RecipeEdit.Garnishes}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <materialDesign:Chip
@@ -724,7 +724,7 @@
                         x:Name="editRichTextbox"
                         MinHeight="100"
                         MaxWidth="1000"
-                        converters:RichTextBoxHelper.DocumentXaml="{Binding Recipe.Description}" />
+                        converters:RichTextBoxHelper.DocumentXaml="{Binding RecipeEdit.Description}" />
 
                 </StackPanel>
 

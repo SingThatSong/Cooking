@@ -4,7 +4,6 @@ using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Views;
 using PropertyChanged;
-using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -82,7 +81,7 @@ namespace Cooking.WPF.ViewModels
 
         private async Task EditGarnishAsync(GarnishEdit garnish)
         {
-            var viewModel = new GarnishEditViewModel(mapper.Map<GarnishEdit>(garnish), garnishService, dialogService, localization);
+            var viewModel = new GarnishEditViewModel(mapper.Map<GarnishEdit>(garnish), garnishService, dialogService);
             await dialogService.ShowOkCancelDialogAsync<GarnishEditView, GarnishEditViewModel>(localization.GetLocalizedString("EditGarnish"), viewModel, successCallback: async viewModel => await OnGarnishEditedAsync(viewModel));
         }
 

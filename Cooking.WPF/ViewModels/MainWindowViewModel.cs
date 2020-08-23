@@ -21,13 +21,10 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
         /// </summary>
-        /// <param name="localizationProvider">Localization provider for WPFLocalizeExtension.</param>
         /// <param name="localization">Localization provider dependency.</param>
         /// <param name="tagService">Tag service dependency. Used for menu items generation.</param>
-        public MainWindowViewModel(ILocalizationProvider localizationProvider, ILocalization localization, TagService tagService)
+        public MainWindowViewModel(ILocalization localization, TagService tagService)
         {
-            LocalizationProvider = localizationProvider;
-
             MenuItems = new HamburgerMenuItemCollection()
             {
                 new HamburgerMenuIconItem()
@@ -94,11 +91,6 @@ namespace Cooking.WPF.ViewModels
                 }
             };
         }
-
-        /// <summary>
-        /// Gets localization provider for WPFLocalizeExtension.
-        /// </summary>
-        public ILocalizationProvider LocalizationProvider { get; }
 
         /// <summary>
         /// Gets or sets selected menu item.

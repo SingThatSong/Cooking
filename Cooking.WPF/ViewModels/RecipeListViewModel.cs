@@ -93,11 +93,6 @@ namespace Cooking.WPF.ViewModels
         public ObservableCollection<RecipeListViewDto>? Recipies { get; private set; }
 
         /// <summary>
-        /// Gets caption for search help placeholder.
-        /// </summary>
-        public string? SearchHelpTextCaption => localization.GetLocalizedString("SearchHelpText", Consts.IngredientSymbol, Consts.TagSymbol);
-
-        /// <summary>
         /// Gets command to add recipe.
         /// </summary>
         public DelegateCommand AddRecipeCommand { get; }

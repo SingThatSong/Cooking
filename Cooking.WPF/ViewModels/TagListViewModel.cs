@@ -79,16 +79,6 @@ namespace Cooking.WPF.ViewModels
         /// </summary>
         public AsyncDelegateCommand LoadedCommand { get; }
 
-        /// <summary>
-        /// Gets localized string for EditTag.
-        /// </summary>
-        public string? EditTagCaption => localization.GetLocalizedString("EditTag");
-
-        /// <summary>
-        /// Gets localized string for Name.
-        /// </summary>
-        public string? NameCaption => localization.GetLocalizedString("Name");
-
         private Task OnLoaded()
         {
             Debug.WriteLine("TagsViewModel.OnLoaded");
@@ -107,8 +97,8 @@ namespace Cooking.WPF.ViewModels
 
         private async Task EditTagAsync(TagEdit tag)
         {
-            var viewModel = new TagEditViewModel(dialogService, tagService, localization, mapper.Map<TagEdit>(tag));
-            await dialogService.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("EditTag"), viewModel);
+            var viewModel = new TagEditViewModel(dialogService, tagService, mapper.Map<TagEdit>(tag));
+            await dialogService.ShowCustomLocalizedMessageAsync<TagEditView, TagEditViewModel>("EditTag", viewModel);
 
             if (viewModel.DialogResultOk)
             {
@@ -133,7 +123,7 @@ namespace Cooking.WPF.ViewModels
 
         private async Task AddTagAsync()
         {
-            TagEditViewModel viewModel = await dialogService.ShowCustomMessageAsync<TagEditView, TagEditViewModel>(localization.GetLocalizedString("NewTag")).ConfigureAwait(true);
+            TagEditViewModel viewModel = await dialogService.ShowCustomLocalizedMessageAsync<TagEditView, TagEditViewModel>("NewTag").ConfigureAwait(true);
 
             if (viewModel.DialogResultOk)
             {

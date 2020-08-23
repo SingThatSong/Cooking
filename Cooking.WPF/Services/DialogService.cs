@@ -109,6 +109,19 @@ namespace Cooking.WPF
         }
 
         /// <summary>
+        /// Show any view as dialog.
+        /// </summary>
+        /// <typeparam name="TDialog">View type.</typeparam>
+        /// <typeparam name="TDialogContent">ViewModel type.</typeparam>
+        /// <param name="titleToken">Header localization token.</param>
+        /// <param name="content">ViewModel object.</param>
+        /// <returns>ViewModel, used for a view.</returns>
+        public virtual async Task<TDialogContent> ShowCustomLocalizedMessageAsync<TDialog, TDialogContent>(string? titleToken = null, TDialogContent? content = null)
+            where TDialog : UserControl, new()
+            where TDialogContent : class
+            => await ShowCustomMessageAsync<TDialog, TDialogContent>(titleToken != null ? localization.GetLocalizedString(titleToken) : null, content);
+
+        /// <summary>
         /// Show custom dialog with ok/cancel options and run callback on success.
         /// </summary>
         /// <typeparam name="TDialog">Type of dialog.</typeparam>
@@ -142,6 +155,18 @@ namespace Cooking.WPF
                 }
             });
         }
+
+        /// <summary>
+        /// Show standart yes/no dialog with callback on yes.
+        /// </summary>
+        /// <param name="titleToken">Dialog title localization token.</param>
+        /// <param name="messageToken">Dialog message localization token.</param>
+        /// <param name="successCallback">Callback called when user chose yes.</param>
+        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
+        public virtual async Task ShowLocalizedYesNoDialogAsync(string? titleToken = null, string? messageToken = null, Action? successCallback = null)
+            => await ShowYesNoDialogAsync(titleToken != null ? localization.GetLocalizedString(titleToken) : null,
+                                          messageToken != null ? localization.GetLocalizedString(messageToken) : null,
+                                          successCallback);
 
         /// <summary>
         /// Show standart yes/no dialog with callback on yes.

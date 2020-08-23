@@ -41,5 +41,5 @@ namespace Cooking.WPF.Services
                             || (x.IngredientGroups != null && x.IngredientGroups.Any(x => x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower()))));
         }
     }
-    #pragma warning restore allr
+    #pragma warning restore CS8602, CS8604, CA1304, CA1307, RCS1155
 }

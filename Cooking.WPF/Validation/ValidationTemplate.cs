@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
@@ -26,7 +27,7 @@ namespace Cooking
 
         private readonly T target;
         private readonly IValidator<T> validator;
-        private ValidationResult? validationResult;
+        private ValidationResult validationResult;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ValidationTemplate{T}"/> class.
@@ -36,7 +37,7 @@ namespace Cooking
         {
             this.target = target;
             validator = GetValidator(target.GetType());
-            validationResult = validator?.Validate(new ValidationContext<object>(target));
+            validationResult = validator.Validate(target);
             target.PropertyChanged += Validate;
         }
 
@@ -44,17 +45,17 @@ namespace Cooking
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
         /// <inheritdoc/>
-        public bool HasErrors => validationResult?.Errors.Count > 0;
+        public bool HasErrors => validationResult.Errors.Count > 0;
 
         /// <inheritdoc/>
-        public string? Error
+        public string Error
         {
             get
             {
-                string[]? strings = validationResult?.Errors
-                                                     .Select(x => x.ErrorMessage)
-                                                     .ToArray();
-                return strings != null ? string.Join(Environment.NewLine, strings) : null;
+                string[] strings = validationResult.Errors
+                                                   .Select(x => x.ErrorMessage)
+                                                   .ToArray();
+                return string.Join(Environment.NewLine, strings);
             }
         }
 
@@ -64,10 +65,9 @@ namespace Cooking
         public string? this[string propertyName] => null;
 
         /// <inheritdoc/>
-        public IEnumerable GetErrors(string? propertyName) => validationResult?.Errors
+        public IEnumerable GetErrors(string? propertyName) => validationResult.Errors
                                                                                .Where(x => x.PropertyName == propertyName)
-                                                                               .Select(x => x.ErrorMessage)
-                                                                          ?? new List<string>();
+                                                                               .Select(x => x.ErrorMessage);
 
         /// <summary>
         /// Internal factory method for FluentValidation validators.
@@ -102,7 +102,7 @@ namespace Cooking
 
         private void Validate(object? sender, PropertyChangedEventArgs e)
         {
-            validationResult = validator?.Validate(target);
+            validationResult = validator.Validate(target);
             if (validationResult != null)
             {
                 foreach (ValidationFailure error in validationResult.Errors)

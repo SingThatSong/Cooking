@@ -6,7 +6,7 @@
     xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:lex="https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.WPF.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
@@ -65,24 +65,22 @@
         </StackPanel>
 
         <!--  Week days  -->
-        <ScrollViewer
+        <ItemsControl
             Grid.Row="1"
             Grid.Column="1"
-            VerticalScrollBarVisibility="Auto"
-            Visibility="{Binding CurrentWeek, Converter={StaticResource IsNotNullToVisibilityConverter}}">
-            <ItemsControl ItemsSource="{Binding CurrentWeek}" TextElement.FontSize="15">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <local:DayControl />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </ScrollViewer>
+            ItemsSource="{Binding CurrentWeek}"
+            TextElement.FontSize="15">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:DayControl />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
 
         <!--  Week actions  -->
         <StackPanel

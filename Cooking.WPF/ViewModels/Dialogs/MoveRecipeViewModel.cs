@@ -12,17 +12,10 @@ namespace Cooking.WPF.ViewModels
         /// Initializes a new instance of the <see cref="MoveRecipeViewModel"/> class.
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
-        /// <param name="localization">Localization provider dependency.</param>
-        public MoveRecipeViewModel(DialogService dialogService, ILocalization localization)
+        public MoveRecipeViewModel(DialogService dialogService)
             : base(dialogService)
         {
-            WhereMoveRecipeCaption = localization.GetLocalizedString("WhereMoveRecipe");
         }
-
-        /// <summary>
-        /// Gets caption for WhereToMove.
-        /// </summary>
-        public string? WhereMoveRecipeCaption { get; }
 
         /// <summary>
         /// Gets or sets selected day of week on next week to move recipe to.

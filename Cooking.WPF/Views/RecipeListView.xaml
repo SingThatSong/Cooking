@@ -7,7 +7,7 @@
     xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:lex="https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.WPF"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -87,7 +87,7 @@
                 Margin="10,0,0,0"
                 mahapps:TextBoxHelper.ClearTextButton="True"
                 mahapps:TextBoxHelper.UseFloatingWatermark="True"
-                mahapps:TextBoxHelper.Watermark="{Binding SearchHelpTextCaption, Mode=OneTime}"
+                mahapps:TextBoxHelper.Watermark="{lex:Loc SearchHelpText}"
                 Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=700}"
                 Visibility="{Binding IsFilterable, Converter={StaticResource booleanToVisibilityConverter}}" />
         </DockPanel>
@@ -218,15 +218,13 @@
                         <DataTemplate>
                             <Grid>
 
-                                <local:StringFormatProxy x:Name="newRecipeProxy" Value="{lex:Loc NewRecipe}" />
-
                                 <TextBlock TextWrapping="Wrap">
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Setter Property="Text" Value="{Binding LastCooked, Converter={StaticResource lastCookedConverter}}" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding LastCooked}" Value="{x:Static System:Int32.MaxValue}">
-                                                    <Setter Property="Text" Value="{Binding Result, ElementName=newRecipeProxy}" />
+                                                    <Setter Property="Text" Value="{lex:Loc NewRecipe}" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>

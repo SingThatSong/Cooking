@@ -75,21 +75,6 @@ namespace Cooking.WPF.ViewModels
         /// </summary>
         public DelegateCommand<Guid> DeleteIngredientCommand { get; }
 
-        /// <summary>
-        /// Gets localized name caption.
-        /// </summary>
-        public string? NameCaption => localization.GetLocalizedString("Name");
-
-        /// <summary>
-        /// Gets localized type caption.
-        /// </summary>
-        public string? TypeCaption => localization.GetLocalizedString("Type");
-
-        /// <summary>
-        /// Gets localized suggestion caption.
-        /// </summary>
-        public string? MaybeYouWantCaption => localization.GetLocalizedString("MaybeYouWant");
-
         private bool NameChanged { get; set; }
         private List<string> AllIngredientNames { get; set; }
 
@@ -101,9 +86,9 @@ namespace Cooking.WPF.ViewModels
              && AllIngredientNames.Any(x => string.Equals(x, Ingredient.Name, StringComparison.InvariantCultureIgnoreCase)))
             {
                 bool saveAnyway = false;
-                await DialogService.ShowYesNoDialogAsync(localization.GetLocalizedString("IngredientAlreadyExists"),
-                                                    localization.GetLocalizedString("SaveAnyway"),
-                                                    successCallback: () => saveAnyway = true);
+                await DialogService.ShowLocalizedYesNoDialogAsync("IngredientAlreadyExists",
+                                                                  "SaveAnyway",
+                                                                  successCallback: () => saveAnyway = true);
 
                 if (!saveAnyway)
                 {
@@ -123,20 +108,8 @@ namespace Cooking.WPF.ViewModels
                         string.Join(" ", str2.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name))
                 );
 
-        // WARNING: this is a crunch
-        // When we open ingredient creation dialog second+ time, validation cannot see Ingredient being a required property, but when we change it's value - everything is ok
-        // There is no such behaviour when using navigation, so it seems it's something Mahapps-related
-        // SimpleChildWindow does not help
         private void OnLoaded()
         {
-            string? nameBackup = Ingredient.Name;
-            IngredientType? typeBackup = Ingredient.Type;
-
-            Ingredient.Name = "123";
-            Ingredient.Name = nameBackup;
-            Ingredient.Type = (IngredientType)999;
-
-            Ingredient.Type = typeBackup;
             Ingredient.PropertyChanged += (src, e) =>
             {
                 if (e.PropertyName == nameof(Ingredient.Name))

@@ -2,9 +2,9 @@
     x:Class="Cooking.WPF.Views.GarnishEditView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="clr-namespace:Cooking.WPF.Converters"
     xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
     design:DataContext="{design:DesignInstance viewModels:GarnishEditViewModel}"
@@ -33,13 +33,15 @@
 
         <!--  Garnish edit controls  -->
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding NameCaption, Mode=OneTime}" />
-                <TextBox
-                    Name="Focused"
-                    Grid.Column="1"
-                    Text="{Binding Garnish.Name, UpdateSourceTrigger=PropertyChanged}" />
-            </StackPanel>
+            <AdornerDecorator>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{lex:Loc Name}" />
+                    <TextBox
+                        Name="Focused"
+                        Grid.Column="1"
+                        Text="{Binding Garnish.Name, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </AdornerDecorator>
         </ScrollViewer>
 
         <!--  Existing garnishes list  -->
@@ -47,7 +49,7 @@
             Grid.Column="1"
             Margin="20,0,0,0"
             Orientation="Vertical">
-            <TextBlock Text="{Binding MaybeYouWantCaption, Mode=OneTime}" Visibility="{Binding SimilarGarnishes, Converter={StaticResource IsNotNullToVisibilityConverter}}" />
+            <TextBlock Text="{lex:Loc MaybeYouWant}" Visibility="{Binding SimilarGarnishes, Converter={StaticResource IsNotNullToVisibilityConverter}}" />
             <ItemsControl Margin="0,5,0,0" ItemsSource="{Binding SimilarGarnishes}" />
         </StackPanel>
 

@@ -2,7 +2,6 @@
 using MahApps.Metro.IconPacks;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Windows.Data;
 
@@ -43,8 +42,6 @@ namespace Cooking.WPF.ViewModels
         /// </summary>
         public string? SelectedIcon { get; set; }
 
-        [SuppressMessage("Style", "CA1801", Justification = "Parameter is required by AttachedProperty")]
-        [SuppressMessage("Style", "CA1721", Justification = "Names are intended by AttachedProperty")]
         private void OnFilterTextChanged() => AllValues?.View?.Refresh();
 
         private void AllValues_Filter(object sender, FilterEventArgs e)

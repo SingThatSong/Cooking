@@ -124,12 +124,9 @@ namespace Cooking.WPF.ViewModels
             var daysDictionary = Days!.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
             await dayService.CreateWeekAsync(WeekStart, daysDictionary);
 
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                regionManager.NavigateMain(
-                    view: nameof(WeekView),
-                    parameters: (Consts.ReloadWeekParameter, true));
-            });
+            Application.Current.Dispatcher.Invoke(() => regionManager.NavigateMain(
+                                                            view: nameof(WeekView),
+                                                            parameters: (Consts.ReloadWeekParameter, true)));
         }
 
         private void ShowRecipe(Guid recipeID)
@@ -147,7 +144,6 @@ namespace Cooking.WPF.ViewModels
         {
             var viewModel = new RecipeSelectViewModel(dialogService,
                                                       recipeService,
-                                                      container.Resolve<ILocalization>(),
                                                       day);
 
             await dialogService.ShowCustomMessageAsync<RecipeSelectView, RecipeSelectViewModel>(content: viewModel);

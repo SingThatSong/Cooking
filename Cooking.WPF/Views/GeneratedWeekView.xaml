@@ -6,7 +6,7 @@
     xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
-    xmlns:lex="https://github.com/XAMLMarkupExtensions/WPFLocalizationExtension"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
@@ -113,8 +113,6 @@
                                     </StackPanel.Style>
 
                                     <!--  Get another recipe for a filter  -->
-                                    <stringProxy:StringFormatProxy x:Name="noAlternativesProxy" Value="{lex:Loc NoAlternatives}" />
-
                                     <Button
                                         Margin="5,0,0,0"
                                         VerticalAlignment="Center"
@@ -125,7 +123,7 @@
                                         Style="{StaticResource SmallButton}"
                                         ToolTipService.IsEnabled="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource oppositeConverter}}"
                                         ToolTipService.ShowOnDisabled="True"
-                                        ToolTipService.ToolTip="{Binding ElementName=noAlternativesProxy, Path=Result}">
+                                        ToolTipService.ToolTip="{lex:Loc NoAlternatives}">
                                         <icons:PackIconModern Kind="Refresh" Style="{StaticResource SmallIcon}" />
                                     </Button>
 
