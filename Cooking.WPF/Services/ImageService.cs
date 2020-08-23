@@ -41,9 +41,10 @@ namespace Cooking
                 {
                     DirectoryInfo dir = Directory.CreateDirectory(Consts.ImageFolder);
                     var file = new FileInfo(openFileDialog.FileName);
-                    string newFilePath = Path.Combine(dir.FullName, $"{Guid.NewGuid()}{file.Extension}");
+                    string newName = $"{Guid.NewGuid()}{file.Extension}";
+                    string newFilePath = Path.Combine(dir.FullName, newName);
                     MinifyImage(source: openFileDialog.FileName, destination: newFilePath);
-                    return newFilePath;
+                    return $"{Consts.ImageFolder}/{newName}";
                 }
             }
 
