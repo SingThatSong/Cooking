@@ -79,9 +79,11 @@ namespace Cooking.ServiceLayer
         {
             using CookingContext context = ContextFactory.Create();
             IQueryable cultureSpecificSet = GetCultureSpecificSet(context).Where(predicate);
-            return Mapper.ProjectTo<TProjection>(cultureSpecificSet)
+            var entriesProjected = Mapper.ProjectTo<TProjection>(cultureSpecificSet)
                          .AsNoTracking()
                          .ToList();
+
+            return Mapper.Map<List<TProjection>>(entriesProjected);
         }
 
         /// <summary>
@@ -118,9 +120,11 @@ namespace Cooking.ServiceLayer
         {
             using CookingContext context = ContextFactory.Create();
             IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context);
-            return Mapper.ProjectTo<TProjection>(cultureSpecificSet)
-                         .AsNoTracking()
-                         .FirstOrDefault(x => x.ID == id);
+            TProjection? entryProjected = Mapper.ProjectTo<TProjection>(cultureSpecificSet)
+                                                .AsNoTracking()
+                                                .FirstOrDefault(x => x.ID == id);
+
+            return Mapper.Map<TProjection>(entryProjected);
         }
 
         /// <summary>
@@ -132,7 +136,10 @@ namespace Cooking.ServiceLayer
         {
             using CookingContext context = ContextFactory.Create();
             IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context).AsNoTracking();
-            return Mapper.ProjectTo<TProjection>(cultureSpecificSet).ToList();
+            var allProjected = Mapper.ProjectTo<TProjection>(cultureSpecificSet).ToList();
+
+            // Here we mapping projected objects to themself to enable AfterMap calls
+            return Mapper.Map<List<TProjection>>(allProjected);
         }
 
         /// <summary>
