@@ -205,8 +205,8 @@ namespace Cooking.ServiceLayer
 
             var allIngredients = ingredients.Union(ingredientsInGroupds);
 
-            var ingredientsGroupedByType = allIngredients.Where(x => x.Ingredient.Ingredient != null)
-                                                         .GroupBy(x => x.Ingredient.Ingredient!.Type)
+            var ingredientsGroupedByType = allIngredients.Where(x => x.Ingredient.Ingredient?.Type != null)
+                                                         .GroupBy(x => x.Ingredient.Ingredient!.Type!.Value)
                                                          .OrderBy(x => x.Key);
 
             var result = new List<ShoppingListIngredientsGroup>();

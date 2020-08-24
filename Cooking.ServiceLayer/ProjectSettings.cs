@@ -2,9 +2,7 @@
 using NullGuard;
 using System.Runtime.CompilerServices;
 
-/// <summary>
-/// Global project settings. Replacement of ApplicationInfo.cs.
-/// </summary>
+// Global project settings. Replacement of ApplicationInfo.cs.
 
 // Set Null-check on all func arguments globally
 [assembly: NullGuard(ValidationFlags.Arguments)]
