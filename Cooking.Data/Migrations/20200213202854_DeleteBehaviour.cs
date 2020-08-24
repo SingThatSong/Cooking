@@ -43,7 +43,7 @@ namespace Cooking.Data.Migrations
         {
         }
 
-        private void ChangeTableNames(string sql, string tableName, MigrationBuilder migrationBuilder)
+        private static void ChangeTableNames(string sql, string tableName, MigrationBuilder migrationBuilder)
         {
             // Rename old Day table to temp
             migrationBuilder.Sql($"ALTER TABLE {tableName} RENAME TO _{tableName};", suppressTransaction: true);

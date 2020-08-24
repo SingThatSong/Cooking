@@ -12,7 +12,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <NoWarn>1701;1702;CA1062;CA1303;CA1822</NoWarn>
-    <DocumentationFile>D:\Repos\Cooking\Cooking.Data\Cooking.Data.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Cooking.Data.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 

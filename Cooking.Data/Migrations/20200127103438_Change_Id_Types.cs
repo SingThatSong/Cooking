@@ -152,7 +152,7 @@ namespace Cooking.Data.Migrations
         {
         }
 
-        private void ChangeIDTypes(string originalSql, string tableName, MigrationBuilder migrationBuilder)
+        private static void ChangeIDTypes(string originalSql, string tableName, MigrationBuilder migrationBuilder)
         {
             // Rename old Day table to temp
             migrationBuilder.Sql($"ALTER TABLE {tableName} RENAME TO _{tableName};");
@@ -167,7 +167,7 @@ namespace Cooking.Data.Migrations
             migrationBuilder.Sql($"DROP TABLE [_{tableName}];");
         }
 
-        private string GetColumnUpdateToText(string tableName, string columnName)
+        private static string GetColumnUpdateToText(string tableName, string columnName)
         {
             string statement = $@"UPDATE {tableName}
 SET {columnName} = hex(substr({columnName}, 4, 1)) ||
