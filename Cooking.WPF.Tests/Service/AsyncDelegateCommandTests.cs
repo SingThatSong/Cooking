@@ -1,16 +1,9 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
 using Cooking.ServiceLayer;
-using Cooking.WPF.Commands;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Linq;
-using System.Linq.Dynamic.Core;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Cooking.Tests
 {

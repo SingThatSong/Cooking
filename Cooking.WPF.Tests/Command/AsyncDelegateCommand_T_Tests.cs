@@ -75,11 +75,31 @@ namespace Cooking.Tests
         }
 
         [TestMethod]
-        public void Execute_Execute_WrongParameterType_ErrorSwallen()
+        public void Execute_Execute_WrongParameterType_InvalidOperationException()
         {
             var funcMock = new Mock<Func<int, Task>>();
-            var asyncDelegate = new AsyncDelegateCommand<int>(funcMock.Object, canExecute: _ => throw new Exception());
-            asyncDelegate.Execute("hello");
+            var asyncDelegate = new AsyncDelegateCommand<int>(funcMock.Object,
+                exceptionHandler: exception =>
+            {
+                Assert.IsInstanceOfType(exception, typeof(InvalidOperationException));
+                return true;
+            });
+
+            asyncDelegate.Execute("test");
+        }
+
+        [TestMethod]
+        public void Execute_Execute_WrongParameterType_InvalidOperationException_Global()
+        {
+            DelegateCommandBase.GlobalExceptionHandler = exception =>
+            {
+                Assert.IsInstanceOfType(exception, typeof(InvalidOperationException));
+                return true;
+            };
+
+            var funcMock = new Mock<Func<int, Task>>();
+            var asyncDelegate = new AsyncDelegateCommand<int>(funcMock.Object);
+            asyncDelegate.Execute("test");
         }
 
         [TestMethod]
