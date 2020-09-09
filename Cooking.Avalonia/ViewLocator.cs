@@ -13,10 +13,6 @@ namespace Cooking.Avalonia
     /// </summary>
     public class ViewLocator : IDataTemplate
     {
-        /// <inheritdoc/>
-        public bool SupportsRecycling => false;
-
-        /// <inheritdoc/>
         public IControl Build(object data)
         {
             if (data != null)
