@@ -19,15 +19,18 @@ namespace Cooking.WPF.Commands
         /// <param name="canExecute">Function to determine if <see cref="execute"/> can be executed.</param>
         /// <param name="executeOnce">Execute function only once, after that <see cref="canExecute"/> would return false regardless.</param>
         /// <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution <see cref="canExecute"/> would return false.</param>
+        /// <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
+        /// <param name="exceptionHandler">An exception handler function.</param>
         public AsyncDelegateCommand(Func<T, Task> execute,
                                     Func<T, bool>? canExecute = null,
                                     bool executeOnce = false,
-                                    bool freezeWhenBusy = false)
+                                    bool freezeWhenBusy = false,
+                                    bool refreshAutomatically = true,
+                                    Func<Exception, bool>? exceptionHandler = null)
+            : base(freezeWhenBusy, executeOnce, refreshAutomatically, exceptionHandler)
         {
             this.execute = execute;
             this.canExecute = canExecute;
-            ExecuteOnce = executeOnce;
-            FreezeWhenBusy = freezeWhenBusy;
 
             CanExecuteSpecified = canExecute != null || FreezeWhenBusy || ExecuteOnce;
         }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Cooking.WPF.Commands
@@ -8,6 +10,24 @@ namespace Cooking.WPF.Commands
     /// </summary>
     public abstract class DelegateCommandBase : ICommand
     {
+        private readonly Func<Exception, bool>? exceptionHandler;
+        private EventHandler? canExecuteChanged;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DelegateCommandBase"/> class.
+        /// </summary>
+        /// <param name="executeOnce">Execute function only once, after that CanExecute would return false regardless.</param>
+        /// <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
+        /// <param name="exceptionHandler">An exception handler function.</param>
+        protected DelegateCommandBase(bool executeOnce,
+                                      bool refreshAutomatically,
+                                      Func<Exception, bool>? exceptionHandler = null)
+        {
+            ExecuteOnce = executeOnce;
+            RefreshAutomatically = refreshAutomatically;
+            this.exceptionHandler = exceptionHandler;
+        }
+
         /// <summary>
         /// https://stackoverflow.com/a/7353704/1134449
         /// </summary>
@@ -17,17 +37,36 @@ namespace Cooking.WPF.Commands
             {
                 if (CanExecuteSpecified)
                 {
-                    CommandManager.RequerySuggested += value;
+                    if (RefreshAutomatically)
+                    {
+                        CommandManager.RequerySuggested += value;
+                    }
+                    else
+                    {
+                        canExecuteChanged += value;
+                    }
                 }
             }
             remove
             {
                 if (CanExecuteSpecified)
                 {
-                    CommandManager.RequerySuggested -= value;
+                    if (RefreshAutomatically)
+                    {
+                        CommandManager.RequerySuggested -= value;
+                    }
+                    else
+                    {
+                        canExecuteChanged -= value;
+                    }
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or sets a global exception handler function.
+        /// </summary>
+        public static Func<Exception, bool>? GlobalExceptionHandler { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether command should be executed only once. Is set in child classes.
@@ -40,11 +79,16 @@ namespace Cooking.WPF.Commands
         protected bool Executed { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether CanExecute delegate or its substiturions is specified.
+        /// Gets or sets a value indicating whether CanExecute delegate or its substitutions are specified.
         /// <see cref="DelegateCommandBase"/> knows nothing about CanExecute delegates in child classes - they are of different types and set in constructors.
         /// Instead of delegate, it may be other indicators, such as one-time execution.
         /// </summary>
         protected bool CanExecuteSpecified { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether CanExecute should be refreshed automatically or manually with <see cref="RaiseCanExecuteChanged"/>.
+        /// </summary>
+        protected bool RefreshAutomatically { get; set; }
 
         /// <inheritdoc/>
         public bool CanExecute(object? parameter = null)
@@ -69,8 +113,61 @@ namespace Cooking.WPF.Commands
         public void Execute(object? parameter = null)
         {
             // Calling abstract method
-            ExecuteInternal(parameter);
-            Executed = true;
+            try
+            {
+                ExecuteInternal(parameter);
+            }
+            catch (Exception exception)
+            {
+                bool isHandeled = HandleException(exception);
+                if (!isHandeled)
+                {
+                    throw;
+                }
+            }
+            finally
+            {
+                Executed = true;
+                RaiseCanExecuteChanged();
+            }
+        }
+
+        /// <summary>
+        /// Manually raise CanExecuteChanged command.
+        /// </summary>
+        [SuppressMessage("Design", "CA1030", Justification = "Name is intended to raise an event.")]
+        public void RaiseCanExecuteChanged()
+        {
+            if (CanExecuteSpecified)
+            {
+                if (RefreshAutomatically)
+                {
+                    CommandManager.InvalidateRequerySuggested();
+                }
+                else
+                {
+                    canExecuteChanged?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Method to execute when exception is thrown on <see cref="Execute(object?)"/>.
+        /// </summary>
+        /// <param name="exception">Occured exception.</param>
+        /// <returns>Whether exception was handled.</returns>
+        protected bool HandleException(Exception exception)
+        {
+            if (exceptionHandler != null)
+            {
+                return exceptionHandler(exception);
+            }
+            else if (GlobalExceptionHandler != null)
+            {
+                return GlobalExceptionHandler(exception);
+            }
+
+            return false;
         }
 
         /// <summary>
