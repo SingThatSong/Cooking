@@ -1,4 +1,5 @@
-﻿using Cooking.ServiceLayer;
+﻿using Cooking.Data.Model;
+using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Views;
@@ -13,7 +14,7 @@ namespace Cooking.WPF.ViewModels
     /// </summary>
     public partial class GarnishSelectViewModel : OkCancelViewModel
     {
-        private readonly GarnishService garnishService;
+        private readonly CRUDService<Recipe> garnishService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GarnishSelectViewModel"/> class.
@@ -22,43 +23,25 @@ namespace Cooking.WPF.ViewModels
         /// <param name="garnishService">Tag service dependency.</param>
         /// <param name="selectedGarnishes">Loc25 provider dependency.</param>
         public GarnishSelectViewModel(DialogService dialogService,
-                                      GarnishService garnishService,
-                                      IEnumerable<GarnishEdit> selectedGarnishes)
+                                      CRUDService<Recipe> garnishService,
+                                      IEnumerable<RecipeEdit> selectedGarnishes)
             : base(dialogService)
         {
             this.garnishService = garnishService;
-            AddGarnishCommand = new DelegateCommand(AddGarnishAsync);
-            AllGarnishes = garnishService.GetAllProjected<GarnishEdit>();
+#pragma warning disable CS8604 // Возможно, аргумент-ссылка, допускающий значение NULL.
+            AllGarnishes = garnishService.GetMapped<RecipeEdit>(x => x.Tags.Any(t => t.Name == "Гарниры")).OrderBy(x => x.Name).ToList();
+#pragma warning restore CS8604 // Возможно, аргумент-ссылка, допускающий значение NULL.
             SelectedItems.AddRange(AllGarnishes.Intersect(selectedGarnishes));
         }
 
         /// <summary>
-        /// Gets command for adding a tag.
-        /// </summary>
-        public DelegateCommand AddGarnishCommand { get; }
-
-        /// <summary>
         /// Gets all tags to choose from.
         /// </summary>
-        public List<GarnishEdit> AllGarnishes { get; private set; }
+        public List<RecipeEdit> AllGarnishes { get; private set; }
 
         /// <summary>
         /// Gets or sets all selected tags.
         /// </summary>
-        public ObservableCollection<GarnishEdit> SelectedItems { get; set; } = new ObservableCollection<GarnishEdit>();
-
-        /// <summary>
-        /// Add new tag.
-        /// </summary>
-        public async void AddGarnishAsync()
-        {
-            GarnishEditViewModel viewModel = await DialogService.ShowCustomLocalizedMessageAsync<GarnishEditView, GarnishEditViewModel>("NewGarnish");
-
-            if (viewModel.DialogResultOk)
-            {
-                viewModel.Garnish.ID = await garnishService.CreateAsync(viewModel.Garnish);
-                AllGarnishes.Add(viewModel.Garnish);
-            }
-        }
+        public ObservableCollection<RecipeEdit> SelectedItems { get; set; } = new ObservableCollection<RecipeEdit>();
     }
 }

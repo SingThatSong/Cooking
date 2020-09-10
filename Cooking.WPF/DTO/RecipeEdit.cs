@@ -45,7 +45,7 @@ namespace Cooking.WPF.DTO
         /// <summary>
         /// Gets or sets garnishes for recipe.
         /// </summary>
-        public ObservableCollection<GarnishEdit> Garnishes { get; set; } = new ObservableCollection<GarnishEdit>();
+        public ObservableCollection<RecipeEdit> Garnishes { get; set; } = new ObservableCollection<RecipeEdit>();
 
         /// <summary>
         /// Gets or sets count of days since recipe was last cooked. Not edited by user.
