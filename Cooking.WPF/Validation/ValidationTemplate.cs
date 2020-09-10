@@ -27,7 +27,7 @@ namespace Cooking
 
         private readonly T target;
         private readonly IValidator<T> validator;
-        private ValidationResult validationResult;
+        private ValidationResult validationResult = new ValidationResult();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ValidationTemplate{T}"/> class.
@@ -37,12 +37,17 @@ namespace Cooking
         {
             this.target = target;
             validator = GetValidator(target.GetType());
-            validationResult = validator.Validate(target);
-            target.PropertyChanged += Validate;
+            Validate();
+            target.PropertyChanged += (_, _) => Validate();
         }
 
         /// <inheritdoc/>
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether mapping is ongoing.
+        /// </summary>
+        public bool ValidationSuspended { get; set; }
 
         /// <inheritdoc/>
         public bool HasErrors => validationResult.Errors.Count > 0;
@@ -68,6 +73,23 @@ namespace Cooking
         public IEnumerable GetErrors(string? propertyName) => validationResult.Errors
                                                                                .Where(x => x.PropertyName == propertyName)
                                                                                .Select(x => x.ErrorMessage);
+
+        /// <summary>
+        /// Actually perform validation.
+        /// </summary>
+        public void Validate()
+        {
+            if (ValidationSuspended)
+            {
+                return;
+            }
+
+            validationResult = validator.Validate(target);
+            foreach (ValidationFailure error in validationResult.Errors)
+            {
+                RaiseErrorsChanged(error.PropertyName);
+            }
+        }
 
         /// <summary>
         /// Internal factory method for FluentValidation validators.
@@ -98,18 +120,6 @@ namespace Cooking
             }
 
             return validator;
-        }
-
-        private void Validate(object? sender, PropertyChangedEventArgs e)
-        {
-            validationResult = validator.Validate(target);
-            if (validationResult != null)
-            {
-                foreach (ValidationFailure error in validationResult.Errors)
-                {
-                    RaiseErrorsChanged(error.PropertyName);
-                }
-            }
         }
 
         private void RaiseErrorsChanged(string propertyName) => ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
