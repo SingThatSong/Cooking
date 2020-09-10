@@ -29,7 +29,7 @@ namespace Cooking.WPF.DTO
         /// </summary>
         // Validation of Amount and MeasureUnit depends on each other, so we have to notify interface about changes
         [AlsoNotifyFor(nameof(MeasureUnit))]
-        public double? Amount { get; set; }
+        public string? Amount { get; set; }
 
         /// <summary>
         /// Gets or sets measurement unit of <see cref="Amount"/> in recipe.
