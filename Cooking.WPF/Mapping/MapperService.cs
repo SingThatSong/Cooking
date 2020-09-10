@@ -5,7 +5,8 @@ using Cooking.Data.Model.Plan;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using System;
-using System.Linq;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace Cooking
 {
@@ -21,11 +22,39 @@ namespace Cooking
         public static IConfigurationProvider CreateMapper()
             => new MapperConfiguration(cfg =>
             {
-                cfg.AllowNullDestinationValues = true;
                 cfg.AddCollectionMappers();
 
-                cfg.ShouldMapProperty = _ => false;
-                cfg.ShouldMapField = _ => true;
+                cfg.ForAllMaps((_, mappingExpression) =>
+                {
+                    mappingExpression.BeforeMap((_, dest) =>
+                    {
+                        if (dest is IDataErrorInfo)
+                        {
+                            dynamic? template = dest.GetType()
+                                                    .GetField("validationTemplate", BindingFlags.NonPublic | BindingFlags.Instance)?
+                                                    .GetValue(dest);
+                            if (template != null)
+                            {
+                                template.ValidationSuspended = true;
+                            }
+                        }
+                    });
+
+                    mappingExpression.AfterMap((_, dest) =>
+                    {
+                        if (dest is IDataErrorInfo)
+                        {
+                            dynamic? template = dest.GetType()
+                                                    .GetField("validationTemplate", BindingFlags.NonPublic | BindingFlags.Instance)?
+                                                    .GetValue(dest);
+                            if (template != null)
+                            {
+                                template.ValidationSuspended = false;
+                                template.Validate();
+                            }
+                        }
+                    });
+                });
 
                 // Base mapping for db-dto mappings
                 cfg.CreateMap<Entity, Entity>()
@@ -33,7 +62,7 @@ namespace Cooking
                    .IncludeAllDerived();
 
                 cfg.CreateMap<Entity, EntityNotify>()
-                   .AfterMap((_, dest) => dest.RaiseChanged())
+                   .EqualityComparison((a, b) => a.ID == b.ID)
                    .IncludeAllDerived();
 
                 // Map created recipe to displayed in list
@@ -43,13 +72,15 @@ namespace Cooking
                    .ForMember(x => x.LastCooked, opts => opts.MapFrom(_ => int.MaxValue));
 
                 // Backup dto for editing
-                cfg.CreateMap<GarnishEdit, GarnishEdit>();
-                cfg.CreateMap<RecipeEdit, RecipeEdit>();
+                cfg.CreateMap<RecipeEdit, RecipeEdit>()
+                   .ForMember(x => x.LastCooked, opts => opts.Ignore());
+
                 cfg.CreateMap<TagEdit, TagEdit>();
                 cfg.CreateMap<IngredientEdit, IngredientEdit>();
                 cfg.CreateMap<MeasureUnit, MeasureUnit>();
                 cfg.CreateMap<RecipeIngredientEdit, RecipeIngredientEdit>();
                 cfg.CreateMap<IngredientGroupEdit, IngredientGroupEdit>();
+                cfg.CreateMap<RecipeListViewDto, RecipeListViewDto>();
 
                 cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>()
                    .ReverseMap()
@@ -61,14 +92,14 @@ namespace Cooking
 
                 // Project Recipe from db to displayed in lists
                 cfg.CreateMap<Recipe, RecipeListViewDto>()
+                   .ForMember(x => x.LastCooked, opts => opts.Ignore())
                    .AfterMap<RecipeDtoConverter>();
 
                 // Project Recipe from db to displayed in recipe view
                 cfg.CreateMap<Recipe, RecipeEdit>()
-                   .AfterMap<RecipeConverter>();
-
-                // Update db entry
-                cfg.CreateMap<RecipeEdit, Recipe>();
+                   .ForMember(x => x.LastCooked, opts => opts.Ignore())
+                   .AfterMap<RecipeConverter>()
+                   .ReverseMap();
 
                 // Update ingredients group in recipe
                 cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>()
@@ -78,10 +109,11 @@ namespace Cooking
                 cfg.CreateMap<Day, DayDisplay>();
 
                 // Project enities for editing
-                cfg.CreateMap<Garnish, GarnishEdit>()
-                   .ReverseMap();
                 cfg.CreateMap<Tag, TagEdit>()
+                   .ForMember(x => x.IsChecked, opts => opts.Ignore())
+                   .ForMember(x => x.CanBeRemoved, opts => opts.Ignore())
                    .ReverseMap();
+
                 cfg.CreateMap<Ingredient, IngredientEdit>()
                    .ReverseMap();
              });
