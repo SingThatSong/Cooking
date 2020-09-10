@@ -1,7 +1,7 @@
 ﻿using Cooking.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace ServiceLayer
+namespace Cooking.ServiceLayer
 {
     /// <summary>
     /// Service to perform actions on database itself (e.g. migrations).
