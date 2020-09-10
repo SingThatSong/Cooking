@@ -67,6 +67,6 @@ namespace Cooking.Data.Model
         /// <summary>
         /// Gets or sets garnishes suitable for this recipe.
         /// </summary>
-        public virtual List<Garnish>? Garnishes { get; set; }
+        public virtual List<Recipe>? Garnishes { get; set; }
     }
 }

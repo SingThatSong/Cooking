@@ -3,14 +3,17 @@ using System;
 using Cooking.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cooking.Data.Migrations
 {
     [DbContext(typeof(CookingContext))]
-    partial class CookingContextModelSnapshot : ModelSnapshot
+    [Migration("20200907222002_MoveGarnishesToRecipies")]
+    partial class MoveGarnishesToRecipies
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc/>
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,6 +114,23 @@ namespace Cooking.Data.Migrations
                     b.ToTable("Day");
                 });
 
+            modelBuilder.Entity("Cooking.Data.Model.Plan.Garnish", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Culture")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Garnishes");
+                });
+
             modelBuilder.Entity("Cooking.Data.Model.Recipe", b =>
                 {
                     b.Property<Guid>("ID")
@@ -141,15 +161,10 @@ namespace Cooking.Data.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid?>("RecipeID")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("SourceUrl")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("RecipeID");
 
                     b.ToTable("Recipies");
                 });
@@ -223,6 +238,21 @@ namespace Cooking.Data.Migrations
                     b.ToTable("Tags");
                 });
 
+            modelBuilder.Entity("GarnishRecipe", b =>
+                {
+                    b.Property<Guid>("GarnishesID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("RecipiesID")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("GarnishesID", "RecipiesID");
+
+                    b.HasIndex("RecipiesID");
+
+                    b.ToTable("GarnishRecipe");
+                });
+
             modelBuilder.Entity("RecipeTag", b =>
                 {
                     b.Property<Guid>("RecipiesID")
@@ -257,13 +287,6 @@ namespace Cooking.Data.Migrations
                     b.Navigation("Dinner");
                 });
 
-            modelBuilder.Entity("Cooking.Data.Model.Recipe", b =>
-                {
-                    b.HasOne("Cooking.Data.Model.Recipe", null)
-                        .WithMany("Garnishes")
-                        .HasForeignKey("RecipeID");
-                });
-
             modelBuilder.Entity("Cooking.Data.Model.RecipeIngredient", b =>
                 {
                     b.HasOne("Cooking.Data.Model.Ingredient", "Ingredient")
@@ -290,6 +313,21 @@ namespace Cooking.Data.Migrations
                     b.Navigation("MeasureUnit");
                 });
 
+            modelBuilder.Entity("GarnishRecipe", b =>
+                {
+                    b.HasOne("Cooking.Data.Model.Plan.Garnish", null)
+                        .WithMany()
+                        .HasForeignKey("GarnishesID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Cooking.Data.Model.Recipe", null)
+                        .WithMany()
+                        .HasForeignKey("RecipiesID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("RecipeTag", b =>
                 {
                     b.HasOne("Cooking.Data.Model.Recipe", null)
@@ -312,8 +350,6 @@ namespace Cooking.Data.Migrations
 
             modelBuilder.Entity("Cooking.Data.Model.Recipe", b =>
                 {
-                    b.Navigation("Garnishes");
-
                     b.Navigation("IngredientGroups");
 
                     b.Navigation("Ingredients");

@@ -64,11 +64,6 @@ namespace Cooking.Data.Context
         /// </summary>
         public DbSet<Tag> Tags { get; set; }
 
-        /// <summary>
-        /// Gets or sets garnishes repository.
-        /// </summary>
-        public DbSet<Garnish> Garnishes { get; set; }
-
         private string DbFilename { get; }
 
         /// <inheritdoc/>
@@ -117,8 +112,7 @@ namespace Cooking.Data.Context
                         .WithMany(t => t.Recipies);
 
             modelBuilder.Entity<Recipe>()
-                        .HasMany(r => r.Garnishes)
-                        .WithMany(g => g.Recipies);
+                        .HasMany(r => r.Garnishes);
 
             modelBuilder.Entity<RecipeIngredient>()
                 .HasOne(x => x.Ingredient)
