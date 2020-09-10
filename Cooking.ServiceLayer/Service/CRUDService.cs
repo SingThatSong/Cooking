@@ -14,7 +14,7 @@ namespace Cooking.ServiceLayer
     /// Basic create-retrieve-update-delete service.
     /// </summary>
     /// <typeparam name="T">Type of entity to work on.</typeparam>
-    public abstract class CRUDService<T>
+    public class CRUDService<T>
         where T : Entity, new()
     {
         private readonly ICurrentCultureProvider cultureProvider;
@@ -45,12 +45,18 @@ namespace Cooking.ServiceLayer
         /// <summary>
         /// Get all entities for a type.
         /// </summary>
+        /// <param name="predicate">Predicate to filter.</param>
         /// <returns>All entities for type <typeparamref name="T" />.</returns>
-        public List<T> GetAll()
+        public List<T> GetAll(Expression<Func<T, bool>>? predicate = null)
         {
             using CookingContext context = ContextFactory.Create();
             IQueryable<T> cultureSet = GetCultureSpecificSet(context);
             IQueryable<T>? fullSet = GetFullGraph(cultureSet);
+
+            if (predicate != null)
+            {
+                fullSet = fullSet.Where(predicate);
+            }
 
             return fullSet.AsNoTracking()
                           .AsSplitQuery()
@@ -93,7 +99,7 @@ namespace Cooking.ServiceLayer
         /// <typeparam name="TProjection">Type of projection.</typeparam>
         /// <param name="predicate">Predicate to filter.</param>
         /// <returns>Projected and filtered collection.</returns>
-        public virtual List<TProjection> GetProjectedClientside<TProjection>(Expression<Func<T, bool>> predicate)
+        public virtual List<TProjection> GetProjectedClientside<TProjection>(Func<T, bool> predicate)
             where TProjection : Entity
         {
             using CookingContext context = ContextFactory.Create();
@@ -103,7 +109,7 @@ namespace Cooking.ServiceLayer
 
             IEnumerable<T>? set = fullSet.AsNoTracking()
                                          .AsEnumerable()
-                                         .Where(predicate.Compile())
+                                         .Where(predicate)
                                          .ToList();
 
             return Mapper.Map<List<TProjection>>(set);
@@ -115,7 +121,7 @@ namespace Cooking.ServiceLayer
         /// <typeparam name="TProjection">Type of entry to project to.</typeparam>
         /// <param name="id">ID of entity to find and project.</param>
         /// <returns>Found projected entity.</returns>
-        public virtual TProjection GetProjected<TProjection>(Guid id)
+        public TProjection GetProjected<TProjection>(Guid id)
             where TProjection : Entity
         {
             using CookingContext context = ContextFactory.Create();
@@ -125,6 +131,26 @@ namespace Cooking.ServiceLayer
                                                 .FirstOrDefault(x => x.ID == id);
 
             return Mapper.Map<TProjection>(entryProjected);
+        }
+
+        /// <summary>
+        /// Get a list of required properties for all objects matching filter.
+        /// </summary>
+        /// <typeparam name="TProperty">Type of property.</typeparam>
+        /// <param name="propertySelector">Selector for a required property.</param>
+        /// <param name="filter">Filter of objects to retrieve.</param>
+        /// <returns>List of required properties for all objects matching filter.</returns>
+        public List<TProperty> GetProperty<TProperty>(Expression<Func<T, TProperty>> propertySelector, Expression<Func<T, bool>>? filter = null)
+        {
+            using CookingContext context = ContextFactory.Create();
+            IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context).AsNoTracking();
+
+            if (filter != null)
+            {
+                cultureSpecificSet = cultureSpecificSet.Where(filter);
+            }
+
+            return cultureSpecificSet.Select(propertySelector).ToList();
         }
 
         /// <summary>
@@ -146,11 +172,18 @@ namespace Cooking.ServiceLayer
         /// Get all entities of type <typeparamref name="T" /> projected to TProjection.
         /// </summary>
         /// <typeparam name="TProjection">Type to project <typeparamref name="T" /> to.</typeparam>
+        /// <param name="filter">Filter of objects to retrieve.</param>
         /// <returns>List of all projected entities.</returns>
-        public List<TProjection> GetAllMapped<TProjection>()
+        public List<TProjection> GetMapped<TProjection>(Expression<Func<T, bool>>? filter = null)
         {
             using CookingContext context = ContextFactory.Create();
             IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context).AsNoTracking();
+
+            if (filter != null)
+            {
+                cultureSpecificSet = cultureSpecificSet.Where(filter);
+            }
+
             return Mapper.Map<List<TProjection>>(cultureSpecificSet.ToList());
         }
 
