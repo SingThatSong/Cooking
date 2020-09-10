@@ -16,11 +16,11 @@ namespace Cooking.WPF.DTO
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage(localization.GetLocalizedString("SpecifyName"));
+                .WithMessage(localization["SpecifyName"]);
 
             RuleFor(x => x.Type)
                 .NotNull()
-                .WithMessage(localization.GetLocalizedString("SpecifyIngredientType"));
+                .WithMessage(localization["SpecifyIngredientType"]);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Cooking
         {
             var openFileDialog = new OpenFileDialog()
             {
-                Title = localization.GetLocalizedString("RecipeIconSearch")
+                Title = localization["RecipeIconSearch"]
             };
 
             bool? dialogResult = openFileDialog.ShowDialog();

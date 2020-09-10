@@ -16,17 +16,17 @@ namespace Cooking.WPF.DTO
         {
             RuleFor(x => x.Ingredient)
                 .NotNull()
-                .WithMessage(localization.GetLocalizedString("SpecifyIngredient"));
+                .WithMessage(localization["SpecifyIngredient"]);
 
             RuleFor(x => x.Amount)
-                .NotNull()
+                .NotEmpty()
                 .When(x => x.MeasureUnit != null)
-                .WithMessage(localization.GetLocalizedString("SpecifyAmountIfMeasureUnit"));
+                .WithMessage(localization["SpecifyAmountIfMeasureUnit"]);
 
             RuleFor(x => x.MeasureUnit)
                 .NotNull()
-                .When(x => x.Amount != null)
-                .WithMessage(localization.GetLocalizedString("SpecifyMeasureUnitIfAmount"));
+                .When(x => !string.IsNullOrEmpty(x.Amount))
+                .WithMessage(localization["SpecifyMeasureUnitIfAmount"]);
         }
     }
 }

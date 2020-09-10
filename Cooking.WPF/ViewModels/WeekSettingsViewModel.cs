@@ -27,7 +27,7 @@ namespace Cooking.WPF.ViewModels
     {
         private readonly DialogService dialogService;
         private readonly IRegionManager regionManager;
-        private readonly TagService tagService;
+        private readonly CRUDService<Tag> tagService;
         private readonly IContainerExtension container;
         private readonly RecipeService recipeService;
         private readonly ILocalization localization;
@@ -46,7 +46,7 @@ namespace Cooking.WPF.ViewModels
         /// <param name="mapper">Mapper dependency.</param>
         public WeekSettingsViewModel(DialogService dialogService,
                                      IRegionManager regionManager,
-                                     TagService tagService,
+                                     CRUDService<Tag> tagService,
                                      IContainerExtension container,
                                      RecipeService recipeService,
                                      ILocalization localization,
@@ -63,13 +63,13 @@ namespace Cooking.WPF.ViewModels
             Days = new List<DayPlan>()
             {
                 new DayPlan(),
-                new DayPlan { DayName = localization.GetLocalizedString("Monday_Short"), DayOfWeek = DayOfWeek.Monday },
-                new DayPlan { DayName = localization.GetLocalizedString("Tuesday_Short"), DayOfWeek = DayOfWeek.Tuesday },
-                new DayPlan { DayName = localization.GetLocalizedString("Wednesday_Short"), DayOfWeek = DayOfWeek.Wednesday },
-                new DayPlan { DayName = localization.GetLocalizedString("Thursday_Short"), DayOfWeek = DayOfWeek.Thursday },
-                new DayPlan { DayName = localization.GetLocalizedString("Friday_Short"), DayOfWeek = DayOfWeek.Friday },
-                new DayPlan { DayName = localization.GetLocalizedString("Saturday_Short"), DayOfWeek = DayOfWeek.Saturday },
-                new DayPlan { DayName = localization.GetLocalizedString("Sunday_Short"), DayOfWeek = DayOfWeek.Sunday }
+                new DayPlan { DayName = localization["Monday_Short"], DayOfWeek = DayOfWeek.Monday },
+                new DayPlan { DayName = localization["Tuesday_Short"], DayOfWeek = DayOfWeek.Tuesday },
+                new DayPlan { DayName = localization["Wednesday_Short"], DayOfWeek = DayOfWeek.Wednesday },
+                new DayPlan { DayName = localization["Thursday_Short"], DayOfWeek = DayOfWeek.Thursday },
+                new DayPlan { DayName = localization["Friday_Short"], DayOfWeek = DayOfWeek.Friday },
+                new DayPlan { DayName = localization["Saturday_Short"], DayOfWeek = DayOfWeek.Saturday },
+                new DayPlan { DayName = localization["Sunday_Short"], DayOfWeek = DayOfWeek.Sunday }
             };
 
             Days[0].PropertyChanged += OnHeaderValueChanged;
@@ -242,7 +242,7 @@ namespace Cooking.WPF.ViewModels
 
         private async Task<ObservableCollection<TagEdit>?> GetTagsAsync(TagType type, ObservableCollection<TagEdit> current)
         {
-            List<TagEdit> allTags = tagService.GetTagsByTypeProjected<TagEdit>(type);
+            List<TagEdit> allTags = tagService.GetProjected<TagEdit>(x => x.Type == type);
 
             allTags.Insert(0, TagEdit.Any);
             allTags[0].IsChecked = false;
@@ -253,7 +253,7 @@ namespace Cooking.WPF.ViewModels
                 (typeof(IList<TagEdit>), allTags)
             );
 
-            string header = string.Format(localization.CurrentCulture, localization.GetLocalizedString("CategoriesOf") ?? "{0}", localization.GetLocalizedString(type));
+            string header = string.Format(localization.CurrentCulture, localization["CategoriesOf"] ?? "{0}", localization.GetLocalizedString(type));
             await dialogService.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(header, viewModel);
 
             if (viewModel.DialogResultOk)

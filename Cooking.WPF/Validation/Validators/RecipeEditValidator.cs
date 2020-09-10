@@ -16,7 +16,7 @@ namespace Cooking.WPF.DTO
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage(localization.GetLocalizedString("SpecifyName"));
+                .WithMessage(localization["SpecifyName"]);
         }
     }
 }

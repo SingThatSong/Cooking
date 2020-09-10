@@ -119,7 +119,7 @@ namespace Cooking.WPF
         public virtual async Task<TDialogContent> ShowCustomLocalizedMessageAsync<TDialog, TDialogContent>(string? titleToken = null, TDialogContent? content = null)
             where TDialog : UserControl, new()
             where TDialogContent : class
-            => await ShowCustomMessageAsync<TDialog, TDialogContent>(titleToken != null ? localization.GetLocalizedString(titleToken) : null, content);
+            => await ShowCustomMessageAsync<TDialog, TDialogContent>(titleToken != null ? localization[titleToken] : null, content);
 
         /// <summary>
         /// Show custom dialog with ok/cancel options and run callback on success.
@@ -164,8 +164,8 @@ namespace Cooking.WPF
         /// <param name="successCallback">Callback called when user chose yes.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public virtual async Task ShowLocalizedYesNoDialogAsync(string? titleToken = null, string? messageToken = null, Action? successCallback = null)
-            => await ShowYesNoDialogAsync(titleToken != null ? localization.GetLocalizedString(titleToken) : null,
-                                          messageToken != null ? localization.GetLocalizedString(messageToken) : null,
+            => await ShowYesNoDialogAsync(titleToken != null ? localization[titleToken] : null,
+                                          messageToken != null ? localization[messageToken] : null,
                                           successCallback);
 
         /// <summary>
@@ -184,8 +184,8 @@ namespace Cooking.WPF
                                                 style: MessageDialogStyle.AffirmativeAndNegative,
                                                 settings: new MetroDialogSettings()
                                                 {
-                                                    AffirmativeButtonText = localization.GetLocalizedString("Yes"),
-                                                    NegativeButtonText = localization.GetLocalizedString("No")
+                                                    AffirmativeButtonText = localization["Yes"],
+                                                    NegativeButtonText = localization["No"]
                                                 }).ConfigureAwait(true);
 
             if (result == MessageDialogResult.Affirmative)

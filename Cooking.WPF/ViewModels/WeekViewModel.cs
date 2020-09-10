@@ -8,7 +8,6 @@ using Cooking.WPF.Views;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
-using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -283,7 +282,7 @@ namespace Cooking.WPF.ViewModels
 
             if (noCategoryGroup != null)
             {
-                noCategoryGroup.IngredientGroupName = localization.GetLocalizedString("NoCategory");
+                noCategoryGroup.IngredientGroupName = localization["NoCategory"];
             }
 
             regionManager.NavigateMain(
@@ -299,7 +298,7 @@ namespace Cooking.WPF.ViewModels
                 DayOfWeek dayOfWeek = CurrentWeek!.Single(x => x.ID == dayID).DayOfWeek;
                 await dialogService.ShowYesNoDialogAsync(
                       localization.GetLocalizedString("SureDelete", localization.GetLocalizedString(dayOfWeek) ?? string.Empty),
-                      localization.GetLocalizedString("CannotUndo"),
+                      localization["CannotUndo"],
                       successCallback: async () => await OnDayDeletedAsync(dayID.Value));
             }
         }
@@ -309,8 +308,8 @@ namespace Cooking.WPF.ViewModels
         private async Task DeleteCurrentWeekAsync()
         {
             await dialogService.ShowYesNoDialogAsync(
-                  localization.GetLocalizedString("SureDelete", localization.GetLocalizedString("Week") ?? string.Empty),
-                  localization.GetLocalizedString("CannotUndo"),
+                  localization.GetLocalizedString("SureDelete", localization["Week"] ?? string.Empty),
+                  localization["CannotUndo"],
                   successCallback: async () => await OnCurrentWeekDeletedAsync());
         }
 

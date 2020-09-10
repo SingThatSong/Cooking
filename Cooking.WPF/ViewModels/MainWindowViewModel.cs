@@ -1,6 +1,6 @@
-﻿using Cooking.ServiceLayer;
+﻿using Cooking.Data.Model;
+using Cooking.ServiceLayer;
 using Cooking.WPF.Controls;
-using Cooking.WPF.Services;
 using Cooking.WPF.Views;
 using MahApps.Metro.Controls;
 using MahApps.Metro.IconPacks;
@@ -8,7 +8,6 @@ using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WPFLocalizeExtension.Providers;
 
 namespace Cooking.WPF.ViewModels
 {
@@ -23,48 +22,41 @@ namespace Cooking.WPF.ViewModels
         /// </summary>
         /// <param name="localization">Localization provider dependency.</param>
         /// <param name="tagService">Tag service dependency. Used for menu items generation.</param>
-        public MainWindowViewModel(ILocalization localization, TagService tagService)
+        public MainWindowViewModel(ILocalization localization, CRUDService<Tag> tagService)
         {
             MenuItems = new HamburgerMenuItemCollection()
             {
                 new HamburgerMenuIconItem()
                 {
-                    Label = localization.GetLocalizedString("MainPage"),
+                    Label = localization["MainPage"],
                     Icon = new PackIconModern() { Kind = PackIconModernKind.Page },
-                    ToolTip = localization.GetLocalizedString("MainPage"),
+                    ToolTip = localization["MainPage"],
                     Tag = nameof(WeekView)
                 },
                 new HamburgerMenuIconItem()
                 {
-                    Label = localization.GetLocalizedString("Recepies"),
+                    Label = localization["Recepies"],
                     Icon = new PackIconModern() { Kind = PackIconModernKind.Food },
-                    ToolTip = localization.GetLocalizedString("Recepies"),
+                    ToolTip = localization["Recepies"],
                     Tag = nameof(RecipeListView)
                 },
                 new HamburgerMenuIconItem()
                 {
-                    Label = localization.GetLocalizedString("Ingredients"),
+                    Label = localization["Ingredients"],
                     Icon = new PackIconModern() { Kind = PackIconModernKind.PuzzleRound },
-                    ToolTip = localization.GetLocalizedString("Ingredients"),
+                    ToolTip = localization["Ingredients"],
                     Tag = nameof(IngredientListView)
                 },
                 new HamburgerMenuIconItem()
                 {
-                    Label = localization.GetLocalizedString("Tags"),
+                    Label = localization["Tags"],
                     Icon = new PackIconModern() { Kind = PackIconModernKind.Tag },
-                    ToolTip = localization.GetLocalizedString("Tags"),
+                    ToolTip = localization["Tags"],
                     Tag = nameof(TagListView)
-                },
-                new HamburgerMenuIconItem()
-                {
-                    Label = localization.GetLocalizedString("Garnishes"),
-                    Icon = new PackIconModern() { Kind = PackIconModernKind.FoodCupcake },
-                    ToolTip = localization.GetLocalizedString("Garnishes"),
-                    Tag = nameof(GarnishListView)
                 },
             };
 
-            IEnumerable<TagHamburgerMenuItem> namesForMenuItems = tagService.GetMenuTags()
+            IEnumerable<TagHamburgerMenuItem> namesForMenuItems = tagService.GetAll(x => x.IsInMenu)
                                                                             .Select(x => new TagHamburgerMenuItem()
                                                                             {
                                                                                 Label = x.Name,
@@ -84,9 +76,9 @@ namespace Cooking.WPF.ViewModels
             {
                 new HamburgerMenuIconItem()
                 {
-                    Label = localization.GetLocalizedString("Settings"),
+                    Label = localization["Settings"],
                     Icon = new PackIconModern() { Kind = PackIconModernKind.Settings },
-                    ToolTip = localization.GetLocalizedString("Settings"),
+                    ToolTip = localization["Settings"],
                     Tag = nameof(SettingsView)
                 }
             };
