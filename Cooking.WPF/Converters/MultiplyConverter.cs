@@ -30,6 +30,6 @@ namespace Cooking.WPF.Converters
         }
 
         /// <inheritdoc/>
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => new[] { Binding.DoNothing };
     }
 }
