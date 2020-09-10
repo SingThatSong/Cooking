@@ -2,12 +2,10 @@
 using Cooking.Data.Context;
 using Cooking.Data.Model;
 using Microsoft.EntityFrameworkCore;
-using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace Cooking.ServiceLayer
 {
