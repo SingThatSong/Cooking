@@ -2,13 +2,14 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net5.0-windows7</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>if_pan_416389.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <PublishReadyToRunShowWarnings>true</PublishReadyToRunShowWarnings>
     <Platforms>AnyCPU;x64</Platforms>
+    <AnalysisLevel>latest</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,57 +27,56 @@
     <PackageReference Include="AutoMapper.Collection" Version="7.0.0" />
     <PackageReference Include="Bindables.Fody" Version="6.0.0" PrivateAssets="All" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" PrivateAssets="All" />
-    <PackageReference Include="FluentValidation" Version="9.1.2" />
-    <PackageReference Include="AutoMapper" Version="10.0.1-alpha.0.2" />
-    <PackageReference Include="Fody" Version="6.2.4" PrivateAssets="All">
+    <PackageReference Include="FluentValidation" Version="9.3.0-preview1" />
+    <PackageReference Include="AutoMapper" Version="10.0.1-alpha.0.3" />
+    <PackageReference Include="Fody" Version="6.2.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="gong-wpf-dragdrop" Version="2.2.0" />
     <PackageReference Include="MahApps.Metro" Version="2.2.0" />
     <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="4.4.0" />
-    <PackageReference Include="MaterialDesignColors" Version="1.2.7-ci1856" />
-    <PackageReference Include="MaterialDesignThemes" Version="3.2.0-ci1856" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1-beta1.20413.4">
+    <PackageReference Include="MaterialDesignColors" Version="1.2.7-ci1936" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.2.0-ci1936" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1-beta1.20459.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0-rc.1.20413.2">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0-alpha.1.20417.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0-rc.1.20413.5" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0-rc.1.20413.5" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0-rc.1.20413.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0-alpha.1.20420.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-alpha.1.20420.3" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0-alpha.1.20420.3" />
     <PackageReference Include="NullGuard.Fody" Version="3.0.0" PrivateAssets="All" />
     <PackageReference Include="PhotoSauce.MagicScaler" Version="0.11.1" />
     <PackageReference Include="Plafi.DynamicLinq" Version="1.0.0" />
-    <PackageReference Include="Prism.Unity" Version="8.0.0.1740-pre" />
-    <PackageReference Include="Prism.Wpf" Version="8.0.0.1740-pre" />
-    <PackageReference Include="PropertyChanged.Fody" Version="3.2.8" PrivateAssets="All" />
-    <PackageReference Include="Roslynator.Analyzers" Version="3.0.0-rc">
+    <PackageReference Include="Prism.Unity" Version="8.0.0.1850-pre" />
+    <PackageReference Include="Prism.Wpf" Version="8.0.0.1850-pre" />
+    <PackageReference Include="PropertyChanged.Fody" Version="3.2.9" PrivateAssets="All" />
+    <PackageReference Include="Roslynator.Analyzers" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="1.0.0-beta">
+    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="1.0.0-rc2">
+    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="1.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Serilog" Version="2.10.0-dev-01226" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00839" />
+    <PackageReference Include="Serilog" Version="2.10.1-dev-01249" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="1.0.2-dev-00020" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00887" />
-    <PackageReference Include="SmartFormat.NET" Version="2.5.2" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.205">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Validar.Fody" Version="1.9.0" PrivateAssets="All" />
-    <PackageReference Include="VirtualizingWrapPanel" Version="1.5.0" />
-    <PackageReference Include="WPFLocalizeExtension" Version="3.7.0-alpha.58" />
+    <PackageReference Include="VirtualizingWrapPanel" Version="1.5.1" />
+    <PackageReference Include="WPFLocalizeExtension" Version="3.8.0" />
   </ItemGroup>
 
   <ItemGroup>

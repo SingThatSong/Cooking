@@ -3,6 +3,7 @@ using ControlzEx.Theming;
 using Cooking.Data.Context;
 using Cooking.ServiceLayer;
 using Cooking.WPF;
+using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using Cooking.WPF.ViewModels;
@@ -18,7 +19,6 @@ using Prism.Ioc;
 using Prism.Unity;
 using Serilog;
 using Serilog.Core;
-using ServiceLayer;
 using SmartFormat;
 using SmartFormat.Extensions;
 using System;
@@ -31,6 +31,7 @@ using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
+// TODO: Remake garnish as a recipe
 // TODO: Dish garnishes select + generate
 
 // TODO: Highlight items like in recipe list everywhere
@@ -42,7 +43,7 @@ using WPFLocalizeExtension.Providers;
 
 // Git-related
 // TODO: Setup CI
-// TODO: Set autoupgrade https://github.com/ravibpatel/AutoUpdater.NET
+// TODO: Set autoupgrade https://github.com/Squirrel/Squirrel.Windows
 // TODO: Use XamlStyler in git hooks
 // TODO: Remove usings in git hooks
 
@@ -76,6 +77,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Restore Maximize button when ControlzEx fixes it for .NET 5. See https://github.com/ControlzEx/ControlzEx/issues/120
 // TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration. Not available now, See https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/issues/1896
 // TODO: Fix publishing: dotnet publish isnt working, single file isnt working, lib trimming isnt working
+// TODO: Move styles to XamlCSS
 
 // Set Null-check on all func arguments globally
 [assembly: NullGuard(ValidationFlags.Arguments)]
@@ -104,7 +106,7 @@ namespace Cooking
             // Register logging
             Logger logger = new LoggerConfiguration()
                              .MinimumLevel.Information()
-                             .WriteTo.Console()
+                             .WriteTo.Debug()
                              .WriteTo.File(Consts.LogFilename,
                                            rollingInterval: RollingInterval.Infinite,
                                            rollOnFileSizeLimit: true,
@@ -125,7 +127,9 @@ namespace Cooking
                 baseTheme = MaterialDesignThemes.Wpf.Theme.Light;
             }
 
-            paletteHelper.SetTheme(MaterialDesignThemes.Wpf.Theme.Create(baseTheme, (Color)ColorConverter.ConvertFromString(options.Value.Accent), (Color)ColorConverter.ConvertFromString(options.Value.Accent)));
+            paletteHelper.SetTheme(MaterialDesignThemes.Wpf.Theme.Create(baseTheme,
+                                                                        (Color)ColorConverter.ConvertFromString(options.Value.Accent),
+                                                                        (Color)ColorConverter.ConvertFromString(options.Value.Accent)));
 
             // Register main page and main vm - they are constant
             containerRegistry.Register<MainWindowView>();
@@ -133,10 +137,9 @@ namespace Cooking
 
             // Register services
             containerRegistry.RegisterInstance<IMapper>(new Mapper(MapperService.CreateMapper(), Container.Resolve<IContainerExtension>().Resolve));
+
+            containerRegistry.Register(typeof(CRUDService<>));
             containerRegistry.Register<DayService>();
-            containerRegistry.Register<GarnishService>();
-            containerRegistry.Register<IngredientService>();
-            containerRegistry.Register<TagService>();
             containerRegistry.Register<SettingsService>();
             containerRegistry.Register<RecipeService>();
             containerRegistry.RegisterSingleton<ImageService>();
@@ -151,12 +154,12 @@ namespace Cooking
             // If no localization exists or current config is invalid, close application
             EnsureLocalizationProvided();
 
-            // Variables affect pages, so we set them beforehand
-            SetStaticVariables();
-
             // TODO: remove after introducing data migrator
             DatabaseService dbService = Container.Resolve<DatabaseService>();
             dbService.MigrateDatabase();
+
+            // Variables affect pages, so we set them beforehand
+            SetStaticVariables();
 
             // Dialog service is constant - we have only one window
             containerRegistry.RegisterInstance(new DialogService(
@@ -183,7 +186,6 @@ namespace Cooking
             containerRegistry.Register<IngredientGroupEditValidator>();
             containerRegistry.Register<RecipeEditValidator>();
             containerRegistry.Register<RecipeIngredientEditValidator>();
-            containerRegistry.Register<GarnishEditValidator>();
             containerRegistry.Register<TagEditValidator>();
             containerRegistry.Register<IngredientEditValidator>();
         }
@@ -255,9 +257,23 @@ namespace Cooking
             LocalizeDictionary.Instance.Culture = currentCulture;
             Smart.Default.GetFormatterExtension<PluralLocalizationFormatter>().DefaultTwoLetterISOLanguageName = currentCulture.TwoLetterISOLanguageName;
 
+            LocalizeDictionary.Instance.DefaultProvider = Container.Resolve<ILocalizationProvider>();
+            LocalizeDictionary.Instance.DisableCache = false;
+            LocalizeDictionary.Instance.IncludeInvariantCulture = false;
+
             ILocalization localization = Container.Resolve<ILocalization>();
-            TagEdit.Any.Name = localization.GetLocalizedString("Any");
-            CalorieTypeSelection.Any.Name = localization.GetLocalizedString("Any");
+            TagEdit.Any.Name              = localization["Any"];
+            CalorieTypeSelection.Any.Name = localization["Any"];
+
+            DayService dayService = Container.Resolve<DayService>();
+            dayService.InitCache();
+
+            DelegateCommand.GlobalExceptionHandler = ex =>
+            {
+                ILogger logger = Container.Resolve<ILogger>();
+                logger.Error(ex, "Critical error");
+                return true;
+            };
         }
     }
 }

@@ -158,16 +158,8 @@ namespace Cooking.WPF.Commands
         /// <returns>Whether exception was handled.</returns>
         protected bool HandleException(Exception exception)
         {
-            if (exceptionHandler != null)
-            {
-                return exceptionHandler(exception);
-            }
-            else if (GlobalExceptionHandler != null)
-            {
-                return GlobalExceptionHandler(exception);
-            }
-
-            return false;
+            return exceptionHandler?.Invoke(exception) == true
+                || GlobalExceptionHandler?.Invoke(exception) == true;
         }
 
         /// <summary>

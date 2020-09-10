@@ -38,7 +38,7 @@
             ICommand implementation which force execution on separate thread.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand.#ctor(System.Func{System.Threading.Tasks.Task},System.Func{System.Boolean},System.Boolean,System.Boolean)">
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand.#ctor(System.Func{System.Threading.Tasks.Task},System.Func{System.Boolean},System.Boolean,System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.AsyncDelegateCommand"/> class.
             </summary>
@@ -46,6 +46,8 @@
             <param name="canExecute">Function to determine if <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand.execute"/> can be executed.</param>
             <param name="executeOnce">Execute function only once, after that <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand.canExecute"/> would return false regardless.</param>
             <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand.canExecute"/> would return false.</param>
+            <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
+            <param name="exceptionHandler">An exception handler function.</param>
         </member>
         <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand.CanExecuteAsyncInternal(System.Object)">
             <inheritdoc/>
@@ -58,9 +60,18 @@
             ICommand implementation for WPF bindings.
             </summary>
         </member>
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommandBase.#ctor(System.Boolean,System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.AsyncDelegateCommandBase"/> class.
+            </summary>
+            <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution CanExecute would return false.</param>
+            <param name="executeOnce">Execute function only once, after that CanExecute would return false regardless.</param>
+            <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
+            <param name="exceptionHandler">An exception handler function.</param>
+        </member>
         <member name="P:Cooking.WPF.Commands.AsyncDelegateCommandBase.FreezeWhenBusy">
             <summary>
-            Gets or sets a value indicating whether command would return false when called CanExecute.
+            Gets a value indicating whether command would return false when called CanExecute.
             </summary>
         </member>
         <member name="M:Cooking.WPF.Commands.AsyncDelegateCommandBase.CanExecuteInternal(System.Object)">
@@ -96,7 +107,7 @@
             </summary>
             <typeparam name="T">Command parameter type.</typeparam>
         </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand`1.#ctor(System.Func{`0,System.Threading.Tasks.Task},System.Func{`0,System.Boolean},System.Boolean,System.Boolean)">
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand`1.#ctor(System.Func{`0,System.Threading.Tasks.Task},System.Func{`0,System.Boolean},System.Boolean,System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.AsyncDelegateCommand`1"/> class.
             </summary>
@@ -104,6 +115,8 @@
             <param name="canExecute">Function to determine if <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand`1.execute"/> can be executed.</param>
             <param name="executeOnce">Execute function only once, after that <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand`1.canExecute"/> would return false regardless.</param>
             <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand`1.canExecute"/> would return false.</param>
+            <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
+            <param name="exceptionHandler">An exception handler function.</param>
         </member>
         <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand`1.CanExecuteAsyncInternal(System.Object)">
             <inheritdoc/>
@@ -116,13 +129,15 @@
             DelegateCommand without parameters.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean},System.Boolean)">
+        <member name="M:Cooking.WPF.Commands.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean},System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.DelegateCommand"/> class.
             </summary>
             <param name="execute">Method, which is executed on Execute method.</param>
             <param name="canExecute">Defines if method can be executed.</param>
             <param name="executeOnce">Defines if method could be executed just once (useful for event bindings, such as OnLoading).</param>
+            <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
+            <param name="exceptionHandler">An exception handler function.</param>
         </member>
         <member name="M:Cooking.WPF.Commands.DelegateCommand.ExecuteInternal(System.Object)">
             <summary>
@@ -142,9 +157,22 @@
             ICommand implementation for WPF bindings.
             </summary>
         </member>
+        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.#ctor(System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.DelegateCommandBase"/> class.
+            </summary>
+            <param name="executeOnce">Execute function only once, after that CanExecute would return false regardless.</param>
+            <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
+            <param name="exceptionHandler">An exception handler function.</param>
+        </member>
         <member name="E:Cooking.WPF.Commands.DelegateCommandBase.CanExecuteChanged">
             <summary>
             https://stackoverflow.com/a/7353704/1134449
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Commands.DelegateCommandBase.GlobalExceptionHandler">
+            <summary>
+            Gets or sets a global exception handler function.
             </summary>
         </member>
         <member name="P:Cooking.WPF.Commands.DelegateCommandBase.ExecuteOnce">
@@ -159,9 +187,14 @@
         </member>
         <member name="P:Cooking.WPF.Commands.DelegateCommandBase.CanExecuteSpecified">
             <summary>
-            Gets or sets a value indicating whether CanExecute delegate or its substiturions is specified.
+            Gets or sets a value indicating whether CanExecute delegate or its substitutions are specified.
             <see cref="T:Cooking.WPF.Commands.DelegateCommandBase"/> knows nothing about CanExecute delegates in child classes - they are of different types and set in constructors.
             Instead of delegate, it may be other indicators, such as one-time execution.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.Commands.DelegateCommandBase.RefreshAutomatically">
+            <summary>
+            Gets or sets a value indicating whether CanExecute should be refreshed automatically or manually with <see cref="M:Cooking.WPF.Commands.DelegateCommandBase.RaiseCanExecuteChanged"/>.
             </summary>
         </member>
         <member name="M:Cooking.WPF.Commands.DelegateCommandBase.CanExecute(System.Object)">
@@ -169,6 +202,18 @@
         </member>
         <member name="M:Cooking.WPF.Commands.DelegateCommandBase.Execute(System.Object)">
             <inheritdoc/>
+        </member>
+        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.RaiseCanExecuteChanged">
+            <summary>
+            Manually raise CanExecuteChanged command.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.HandleException(System.Exception)">
+            <summary>
+            Method to execute when exception is thrown on <see cref="M:Cooking.WPF.Commands.DelegateCommandBase.Execute(System.Object)"/>.
+            </summary>
+            <param name="exception">Occured exception.</param>
+            <returns>Whether exception was handled.</returns>
         </member>
         <member name="M:Cooking.WPF.Commands.DelegateCommandBase.CanExecuteInternal(System.Object)">
             <summary>
@@ -189,13 +234,15 @@
             </summary>
             <typeparam name="T">Command parameter type.</typeparam>
         </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommand`1.#ctor(System.Action{`0},System.Func{`0,System.Boolean},System.Boolean)">
+        <member name="M:Cooking.WPF.Commands.DelegateCommand`1.#ctor(System.Action{`0},System.Func{`0,System.Boolean},System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.DelegateCommand`1"/> class.
             </summary>
             <param name="execute">Method, which is executed on Execute method.</param>
             <param name="canExecute">Defines if method can be executed.</param>
             <param name="executeOnce">Defines if method could be executed just once (useful for event bindings, such as OnLoading).</param>
+            <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
+            <param name="exceptionHandler">An exception handler function.</param>
         </member>
         <member name="M:Cooking.WPF.Commands.DelegateCommand`1.ExecuteInternal(System.Object)">
             <summary>
@@ -617,16 +664,6 @@
             Raise event with interface notification.
             </summary>
         </member>
-        <member name="T:Cooking.WPF.DTO.GarnishEdit">
-            <summary>
-            Dto for garnish editing.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.DTO.GarnishEdit.Name">
-            <summary>
-            Gets or sets garnish name.
-            </summary>
-        </member>
         <member name="T:Cooking.WPF.DTO.IngredientEdit">
             <summary>
             Sto for ingredient editing.
@@ -845,17 +882,6 @@
             Gets or sets a menu icon.
             </summary>
         </member>
-        <member name="T:Cooking.WPF.DTO.GarnishEditValidator">
-            <summary>
-            FluentValidation Validator for <see cref="T:Cooking.WPF.DTO.GarnishEdit"/>.
-            </summary>
-        </member>
-        <member name="M:Cooking.WPF.DTO.GarnishEditValidator.#ctor(Cooking.ServiceLayer.ILocalization)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.DTO.GarnishEditValidator"/> class.
-            </summary>
-            <param name="localization">Localization provider for eror messages.</param>
-        </member>
         <member name="T:Cooking.WPF.DTO.IngredientEditValidator">
             <summary>
             FluentValidation Validator for <see cref="T:Cooking.WPF.DTO.IngredientEdit"/>.
@@ -931,6 +957,34 @@
             Prism Event fired when recipe updated.
             </summary>
         </member>
+        <member name="T:Cooking.WPF.Services.RecipeConverter">
+            <summary>
+            Converter from db Recipe entity and RecipeEdit dto, setting LastCooked using RecipeService.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Services.RecipeConverter.#ctor(Cooking.ServiceLayer.RecipeService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Services.RecipeConverter"/> class.
+            </summary>
+            <param name="recipeService">Dependency to <see cref="T:Cooking.ServiceLayer.RecipeService"/>.</param>
+        </member>
+        <member name="M:Cooking.WPF.Services.RecipeConverter.Process(Cooking.Data.Model.Recipe,Cooking.WPF.DTO.RecipeEdit,AutoMapper.ResolutionContext)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.WPF.Services.RecipeDtoConverter">
+            <summary>
+            Converter from db Recipe entity and RecipeListViewDto dto, setting LastCooked using RecipeService.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Services.RecipeDtoConverter.#ctor(Cooking.ServiceLayer.RecipeService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Services.RecipeDtoConverter"/> class.
+            </summary>
+            <param name="recipeService">Dependency to <see cref="T:Cooking.ServiceLayer.RecipeService"/>.</param>
+        </member>
+        <member name="M:Cooking.WPF.Services.RecipeDtoConverter.Process(Cooking.Data.Model.Recipe,Cooking.WPF.DTO.RecipeListViewDto,AutoMapper.ResolutionContext)">
+            <inheritdoc/>
+        </member>
         <member name="T:Cooking.WPF.Services.AppSettings">
             <summary>
             Application settings for use with IOptions.
@@ -998,6 +1052,9 @@
             Gets current system culture.
             </summary>
         </member>
+        <member name="P:Cooking.WPF.Services.JsonLocalizationProvider.Item(System.String)">
+            <inheritdoc/>
+        </member>
         <member name="M:Cooking.WPF.Services.JsonLocalizationProvider.GetFullyQualifiedResourceKey(System.String,System.Windows.DependencyObject)">
             <inheritdoc/>
         </member>
@@ -1032,34 +1089,6 @@
             </summary>
             <param name="prefix">Prefix for a string collection.</param>
             <returns>Dictionary of localization keys and values.</returns>
-        </member>
-        <member name="T:Cooking.WPF.Services.RecipeConverter">
-            <summary>
-            Converter from db Recipe entity and RecipeEdit dto, setting LastCooked using RecipeService.
-            </summary>
-        </member>
-        <member name="M:Cooking.WPF.Services.RecipeConverter.#ctor(Cooking.ServiceLayer.RecipeService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.Services.RecipeConverter"/> class.
-            </summary>
-            <param name="recipeService">Dependency to <see cref="T:Cooking.ServiceLayer.RecipeService"/>.</param>
-        </member>
-        <member name="M:Cooking.WPF.Services.RecipeConverter.Process(Cooking.Data.Model.Recipe,Cooking.WPF.DTO.RecipeEdit,AutoMapper.ResolutionContext)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Cooking.WPF.Services.RecipeDtoConverter">
-            <summary>
-            Converter from db Recipe entity and RecipeListViewDto dto, setting LastCooked using RecipeService.
-            </summary>
-        </member>
-        <member name="M:Cooking.WPF.Services.RecipeDtoConverter.#ctor(Cooking.ServiceLayer.RecipeService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.Services.RecipeDtoConverter"/> class.
-            </summary>
-            <param name="recipeService">Dependency to <see cref="T:Cooking.ServiceLayer.RecipeService"/>.</param>
-        </member>
-        <member name="M:Cooking.WPF.Services.RecipeDtoConverter.Process(Cooking.Data.Model.Recipe,Cooking.WPF.DTO.RecipeListViewDto,AutoMapper.ResolutionContext)">
-            <inheritdoc/>
         </member>
         <member name="T:Cooking.WPF.Services.RecipeFiltrator">
             <summary>
@@ -1240,14 +1269,19 @@
             <param name="obj">Object to validate.</param>
             <returns>If object is valid.</returns>
         </member>
-        <member name="T:Cooking.WPF.ViewModels.GarnishEditViewModelValidator">
+        <member name="T:Cooking.WPF.ViewModels.IngredientEditViewModelValidator">
             <summary>
-            Test.
+            Validator for <see cref="T:Cooking.WPF.ViewModels.IngredientEditViewModel"/> class.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModelValidator.#ctor">
+        <member name="M:Cooking.WPF.ViewModels.IngredientEditViewModelValidator.#ctor">
             <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.GarnishEditViewModelValidator"/> class.
+            Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.IngredientEditViewModelValidator"/> class.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.ViewModels.IngredientGroupEditViewModelValidator">
+            <summary>
+            Validator for <see cref="T:Cooking.WPF.ViewModels.IngredientGroupEditViewModel"/> class.
             </summary>
         </member>
         <member name="T:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel">
@@ -1268,54 +1302,18 @@
             Gets all calorie types to select from.
             </summary>
         </member>
-        <member name="T:Cooking.WPF.ViewModels.GarnishEditViewModel">
-            <summary>
-             View model for editing garnishes.
-            </summary>
-        </member>
-        <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModel.#ctor(Cooking.WPF.DTO.GarnishEdit,Cooking.ServiceLayer.GarnishService,Cooking.WPF.DialogService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.GarnishEditViewModel"/> class.
-            </summary>
-            <param name="garnish">Garnish to edit.</param>
-            <param name="garnishService">Garnish service dependency.</param>
-            <param name="dialogService">Dialog service dependency.</param>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.GarnishEditViewModel.Garnish">
-            <summary>
-            Gets or sets garnish to be edited.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.GarnishEditViewModel.SimilarGarnishes">
-            <summary>
-            Gets similar garnishes list to check on duplicates.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.GarnishEditViewModel.LoadedCommand">
-            <summary>
-            Gets command to execute on loaded event.
-            </summary>
-        </member>
-        <member name="M:Cooking.WPF.ViewModels.GarnishEditViewModel.OkAsync">
-            <inheritdoc/>
-        </member>
         <member name="T:Cooking.WPF.ViewModels.GarnishSelectViewModel">
             <summary>
             View model for tag selection.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.GarnishSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.GarnishService,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.GarnishEdit})">
+        <member name="M:Cooking.WPF.ViewModels.GarnishSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.CRUDService{Cooking.Data.Model.Recipe},System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.RecipeEdit})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.GarnishSelectViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="garnishService">Tag service dependency.</param>
             <param name="selectedGarnishes">Loc25 provider dependency.</param>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.GarnishSelectViewModel.AddGarnishCommand">
-            <summary>
-            Gets command for adding a tag.
-            </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.GarnishSelectViewModel.AllGarnishes">
             <summary>
@@ -1325,11 +1323,6 @@
         <member name="P:Cooking.WPF.ViewModels.GarnishSelectViewModel.SelectedItems">
             <summary>
             Gets or sets all selected tags.
-            </summary>
-        </member>
-        <member name="M:Cooking.WPF.ViewModels.GarnishSelectViewModel.AddGarnishAsync">
-            <summary>
-            Add new tag.
             </summary>
         </member>
         <member name="T:Cooking.WPF.ViewModels.IconSelectViewModel">
@@ -1368,7 +1361,7 @@
             View model for ingredient edit dialog.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.IngredientEditViewModel.#ctor(ServiceLayer.IngredientService,Cooking.WPF.DialogService,Cooking.ServiceLayer.ILocalization,Prism.Events.IEventAggregator,Cooking.WPF.DTO.IngredientEdit)">
+        <member name="M:Cooking.WPF.ViewModels.IngredientEditViewModel.#ctor(Cooking.ServiceLayer.CRUDService{Cooking.Data.Model.Ingredient},Cooking.WPF.DialogService,Cooking.ServiceLayer.ILocalization,Prism.Events.IEventAggregator,Cooking.WPF.DTO.IngredientEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.IngredientEditViewModel"/> class.
             </summary>
@@ -1406,9 +1399,6 @@
         <member name="M:Cooking.WPF.ViewModels.IngredientEditViewModel.OkAsync">
             <inheritdoc/>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.IngredientEditViewModel.CanOk">
-            <inheritdoc/>
-        </member>
         <member name="T:Cooking.WPF.ViewModels.IngredientGroupEditViewModel">
             <summary>
             View model for creating/editing ingredient group.
@@ -1425,14 +1415,6 @@
             <summary>
             Gets ingredient group to edit.
             </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.IngredientGroupEditViewModel.LoadedCommand">
-            <summary>
-            Gets command to execute on loaded event.
-            </summary>
-        </member>
-        <member name="M:Cooking.WPF.ViewModels.IngredientGroupEditViewModel.CanOk">
-            <inheritdoc/>
         </member>
         <member name="T:Cooking.WPF.ViewModels.MoveRecipeViewModel">
             <summary>
@@ -1516,7 +1498,7 @@
             View model for editing ingredient in recipe.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel.#ctor(Cooking.WPF.DialogService,ServiceLayer.IngredientService,ServiceLayer.MeasureUnitService,Cooking.WPF.DTO.RecipeIngredientEdit)">
+        <member name="M:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.CRUDService{Cooking.Data.Model.Ingredient},Cooking.ServiceLayer.CRUDService{Cooking.Data.Model.MeasureUnit},Cooking.WPF.DTO.RecipeIngredientEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel"/> class.
             </summary>
@@ -1615,7 +1597,7 @@
             View model for editing tags.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.TagEditViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,Cooking.WPF.DTO.TagEdit)">
+        <member name="M:Cooking.WPF.ViewModels.TagEditViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.CRUDService{Cooking.Data.Model.Tag},Cooking.WPF.DTO.TagEdit)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.TagEditViewModel"/> class.
             </summary>
@@ -1654,7 +1636,7 @@
             View model for tag selection.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.TagEdit},System.Collections.Generic.IList{Cooking.WPF.DTO.TagEdit})">
+        <member name="M:Cooking.WPF.ViewModels.TagSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.CRUDService{Cooking.Data.Model.Tag},System.Collections.Generic.IEnumerable{Cooking.WPF.DTO.TagEdit},System.Collections.Generic.IList{Cooking.WPF.DTO.TagEdit})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.TagSelectViewModel"/> class.
             </summary>
@@ -1703,51 +1685,12 @@
             Add new tag.
             </summary>
         </member>
-        <member name="T:Cooking.WPF.ViewModels.GarnishListViewModel">
-            <summary>
-            View model for a list of all garnishes.
-            </summary>
-        </member>
-        <member name="M:Cooking.WPF.ViewModels.GarnishListViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.GarnishService,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.GarnishListViewModel"/> class.
-            </summary>
-            <param name="dialogService">Dialog service dependency.</param>
-            <param name="garnishService">Garnish service dependency.</param>
-            <param name="mapper">Mapper dependency.</param>
-            <param name="localization">Localization provider dependency.</param>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.GarnishListViewModel.Garnishes">
-            <summary>
-            Gets list of all garnishes.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.GarnishListViewModel.LoadedCommand">
-            <summary>
-            Gets command to execute on loaded event.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.GarnishListViewModel.AddGarnishCommand">
-            <summary>
-            Gets command to add new garnish.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.GarnishListViewModel.EditGarnishCommand">
-            <summary>
-            Gets command to edit garnish.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.GarnishListViewModel.DeleteGarnishCommand">
-            <summary>
-            Gets command to remove garnish.
-            </summary>
-        </member>
         <member name="T:Cooking.WPF.ViewModels.IngredientListViewModel">
             <summary>
             View model for ingredients list.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.IngredientListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,ServiceLayer.IngredientService,Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
+        <member name="M:Cooking.WPF.ViewModels.IngredientListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,Cooking.ServiceLayer.CRUDService{Cooking.Data.Model.Ingredient},Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.IngredientListViewModel"/> class.
             </summary>
@@ -1788,7 +1731,7 @@
             View model for main window.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.MainWindowViewModel.#ctor(Cooking.ServiceLayer.ILocalization,Cooking.ServiceLayer.TagService)">
+        <member name="M:Cooking.WPF.ViewModels.MainWindowViewModel.#ctor(Cooking.ServiceLayer.ILocalization,Cooking.ServiceLayer.CRUDService{Cooking.Data.Model.Tag})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.MainWindowViewModel"/> class.
             </summary>
@@ -1895,7 +1838,7 @@
             Drag-and-drop logic for <see cref="T:Cooking.WPF.ViewModels.RecipeViewModel"/>.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.RecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ImageService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,Cooking.ServiceLayer.GarnishService,AutoMapper.IMapper,Prism.Events.IEventAggregator,Cooking.ServiceLayer.ILocalization,Prism.Regions.IRegionManager)">
+        <member name="M:Cooking.WPF.ViewModels.RecipeViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ImageService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,AutoMapper.IMapper,Prism.Events.IEventAggregator,Cooking.ServiceLayer.ILocalization,Prism.Regions.IRegionManager)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.RecipeViewModel"/> class.
             </summary>
@@ -1903,7 +1846,6 @@
             <param name="imageService">Service for working with images.</param>
             <param name="container">IoC container.</param>
             <param name="recipeService">Recipe service dependency.</param>
-            <param name="garnishService">Garnish service dependency.</param>
             <param name="mapper">Mapper dependency.</param>
             <param name="eventAggregator">Dependency on Prism event aggregator.</param>
             <param name="localization">Localization provider dependency.</param>
@@ -2254,7 +2196,7 @@
             View model for a list of tags.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.TagListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,Cooking.ServiceLayer.TagService,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
+        <member name="M:Cooking.WPF.ViewModels.TagListViewModel.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.DialogService,Cooking.ServiceLayer.CRUDService{Cooking.Data.Model.Tag},AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.TagListViewModel"/> class.
             </summary>
@@ -2299,7 +2241,7 @@
             View model for week settings.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.WeekSettingsViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Cooking.ServiceLayer.TagService,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,Cooking.ServiceLayer.ILocalization,AutoMapper.IMapper)">
+        <member name="M:Cooking.WPF.ViewModels.WeekSettingsViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Cooking.ServiceLayer.CRUDService{Cooking.Data.Model.Tag},Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.RecipeService,Cooking.ServiceLayer.ILocalization,AutoMapper.IMapper)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.WeekSettingsViewModel"/> class.
             </summary>
@@ -2700,9 +2642,6 @@
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.IngredientListView"/> class.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.Views.IngredientListView.KeepAlive">
-            <inheritdoc/>
-        </member>
         <member name="M:Cooking.WPF.Views.IngredientListView.InitializeComponent">
             <summary>
             InitializeComponent
@@ -2986,6 +2925,17 @@
             Localization error given to user.
             </summary>
         </member>
+        <member name="T:Cooking.MapperService">
+            <summary>
+            Service for object mapping and projections.
+            </summary>
+        </member>
+        <member name="M:Cooking.MapperService.CreateMapper">
+            <summary>
+            Create Autmapper Mapper provider.
+            </summary>
+            <returns>Instance of <see cref="T:AutoMapper.IConfigurationProvider"/>.</returns>
+        </member>
         <member name="T:Cooking.ImageService">
             <summary>
             Service for working with images.
@@ -3003,17 +2953,6 @@
             </summary>
             <returns>Saved file path.</returns>
         </member>
-        <member name="T:Cooking.MapperService">
-            <summary>
-            Service for object mapping and projections.
-            </summary>
-        </member>
-        <member name="M:Cooking.MapperService.CreateMapper">
-            <summary>
-            Create Autmapper Mapper provider.
-            </summary>
-            <returns>Instance of <see cref="T:AutoMapper.IConfigurationProvider"/>.</returns>
-        </member>
         <member name="T:Cooking.ValidationTemplate`1">
             <summary>
             Validar Validation template for FluentValidation. See https://github.com/Fody/Validar#validation-template-implementations.
@@ -3029,6 +2968,11 @@
         <member name="E:Cooking.ValidationTemplate`1.ErrorsChanged">
             <inheritdoc/>
         </member>
+        <member name="P:Cooking.ValidationTemplate`1.ValidationSuspended">
+            <summary>
+            Gets or sets a value indicating whether mapping is ongoing.
+            </summary>
+        </member>
         <member name="P:Cooking.ValidationTemplate`1.HasErrors">
             <inheritdoc/>
         </member>
@@ -3041,12 +2985,47 @@
         <member name="M:Cooking.ValidationTemplate`1.GetErrors(System.String)">
             <inheritdoc/>
         </member>
+        <member name="M:Cooking.ValidationTemplate`1.Validate">
+            <summary>
+            Actually perform validation.
+            </summary>
+        </member>
         <member name="M:Cooking.ValidationTemplate`1.GetValidator(System.Type)">
             <summary>
             Internal factory method for FluentValidation validators.
             </summary>
             <param name="modelType">Type of object to validate.</param>
             <returns>Instance of validator.</returns>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
         </member>
     </members>
 </doc>
