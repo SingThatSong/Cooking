@@ -1,6 +1,6 @@
 ﻿using SmartFormat;
 
-namespace ServiceLayer
+namespace Cooking.ServiceLayer
 {
     /// <summary>
     /// Amount of ingredient in shopping cart list. Read-only.

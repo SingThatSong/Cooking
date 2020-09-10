@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ServiceLayer
+namespace Cooking.ServiceLayer
 {
     /// <summary>
     /// Ingredients in shopping list grouped by type.

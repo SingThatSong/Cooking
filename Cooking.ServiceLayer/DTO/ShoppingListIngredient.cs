@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ServiceLayer
+namespace Cooking.ServiceLayer
 {
     /// <summary>
     /// Ingredient in shopping list. Read-only.
