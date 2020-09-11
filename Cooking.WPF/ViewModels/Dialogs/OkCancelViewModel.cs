@@ -1,4 +1,5 @@
 ﻿using Cooking.WPF.Commands;
+using Cooking.WPF.Validation;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
@@ -53,7 +54,7 @@ namespace Cooking.WPF.ViewModels
         /// Determine if ok button can be pressed.
         /// </summary>
         /// <returns>Ture if ok button can be pressed.</returns>
-        protected virtual bool CanOk() => true;
+        protected virtual bool CanOk() => this.IsValid(true);
 
         /// <summary>
         /// Close current dialog and set <see cref="DialogResultOk"/> to true.
