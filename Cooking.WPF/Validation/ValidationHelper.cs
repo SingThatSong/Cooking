@@ -39,7 +39,7 @@ namespace Cooking.WPF.Validation
             }
             else
             {
-                // Объект не поддерживает валидацию, значит валиден
+                // Object does not support validation, hence it's valid
                 return true;
             }
         }
