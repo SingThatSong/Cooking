@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Cooking.WPF.Validation;
+using FluentValidation;
 using FluentValidation.Internal;
 using FluentValidation.Results;
 using NullGuard;
@@ -8,7 +9,6 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
@@ -23,10 +23,11 @@ namespace Cooking
     public class ValidationTemplate<T> : IDataErrorInfo, INotifyDataErrorInfo
             where T : INotifyPropertyChanged
     {
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IValidator<T>> Validators = new ConcurrentDictionary<RuntimeTypeHandle, IValidator<T>>();
+        private static readonly ConcurrentDictionary<RuntimeTypeHandle, (IValidator<T>, List<string>)> Validators = new ConcurrentDictionary<RuntimeTypeHandle, (IValidator<T>, List<string>)>();
 
         private readonly T target;
         private readonly IValidator<T> validator;
+        private readonly List<string> propertyNames;
         private ValidationResult validationResult = new ValidationResult();
 
         /// <summary>
@@ -36,9 +37,9 @@ namespace Cooking
         public ValidationTemplate(T target)
         {
             this.target = target;
-            validator = GetValidator(target.GetType());
-            Validate();
-            target.PropertyChanged += (_, _) => Validate();
+            (validator, propertyNames) = GetValidator(target.GetType());
+            ValidateInternal();
+            target.PropertyChanged += (_, eventArgs) => Validate(eventArgs.PropertyName);
         }
 
         /// <inheritdoc/>
@@ -77,18 +78,31 @@ namespace Cooking
         /// <summary>
         /// Actually perform validation.
         /// </summary>
-        public void Validate()
+        /// <param name="propertyName">Property to validate.</param>
+        public void Validate(string? propertyName)
         {
             if (ValidationSuspended)
             {
                 return;
             }
 
-            validationResult = validator.Validate(target);
-            foreach (ValidationFailure error in validationResult.Errors)
+            if (propertyName != null)
             {
-                RaiseErrorsChanged(error.PropertyName);
+                if (!propertyNames.Contains(propertyName))
+                {
+                    return;
+                }
             }
+
+            ValidateInternal(propertyName);
+        }
+
+        /// <summary>
+        /// Actually perform validation.
+        /// </summary>
+        public void ForceValidate()
+        {
+            ValidateInternal();
         }
 
         /// <summary>
@@ -96,22 +110,22 @@ namespace Cooking
         /// </summary>
         /// <param name="modelType">Type of object to validate.</param>
         /// <returns>Instance of validator.</returns>
-        private static IValidator<T> GetValidator(Type modelType)
+        private static (IValidator<T> Validator, List<string> PropertyNames) GetValidator(Type modelType)
         {
-            if (!Validators.TryGetValue(modelType.TypeHandle, out IValidator<T>? validator))
+            if (!Validators.TryGetValue(modelType.TypeHandle, out (IValidator<T> Validator, List<string> PropertyNames) cachedValue))
             {
                 string typeName = $"{modelType.Namespace}.{modelType.Name}Validator";
                 Type? type = modelType.Assembly.GetType(typeName, true);
                 if (type != null && Application.Current is PrismApplication app)
                 {
-                    validator = app.Container.Resolve(type) as IValidator<T>;
+                    var validator = app.Container.Resolve(type) as IValidator<T>;
 
                     if (validator == null)
                     {
                         throw new InvalidOperationException("Provide validator for type!");
                     }
 
-                    Validators[modelType.TypeHandle] = validator;
+                    return Validators[modelType.TypeHandle] = (validator, GetPropertyNames(validator));
                 }
                 else
                 {
@@ -119,7 +133,42 @@ namespace Cooking
                 }
             }
 
-            return validator;
+            return cachedValue;
+        }
+
+        private static List<string> GetPropertyNames(IValidator<T> validator)
+        {
+            dynamic? rules = validator.GetRules();
+
+            if (rules != null)
+            {
+                var result = new List<string>();
+                foreach (object rule in rules)
+                {
+                    if (rule is PropertyRule propertyRule)
+                    {
+                        result.Add(propertyRule.PropertyName);
+                    }
+                }
+
+                return result;
+            }
+            else
+            {
+                throw new InvalidOperationException("Validator has no validation rules!");
+            }
+        }
+
+        private void ValidateInternal(string? propertyName = null)
+        {
+            validationResult = validator.Validate(target);
+            foreach (ValidationFailure error in validationResult.Errors)
+            {
+                if (propertyName == null || error.PropertyName == propertyName)
+                {
+                    RaiseErrorsChanged(error.PropertyName);
+                }
+            }
         }
 
         private void RaiseErrorsChanged(string propertyName) => ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));

@@ -4,6 +4,7 @@ using Cooking.Data.Model;
 using Cooking.Data.Model.Plan;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
+using Cooking.WPF.Validation;
 using System;
 using System.ComponentModel;
 using System.Reflection;
@@ -30,9 +31,7 @@ namespace Cooking
                     {
                         if (dest is IDataErrorInfo)
                         {
-                            dynamic? template = dest.GetType()
-                                                    .GetField("validationTemplate", BindingFlags.NonPublic | BindingFlags.Instance)?
-                                                    .GetValue(dest);
+                            dynamic? template = dest.GetValidationTemplate();
                             if (template != null)
                             {
                                 template.ValidationSuspended = true;
@@ -44,13 +43,11 @@ namespace Cooking
                     {
                         if (dest is IDataErrorInfo)
                         {
-                            dynamic? template = dest.GetType()
-                                                    .GetField("validationTemplate", BindingFlags.NonPublic | BindingFlags.Instance)?
-                                                    .GetValue(dest);
+                            dynamic? template = dest.GetValidationTemplate();
                             if (template != null)
                             {
                                 template.ValidationSuspended = false;
-                                template.Validate();
+                                template.ForceValidate();
                             }
                         }
                     });
