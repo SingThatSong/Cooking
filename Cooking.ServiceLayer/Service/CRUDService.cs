@@ -157,15 +157,23 @@ namespace Cooking.ServiceLayer
         /// Get all entities of type <typeparamref name="T" /> projected to TProjection.
         /// </summary>
         /// <typeparam name="TProjection">Type to project <typeparamref name="T" /> to.</typeparam>
+        /// <param name="callAfterMap">Do mapping after projection to call AfterMap.</param>
         /// <returns>List of all projected entities.</returns>
-        public List<TProjection> GetAllProjected<TProjection>()
+        public List<TProjection> GetAllProjected<TProjection>(bool callAfterMap = true)
         {
             using CookingContext context = ContextFactory.Create();
             IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context).AsNoTracking();
             var allProjected = Mapper.ProjectTo<TProjection>(cultureSpecificSet).ToList();
 
-            // Here we mapping projected objects to themself to enable AfterMap calls
-            return Mapper.Map<List<TProjection>>(allProjected);
+            if (callAfterMap)
+            {
+                // Here we mapping projected objects to themself to enable AfterMap calls
+                return Mapper.Map<List<TProjection>>(allProjected);
+            }
+            else
+            {
+                return allProjected;
+            }
         }
 
         /// <summary>
@@ -223,7 +231,7 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <param name="id">Id of entity to delete.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public async Task DeleteAsync(Guid id)
+        public virtual async Task DeleteAsync(Guid id)
         {
             using CookingContext context = ContextFactory.Create();
 
