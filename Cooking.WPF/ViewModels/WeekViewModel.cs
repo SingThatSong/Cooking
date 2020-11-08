@@ -47,8 +47,6 @@ namespace Cooking.WPF.ViewModels
                              IMapper mapper,
                              ILocalization localization)
         {
-            Debug.WriteLine("MainPageViewModel.ctor");
-
             this.dialogService = dialogService;
             this.regionManager = regionManager;
             this.container = container;
@@ -77,11 +75,6 @@ namespace Cooking.WPF.ViewModels
         /// Gets or sets last day of a week.
         /// </summary>
         public DateTime WeekEnd { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether view model is in editing mode.
-        /// </summary>
-        public bool WeekEdit { get; set; }
 
         /// <summary>
         /// Gets week days.
@@ -158,7 +151,6 @@ namespace Cooking.WPF.ViewModels
 
         private async Task<ObservableCollection<DayDisplay>?> GetWeekAsync(DateTime dayOfWeek)
         {
-            Debug.WriteLine("MainPageViewModel.GetWeekAsync");
             List<Day>? weekDays = await dayService.GetWeekAsync(dayOfWeek);
             if (weekDays != null)
             {
@@ -188,8 +180,6 @@ namespace Cooking.WPF.ViewModels
 
         private void ShowRecipe(Guid recipeID)
         {
-            Debug.WriteLine("MainPageViewModel.ShowRecipe");
-
             regionManager.NavigateMain(
                   view: nameof(RecipeView),
                   parameters: (nameof(RecipeViewModel.Recipe), recipeID));
@@ -197,7 +187,6 @@ namespace Cooking.WPF.ViewModels
 
         private async Task SelectDinnerAsync(DayOfWeek dayOfWeek)
         {
-            Debug.WriteLine("MainPageViewModel.SelectDinner");
             RecipeSelectViewModel viewModel = await dialogService.ShowCustomMessageAsync<RecipeSelectView, RecipeSelectViewModel>();
 
             if (viewModel.DialogResultOk)
@@ -221,7 +210,6 @@ namespace Cooking.WPF.ViewModels
 
         private async Task OnLoadedAsync()
         {
-            Debug.WriteLine("MainPageViewModel.OnLoadedAsync");
             await SetWeekByDayAsync(DateTime.Now);
 
             DateTime dayOnPreviousWeek = dayService.FirstDayOfWeek(DateTime.Now).AddDays(-1);
@@ -240,7 +228,6 @@ namespace Cooking.WPF.ViewModels
 
         private async Task MoveRecipeAsync(Guid dayID)
         {
-            Debug.WriteLine("MainPageViewModel.MoveRecipe");
             MoveRecipeViewModel viewModel = await dialogService.ShowCustomMessageAsync<MoveRecipeView, MoveRecipeViewModel>();
 
             if (viewModel.DialogResultOk)
@@ -252,21 +239,18 @@ namespace Cooking.WPF.ViewModels
 
         private async Task SelectPreviousWeekAsync()
         {
-            Debug.WriteLine("MainPageViewModel.SelectPreviousWeekAsync");
             DateTime dayOnPreviousWeek = WeekStart.AddDays(-1);
             await SetWeekByDayAsync(dayOnPreviousWeek);
         }
 
         private async Task SelectNextWeekAsync()
         {
-            Debug.WriteLine("MainPageViewModel.SelectNextWeekAsync");
             DateTime dayOnNextWeek = WeekEnd.AddDays(1);
             await SetWeekByDayAsync(dayOnNextWeek);
         }
 
         private async Task SetWeekByDayAsync(DateTime date)
         {
-            Debug.WriteLine("MainPageViewModel.SetWeekByDay");
             CurrentWeek = await GetWeekAsync(date);
             WeekStart = dayService.FirstDayOfWeek(date);
             WeekEnd = dayService.LastDayOfWeek(date);
@@ -274,8 +258,6 @@ namespace Cooking.WPF.ViewModels
 
         private void CreateShoppingList()
         {
-            Debug.WriteLine("MainPageViewModel.CreateShoppingList");
-
             List<ShoppingListIngredientsGroup> allProducts = dayService.GetWeekShoppingList(WeekStart, WeekEnd, localization);
 
             ShoppingListIngredientsGroup? noCategoryGroup = allProducts.Find(x => x.IngredientGroupName == null);
@@ -294,7 +276,6 @@ namespace Cooking.WPF.ViewModels
         {
             if (dayID != null)
             {
-                Debug.WriteLine("MainPageViewModel.DeleteDayAsync");
                 DayOfWeek dayOfWeek = CurrentWeek!.Single(x => x.ID == dayID).DayOfWeek;
                 await dialogService.ShowYesNoDialogAsync(
                       localization.GetLocalizedString("SureDelete", localization.GetLocalizedString(dayOfWeek) ?? string.Empty),

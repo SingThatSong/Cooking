@@ -25,7 +25,7 @@ namespace Cooking.WPF.ViewModels
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="tagService">Tag service dependency.</param>
         /// <param name="tag">Tag to edit. Null means new tag creation.</param>
-        public TagEditViewModel(DialogService dialogService, TagService tagService, TagEdit? tag = null)
+        public TagEditViewModel(DialogService dialogService, CRUDService<Tag> tagService, TagEdit? tag = null)
             : base(dialogService)
         {
             Tag = tag ?? new TagEdit();
@@ -61,9 +61,6 @@ namespace Cooking.WPF.ViewModels
 
         private bool NameChanged { get; set; }
         private List<Tag> AllTags { get; set; }
-
-        /// <inheritdoc/>
-        protected override bool CanOk() => Tag.IsValid();
 
         /// <inheritdoc/>
         protected override async Task OkAsync()

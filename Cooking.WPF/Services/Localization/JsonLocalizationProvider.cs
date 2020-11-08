@@ -141,7 +141,8 @@ namespace Cooking.WPF.Services
                             {
                                 int indexAfterUnderscore = x.Key.IndexOf('_', StringComparison.Ordinal) + 1;
                                 return x.Key[indexAfterUnderscore..];
-                            }, x => x.Value);
+                            },
+                            x => x.Value);
             }
             else
             {
@@ -152,7 +153,8 @@ namespace Cooking.WPF.Services
                             {
                                 int indexAfterUnderscore = x.Key.IndexOf('_', StringComparison.Ordinal) + 1;
                                 return x.Key[indexAfterUnderscore..];
-                            }, x => x.Value);
+                            },
+                            x => x.Value);
             }
         }
 

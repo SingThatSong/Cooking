@@ -32,8 +32,6 @@ namespace Cooking.WPF.Views
             this.regionManager = regionManager;
             this.appSettings = appSettings;
             this.settingsService = settingsService;
-
-            DialogParticipation.SetRegister(this, DataContext);
         }
 
         /// <summary>

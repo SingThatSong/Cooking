@@ -98,30 +98,6 @@
                                 </Button.Style>
                             </Button>
 
-                            <ToggleButton
-                                Margin="0,0,10,-20"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Bottom"
-                                materialDesign:ShadowAssist.ShadowDepth="Depth2"
-                                IsChecked="{Binding DinnerWasCooked}">
-                                <ToggleButton.Content>
-                                    <materialDesign:PackIcon Kind="Check" />
-                                </ToggleButton.Content>
-                                <ToggleButton.Style>
-                                    <Style BasedOn="{StaticResource MaterialDesignActionToggleButton}" TargetType="ToggleButton">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsChecked" Value="True">
-                                                <Setter Property="ToolTip" Value="{lex:Loc WasCooked}" />
-                                            </Trigger>
-                                            <Trigger Property="IsChecked" Value="False">
-                                                <Setter Property="Background" Value="Gray" />
-                                                <Setter Property="ToolTip" Value="{lex:Loc WasNotCooked}" />
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ToggleButton.Style>
-                            </ToggleButton>
-
                             <TextBlock
                                 Grid.Row="1"
                                 Margin="8,24,8,0"

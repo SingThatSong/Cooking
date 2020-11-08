@@ -15,13 +15,12 @@
     Width="1000"
     Height="650"
     design:DataContext="{design:DesignInstance viewModels:MainWindowViewModel}"
-    prism:ViewModelLocator.AutoWireViewModel="True"
+    mahapps:DialogParticipation.Register="{Binding}"
     ShowDialogsOverTitleBar="False"
-    ShowMaxRestoreButton="False"
     mc:Ignorable="design">
 
     <!--  From https://github.com/MahApps/MahApps.Metro/blob/develop/src/MahApps.Metro.Samples/MahApps.Metro.Demo/HamburgerMenuRipple/HamburgerMenuRipple.xaml  -->
-    <!--  Latest commit 07.07.20  -->
+    <!--  Latest commit 22.10.20  -->
     <mahapps:MetroWindow.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mahapps:HamburgerMenuIconItem}">
@@ -107,6 +106,7 @@
                                         <Condition Property="IsMouseOver" Value="True" />
                                         <Condition Property="IsSelected" Value="True" />
                                     </MultiTrigger.Conditions>
+                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=(mahapps:ItemHelper.HoverSelectedForegroundBrush), Mode=OneWay}" />
                                     <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(mahapps:ItemHelper.HoverSelectedBackgroundBrush), Mode=OneWay}" />
                                 </MultiTrigger>
                                 <MultiTrigger>
@@ -114,6 +114,7 @@
                                         <Condition Property="IsMouseOver" Value="True" />
                                         <Condition Property="IsSelected" Value="False" />
                                     </MultiTrigger.Conditions>
+                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=(mahapps:ItemHelper.HoverForegroundBrush), Mode=OneWay}" />
                                     <Setter TargetName="Border" Property="Background" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(mahapps:ItemHelper.HoverBackgroundBrush), Mode=OneWay}" />
                                 </MultiTrigger>
 
@@ -138,8 +139,9 @@
                 <Setter Property="mahapps:ItemHelper.DisabledForegroundBrush" Value="{DynamicResource MahApps.Brushes.Gray}" />
                 <Setter Property="mahapps:ItemHelper.DisabledSelectedBackgroundBrush" Value="Transparent" />
                 <Setter Property="mahapps:ItemHelper.DisabledSelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.Gray}" />
-                <Setter Property="mahapps:ItemHelper.HoverBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
-                <Setter Property="mahapps:ItemHelper.HoverSelectedBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray9}" />
+                <Setter Property="mahapps:ItemHelper.HoverBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray.SemiTransparent}" />
+                <Setter Property="mahapps:ItemHelper.HoverSelectedBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray.SemiTransparent}" />
+                <Setter Property="mahapps:ItemHelper.HoverSelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
                 <Setter Property="mahapps:ItemHelper.SelectedBackgroundBrush" Value="Transparent" />
                 <Setter Property="mahapps:ItemHelper.SelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
             </Style>

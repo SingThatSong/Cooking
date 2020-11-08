@@ -9,39 +9,35 @@
     design:DataContext="{design:DesignInstance viewModels:IngredientGroupEditViewModel}"
     mc:Ignorable="design">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <UserControl.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </UserControl.InputBindings>
 
-    <Grid Height="120" Margin="0,10,0,0">
+    <AdornerDecorator>
+        <Grid Height="120" Margin="0,10,0,0">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <!--  Ingredient group name edit  -->
-        <TextBox
-            Name="Focused"
-            Height="30"
-            Text="{Binding IngredientGroup.Name, UpdateSourceTrigger=PropertyChanged}" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <!--  Ingredient group name edit  -->
+            <TextBox
+                Name="Focused"
+                Height="30"
+                Text="{Binding IngredientGroup.Name, UpdateSourceTrigger=PropertyChanged}" />
 
-        <!--  Ok and Cancel buttons  -->
-        <StackPanel
-            Grid.Row="1"
-            Margin="20"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-            <Button Command="{Binding OkCommand}" Style="{StaticResource OkButton}" />
-            <Button
-                Margin="10,0,0,0"
-                Command="{Binding CloseCommand}"
-                Style="{StaticResource CancelButton}" />
-        </StackPanel>
-    </Grid>
+            <!--  Ok and Cancel buttons  -->
+            <StackPanel
+                Grid.Row="1"
+                Margin="20"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Button Command="{Binding OkCommand}" Style="{StaticResource OkButton}" />
+                <Button
+                    Margin="10,0,0,0"
+                    Command="{Binding CloseCommand}"
+                    Style="{StaticResource CancelButton}" />
+            </StackPanel>
+        </Grid>
+    </AdornerDecorator>
 </UserControl>

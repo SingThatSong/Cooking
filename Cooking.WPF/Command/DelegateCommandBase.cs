@@ -31,7 +31,7 @@ namespace Cooking.WPF.Commands
         /// <summary>
         /// https://stackoverflow.com/a/7353704/1134449
         /// </summary>
-        public event EventHandler CanExecuteChanged
+        public event EventHandler? CanExecuteChanged
         {
             add
             {

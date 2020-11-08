@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Cooking.Data.Model;
 using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
@@ -23,7 +24,7 @@ namespace Cooking.WPF.ViewModels
     {
         private readonly IRegionManager regionManager;
         private readonly DialogService dialogService;
-        private readonly TagService tagService;
+        private readonly CRUDService<Tag> tagService;
         private readonly IMapper mapper;
         private readonly ILocalization localization;
 
@@ -35,7 +36,11 @@ namespace Cooking.WPF.ViewModels
         /// <param name="tagService">Tag service dependency.</param>
         /// <param name="mapper">Mapper dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
-        public TagListViewModel(IRegionManager regionManager, DialogService dialogService, TagService tagService, IMapper mapper, ILocalization localization)
+        public TagListViewModel(IRegionManager regionManager,
+                                DialogService dialogService,
+                                CRUDService<Tag> tagService,
+                                IMapper mapper,
+                                ILocalization localization)
         {
             this.regionManager = regionManager;
             this.dialogService = dialogService;
@@ -81,7 +86,6 @@ namespace Cooking.WPF.ViewModels
 
         private Task OnLoaded()
         {
-            Debug.WriteLine("TagsViewModel.OnLoaded");
             List<TagEdit> dbVals = tagService.GetAllProjected<TagEdit>();
             Tags = new ObservableCollection<TagEdit>(dbVals);
 

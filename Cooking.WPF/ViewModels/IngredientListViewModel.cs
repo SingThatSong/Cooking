@@ -89,7 +89,6 @@ namespace Cooking.WPF.ViewModels
 
         private Task OnLoaded()
         {
-            Debug.WriteLine("IngredientsViewModel.OnLoaded");
             List<IngredientEdit> dataDb = ingredientService.GetAllProjected<IngredientEdit>();
             Ingredients = new ObservableCollection<IngredientEdit>(dataDb);
 

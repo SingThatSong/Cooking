@@ -52,17 +52,17 @@ namespace Cooking.Data.Model
         /// <summary>
         /// Gets or sets ingredient groups in recipe.
         /// </summary>
-        public virtual List<IngredientsGroup>? IngredientGroups { get; set; }
+        public virtual List<IngredientsGroup> IngredientGroups { get; set; } = new List<IngredientsGroup>();
 
         /// <summary>
         /// Gets or sets ingredients in recipe itself.
         /// </summary>
-        public virtual List<RecipeIngredient>? Ingredients { get; set; }
+        public virtual List<RecipeIngredient> Ingredients { get; set; } = new List<RecipeIngredient>();
 
         /// <summary>
         /// Gets or sets recipe tags.
         /// </summary>
-        public virtual List<Tag>? Tags { get; set; }
+        public virtual List<Tag> Tags { get; set; } = new List<Tag>();
 
         /// <summary>
         /// Gets or sets garnishes suitable for this recipe.

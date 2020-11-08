@@ -9,11 +9,8 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:local="clr-namespace:Cooking.WPF.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:prism="http://prismlibrary.com/"
-    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
     xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
     design:DataContext="{design:DesignInstance viewModels:WeekViewModel}"
-    prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="design">
 
     <i:Interaction.Triggers>
@@ -48,7 +45,7 @@
             <TextBlock Margin="5,0" Text="{lex:Loc Dinners}" />
         </StackPanel>
 
-        <!--  In case when week is not exist, prompt to create week  -->
+        <!--  In case when week do not exist, prompt to create week  -->
         <StackPanel
             Grid.Row="1"
             Grid.Column="1"
@@ -100,18 +97,6 @@
                     Height="20"
                     Kind="Shopping" />
             </Button>
-            <ToggleButton
-                Width="48"
-                Height="48"
-                Margin="10,0,0,0"
-                Foreground="LightGray"
-                IsChecked="{Binding WeekEdit}"
-                Style="{StaticResource MahApps.Styles.ToggleButton.Circle}">
-                <icons:PackIconModern
-                    Width="20"
-                    Height="20"
-                    Kind="Edit" />
-            </ToggleButton>
             <Button
                 Margin="10,0,0,0"
                 Command="{Binding DeleteCommand}"

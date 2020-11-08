@@ -12,7 +12,7 @@ namespace Cooking.Data.Model
         /// Gets or sets identificator for entity.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid ID { get; set; }
 
         /// <summary>
         /// Gets or sets entity's culture. Used for localization.
@@ -20,7 +20,7 @@ namespace Cooking.Data.Model
         public string? Culture { get; set; }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) => obj switch
+        public override bool Equals(object? obj) => obj switch
                                                    {
                                                        Entity entity => ID.Equals(entity.ID),
                                                        _ => false

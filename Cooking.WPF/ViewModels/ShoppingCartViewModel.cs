@@ -1,7 +1,7 @@
-﻿using Cooking.WPF.Commands;
+﻿using Cooking.ServiceLayer;
+using Cooking.WPF.Commands;
 using Prism.Regions;
 using PropertyChanged;
-using ServiceLayer;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 

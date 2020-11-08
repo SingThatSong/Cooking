@@ -52,7 +52,7 @@ namespace Cooking.WPF.Views
             Ingredient.IsDropDownOpen = true;
 
             // https://stackoverflow.com/a/43727449/1134449
-            if (!(e.OriginalSource is TextBox textBox))
+            if (e.OriginalSource is not TextBox textBox)
             {
                 return;
             }

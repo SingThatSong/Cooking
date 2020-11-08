@@ -6,10 +6,8 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:prism="http://prismlibrary.com/"
     xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
     design:DataContext="{design:DesignInstance viewModels:SettingsViewModel}"
-    prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="design">
 
     <UserControl.Resources>

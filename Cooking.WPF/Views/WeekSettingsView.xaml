@@ -7,10 +7,8 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
-    xmlns:prism="http://prismlibrary.com/"
     xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
     design:DataContext="{design:DesignInstance viewModels:WeekSettingsViewModel}"
-    prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="design">
     <UserControl.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />

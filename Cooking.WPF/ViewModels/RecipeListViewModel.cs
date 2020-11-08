@@ -36,8 +36,6 @@ namespace Cooking.WPF.ViewModels
         private readonly IMapper mapper;
         private readonly ILocalization localization;
 
-        private string? filterText;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeListViewModel"/> class.
         /// </summary>
@@ -120,18 +118,8 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets or sets filter text value.
         /// </summary>
-        public string? FilterText
-        {
-            get => filterText;
-            set
-            {
-                if (filterText != value)
-                {
-                    filterText = value;
-                    UpdateRecipiesSource(value);
-                }
-            }
-        }
+        [PropertyChanged.OnChangedMethod(nameof(UpdateRecipiesSource))]
+        public string? FilterText { get; set; }
 
         /// <inheritdoc/>
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -176,22 +164,27 @@ namespace Cooking.WPF.ViewModels
 
         private void OnRecipeDeleted(Guid id)
         {
-            RecipeListViewDto existingRecipe = Recipies!.First(x => x.ID == id);
-            Recipies!.Remove(existingRecipe);
+            RecipeListViewDto? existingRecipe = Recipies!.FirstOrDefault(x => x.ID == id);
+            if (existingRecipe != null)
+            {
+                Recipies.Remove(existingRecipe);
+            }
         }
 
         private void OnRecipeUpdated(RecipeEdit obj)
         {
-            RecipeListViewDto existingRecipe = Recipies!.First(x => x.ID == obj.ID);
-            mapper.Map(obj, existingRecipe);
+            RecipeListViewDto? existingRecipe = Recipies!.FirstOrDefault(x => x.ID == obj.ID);
+            if (existingRecipe != null)
+            {
+                mapper.Map(obj, existingRecipe);
+            }
         }
 
-        private void OnRecipeCreated(RecipeEdit obj) => Recipies!.Add(mapper.Map<RecipeListViewDto>(obj));
+        private void OnRecipeCreated(RecipeEdit obj) => UpdateRecipiesSource();
 
         private Task OnLoaded()
         {
-            Debug.WriteLine("RecepiesViewModel.OnLoaded");
-            List<RecipeListViewDto> recipies = recipeService.GetAllMapped<RecipeListViewDto>();
+            List<RecipeListViewDto> recipies = recipeService.GetMapped<RecipeListViewDto>(x => !x.Tags!.Any(t => t.IsInMenu));
             Recipies = new ObservableCollection<RecipeListViewDto>(recipies);
 
             Application.Current.Dispatcher.Invoke(() =>
@@ -199,13 +192,13 @@ namespace Cooking.WPF.ViewModels
                 RecipiesSource.Source = Recipies;
                 if (FilterText != null)
                 {
-                    UpdateRecipiesSource(FilterText);
+                    UpdateRecipiesSource();
                 }
             });
             return Task.CompletedTask;
         }
 
-        private void UpdateRecipiesSource(string? value)
+        private void UpdateRecipiesSource()
         {
             if (Recipies != null)
             {
@@ -217,10 +210,10 @@ namespace Cooking.WPF.ViewModels
             }
 
             List<RecipeListViewDto> newEntries;
-            if (!string.IsNullOrWhiteSpace(value))
+            if (!string.IsNullOrWhiteSpace(FilterText))
             {
-                Expression<Func<Recipe, bool>> filterExpression = RecipeFiltrator.Instance.Value.GetExpression(value);
-                newEntries = recipeService.GetProjectedClientside<RecipeListViewDto>(filterExpression);
+                Expression<Func<Recipe, bool>> filterExpression = RecipeFiltrator.Instance.Value.GetExpression(FilterText);
+                newEntries = recipeService.GetProjectedClientside<RecipeListViewDto>(filterExpression.Compile());
             }
             else
             {
@@ -242,6 +235,6 @@ namespace Cooking.WPF.ViewModels
                 parameters: (nameof(RecipeViewModel.Recipe), recipeID));
         }
 
-        private void AddRecipe() => regionManager.NavigateMain(nameof(RecipeView));
+        private void AddRecipe() => regionManager.NavigateMain(view: nameof(RecipeView));
     }
 }

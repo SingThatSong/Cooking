@@ -8,15 +8,12 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
-    xmlns:local="clr-namespace:Cooking.WPF"
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:prism="http://prismlibrary.com/"
     xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
     xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
     design:DataContext="{design:DesignInstance viewModels:RecipeListViewModel}"
-    prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="design">
 
     <UserControl.Resources>

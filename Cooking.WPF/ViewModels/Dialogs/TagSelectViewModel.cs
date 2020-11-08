@@ -3,8 +3,6 @@ using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Views;
-using ServiceLayer;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,7 +14,7 @@ namespace Cooking.WPF.ViewModels
     /// </summary>
     public partial class TagSelectViewModel : OkCancelViewModel
     {
-        private readonly TagService tagService;
+        private readonly CRUDService<Tag> tagService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TagSelectViewModel"/> class.
@@ -25,7 +23,10 @@ namespace Cooking.WPF.ViewModels
         /// <param name="tagService">Tag service dependency.</param>
         /// <param name="selectedTags">Alredy existing tags for editing.</param>
         /// <param name="allTags">All tags to select from.</param>
-        public TagSelectViewModel(DialogService dialogService, TagService tagService, IEnumerable<TagEdit> selectedTags, IList<TagEdit>? allTags = null)
+        public TagSelectViewModel(DialogService dialogService,
+                                  CRUDService<Tag> tagService,
+                                  IEnumerable<TagEdit> selectedTags,
+                                  IList<TagEdit>? allTags = null)
             : base(dialogService)
         {
             this.tagService = tagService;

@@ -42,7 +42,9 @@ namespace Cooking.WPF.ViewModels
         /// </summary>
         public string? SelectedIcon { get; set; }
 
+#pragma warning disable IDE0051, RCS1213
         private void OnFilterTextChanged() => AllValues?.View?.Refresh();
+#pragma warning restore IDE0051, RCS1213
 
         private void AllValues_Filter(object sender, FilterEventArgs e)
         {
