@@ -16,6 +16,10 @@
     <Nullable>enable</Nullable>
     
     <Platforms>AnyCPU;x64</Platforms>
+    
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    
+    <AnalysisLevel>preview</AnalysisLevel>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -27,15 +31,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0-rc.2.20460.25" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.0-rc.2.20460.25" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1-beta1.20460.4">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.0-alpha.1.20524.2" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="6.0.0-alpha.1.20524.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.2-beta1.20552.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="RtfPipe" Version="1.0.7388.1242" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.205">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

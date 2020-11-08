@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cooking.Avalonia</name>
+    </assembly>
+    <members>
+        <member name="T:Cooking.Avalonia.App">
+            <summary>
+            Application class.
+            </summary>
+        </member>
+        <member name="M:Cooking.Avalonia.App.Initialize">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Avalonia.App.OnFrameworkInitializationCompleted">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Avalonia.Program">
+            <summary>
+            Program class.
+            </summary>
+        </member>
+        <member name="M:Cooking.Avalonia.Program.Main(System.String[])">
+            <summary>
+            Initialization code. Don't use any Avalonia, third-party APIs or any
+            SynchronizationContext-reliant code before AppMain is called: things aren't initialized
+            yet and stuff might break.
+            </summary>
+            <param name="args">Application arguments.</param>
+        </member>
+        <member name="M:Cooking.Avalonia.Program.BuildAvaloniaApp">
+            <summary>
+            Avalonia configuration, don't remove; also used by visual designer.
+            </summary>
+            <returns>AppBuilder.</returns>
+        </member>
+        <member name="T:Cooking.Avalonia.ViewLocator">
+            <summary>
+            Avalonia view locator: https://avaloniaui.net/docs/tutorial/locating-views.
+            </summary>
+        </member>
+        <member name="M:Cooking.Avalonia.ViewLocator.Build(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Cooking.Avalonia.ViewLocator.Match(System.Object)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Cooking.Avalonia.ViewModels.MainWindowViewModel">
+            <summary>
+            Main view model.
+            </summary>
+        </member>
+        <member name="P:Cooking.Avalonia.ViewModels.MainWindowViewModel.Greeting">
+            <summary>
+            Gets sample string.
+            </summary>
+        </member>
+        <member name="P:Cooking.Avalonia.ViewModels.MainWindowViewModel.CurrentWeek">
+            <summary>
+            Gets sample week.
+            </summary>
+        </member>
+        <member name="T:Cooking.Avalonia.ViewModels.ViewModelBase">
+            <summary>
+            View model base.
+            </summary>
+        </member>
+        <member name="T:Cooking.Avalonia.Views.MainWindow">
+            <summary>
+            Main window.
+            </summary>
+        </member>
+        <member name="M:Cooking.Avalonia.Views.MainWindow.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.Avalonia.Views.MainWindow"/> class.
+            </summary>
+        </member>
+    </members>
+</doc>

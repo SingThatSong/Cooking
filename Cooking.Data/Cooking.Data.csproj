@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU;x64</Platforms>
-    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisLevel>preview</AnalysisLevel>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -15,6 +16,7 @@
     <NoWarn>1701;1702;CA1062;CA1303;CA1822</NoWarn>
     <DocumentationFile>bin\Debug\Cooking.Data.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DefineConstants>TRACE;DBLOGGING</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -22,18 +24,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1-beta1.20460.4">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.2-beta1.20552.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-alpha.1.20417.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0-alpha.1.20417.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-alpha.1.20417.8">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-alpha.1.20556.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0-alpha.1.20556.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-alpha.1.20556.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0-alpha.1.20420.3" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.205">
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0-alpha.1.20557.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

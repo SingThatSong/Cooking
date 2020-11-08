@@ -1,14 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU;x64</Platforms>
-    <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisLevel>preview</AnalysisLevel>
   </PropertyGroup>
 
   <PropertyGroup>
     <NoWarn>1701;1702;CA1062;CA1303;CA1822;CA2227</NoWarn>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -17,19 +18,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.0.1-alpha.0.3" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" PrivateAssets="All" />
-    <PackageReference Include="Fody" Version="6.2.5">
+    <PackageReference Include="Fody" Version="6.3.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1-beta1.20460.4">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.2-beta1.20552.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-alpha.1.20556.4" />
     <PackageReference Include="NullGuard.Fody" Version="3.0.0" PrivateAssets="All" />
-    <PackageReference Include="SmartFormat.NET" Version="2.5.2" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.205">
+    <PackageReference Include="SmartFormat.NET" Version="2.5.3-preview1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
