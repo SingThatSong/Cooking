@@ -9,6 +9,7 @@ namespace Cooking.WPF.Commands
     /// </summary>
     public abstract class AsyncDelegateCommandBase : DelegateCommandBase
     {
+        private readonly bool forceExecutionOnSeparateThread;
         private bool isBusy;
 
         /// <summary>
@@ -17,14 +18,17 @@ namespace Cooking.WPF.Commands
         /// <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution CanExecute would return false.</param>
         /// <param name="executeOnce">Execute function only once, after that CanExecute would return false regardless.</param>
         /// <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
+        /// <param name="forceExecutionOnSeparateThread">A value indicating whether Execute must be forced to run on a non-UI thread.</param>
         /// <param name="exceptionHandler">An exception handler function.</param>
         protected AsyncDelegateCommandBase(bool freezeWhenBusy,
                                            bool executeOnce,
                                            bool refreshAutomatically,
+                                           bool forceExecutionOnSeparateThread,
                                            Func<Exception, bool>? exceptionHandler = null)
             : base(executeOnce, refreshAutomatically, exceptionHandler)
         {
             FreezeWhenBusy = freezeWhenBusy;
+            this.forceExecutionOnSeparateThread = forceExecutionOnSeparateThread;
         }
 
         /// <summary>
@@ -75,8 +79,12 @@ namespace Cooking.WPF.Commands
         {
             IsBusy = true;
 
-            // Force execution on non-UI thread
-            await Task.Delay(1);
+            if (forceExecutionOnSeparateThread)
+            {
+                // Force execution on non-UI thread
+                await Task.Delay(1);
+            }
+
             try
             {
                 await ExecuteAsyncInternal(parameter);
@@ -92,11 +100,11 @@ namespace Cooking.WPF.Commands
             finally
             {
                 IsBusy = false;
-            }
 
-            if (!FreezeWhenBusy)
-            {
-                RaiseCanExecuteChanged();
+                if (!FreezeWhenBusy)
+                {
+                    RaiseCanExecuteChanged();
+                }
             }
         }
 
