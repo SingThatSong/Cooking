@@ -12,7 +12,7 @@ namespace Cooking.Data.Context
     /// </summary>
     public class CookingContext : DbContext
     {
-#if DEBUG
+#if TRACE
         private static readonly LoggerFactory MyLoggerFactory =
                 new LoggerFactory(new[]
                 {
@@ -74,7 +74,7 @@ namespace Cooking.Data.Context
                 optionsBuilder.UseSqlite($"Data Source={DbFilename}");
             }
 
-#if DEBUG
+#if TRACE
             optionsBuilder.UseLoggerFactory(MyLoggerFactory);
             optionsBuilder.EnableSensitiveDataLogging();
             optionsBuilder.EnableDetailedErrors();
@@ -90,7 +90,7 @@ namespace Cooking.Data.Context
             modelBuilder.Entity<Day>()
                 .HasOne(x => x.Dinner)
                 .WithMany()
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Recipe>()
                 .HasMany(x => x.IngredientGroups)
