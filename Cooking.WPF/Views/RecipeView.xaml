@@ -9,15 +9,12 @@
     xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
-    xmlns:local="clr-namespace:Cooking.WPF"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
-    xmlns:prism="http://prismlibrary.com/"
     xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
     Margin="20,0"
     design:DataContext="{design:DesignInstance viewModels:RecipeViewModel}"
-    prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="design">
 
     <UserControl.InputBindings>
@@ -650,7 +647,7 @@
                                 <materialDesign:Chip
                                     Margin="0,5,0,0"
                                     Content="{Binding Name}"
-                                    DeleteCommand="{Binding DataContext.RemoveTagCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                                    DeleteCommand="{Binding DataContext.RemoveGarnishCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                     DeleteCommandParameter="{Binding}"
                                     IconBackground="{Binding Color}"
                                     IsDeletable="True" />

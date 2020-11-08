@@ -50,7 +50,9 @@ namespace Cooking.WPF.ViewModels
             ReturnCommand = new DelegateCommand(Return);
             DeleteRecipeManuallyCommand = new DelegateCommand<DayPlan>(DeleteRecipeManually);
             SetRecipeManuallyCommand = new AsyncDelegateCommand<DayPlan>(SetRecipeManuallyAsync);
+            SetGarnishManuallyCommand = new AsyncDelegateCommand<DayPlan>(SetGarnishManuallyAsync, canExecute: (day) => day?.Recipe?.Garnishes.Count > 1);
             GetAlternativeRecipeCommand = new DelegateCommand<DayPlan>(GetAlternativeRecipe, canExecute: (day) => day?.RecipeAlternatives?.Count > 1);
+            GetAlternativeGarnishCommand = new DelegateCommand<DayPlan>(GetAlternativeGarnish, canExecute: (day) => day?.Recipe?.Garnishes.Count > 1);
             ShowRecipeCommand = new DelegateCommand<Guid>(ShowRecipe);
             CloseCommand = new DelegateCommand(Close);
             OkCommand = new AsyncDelegateCommand(OkAsync);
@@ -77,6 +79,11 @@ namespace Cooking.WPF.ViewModels
         public DelegateCommand<DayPlan> GetAlternativeRecipeCommand { get; }
 
         /// <summary>
+        /// Gets command to change current garnish to alternative.
+        /// </summary>
+        public DelegateCommand<DayPlan> GetAlternativeGarnishCommand { get; }
+
+        /// <summary>
         /// Gets command to remove manually selected recipe.
         /// </summary>
         public DelegateCommand<DayPlan> DeleteRecipeManuallyCommand { get; }
@@ -85,6 +92,11 @@ namespace Cooking.WPF.ViewModels
         /// Gets command to set recipe manually.
         /// </summary>
         public AsyncDelegateCommand<DayPlan> SetRecipeManuallyCommand { get; }
+
+        /// <summary>
+        /// Gets command to set garnish manually.
+        /// </summary>
+        public AsyncDelegateCommand<DayPlan> SetGarnishManuallyCommand { get; }
 
         /// <summary>
         /// Gets command to return to previous window.
@@ -121,7 +133,7 @@ namespace Cooking.WPF.ViewModels
 
         private async Task OkAsync()
         {
-            var daysDictionary = Days!.ToDictionary(x => x.DayOfWeek, x => x.SpecificRecipe?.ID ?? x.Recipe?.ID);
+            var daysDictionary = Days!.ToDictionary(x => x.DayOfWeek, x => (x.SpecificRecipe?.ID ?? x.Recipe?.ID, x.Garnish?.ID));
             await dayService.CreateWeekAsync(WeekStart, daysDictionary);
 
             Application.Current.Dispatcher.Invoke(() => regionManager.NavigateMain(
@@ -136,9 +148,25 @@ namespace Cooking.WPF.ViewModels
                 parameters: (nameof(RecipeViewModel.Recipe), recipeID));
         }
 
-        private void GetAlternativeRecipe(DayPlan day) => day.Recipe = day.Recipe!.Name == day.RecipeAlternatives?.Last().Name
+        private void GetAlternativeRecipe(DayPlan day)
+        {
+            day.Recipe = day.Recipe!.Name == day.RecipeAlternatives?.Last().Name
                                                                             ? day.RecipeAlternatives?[0]
                                                                             : day.RecipeAlternatives?.SkipWhile(x => x.Name != day.Recipe.Name).Skip(1).First();
+
+            day.Garnish = day.Recipe!.Garnishes.RandomElement();
+        }
+
+        private void GetAlternativeGarnish(DayPlan day)
+        {
+            DayPlanRecipe? lastGarnish = day.Garnish;
+
+            do
+            {
+                day.Garnish = day.Recipe!.Garnishes.RandomElement();
+            }
+            while (day.Garnish == lastGarnish);
+        }
 
         private async Task SetRecipeManuallyAsync(DayPlan day)
         {
@@ -150,7 +178,22 @@ namespace Cooking.WPF.ViewModels
 
             if (viewModel.DialogResultOk)
             {
-                day.SpecificRecipe = recipeService.GetMapped<RecipeListViewDto>(viewModel.SelectedRecipe!.ID);
+                day.SpecificRecipe = recipeService.GetMapped<DayPlanRecipe>(viewModel.SelectedRecipe!.ID);
+            }
+        }
+
+        private async Task SetGarnishManuallyAsync(DayPlan day)
+        {
+            var viewModel = new RecipeSelectViewModel(dialogService,
+                                                      recipeService,
+                                                      day,
+                                                      garnishSelect: true);
+
+            await dialogService.ShowCustomMessageAsync<RecipeSelectView, RecipeSelectViewModel>(content: viewModel);
+
+            if (viewModel.DialogResultOk)
+            {
+                day.Garnish = day.Recipe!.Garnishes.First(x => x.ID == viewModel.SelectedRecipe!.ID);
             }
         }
 

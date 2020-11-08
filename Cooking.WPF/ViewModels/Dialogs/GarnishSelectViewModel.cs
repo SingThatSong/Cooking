@@ -14,8 +14,6 @@ namespace Cooking.WPF.ViewModels
     /// </summary>
     public partial class GarnishSelectViewModel : OkCancelViewModel
     {
-        private readonly CRUDService<Recipe> garnishService;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GarnishSelectViewModel"/> class.
         /// </summary>
@@ -27,7 +25,6 @@ namespace Cooking.WPF.ViewModels
                                       IEnumerable<RecipeEdit> selectedGarnishes)
             : base(dialogService)
         {
-            this.garnishService = garnishService;
 #pragma warning disable CS8604 // Возможно, аргумент-ссылка, допускающий значение NULL.
             AllGarnishes = garnishService.GetMapped<RecipeEdit>(x => x.Tags.Any(t => t.Name == "Гарниры")).OrderBy(x => x.Name).ToList();
 #pragma warning restore CS8604 // Возможно, аргумент-ссылка, допускающий значение NULL.

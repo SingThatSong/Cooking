@@ -17,17 +17,22 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets or sets recipe, selected explicitly, despite of suggested.
         /// </summary>
-        public RecipeListViewDto? SpecificRecipe { get; set; }
+        public DayPlanRecipe? SpecificRecipe { get; set; }
 
         /// <summary>
         /// Gets or sets suggested recipe for a day.
         /// </summary>
-        public RecipeListViewDto? Recipe { get; set; }
+        public DayPlanRecipe? Recipe { get; set; }
+
+        /// <summary>
+        /// Gets or sets suggested garnish for a day.
+        /// </summary>
+        public DayPlanRecipe? Garnish { get; set; }
 
         /// <summary>
         /// Gets or sets alternatives for a suggested recipe.
         /// </summary>
-        public List<RecipeListViewDto>? RecipeAlternatives { get; set; }
+        public List<DayPlanRecipe>? RecipeAlternatives { get; set; }
 
         /// <summary>
         /// Gets or sets setting: Minimal rating for recipe.

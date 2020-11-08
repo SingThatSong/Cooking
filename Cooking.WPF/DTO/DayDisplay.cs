@@ -23,5 +23,10 @@ namespace Cooking.WPF.DTO
         /// Gets or sets dinner that selected to be cooked on given day.
         /// </summary>
         public RecipeListViewDto? Dinner { get; set; }
+
+        /// <summary>
+        /// Gets or sets dinner that selected to be cooked on given day.
+        /// </summary>
+        public RecipeListViewDto? DinnerGarnish { get; set; }
     }
 }

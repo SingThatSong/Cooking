@@ -26,19 +26,18 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
-
-// TODO: Remake garnish as a recipe
-// TODO: Dish garnishes select + generate
 
 // TODO: Highlight items like in recipe list everywhere
 // TODO: Recipe filtering reserved words localization (and, or, not)
 // TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
 // TODO: Add setting to disable suggestion to correct previous week
 // TODO: Move this file's parts into different methods. Reason: Too many usings above
+// TODO: Set up validation rules for everything
 // TODO: Add debug console logging to methods and constructors (AOP) ?
 
 // Git-related
@@ -56,7 +55,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: Use static anylizers (PVS Studio)
 
 // Db-related
-// TODO: Create installer (Inno setup)
+// TODO: Create installer (Inno setup) ?
 // TODO: Create db migrator for installer (or just Powershell script? )
 // TODO: Ensure cascade/set null deletions
 // TODO: Ensure db constraints and fks
@@ -74,7 +73,6 @@ using WPFLocalizeExtension.Providers;
 // TODO: Add project documentation (Wiki)
 
 // Things not possible right now
-// TODO: Restore Maximize button when ControlzEx fixes it for .NET 5. See https://github.com/ControlzEx/ControlzEx/issues/120
 // TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration. Not available now, See https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/issues/1896
 // TODO: Fix publishing: dotnet publish isnt working, single file isnt working, lib trimming isnt working
 // TODO: Move styles to XamlCSS
@@ -92,11 +90,19 @@ namespace Cooking
     /// </summary>
     public partial class App : PrismApplication
     {
+        static App()
+        {
+            // Subscribe to errors in PrismApplication initialization. This is needed because those errors occurs before any IoC initialization
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
         /// </summary>
         public App()
         {
+            // Unsubscribe to errors in PrismApplication initialization and move to instance's version
+            AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;
             AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;
         }
 
@@ -229,6 +235,24 @@ namespace Cooking
             ServiceProvider provider = serviceCollection.BuildServiceProvider();
 
             return provider.GetRequiredService<IOptions<AppSettings>>();
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            var sb = new StringBuilder();
+
+            var error = e.ExceptionObject as Exception;
+
+            while (error != null)
+            {
+                sb.AppendLine(error.Message);
+                sb.AppendLine(error.StackTrace);
+                sb.AppendLine("--------------------------------------");
+                sb.AppendLine();
+                error = error.InnerException;
+            }
+
+            File.WriteAllText("error.log", sb.ToString());
         }
 
         private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)

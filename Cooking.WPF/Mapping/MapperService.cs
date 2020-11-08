@@ -5,9 +5,9 @@ using Cooking.Data.Model.Plan;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using Cooking.WPF.Validation;
+using Cooking.WPF.ViewModels;
 using System;
 using System.ComponentModel;
-using System.Reflection;
 
 namespace Cooking
 {
@@ -91,6 +91,9 @@ namespace Cooking
                 cfg.CreateMap<Recipe, RecipeListViewDto>()
                    .ForMember(x => x.LastCooked, opts => opts.Ignore())
                    .AfterMap<RecipeDtoConverter>();
+
+                // Project Recipe form db to displayed in week generation
+                cfg.CreateMap<Recipe, DayPlanRecipe>();
 
                 // Project Recipe from db to displayed in recipe view
                 cfg.CreateMap<Recipe, RecipeEdit>()

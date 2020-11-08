@@ -10,12 +10,9 @@
     xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
-    xmlns:prism="http://prismlibrary.com/"
-    xmlns:stringProxy="clr-namespace:Cooking.WPF"
     xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
     design:DataContext="{design:DesignInstance viewModels:GeneratedWeekViewModel}"
     mahapps:DialogParticipation.Register="{Binding}"
-    prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="design">
     <UserControl.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
@@ -48,19 +45,10 @@
             IsReadOnly="True"
             ItemsSource="{Binding Days}">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding DayName}">
-                    <DataGridTextColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{lex:Loc Day}" />
-                        </DataTemplate>
-                    </DataGridTextColumn.HeaderTemplate>
-                </DataGridTextColumn>
-                <DataGridTemplateColumn Width="*">
-                    <DataGridTemplateColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{lex:Loc Dinner}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.HeaderTemplate>
+                <DataGridTextColumn Binding="{Binding DayName}" Header="{lex:Loc Day}" />
+
+                <!--  Recipe column  -->
+                <DataGridTemplateColumn Width="*" Header="{lex:Loc Dinner}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
@@ -72,13 +60,6 @@
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Style.Triggers>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding Recipe, Converter={StaticResource IsNullToVisibilityConverter}}" Value="Visible" />
-                                                        <Condition Binding="{Binding SpecificRecipe, Converter={StaticResource IsNullToVisibilityConverter}}" Value="Visible" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                </MultiDataTrigger>
                                                 <DataTrigger Binding="{Binding SpecificRecipe, Converter={StaticResource IsNotNullToVisibilityConverter}}" Value="Visible">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                 </DataTrigger>
@@ -95,13 +76,6 @@
                                     <StackPanel.Style>
                                         <Style TargetType="StackPanel">
                                             <Style.Triggers>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding Recipe, Converter={StaticResource IsNotNullToVisibilityConverter}}" Value="Visible" />
-                                                        <Condition Binding="{Binding SpecificRecipe, Converter={StaticResource IsNullToVisibilityConverter}}" Value="Visible" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Visibility" Value="Visible" />
-                                                </MultiDataTrigger>
                                                 <DataTrigger Binding="{Binding SpecificRecipe, Converter={StaticResource IsNotNullToVisibilityConverter}}" Value="Visible">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                 </DataTrigger>
@@ -233,6 +207,111 @@
                                     VerticalAlignment="Center"
                                     BorderThickness="0"
                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SetRecipeManuallyCommand}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource SmallEditButton}" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!--  Garnish column  -->
+                <DataGridTemplateColumn Width="*" Header="{lex:Loc Garnish}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <!--  Text to be shows if no suited garnish is found  -->
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Foreground="Red"
+                                    Text="{lex:Loc NoGarnish}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Garnish, Converter={StaticResource IsNotNullToVisibilityConverter}}" Value="Visible">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+
+                                <!--  Control to show when garnish is found  -->
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Garnish, Converter={StaticResource IsNullToVisibilityConverter}}" Value="Visible">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+
+                                    <!--  Get another garnish for a filter  -->
+                                    <Button
+                                        Margin="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        BorderThickness="0"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.GetAlternativeGarnishCommand}"
+                                        CommandParameter="{Binding}"
+                                        Foreground="LightBlue"
+                                        Style="{StaticResource SmallButton}"
+                                        ToolTipService.IsEnabled="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource oppositeConverter}}"
+                                        ToolTipService.ShowOnDisabled="True"
+                                        ToolTipService.ToolTip="{lex:Loc NoAlternatives}">
+                                        <icons:PackIconModern Kind="Refresh" Style="{StaticResource SmallIcon}" />
+                                    </Button>
+
+                                    <!--  Suggested garnish name  -->
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Garnish.Name}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseUp">
+                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.ShowRecipeCommand}" CommandParameter="{Binding Garnish.ID}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBlock>
+
+                                    <!--  Calorie type image (circle)  -->
+                                    <lex:LocProxy
+                                        x:Name="CalorieTypeNameProxy"
+                                        PrependType="True"
+                                        Source="{Binding Garnish.CalorieType}" />
+                                    <Ellipse
+                                        Width="15"
+                                        Height="15"
+                                        Margin="10,5,0,0"
+                                        VerticalAlignment="Top"
+                                        ToolTip="{Binding ElementName=CalorieTypeNameProxy, Path=Result}">
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Garnish.CalorieType}" Value="0">
+                                                        <Setter Property="Fill" Value="Gray" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Garnish.CalorieType}" Value="{x:Static model:CalorieType.Fitness}">
+                                                        <Setter Property="Fill" Value="Green" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Garnish.CalorieType}" Value="{x:Static model:CalorieType.Protein}">
+                                                        <Setter Property="Fill" Value="Yellow" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Garnish.CalorieType}" Value="{x:Static model:CalorieType.Bad}">
+                                                        <Setter Property="Fill" Value="Orange" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Garnish.CalorieType}" Value="{x:Static model:CalorieType.Sweets}">
+                                                        <Setter Property="Fill" Value="Red" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                </StackPanel>
+
+                                <!--  Select garnish manually  -->
+                                <Button
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    BorderThickness="0"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.SetGarnishManuallyCommand}"
                                     CommandParameter="{Binding}"
                                     Style="{StaticResource SmallEditButton}" />
                             </Grid>

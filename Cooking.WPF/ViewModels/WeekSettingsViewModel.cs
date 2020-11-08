@@ -63,13 +63,13 @@ namespace Cooking.WPF.ViewModels
             Days = new List<DayPlan>()
             {
                 new DayPlan(),
-                new DayPlan { DayName = localization["Monday_Short"], DayOfWeek = DayOfWeek.Monday },
-                new DayPlan { DayName = localization["Tuesday_Short"], DayOfWeek = DayOfWeek.Tuesday },
+                new DayPlan { DayName = localization["Monday_Short"],    DayOfWeek = DayOfWeek.Monday },
+                new DayPlan { DayName = localization["Tuesday_Short"],   DayOfWeek = DayOfWeek.Tuesday },
                 new DayPlan { DayName = localization["Wednesday_Short"], DayOfWeek = DayOfWeek.Wednesday },
-                new DayPlan { DayName = localization["Thursday_Short"], DayOfWeek = DayOfWeek.Thursday },
-                new DayPlan { DayName = localization["Friday_Short"], DayOfWeek = DayOfWeek.Friday },
-                new DayPlan { DayName = localization["Saturday_Short"], DayOfWeek = DayOfWeek.Saturday },
-                new DayPlan { DayName = localization["Sunday_Short"], DayOfWeek = DayOfWeek.Sunday }
+                new DayPlan { DayName = localization["Thursday_Short"],  DayOfWeek = DayOfWeek.Thursday },
+                new DayPlan { DayName = localization["Friday_Short"],    DayOfWeek = DayOfWeek.Friday },
+                new DayPlan { DayName = localization["Saturday_Short"],  DayOfWeek = DayOfWeek.Saturday },
+                new DayPlan { DayName = localization["Sunday_Short"],    DayOfWeek = DayOfWeek.Sunday }
             };
 
             Days[0].PropertyChanged += OnHeaderValueChanged;
@@ -135,7 +135,7 @@ namespace Cooking.WPF.ViewModels
             else
             {
                 // We started new week creation - cached view should be deleted from region
-                UserControl? view = navigationContext.NavigationService.Region.Views.Cast<UserControl>().FirstOrDefault(x => x.DataContext == this);
+                UserControl? view = navigationContext.NavigationService.Region.Views.OfType<UserControl>().FirstOrDefault(x => x.DataContext == this);
                 if (view != null)
                 {
                     navigationContext.NavigationService.Region.Remove(view);
@@ -163,7 +163,13 @@ namespace Cooking.WPF.ViewModels
 
         private void GenerateRecipies(IEnumerable<DayPlan> selectedDays)
         {
-            Debug.WriteLine("MainPageViewModel.GenerateRecipies");
+            // Clear current values
+            foreach (DayPlan day in selectedDays)
+            {
+                day.Recipe = null;
+                day.RecipeAlternatives = null;
+            }
+
             foreach (DayPlan day in selectedDays)
             {
                 var requiredTags = new List<Guid>();
@@ -184,14 +190,19 @@ namespace Cooking.WPF.ViewModels
                     requiredCalorieTyoes.AddRange(day.CalorieTypes.Select(x => x.CalorieType));
                 }
 
-                day.RecipeAlternatives = recipeService.GetRecipiesByParametersProjected<RecipeListViewDto>(requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
+                day.RecipeAlternatives = recipeService.GetRecipiesByParametersProjected<DayPlanRecipe>(requiredTags, requiredCalorieTyoes, day.MaxComplexity, day.MinRating, day.OnlyNewRecipies);
 
-                IEnumerable<RecipeListViewDto?> selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe);
+                IEnumerable<DayPlanRecipe> selectedRecipies = selectedDays.Where(x => x.Recipe != null).Select(x => x.Recipe!);
                 var recipiesNotSelectedYet = day.RecipeAlternatives.Where(x => !selectedRecipies.Any(selected => selected!.ID == x.ID)).ToList();
 
                 day.Recipe = recipiesNotSelectedYet.Count > 0
                                 ? recipiesNotSelectedYet.OrderByDescending(x => recipeService.DaysFromLasCook(x.ID)).First()
                                 : null;
+
+                if (day.Recipe != null)
+                {
+                    day.Garnish = day.Recipe.Garnishes.RandomElement();
+                }
             }
         }
 

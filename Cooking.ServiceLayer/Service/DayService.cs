@@ -35,7 +35,7 @@ namespace Cooking.ServiceLayer
             using CookingContext context = ContextFactory.Create();
 
             var allDaysCooked = GetCultureSpecificSet(context)
-                                         .Where(x => x.DinnerWasCooked && x.Date != null)
+                                         .Where(x => x.DinnerWasCooked)
                                          .AsNoTracking()
                                          .ToList();
 
@@ -59,7 +59,7 @@ namespace Cooking.ServiceLayer
 
             using CookingContext context = ContextFactory.Create();
 
-            DateTime? date = GetCultureSpecificSet(context).Where(x => x.DinnerID == recipeID && x.DinnerWasCooked && x.Date != null)
+            DateTime? date = GetCultureSpecificSet(context).Where(x => (x.DinnerID == recipeID || x.DinnerGarnishID == recipeID) && x.DinnerWasCooked)
                                                            .OrderByDescending(x => x.Date)
                                                            .AsNoTracking()
                                                            .FirstOrDefault()?
@@ -105,11 +105,12 @@ namespace Cooking.ServiceLayer
             using CookingContext context = ContextFactory.Create();
             DateTime mondayDate = FirstDayOfWeek(dayOfWeek).Date;
 
-            // Get last second of a day
-            DateTime sundayDate = LastDayOfWeek(dayOfWeek).Date.AddDays(1).AddSeconds(-1);
+            // Get day's last second
+            DateTime sundayDate = LastDayOfWeek(dayOfWeek);
 
             List<Day> weekDays = await GetCultureSpecificSet(context)
                                            .Include(x => x.Dinner)
+                                           .Include(x => x.DinnerGarnish)
                                            .AsNoTracking()
                                            .Where(x => mondayDate <= x.Date && x.Date <= sundayDate)
                                            .ToListAsync();
@@ -123,20 +124,21 @@ namespace Cooking.ServiceLayer
         /// <param name="weekStart">First day of week.</param>
         /// <param name="selectedRecepies">Recipies to add to the week.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        public async Task CreateWeekAsync(DateTime weekStart, Dictionary<DayOfWeek, Guid?> selectedRecepies)
+        public async Task CreateWeekAsync(DateTime weekStart, Dictionary<DayOfWeek, (Guid? RecipeID, Guid? GarnishID)> selectedRecepies)
         {
             using CookingContext context = ContextFactory.Create();
 
             var days = new List<Day>();
 
-            foreach (KeyValuePair<DayOfWeek, Guid?> recipe in selectedRecepies.Where(x => x.Value != null))
+            foreach (KeyValuePair<DayOfWeek, (Guid? RecipeID, Guid? GarnishID)> recipe in selectedRecepies.Where(x => x.Value.RecipeID.HasValue))
             {
                 days.Add(new Day()
                 {
-                    DinnerID = recipe.Value!.Value,
+                    DinnerID = recipe.Value!.RecipeID!.Value,
+                    DinnerGarnishID = recipe.Value!.GarnishID,
                     Date = weekStart.AddDays(DaysFromMonday(recipe.Key)),
                     DayOfWeek = recipe.Key,
-                    Culture = GetCurrentCulture()
+                    Culture = GetCurrentCulture(),
                 });
             }
 
@@ -187,6 +189,20 @@ namespace Cooking.ServiceLayer
                                                          .ThenInclude(x => x.IngredientGroups)
                                                             .ThenInclude(x => x.Ingredients)
                                                                 .ThenInclude(x => x.MeasureUnit)
+                                                     .Include(x => x.DinnerGarnish)
+                                                         .ThenInclude(x => x.Ingredients)
+                                                            .ThenInclude(x => x.Ingredient)
+                                                     .Include(x => x.DinnerGarnish)
+                                                         .ThenInclude(x => x.Ingredients)
+                                                            .ThenInclude(x => x.MeasureUnit)
+                                                     .Include(x => x.DinnerGarnish)
+                                                         .ThenInclude(x => x.IngredientGroups)
+                                                            .ThenInclude(x => x.Ingredients)
+                                                                .ThenInclude(x => x.Ingredient)
+                                                     .Include(x => x.DinnerGarnish)
+                                                         .ThenInclude(x => x.IngredientGroups)
+                                                            .ThenInclude(x => x.Ingredients)
+                                                                .ThenInclude(x => x.MeasureUnit)
                                                      .Where(x => weekStart.Date <= x.Date && x.Date <= weekEnd.Date)
                                                      .AsNoTracking()
                                                      .ToList();
@@ -194,15 +210,27 @@ namespace Cooking.ServiceLayer
 
             // Create single list of all ingredients in recipies for a week
             var ingredients          = from dinner in days.Where(x => x.Dinner?.Ingredients != null)
-                                       from recipeIngredient in dinner.Dinner!.Ingredients
+                                       from recipeIngredient in dinner.Dinner!.Ingredients!
                                        select new { dinner.Dinner, Ingredient = recipeIngredient };
 
             // Include ingredients in groups
             var ingredientsInGroupds = from dinner in days.Where(x => x.Dinner?.IngredientGroups != null)
-                                       from recipeIngredient in dinner.Dinner!.IngredientGroups.SelectMany(g => g.Ingredients)
+                                       from recipeIngredient in dinner.Dinner!.IngredientGroups!.SelectMany(g => g.Ingredients!)
                                        select new { dinner.Dinner, Ingredient = recipeIngredient };
 
-            var allIngredients = ingredients.Union(ingredientsInGroupds);
+            // Include ingredients in garnishes
+            var garnishIngredients = from garnish in days.Where(x => x.DinnerGarnish?.Ingredients != null)
+                                     from recipeIngredient in garnish.DinnerGarnish!.Ingredients!
+                                     select new { Dinner = garnish.DinnerGarnish, Ingredient = recipeIngredient };
+
+            // Include ingredients in groups
+            var garnishIngredientsInGroupds = from garnish in days.Where(x => x.DinnerGarnish?.IngredientGroups != null)
+                                              from recipeIngredient in garnish.DinnerGarnish!.IngredientGroups!.SelectMany(g => g.Ingredients!)
+                                              select new { Dinner = garnish.DinnerGarnish, Ingredient = recipeIngredient };
+
+            var allIngredients = ingredients.Union(ingredientsInGroupds)
+                                            .Union(garnishIngredients)
+                                            .Union(garnishIngredientsInGroupds);
 
             var ingredientsGroupedByType = allIngredients.Where(x => x.Ingredient.Ingredient?.Type != null)
                                                          .GroupBy(x => x.Ingredient.Ingredient!.Type!.Value)

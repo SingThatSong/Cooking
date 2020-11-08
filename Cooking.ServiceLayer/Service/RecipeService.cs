@@ -4,7 +4,6 @@ using Cooking.Data.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Cooking.ServiceLayer
@@ -71,18 +70,16 @@ namespace Cooking.ServiceLayer
                                                     bool? onlyNew = false)
             where T : Entity
         {
-            Debug.WriteLine("RecipeService.GetRecipies");
-
             using CookingContext context = ContextFactory.Create();
             IQueryable<Recipe> query = GetCultureSpecificSet(context)
+                                            .Include(x => x.Garnishes)
                                             .Include(x => x.Tags)
                                             .AsNoTracking()
-                                            .AsQueryable()
-                                            .AsSplitQuery();
+                                            .AsQueryable();
 
             if (requiredTags?.Count > 0)
             {
-                query = query.Where(x => x.Tags.Any(t => requiredTags.Contains(t.ID)));
+                query = query.Where(x => x.Tags!.Any(t => requiredTags.Contains(t.ID)));
             }
 
             if (requiredCalorieTypes?.Count > 0)

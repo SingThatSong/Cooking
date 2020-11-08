@@ -26,21 +26,29 @@ namespace Cooking.WPF.ViewModels
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="recipeService">Recipe service dependency.</param>
         /// <param name="day">Day, which settings will be user for filtering.</param>
+        /// <param name="garnishSelect">Select garnish.</param>
         public RecipeSelectViewModel(DialogService dialogService,
                                      RecipeService recipeService,
-                                     DayPlan? day = null)
+                                     DayPlan? day = null,
+                                     bool garnishSelect = false)
             : base(dialogService)
         {
             this.recipeService = recipeService;
 
-            recipies = recipeService.GetAllProjected<RecipeListViewDto>();
-
-            Application.Current.Dispatcher.Invoke(() =>
+            if (garnishSelect && day != null)
             {
-                RecipiesSource = new CollectionViewSource() { Source = recipies };
-            });
+                var possibleGarnishes = day.Recipe!.Garnishes.Select(x => x.ID).ToList();
+                recipies = recipeService.GetProjected<RecipeListViewDto>(x => possibleGarnishes.Contains(x.ID));
+            }
+            else
+            {
+                recipies = recipeService.GetAllProjected<RecipeListViewDto>();
+            }
 
-            if (day != null)
+            // CollectionViewSource must be created on UI thread
+            Application.Current.Dispatcher.Invoke(() => RecipiesSource = new CollectionViewSource() { Source = recipies });
+
+            if (!garnishSelect && day != null)
             {
                 // TODO: Prepare string separately
                 var sb = new StringBuilder();
@@ -126,6 +134,7 @@ namespace Cooking.WPF.ViewModels
         /// Callback to be called when <see cref="FilterText"/> changed.
         /// Calling code injected by PropertyChanged.Fody.
         /// </summary>
+#pragma warning disable IDE0051, RCS1213
         private void OnFilterTextChanged()
         {
             recipies.Clear();
@@ -134,19 +143,18 @@ namespace Cooking.WPF.ViewModels
             if (!string.IsNullOrEmpty(FilterText))
             {
                 Expression<Func<Recipe, bool>> filterExpression = RecipeFiltrator.Instance.Value.GetExpression(FilterText);
-                newEntries = recipeService.GetProjectedClientside<RecipeListViewDto>(filterExpression);
+                newEntries = recipeService.GetProjectedClientside<RecipeListViewDto>(filterExpression.Compile());
             }
             else
             {
-                newEntries = recipeService.GetAllProjected<RecipeListViewDto>();
+                newEntries = recipeService.GetMapped<RecipeListViewDto>();
             }
 
             recipies.AddRange(newEntries);
 
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                RecipiesSource?.View.Refresh();
-            });
+            // CollectionViewSource must be updated on UI thread
+            Application.Current.Dispatcher.Invoke(() => RecipiesSource?.View.Refresh());
         }
+#pragma warning restore IDE0051, RCS1213
     }
 }

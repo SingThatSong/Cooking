@@ -18,6 +18,16 @@ namespace Cooking.Data.Model.Plan
         public virtual Recipe? Dinner { get; set; }
 
         /// <summary>
+        /// Gets or sets foreign key for <see cref="DinnerGarnish"/>.
+        /// </summary>
+        public Guid? DinnerGarnishID { get; set; }
+
+        /// <summary>
+        /// Gets or sets dinner garnish entity.
+        /// </summary>
+        public virtual Recipe? DinnerGarnish { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether dinner was cooked.
         /// </summary>
         public bool DinnerWasCooked { get; set; }
