@@ -14,7 +14,7 @@
             <converters:RatingConverter
                 x:Key="RatingConverter"
                 OffBrush="{StaticResource MahApps.Brushes.SystemControlBackgroundBaseLow}"
-                OnBrush="{StaticResource MahApps.Brushes.SystemControlBackgroundChromeBlackHigh}"
+                OnBrush="{StaticResource MahApps.Brushes.SystemControlBackgroundBaseHigh}"
                 PreviewBrush="{StaticResource MahApps.Brushes.SystemControlBackgroundBaseMedium}" />
         </StackPanel.Resources>
 
