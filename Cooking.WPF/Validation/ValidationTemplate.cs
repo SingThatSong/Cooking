@@ -88,13 +88,15 @@ namespace Cooking
 
             if (propertyName != null)
             {
-                if (!propertyNames.Contains(propertyName))
+                if (propertyNames.Contains(propertyName))
                 {
-                    return;
+                    ValidateInternal(propertyName);
                 }
             }
-
-            ValidateInternal(propertyName);
+            else
+            {
+                ForceValidate();
+            }
         }
 
         /// <summary>
@@ -115,21 +117,17 @@ namespace Cooking
             if (!Validators.TryGetValue(modelType.TypeHandle, out (IValidator<T> Validator, List<string> PropertyNames) cachedValue))
             {
                 string typeName = $"{modelType.Namespace}.{modelType.Name}Validator";
-                Type? type = modelType.Assembly.GetType(typeName, true);
-                if (type != null && Application.Current is PrismApplication app)
+                Type type = modelType.Assembly.GetType(typeName, throwOnError: true)!;
+                if (Application.Current is PrismApplication app)
                 {
-                    var validator = app.Container.Resolve(type) as IValidator<T>;
-
-                    if (validator == null)
+                    if (app.Container.Resolve(type) is IValidator<T> validator)
                     {
-                        throw new InvalidOperationException("Provide validator for type!");
+                        return Validators[modelType.TypeHandle] = (validator, GetPropertyNames(validator));
                     }
-
-                    return Validators[modelType.TypeHandle] = (validator, GetPropertyNames(validator));
-                }
-                else
-                {
-                    throw new InvalidOperationException("Provide validator for type!");
+                    else
+                    {
+                        throw new InvalidOperationException($"Provide validator for type {modelType.FullName}!");
+                    }
                 }
             }
 
@@ -140,23 +138,16 @@ namespace Cooking
         {
             dynamic? rules = validator.GetRules();
 
-            if (rules != null)
+            var result = new List<string>();
+            foreach (object rule in rules!)
             {
-                var result = new List<string>();
-                foreach (object rule in rules)
+                if (rule is PropertyRule propertyRule)
                 {
-                    if (rule is PropertyRule propertyRule)
-                    {
-                        result.Add(propertyRule.PropertyName);
-                    }
+                    result.Add(propertyRule.PropertyName);
                 }
+            }
 
-                return result;
-            }
-            else
-            {
-                throw new InvalidOperationException("Validator has no validation rules!");
-            }
+            return result;
         }
 
         private void ValidateInternal(string? propertyName = null)
