@@ -6,20 +6,21 @@ using Cooking.WPF.Events;
 using Cooking.WPF.Services;
 using Cooking.WPF.Validation;
 using Prism.Events;
-using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Validar;
 
 namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for ingredient edit dialog.
     /// </summary>
+    [InjectValidation]
     public partial class IngredientEditViewModel : OkCancelViewModel
     {
-        private readonly IngredientService ingredientService;
+        private readonly CRUDService<Ingredient> ingredientService;
         private readonly ILocalization localization;
         private readonly IEventAggregator eventAggregator;
 
@@ -31,7 +32,7 @@ namespace Cooking.WPF.ViewModels
         /// <param name="localization">Localization service dependency.</param>
         /// <param name="eventAggregator">Prism event aggregator.</param>
         /// <param name="ingredient">Ingredient to edit. Null means new ingredient.</param>
-        public IngredientEditViewModel(IngredientService ingredientService,
+        public IngredientEditViewModel(CRUDService<Ingredient> ingredientService,
                                        DialogService dialogService,
                                        ILocalization localization,
                                        IEventAggregator eventAggregator,
@@ -42,7 +43,11 @@ namespace Cooking.WPF.ViewModels
             this.localization = localization;
             this.eventAggregator = eventAggregator;
             Ingredient = ingredient ?? new IngredientEdit();
-            AllIngredientNames = ingredientService.GetNames();
+
+            AllIngredientNames = ingredientService.GetProperty(x => x.Name, filter: x => x.Name != null)
+                                                  .Select(x => x!)
+                                                  .ToList();
+
             LoadedCommand = new DelegateCommand(OnLoaded);
             DeleteIngredientCommand = new DelegateCommand<Guid>(DeleteIngredientAsync);
             IngredientTypes = Enum.GetValues(typeof(IngredientType)).Cast<IngredientType>().ToList();
@@ -99,9 +104,6 @@ namespace Cooking.WPF.ViewModels
             await base.OkAsync();
         }
 
-        /// <inheritdoc/>
-        protected override bool CanOk() => Ingredient.IsValid();
-
         private int IngredientCompare(string str1, string str2)
              => StringCompare.LevensteinDistance(
                         string.Join(" ", str1.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries).OrderBy(name => name)),
@@ -121,7 +123,7 @@ namespace Cooking.WPF.ViewModels
         }
 
         private async void DeleteIngredientAsync(Guid ingredientID) => await DialogService.ShowYesNoDialogAsync(localization.GetLocalizedString("SureDelete", Ingredient.Name),
-                                                                                                                localization.GetLocalizedString("CannotUndo"),
+                                                                                                                localization["CannotUndo"],
                                                                                                                 successCallback: () => OnIngredientDeletedAsync(ingredientID));
 
         private async void OnIngredientDeletedAsync(Guid id)

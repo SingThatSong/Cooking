@@ -38,7 +38,7 @@
             ICommand implementation which force execution on separate thread.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand.#ctor(System.Func{System.Threading.Tasks.Task},System.Func{System.Boolean},System.Boolean,System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand.#ctor(System.Func{System.Threading.Tasks.Task},System.Func{System.Boolean},System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.AsyncDelegateCommand"/> class.
             </summary>
@@ -47,6 +47,7 @@
             <param name="executeOnce">Execute function only once, after that <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand.canExecute"/> would return false regardless.</param>
             <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand.canExecute"/> would return false.</param>
             <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
+            <param name="forceExecutionOnSeparateThread">A value indicating whether Execute must be forced to run on a non-UI thread.</param>
             <param name="exceptionHandler">An exception handler function.</param>
         </member>
         <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand.CanExecuteAsyncInternal(System.Object)">
@@ -60,13 +61,14 @@
             ICommand implementation for WPF bindings.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommandBase.#ctor(System.Boolean,System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommandBase.#ctor(System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.AsyncDelegateCommandBase"/> class.
             </summary>
             <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution CanExecute would return false.</param>
             <param name="executeOnce">Execute function only once, after that CanExecute would return false regardless.</param>
             <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
+            <param name="forceExecutionOnSeparateThread">A value indicating whether Execute must be forced to run on a non-UI thread.</param>
             <param name="exceptionHandler">An exception handler function.</param>
         </member>
         <member name="P:Cooking.WPF.Commands.AsyncDelegateCommandBase.FreezeWhenBusy">
@@ -107,7 +109,7 @@
             </summary>
             <typeparam name="T">Command parameter type.</typeparam>
         </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand`1.#ctor(System.Func{`0,System.Threading.Tasks.Task},System.Func{`0,System.Boolean},System.Boolean,System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
+        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand`1.#ctor(System.Func{`0,System.Threading.Tasks.Task},System.Func{`0,System.Boolean},System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.AsyncDelegateCommand`1"/> class.
             </summary>
@@ -116,6 +118,7 @@
             <param name="executeOnce">Execute function only once, after that <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand`1.canExecute"/> would return false regardless.</param>
             <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand`1.canExecute"/> would return false.</param>
             <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
+            <param name="forceExecutionOnSeparateThread">A value indicating whether Execute must be forced to run on a non-UI thread.</param>
             <param name="exceptionHandler">An exception handler function.</param>
         </member>
         <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand`1.CanExecuteAsyncInternal(System.Object)">
@@ -651,6 +654,11 @@
             Gets or sets dinner that selected to be cooked on given day.
             </summary>
         </member>
+        <member name="P:Cooking.WPF.DTO.DayDisplay.DinnerGarnish">
+            <summary>
+            Gets or sets dinner that selected to be cooked on given day.
+            </summary>
+        </member>
         <member name="T:Cooking.WPF.DTO.EntityNotify">
             <summary>
             Entity with interface notification.
@@ -658,11 +666,6 @@
         </member>
         <member name="E:Cooking.WPF.DTO.EntityNotify.PropertyChanged">
             <inheritdoc/>
-        </member>
-        <member name="M:Cooking.WPF.DTO.EntityNotify.RaiseChanged">
-            <summary>
-            Raise event with interface notification.
-            </summary>
         </member>
         <member name="T:Cooking.WPF.DTO.IngredientEdit">
             <summary>
@@ -957,6 +960,50 @@
             Prism Event fired when recipe updated.
             </summary>
         </member>
+        <member name="T:Cooking.WPF.Services.EnumerableExtentions">
+            <summary>
+            Extentions for <see cref="T:Prism.Regions.IRegionManager"/>.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Services.EnumerableExtentions.RandomElement``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Get random element from a collection.
+            </summary>
+            <typeparam name="T">Collection's item type.</typeparam>
+            <param name="enumerable">Enumerable where to search for item.</param>
+            <returns>Random item from collection.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Services.EnumerableExtentions.RandomElementUsing``1(System.Collections.Generic.IEnumerable{``0},System.Random)">
+            <summary>
+            Get random element from a collection.
+            </summary>
+            <typeparam name="T">Collection's item type.</typeparam>
+            <param name="enumerable">Enumerable where to search for item.</param>
+            <param name="rand">Instance of random class as optimization.</param>
+            <returns>Random item from collection.</returns>
+        </member>
+        <member name="T:Cooking.WPF.Services.ReguinManagerExtentions">
+            <summary>
+            Extentions for <see cref="T:Prism.Regions.IRegionManager"/>.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.Services.ReguinManagerExtentions.NavigateMain(Prism.Regions.IRegionManager,System.String,System.ValueTuple{System.String,System.Object}[])">
+            <summary>
+            Navigate for main region.
+            </summary>
+            <param name="regionManager">Manager to execute.</param>
+            <param name="view">View to navigate to.</param>
+            <param name="parameters">Parameters to pass to ViewModel.</param>
+        </member>
+        <member name="M:Cooking.WPF.Services.ReguinManagerExtentions.RequestNavigate(Prism.Regions.IRegionManager,System.String,System.String,System.ValueTuple{System.String,System.Object}[])">
+            <summary>
+            Navigate for main region.
+            </summary>
+            <param name="regionManager">Manager to execute.</param>
+            <param name="region">Region for navigation.</param>
+            <param name="view">View to navigate to.</param>
+            <param name="parameters">Parameters to pass to ViewModel.</param>
+        </member>
         <member name="T:Cooking.WPF.Services.RecipeConverter">
             <summary>
             Converter from db Recipe entity and RecipeEdit dto, setting LastCooked using RecipeService.
@@ -1100,28 +1147,6 @@
             Gets instance of recipe filtrator generator.
             </summary>
         </member>
-        <member name="T:Cooking.WPF.Services.ReguinManagerExtentions">
-            <summary>
-            Extentions for <see cref="T:Prism.Regions.IRegionManager"/>.
-            </summary>
-        </member>
-        <member name="M:Cooking.WPF.Services.ReguinManagerExtentions.NavigateMain(Prism.Regions.IRegionManager,System.String,System.ValueTuple{System.String,System.Object}[])">
-            <summary>
-            Navigate for main region.
-            </summary>
-            <param name="regionManager">Manager to execute.</param>
-            <param name="view">View to navigate to.</param>
-            <param name="parameters">Parameters to pass to ViewModel.</param>
-        </member>
-        <member name="M:Cooking.WPF.Services.ReguinManagerExtentions.RequestNavigate(Prism.Regions.IRegionManager,System.String,System.String,System.ValueTuple{System.String,System.Object}[])">
-            <summary>
-            Navigate for main region.
-            </summary>
-            <param name="regionManager">Manager to execute.</param>
-            <param name="region">Region for navigation.</param>
-            <param name="view">View to navigate to.</param>
-            <param name="parameters">Parameters to pass to ViewModel.</param>
-        </member>
         <member name="T:Cooking.WPF.Services.SettingsService">
             <summary>
             Class for configuration updates.
@@ -1262,12 +1287,27 @@
             Static class for validation extention methods.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Validation.ValidationHelper.IsValid(System.Object)">
+        <member name="M:Cooking.WPF.Validation.ValidationHelper.GetValidationTemplate(System.Object)">
+            <summary>
+            Get <see cref="T:Cooking.ValidationTemplate`1"/> for an object.
+            </summary>
+            <param name="obj">An object with a template.</param>
+            <returns>Validation template object or null if object don't have one.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Validation.ValidationHelper.GetRules(FluentValidation.IValidator)">
+            <summary>
+            Get FluentValidation ruleset for an object.
+            </summary>
+            <param name="obj">An object with a template.</param>
+            <returns>Validation template object or null if object don't have one.</returns>
+        </member>
+        <member name="M:Cooking.WPF.Validation.ValidationHelper.IsValid(System.Object,System.Boolean)">
             <summary>
             Determines whether object is valid.
             </summary>
             <param name="obj">Object to validate.</param>
-            <returns>If object is valid.</returns>
+            <param name="forceValidation">Parameter indicating whether this method should trigger object's validation method instead of just checking it's status.</param>
+            <returns>Valie indicating if object is valid.</returns>
         </member>
         <member name="T:Cooking.WPF.ViewModels.IngredientEditViewModelValidator">
             <summary>
@@ -1277,11 +1317,6 @@
         <member name="M:Cooking.WPF.ViewModels.IngredientEditViewModelValidator.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.IngredientEditViewModelValidator"/> class.
-            </summary>
-        </member>
-        <member name="T:Cooking.WPF.ViewModels.IngredientGroupEditViewModelValidator">
-            <summary>
-            Validator for <see cref="T:Cooking.WPF.ViewModels.IngredientGroupEditViewModel"/> class.
             </summary>
         </member>
         <member name="T:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel">
@@ -1552,21 +1587,29 @@
             Ingredient changed callback. Injected via PropertyChanged.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel.CanOk">
-            <inheritdoc/>
+        <member name="T:Cooking.WPF.ViewModels.RecipeIngredientEditViewModelValidator">
+            <summary>
+            Validator type for <see cref="T:Cooking.WPF.ViewModels.RecipeIngredientEditViewModel"/> class.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.ViewModels.RecipeIngredientEditViewModelValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.RecipeIngredientEditViewModelValidator"/> class.
+            </summary>
         </member>
         <member name="T:Cooking.WPF.ViewModels.RecipeSelectViewModel">
             <summary>
             View model for recipe selection from a list of recipies.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,Cooking.WPF.ViewModels.DayPlan)">
+        <member name="M:Cooking.WPF.ViewModels.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,Cooking.WPF.ViewModels.DayPlan,System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.RecipeSelectViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="recipeService">Recipe service dependency.</param>
             <param name="day">Day, which settings will be user for filtering.</param>
+            <param name="garnishSelect">Select garnish.</param>
         </member>
         <member name="P:Cooking.WPF.ViewModels.RecipeSelectViewModel.SelectedRecipe">
             <summary>
@@ -1624,9 +1667,6 @@
             <summary>
             Gets command to specify tag icon.
             </summary>
-        </member>
-        <member name="M:Cooking.WPF.ViewModels.TagEditViewModel.CanOk">
-            <inheritdoc/>
         </member>
         <member name="M:Cooking.WPF.ViewModels.TagEditViewModel.OkAsync">
             <inheritdoc/>
@@ -1894,7 +1934,12 @@
         </member>
         <member name="P:Cooking.WPF.ViewModels.RecipeViewModel.AddGarnishCommand">
             <summary>
-            Gets command to add tag to a recipe.
+            Gets command to add garnish to a recipe.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.RecipeViewModel.RemoveGarnishCommand">
+            <summary>
+            Gets command to remove garnish from a recipe.
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.RecipeViewModel.AddIngredientGroupCommand">
@@ -2072,6 +2117,11 @@
             Gets or sets suggested recipe for a day.
             </summary>
         </member>
+        <member name="P:Cooking.WPF.ViewModels.DayPlan.Garnish">
+            <summary>
+            Gets or sets suggested garnish for a day.
+            </summary>
+        </member>
         <member name="P:Cooking.WPF.ViewModels.DayPlan.RecipeAlternatives">
             <summary>
             Gets or sets alternatives for a suggested recipe.
@@ -2122,6 +2172,26 @@
             Gets or sets required calorie types for a day.
             </summary>
         </member>
+        <member name="T:Cooking.WPF.ViewModels.DayPlanRecipe">
+            <summary>
+            Dto for a recipe in a day in week generation.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.DayPlanRecipe.Name">
+            <summary>
+            Gets or sets recipe name.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.DayPlanRecipe.CalorieType">
+            <summary>
+            Gets or sets calorie type.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.DayPlanRecipe.Garnishes">
+            <summary>
+            Gets or sets garnishes for a recipe.
+            </summary>
+        </member>
         <member name="T:Cooking.WPF.ViewModels.GeneratedWeekViewModel">
             <summary>
             View model for generated week.
@@ -2157,6 +2227,11 @@
             Gets command to change current recipe to alternative.
             </summary>
         </member>
+        <member name="P:Cooking.WPF.ViewModels.GeneratedWeekViewModel.GetAlternativeGarnishCommand">
+            <summary>
+            Gets command to change current garnish to alternative.
+            </summary>
+        </member>
         <member name="P:Cooking.WPF.ViewModels.GeneratedWeekViewModel.DeleteRecipeManuallyCommand">
             <summary>
             Gets command to remove manually selected recipe.
@@ -2165,6 +2240,11 @@
         <member name="P:Cooking.WPF.ViewModels.GeneratedWeekViewModel.SetRecipeManuallyCommand">
             <summary>
             Gets command to set recipe manually.
+            </summary>
+        </member>
+        <member name="P:Cooking.WPF.ViewModels.GeneratedWeekViewModel.SetGarnishManuallyCommand">
+            <summary>
+            Gets command to set garnish manually.
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.GeneratedWeekViewModel.ReturnCommand">
@@ -2321,11 +2401,6 @@
         <member name="P:Cooking.WPF.ViewModels.WeekViewModel.WeekEnd">
             <summary>
             Gets or sets last day of a week.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.WeekViewModel.WeekEdit">
-            <summary>
-            Gets or sets a value indicating whether view model is in editing mode.
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.WeekViewModel.CurrentWeek">
@@ -2985,7 +3060,13 @@
         <member name="M:Cooking.ValidationTemplate`1.GetErrors(System.String)">
             <inheritdoc/>
         </member>
-        <member name="M:Cooking.ValidationTemplate`1.Validate">
+        <member name="M:Cooking.ValidationTemplate`1.Validate(System.String)">
+            <summary>
+            Actually perform validation.
+            </summary>
+            <param name="propertyName">Property to validate.</param>
+        </member>
+        <member name="M:Cooking.ValidationTemplate`1.ForceValidate">
             <summary>
             Actually perform validation.
             </summary>
@@ -2996,36 +3077,6 @@
             </summary>
             <param name="modelType">Type of object to validate.</param>
             <returns>Instance of validator.</returns>
-        </member>
-        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-            <summary>
-            GeneratedInternalTypeHelper
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-            <summary>
-            CreateInstance
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            GetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            SetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-            <summary>
-            CreateDelegate
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-            <summary>
-            AddEventHandler
-            </summary>
         </member>
     </members>
 </doc>

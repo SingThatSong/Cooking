@@ -1,25 +1,28 @@
 ﻿using Cooking.Data.Model;
+using Cooking.ServiceLayer;
 using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Validation;
 using Cooking.WPF.Views;
+using FluentValidation;
 using PropertyChanged;
-using ServiceLayer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Validar;
 
 namespace Cooking.WPF.ViewModels
 {
     /// <summary>
     /// View model for editing ingredient in recipe.
     /// </summary>
+    [InjectValidation]
     public partial class RecipeIngredientEditViewModel : OkCancelViewModel
     {
         private readonly DialogService dialogService;
-        private readonly IngredientService ingredientService;
+        private readonly CRUDService<Ingredient> ingredientService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeIngredientEditViewModel"/> class.
@@ -29,8 +32,8 @@ namespace Cooking.WPF.ViewModels
         /// <param name="measureUnitService">Provider for a list of measurement units.</param>
         /// <param name="ingredient">Ingredient to edit.</param>
         public RecipeIngredientEditViewModel(DialogService dialogService,
-                                             IngredientService ingredientService,
-                                             MeasureUnitService measureUnitService,
+                                             CRUDService<Ingredient> ingredientService,
+                                             CRUDService<MeasureUnit> measureUnitService,
                                              RecipeIngredientEdit ingredient)
             : base(dialogService)
         {
@@ -44,7 +47,7 @@ namespace Cooking.WPF.ViewModels
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
             CreateIngredientCommand = new AsyncDelegateCommand(CreateIngredientAsync);
 
-            AllIngredients = ingredientService.GetAllProjected<IngredientEdit>();
+            AllIngredients = ingredientService.GetAllProjected<IngredientEdit>(callAfterMap: false);
         }
 
         /// <summary>
@@ -92,9 +95,6 @@ namespace Cooking.WPF.ViewModels
         /// Ingredient changed callback. Injected via PropertyChanged.
         /// </summary>
         public void OnIngredientChanged() => Ingredient.Ingredient = AllIngredients?.FirstOrDefault(x => x.ID == Ingredient.Ingredient?.ID);
-
-        /// <inheritdoc/>
-        protected override bool CanOk() => Ingredient.IsValid();
 
         private void RemoveIngredient(RecipeIngredientEdit i) => Ingredients!.Remove(i);
 
