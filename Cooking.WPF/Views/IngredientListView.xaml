@@ -43,7 +43,8 @@
                         <Border
                             Margin="3"
                             Background="#ff333333"
-                            CornerRadius="2">
+                            CornerRadius="2"
+                            Style="{StaticResource BorderStyle}">
                             <Border.Effect>
                                 <DropShadowEffect
                                     BlurRadius="2"

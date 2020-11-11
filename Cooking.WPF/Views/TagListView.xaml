@@ -43,7 +43,8 @@
                     <Border
                         Margin="3"
                         Background="{DynamicResource MahApps.Brushes.Gray8}"
-                        CornerRadius="2">
+                        CornerRadius="2"
+                        Style="{StaticResource BorderStyle}">
                         <Border.Effect>
                             <DropShadowEffect
                                 BlurRadius="2"

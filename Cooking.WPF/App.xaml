@@ -39,6 +39,33 @@
                 x:Key="IsNotNullToVisibilityConverter"
                 NotNullVisibility="Visible"
                 NullVisibility="Collapsed" />
+
+            <Style x:Key="BorderStyle" TargetType="Border">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="Gray"
+                                        Duration="0:0:0.1" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.EnterActions>
+                        <Trigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard FillBehavior="Stop">
+                                    <ColorAnimation
+                                        Storyboard.TargetProperty="Background.Color"
+                                        To="Transparent"
+                                        Duration="0:0:0.3" />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.ExitActions>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
 
     </prism:PrismApplication.Resources>

@@ -32,7 +32,6 @@ using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Highlight items like in recipe list everywhere
 // TODO: Recipe filtering reserved words localization (and, or, not)
 // TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
 // TODO: Add setting to disable suggestion to correct previous week
