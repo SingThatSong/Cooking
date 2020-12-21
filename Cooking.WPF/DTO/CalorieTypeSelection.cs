@@ -11,7 +11,7 @@ namespace Cooking.WPF.DTO
         /// <summary>
         /// Special value for not specified calories.
         /// </summary>
-        public static readonly CalorieTypeSelection Any = new CalorieTypeSelection();
+        public static readonly CalorieTypeSelection Any = new();
 
         /// <summary>
         /// Gets or sets CalorieType represented by this DTO.

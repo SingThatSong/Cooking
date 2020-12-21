@@ -4,8 +4,9 @@
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <Platforms>AnyCPU;x64</Platforms>
-    <AnalysisLevel>preview</AnalysisLevel>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>preview</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -24,18 +25,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.2-beta1.20552.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-alpha.1.20556.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0-alpha.1.20556.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-alpha.1.20556.4">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-alpha.1.20615.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0-alpha.1.20615.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-alpha.1.20615.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0-alpha.1.20557.2" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261">
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0-alpha.1.20616.3" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.312">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

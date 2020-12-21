@@ -131,5 +131,8 @@
   "IngredientType_Nuts": "Nuts",
   "IngredientType_Ready": "Ready",
   "SpecifyMenuIcon": "Specify menu icon",
-  "MenuIcon": "Menu icon:"
+  "MenuIcon": "Menu icon:",
+  "OR": "OR",
+  "NOT": "NOT",
+  "AND": "AND"
 }

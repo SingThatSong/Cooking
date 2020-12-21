@@ -32,7 +32,6 @@ using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Recipe filtering reserved words localization (and, or, not)
 // TODO: Create common view and viewmodel for selecting stuff (replace *SelectViewModel)
 // TODO: Add setting to disable suggestion to correct previous week
 // TODO: Move this file's parts into different methods. Reason: Too many usings above

@@ -20,7 +20,7 @@ namespace Cooking.WPF.Services
         /// <summary>
         /// Cache for localizations: Culture - (key - value).
         /// </summary>
-        private readonly Dictionary<string, Dictionary<string, string>> localizationCache = new Dictionary<string, Dictionary<string, string>>();
+        private readonly Dictionary<string, Dictionary<string, string>> localizationCache = new();
 
         /// <inheritdoc/>
         public event ProviderChangedEventHandler? ProviderChanged;

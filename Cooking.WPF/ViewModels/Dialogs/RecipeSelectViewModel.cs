@@ -19,22 +19,25 @@ namespace Cooking.WPF.ViewModels
     {
         private readonly List<RecipeListViewDto> recipies;
         private readonly RecipeService recipeService;
+        private readonly RecipeFiltrator recipeFiltrator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeSelectViewModel"/> class.
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
         /// <param name="recipeService">Recipe service dependency.</param>
+        /// <param name="recipeFiltrator">RecipeFiltrator service dependency.</param>
         /// <param name="day">Day, which settings will be user for filtering.</param>
         /// <param name="garnishSelect">Select garnish.</param>
         public RecipeSelectViewModel(DialogService dialogService,
                                      RecipeService recipeService,
+                                     RecipeFiltrator recipeFiltrator,
                                      DayPlan? day = null,
                                      bool garnishSelect = false)
             : base(dialogService)
         {
             this.recipeService = recipeService;
-
+            this.recipeFiltrator = recipeFiltrator;
             if (garnishSelect && day != null)
             {
                 var possibleGarnishes = day.Recipe!.Garnishes.Select(x => x.ID).ToList();
@@ -142,7 +145,7 @@ namespace Cooking.WPF.ViewModels
 
             if (!string.IsNullOrEmpty(FilterText))
             {
-                Expression<Func<Recipe, bool>> filterExpression = RecipeFiltrator.Instance.Value.GetExpression(FilterText);
+                Expression<Func<Recipe, bool>> filterExpression = recipeFiltrator.Instance.Value.GetExpression(FilterText);
                 newEntries = recipeService.GetProjectedClientside<RecipeListViewDto>(filterExpression.Compile());
             }
             else

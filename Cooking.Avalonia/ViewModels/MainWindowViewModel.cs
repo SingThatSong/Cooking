@@ -16,7 +16,7 @@ namespace Cooking.Avalonia.ViewModels
         /// <summary>
         /// Gets sample week.
         /// </summary>
-        public List<Day> CurrentWeek => new List<Day>()
+        public List<Day> CurrentWeek => new()
         {
             new Day(),
             new Day(),

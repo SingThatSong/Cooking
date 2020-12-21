@@ -132,5 +132,8 @@
   "IngredientType_Nuts": "Орехи",
   "IngredientType_Ready": "Готовые продукты",
   "SpecifyMenuIcon": "Укажите иконку для элемента меню",
-  "MenuIcon": "Иконка:"
+  "MenuIcon": "Иконка:",
+  "OR": "ИЛИ",
+  "NOT": "НЕ",
+  "AND": "И"
 }

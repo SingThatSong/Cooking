@@ -30,6 +30,7 @@ namespace Cooking.WPF.ViewModels
     public partial class RecipeListViewModel : INavigationAware
     {
         private readonly DialogService dialogService;
+        private readonly RecipeFiltrator recipeFiltrator;
         private readonly IContainerExtension container;
         private readonly IRegionManager regionManager;
         private readonly RecipeService recipeService;
@@ -40,6 +41,7 @@ namespace Cooking.WPF.ViewModels
         /// Initializes a new instance of the <see cref="RecipeListViewModel"/> class.
         /// </summary>
         /// <param name="dialogService">Dialog service dependency.</param>
+        /// <param name="recipeFiltrator">RecipeFiltrator dependency.</param>
         /// <param name="container">IoC container.</param>
         /// <param name="regionManager">Region manager for Prism navigation.</param>
         /// <param name="recipeService">Recipe service dependency.</param>
@@ -47,14 +49,16 @@ namespace Cooking.WPF.ViewModels
         /// <param name="mapper">Mapper dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
         public RecipeListViewModel(DialogService dialogService,
-                                 IContainerExtension container,
-                                 IRegionManager regionManager,
-                                 RecipeService recipeService,
-                                 IEventAggregator eventAggregator,
-                                 IMapper mapper,
-                                 ILocalization localization)
+                                   RecipeFiltrator recipeFiltrator,
+                                   IContainerExtension container,
+                                   IRegionManager regionManager,
+                                   RecipeService recipeService,
+                                   IEventAggregator eventAggregator,
+                                   IMapper mapper,
+                                   ILocalization localization)
         {
             this.dialogService = dialogService;
+            this.recipeFiltrator = recipeFiltrator;
             this.container = container;
             this.regionManager = regionManager;
             this.recipeService = recipeService;
@@ -212,7 +216,7 @@ namespace Cooking.WPF.ViewModels
             List<RecipeListViewDto> newEntries;
             if (!string.IsNullOrWhiteSpace(FilterText))
             {
-                Expression<Func<Recipe, bool>> filterExpression = RecipeFiltrator.Instance.Value.GetExpression(FilterText);
+                Expression<Func<Recipe, bool>> filterExpression = recipeFiltrator.Instance.Value.GetExpression(FilterText);
                 newEntries = recipeService.GetProjectedClientside<RecipeListViewDto>(filterExpression.Compile());
             }
             else

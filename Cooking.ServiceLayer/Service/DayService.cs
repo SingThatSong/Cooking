@@ -14,7 +14,7 @@ namespace Cooking.ServiceLayer
     /// </summary>
     public class DayService : CRUDService<Day>
     {
-        private static readonly Dictionary<Guid, DateTime?> LastCookedDateCache = new Dictionary<Guid, DateTime?>();
+        private static readonly Dictionary<Guid, DateTime?> LastCookedDateCache = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DayService"/> class.

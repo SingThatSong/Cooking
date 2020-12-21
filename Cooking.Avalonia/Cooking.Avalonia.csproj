@@ -5,6 +5,7 @@
     <Platforms>AnyCPU;x64</Platforms>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>preview</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;CA1822</NoWarn>
@@ -31,11 +32,7 @@
     <PackageReference Include="Avalonia" Version="0.10.999-cibuild0011450-beta" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.999-cibuild0011450-beta" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.999-cibuild0011450-beta" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.2-beta1.20552.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.312">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

@@ -14,7 +14,7 @@ namespace Cooking.WPF.DTO
         /// Any tag for selection.
         /// TODO: Refactor out from TagEdit.
         /// </summary>
-        public static readonly TagEdit Any = new TagEdit()
+        public static readonly TagEdit Any = new()
         {
             CanBeRemoved = false
         };

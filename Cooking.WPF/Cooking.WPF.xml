@@ -1142,6 +1142,12 @@
             Filtration logic for list of recipies.
             </summary>
         </member>
+        <member name="M:Cooking.WPF.Services.RecipeFiltrator.#ctor(Cooking.ServiceLayer.ILocalization)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.Services.RecipeFiltrator"/> class.
+            </summary>
+            <param name="localization">Localization dependency.</param>
+        </member>
         <member name="P:Cooking.WPF.Services.RecipeFiltrator.Instance">
             <summary>
             Gets instance of recipe filtrator generator.
@@ -1602,12 +1608,13 @@
             View model for recipe selection from a list of recipies.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,Cooking.WPF.ViewModels.DayPlan,System.Boolean)">
+        <member name="M:Cooking.WPF.ViewModels.RecipeSelectViewModel.#ctor(Cooking.WPF.DialogService,Cooking.ServiceLayer.RecipeService,Cooking.WPF.Services.RecipeFiltrator,Cooking.WPF.ViewModels.DayPlan,System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.RecipeSelectViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
             <param name="recipeService">Recipe service dependency.</param>
+            <param name="recipeFiltrator">RecipeFiltrator service dependency.</param>
             <param name="day">Day, which settings will be user for filtering.</param>
             <param name="garnishSelect">Select garnish.</param>
         </member>
@@ -1804,11 +1811,12 @@
             View model for a list of recipies.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.RecipeListViewModel.#ctor(Cooking.WPF.DialogService,Prism.Ioc.IContainerExtension,Prism.Regions.IRegionManager,Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
+        <member name="M:Cooking.WPF.ViewModels.RecipeListViewModel.#ctor(Cooking.WPF.DialogService,Cooking.WPF.Services.RecipeFiltrator,Prism.Ioc.IContainerExtension,Prism.Regions.IRegionManager,Cooking.ServiceLayer.RecipeService,Prism.Events.IEventAggregator,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.RecipeListViewModel"/> class.
             </summary>
             <param name="dialogService">Dialog service dependency.</param>
+            <param name="recipeFiltrator">RecipeFiltrator dependency.</param>
             <param name="container">IoC container.</param>
             <param name="regionManager">Region manager for Prism navigation.</param>
             <param name="recipeService">Recipe service dependency.</param>
@@ -3077,6 +3085,36 @@
             </summary>
             <param name="modelType">Type of object to validate.</param>
             <returns>Instance of validator.</returns>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
         </member>
     </members>
 </doc>

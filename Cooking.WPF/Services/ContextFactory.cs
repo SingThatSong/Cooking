@@ -21,6 +21,6 @@ namespace Cooking.WPF
         }
 
         /// <inheritdoc/>
-        public CookingContext Create() => new CookingContext(appSettings.Value.DbName);
+        public CookingContext Create() => new(appSettings.Value.DbName);
     }
 }

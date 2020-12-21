@@ -23,12 +23,12 @@ namespace Cooking
     public class ValidationTemplate<T> : IDataErrorInfo, INotifyDataErrorInfo
             where T : INotifyPropertyChanged
     {
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, (IValidator<T>, List<string>)> Validators = new ConcurrentDictionary<RuntimeTypeHandle, (IValidator<T>, List<string>)>();
+        private static readonly ConcurrentDictionary<RuntimeTypeHandle, (IValidator<T>, List<string>)> Validators = new();
 
         private readonly T target;
         private readonly IValidator<T> validator;
         private readonly List<string> propertyNames;
-        private ValidationResult validationResult = new ValidationResult();
+        private ValidationResult validationResult = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ValidationTemplate{T}"/> class.

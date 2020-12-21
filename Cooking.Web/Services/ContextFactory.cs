@@ -21,6 +21,6 @@ namespace Cooking.Web
         }
 
         /// <inheritdoc/>
-        public CookingContext Create() => new CookingContext(configuration["dbName"]);
+        public CookingContext Create() => new(configuration["dbName"]);
     }
 }

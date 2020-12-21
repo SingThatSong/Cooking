@@ -170,10 +170,7 @@ namespace Cooking.WPF.ViewModels
 
         private async Task SetRecipeManuallyAsync(DayPlan day)
         {
-            var viewModel = new RecipeSelectViewModel(dialogService,
-                                                      recipeService,
-                                                      day);
-
+            RecipeSelectViewModel? viewModel = container.Resolve<RecipeSelectViewModel>((typeof(DayPlan), day));
             await dialogService.ShowCustomMessageAsync<RecipeSelectView, RecipeSelectViewModel>(content: viewModel);
 
             if (viewModel.DialogResultOk)
@@ -184,10 +181,9 @@ namespace Cooking.WPF.ViewModels
 
         private async Task SetGarnishManuallyAsync(DayPlan day)
         {
-            var viewModel = new RecipeSelectViewModel(dialogService,
-                                                      recipeService,
-                                                      day,
-                                                      garnishSelect: true);
+            RecipeSelectViewModel? viewModel = container.Resolve<RecipeSelectViewModel>(
+                                                            (typeof(DayPlan), day),
+                                                            (typeof(bool), true)); // garnishSelect
 
             await dialogService.ShowCustomMessageAsync<RecipeSelectView, RecipeSelectViewModel>(content: viewModel);
 
