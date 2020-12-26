@@ -44,13 +44,13 @@
     <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="4.8.0" />
     <PackageReference Include="MaterialDesignColors" Version="2.0.0-ci2312" />
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0-ci2312" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0-alpha.1.20615.2">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0-alpha.1.20622.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0-alpha.1.20616.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-alpha.1.20616.3" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0-alpha.1.20616.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0-alpha.1.20626.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-alpha.1.20626.2" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0-alpha.1.20626.2" />
     <PackageReference Include="NullGuard.Fody" Version="3.0.0" PrivateAssets="All" />
     <PackageReference Include="PhotoSauce.MagicScaler" Version="0.11.2" />
     <PackageReference Include="Plafi.DynamicLinq" Version="1.1.0" />
