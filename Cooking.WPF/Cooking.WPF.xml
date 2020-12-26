@@ -1072,6 +1072,11 @@
             Gets or sets window height.
             </summary>
         </member>
+        <member name="P:Cooking.WPF.Services.AppSettings.ShowLastWeekSuggestion">
+            <summary>
+            Gets or sets a value indicating whether to show or hide suggestion about previous week.
+            </summary>
+        </member>
         <member name="T:Cooking.WPF.Services.JsonLocalizationProvider">
             <summary>
             Json localization provider for WPFLocalizeExtension.
@@ -2063,6 +2068,11 @@
             Gets or sets selected app theme.
             </summary>
         </member>
+        <member name="P:Cooking.WPF.ViewModels.SettingsViewModel.ShowLastWeekSuggestion">
+            <summary>
+            Gets or sets a value indicating whether to show suggestion about last week or not.
+            </summary>
+        </member>
         <member name="P:Cooking.WPF.ViewModels.SettingsViewModel.CultureSelectionChangedCommand">
             <summary>
             Gets command to be fired when culture combobox's selected language changes.
@@ -2070,12 +2080,17 @@
         </member>
         <member name="M:Cooking.WPF.ViewModels.SettingsViewModel.OnSelectedAppThemeChanged">
             <summary>
-            PropertyChanged-injected callbach callde when SelectedAppTheme is changed.
+            PropertyChanged-injected callback called when SelectedAppTheme is changed.
             </summary>
         </member>
         <member name="M:Cooking.WPF.ViewModels.SettingsViewModel.OnSelectedColorChanged">
             <summary>
-            PropertyChanged-injected callbach callde when SelectedColor is changed.
+            PropertyChanged-injected callback called when SelectedColor is changed.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.ViewModels.SettingsViewModel.OnShowLastWeekSuggestionChanged">
+            <summary>
+            PropertyChanged-injected callback called when ShowLastWeekSuggestion is changed.
             </summary>
         </member>
         <member name="T:Cooking.WPF.ViewModels.ShoppingCartViewModel">
@@ -2390,7 +2405,7 @@
             View model for viewing week schedule.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.WeekViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.DayService,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization)">
+        <member name="M:Cooking.WPF.ViewModels.WeekViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.DayService,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization,Microsoft.Extensions.Options.IOptions{Cooking.WPF.Services.AppSettings})">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.WeekViewModel"/> class.
             </summary>
@@ -2400,6 +2415,7 @@
             <param name="dayService"><see cref="T:Cooking.ServiceLayer.DayService"/> dependency.</param>
             <param name="mapper">Mapper dependency.</param>
             <param name="localization">Localization provider dependency.</param>
+            <param name="options">Gets current application's settings.</param>
         </member>
         <member name="P:Cooking.WPF.ViewModels.WeekViewModel.WeekStart">
             <summary>

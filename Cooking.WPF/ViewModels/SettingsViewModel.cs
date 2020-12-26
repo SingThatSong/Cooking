@@ -55,6 +55,8 @@ namespace Cooking.WPF.ViewModels
                 SelectedAppTheme = AppThemes.First(x => x.BaseColorScheme == currentTheme.BaseColorScheme);
                 SelectedColor = ColorThemes.First(x => x == currentTheme.ColorScheme);
             }
+
+            ShowLastWeekSuggestion = options.Value.ShowLastWeekSuggestion;
         }
 
         /// <summary>
@@ -78,14 +80,19 @@ namespace Cooking.WPF.ViewModels
         public string? SelectedColor { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to show suggestion about last week or not.
+        /// </summary>
+        public bool ShowLastWeekSuggestion { get; set; } = true;
+
+        /// <summary>
         /// Gets command to be fired when culture combobox's selected language changes.
         /// </summary>
         public DelegateCommand CultureSelectionChangedCommand { get; }
 
         /// <summary>
-        /// PropertyChanged-injected callbach callde when SelectedAppTheme is changed.
+        /// PropertyChanged-injected callback called when SelectedAppTheme is changed.
         /// </summary>
-        public void OnSelectedAppThemeChanged()
+        private void OnSelectedAppThemeChanged()
         {
             if (SelectedAppTheme != null)
             {
@@ -97,9 +104,9 @@ namespace Cooking.WPF.ViewModels
         }
 
         /// <summary>
-        /// PropertyChanged-injected callbach callde when SelectedColor is changed.
+        /// PropertyChanged-injected callback called when SelectedColor is changed.
         /// </summary>
-        public void OnSelectedColorChanged()
+        private void OnSelectedColorChanged()
         {
             if (SelectedColor != null)
             {
@@ -108,6 +115,15 @@ namespace Cooking.WPF.ViewModels
                 options.Value.Accent = SelectedColor;
                 settingsService.UpdateAppSettings(options.Value);
             }
+        }
+
+        /// <summary>
+        /// PropertyChanged-injected callback called when ShowLastWeekSuggestion is changed.
+        /// </summary>
+        private void OnShowLastWeekSuggestionChanged()
+        {
+            options.Value.ShowLastWeekSuggestion = ShowLastWeekSuggestion;
+            settingsService.UpdateAppSettings(options.Value);
         }
 
         private void ChangeCulture()

@@ -39,5 +39,10 @@
         /// Gets or sets window height.
         /// </summary>
         public double? WindowHeight { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to show or hide suggestion about previous week.
+        /// </summary>
+        public bool ShowLastWeekSuggestion { get; set; } = true;
     }
 }

@@ -5,6 +5,7 @@ using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using Cooking.WPF.Views;
+using Microsoft.Extensions.Options;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
@@ -30,6 +31,7 @@ namespace Cooking.WPF.ViewModels
         private readonly IContainerExtension container;
         private readonly IMapper mapper;
         private readonly ILocalization localization;
+        private readonly IOptions<AppSettings> options;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WeekViewModel"/> class.
@@ -40,12 +42,14 @@ namespace Cooking.WPF.ViewModels
         /// <param name="dayService"><see cref="DayService"/> dependency.</param>
         /// <param name="mapper">Mapper dependency.</param>
         /// <param name="localization">Localization provider dependency.</param>
+        /// <param name="options">Gets current application's settings.</param>
         public WeekViewModel(DialogService dialogService,
                              IRegionManager regionManager,
                              IContainerExtension container,
                              DayService dayService,
                              IMapper mapper,
-                             ILocalization localization)
+                             ILocalization localization,
+                             IOptions<AppSettings> options)
         {
             this.dialogService = dialogService;
             this.regionManager = regionManager;
@@ -53,7 +57,7 @@ namespace Cooking.WPF.ViewModels
             this.dayService = dayService;
             this.mapper = mapper;
             this.localization = localization;
-
+            this.options = options;
             CreateNewWeekCommand = new DelegateCommand(CreateNewWeek);
             CreateShoppingListCommand = new DelegateCommand(CreateShoppingList);
             DeleteCommand = new AsyncDelegateCommand(DeleteCurrentWeekAsync);
@@ -212,17 +216,20 @@ namespace Cooking.WPF.ViewModels
         {
             await SetWeekByDayAsync(DateTime.Now);
 
-            DateTime dayOnPreviousWeek = dayService.FirstDayOfWeek(DateTime.Now).AddDays(-1);
-            bool prevWeekFilled = await dayService.IsWeekFilledAsync(dayOnPreviousWeek);
-
-            if (!prevWeekFilled)
+            if (options.Value.ShowLastWeekSuggestion)
             {
-                // Reminder of recipies on a previous week
-                await dialogService.ShowLocalizedYesNoDialogAsync(
-                      "ByTheWay",
-                      "YouNeedToMoveRecipies",
-                      successCallback: () => SelectPreviousWeekCommand.Execute()
-                );
+                DateTime dayOnPreviousWeek = dayService.FirstDayOfWeek(DateTime.Now).AddDays(-1);
+                bool prevWeekFilled = await dayService.IsWeekFilledAsync(dayOnPreviousWeek);
+
+                if (!prevWeekFilled)
+                {
+                    // Reminder of recipies on a previous week
+                    await dialogService.ShowLocalizedYesNoDialogAsync(
+                          "ByTheWay",
+                          "YouNeedToMoveRecipies",
+                          successCallback: () => SelectPreviousWeekCommand.Execute()
+                    );
+                }
             }
         }
 

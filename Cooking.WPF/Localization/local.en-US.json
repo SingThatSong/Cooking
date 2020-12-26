@@ -134,5 +134,6 @@
   "MenuIcon": "Menu icon:",
   "OR": "OR",
   "NOT": "NOT",
-  "AND": "AND"
+  "AND": "AND",
+  "ShowLastWeekSuggestion": "Show last week not filled"
 }
