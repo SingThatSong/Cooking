@@ -27,11 +27,6 @@
             <RowDefinition Height="100" />
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="50" />
-        </Grid.ColumnDefinitions>
-
         <!--  Main ingredients list  -->
         <ListBox ItemsSource="{Binding AllGarnishes}" SelectionMode="Multiple">
             <i:Interaction.Behaviors>
@@ -59,17 +54,9 @@
             </ItemsControl.Template>
         </ListBox>
 
-        <!--  Button to add new garnish  -->
-        <Button
-            Grid.Column="5"
-            Margin="10,0,0,0"
-            Command="{Binding AddGarnishCommand}"
-            Style="{StaticResource MediumAddButton}" />
-
         <!--  Ok and Cancel buttons  -->
         <StackPanel
             Grid.Row="2"
-            Grid.ColumnSpan="4"
             Margin="20"
             HorizontalAlignment="Center"
             Orientation="Horizontal">

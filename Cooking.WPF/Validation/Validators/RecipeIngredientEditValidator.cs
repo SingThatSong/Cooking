@@ -21,7 +21,10 @@ namespace Cooking.WPF.DTO
             RuleFor(x => x.Amount)
                 .NotEmpty()
                 .When(x => x.MeasureUnit != null)
-                .WithMessage(localization["SpecifyAmountIfMeasureUnit"]);
+                .WithMessage(localization["SpecifyAmountIfMeasureUnit"])
+                .Matches($@"^[\d.]+$")
+                .When(x => !string.IsNullOrEmpty(x.Amount))
+                .WithMessage(localization["ShouldBeNumber"]);
 
             RuleFor(x => x.MeasureUnit)
                 .NotNull()

@@ -135,5 +135,6 @@
   "OR": "OR",
   "NOT": "NOT",
   "AND": "AND",
-  "ShowLastWeekSuggestion": "Show last week not filled"
+  "ShowLastWeekSuggestion": "Show last week not filled",
+  "ShouldBeNumber": "This field must contain a number"
 }

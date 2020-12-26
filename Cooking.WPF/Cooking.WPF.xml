@@ -3029,6 +3029,14 @@
             Service for object mapping and projections.
             </summary>
         </member>
+        <member name="M:Cooking.MapperService.UseAutomapper(Prism.Ioc.IContainerRegistry,Prism.Ioc.IContainerProvider)">
+            <summary>
+            Register automapper container instance.
+            </summary>
+            <param name="containerRegistry">Container registry to register automapper.</param>
+            <param name="container">Container provider to use as resolver for automapper.</param>
+            <returns>Same IContainerRegistry instance for chaining.</returns>
+        </member>
         <member name="M:Cooking.MapperService.CreateMapper">
             <summary>
             Create Autmapper Mapper provider.

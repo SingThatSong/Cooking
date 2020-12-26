@@ -17,6 +17,11 @@ namespace Cooking.WPF.DTO
             RuleFor(x => x.Name)
                 .NotEmpty()
                 .WithMessage(localization["SpecifyName"]);
+
+            RuleFor(x => x.PortionsCount)
+                .Matches($@"^\d+$")
+                .When(x => !string.IsNullOrEmpty(x.PortionsCount))
+                .WithMessage(localization["ShouldBeNumber"]);
         }
     }
 }

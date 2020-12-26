@@ -29,9 +29,6 @@ using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Set up validation rules for everything
-// TODO: Add debug console logging to methods and constructors (AOP) ?
-
 // Git-related
 // TODO: Setup CI
 // TODO: Set autoupgrade https://github.com/Squirrel/Squirrel.Windows

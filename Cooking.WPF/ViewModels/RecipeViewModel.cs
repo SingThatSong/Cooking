@@ -5,6 +5,7 @@ using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Events;
 using Cooking.WPF.Services;
+using Cooking.WPF.Validation;
 using Cooking.WPF.Views;
 using Fody;
 using GongSolutions.Wpf.DragDrop;
@@ -68,7 +69,7 @@ namespace Cooking.WPF.ViewModels
             this.regionManager = regionManager;
 
             CloseCommand = new DelegateCommand(Close);
-            ApplyChangesCommand = new AsyncDelegateCommand(ApplyChangesAsync, forceExecutionOnSeparateThread: false);
+            ApplyChangesCommand = new AsyncDelegateCommand(ApplyChangesAsync, CanApplyChanges, forceExecutionOnSeparateThread: false);
             DeleteRecipeCommand = new AsyncDelegateCommand<Guid>(DeleteRecipeAsync, canExecute: CanDeleteRecipe);
 
             ImageSearchCommand = new AsyncDelegateCommand(ImageSearchAsync);
@@ -253,6 +254,8 @@ namespace Cooking.WPF.ViewModels
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
+
+        private bool CanApplyChanges() => RecipeEdit!.IsValid();
 
         private bool CanDeleteRecipe(Guid arg) => !IsRecipeCreation;
 

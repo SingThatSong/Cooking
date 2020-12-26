@@ -448,7 +448,7 @@
                         Margin="10,10,10,0"
                         materialDesign:HintAssist.Hint="{lex:Loc PortionsCountHeader}"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                        Text="{Binding RecipeEdit.PortionsCount}" />
+                        Text="{Binding RecipeEdit.PortionsCount, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
 
                 <!--  Right part with ingredients and tags  -->
