@@ -6,6 +6,7 @@ using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using Cooking.WPF.Validation;
 using Cooking.WPF.ViewModels;
+using Prism.Ioc;
 using System;
 using System.ComponentModel;
 
@@ -17,10 +18,29 @@ namespace Cooking
     internal static class MapperService
     {
         /// <summary>
+        /// Register automapper container instance.
+        /// </summary>
+        /// <param name="containerRegistry">Container registry to register automapper.</param>
+        /// <param name="container">Container provider to use as resolver for automapper.</param>
+        /// <returns>Same IContainerRegistry instance for chaining.</returns>
+        public static IContainerRegistry UseAutomapper(this IContainerRegistry containerRegistry, IContainerProvider container)
+        {
+            // Register services
+            containerRegistry.RegisterInstance<IMapper>(
+                new Mapper(
+                    CreateMapper(),
+                    container.Resolve<IContainerExtension>().Resolve
+                )
+            );
+
+            return containerRegistry;
+        }
+
+        /// <summary>
         /// Create Autmapper Mapper provider.
         /// </summary>
         /// <returns>Instance of <see cref="IConfigurationProvider"/>.</returns>
-        public static IConfigurationProvider CreateMapper()
+        private static IConfigurationProvider CreateMapper()
             => new MapperConfiguration(cfg =>
             {
                 cfg.AddCollectionMappers();

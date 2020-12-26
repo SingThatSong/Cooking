@@ -25,9 +25,7 @@ namespace Cooking.WPF.ViewModels
                                       IEnumerable<RecipeEdit> selectedGarnishes)
             : base(dialogService)
         {
-#pragma warning disable CS8604 // Возможно, аргумент-ссылка, допускающий значение NULL.
             AllGarnishes = garnishService.GetMapped<RecipeEdit>(x => x.Tags.Any(t => t.Name == "Гарниры")).OrderBy(x => x.Name).ToList();
-#pragma warning restore CS8604 // Возможно, аргумент-ссылка, допускающий значение NULL.
             SelectedItems.AddRange(AllGarnishes.Intersect(selectedGarnishes));
         }
 

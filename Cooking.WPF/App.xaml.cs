@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ControlzEx.Theming;
+﻿using ControlzEx.Theming;
 using Cooking.Data.Context;
 using Cooking.ServiceLayer;
 using Cooking.WPF;
@@ -8,13 +7,11 @@ using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using Cooking.WPF.ViewModels;
 using Cooking.WPF.Views;
-using Fody;
 using MahApps.Metro.Controls.Dialogs;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using NullGuard;
 using Prism.Ioc;
 using Prism.Unity;
 using Serilog;
@@ -32,7 +29,6 @@ using System.Windows.Media;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
-// TODO: Move this file's parts into different methods. Reason: Too many usings above
 // TODO: Set up validation rules for everything
 // TODO: Add debug console logging to methods and constructors (AOP) ?
 
@@ -72,13 +68,6 @@ using WPFLocalizeExtension.Providers;
 // TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration. Not available now, See https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/issues/1896
 // TODO: Fix publishing: dotnet publish isnt working, single file isnt working, lib trimming isnt working
 // TODO: Move styles to XamlCSS
-
-// Set Null-check on all func arguments globally
-[assembly: NullGuard(ValidationFlags.Arguments)]
-
-// Set ConfigureAwait globally
-[assembly: ConfigureAwait(false)]
-
 namespace Cooking
 {
     /// <summary>
@@ -137,9 +126,9 @@ namespace Cooking
             containerRegistry.Register<MainWindowView>();
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
 
-            // Register services
-            containerRegistry.RegisterInstance<IMapper>(new Mapper(MapperService.CreateMapper(), Container.Resolve<IContainerExtension>().Resolve));
+            containerRegistry.UseAutomapper(Container);
 
+            // Register services
             containerRegistry.Register(typeof(CRUDService<>));
             containerRegistry.Register<DayService>();
             containerRegistry.Register<SettingsService>();
