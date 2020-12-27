@@ -20,6 +20,7 @@ jobs:
     env:
       Solution_Name: Cooking.sln                         
       Test_Project_Path: Cooking.WPF.Tests\Cooking.WPF.Tests.csproj
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 
     steps:
     - name: Checkout
