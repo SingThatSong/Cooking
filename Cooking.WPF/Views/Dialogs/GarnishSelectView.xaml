@@ -28,10 +28,10 @@
         </Grid.RowDefinitions>
 
         <!--  Main ingredients list  -->
-        <ListBox ItemsSource="{Binding AllGarnishes}" SelectionMode="Multiple">
-            <i:Interaction.Behaviors>
-                <controls:ListBoxMultiselectionBehaviour SelectedItems="{Binding SelectedItems, Mode=TwoWay}" />
-            </i:Interaction.Behaviors>
+        <ListBox ItemsSource="{Binding AllGarnishes}" SelectionMode="Multiple">             
+            <i:Interaction.Behaviors>                  
+                <controls:ListBoxMultiselectionBehaviour SelectedItems="{Binding SelectedItems, Mode=TwoWay}" />              
+            </i:Interaction.Behaviors>              
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <CheckBox
@@ -44,11 +44,11 @@
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Vertical" />
                 </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>             
-            <ItemsControl.Template>                 
-                <ControlTemplate TargetType="{x:Type ItemsControl}">                     
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">                         
-                        <ItemsPresenter />                     
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.Template>
+                <ControlTemplate TargetType="{x:Type ItemsControl}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsPresenter />
                     </ScrollViewer>
                 </ControlTemplate>
             </ItemsControl.Template>
