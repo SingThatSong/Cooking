@@ -92,7 +92,7 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button
-                Margin="10,0,0 0"
+                Margin="10 0 0 0"
                 Command="{Binding AddGarnishCommand}"
                 Style="{StaticResource AddButton}" />
         </StackPanel>
