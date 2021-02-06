@@ -44,11 +44,11 @@
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Vertical" />
                 </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.Template>
-                <ControlTemplate TargetType="{x:Type ItemsControl}">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <ItemsPresenter />
+            </ItemsControl.ItemsPanel>             
+            <ItemsControl.Template>                 
+                <ControlTemplate TargetType="{x:Type ItemsControl}">                     
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">                         
+                        <ItemsPresenter />                     
                     </ScrollViewer>
                 </ControlTemplate>
             </ItemsControl.Template>
