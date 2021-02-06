@@ -8,7 +8,7 @@
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
-    Margin="-200,0"
+    Margin="-200 0"
     design:DataContext="{design:DesignInstance viewModels:GarnishSelectViewModel}"
     mc:Ignorable="design">
 
@@ -19,7 +19,7 @@
     <Grid
         MinHeight="200"
         MaxHeight="600"
-        Margin="0,10,0,0"
+        Margin="0 10 0 0"
         HorizontalAlignment="Center">
 
         <Grid.RowDefinitions>
@@ -67,7 +67,7 @@
                 <icons:PackIconModern Kind="Check" Style="{StaticResource BigIcon}" />
             </Button>
             <Button
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding CloseCommand}"
                 Style="{StaticResource CancelButton}" />
 
