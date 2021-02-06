@@ -1,7 +1,12 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
 using Cooking.Data.Model;
 using Cooking.ServiceLayer;
-using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Events;
 using Cooking.WPF.Services;
@@ -9,12 +14,7 @@ using Cooking.WPF.Views;
 using Prism.Events;
 using Prism.Regions;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using WPF.Commands;
 
 namespace Cooking.WPF.ViewModels
 {

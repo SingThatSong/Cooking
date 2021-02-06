@@ -33,232 +33,100 @@
             Application Entry Point.
             </summary>
         </member>
-        <member name="T:Cooking.WPF.Commands.AsyncDelegateCommand">
+        <member name="T:Cooking.Consts">
             <summary>
-            ICommand implementation which force execution on separate thread.
+            Collection of project's constants.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand.#ctor(System.Func{System.Threading.Tasks.Task},System.Func{System.Boolean},System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
+        <member name="F:Cooking.Consts.TagSymbol">
             <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.AsyncDelegateCommand"/> class.
-            </summary>
-            <param name="execute">Function to execute on separate thread.</param>
-            <param name="canExecute">Function to determine if <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand.execute"/> can be executed.</param>
-            <param name="executeOnce">Execute function only once, after that <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand.canExecute"/> would return false regardless.</param>
-            <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand.canExecute"/> would return false.</param>
-            <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
-            <param name="forceExecutionOnSeparateThread">A value indicating whether Execute must be forced to run on a non-UI thread.</param>
-            <param name="exceptionHandler">An exception handler function.</param>
-        </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand.CanExecuteAsyncInternal(System.Object)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand.ExecuteAsyncInternal(System.Object)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Cooking.WPF.Commands.AsyncDelegateCommandBase">
-            <summary>
-            ICommand implementation for WPF bindings.
+            Symbol for a tag search.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommandBase.#ctor(System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
+        <member name="F:Cooking.Consts.IngredientSymbol">
             <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.AsyncDelegateCommandBase"/> class.
-            </summary>
-            <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution CanExecute would return false.</param>
-            <param name="executeOnce">Execute function only once, after that CanExecute would return false regardless.</param>
-            <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
-            <param name="forceExecutionOnSeparateThread">A value indicating whether Execute must be forced to run on a non-UI thread.</param>
-            <param name="exceptionHandler">An exception handler function.</param>
-        </member>
-        <member name="P:Cooking.WPF.Commands.AsyncDelegateCommandBase.FreezeWhenBusy">
-            <summary>
-            Gets a value indicating whether command would return false when called CanExecute.
+            Symbol for a ingredient search.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommandBase.CanExecuteInternal(System.Object)">
+        <member name="F:Cooking.Consts.NameSymbol">
             <summary>
-            Implementation of <see cref="T:Cooking.WPF.Commands.DelegateCommandBase" /> CanExecuteInternal.
-            </summary>
-            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
-            <returns>If this command can be executed.</returns>
-        </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommandBase.CanExecuteAsyncInternal(System.Object)">
-            <summary>
-            Async means internal implementation for Async* commands.
-            </summary>
-            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
-            <returns>Returns value which indicates whether command can be executed.</returns>
-        </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommandBase.ExecuteInternal(System.Object)">
-            <summary>
-            Implementation of <see cref="T:Cooking.WPF.Commands.DelegateCommandBase" /> ExecuteInternal.
-            </summary>
-            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
-        </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommandBase.ExecuteAsyncInternal(System.Object)">
-            <summary>
-            Async means internal implementation for Async* commands.
-            </summary>
-            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
-            <returns>Awaitable task.</returns>
-        </member>
-        <member name="T:Cooking.WPF.Commands.AsyncDelegateCommand`1">
-            <summary>
-            ICommand implementation which force execution on separate thread. Takes arbitrary paremeter as input.
-            </summary>
-            <typeparam name="T">Command parameter type.</typeparam>
-        </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand`1.#ctor(System.Func{`0,System.Threading.Tasks.Task},System.Func{`0,System.Boolean},System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
-            <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.AsyncDelegateCommand`1"/> class.
-            </summary>
-            <param name="execute">Function to execute on separate thread.</param>
-            <param name="canExecute">Function to determine if <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand`1.execute"/> can be executed.</param>
-            <param name="executeOnce">Execute function only once, after that <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand`1.canExecute"/> would return false regardless.</param>
-            <param name="freezeWhenBusy">UI not blocked when function executed, so user can trigger function multiple times at once. This will prevent it: during execution <see cref="F:Cooking.WPF.Commands.AsyncDelegateCommand`1.canExecute"/> would return false.</param>
-            <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
-            <param name="forceExecutionOnSeparateThread">A value indicating whether Execute must be forced to run on a non-UI thread.</param>
-            <param name="exceptionHandler">An exception handler function.</param>
-        </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand`1.CanExecuteAsyncInternal(System.Object)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Cooking.WPF.Commands.AsyncDelegateCommand`1.ExecuteAsyncInternal(System.Object)">
-            <inheritdoc/>
-        </member>
-        <member name="T:Cooking.WPF.Commands.DelegateCommand">
-            <summary>
-            DelegateCommand without parameters.
+            Symbol for a name search.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommand.#ctor(System.Action,System.Func{System.Boolean},System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
+        <member name="F:Cooking.Consts.ImageWidth">
             <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.DelegateCommand"/> class.
-            </summary>
-            <param name="execute">Method, which is executed on Execute method.</param>
-            <param name="canExecute">Defines if method can be executed.</param>
-            <param name="executeOnce">Defines if method could be executed just once (useful for event bindings, such as OnLoading).</param>
-            <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
-            <param name="exceptionHandler">An exception handler function.</param>
-        </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommand.ExecuteInternal(System.Object)">
-            <summary>
-            Implementation of <see cref="T:Cooking.WPF.Commands.DelegateCommandBase" /> ExecuteInternal.
-            </summary>
-            <param name="parameter">Parameter, provided in CommandParameter attribute. Ignored.</param>
-        </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommand.CanExecuteInternal(System.Object)">
-            <summary>
-            Implementation of <see cref="T:Cooking.WPF.Commands.DelegateCommandBase" /> CanExecuteInternal.
-            </summary>
-            <param name="parameter">Parameter, provided in CommandParameter attribute. Ignored.</param>
-            <returns>If this command can be executed.</returns>
-        </member>
-        <member name="T:Cooking.WPF.Commands.DelegateCommandBase">
-            <summary>
-            ICommand implementation for WPF bindings.
+            Maximum image width.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.#ctor(System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
+        <member name="F:Cooking.Consts.YearDays">
             <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.DelegateCommandBase"/> class.
-            </summary>
-            <param name="executeOnce">Execute function only once, after that CanExecute would return false regardless.</param>
-            <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
-            <param name="exceptionHandler">An exception handler function.</param>
-        </member>
-        <member name="E:Cooking.WPF.Commands.DelegateCommandBase.CanExecuteChanged">
-            <summary>
-            https://stackoverflow.com/a/7353704/1134449
+            Days in a year.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.Commands.DelegateCommandBase.GlobalExceptionHandler">
+        <member name="F:Cooking.Consts.MonthDays">
             <summary>
-            Gets or sets a global exception handler function.
+            Days in a month.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.Commands.DelegateCommandBase.ExecuteOnce">
+        <member name="F:Cooking.Consts.WeekDays">
             <summary>
-            Gets or sets a value indicating whether command should be executed only once. Is set in child classes.
+            Days in a week.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.Commands.DelegateCommandBase.Executed">
+        <member name="F:Cooking.Consts.HowManyAlternativesToShow">
             <summary>
-            Gets or sets a value indicating whether command was executed. Needed when <see cref="P:Cooking.WPF.Commands.DelegateCommandBase.ExecuteOnce"/> is true.
+            How many alternatives to show in recommendations.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.Commands.DelegateCommandBase.CanExecuteSpecified">
+        <member name="F:Cooking.Consts.Megabyte">
             <summary>
-            Gets or sets a value indicating whether CanExecute delegate or its substitutions are specified.
-            <see cref="T:Cooking.WPF.Commands.DelegateCommandBase"/> knows nothing about CanExecute delegates in child classes - they are of different types and set in constructors.
-            Instead of delegate, it may be other indicators, such as one-time execution.
+            Megabyte constant.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.Commands.DelegateCommandBase.RefreshAutomatically">
+        <member name="F:Cooking.Consts.ImageFolder">
             <summary>
-            Gets or sets a value indicating whether CanExecute should be refreshed automatically or manually with <see cref="M:Cooking.WPF.Commands.DelegateCommandBase.RaiseCanExecuteChanged"/>.
+            Images folder.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.CanExecute(System.Object)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.Execute(System.Object)">
-            <inheritdoc/>
-        </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.RaiseCanExecuteChanged">
+        <member name="F:Cooking.Consts.LocalizationFolder">
             <summary>
-            Manually raise CanExecuteChanged command.
+            Localization folder.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.HandleException(System.Exception)">
+        <member name="F:Cooking.Consts.MainContentRegion">
             <summary>
-            Method to execute when exception is thrown on <see cref="M:Cooking.WPF.Commands.DelegateCommandBase.Execute(System.Object)"/>.
+            Prism main content region.
             </summary>
-            <param name="exception">Occured exception.</param>
-            <returns>Whether exception was handled.</returns>
         </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.CanExecuteInternal(System.Object)">
+        <member name="F:Cooking.Consts.ReloadWeekParameter">
             <summary>
-            Provide implementation of CanExecute, keep it to buisness logic.
+            Parameter for navigating to <see cref="T:Cooking.WPF.ViewModels.WeekViewModel"/> indicating whether current week should be reloaded.
             </summary>
-            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
-            <returns>If this command can be executed.</returns>
         </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommandBase.ExecuteInternal(System.Object)">
+        <member name="F:Cooking.Consts.TagNameParameter">
             <summary>
-            Provide implementation of Execute, keep it to buisness logic.
+            Parameter for navigating to <see cref="T:Cooking.WPF.Views.RecipeListView"/> indicating tag to filter.
             </summary>
-            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
         </member>
-        <member name="T:Cooking.WPF.Commands.DelegateCommand`1">
+        <member name="F:Cooking.Consts.LocalizationFilename">
             <summary>
-            Generic DelegateCommand where T is a parameter type.
+            Localization file name without extentions.
             </summary>
-            <typeparam name="T">Command parameter type.</typeparam>
         </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommand`1.#ctor(System.Action{`0},System.Func{`0,System.Boolean},System.Boolean,System.Boolean,System.Func{System.Exception,System.Boolean})">
+        <member name="F:Cooking.Consts.AppSettingsFilename">
             <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.Commands.DelegateCommand`1"/> class.
+            Settings filename.
             </summary>
-            <param name="execute">Method, which is executed on Execute method.</param>
-            <param name="canExecute">Defines if method can be executed.</param>
-            <param name="executeOnce">Defines if method could be executed just once (useful for event bindings, such as OnLoading).</param>
-            <param name="refreshAutomatically">A value indicating whether CanExecute should be refreshed automatically or manually.</param>
-            <param name="exceptionHandler">An exception handler function.</param>
         </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommand`1.ExecuteInternal(System.Object)">
+        <member name="F:Cooking.Consts.LogFilename">
             <summary>
-            Implementation of <see cref="T:Cooking.WPF.Commands.DelegateCommandBase" /> ExecuteInternal.
+            Settings filename.
             </summary>
-            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
         </member>
-        <member name="M:Cooking.WPF.Commands.DelegateCommand`1.CanExecuteInternal(System.Object)">
+        <member name="F:Cooking.Consts.LocalizationNotFound">
             <summary>
-            Implementation of <see cref="T:Cooking.WPF.Commands.DelegateCommandBase" /> CanExecuteInternal.
+            Localization error given to user.
             </summary>
-            <param name="parameter">Parameter, provided in CommandParameter attribute. May be ignored.</param>
-            <returns>If this command can be executed.</returns>
         </member>
         <member name="T:Cooking.WPF.Controls.ListBoxMultiselectionBehaviour">
             <summary>
@@ -2927,101 +2795,6 @@
         <member name="M:Cooking.WPF.Views.WeekView.InitializeComponent">
             <summary>
             InitializeComponent
-            </summary>
-        </member>
-        <member name="T:Cooking.Consts">
-            <summary>
-            Collection of project's constants.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.TagSymbol">
-            <summary>
-            Symbol for a tag search.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.IngredientSymbol">
-            <summary>
-            Symbol for a ingredient search.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.NameSymbol">
-            <summary>
-            Symbol for a name search.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.ImageWidth">
-            <summary>
-            Maximum image width.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.YearDays">
-            <summary>
-            Days in a year.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.MonthDays">
-            <summary>
-            Days in a month.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.WeekDays">
-            <summary>
-            Days in a week.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.HowManyAlternativesToShow">
-            <summary>
-            How many alternatives to show in recommendations.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.Megabyte">
-            <summary>
-            Megabyte constant.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.ImageFolder">
-            <summary>
-            Images folder.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.LocalizationFolder">
-            <summary>
-            Localization folder.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.MainContentRegion">
-            <summary>
-            Prism main content region.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.ReloadWeekParameter">
-            <summary>
-            Parameter for navigating to <see cref="T:Cooking.WPF.ViewModels.WeekViewModel"/> indicating whether current week should be reloaded.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.TagNameParameter">
-            <summary>
-            Parameter for navigating to <see cref="T:Cooking.WPF.Views.RecipeListView"/> indicating tag to filter.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.LocalizationFilename">
-            <summary>
-            Localization file name without extentions.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.AppSettingsFilename">
-            <summary>
-            Settings filename.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.LogFilename">
-            <summary>
-            Settings filename.
-            </summary>
-        </member>
-        <member name="F:Cooking.Consts.LocalizationNotFound">
-            <summary>
-            Localization error given to user.
             </summary>
         </member>
         <member name="T:Cooking.MapperService">

@@ -1,7 +1,13 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Documents;
+using AutoMapper;
 using Cooking.Data.Model.Plan;
 using Cooking.ServiceLayer;
-using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Events;
 using Cooking.WPF.Services;
@@ -13,13 +19,7 @@ using Prism.Events;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Documents;
+using WPF.Commands;
 
 namespace Cooking.WPF.ViewModels
 {
@@ -69,7 +69,7 @@ namespace Cooking.WPF.ViewModels
             this.regionManager = regionManager;
 
             CloseCommand = new DelegateCommand(Close);
-            ApplyChangesCommand = new AsyncDelegateCommand(ApplyChangesAsync, CanApplyChanges, forceExecutionOnSeparateThread: false);
+            ApplyChangesCommand = new AsyncDelegateCommand(ApplyChangesAsync, CanApplyChanges);
             DeleteRecipeCommand = new AsyncDelegateCommand<Guid>(DeleteRecipeAsync, canExecute: CanDeleteRecipe);
 
             ImageSearchCommand = new AsyncDelegateCommand(ImageSearchAsync);
@@ -79,16 +79,16 @@ namespace Cooking.WPF.ViewModels
             RemoveTagCommand = new DelegateCommand<TagEdit>(RemoveTag);
             ViewTagCommand = new DelegateCommand<TagEdit>(ViewTag);
 
-            AddIngredientGroupCommand = new AsyncDelegateCommand(AddIngredientGroupAsync, forceExecutionOnSeparateThread: false);
+            AddIngredientGroupCommand = new AsyncDelegateCommand(AddIngredientGroupAsync);
             EditIngredientGroupCommand = new AsyncDelegateCommand<IngredientGroupEdit>(EditIngredientGroupAsync);
-            AddIngredientToGroupCommand = new AsyncDelegateCommand<IngredientGroupEdit>(AddIngredientToGroupAsync, forceExecutionOnSeparateThread: false);
+            AddIngredientToGroupCommand = new AsyncDelegateCommand<IngredientGroupEdit>(AddIngredientToGroupAsync);
             RemoveIngredientGroupCommand = new DelegateCommand<IngredientGroupEdit>(RemoveIngredientGroup);
 
-            AddIngredientCommand = new AsyncDelegateCommand(AddIngredientAsync, forceExecutionOnSeparateThread: false);
+            AddIngredientCommand = new AsyncDelegateCommand(AddIngredientAsync);
             EditIngredientCommand = new AsyncDelegateCommand<RecipeIngredientEdit>(EditIngredientAsync);
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
 
-            AddGarnishCommand = new AsyncDelegateCommand(AddGarnish, forceExecutionOnSeparateThread: false);
+            AddGarnishCommand = new AsyncDelegateCommand(AddGarnish);
             RemoveGarnishCommand = new DelegateCommand<RecipeEdit>(RemoveGarnish);
         }
 
@@ -448,11 +448,11 @@ namespace Cooking.WPF.ViewModels
 
         private async Task OnRecipeDeletedAsync(Guid recipeID)
         {
-            await recipeService.DeleteAsync(recipeID);
+            // Journal methods must be called from UI thread
+            await recipeService.DeleteAsync(recipeID).ConfigureAwait(continueOnCapturedContext: true);
             eventAggregator.GetEvent<RecipeDeletedEvent>().Publish(recipeID);
 
-            // Journal methods must be called from UI thread
-            Application.Current.Dispatcher.Invoke(() => journal?.GoBack());
+            journal?.GoBack();
         }
     }
 }

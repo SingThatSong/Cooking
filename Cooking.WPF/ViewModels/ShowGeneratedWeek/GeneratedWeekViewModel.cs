@@ -1,16 +1,16 @@
-﻿using Cooking.ServiceLayer;
-using Cooking.WPF.Commands;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using Cooking.ServiceLayer;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using Cooking.WPF.Views;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+using WPF.Commands;
 
 namespace Cooking.WPF.ViewModels
 {
@@ -136,9 +136,8 @@ namespace Cooking.WPF.ViewModels
             var daysDictionary = Days!.ToDictionary(x => x.DayOfWeek, x => (x.SpecificRecipe?.ID ?? x.Recipe?.ID, x.Garnish?.ID));
             await dayService.CreateWeekAsync(WeekStart, daysDictionary);
 
-            Application.Current.Dispatcher.Invoke(() => regionManager.NavigateMain(
-                                                            view: nameof(WeekView),
-                                                            parameters: (Consts.ReloadWeekParameter, true)));
+            regionManager.NavigateMain(view: nameof(WeekView),
+                                       parameters: (Consts.ReloadWeekParameter, true));
         }
 
         private void ShowRecipe(Guid recipeID)

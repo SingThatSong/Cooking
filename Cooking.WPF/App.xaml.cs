@@ -2,7 +2,6 @@
 using Cooking.Data.Context;
 using Cooking.ServiceLayer;
 using Cooking.WPF;
-using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using Cooking.WPF.ViewModels;
@@ -26,6 +25,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
+using WPF.Commands;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 

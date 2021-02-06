@@ -1,14 +1,4 @@
-﻿using AutoMapper;
-using Cooking.Data.Model;
-using Cooking.ServiceLayer;
-using Cooking.WPF.Commands;
-using Cooking.WPF.DTO;
-using Cooking.WPF.Services;
-using Cooking.WPF.Views;
-using Prism.Ioc;
-using Prism.Regions;
-using PropertyChanged;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -16,6 +6,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using AutoMapper;
+using Cooking.Data.Model;
+using Cooking.ServiceLayer;
+using Cooking.WPF.DTO;
+using Cooking.WPF.Services;
+using Cooking.WPF.Views;
+using Prism.Ioc;
+using Prism.Regions;
+using PropertyChanged;
+using WPF.Commands;
 
 namespace Cooking.WPF.ViewModels
 {

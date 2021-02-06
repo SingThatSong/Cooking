@@ -1,9 +1,9 @@
-﻿using Cooking.ServiceLayer;
-using Cooking.WPF.Commands;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Cooking.ServiceLayer;
 using Prism.Regions;
 using PropertyChanged;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using WPF.Commands;
 
 namespace Cooking.WPF.ViewModels
 {

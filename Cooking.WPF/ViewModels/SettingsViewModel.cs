@@ -1,14 +1,14 @@
-﻿using ControlzEx.Theming;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+using ControlzEx.Theming;
 using Cooking.ServiceLayer;
-using Cooking.WPF.Commands;
 using Cooking.WPF.Services;
 using Microsoft.Extensions.Options;
 using PropertyChanged;
 using Serilog;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Windows;
+using WPF.Commands;
 
 namespace Cooking.WPF.ViewModels
 {

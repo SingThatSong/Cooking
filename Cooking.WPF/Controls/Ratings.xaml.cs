@@ -1,5 +1,5 @@
 ﻿using Bindables;
-using Cooking.WPF.Commands;
+using WPF.Commands;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -59,22 +59,22 @@ namespace Cooking.WPF.Controls
         /// <summary>
         /// Gets command to clear rating value.
         /// </summary>
-        public DelegateCommand ClearValueCommand     => new DelegateCommand(() => RatingValue = null);
+        public DelegateCommand ClearValueCommand     => new(() => RatingValue = null);
 
         /// <summary>
         /// Gets command to set value on click.
         /// </summary>
-        public DelegateCommand<int> ClickCommand     => new DelegateCommand<int>(i => RatingValue = i);
+        public DelegateCommand<int> ClickCommand     => new(i => RatingValue = i);
 
         /// <summary>
         /// Gets command to set preview value on MouseOver.
         /// </summary>
-        public DelegateCommand<int> MouseOverCommand => new DelegateCommand<int>(i => RatingValuePreview = i);
+        public DelegateCommand<int> MouseOverCommand => new(i => RatingValuePreview = i);
 
         /// <summary>
         /// Gets command to erase preview value on MouseLeave.
         /// </summary>
-        public DelegateCommand MouseLeaveCommand     => new DelegateCommand(() => RatingValuePreview = null);
+        public DelegateCommand MouseLeaveCommand     => new(() => RatingValuePreview = null);
 
         private static void OnRatingPreviewChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {

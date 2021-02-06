@@ -1,16 +1,4 @@
-﻿using AutoMapper;
-using Cooking.Data.Model;
-using Cooking.ServiceLayer;
-using Cooking.WPF.Commands;
-using Cooking.WPF.DTO;
-using Cooking.WPF.Events;
-using Cooking.WPF.Services;
-using Cooking.WPF.Views;
-using Prism.Events;
-using Prism.Ioc;
-using Prism.Regions;
-using PropertyChanged;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -20,6 +8,18 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using AutoMapper;
+using Cooking.Data.Model;
+using Cooking.ServiceLayer;
+using Cooking.WPF.DTO;
+using Cooking.WPF.Events;
+using Cooking.WPF.Services;
+using Cooking.WPF.Views;
+using Prism.Events;
+using Prism.Ioc;
+using Prism.Regions;
+using PropertyChanged;
+using WPF.Commands;
 
 namespace Cooking.WPF.ViewModels
 {
@@ -171,7 +171,7 @@ namespace Cooking.WPF.ViewModels
             RecipeListViewDto? existingRecipe = Recipies!.FirstOrDefault(x => x.ID == id);
             if (existingRecipe != null)
             {
-                Recipies.Remove(existingRecipe);
+                Recipies?.Remove(existingRecipe);
             }
         }
 
@@ -191,14 +191,12 @@ namespace Cooking.WPF.ViewModels
             List<RecipeListViewDto> recipies = recipeService.GetMapped<RecipeListViewDto>(x => !x.Tags!.Any(t => t.IsInMenu));
             Recipies = new ObservableCollection<RecipeListViewDto>(recipies);
 
-            Application.Current.Dispatcher.Invoke(() =>
+            RecipiesSource.Source = Recipies;
+            if (FilterText != null)
             {
-                RecipiesSource.Source = Recipies;
-                if (FilterText != null)
-                {
-                    UpdateRecipiesSource();
-                }
-            });
+                UpdateRecipiesSource();
+            }
+
             return Task.CompletedTask;
         }
 

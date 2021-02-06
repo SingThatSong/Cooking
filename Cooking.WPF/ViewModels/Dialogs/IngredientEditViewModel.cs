@@ -1,16 +1,16 @@
-﻿using Cooking.Data.Model;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Cooking.Data.Model;
 using Cooking.ServiceLayer;
-using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Events;
 using Cooking.WPF.Services;
 using Cooking.WPF.Validation;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Validar;
+using WPF.Commands;
 
 namespace Cooking.WPF.ViewModels
 {
@@ -45,8 +45,7 @@ namespace Cooking.WPF.ViewModels
             Ingredient = ingredient ?? new IngredientEdit();
 
             AllIngredientNames = ingredientService.GetProperty(x => x.Name, filter: x => x.Name != null)
-                                                  .Select(x => x!)
-                                                  .ToList();
+                                                  .ConvertAll(x => x!);
 
             LoadedCommand = new DelegateCommand(OnLoaded);
             DeleteIngredientCommand = new DelegateCommand<Guid>(DeleteIngredientAsync);

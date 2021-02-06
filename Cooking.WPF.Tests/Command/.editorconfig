@@ -1,6 +1,0 @@
-[*.cs]
-# top-most EditorConfig file
-root = false
-
-# Tests should be self-documented
-dotnet_diagnostic.SA1600.severity = none

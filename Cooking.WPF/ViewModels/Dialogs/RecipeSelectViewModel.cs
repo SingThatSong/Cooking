@@ -40,7 +40,7 @@ namespace Cooking.WPF.ViewModels
             this.recipeFiltrator = recipeFiltrator;
             if (garnishSelect && day != null)
             {
-                var possibleGarnishes = day.Recipe!.Garnishes.Select(x => x.ID).ToList();
+                List<Guid> possibleGarnishes = day.Recipe!.Garnishes.ConvertAll(x => x.ID);
                 recipies = recipeService.GetProjected<RecipeListViewDto>(x => possibleGarnishes.Contains(x.ID));
             }
             else

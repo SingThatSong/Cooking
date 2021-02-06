@@ -1,16 +1,16 @@
-﻿using Cooking.Data.Model;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
+using Cooking.Data.Model;
 using Cooking.ServiceLayer;
-using Cooking.WPF.Commands;
 using Cooking.WPF.DTO;
 using Cooking.WPF.Services;
 using Cooking.WPF.Validation;
 using Cooking.WPF.Views;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
+using WPF.Commands;
 
 namespace Cooking.WPF.ViewModels
 {

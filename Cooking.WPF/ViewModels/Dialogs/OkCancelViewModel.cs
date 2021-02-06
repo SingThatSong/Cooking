@@ -1,7 +1,7 @@
-﻿using Cooking.WPF.Commands;
-using Cooking.WPF.Validation;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Threading.Tasks;
+using Cooking.WPF.Validation;
+using WPF.Commands;
 
 namespace Cooking.WPF.ViewModels
 {
