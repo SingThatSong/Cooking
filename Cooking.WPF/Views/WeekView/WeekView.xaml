@@ -62,22 +62,24 @@
         </StackPanel>
 
         <!--  Week days  -->
-        <ItemsControl
+        <ScrollViewer
             Grid.Row="1"
             Grid.Column="1"
-            ItemsSource="{Binding CurrentWeek}"
-            TextElement.FontSize="15">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <local:DayControl />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+            VerticalScrollBarVisibility="Auto"
+            Visibility="{Binding CurrentWeek, Converter={StaticResource IsNotNullToVisibilityConverter}}">
+            <ItemsControl ItemsSource="{Binding CurrentWeek}" TextElement.FontSize="15">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:DayControl />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
 
         <!--  Week actions  -->
         <StackPanel
