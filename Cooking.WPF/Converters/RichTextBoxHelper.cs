@@ -13,8 +13,6 @@ namespace Cooking.WPF.Converters
     /// </summary>
     [SuppressMessage("Style", "RCS1163", Justification = "Parameter is required by AttachedProperty")]
     [SuppressMessage("Style", "IDE0060", Justification = "Parameter is required by AttachedProperty")]
-    [SuppressMessage("Style", "CA1801", Justification = "Parameter is required by AttachedProperty")]
-    [SuppressMessage("Style", "CA1721", Justification = "Names are intended by AttachedProperty")]
     public sealed class RichTextBoxHelper
     {
         private enum RichTextboxStatus
