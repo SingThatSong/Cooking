@@ -381,7 +381,7 @@ namespace Cooking.ServiceLayer
         protected override IQueryable<Day> GetFullGraph(IQueryable<Day> set)
         {
             // Includes for database querying, null-checks are not applicable.
-#pragma warning disable CS8602, CS8604
+#pragma warning disable CS8602
             return set.Include(x => x.Dinner)
                         .ThenInclude(x => x.IngredientGroups)
                           .ThenInclude(x => x.Ingredients)
@@ -398,7 +398,7 @@ namespace Cooking.ServiceLayer
                           .ThenInclude(x => x.MeasureUnit)
                       .Include(x => x.Dinner)
                         .ThenInclude(x => x.Tags);
-#pragma warning restore CS8602, CS8604
+#pragma warning restore CS8602
         }
 
         /// <summary>

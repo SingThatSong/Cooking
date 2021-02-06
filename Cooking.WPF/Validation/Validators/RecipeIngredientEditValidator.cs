@@ -22,7 +22,7 @@ namespace Cooking.WPF.DTO
                 .NotEmpty()
                 .When(x => x.MeasureUnit != null)
                 .WithMessage(localization["SpecifyAmountIfMeasureUnit"])
-                .Matches($@"^[\d.]+$")
+                .Matches(@"^[\d.,]+$")
                 .When(x => !string.IsNullOrEmpty(x.Amount))
                 .WithMessage(localization["ShouldBeNumber"]);
 

@@ -35,7 +35,7 @@ namespace Cooking.WPF.Validation
         /// <param name="obj">Object to validate.</param>
         /// <param name="forceValidation">Parameter indicating whether this method should trigger object's validation method instead of just checking it's status.</param>
         /// <returns>Valie indicating if object is valid.</returns>
-        public static bool IsValid(this object obj, bool forceValidation = false)
+        public static bool IsValid(this object? obj, bool forceValidation = false)
         {
             if (obj is INotifyDataErrorInfo errorInfo)
             {
