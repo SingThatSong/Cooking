@@ -61,7 +61,7 @@
                                 <ColumnDefinition Width="30" />
                             </Grid.ColumnDefinitions>
                             <TextBlock
-                                Margin="10,0"
+                                Margin="10 0"
                                 VerticalAlignment="Center"
                                 FontSize="14"
                                 SnapsToDevicePixels="True"
