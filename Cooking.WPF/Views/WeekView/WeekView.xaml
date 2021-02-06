@@ -34,15 +34,15 @@
         <!--  Week header  -->
         <StackPanel
             Grid.Column="1"
-            Margin="0,10,0,0"
+            Margin="0 10 0 0"
             HorizontalAlignment="Center"
             Orientation="Horizontal"
             TextBlock.FontSize="15">
             <TextBlock Text="{lex:Loc Week}" />
-            <TextBlock Margin="5,0,0,0" Text="{Binding WeekStart, StringFormat={}dd.MM}" />
-            <TextBlock Margin="5,0" Text="-" />
+            <TextBlock Margin="5 0 0 0" Text="{Binding WeekStart, StringFormat={}dd.MM}" />
+            <TextBlock Margin="5 0" Text="-" />
             <TextBlock Text="{Binding WeekEnd, StringFormat={}dd.MM.yyyy}" />
-            <TextBlock Margin="5,0" Text="{lex:Loc Dinners}" />
+            <TextBlock Margin="5 0" Text="{lex:Loc Dinners}" />
         </StackPanel>
 
         <!--  In case when week do not exist, prompt to create week  -->
@@ -55,7 +55,7 @@
             Visibility="{Binding CurrentWeek, Converter={StaticResource IsNullToVisibilityConverter}}">
             <TextBlock FontSize="25" Text="{lex:Loc NoScheduleForWeek}" />
             <Button
-                Margin="0,20,0,0"
+                Margin="0 20 0 0"
                 Command="{Binding CreateNewWeekCommand}"
                 Content="{lex:Loc CreateSchedule}" />
 
@@ -85,7 +85,7 @@
         <StackPanel
             Grid.Row="3"
             Grid.Column="1"
-            Margin="0,0,0,20"
+            Margin="0 0 0 20"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
             Orientation="Horizontal"
@@ -100,7 +100,7 @@
                     Kind="Shopping" />
             </Button>
             <Button
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding DeleteCommand}"
                 Style="{StaticResource DeleteButton}" />
         </StackPanel>

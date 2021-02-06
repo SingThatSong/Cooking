@@ -26,7 +26,7 @@
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
     </UserControl.Resources>
 
-    <Grid Margin="20,10">
+    <Grid Margin="20 10">
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition />
@@ -88,7 +88,7 @@
 
                                     <!--  Get another recipe for a filter  -->
                                     <Button
-                                        Margin="5,0,0,0"
+                                        Margin="5 0 0 0"
                                         VerticalAlignment="Center"
                                         BorderThickness="0"
                                         Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.GetAlternativeRecipeCommand}"
@@ -118,7 +118,7 @@
                                     <Ellipse
                                         Width="15"
                                         Height="15"
-                                        Margin="10,5,0,0"
+                                        Margin="10 5 0 0"
                                         VerticalAlignment="Top"
                                         ToolTip="{Binding ElementName=CalorieTypeNameProxy, Path=Result}">
                                         <Ellipse.Style>
@@ -165,7 +165,7 @@
                                     <Ellipse
                                         Width="15"
                                         Height="15"
-                                        Margin="10,5,0,0"
+                                        Margin="10 5 0 0"
                                         VerticalAlignment="Top"
                                         ToolTip="{Binding ElementName=SpecificCalorieTypeNameProxy, Path=Result}">
                                         <Ellipse.Style>
@@ -249,7 +249,7 @@
 
                                     <!--  Get another garnish for a filter  -->
                                     <Button
-                                        Margin="5,0,0,0"
+                                        Margin="5 0 0 0"
                                         VerticalAlignment="Center"
                                         BorderThickness="0"
                                         Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=DataContext.GetAlternativeGarnishCommand}"
@@ -279,7 +279,7 @@
                                     <Ellipse
                                         Width="15"
                                         Height="15"
-                                        Margin="10,5,0,0"
+                                        Margin="10 5 0 0"
                                         VerticalAlignment="Top"
                                         ToolTip="{Binding ElementName=CalorieTypeNameProxy, Path=Result}">
                                         <Ellipse.Style>
@@ -336,11 +336,11 @@
                     Kind="Return" />
             </Button>
             <Button
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding OkCommand}"
                 Style="{StaticResource OkButton}" />
             <Button
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding CloseCommand}"
                 Style="{StaticResource CancelButton}" />
         </StackPanel>

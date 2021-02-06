@@ -5,7 +5,7 @@
     xmlns:design="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
-    Margin="20,0"
+    Margin="20 0"
     design:DataContext="{design:DesignInstance viewModels:ShoppingCartViewModel}"
     mc:Ignorable="design">
 
@@ -13,7 +13,7 @@
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </UserControl.InputBindings>
 
-    <Grid MinHeight="200" Margin="0,10,0,0">
+    <Grid MinHeight="200" Margin="0 10 0 0">
 
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -24,12 +24,12 @@
         <ItemsControl ItemsSource="{Binding List, Mode=OneTime}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Margin="20,0,0,0" Orientation="Vertical">
+                    <StackPanel Margin="20 0 0 0" Orientation="Vertical">
                         <TextBlock FontSize="20" Text="{Binding IngredientGroupName}" />
                         <ItemsControl ItemsSource="{Binding Ingredients}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Margin="0,10,0,0" Orientation="Vertical">
+                                    <StackPanel Margin="0 10 0 0" Orientation="Vertical">
                                         <TextBlock
                                             FontSize="16"
                                             FontWeight="DemiBold"
@@ -39,7 +39,7 @@
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="{Binding Amount}" />
-                                                        <TextBlock Margin="5,0,0,0" Text="{Binding MeasurementUnit}" />
+                                                        <TextBlock Margin="5 0 0 0" Text="{Binding MeasurementUnit}" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>

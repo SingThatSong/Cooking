@@ -13,7 +13,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:Cooking.Data.Model;assembly=Cooking.Data"
     xmlns:viewModels="clr-namespace:Cooking.WPF.ViewModels"
-    Margin="20,0"
+    Margin="20 0"
     design:DataContext="{design:DesignInstance viewModels:RecipeViewModel}"
     mc:Ignorable="design">
 
@@ -78,7 +78,7 @@
                     <Ellipse
                         Width="15"
                         Height="15"
-                        Margin="10,8,0,0"
+                        Margin="10 8 0 0"
                         VerticalAlignment="Center"
                         ToolTip="{lex:Loc {Binding Recipe.CalorieType, Converter={lex:PrependTypeConverter}}}">
                         <Ellipse.Style>
@@ -144,7 +144,7 @@
 
             <!--  Recipe  -->
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                <Grid Margin="0,10,0,0">
+                <Grid Margin="0 10 0 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition />
@@ -157,7 +157,7 @@
 
                     <Image
                         MaxHeight="150"
-                        Margin="0,0,25,0"
+                        Margin="0 0 25 0"
                         VerticalAlignment="Top"
                         Source="{Binding Recipe.FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
                         Stretch="Uniform" />
@@ -166,7 +166,7 @@
                     <StackPanel Grid.Column="1" Orientation="Vertical">
 
                         <TextBlock
-                            Margin="0,0,0,10"
+                            Margin="0 0 0 10"
                             FontSize="20"
                             TextWrapping="Wrap">
                             <TextBlock.Style>
@@ -196,7 +196,7 @@
                         <ItemsControl ItemsSource="{Binding Recipe.IngredientGroups}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Margin="0,0,0,20" Orientation="Vertical">
+                                    <StackPanel Margin="0 0 0 20" Orientation="Vertical">
                                         <StackPanel
                                             VerticalAlignment="Center"
                                             Orientation="Horizontal"
@@ -218,10 +218,10 @@
                                                                     Height="5"
                                                                     Fill="Gray" />
                                                             </BulletDecorator.Bullet>
-                                                            <TextBlock Margin="5,0,0,0" Text="{Binding Ingredient.Name}" />
+                                                            <TextBlock Margin="5 0 0 0" Text="{Binding Ingredient.Name}" />
                                                         </BulletDecorator>
-                                                        <TextBlock Margin="5,0,0,0" Text="{Binding Amount}" />
-                                                        <TextBlock Margin="5,0,0,0" Text="{Binding MeasureUnit.Name}" />
+                                                        <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
+                                                        <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.Name}" />
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
@@ -256,11 +256,11 @@
                                                     Height="5"
                                                     Fill="Gray" />
                                             </BulletDecorator.Bullet>
-                                            <TextBlock Margin="5,0,0,0" Text="{Binding Ingredient.Name}" />
+                                            <TextBlock Margin="5 0 0 0" Text="{Binding Ingredient.Name}" />
                                         </BulletDecorator>
 
-                                        <TextBlock Margin="5,0,0,0" Text="{Binding Amount}" />
-                                        <TextBlock Margin="5,0,0,0" Text="{Binding MeasureUnit.Name}" />
+                                        <TextBlock Margin="5 0 0 0" Text="{Binding Amount}" />
+                                        <TextBlock Margin="5 0 0 0" Text="{Binding MeasureUnit.Name}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -291,7 +291,7 @@
                                                 Height="5"
                                                 Fill="Gray" />
                                         </BulletDecorator.Bullet>
-                                        <TextBlock Margin="5,0,0,0" Text="{Binding Name}" />
+                                        <TextBlock Margin="5 0 0 0" Text="{Binding Name}" />
                                     </BulletDecorator>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -307,21 +307,21 @@
                     <StackPanel
                         Grid.Row="1"
                         Grid.ColumnSpan="3"
-                        Margin="0,20,0,0"
+                        Margin="0 20 0 0"
                         Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Vertical">
                                 <TextBlock FontSize="15" Text="{lex:Loc Difficulty}" />
                                 <controls:Ratings
-                                    Margin="0,10,0,0"
+                                    Margin="0 10 0 0"
                                     IsEnabled="False"
                                     MaxRating="5"
                                     RatingValue="{Binding Recipe.Difficulty, Mode=TwoWay}" />
                             </StackPanel>
-                            <StackPanel Margin="30,0,0,0" Orientation="Vertical">
+                            <StackPanel Margin="30 0 0 0" Orientation="Vertical">
                                 <TextBlock FontSize="15" Text="{lex:Loc Rating}" />
                                 <controls:Ratings
-                                    Margin="0,10,0,0"
+                                    Margin="0 10 0 0"
                                     IsEnabled="False"
                                     MaxRating="10"
                                     RatingValue="{Binding Recipe.Rating, Mode=TwoWay}" />
@@ -329,7 +329,7 @@
                         </StackPanel>
 
                         <TextBlock
-                            Margin="0,10,0,0"
+                            Margin="0 10 0 0"
                             FontSize="20"
                             Text="{lex:Loc Description}" />
                         <RichTextBox
@@ -339,7 +339,7 @@
                             IsReadOnly="True" />
 
                         <TextBlock
-                            Margin="0,10,0,0"
+                            Margin="0 10 0 0"
                             FontSize="20"
                             Text="{lex:Loc Tags}" />
 
@@ -347,7 +347,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <materialDesign:Chip
-                                        Margin="5,0,0,0"
+                                        Margin="5 0 0 0"
                                         Command="{Binding DataContext.ViewTagCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                         CommandParameter="{Binding}"
                                         Content="{Binding Name}"
@@ -386,13 +386,13 @@
 
                 <!--  Left part with recipe name, source and other simple types  -->
                 <StackPanel Orientation="Vertical">
-                    <StackPanel Margin="10,0" Orientation="Vertical">
+                    <StackPanel Margin="10 0" Orientation="Vertical">
                         <Image
                             MaxHeight="150"
                             Source="{Binding RecipeEdit.FullPath, TargetNullValue={StaticResource DefaultRecipeImg}}"
                             Stretch="Uniform" />
                         <StackPanel
-                            Margin="0,10,0,0"
+                            Margin="0 10 0 0"
                             HorizontalAlignment="Center"
                             Orientation="Horizontal">
                             <Button
@@ -402,23 +402,23 @@
                                 <icons:PackIconModern Kind="Image" Style="{StaticResource SmallIcon}" />
                             </Button>
                             <Button
-                                Margin="10,0,0,0"
+                                Margin="10 0 0 0"
                                 Command="{Binding RemoveImageCommand}"
                                 Style="{StaticResource SmallCancelButton}" />
                         </StackPanel>
                     </StackPanel>
                     <TextBox
                         Name="Focused"
-                        Margin="10,0"
+                        Margin="10 0"
                         materialDesign:HintAssist.Hint="{lex:Loc Name}"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                         Text="{Binding RecipeEdit.Name, UpdateSourceTrigger=PropertyChanged}" />
                     <TextBox
-                        Margin="10,10,10,0"
+                        Margin="10 10 10 0"
                         materialDesign:HintAssist.Hint="{lex:Loc Source}"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                         Text="{Binding RecipeEdit.SourceUrl}" />
-                    <Grid Margin="10,10,10,0" HorizontalAlignment="Center">
+                    <Grid Margin="10 10 10 0" HorizontalAlignment="Center">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
@@ -430,14 +430,14 @@
                         <StackPanel
                             Grid.Column="1"
                             Width="150"
-                            Margin="20,0,0,0"
+                            Margin="20 0 0 0"
                             Orientation="Vertical">
                             <TextBlock FontSize="15" Text="{lex:Loc Rating}" />
                             <controls:Ratings MaxRating="10" RatingValue="{Binding RecipeEdit.Rating, Mode=TwoWay}" />
                         </StackPanel>
                     </Grid>
                     <ComboBox
-                        Margin="10,10,10,0"
+                        Margin="10 10 10 0"
                         materialDesign:HintAssist.Hint="{lex:Loc Type}"
                         materialDesign:TextFieldAssist.HasClearButton="True"
                         ItemsSource="{Binding Source={StaticResource calorieTypes}, Converter={StaticResource enumToDescriptionConverter}}"
@@ -445,7 +445,7 @@
                         Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                         Text="{lex:Loc ChooseCalorieType}" />
                     <TextBox
-                        Margin="10,10,10,0"
+                        Margin="10 10 10 0"
                         materialDesign:HintAssist.Hint="{lex:Loc PortionsCountHeader}"
                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                         Text="{Binding RecipeEdit.PortionsCount, UpdateSourceTrigger=PropertyChanged}" />
@@ -453,7 +453,7 @@
 
                 <!--  Right part with ingredients and tags  -->
                 <StackPanel Grid.Column="1" Orientation="Vertical">
-                    <StackPanel Margin="10,10,10,0" Orientation="Vertical">
+                    <StackPanel Margin="10 10 10 0" Orientation="Vertical">
                         <!--  Ingredients control buttons  -->
                         <StackPanel Orientation="Horizontal">
                             <TextBlock
@@ -461,7 +461,7 @@
                                 Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                 Text="{lex:Loc Ingredients}" />
                             <Button
-                                Margin="5,0,0,0"
+                                Margin="5 0 0 0"
                                 VerticalAlignment="Center"
                                 BorderThickness="0"
                                 Command="{Binding AddIngredientGroupCommand}"
@@ -470,7 +470,7 @@
                                 <icons:PackIconModern Kind="TableAdd" Style="{StaticResource SmallIcon}" />
                             </Button>
                             <Button
-                                Margin="5,0,0,0"
+                                Margin="5 0 0 0"
                                 VerticalAlignment="Center"
                                 BorderThickness="0"
                                 Command="{Binding AddIngredientCommand}"
@@ -484,7 +484,7 @@
                         <ItemsControl ItemsSource="{Binding RecipeEdit.IngredientGroups}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Margin="0,0,0,20" Orientation="Vertical">
+                                    <StackPanel Margin="0 0 0 20" Orientation="Vertical">
                                         <StackPanel
                                             VerticalAlignment="Center"
                                             Orientation="Horizontal"
@@ -492,7 +492,7 @@
                                             TextElement.FontWeight="Bold">
                                             <TextBlock Text="{Binding Name}" />
                                             <Button
-                                                Margin="5,0,0,0"
+                                                Margin="5 0 0 0"
                                                 VerticalAlignment="Center"
                                                 BorderThickness="0"
                                                 Command="{Binding ElementName=RecipeEdit, Path=DataContext.AddIngredientToGroupCommand}"
@@ -500,14 +500,14 @@
                                                 Style="{StaticResource SmallAddButton}" />
 
                                             <Button
-                                                Margin="5,0,0,0"
+                                                Margin="5 0 0 0"
                                                 VerticalAlignment="Center"
                                                 BorderThickness="0"
                                                 Command="{Binding ElementName=RecipeEdit, Path=DataContext.EditIngredientGroupCommand}"
                                                 CommandParameter="{Binding}"
                                                 Style="{StaticResource SmallEditButton}" />
                                             <Button
-                                                Margin="2,0,0,0"
+                                                Margin="2 0 0 0"
                                                 VerticalAlignment="Center"
                                                 BorderThickness="0"
                                                 Command="{Binding ElementName=RecipeEdit, Path=DataContext.RemoveIngredientGroupCommand}"
@@ -524,7 +524,7 @@
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <materialDesign:Chip
-                                                        Margin="0,5,0,0"
+                                                        Margin="0 5 0 0"
                                                         Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.EditIngredientCommand}"
                                                         CommandParameter="{Binding}"
                                                         DeleteCommand="{Binding DataContext.RemoveIngredientCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
@@ -568,7 +568,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <materialDesign:Chip
-                                        Margin="0,5,0,0"
+                                        Margin="0 5 0 0"
                                         Command="{Binding ElementName=IngredientsListEdit, Path=DataContext.EditIngredientCommand}"
                                         CommandParameter="{Binding}"
                                         DeleteCommand="{Binding DataContext.RemoveIngredientCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
@@ -594,24 +594,24 @@
                     </StackPanel>
 
                     <!--  Tags  -->
-                    <StackPanel Margin="10,10,10,0" Orientation="Horizontal">
+                    <StackPanel Margin="10 10 10 0" Orientation="Horizontal">
                         <TextBlock
                             VerticalAlignment="Center"
                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                             Text="{lex:Loc Tags}" />
                         <Button
-                            Margin="5,0,0,0"
+                            Margin="5 0 0 0"
                             VerticalAlignment="Center"
                             BorderThickness="0"
                             Command="{Binding AddTagCommand}"
                             Style="{StaticResource SmallAddButton}" />
                     </StackPanel>
 
-                    <ItemsControl Margin="10,0" ItemsSource="{Binding RecipeEdit.Tags}">
+                    <ItemsControl Margin="10 0" ItemsSource="{Binding RecipeEdit.Tags}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <materialDesign:Chip
-                                    Margin="0,5,0,0"
+                                    Margin="0 5 0 0"
                                     Content="{Binding Name}"
                                     DeleteCommand="{Binding DataContext.RemoveTagCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                     DeleteCommandParameter="{Binding}"
@@ -628,24 +628,24 @@
                     </ItemsControl>
 
                     <!--  Garnishes  -->
-                    <StackPanel Margin="10,10,10,0" Orientation="Horizontal">
+                    <StackPanel Margin="10 10 10 0" Orientation="Horizontal">
                         <TextBlock
                             VerticalAlignment="Center"
                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                             Text="{lex:Loc Garnishes}" />
                         <Button
-                            Margin="5,0,0,0"
+                            Margin="5 0 0 0"
                             VerticalAlignment="Center"
                             BorderThickness="0"
                             Command="{Binding AddGarnishCommand}"
                             Style="{StaticResource SmallAddButton}" />
                     </StackPanel>
 
-                    <ItemsControl Margin="10,0" ItemsSource="{Binding RecipeEdit.Garnishes}">
+                    <ItemsControl Margin="10 0" ItemsSource="{Binding RecipeEdit.Garnishes}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <materialDesign:Chip
-                                    Margin="0,5,0,0"
+                                    Margin="0 5 0 0"
                                     Content="{Binding Name}"
                                     DeleteCommand="{Binding DataContext.RemoveGarnishCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                                     DeleteCommandParameter="{Binding}"
@@ -666,7 +666,7 @@
                 <StackPanel
                     Grid.Row="1"
                     Grid.ColumnSpan="2"
-                    Margin="10,10,10,0"
+                    Margin="10 10 10 0"
                     Orientation="Vertical">
                     <TextBlock FontSize="15" Text="{lex:Loc Description}" />
 
@@ -743,14 +743,14 @@
             </Button>
             <Button
                 Grid.Column="4"
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding Path=DeleteRecipeCommand}"
                 CommandParameter="{Binding Recipe.ID}"
                 Style="{StaticResource DeleteButton}"
                 Visibility="{Binding IsEditing, Converter={StaticResource visibleHiddenConverter}}" />
 
             <ToggleButton
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Foreground="LightGray"
                 IsChecked="{Binding IsEditing}"
                 IsEnabled="{Binding IsRecipeCreation, Converter={StaticResource inverseBoolConverter}}"
@@ -761,7 +761,7 @@
                     Kind="Edit" />
             </ToggleButton>
             <Button
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding CloseCommand}"
                 Style="{StaticResource CancelButton}" />
         </StackPanel>

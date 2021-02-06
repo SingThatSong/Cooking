@@ -75,13 +75,13 @@
                 <icons:PackIconModern Kind="TilesNine" Style="{StaticResource MediumIcon}" />
             </ToggleButton>
             <ToggleButton
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 IsChecked="{Binding IsTilesView, Converter={StaticResource invertedBooleanConverter}}"
                 Style="{StaticResource MediumToggleButton}">
                 <icons:PackIconModern Kind="List" Style="{StaticResource MediumIcon}" />
             </ToggleButton>
             <TextBox
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 mahapps:TextBoxHelper.ClearTextButton="True"
                 mahapps:TextBoxHelper.UseFloatingWatermark="True"
                 mahapps:TextBoxHelper.Watermark="{lex:Loc SearchHelpText}"
@@ -93,7 +93,7 @@
         <wpftk:VirtualizingItemsControl
             Name="RecipiesList"
             Grid.Row="1"
-            Margin="0,5,0,0"
+            Margin="0 5 0 0"
             ItemsSource="{Binding RecipiesSource.View}"
             VirtualizingPanel.ScrollUnit="Pixel"
             VirtualizingPanel.VirtualizationMode="Recycling"
@@ -126,7 +126,7 @@
 
                             <TextBlock
                                 Grid.Row="1"
-                                Margin="8,4"
+                                Margin="8 4"
                                 Text="{Binding Name}"
                                 TextTrimming="WordEllipsis"
                                 TextWrapping="Wrap" />
@@ -144,7 +144,7 @@
         <!--  Recipies as list view  -->
         <DataGrid
             Grid.Row="1"
-            Margin="0,5,0,0"
+            Margin="0 5 0 0"
             AutoGenerateColumns="False"
             Background="Transparent"
             IsReadOnly="True"
@@ -254,11 +254,11 @@
         <!--  Buttons  -->
         <StackPanel
             Grid.Row="2"
-            Margin="0,5,0,0"
+            Margin="0 5 0 0"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding AddRecipeCommand}"
                 Style="{StaticResource AddButton}" />
         </StackPanel>
