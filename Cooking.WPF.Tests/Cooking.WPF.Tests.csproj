@@ -42,7 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cooking.WPF\Cooking.WPF.csproj" />
     <ProjectReference Include="..\Cooking.Data\Cooking.Data.csproj" />
     <ProjectReference Include="..\Cooking.ServiceLayer\Cooking.ServiceLayer.csproj" />
   </ItemGroup>
