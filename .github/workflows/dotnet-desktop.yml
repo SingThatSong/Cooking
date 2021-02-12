@@ -41,7 +41,10 @@ jobs:
     # Execute all unit tests in the solution
      - name: Execute unit tests
        run: dotnet test
-
+       
+    - name: InferSharp
+      uses: microsoft/infersharpaction@v0.2
+  
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
