@@ -87,8 +87,9 @@ namespace Cooking.Data.Context
             modelBuilder.Entity<Day>()
                 .ToTable("Day");
 
+            // TODO: Move to .HasOne(x => x.Dinner) when fixed
             modelBuilder.Entity<Day>()
-                .HasOne(x => x.Dinner)
+                .HasOne(nameof(Day.Dinner))
                 .WithMany()
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -114,16 +115,18 @@ namespace Cooking.Data.Context
             modelBuilder.Entity<Recipe>()
                         .HasMany(r => r.Garnishes);
 
+            // TODO: Move to .HasOne(x => x.Ingredient) and .HasForeignKey(x => x.IngredientID) when fixed
             modelBuilder.Entity<RecipeIngredient>()
-                .HasOne(x => x.Ingredient)
+                .HasOne(nameof(RecipeIngredient.Ingredient))
                 .WithMany()
-                .HasForeignKey(x => x.IngredientID)
+                .HasForeignKey(nameof(RecipeIngredient.IngredientID))
                 .OnDelete(DeleteBehavior.SetNull);
 
+            // TODO: Move to .HasOne(x => x.MeasureUnit) and .HasForeignKey(x => x.MeasureUnitID) when fixed
             modelBuilder.Entity<RecipeIngredient>()
-                        .HasOne(x => x.MeasureUnit)
+                        .HasOne(nameof(RecipeIngredient.MeasureUnit))
                         .WithMany()
-                        .HasForeignKey(x => x.MeasureUnitID);
+                        .HasForeignKey(nameof(RecipeIngredient.MeasureUnitID));
         }
     }
 }

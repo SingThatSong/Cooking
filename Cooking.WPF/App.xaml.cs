@@ -258,7 +258,11 @@ namespace Cooking
             IOptions<AppSettings> configuration = Container.Resolve<IOptions<AppSettings>>();
             var currentCulture = CultureInfo.GetCultureInfo(configuration.Value.Culture);
             LocalizeDictionary.Instance.Culture = currentCulture;
-            Smart.Default.GetFormatterExtension<PluralLocalizationFormatter>().DefaultTwoLetterISOLanguageName = currentCulture.TwoLetterISOLanguageName;
+            PluralLocalizationFormatter? formatter = Smart.Default.GetFormatterExtension<PluralLocalizationFormatter>();
+            if (formatter != null)
+            {
+                formatter.DefaultTwoLetterISOLanguageName = currentCulture.TwoLetterISOLanguageName;
+            }
 
             LocalizeDictionary.Instance.DefaultProvider = Container.Resolve<ILocalizationProvider>();
             LocalizeDictionary.Instance.DisableCache = false;
