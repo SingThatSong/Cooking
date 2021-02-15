@@ -42,7 +42,7 @@
                     Grid.Column="1"
                     Text="{Binding Ingredient.Name, UpdateSourceTrigger=PropertyChanged}" />
 
-                <TextBlock Margin="0,10,0,0" Text="{lex:Loc Type}" />
+                <TextBlock Margin="0 10 0 0" Text="{lex:Loc Type}" />
                 <lex:EnumComboBox
                     mahapps:TextBoxHelper.ClearTextButton="True"
                     ItemsSource="{Binding IngredientTypes}"
@@ -55,12 +55,12 @@
         <!--  Existing garnishes list  -->
         <StackPanel
             Grid.Column="1"
-            Margin="20,0,0,0"
+            Margin="20 0 0 0"
             Orientation="Vertical">
             <TextBlock Text="{lex:Loc MaybeYouWant}" Visibility="{Binding SimilarIngredients, Converter={StaticResource IsNotNullToVisibilityConverter}}" />
             <ItemsControl
                 Grid.Column="1"
-                Margin="10,10,0,0"
+                Margin="10 10 0 0"
                 ItemsSource="{Binding SimilarIngredients}" />
         </StackPanel>
 
@@ -68,18 +68,18 @@
         <StackPanel
             Grid.Row="2"
             Grid.ColumnSpan="2"
-            Margin="0,20,0,0"
+            Margin="0 20 0 0"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button Command="{Binding OkCommand}" Style="{StaticResource OkButton}" />
             <Button
                 Grid.Column="4"
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding Path=DeleteIngredientCommand}"
                 CommandParameter="{Binding Ingredient.ID}"
                 Style="{StaticResource DeleteButton}" />
             <Button
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding CloseCommand}"
                 Style="{StaticResource CancelButton}" />
         </StackPanel>

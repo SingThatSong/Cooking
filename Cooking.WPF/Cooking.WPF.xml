@@ -1673,12 +1673,6 @@
             Gets all options.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.MainWindowViewModel.SelectMenuItemByViewType(System.String)">
-            <summary>
-            Update Selected menu item.
-            </summary>
-            <param name="text">Name of view to activate menu item.</param>
-        </member>
         <member name="T:Cooking.WPF.ViewModels.RecipeListViewModel">
             <summary>
             View model for a list of recipies.

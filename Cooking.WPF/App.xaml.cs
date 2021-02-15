@@ -30,7 +30,6 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
 // Git-related
-// TODO: Setup CI
 // TODO: Set autoupgrade https://github.com/Squirrel/Squirrel.Windows
 // TODO: Use XamlStyler in git hooks
 

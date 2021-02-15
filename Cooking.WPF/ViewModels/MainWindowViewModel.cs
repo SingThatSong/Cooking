@@ -98,14 +98,5 @@ namespace Cooking.WPF.ViewModels
         /// Gets all options.
         /// </summary>
         public HamburgerMenuItemCollection OptionsMenuItems { get; }
-
-        /// <summary>
-        /// Update Selected menu item.
-        /// </summary>
-        /// <param name="text">Name of view to activate menu item.</param>
-        public void SelectMenuItemByViewType(string text)
-        {
-            SelectedMenuItem = MenuItems.OfType<HamburgerMenuIconItem>().FirstOrDefault(x => x.Label == text);
-        }
     }
 }

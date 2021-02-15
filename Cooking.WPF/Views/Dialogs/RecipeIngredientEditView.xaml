@@ -47,7 +47,7 @@
             <AdornerDecorator>
                 <StackPanel Orientation="Vertical">
 
-                    <TextBlock Margin="0,10,0,0" Text="{lex:Loc Ingredient}" />
+                    <TextBlock Margin="0 10 0 0" Text="{lex:Loc Ingredient}" />
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -80,10 +80,10 @@
                             <icons:PackIconModern Kind="Add" Style="{StaticResource SmallIcon}" />
                         </Button>
                     </Grid>
-                    <TextBlock Margin="0,10,0,0" Text="{lex:Loc Count}" />
+                    <TextBlock Margin="0 10 0 0" Text="{lex:Loc Count}" />
                     <TextBox Text="{Binding Ingredient.Amount, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <TextBlock Margin="0,10,0,0" Text="{lex:Loc MeasurementUnit}" />
+                    <TextBlock Margin="0 10 0 0" Text="{lex:Loc MeasurementUnit}" />
                     <ComboBox
                         mahapps:TextBoxHelper.ClearTextButton="True"
                         DisplayMemberPath="FullName"
@@ -96,7 +96,7 @@
         <!--  Created ingredients in cache  -->
         <ScrollViewer
             Grid.Column="1"
-            Margin="10,0,0,0"
+            Margin="10 0 0 0"
             VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Ingredients}">
                 <ItemsControl.ItemTemplate>
@@ -107,15 +107,15 @@
                                 Text="{Binding Ingredient.Name}"
                                 TextWrapping="Wrap" />
                             <TextBlock
-                                Margin="5,0,0,0"
+                                Margin="5 0 0 0"
                                 VerticalAlignment="Center"
                                 Text="{Binding Amount}" />
                             <TextBlock
-                                Margin="5,0,0,0"
+                                Margin="5 0 0 0"
                                 VerticalAlignment="Center"
                                 Text="{Binding MeasureUnit.Name}" />
                             <Button
-                                Margin="2,0,0,0"
+                                Margin="2 0 0 0"
                                 VerticalAlignment="Center"
                                 BorderThickness="0"
                                 Command="{Binding ElementName=RecipeIngredientEdit, Path=DataContext.RemoveIngredientCommand}"
@@ -131,17 +131,17 @@
         <!--  Ok and Cancel buttons  -->
         <StackPanel
             Grid.Row="2"
-            Margin="0,0,0,0"
+            Margin="0 0 0 0"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
 
             <Button Command="{Binding OkCommand}" Style="{StaticResource OkButton}" />
             <Button
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding CloseCommand}"
                 Style="{StaticResource CancelButton}" />
             <Button
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding AddMultipleCommand}"
                 Foreground="Gray"
                 Style="{StaticResource BigButton}"

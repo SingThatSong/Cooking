@@ -65,7 +65,7 @@
                                     <ColumnDefinition Width="30" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock
-                                    Margin="10,0"
+                                    Margin="10 0"
                                     VerticalAlignment="Center"
                                     FontSize="14"
                                     SnapsToDevicePixels="True"
@@ -97,7 +97,7 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button
-                Margin="10,0,0,0"
+                Margin="10 0 0 0"
                 Command="{Binding AddIngredientCommand}"
                 Style="{StaticResource AddButton}" />
         </StackPanel>

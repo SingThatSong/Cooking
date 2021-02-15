@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking.WPF", "Cooking.WPF\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking.Data", "Cooking.Data\Cooking.Data.csproj", "{1AD0ACAC-D704-48A6-9D17-171D3886FE0A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking.WPF.Tests", "Cooking.WPF.Tests\Cooking.WPF.Tests.csproj", "{217A3CDB-8B64-4C13-9F69-11F43AB11347}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking.Tests", "Cooking.WPF.Tests\Cooking.Tests.csproj", "{217A3CDB-8B64-4C13-9F69-11F43AB11347}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cooking.Web", "Cooking.Web\Cooking.Web.csproj", "{229C1943-2C28-4157-BF89-7C226083547B}"
 EndProject
