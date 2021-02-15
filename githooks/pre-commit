@@ -1,0 +1,52 @@
+#!/bin/sh
+# XAML Styler - xstyler.exe pre-commit Git Hook
+# Documentation: https://github.com/Xavalon/XamlStyler/wiki
+
+# Use installed xstyler.exe from path
+XSTYLER_PATH=xstyler
+
+# Define path to XAML Styler configuration
+XSTYLER_CONFIG=..\..\Cooking.WPF\Settings.XamlStyler
+
+# Define path to copy original XAML files as backup
+BACKUP_PATH=~/Documents/XamlStyler/Backup
+
+echo "Running XAML Styler on committed XAML files"
+git diff --cached --name-only --diff-filter=ACM  | grep -e '\.xaml$' | \
+# Wrap in brackets to preserve variable through loop
+{
+    # Setup XAML file backup
+    if [ -n "$BACKUP_PATH" ]; then
+        echo "Backing up XAML files to: $BACKUP_PATH"
+        BACKUP_PATH="$BACKUP_PATH/$(date +"%Y-%m-%d_%H-%M-%S")/"
+    fi
+
+    files=""
+    # Build list of files to pass to xstyler.exe
+    while read FILE; do
+        if [ "$files" == "" ]; then
+            files="$FILE";
+            mkdir -p $BACKUP_PATH
+        else
+            files="$files,$FILE";
+        fi
+
+        if [ -n "$BACKUP_PATH" ]; then
+            cp -r --parents $FILE $BACKUP_PATH
+        fi
+    done
+
+    if [ "$files" != "" ]; then
+        echo "Backing up XAML files to: $XSTYLER_CONFIG"
+        # Check if external configuration is specified
+        [ -z "$XSTYLER_CONFIG" ] && configParam="" || configParam="-c $XSTYLER_CONFIG"
+
+        # Format XAML files
+        $XSTYLER_PATH -f "$files" $configParam
+        git add -u
+    else
+        echo "No XAML files detected in commit"
+    fi
+
+    exit 0
+}

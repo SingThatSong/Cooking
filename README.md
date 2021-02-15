@@ -8,6 +8,11 @@ Application to manage home recipies collection and create week schedules based o
 - Creation of week schedule based on user-defined filters
 - Make a shopping list based on a schedule
 - Different types of applications with single infrastructure: WPF, ASP.NET Core, Avalonia
+
+## Contributing
+
+- For automatic xaml format please install pre-hook via script in githooks\install.ps1
+
 ## Used libraries
 
 ### WPF
@@ -19,7 +24,6 @@ Application to manage home recipies collection and create week schedules based o
 -- ConfigureAwait.Fody: Automatic use of ConfigureAwait(false)
 -- NullGuard.Fody: Automatic check for method parameters to be not null
 -- Validar.Fody: Validation injection
-- ExCeed Extended WFP Toolkit: Colorpicker, RichTextBox
 - FluentValidation: Validation rules
 - gong-wpf-gragdrop: Drag and drop handling via MVVM
 - Mahapps.Metro: UI framework

@@ -31,7 +31,6 @@ using WPFLocalizeExtension.Providers;
 
 // Git-related
 // TODO: Set autoupgrade https://github.com/Squirrel/Squirrel.Windows
-// TODO: Use XamlStyler in git hooks
 
 // Tests-related
 // TODO: Tests FTW
@@ -62,7 +61,7 @@ using WPFLocalizeExtension.Providers;
 // Things not possible right now
 // TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration. Not available now, See https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/issues/1896
 // TODO: Fix publishing: dotnet publish isnt working, single file isnt working, lib trimming isnt working
-// TODO: Move styles to XamlCSS
+// TODO: Move styles to XamlCSS. Waiting it to target .NET 5
 namespace Cooking
 {
     /// <summary>
