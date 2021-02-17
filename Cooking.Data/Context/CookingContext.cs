@@ -20,6 +20,8 @@ namespace Cooking.Data.Context
                 });
 #endif
 
+        private readonly SqliteConnection connection;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CookingContext"/> class.
         /// </summary>
@@ -27,6 +29,15 @@ namespace Cooking.Data.Context
         public CookingContext(string dbFilename)
         {
             DbFilename = dbFilename;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CookingContext"/> class using existing connection.
+        /// </summary>
+        /// <param name="connection">Existing connection for database.</param>
+        public CookingContext(SqliteConnection connection)
+        {
+            this.connection = connection;
         }
 
         /// <summary>
@@ -72,6 +83,11 @@ namespace Cooking.Data.Context
             if (DbFilename != null)
             {
                 optionsBuilder.UseSqlite($"Data Source={DbFilename}");
+            }
+
+            if (connection != null)
+            {
+                optionsBuilder.UseSqlite(connection);
             }
 
 #if TRACE

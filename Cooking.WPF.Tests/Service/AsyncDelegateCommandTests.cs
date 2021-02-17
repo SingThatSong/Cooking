@@ -1,24 +1,30 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
 using Cooking.ServiceLayer;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Moq;
+using System.Threading.Tasks;
+using System;
+using Microsoft.Data.Sqlite;
 
 namespace Cooking.Tests
 {
-    [TestClass]
-    public class RecipeServiceTests
+    public class RecipeServiceTests : IDisposable
     {
         // Positive tests
-        [TestMethod]
-        public void Execute_ExecutesFunction()
+        [Fact]
+        public async Task Execute_ExecutesFunction()
         {
+            var keepAliveConnection = new SqliteConnection("DataSource=:memory:");
+            keepAliveConnection.Open();
+
             var factoryMock = new Mock<IContextFactory>();
             factoryMock.Setup(x => x.Create()).Returns(() =>
             {
-                var teste = new CookingContext("test.db");
-                teste.Database.Migrate();
+                var teste = new CookingContext(keepAliveConnection);
+                teste.Database.EnsureCreated();
                 return teste;
             });
 
@@ -29,10 +35,16 @@ namespace Cooking.Tests
 
             var r = new Data.Model.Recipe();
 
-            service.CreateAsync(r);
+            await service.CreateAsync(r);
 
             int count = service.GetAll().Count;
-            Assert.AreEqual(1, count);
+            count.Should().Be(1);
+        }
+
+        public void Dispose()
+        {
+            var teste = new CookingContext("test.db");
+            teste.Database.EnsureDeleted();
         }
     }
 }
