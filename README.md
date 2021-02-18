@@ -26,24 +26,41 @@ Application to manage home recipies collection and create week schedules based o
 -- Validar.Fody: Validation injection
 - FluentValidation: Validation rules
 - gong-wpf-gragdrop: Drag and drop handling via MVVM
-- Mahapps.Metro: UI framework
+- Mahapps.Metro: UI components (dialogs and controls)
 - Mahapps.Metro.IconPacks.Modern: Application's icons
+- MaterialDesignColors: UI framework
+- MaterialDesignThemes: themes for UI framework
 - PhotoSause.MagicScaler: Auto resize of user's images
 - Plafi: Customizable on-the-fly check of user filters
-- ReportGenerator: Code coverage reports generator
 - Serilog: Logging
 - VirtualizingWrapPanel: Virtualization containers
 - WPFLocalizeExtention: Localization
+- SmartFormat.NET: string pluralization
+- WPF.Commands: commands library
+
+### Avalonia
+
+- Avalonia: Platform
 
 ### Database layer
 
 - Entity Framework Core: ORM
 - Sqlite: Database
-- 
 
 ### Tests
 - Moq: mocking
-- MS Test Framework: Test framework
+- xUnit: Test framework
+- FluentAssertions: more readable assertions
 
 ### ASP.NET Core
 - RtfPipe: Converting from RTF format to html
+
+### Static code analisys
+
+- Roslynator
+- StyleCop
+
+### VS Extentions
+
+- XamlStyler
+- Fine Code Coverage

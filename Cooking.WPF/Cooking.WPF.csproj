@@ -34,7 +34,6 @@
     <PackageReference Include="Bindables.Fody" Version="6.0.0" PrivateAssets="All" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" PrivateAssets="All" />
     <PackageReference Include="FluentValidation" Version="9.5.1" />
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Fody" Version="6.3.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -44,13 +43,13 @@
     <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="4.8.0" />
     <PackageReference Include="MaterialDesignColors" Version="2.0.0" />
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0-preview.2.21115.3">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0-preview.2.21116.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0-preview.2.21115.5" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-preview.2.21115.5" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0-preview.2.21115.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0-preview.2.21117.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-preview.2.21117.6" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0-preview.2.21117.6" />
     <PackageReference Include="NullGuard.Fody" Version="3.0.0" PrivateAssets="All" />
     <PackageReference Include="PhotoSauce.MagicScaler" Version="0.11.2" />
     <PackageReference Include="Plafi.DynamicLinq" Version="1.1.0" />
@@ -79,6 +78,7 @@
     <PackageReference Include="VirtualizingWrapPanel" Version="1.5.3" />
     <PackageReference Include="WPF.Commands" Version="1.0.0" />
     <PackageReference Include="WPFLocalizeExtension" Version="3.8.0" />
+    <PackageReference Include="XamlCSS" Version="2.2.1-pre2" />
   </ItemGroup>
 
   <ItemGroup>

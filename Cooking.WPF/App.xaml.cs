@@ -30,11 +30,11 @@ using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
 
 // Tests-related
-// TODO: Configure tests coverage
 // TODO: Generate lots of data (millions of entries) and test. See: Bogus
 // TODO: Debug/ Measure method perfomance (benchmark?)
-// TODO: Use static anylizers (PVS Studio)
+// TODO: Use PVS Studio
 // TODO: Tests FTW
+// TODO: UI Tests
 
 // Db-related
 // TODO: Create installer (Inno setup) ?
@@ -49,6 +49,7 @@ using WPFLocalizeExtension.Providers;
 // TODO: App users
 // TODO: Set up failure monitoring
 // TODO: Recipe filtering: make Gitlab-like system
+// TODO: Move styles to XamlCSS
 
 // TODO: Use Git(Hub/Lab) issues instead of this list :)
 
@@ -57,7 +58,6 @@ using WPFLocalizeExtension.Providers;
 // Things not possible right now
 // TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration. Not available now, See https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/issues/1896
 // TODO: Fix publishing: dotnet publish isnt working, single file isnt working, lib trimming isnt working
-// TODO: Move styles to XamlCSS. Waiting to target .NET 5
 // TODO: Set autoupgrade https://github.com/Squirrel/Squirrel.Windows Waiting to target .NET 5
 namespace Cooking
 {
