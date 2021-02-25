@@ -24,9 +24,9 @@ namespace Cooking.WPF.Validation
         /// </summary>
         /// <param name="obj">An object with a template.</param>
         /// <returns>Validation template object or null if object don't have one.</returns>
-        public static dynamic? GetRules(this IValidator obj)
+        public static dynamic GetRules(this IValidator obj)
         {
-            return obj.GetPrivateProperty("Rules");
+            return obj.GetPrivateProperty("Rules")!;
         }
 
         /// <summary>

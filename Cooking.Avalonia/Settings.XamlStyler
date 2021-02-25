@@ -1,0 +1,4 @@
+{
+  // Disable XamlStyler for Avalonia project for now. See https://github.com/Xavalon/XamlStyler/issues/302
+  "FormatOnSave": false
+}

@@ -2,12 +2,11 @@
 using Cooking.Data.Context;
 using Cooking.ServiceLayer;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using Xunit;
-using Moq;
-using System.Threading.Tasks;
-using System;
 using Microsoft.Data.Sqlite;
+using Moq;
+using System;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Cooking.Tests
 {

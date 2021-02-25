@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows7</TargetFramework>
+    <TargetFramework>net6.0-windows7</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>if_pan_416389.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
@@ -31,9 +31,9 @@
   
   <ItemGroup>
     <PackageReference Include="AutoMapper.Collection" Version="7.0.1" />
-    <PackageReference Include="Bindables.Fody" Version="6.0.0" PrivateAssets="All" />
+    <PackageReference Include="Bindables.Fody" Version="6.3.0" PrivateAssets="All" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" PrivateAssets="All" />
-    <PackageReference Include="FluentValidation" Version="9.5.1" />
+    <PackageReference Include="FluentValidation" Version="10.0.0-preview1" />
     <PackageReference Include="Fody" Version="6.3.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -43,18 +43,18 @@
     <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="4.8.0" />
     <PackageReference Include="MaterialDesignColors" Version="2.0.0" />
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0-preview.2.21116.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0-preview.3.21123.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0-preview.2.21117.6" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-preview.2.21117.6" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0-preview.2.21117.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0-preview.3.21124.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-preview.3.21124.6" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0-preview.3.21124.6" />
     <PackageReference Include="NullGuard.Fody" Version="3.0.0" PrivateAssets="All" />
     <PackageReference Include="PhotoSauce.MagicScaler" Version="0.11.2" />
     <PackageReference Include="Plafi.DynamicLinq" Version="1.1.0" />
     <PackageReference Include="Prism.Unity" Version="8.0.0.1909" />
-    <PackageReference Include="PropertyChanged.Fody" Version="3.3.1" PrivateAssets="All" />
+    <PackageReference Include="PropertyChanged.Fody" Version="3.3.2" PrivateAssets="All" />
     <PackageReference Include="Roslynator.Analyzers" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
