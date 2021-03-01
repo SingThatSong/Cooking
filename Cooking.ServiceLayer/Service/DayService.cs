@@ -73,12 +73,17 @@ namespace Cooking.ServiceLayer
         /// </summary>
         /// <param name="dayID">Id of the day of the dinner.</param>
         /// <param name="wasCooked">Indicator of whether dinner was cooked.</param>
-        public void SetDinnerWasCooked(Guid dayID, bool wasCooked)
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task SetDinnerWasCookedAsync(Guid dayID, bool wasCooked)
         {
             using CookingContext context = ContextFactory.Create();
-            Day dayDb = context.Days.Find(dayID);
-            dayDb.DinnerWasCooked = wasCooked;
-            context.SaveChanges();
+            Day? dayDb = await context.Days.FindAsync(dayID);
+
+            if (dayDb != null)
+            {
+                dayDb.DinnerWasCooked = wasCooked;
+                await context.SaveChangesAsync();
+            }
         }
 
         /// <summary>
@@ -90,9 +95,12 @@ namespace Cooking.ServiceLayer
         public async Task SetDinnerAsync(Guid dayID, Guid dinnerID)
         {
             using CookingContext context = ContextFactory.Create();
-            Day dayDb = await context.Days.FindAsync(dayID);
-            dayDb.DinnerID = dinnerID;
-            context.SaveChanges();
+            Day? dayDb = await context.Days.FindAsync(dayID);
+            if (dayDb != null)
+            {
+                dayDb.DinnerID = dinnerID;
+                context.SaveChanges();
+            }
         }
 
         /// <summary>

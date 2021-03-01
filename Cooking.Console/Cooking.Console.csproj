@@ -7,9 +7,16 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>preview</AnalysisLevel>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <Configurations>Debug;Release;Trace</Configurations>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG</DefineConstants>
+    <DocumentationFile>D:\Repos\Cooking\Cooking.Console\Cooking.Console.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Trace|AnyCPU'">
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DocumentationFile>D:\Repos\Cooking\Cooking.Console\Cooking.Console.xml</DocumentationFile>
   </PropertyGroup>

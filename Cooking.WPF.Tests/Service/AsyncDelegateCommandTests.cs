@@ -42,8 +42,6 @@ namespace Cooking.Tests
 
         public void Dispose()
         {
-            var teste = new CookingContext("test.db");
-            teste.Database.EnsureDeleted();
         }
     }
 }

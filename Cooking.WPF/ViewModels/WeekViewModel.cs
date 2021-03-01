@@ -162,14 +162,11 @@ namespace Cooking.WPF.ViewModels
 
                 foreach (DayDisplay day in weekDaysEdit)
                 {
-                    day.PropertyChanged += (sender, e) =>
+                    day.PropertyChanged += async (sender, e) =>
                     {
-                        if (e.PropertyName == nameof(DayDisplay.DinnerWasCooked))
+                        if (e.PropertyName == nameof(DayDisplay.DinnerWasCooked) && sender is DayDisplay dayChanged)
                         {
-                            if (sender is DayDisplay dayChanged)
-                            {
-                                dayService.SetDinnerWasCooked(dayChanged.ID, dayChanged.DinnerWasCooked);
-                            }
+                            await dayService.SetDinnerWasCookedAsync(dayChanged.ID, dayChanged.DinnerWasCooked);
                         }
                     };
                 }
