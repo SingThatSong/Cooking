@@ -27,7 +27,7 @@ namespace Cooking.WPF.Converters
 
                 if (value is Enum @enum)
                 {
-                    return localization.GetLocalizedString(@enum);
+                    return localization[@enum];
                 }
                 else if (value is IEnumerable collection && !(value is string))
                 {
@@ -37,7 +37,7 @@ namespace Cooking.WPF.Converters
                     {
                         if (val is Enum @enumValue)
                         {
-                            string? description = localization.GetLocalizedString(@enumValue);
+                            string? description = localization[@enumValue];
                             if (description != null)
                             {
                                 list.Add(description);

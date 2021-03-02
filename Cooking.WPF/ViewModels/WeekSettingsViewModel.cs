@@ -264,7 +264,7 @@ namespace Cooking.WPF.ViewModels
                 (typeof(IList<TagEdit>), allTags)
             );
 
-            string header = string.Format(localization.CurrentCulture, localization["CategoriesOf"] ?? "{0}", localization.GetLocalizedString(type));
+            string header = string.Format(localization.CurrentCulture, localization["CategoriesOf"] ?? "{0}", localization[type]);
             await dialogService.ShowCustomMessageAsync<TagSelectView, TagSelectViewModel>(header, viewModel);
 
             if (viewModel.DialogResultOk)

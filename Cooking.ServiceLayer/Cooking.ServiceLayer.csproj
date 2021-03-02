@@ -33,7 +33,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-preview.3.21151.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-preview.3.21151.6" />
     <PackageReference Include="NullGuard.Fody" Version="3.0.0" PrivateAssets="All" />
     <PackageReference Include="SmartFormat.NET" Version="2.6.2" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.321">

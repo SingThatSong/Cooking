@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Cooking.Data.Model.Plan;
 using Cooking.ServiceLayer;
 using Cooking.WPF.DTO;
@@ -14,6 +8,11 @@ using Microsoft.Extensions.Options;
 using Prism.Ioc;
 using Prism.Regions;
 using PropertyChanged;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using WPF.Commands;
 
 namespace Cooking.WPF.ViewModels
@@ -282,7 +281,7 @@ namespace Cooking.WPF.ViewModels
             {
                 DayOfWeek dayOfWeek = CurrentWeek!.Single(x => x.ID == dayID).DayOfWeek;
                 await dialogService.ShowYesNoDialogAsync(
-                      localization.GetLocalizedString("SureDelete", localization.GetLocalizedString(dayOfWeek) ?? string.Empty),
+                      localization.GetLocalizedString("SureDelete", localization[dayOfWeek] ?? string.Empty),
                       localization["CannotUndo"],
                       successCallback: async () => await OnDayDeletedAsync(dayID.Value));
             }

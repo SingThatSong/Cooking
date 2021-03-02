@@ -250,7 +250,7 @@ namespace Cooking.ServiceLayer
             {
                 var item = new ShoppingListIngredientsGroup
                 {
-                    IngredientGroupName = localization.GetLocalizedString(ingredientTypeGroup.Key)
+                    IngredientGroupName = localization[ingredientTypeGroup.Key]
                 };
 
                 foreach (var ingredientNameGroup in ingredientTypeGroup.GroupBy(x => x.Ingredient.Ingredient!.Name).OrderBy(x => x.Key))

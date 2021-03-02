@@ -58,6 +58,9 @@ namespace Cooking.WPF.Services
         public string? this[string key] => GetLocalizedString(key);
 
         /// <inheritdoc/>
+        public string? this[Enum key] => GetLocalizedString(key);
+
+        /// <inheritdoc/>
         public FullyQualifiedResourceKeyBase GetFullyQualifiedResourceKey(string key, DependencyObject? target) => new FQAssemblyDictionaryKey(key);
 
         /// <inheritdoc/>

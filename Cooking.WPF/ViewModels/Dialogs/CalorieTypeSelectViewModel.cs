@@ -29,7 +29,7 @@ namespace Cooking.WPF.ViewModels
                 .Select(x => new CalorieTypeSelection()
                 {
                     CalorieType = x,
-                    Name = localization.GetLocalizedString(x)
+                    Name = localization[x]
                 })
             );
 
