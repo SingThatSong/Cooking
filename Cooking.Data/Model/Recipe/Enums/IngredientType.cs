@@ -24,5 +24,5 @@ namespace Cooking.Data.Model
         Nuts = 13,
         Ready = 14,
     }
-#pragma warning restore CS1591
+#pragma warning restore CS1591, SA1602
 }

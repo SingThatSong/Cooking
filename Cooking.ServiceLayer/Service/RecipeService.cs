@@ -13,7 +13,7 @@ namespace Cooking.ServiceLayer
     /// </summary>
     public class RecipeService : CRUDService<Recipe>
     {
-        private readonly DayService dayService;
+        private readonly IDayService dayService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeService"/> class.
@@ -22,7 +22,7 @@ namespace Cooking.ServiceLayer
         /// <param name="cultureProvider">Culture provider for determining which culture enities should belong to.</param>
         /// <param name="mapper">Dependency on database-projection mapper.</param>
         /// <param name="dayService"><see cref="DayService"/> dependency.</param>
-        public RecipeService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider, IMapper mapper, DayService dayService)
+        public RecipeService(IContextFactory contextFactory, ICurrentCultureProvider cultureProvider, IMapper mapper, IDayService dayService)
             : base(contextFactory, cultureProvider, mapper)
         {
             this.dayService = dayService;
@@ -37,7 +37,9 @@ namespace Cooking.ServiceLayer
         {
             DateTime? date = dayService.GetLastCookedDate(recipeID);
 
-            return date != null ? (int)(DateTime.Now - date.Value).TotalDays : int.MaxValue;
+            return date != null
+                        ? (int)(DateTime.Now - date.Value).TotalDays
+                        : int.MaxValue;
         }
 
         /// <summary>

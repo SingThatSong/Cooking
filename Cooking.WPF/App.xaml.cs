@@ -114,17 +114,13 @@ namespace Cooking
                                                                         (Color)ColorConverter.ConvertFromString(options.Value.Accent)));
 
             // Register main page and main vm - they are constant
-            containerRegistry.Register<MainWindowView>();
             containerRegistry.RegisterSingleton<MainWindowViewModel>();
 
             containerRegistry.UseAutomapper(Container);
 
             // Register services
-            containerRegistry.Register(typeof(CRUDService<>));
-            containerRegistry.Register<DayService>();
-            containerRegistry.Register<SettingsService>();
-            containerRegistry.Register<RecipeService>();
             containerRegistry.RegisterSingleton<ImageService>();
+            containerRegistry.Register<IDayService, DayService>();
             containerRegistry.RegisterSingleton<IContextFactory, ContextFactory>();
 
             // Use instance of provider as singleton for different interfaces
@@ -163,13 +159,6 @@ namespace Cooking
             containerRegistry.RegisterForNavigation<IngredientListView>();
             containerRegistry.RegisterForNavigation<TagListView>();
             containerRegistry.RegisterForNavigation<GarnishListView>();
-
-            // Register validators
-            containerRegistry.Register<IngredientGroupEditValidator>();
-            containerRegistry.Register<RecipeEditValidator>();
-            containerRegistry.Register<RecipeIngredientEditValidator>();
-            containerRegistry.Register<TagEditValidator>();
-            containerRegistry.Register<IngredientEditValidator>();
         }
 
         /// <inheritdoc/>

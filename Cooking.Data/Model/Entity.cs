@@ -21,10 +21,10 @@ namespace Cooking.Data.Model
 
         /// <inheritdoc/>
         public override bool Equals(object? obj) => obj switch
-                                                   {
-                                                       Entity entity => ID.Equals(entity.ID),
-                                                       _ => false
-                                                   };
+                                                    {
+                                                        Entity entity => ID.Equals(entity.ID),
+                                                        _ => false
+                                                    };
 
         /// <inheritdoc/>
         public override int GetHashCode() => ID.GetHashCode();
