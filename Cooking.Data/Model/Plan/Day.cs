@@ -36,10 +36,5 @@ namespace Cooking.Data.Model.Plan
         /// Gets or sets day date.
         /// </summary>
         public DateTime Date { get; set; }
-
-        /// <summary>
-        /// Gets or sets day's weekday.
-        /// </summary>
-        public DayOfWeek DayOfWeek { get; set; }
     }
 }
