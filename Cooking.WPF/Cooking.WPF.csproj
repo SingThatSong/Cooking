@@ -34,12 +34,16 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
   </PropertyGroup>
   
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DefineConstants />
+  </PropertyGroup>
+  
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Collection" Version="7.0.1" />
+    <PackageReference Include="AutoMapper.Collection" Version="7.0.2-alpha.0.1" />
     <PackageReference Include="Bindables.Fody" Version="6.3.0" PrivateAssets="All" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" PrivateAssets="All" />
-    <PackageReference Include="FluentValidation" Version="10.0.0-preview1" />
-    <PackageReference Include="Fody" Version="6.3.0">
+    <PackageReference Include="FluentValidation" Version="10.0.0" />
+    <PackageReference Include="Fody" Version="6.5.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -48,18 +52,13 @@
     <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="4.8.0" />
     <PackageReference Include="MaterialDesignColors" Version="2.0.0" />
     <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0-preview.3.21151.6">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0-preview.3.21151.8" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-preview.3.21151.8" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0-preview.3.21151.8" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-preview.4.21205.3" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0-preview.4.21205.3" />
     <PackageReference Include="NullGuard.Fody" Version="3.0.0" PrivateAssets="All" />
     <PackageReference Include="PhotoSauce.MagicScaler" Version="0.11.2" />
     <PackageReference Include="Plafi.DynamicLinq" Version="1.1.0" />
     <PackageReference Include="Prism.Unity" Version="8.0.0.1909" />
-    <PackageReference Include="PropertyChanged.Fody" Version="3.3.2" PrivateAssets="All" />
+    <PackageReference Include="PropertyChanged.Fody" Version="3.3.3" PrivateAssets="All" />
     <PackageReference Include="Roslynator.Analyzers" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -72,22 +71,19 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Serilog" Version="2.10.1-dev-01285" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00909" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.321">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.333">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Validar.Fody" Version="1.9.0" PrivateAssets="All" />
-    <PackageReference Include="VirtualizingWrapPanel" Version="1.5.3" />
+    <PackageReference Include="VirtualizingWrapPanel" Version="1.5.4" />
     <PackageReference Include="WPF.Commands" Version="1.0.0" />
     <PackageReference Include="WPFLocalizeExtension" Version="3.8.0" />
-    <PackageReference Include="XamlCSS" Version="2.2.1-pre2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cooking.Data\Cooking.Data.csproj" />
     <ProjectReference Include="..\Cooking.ServiceLayer\Cooking.ServiceLayer.csproj" />
   </ItemGroup>
 
