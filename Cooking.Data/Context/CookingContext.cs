@@ -101,28 +101,27 @@ namespace Cooking.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Day>()
-                .ToTable("Day");
+                        .ToTable("Day");
 
-            // TODO: Move to .HasOne(x => x.Dinner) when fixed
             modelBuilder.Entity<Day>()
-                .HasOne(nameof(Day.Dinner))
-                .WithMany()
-                .OnDelete(DeleteBehavior.Cascade);
+                        .HasOne(x => x.Dinner)
+                        .WithMany()
+                        .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Recipe>()
-                .HasMany(x => x.IngredientGroups)
-                .WithOne()
-                .OnDelete(DeleteBehavior.SetNull);
+                        .HasMany(x => x.IngredientGroups)
+                        .WithOne()
+                        .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<IngredientsGroup>()
-                .HasMany(x => x.Ingredients)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
+                        .HasMany(x => x.Ingredients)
+                        .WithOne()
+                        .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Recipe>()
-                .HasMany(x => x.Ingredients)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
+                        .HasMany(x => x.Ingredients)
+                        .WithOne()
+                        .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Recipe>()
                         .HasMany(r => r.Tags)
@@ -131,18 +130,16 @@ namespace Cooking.Data.Context
             modelBuilder.Entity<Recipe>()
                         .HasMany(r => r.Garnishes);
 
-            // TODO: Move to .HasOne(x => x.Ingredient) and .HasForeignKey(x => x.IngredientID) when fixed
             modelBuilder.Entity<RecipeIngredient>()
-                .HasOne(nameof(RecipeIngredient.Ingredient))
-                .WithMany()
-                .HasForeignKey(nameof(RecipeIngredient.IngredientID))
-                .OnDelete(DeleteBehavior.SetNull);
-
-            // TODO: Move to .HasOne(x => x.MeasureUnit) and .HasForeignKey(x => x.MeasureUnitID) when fixed
-            modelBuilder.Entity<RecipeIngredient>()
-                        .HasOne(nameof(RecipeIngredient.MeasureUnit))
+                        .HasOne(x => x.Ingredient)
                         .WithMany()
-                        .HasForeignKey(nameof(RecipeIngredient.MeasureUnitID));
+                        .HasForeignKey(x => x.IngredientID)
+                        .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<RecipeIngredient>()
+                        .HasOne(x => x.MeasureUnit)
+                        .WithMany()
+                        .HasForeignKey(x => x.MeasureUnitID);
         }
     }
 }
