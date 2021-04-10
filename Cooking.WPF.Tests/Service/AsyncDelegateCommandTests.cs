@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Cooking.Data.Context;
+using Cooking.Data.Model;
 using Cooking.ServiceLayer;
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
 using System.Threading.Tasks;
@@ -10,38 +12,54 @@ using Xunit;
 
 namespace Cooking.Tests
 {
-    public class RecipeServiceTests : IDisposable
+    public class RecipeServiceTests : TestClass
     {
-        // Positive tests
         [Fact]
-        public async Task Execute_ExecutesFunction()
+        public async Task CreateRecipe_CreatesRecipe()
         {
-            var keepAliveConnection = new SqliteConnection("DataSource=:memory:");
-            keepAliveConnection.Open();
+            RecipeService recipeService = CreateRecipeService();
 
-            var factoryMock = new Mock<IContextFactory>();
-            factoryMock.Setup(x => x.Create()).Returns(() =>
-            {
-                var teste = new CookingContext(keepAliveConnection);
-                teste.Database.EnsureCreated();
-                return teste;
-            });
+            var r = new Recipe();
+            await recipeService.CreateAsync(r);
 
-            var cultureProvider = new Mock<ICurrentCultureProvider>();
-            cultureProvider.Setup(x => x.CurrentCulture).Returns(new System.Globalization.CultureInfo("ru-RU"));
-
-            var service = new RecipeService(factoryMock.Object, cultureProvider.Object, Mock.Of<IMapper>(), new DayService(factoryMock.Object, cultureProvider.Object, Mock.Of<IMapper>()));
-
-            var r = new Data.Model.Recipe();
-
-            await service.CreateAsync(r);
-
-            int count = service.GetAll().Count;
+            int count = recipeService.GetAll().Count;
             count.Should().Be(1);
         }
 
-        public void Dispose()
+        [Fact]
+        public async Task CreateRecipeTwice_FailsConstraint()
         {
+            RecipeService recipeService = CreateRecipeService();
+
+            var r = new Recipe();
+            await recipeService.CreateAsync(r);
+
+            Func<Task> act = async () => await recipeService.CreateAsync(r);
+            await act.Should().ThrowAsync<DbUpdateException>();
+        }
+
+        [Fact]
+        public async Task CreateRecipe_IDGenerated()
+        {
+            RecipeService recipeService = CreateRecipeService();
+
+            var r = new Recipe();
+            r.ID.Should().Be(Guid.Empty);
+            await recipeService.CreateAsync(r);
+            r.ID.Should().NotBe(Guid.Empty);
+        }
+
+        [Fact]
+        public async Task CreateRecipe_AndRemove()
+        {
+            RecipeService recipeService = CreateRecipeService();
+
+            var r = new Recipe();
+            await recipeService.CreateAsync(r);
+            await recipeService.DeleteAsync(r.ID);
+
+            int count = recipeService.GetAll().Count;
+            count.Should().Be(0);
         }
     }
 }

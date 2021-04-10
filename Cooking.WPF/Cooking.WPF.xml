@@ -535,12 +535,6 @@
         <member name="E:Cooking.WPF.DTO.EntityNotify.PropertyChanged">
             <inheritdoc/>
         </member>
-        <member name="M:Cooking.WPF.DTO.EntityNotify.RaisePropertyChanged(System.String)">
-            <summary>
-            Raise <see cref="E:Cooking.WPF.DTO.EntityNotify.PropertyChanged"/> event.
-            </summary>
-            <param name="propertyName">Name of a property than changed.</param>
-        </member>
         <member name="T:Cooking.WPF.DTO.IngredientEdit">
             <summary>
             Sto for ingredient editing.
@@ -2875,6 +2869,12 @@
             </summary>
             <typeparam name="T">Type of validated object.</typeparam>
         </member>
+        <member name="F:Cooking.ValidationTemplate`1.sharedHandler">
+            <summary>
+            Event subsctiprion optimization
+            See https://stackoverflow.com/a/24239037.
+            </summary>
+        </member>
         <member name="M:Cooking.ValidationTemplate`1.#ctor(`0)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.ValidationTemplate`1"/> class.
@@ -2883,11 +2883,6 @@
         </member>
         <member name="E:Cooking.ValidationTemplate`1.ErrorsChanged">
             <inheritdoc/>
-        </member>
-        <member name="P:Cooking.ValidationTemplate`1.ValidationSuspended">
-            <summary>
-            Gets or sets a value indicating whether validation should not occur.
-            </summary>
         </member>
         <member name="P:Cooking.ValidationTemplate`1.HasErrors">
             <inheritdoc/>
@@ -2907,17 +2902,50 @@
             </summary>
             <param name="propertyName">Property to validate.</param>
         </member>
+        <member name="M:Cooking.ValidationTemplate`1.DisableValidation">
+            <summary>
+            Stop validating object on PropertyChanged event.
+            </summary>
+        </member>
+        <member name="M:Cooking.ValidationTemplate`1.EnableValidation">
+            <summary>
+            Start validating object on PropertyChanged event.
+            </summary>
+        </member>
         <member name="M:Cooking.ValidationTemplate`1.ForceValidate">
             <summary>
             Actually perform validation.
             </summary>
         </member>
-        <member name="M:Cooking.ValidationTemplate`1.GetValidator(System.Type)">
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
             <summary>
-            Internal factory method for FluentValidation validators.
+            GeneratedInternalTypeHelper
             </summary>
-            <param name="modelType">Type of object to validate.</param>
-            <returns>Instance of validator.</returns>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
         </member>
     </members>
 </doc>
