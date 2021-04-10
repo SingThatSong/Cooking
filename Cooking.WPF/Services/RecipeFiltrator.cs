@@ -43,8 +43,8 @@ namespace Cooking.WPF.Services
         private Expression<Func<Recipe, string, bool>> CombinedFilter()
         {
             return (x, str) => x.Name.ToLower().Contains(str.ToLower())
-                            || (x.Ingredients != null && x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower())))
-                            || (x.IngredientGroups != null && x.IngredientGroups.Any(x => x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower()))));
+                            || x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower()))
+                            || x.IngredientGroups.Any(x => x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower())));
         }
 
         private Expression<Func<Recipe, string, bool>> HasTag()
@@ -54,8 +54,8 @@ namespace Cooking.WPF.Services
 
         private Expression<Func<Recipe, string, bool>> HasIngredient()
         {
-            return (x, str) => (x.Ingredients != null && x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower())))
-                            || (x.IngredientGroups != null && x.IngredientGroups.Any(x => x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower()))));
+            return (x, str) => x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower()))
+                            || x.IngredientGroups.Any(x => x.Ingredients.Any(x => x.Ingredient.Name.ToLower().Contains(str.ToLower())));
         }
     }
     #pragma warning restore CS8602, CS8604, CA1304, CA1307, RCS1155
