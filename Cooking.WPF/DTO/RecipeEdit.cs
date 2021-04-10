@@ -30,17 +30,17 @@ namespace Cooking.WPF.DTO
         /// <summary>
         /// Gets or sets ingredient groups in recipe.
         /// </summary>
-        public ObservableCollection<IngredientGroupEdit>? IngredientGroups { get; set; }
+        public ObservableCollection<IngredientGroupEdit> IngredientGroups { get; set; } = new ObservableCollection<IngredientGroupEdit>();
 
         /// <summary>
         /// Gets or sets ingredients in recipe.
         /// </summary>
-        public ObservableCollection<RecipeIngredientEdit>? Ingredients { get; set; }
+        public ObservableCollection<RecipeIngredientEdit> Ingredients { get; set; } = new ObservableCollection<RecipeIngredientEdit>();
 
         /// <summary>
         /// Gets or sets ingredient tags in recipe.
         /// </summary>
-        public ObservableCollection<TagEdit>? Tags { get; set; }
+        public ObservableCollection<TagEdit> Tags { get; set; } = new ObservableCollection<TagEdit>();
 
         /// <summary>
         /// Gets or sets garnishes for recipe.
