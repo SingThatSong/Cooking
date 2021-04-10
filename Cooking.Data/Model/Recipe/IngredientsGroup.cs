@@ -10,7 +10,7 @@ namespace Cooking.Data.Model
         /// <summary>
         /// Gets or sets ingredient group name.
         /// </summary>
-        public string? Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets ingredients in group.

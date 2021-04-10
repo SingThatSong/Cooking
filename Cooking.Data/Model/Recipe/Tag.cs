@@ -10,7 +10,7 @@ namespace Cooking.Data.Model
         /// <summary>
         /// Gets or sets tag name.
         /// </summary>
-        public string? Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets tag type.
@@ -35,6 +35,6 @@ namespace Cooking.Data.Model
         /// <summary>
         /// Gets or sets recipies with this tag.
         /// </summary>
-        public virtual List<Recipe>? Recipies { get; set; }
+        public virtual List<Recipe> Recipies { get; set; } = new List<Recipe>();
     }
 }

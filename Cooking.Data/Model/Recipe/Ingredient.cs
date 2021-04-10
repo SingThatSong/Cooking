@@ -8,10 +8,10 @@
         /// <summary>
         /// Gets or sets ingredient's name.
         /// </summary>
-        public string? Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets or sets ingredient's Type. Typesafe enum, stored in database as int. Ignored in mapping.
+        /// Gets or sets ingredient's Type.
         /// </summary>
         public IngredientType? Type { get; set; }
     }

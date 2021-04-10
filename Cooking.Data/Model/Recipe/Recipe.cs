@@ -12,7 +12,7 @@ namespace Cooking.Data.Model
         /// <summary>
         /// Gets or sets recipe name.
         /// </summary>
-        public string? Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets source of recipe. E.g. some website or granny's hidden cookbook.
@@ -67,6 +67,6 @@ namespace Cooking.Data.Model
         /// <summary>
         /// Gets or sets garnishes suitable for this recipe.
         /// </summary>
-        public virtual List<Recipe>? Garnishes { get; set; }
+        public virtual List<Recipe> Garnishes { get; set; } = new List<Recipe>();
     }
 }

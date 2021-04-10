@@ -17,7 +17,7 @@ namespace Cooking.Data.Model
         /// <summary>
         /// Gets or sets foreign key for <see cref="Ingredient"/>.
         /// </summary>
-        public Guid? IngredientID { get; set; }
+        public Guid IngredientID { get; set; }
 
         /// <summary>
         /// Gets or sets related ingredient.
