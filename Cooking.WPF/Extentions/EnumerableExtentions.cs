@@ -43,6 +43,18 @@ namespace Cooking.WPF.Services
             return enumerable.RandomElementInternal(rand);
         }
 
+        /// <summary>
+        /// Gets symmetric expection for two IEnumerables. Meaning it gets all elements from first enumerable not preset in second enumerable united with vice versa elements.
+        /// </summary>
+        /// <typeparam name="T">Collection's item type.</typeparam>
+        /// <param name="source">First enumerabke.</param>
+        /// <param name="target">Second enumerabke.</param>
+        /// <returns>Symmetric expection eenumerable for the two IEnumerables.</returns>
+        public static IEnumerable<T> SymmetricException<T>(this IEnumerable<T> source, IEnumerable<T> target)
+        {
+            return source.Except(target).Union(target.Except(source));
+        }
+
         private static T? RandomElementInternal<T>(this IEnumerable<T> enumerable, Random rand)
         {
             int index = rand.Next(0, enumerable.Count());

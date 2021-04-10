@@ -45,6 +45,7 @@ namespace Cooking
             {
                 cfg.AddCollectionMappers();
 
+                // Disable validation while mapping and map
                 cfg.ForAllMaps((_, mappingExpression) =>
                 {
                     mappingExpression.BeforeMap((_, dest) =>
@@ -52,10 +53,7 @@ namespace Cooking
                         if (dest is IDataErrorInfo)
                         {
                             dynamic? template = dest.GetValidationTemplate();
-                            if (template != null)
-                            {
-                                template.ValidationSuspended = true;
-                            }
+                            template?.DisableValidation();
                         }
                     });
 
@@ -66,7 +64,7 @@ namespace Cooking
                             dynamic? template = dest.GetValidationTemplate();
                             if (template != null)
                             {
-                                template.ValidationSuspended = false;
+                                template.EnableValidation();
                                 template.ForceValidate();
                             }
                         }
@@ -97,7 +95,6 @@ namespace Cooking
                 cfg.CreateMap<MeasureUnit, MeasureUnit>();
                 cfg.CreateMap<RecipeIngredientEdit, RecipeIngredientEdit>();
                 cfg.CreateMap<IngredientGroupEdit, IngredientGroupEdit>();
-                cfg.CreateMap<RecipeListViewDto, RecipeListViewDto>();
 
                 cfg.CreateMap<RecipeIngredient, RecipeIngredientEdit>()
                    .ReverseMap()

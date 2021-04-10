@@ -1,10 +1,11 @@
-﻿using FluentValidation;
+﻿using Cooking.WPF.Services;
+using Cooking.WPF.Validation;
+using FluentValidation;
 using FluentValidation.Results;
-using NullGuard;
 using Prism.Unity;
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -18,11 +19,26 @@ namespace Cooking
     public class ValidationTemplate<T> : IDataErrorInfo, INotifyDataErrorInfo
             where T : INotifyPropertyChanged
     {
-        private static readonly ConcurrentDictionary<RuntimeTypeHandle, IValidator<T>> Validators = new();
-
+        private static readonly IValidator<T> Validator;
         private readonly T target;
-        private readonly IValidator<T> validator;
+
+        /// <summary>
+        /// Event subsctiprion optimization
+        /// See https://stackoverflow.com/a/24239037.
+        /// </summary>
+        private readonly PropertyChangedEventHandler sharedHandler;
         private ValidationResult validationResult = new();
+
+        static ValidationTemplate()
+        {
+            Type modelType = typeof(T);
+            string typeName = $"{modelType.Namespace}.{modelType.Name}Validator";
+            Type? type = modelType.Assembly.GetType(typeName, throwOnError: true);
+
+            Validator = type != null && Application.Current is PrismApplication app
+                            ? app.Container.Resolve(type) as IValidator<T> ?? new ValidatorNullObject<T>()
+                            : throw new InvalidOperationException($"Provide validator for type {modelType.FullName}!");
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ValidationTemplate{T}"/> class.
@@ -31,18 +47,19 @@ namespace Cooking
         public ValidationTemplate(T target)
         {
             this.target = target;
-            validator = GetValidator(target.GetType());
-            ValidateInternal();
-            target.PropertyChanged += (_, eventArgs) => Validate(eventArgs.PropertyName);
+            sharedHandler = OnPropertyChanged;
+
+            // If parent of current class also has validation, we skip initialization for it
+            // Effectively, we override parent's validation
+            if (target.GetType() == typeof(T))
+            {
+                ValidateInternal();
+                EnableValidation();
+            }
         }
 
         /// <inheritdoc/>
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-
-        /// <summary>
-        /// Gets or sets a value indicating whether validation should not occur.
-        /// </summary>
-        public bool ValidationSuspended { get; set; }
 
         /// <inheritdoc/>
         public bool HasErrors => validationResult.Errors.Count > 0;
@@ -51,7 +68,17 @@ namespace Cooking
         public string Error => string.Join(Environment.NewLine, validationResult.Errors.Select(x => x.ErrorMessage));
 
         /// <inheritdoc/>
-        public string this[string propertyName] => string.Join(Environment.NewLine, GetErrors(propertyName));
+        public string? this[string propertyName]
+        {
+            get
+            {
+                IEnumerable errors = GetErrors(propertyName);
+
+                return errors.GetEnumerator().MoveNext()
+                            ? string.Join(Environment.NewLine, errors)
+                            : null;
+            }
+        }
 
         /// <inheritdoc/>
         public IEnumerable GetErrors(string? propertyName) => validationResult.Errors
@@ -64,12 +91,23 @@ namespace Cooking
         /// <param name="propertyName">Property to validate.</param>
         public void Validate(string? propertyName)
         {
-            if (ValidationSuspended)
-            {
-                return;
-            }
-
             ValidateInternal(propertyName);
+        }
+
+        /// <summary>
+        /// Stop validating object on PropertyChanged event.
+        /// </summary>
+        public void DisableValidation()
+        {
+            target.PropertyChanged -= sharedHandler;
+        }
+
+        /// <summary>
+        /// Start validating object on PropertyChanged event.
+        /// </summary>
+        public void EnableValidation()
+        {
+            target.PropertyChanged += sharedHandler;
         }
 
         /// <summary>
@@ -77,40 +115,64 @@ namespace Cooking
         /// </summary>
         public void ForceValidate() => ValidateInternal();
 
-        /// <summary>
-        /// Internal factory method for FluentValidation validators.
-        /// </summary>
-        /// <param name="modelType">Type of object to validate.</param>
-        /// <returns>Instance of validator.</returns>
-        private static IValidator<T> GetValidator(Type modelType)
+        private void OnPropertyChanged(object? sender, PropertyChangedEventArgs eventArgs)
         {
-            if (Validators.TryGetValue(modelType.TypeHandle, out IValidator<T>? cachedValue))
-            {
-                return cachedValue!;
-            }
-
-            string typeName = $"{modelType.Namespace}.{modelType.Name}Validator";
-            Type type = modelType.Assembly.GetType(typeName, throwOnError: true)!;
-            if (Application.Current is PrismApplication app)
-            {
-                if (app.Container.Resolve(type) is IValidator<T> validator)
-                {
-                    return Validators[modelType.TypeHandle] = validator;
-                }
-            }
-
-            throw new InvalidOperationException($"Provide validator for type {modelType.FullName}!");
+            ValidateInternal(eventArgs.PropertyName);
         }
 
         private void ValidateInternal(string? propertyName = null)
         {
-            validationResult = propertyName != null
-                                    ? validator.Validate(target, opts => opts.IncludeProperties(propertyName))
-                                    : validator.Validate(target);
+            if (propertyName == null)
+            {
+                // Validate everything
+                ValidationResult previousErrors = validationResult;
+                validationResult = Validator.Validate(target);
 
-            validationResult.Errors.ForEach(error => RaiseErrorsChanged(error.PropertyName));
+                IEnumerable<string> prevErrors    = previousErrors.Errors.Select(x => x.PropertyName);
+                IEnumerable<string> currentErrors = validationResult.Errors.Select(x => x.PropertyName);
+
+                foreach (string error in prevErrors.SymmetricException(currentErrors))
+                {
+                    RaiseErrorsChanged(error);
+                }
+            }
+            else
+            {
+                // Validate single property
+                ValidationResult propertyResult = Validator.Validate(target, opts => opts.IncludeProperties(propertyName));
+
+                var previousErrors = validationResult.Errors.Where(x => x.PropertyName == propertyName).ToList();
+
+                bool wasValidationError = previousErrors.Count > 0;
+                bool isValidationError = propertyResult.Errors.Count > 0;
+                bool propertyValidityChanged = wasValidationError ^ isValidationError;
+
+                if (propertyValidityChanged)
+                {
+                    if (wasValidationError)
+                    {
+                        validationResult.Errors.RemoveAll(x => x.PropertyName == propertyName);
+                    }
+                    else
+                    {
+                        validationResult.Errors.AddRange(propertyResult.Errors);
+                    }
+
+                    RaiseErrorsChanged(propertyName);
+                }
+                else
+                {
+                    // Error still present, but it may be another error
+                    if (isValidationError && propertyResult.Errors.Any(x => !previousErrors.Any(p => p.ErrorMessage == x.ErrorMessage)))
+                    {
+                        validationResult.Errors.RemoveAll(x => x.PropertyName == propertyName);
+                        validationResult.Errors.AddRange(propertyResult.Errors);
+                        RaiseErrorsChanged(propertyName);
+                    }
+                }
+            }
         }
 
-        private void RaiseErrorsChanged(string propertyName) => ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+        private void RaiseErrorsChanged(string propertyName) => ErrorsChanged?.Invoke(target, new DataErrorsChangedEventArgs(propertyName));
     }
 }

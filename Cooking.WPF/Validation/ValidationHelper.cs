@@ -53,14 +53,14 @@ namespace Cooking.WPF.Validation
             }
         }
 
-        private static dynamic? GetPrivateField(this object obj, string name)
+        private static object? GetPrivateField(this object obj, string name)
         {
             return obj.GetType()
                          .GetField(name, BindingFlags.NonPublic | BindingFlags.Instance)?
                          .GetValue(obj);
         }
 
-        private static dynamic? GetPrivateProperty(this object obj, string name)
+        private static object? GetPrivateProperty(this object obj, string name)
         {
             return obj.GetType()
                          .GetProperty(name, BindingFlags.NonPublic | BindingFlags.Instance)?
