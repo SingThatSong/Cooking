@@ -37,7 +37,7 @@ namespace Cooking.WPF.Services
             get
             {
                 var result = new ObservableCollection<CultureInfo>();
-                foreach (FileInfo file in new DirectoryInfo(Consts.LocalizationFolder).EnumerateFiles())
+                foreach (FileInfo file in new DirectoryInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Consts.LocalizationFolder)).EnumerateFiles())
                 {
                     string lang = file.Name.Replace(Consts.LocalizationFilename, string.Empty, StringComparison.Ordinal)
                                            .Replace(".", string.Empty, StringComparison.Ordinal)
@@ -170,7 +170,7 @@ namespace Cooking.WPF.Services
             }
 
             filename += ".json";
-            string json = File.ReadAllText($@"{Consts.LocalizationFolder}\" + filename);
+            string json = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $@"{Consts.LocalizationFolder}\" + filename));
 
             Dictionary<string, string>? deserialized = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
             if (deserialized != null)
