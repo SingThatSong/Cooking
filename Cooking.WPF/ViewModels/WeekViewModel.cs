@@ -261,7 +261,7 @@ namespace Cooking.WPF.ViewModels
 
         private void CreateShoppingList()
         {
-            List<ShoppingListIngredientsGroup> allProducts = dayService.GetWeekShoppingList(WeekStart, WeekEnd, localization);
+            List<ShoppingListIngredientsGroup> allProducts = dayService.GetWeekShoppingList(WeekStart, WeekEnd);
 
             ShoppingListIngredientsGroup? noCategoryGroup = allProducts.Find(x => x.IngredientGroupName == null);
 

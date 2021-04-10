@@ -183,7 +183,7 @@ namespace Cooking.WPF.ViewModels
 
         private Task OnLoaded()
         {
-            List<RecipeListViewDto> recipies = recipeService.GetMapped<RecipeListViewDto>(x => !x.Tags!.Any(t => t.IsInMenu));
+            List<RecipeListViewDto> recipies = recipeService.GetProjected<RecipeListViewDto>(x => !x.Tags!.Any(t => t.IsInMenu));
             Recipies = new ObservableCollection<RecipeListViewDto>(recipies);
 
             RecipiesSource.Source = Recipies;
@@ -210,11 +210,11 @@ namespace Cooking.WPF.ViewModels
             if (!string.IsNullOrWhiteSpace(FilterText))
             {
                 Expression<Func<Recipe, bool>> filterExpression = recipeFiltrator.Instance.Value.GetExpression(FilterText);
-                newEntries = recipeService.GetProjectedClientside<RecipeListViewDto>(filterExpression.Compile());
+                newEntries = recipeService.GetMapped<RecipeListViewDto>(clientsidePredicate: filterExpression.Compile());
             }
             else
             {
-                newEntries = recipeService.GetAllProjected<RecipeListViewDto>();
+                newEntries = recipeService.GetProjected<RecipeListViewDto>();
             }
 
             Recipies.AddRange(newEntries);

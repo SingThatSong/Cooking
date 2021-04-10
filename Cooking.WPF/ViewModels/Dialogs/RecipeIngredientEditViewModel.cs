@@ -47,7 +47,7 @@ namespace Cooking.WPF.ViewModels
             RemoveIngredientCommand = new DelegateCommand<RecipeIngredientEdit>(RemoveIngredient);
             CreateIngredientCommand = new AsyncDelegateCommand(CreateIngredientAsync);
 
-            AllIngredients = ingredientService.GetAllProjected<IngredientEdit>(callAfterMap: false);
+            AllIngredients = ingredientService.GetProjected<IngredientEdit>();
         }
 
         /// <summary>

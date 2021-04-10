@@ -45,7 +45,7 @@ namespace Cooking.WPF.ViewModels
             }
             else
             {
-                recipies = recipeService.GetAllProjected<RecipeListViewDto>();
+                recipies = recipeService.GetProjected<RecipeListViewDto>();
             }
 
             // CollectionViewSource must be created on UI thread
@@ -146,7 +146,7 @@ namespace Cooking.WPF.ViewModels
             if (!string.IsNullOrEmpty(FilterText))
             {
                 Expression<Func<Recipe, bool>> filterExpression = recipeFiltrator.Instance.Value.GetExpression(FilterText);
-                newEntries = recipeService.GetProjectedClientside<RecipeListViewDto>(filterExpression.Compile());
+                newEntries = recipeService.GetMapped<RecipeListViewDto>(clientsidePredicate: filterExpression.Compile());
             }
             else
             {

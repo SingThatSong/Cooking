@@ -31,7 +31,7 @@ namespace Cooking.WPF.ViewModels
         {
             this.tagService = tagService;
             AddTagCommand = new DelegateCommand(AddTagAsync);
-            AllTags = new ObservableCollection<TagEdit>(allTags ?? tagService.GetAllProjected<TagEdit>());
+            AllTags = new ObservableCollection<TagEdit>(allTags ?? tagService.GetProjected<TagEdit>());
             SelectedItems.AddRange(AllTags.Intersect(selectedTags));
 
             AllTags.CollectionChanged += AllTags_CollectionChanged;
@@ -45,7 +45,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets all tags to choose from.
         /// </summary>
-        public ObservableCollection<TagEdit>? AllTags { get; private set; }
+        public ObservableCollection<TagEdit> AllTags { get; }
 
         /// <summary>
         /// Gets or sets all selected tags.
@@ -55,22 +55,22 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets main ingredient tags.
         /// </summary>
-        public IEnumerable<TagEdit>? MainIngredients => AllTags?.Where(x => x.Type == TagType.MainIngredient);
+        public IEnumerable<TagEdit> MainIngredients => AllTags.Where(x => x.Type == TagType.MainIngredient);
 
         /// <summary>
         /// Gets dish type tags.
         /// </summary>
-        public IEnumerable<TagEdit>? DishTypes => AllTags?.Where(x => x.Type == TagType.DishType);
+        public IEnumerable<TagEdit> DishTypes => AllTags.Where(x => x.Type == TagType.DishType);
 
         /// <summary>
         /// Gets occasion tags.
         /// </summary>
-        public IEnumerable<TagEdit>? Occasions => AllTags?.Where(x => x.Type == TagType.Occasion);
+        public IEnumerable<TagEdit> Occasions => AllTags.Where(x => x.Type == TagType.Occasion);
 
         /// <summary>
         /// Gets sources tags.
         /// </summary>
-        public IEnumerable<TagEdit>? Sources => AllTags?.Where(x => x.Type == TagType.Source);
+        public IEnumerable<TagEdit> Sources => AllTags.Where(x => x.Type == TagType.Source);
 
         /// <summary>
         /// Add new tag.
@@ -82,7 +82,7 @@ namespace Cooking.WPF.ViewModels
             if (viewModel.DialogResultOk)
             {
                 viewModel.Tag.ID = await tagService.CreateAsync(viewModel.Tag);
-                AllTags?.Add(viewModel.Tag);
+                AllTags.Add(viewModel.Tag);
             }
         }
 

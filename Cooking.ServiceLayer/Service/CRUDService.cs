@@ -75,47 +75,6 @@ namespace Cooking.ServiceLayer
         }
 
         /// <summary>
-        /// Get all entries filtered by expression and projected to some type.
-        /// </summary>
-        /// <typeparam name="TProjection">Type of projection.</typeparam>
-        /// <param name="predicate">Predicate to filter.</param>
-        /// <returns>Projected and filtered collection.</returns>
-        public virtual List<TProjection> GetProjected<TProjection>(Expression<Func<T, bool>> predicate)
-            where TProjection : Entity
-        {
-            using CookingContext context = ContextFactory.Create();
-            IQueryable cultureSpecificSet = GetCultureSpecificSet(context).Where(predicate);
-            var entriesProjected = Mapper.ProjectTo<TProjection>(cultureSpecificSet)
-                         .AsNoTracking()
-                         .ToList();
-
-            return Mapper.Map<List<TProjection>>(entriesProjected);
-        }
-
-        /// <summary>
-        /// Get all entries filtered by expression and projected to some type.
-        /// Filtration occurs on client side.
-        /// </summary>
-        /// <typeparam name="TProjection">Type of projection.</typeparam>
-        /// <param name="predicate">Predicate to filter.</param>
-        /// <returns>Projected and filtered collection.</returns>
-        public virtual List<TProjection> GetProjectedClientside<TProjection>(Func<T, bool> predicate)
-            where TProjection : Entity
-        {
-            using CookingContext context = ContextFactory.Create();
-
-            IQueryable<T> cultureSet = GetCultureSpecificSet(context);
-            IQueryable<T>? fullSet = GetFullGraph(cultureSet);
-
-            IEnumerable<T>? set = fullSet.AsNoTracking()
-                                         .AsEnumerable()
-                                         .Where(predicate)
-                                         .ToList();
-
-            return Mapper.Map<List<TProjection>>(set);
-        }
-
-        /// <summary>
         /// Get entry, projected from <typeparamref name="T" />.
         /// </summary>
         /// <typeparam name="TProjection">Type of entry to project to.</typeparam>
@@ -157,17 +116,24 @@ namespace Cooking.ServiceLayer
         /// Get all entities of type <typeparamref name="T" /> projected to TProjection.
         /// </summary>
         /// <typeparam name="TProjection">Type to project <typeparamref name="T" /> to.</typeparam>
-        /// <param name="callAfterMap">Do mapping after projection to call AfterMap.</param>
+        /// <param name="predicate">Predicate to filter.</param>
+        /// <param name="callAfterMap">Do mapping after projection to call AfterMap. Needs mapping from TProjection to TProjection, otherwise will have no effect.</param>
         /// <returns>List of all projected entities.</returns>
-        public List<TProjection> GetAllProjected<TProjection>(bool callAfterMap = true)
+        public List<TProjection> GetProjected<TProjection>(Expression<Func<T, bool>>? predicate = null, bool callAfterMap = false)
         {
             using CookingContext context = ContextFactory.Create();
             IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context).AsNoTracking();
+
+            if (predicate != null)
+            {
+                cultureSpecificSet = cultureSpecificSet.Where(predicate);
+            }
+
             var allProjected = Mapper.ProjectTo<TProjection>(cultureSpecificSet).ToList();
 
             if (callAfterMap)
             {
-                // Here we mapping projected objects to themself to enable AfterMap calls
+                // Here we mapping projected objects to themselves to enable AfterMap calls
                 return Mapper.Map<List<TProjection>>(allProjected);
             }
             else
@@ -177,22 +143,33 @@ namespace Cooking.ServiceLayer
         }
 
         /// <summary>
-        /// Get all entities of type <typeparamref name="T" /> projected to TProjection.
+        /// Get all entities of type <typeparamref name="T" /> mapped to TProjection.
         /// </summary>
-        /// <typeparam name="TProjection">Type to project <typeparamref name="T" /> to.</typeparam>
-        /// <param name="filter">Filter of objects to retrieve.</param>
-        /// <returns>List of all projected entities.</returns>
-        public List<TProjection> GetMapped<TProjection>(Expression<Func<T, bool>>? filter = null)
+        /// <typeparam name="TProjection">Type to map <typeparamref name="T" /> to.</typeparam>
+        /// <param name="predicate">Filter of objects to retrieve.</param>
+        /// <param name="clientsidePredicate">Predicate to filter after data loading.</param>
+        /// <returns>List of all mapped entities.</returns>
+        public List<TProjection> GetMapped<TProjection>(Expression<Func<T, bool>>? predicate = null, Func<T, bool>? clientsidePredicate = null)
         {
             using CookingContext context = ContextFactory.Create();
-            IQueryable<T> cultureSpecificSet = GetCultureSpecificSet(context).AsNoTracking();
+            IQueryable<T> cultureSet = GetCultureSpecificSet(context);
+            IQueryable<T>? fullSet = GetFullGraph(cultureSet);
 
-            if (filter != null)
+            IEnumerable<T>? set = fullSet.AsNoTracking();
+
+            if (predicate != null)
             {
-                cultureSpecificSet = cultureSpecificSet.Where(filter);
+                fullSet = fullSet.Where(predicate);
             }
 
-            return Mapper.Map<List<TProjection>>(cultureSpecificSet.ToList());
+            IEnumerable<T> queryResult = fullSet.AsEnumerable();
+
+            if (clientsidePredicate != null)
+            {
+                queryResult = queryResult.Where(clientsidePredicate);
+            }
+
+            return Mapper.Map<List<TProjection>>(queryResult);
         }
 
         /// <summary>
@@ -202,7 +179,7 @@ namespace Cooking.ServiceLayer
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         public async Task<Guid> CreateAsync(T entity)
         {
-            using CookingContext context = ContextFactory.Create();
+            await using CookingContext context = ContextFactory.Create();
             entity.Culture = GetCurrentCulture();
             await context.Set<T>().AddAsync(entity);
             await context.SaveChangesAsync();
@@ -216,14 +193,9 @@ namespace Cooking.ServiceLayer
         /// <param name="entity">Entity to insert into database.</param>
         /// <returns>ID of created entity.</returns>
         public async Task<Guid> CreateAsync<TProjection>(TProjection entity)
-            where TProjection : Entity
         {
-            using CookingContext context = ContextFactory.Create();
-            entity.Culture = GetCurrentCulture();
-            T dbType = Mapper.Map<T>(entity);
-            await context.Set<T>().AddAsync(dbType);
-            await context.SaveChangesAsync();
-            return dbType.ID;
+            T dbEntity = Mapper.Map<T>(entity);
+            return await CreateAsync(dbEntity);
         }
 
         /// <summary>
@@ -247,7 +219,7 @@ namespace Cooking.ServiceLayer
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         public async Task UpdateAsync(T entity)
         {
-            using CookingContext context = ContextFactory.Create();
+            await using CookingContext context = ContextFactory.Create();
             T existing = await GetFullGraph(context.Set<T>()).FirstAsync(x => x.ID == entity.ID);
             Mapper.Map(entity, existing);
             await context.SaveChangesAsync();
@@ -262,7 +234,7 @@ namespace Cooking.ServiceLayer
         public async Task UpdateAsync<TProjection>(TProjection entity)
             where TProjection : Entity
         {
-            using CookingContext context = ContextFactory.Create();
+            await using CookingContext context = ContextFactory.Create();
 
             T existing = Get(entity.ID, context, isTracking: true);
             Mapper.Map(entity, existing);

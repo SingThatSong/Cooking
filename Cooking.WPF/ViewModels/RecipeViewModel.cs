@@ -261,25 +261,22 @@ namespace Cooking.WPF.ViewModels
 
         private void Close() => journal?.GoBack();
 
-        private void RemoveIngredientGroup(IngredientGroupEdit arg) => RecipeEdit!.IngredientGroups!.Remove(arg);
+        private void RemoveIngredientGroup(IngredientGroupEdit arg) => RecipeEdit!.IngredientGroups.Remove(arg);
 
         private void RemoveIngredient(RecipeIngredientEdit ingredient)
         {
-            if (RecipeEdit!.Ingredients != null && RecipeEdit.Ingredients.Contains(ingredient))
+            if (RecipeEdit!.Ingredients.Contains(ingredient))
             {
                 RecipeEdit.Ingredients.Remove(ingredient);
                 return;
             }
 
-            if (RecipeEdit.IngredientGroups != null)
+            foreach (IngredientGroupEdit group in RecipeEdit.IngredientGroups)
             {
-                foreach (IngredientGroupEdit group in RecipeEdit.IngredientGroups)
+                if (group.Ingredients?.Contains(ingredient) == true)
                 {
-                    if (group.Ingredients?.Contains(ingredient) == true)
-                    {
-                        group.Ingredients.Remove(ingredient);
-                        return;
-                    }
+                    group.Ingredients.Remove(ingredient);
+                    return;
                 }
             }
         }
@@ -336,8 +333,7 @@ namespace Cooking.WPF.ViewModels
 
             if (viewModel.DialogResultOk)
             {
-                RecipeEdit!.IngredientGroups = RecipeEdit.IngredientGroups ?? new ObservableCollection<IngredientGroupEdit>();
-                RecipeEdit.IngredientGroups.Add(viewModel.IngredientGroup);
+                RecipeEdit!.IngredientGroups.Add(viewModel.IngredientGroup);
             }
         }
 
@@ -360,7 +356,7 @@ namespace Cooking.WPF.ViewModels
                 parameters: (nameof(RecipeListViewModel.FilterText), $"{Consts.TagSymbol}\"{tag.Name}\""));
         }
 
-        private void RemoveTag(TagEdit tag) => RecipeEdit!.Tags!.Remove(tag);
+        private void RemoveTag(TagEdit tag) => RecipeEdit!.Tags.Remove(tag);
         private void RemoveImage() => RecipeEdit!.ImagePath = null;
 
         private bool CanRemoveImage() => RecipeEdit?.ImagePath != null;
@@ -437,9 +433,10 @@ namespace Cooking.WPF.ViewModels
                 eventAggregator.GetEvent<RecipeUpdatedEvent>().Publish(RecipeEdit);
             }
 
-            mapper.Map(RecipeEdit, Recipe);
             IsEditing = false;
             IsRecipeCreation = false;
+
+            mapper.Map(RecipeEdit, Recipe);
         }
 
         private async Task DeleteRecipeAsync(Guid recipeID) => await dialogService.ShowYesNoDialogAsync(localization.GetLocalizedString("SureDelete", RecipeEdit!.Name),
