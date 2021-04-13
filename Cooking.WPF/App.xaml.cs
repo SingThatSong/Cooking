@@ -31,8 +31,6 @@ using WPFLocalizeExtension.Providers;
 
 // Tests-related
 // TODO: Generate lots of data (millions of entries) and test. See: Bogus
-// TODO: Debug/ Measure method perfomance (benchmark?)
-// TODO: Use PVS Studio
 // TODO: Tests FTW
 // TODO: UI Tests
 
@@ -57,8 +55,9 @@ using WPFLocalizeExtension.Providers;
 
 // Things not possible right now
 // TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration. Not available now, See https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/issues/1896
-// TODO: Fix publishing: dotnet publish isnt working, single file isnt working, lib trimming isnt working
+// TODO: Fix publishing: lib trimming isnt working
 // TODO: Set autoupgrade https://github.com/Squirrel/Squirrel.Windows Waiting to target .NET 5
+// TODO: Use PVS Studio - Does not support .NET 5/6
 namespace Cooking
 {
     /// <summary>
@@ -223,7 +222,7 @@ namespace Cooking
         private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             ILogger logger = Container.Resolve<ILogger>();
-            logger.Error(e.ExceptionObject as Exception, "Critical error");
+            logger.Fatal(e.ExceptionObject as Exception, "Critical error");
         }
 
         private void EnsureLocalizationProvided()
