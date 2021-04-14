@@ -1,5 +1,5 @@
-﻿using Bindables;
-using Microsoft.Xaml.Behaviors;
+﻿using Microsoft.Xaml.Behaviors;
+using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Windows;
@@ -14,10 +14,22 @@ namespace Cooking.WPF.Controls
     public class ListBoxMultiselectionBehaviour : Behavior<ListBox>
     {
         /// <summary>
+        /// DependencyProperty for <see cref="SelectedItems"/>.
+        /// </summary>
+        public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register(
+                                                                                nameof(SelectedItems),
+                                                                                typeof(INotifyCollectionChanged),
+                                                                                typeof(ListBoxMultiselectionBehaviour),
+                                                                                new PropertyMetadata(propertyChangedCallback: OnSelectedItemsPropertyChanged));
+
+        /// <summary>
         /// Gets or sets getter/Setter for DependencyProperty, bound to the DataContext's SelectedItems ObservableCollection.
         /// </summary>
-        [DependencyProperty(OnPropertyChanged = nameof(OnSelectedItemsPropertyChanged))]
-        public INotifyCollectionChanged? SelectedItems { get; set; }
+        public INotifyCollectionChanged? SelectedItems
+        {
+            get { return (INotifyCollectionChanged?)GetValue(SelectedItemsProperty); }
+            set { SetValue(SelectedItemsProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether collection is mutating.

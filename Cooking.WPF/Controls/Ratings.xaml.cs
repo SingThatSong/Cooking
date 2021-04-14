@@ -1,5 +1,4 @@
-﻿using Bindables;
-using WPF.Commands;
+﻿using WPF.Commands;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -13,6 +12,57 @@ namespace Cooking.WPF.Controls
     public partial class Ratings : UserControl
     {
         /// <summary>
+        /// DependencyProperty for <see cref="HeightStep"/>.
+        /// </summary>
+        public static readonly DependencyProperty HeightStepProperty = DependencyProperty.Register(
+                                                                            nameof(HeightStep),
+                                                                            typeof(double),
+                                                                            typeof(Ratings));
+
+        /// <summary>
+        /// DependencyProperty for <see cref="RatingsInternal"/>.
+        /// </summary>
+        public static readonly DependencyProperty RatingsInternalProperty = DependencyProperty.Register(
+                                                                                nameof(RatingsInternal),
+                                                                                typeof(List<int>),
+                                                                                typeof(Ratings));
+
+        /// <summary>
+        /// DependencyProperty for <see cref="IntegerValue"/>.
+        /// </summary>
+        public static readonly DependencyProperty IntegerValueProperty = DependencyProperty.Register(
+                                                                                nameof(IntegerValue),
+                                                                                typeof(int?),
+                                                                                typeof(Ratings));
+
+        /// <summary>
+        /// DependencyProperty for <see cref="RatingValuePreview"/>.
+        /// </summary>
+        public static readonly DependencyProperty RatingValuePreviewProperty = DependencyProperty.Register(
+                                                                                nameof(RatingValuePreview),
+                                                                                typeof(int?),
+                                                                                typeof(Ratings),
+                                                                                new PropertyMetadata(propertyChangedCallback: OnRatingPreviewChanged));
+
+        /// <summary>
+        /// DependencyProperty for <see cref="RatingValue"/>.
+        /// </summary>
+        public static readonly DependencyProperty RatingValueProperty = DependencyProperty.Register(
+                                                                                nameof(RatingValue),
+                                                                                typeof(int?),
+                                                                                typeof(Ratings),
+                                                                                new PropertyMetadata(propertyChangedCallback: OnRatingChanged));
+
+        /// <summary>
+        /// DependencyProperty for <see cref="MaxRating"/>.
+        /// </summary>
+        public static readonly DependencyProperty MaxRatingProperty = DependencyProperty.Register(
+                                                                                nameof(MaxRating),
+                                                                                typeof(int?),
+                                                                                typeof(Ratings),
+                                                                                new PropertyMetadata(propertyChangedCallback: OnMaxRatingChanged));
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Ratings"/> class.
         /// </summary>
         public Ratings()
@@ -23,38 +73,56 @@ namespace Cooking.WPF.Controls
         /// <summary>
         /// Gets or sets internal value for determining column height, which is HeightStep * ColumnValue.
         /// </summary>
-        [DependencyProperty]
-        public double HeightStep { get; set; }
+        public double HeightStep
+        {
+            get { return (double)GetValue(HeightStepProperty); }
+            set { SetValue(HeightStepProperty, value); }
+        }
 
         /// <summary>
-        /// Gets internal representation of ratings. List of all possible rating values, based on MaxRating.
+        /// Gets or sets internal representation of ratings. List of all possible rating values, based on MaxRating.
         /// </summary>
-        [DependencyProperty]
-        public List<int>? RatingsInternal { get; private set; }
+        public List<int>? RatingsInternal
+        {
+            get { return (List<int>?)GetValue(RatingsInternalProperty); }
+            set { SetValue(RatingsInternalProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets integer value of rating for visual representation. Equals to RatingValue when idle or RatingValuePreview when MouseOver.
         /// </summary>
-        [DependencyProperty]
-        public int? IntegerValue { get; set; }
+        public int? IntegerValue
+        {
+            get { return (int?)GetValue(IntegerValueProperty); }
+            set { SetValue(IntegerValueProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets ratingValue which is underneath mouse when MouseOver.
         /// </summary>
-        [DependencyProperty(OnPropertyChanged = nameof(OnRatingPreviewChanged))]
-        public int? RatingValuePreview { get; set; }
+        public int? RatingValuePreview
+        {
+            get { return (int?)GetValue(RatingValuePreviewProperty); }
+            set { SetValue(RatingValuePreviewProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets selected rating.
         /// </summary>
-        [DependencyProperty(OnPropertyChanged = nameof(OnRatingChanged))]
-        public int? RatingValue { get; set; }
+        public int? RatingValue
+        {
+            get { return (int?)GetValue(RatingValueProperty); }
+            set { SetValue(RatingValueProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets maximum possible rating.
         /// </summary>
-        [DependencyProperty(OnPropertyChanged = nameof(OnMaxRatingChanged))]
-        public int? MaxRating { get; set; }
+        public int? MaxRating
+        {
+            get { return (int?)GetValue(MaxRatingProperty); }
+            set { SetValue(MaxRatingProperty, value); }
+        }
 
         /// <summary>
         /// Gets command to clear rating value.

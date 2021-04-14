@@ -1,10 +1,11 @@
-﻿using Bindables;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Xml.Linq;
 
 namespace Cooking.WPF.Converters
 {
@@ -15,6 +16,16 @@ namespace Cooking.WPF.Converters
     [SuppressMessage("Style", "IDE0060", Justification = "Parameter is required by AttachedProperty")]
     public sealed class RichTextBoxHelper
     {
+        /// <summary>
+        /// Gets or sets attached property to serve as a proxy for binding between RichTextBox's document and string in view model.
+        /// </summary>
+        public static readonly DependencyProperty DocumentXamlProperty = DependencyProperty.RegisterAttached(
+                                                                                  "DocumentXaml",
+                                                                                  typeof(string),
+                                                                                  typeof(RichTextBoxHelper),
+                                                                                  new FrameworkPropertyMetadata(defaultValue: string.Empty,
+                                                                                                                propertyChangedCallback: OnDocumentXamlChanged,
+                                                                                                                flags: FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         private enum RichTextboxStatus
         {
             CanBeModified,
@@ -22,25 +33,23 @@ namespace Cooking.WPF.Converters
         }
 
         /// <summary>
-        /// Gets or sets attached property to serve as a proxy for binding between RichTextBox's document and string in view model.
-        /// </summary>
-        [AttachedProperty(OnPropertyChanged = nameof(OnDocumentXamlChanged), Options = FrameworkPropertyMetadataOptions.BindsTwoWayByDefault)]
-        public static string? DocumentXaml { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Getter for AttachedProperty. Filled in with <see cref="Bindables"/>.
+        /// Getter for AttachedProperty.
         /// </summary>
         /// <param name="richTextBox">RichTextBox to attach to.</param>
         /// <returns>Nothimg.</returns>
-        public static string GetDocumentXaml(DependencyObject richTextBox) => throw new WillBeImplementedByBindablesException();
+        public static string GetDocumentXaml(DependencyObject richTextBox)
+        {
+            return (string)richTextBox.GetValue(DocumentXamlProperty);
+        }
 
         /// <summary>
-        /// Setter for AttachedProperty. Filled in with <see cref="Bindables"/>.
+        /// Setter for AttachedProperty.
         /// </summary>
         /// <param name="richTextBox">RichTextBox to attach to.</param>
         /// <param name="value">Value of document.</param>
         public static void SetDocumentXaml(DependencyObject richTextBox, string value)
         {
+            richTextBox.SetValue(DocumentXamlProperty, value);
         }
 
         private static void OnDocumentXamlChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)

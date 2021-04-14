@@ -134,6 +134,11 @@
             N.B. ListBox must have SelectionMode="Multiple".
             </summary>
         </member>
+        <member name="F:Cooking.WPF.Controls.ListBoxMultiselectionBehaviour.SelectedItemsProperty">
+            <summary>
+            DependencyProperty for <see cref="P:Cooking.WPF.Controls.ListBoxMultiselectionBehaviour.SelectedItems"/>.
+            </summary>
+        </member>
         <member name="P:Cooking.WPF.Controls.ListBoxMultiselectionBehaviour.SelectedItems">
             <summary>
             Gets or sets getter/Setter for DependencyProperty, bound to the DataContext's SelectedItems ObservableCollection.
@@ -170,6 +175,36 @@
             Ratings
             </summary>
         </member>
+        <member name="F:Cooking.WPF.Controls.Ratings.HeightStepProperty">
+            <summary>
+            DependencyProperty for <see cref="P:Cooking.WPF.Controls.Ratings.HeightStep"/>.
+            </summary>
+        </member>
+        <member name="F:Cooking.WPF.Controls.Ratings.RatingsInternalProperty">
+            <summary>
+            DependencyProperty for <see cref="P:Cooking.WPF.Controls.Ratings.RatingsInternal"/>.
+            </summary>
+        </member>
+        <member name="F:Cooking.WPF.Controls.Ratings.IntegerValueProperty">
+            <summary>
+            DependencyProperty for <see cref="P:Cooking.WPF.Controls.Ratings.IntegerValue"/>.
+            </summary>
+        </member>
+        <member name="F:Cooking.WPF.Controls.Ratings.RatingValuePreviewProperty">
+            <summary>
+            DependencyProperty for <see cref="P:Cooking.WPF.Controls.Ratings.RatingValuePreview"/>.
+            </summary>
+        </member>
+        <member name="F:Cooking.WPF.Controls.Ratings.RatingValueProperty">
+            <summary>
+            DependencyProperty for <see cref="P:Cooking.WPF.Controls.Ratings.RatingValue"/>.
+            </summary>
+        </member>
+        <member name="F:Cooking.WPF.Controls.Ratings.MaxRatingProperty">
+            <summary>
+            DependencyProperty for <see cref="P:Cooking.WPF.Controls.Ratings.MaxRating"/>.
+            </summary>
+        </member>
         <member name="M:Cooking.WPF.Controls.Ratings.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Controls.Ratings"/> class.
@@ -182,7 +217,7 @@
         </member>
         <member name="P:Cooking.WPF.Controls.Ratings.RatingsInternal">
             <summary>
-            Gets internal representation of ratings. List of all possible rating values, based on MaxRating.
+            Gets or sets internal representation of ratings. List of all possible rating values, based on MaxRating.
             </summary>
         </member>
         <member name="P:Cooking.WPF.Controls.Ratings.IntegerValue">
@@ -238,6 +273,11 @@
         <member name="T:Cooking.WPF.Converters.BindingProxy">
             <summary>
             Proxy for binding for menus and popups.
+            </summary>
+        </member>
+        <member name="F:Cooking.WPF.Converters.BindingProxy.DataProperty">
+            <summary>
+            DependencyProperty for <see cref="P:Cooking.WPF.Converters.BindingProxy.Data"/>.
             </summary>
         </member>
         <member name="P:Cooking.WPF.Converters.BindingProxy.Data">
@@ -458,21 +498,21 @@
             Converter for binding document to RTF string.
             </summary>
         </member>
-        <member name="P:Cooking.WPF.Converters.RichTextBoxHelper.DocumentXaml">
+        <member name="F:Cooking.WPF.Converters.RichTextBoxHelper.DocumentXamlProperty">
             <summary>
             Gets or sets attached property to serve as a proxy for binding between RichTextBox's document and string in view model.
             </summary>
         </member>
         <member name="M:Cooking.WPF.Converters.RichTextBoxHelper.GetDocumentXaml(System.Windows.DependencyObject)">
             <summary>
-            Getter for AttachedProperty. Filled in with <see cref="N:Bindables"/>.
+            Getter for AttachedProperty.
             </summary>
             <param name="richTextBox">RichTextBox to attach to.</param>
             <returns>Nothimg.</returns>
         </member>
         <member name="M:Cooking.WPF.Converters.RichTextBoxHelper.SetDocumentXaml(System.Windows.DependencyObject,System.String)">
             <summary>
-            Setter for AttachedProperty. Filled in with <see cref="N:Bindables"/>.
+            Setter for AttachedProperty.
             </summary>
             <param name="richTextBox">RichTextBox to attach to.</param>
             <param name="value">Value of document.</param>
@@ -997,7 +1037,7 @@
             <summary>
             Gets localized string for enum value.
             </summary>
-            <param name="key">Enum value to get localized string for.</param>
+            <param name="value">Enum value to get localized string for.</param>
             <returns>Localized string.</returns>
         </member>
         <member name="M:Cooking.WPF.Services.JsonLocalizationProvider.GetLocalizedString(System.String)">

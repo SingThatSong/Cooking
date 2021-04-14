@@ -41,7 +41,6 @@
   
   <ItemGroup>
     <PackageReference Include="AutoMapper.Collection" Version="7.0.2-alpha.0.1" />
-    <PackageReference Include="Bindables.Fody" Version="6.3.0" PrivateAssets="All" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" PrivateAssets="All" />
     <PackageReference Include="FluentValidation" Version="10.0.2" />
     <PackageReference Include="Fody" Version="6.5.1">
