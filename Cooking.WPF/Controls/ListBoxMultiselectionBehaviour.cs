@@ -36,22 +36,19 @@ namespace Cooking.WPF.Controls
         /// </summary>
         private static void OnSelectedItemsPropertyChanged(DependencyObject target, DependencyPropertyChangedEventArgs args)
         {
-            if (args.NewValue is INotifyCollectionChanged collection)
+            if (args.NewValue is INotifyCollectionChanged collection && target is ListBoxMultiselectionBehaviour listBoxMultiselectionBehaviour)
             {
-                if (target is ListBoxMultiselectionBehaviour listBoxMultiselectionBehaviour)
+                collection.CollectionChanged += listBoxMultiselectionBehaviour.ContextSelectedItems_CollectionChanged;
+
+                if (listBoxMultiselectionBehaviour.SelectedItems is IEnumerable enumerable)
                 {
-                    collection.CollectionChanged += listBoxMultiselectionBehaviour.ContextSelectedItems_CollectionChanged;
-
-                    if (listBoxMultiselectionBehaviour.SelectedItems is IEnumerable enumerable)
+                    listBoxMultiselectionBehaviour.CollectionChangedSuspended = true;
+                    foreach (object? item in enumerable)
                     {
-                        listBoxMultiselectionBehaviour.CollectionChangedSuspended = true;
-                        foreach (object? item in enumerable)
-                        {
-                            listBoxMultiselectionBehaviour.AssociatedObject.SelectedItems.Add(item);
-                        }
-
-                        listBoxMultiselectionBehaviour.CollectionChangedSuspended = false;
+                        listBoxMultiselectionBehaviour.AssociatedObject.SelectedItems.Add(item);
                     }
+
+                    listBoxMultiselectionBehaviour.CollectionChangedSuspended = false;
                 }
             }
         }

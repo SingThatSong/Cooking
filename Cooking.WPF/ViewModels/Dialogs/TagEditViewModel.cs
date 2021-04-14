@@ -17,7 +17,7 @@ namespace Cooking.WPF.ViewModels
     /// <summary>
     /// View model for editing tags.
     /// </summary>
-    public partial class TagEditViewModel : OkCancelViewModel
+    public class TagEditViewModel : OkCancelViewModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TagEditViewModel"/> class.
@@ -60,7 +60,7 @@ namespace Cooking.WPF.ViewModels
         public AsyncDelegateCommand AddIconCommand { get; }
 
         private bool NameChanged { get; set; }
-        private List<Tag> AllTags { get; set; }
+        private List<Tag> AllTags { get; }
 
         /// <inheritdoc/>
         protected override async Task OkAsync()

@@ -11,7 +11,7 @@ namespace Cooking.WPF.ViewModels
     /// View model for showing shopping cart.
     /// </summary>
     [AddINotifyPropertyChangedInterface]
-    public partial class ShoppingCartViewModel : INavigationAware
+    public class ShoppingCartViewModel : INavigationAware
     {
         private IRegionNavigationJournal? navigationContext;
 
@@ -31,7 +31,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets shopping cart as list of shopping list groups.
         /// </summary>
-        public ObservableCollection<ShoppingListIngredientsGroup>? List { get; private set; } = new ObservableCollection<ShoppingListIngredientsGroup>();
+        public ObservableCollection<ShoppingListIngredientsGroup>? List { get; } = new ObservableCollection<ShoppingListIngredientsGroup>();
 
         /// <inheritdoc/>
         public bool IsNavigationTarget(NavigationContext navigationContext) => false;
@@ -51,14 +51,7 @@ namespace Cooking.WPF.ViewModels
 
         private bool CanClose()
         {
-            if (navigationContext == null)
-            {
-                return false;
-            }
-            else
-            {
-                return navigationContext.CanGoBack;
-            }
+            return navigationContext?.CanGoBack == true;
         }
 
         private void Close() => navigationContext!.GoBack();

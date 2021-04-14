@@ -40,10 +40,8 @@ namespace Cooking.WPF.Converters
             {
                 return boolValue ? True : False;
             }
-            else
-            {
-                return False;
-            }
+
+            return False;
         }
 
         /// <inheritdoc/>

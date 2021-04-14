@@ -96,9 +96,9 @@ namespace Cooking.WPF.Services
         /// <summary>
         /// Gets localized string for enum value.
         /// </summary>
-        /// <param name="key">Enum value to get localized string for.</param>
+        /// <param name="value">Enum value to get localized string for.</param>
         /// <returns>Localized string.</returns>
-        public string? GetLocalizedString(Enum key) => GetLocalizedObject($"{key.GetType().Name}_{Enum.GetName(key.GetType(), key)}", null, CurrentCulture) as string;
+        public string? GetLocalizedString(Enum value) => GetLocalizedObject($"{value.GetType().Name}_{Enum.GetName(value.GetType(), value)}", null, CurrentCulture) as string;
 
         /// <summary>
         /// Gets localized string for a key.
@@ -147,18 +147,16 @@ namespace Cooking.WPF.Services
                             },
                             x => x.Value);
             }
-            else
-            {
-                InitCache(culture);
-                return localizationCache[culture.Name]
-                            .Where(x => x.Key.StartsWith($"{prefix}_", StringComparison.Ordinal))
-                            .ToDictionary(x =>
-                            {
-                                int indexAfterUnderscore = x.Key.IndexOf('_', StringComparison.Ordinal) + 1;
-                                return x.Key[indexAfterUnderscore..];
-                            },
-                            x => x.Value);
-            }
+
+            InitCache(culture);
+            return localizationCache[culture.Name]
+                        .Where(x => x.Key.StartsWith($"{prefix}_", StringComparison.Ordinal))
+                        .ToDictionary(x =>
+                        {
+                            int indexAfterUnderscore = x.Key.IndexOf('_', StringComparison.Ordinal) + 1;
+                            return x.Key[indexAfterUnderscore..];
+                        },
+                        x => x.Value);
         }
 
         private void InitCache(CultureInfo culture)

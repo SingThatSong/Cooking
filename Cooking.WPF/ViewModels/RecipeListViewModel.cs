@@ -27,7 +27,7 @@ namespace Cooking.WPF.ViewModels
     /// View model for a list of recipies.
     /// </summary>
     [AddINotifyPropertyChangedInterface]
-    public partial class RecipeListViewModel : INavigationAware
+    public class RecipeListViewModel : INavigationAware
     {
         private readonly DialogService dialogService;
         private readonly RecipeFiltrator recipeFiltrator;
@@ -122,7 +122,7 @@ namespace Cooking.WPF.ViewModels
         /// <summary>
         /// Gets or sets filter text value.
         /// </summary>
-        [PropertyChanged.OnChangedMethod(nameof(UpdateRecipiesSource))]
+        [OnChangedMethod(nameof(UpdateRecipiesSource))]
         public string? FilterText { get; set; }
 
         /// <inheritdoc/>
@@ -146,14 +146,8 @@ namespace Cooking.WPF.ViewModels
         {
             object tagNameParameter = navigationContext.Parameters[Consts.TagNameParameter];
 
-            if (tagNameParameter == null && IsFilterable)
-            {
-                return true;
-            }
-            else
-            {
-                return FilterText == $"{Consts.TagSymbol}\"{navigationContext.Parameters[Consts.TagNameParameter]}\"";
-            }
+            return (tagNameParameter == null && IsFilterable)
+                 || FilterText == $"{Consts.TagSymbol}\"{navigationContext.Parameters[Consts.TagNameParameter]}\"";
         }
 
         /// <inheritdoc/>

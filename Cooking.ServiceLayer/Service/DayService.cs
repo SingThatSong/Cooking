@@ -321,26 +321,26 @@ namespace Cooking.ServiceLayer
         }
 
         /// <inheritdoc/>
-        protected override IQueryable<Day> GetFullGraph(IQueryable<Day> set)
+        protected override IQueryable<Day> GetFullGraph(IQueryable<Day> baseQuery)
         {
             // Includes for database querying, null-checks are not applicable.
 #pragma warning disable CS8602
-            return set.Include(x => x.Dinner)
-                        .ThenInclude(x => x.IngredientGroups)
-                          .ThenInclude(x => x.Ingredients)
-                            .ThenInclude(x => x.Ingredient)
-                      .Include(x => x.Dinner)
-                        .ThenInclude(x => x.IngredientGroups)
-                          .ThenInclude(x => x.Ingredients)
-                            .ThenInclude(x => x.MeasureUnit)
-                      .Include(x => x.Dinner)
-                        .ThenInclude(x => x.Ingredients)
-                          .ThenInclude(x => x.Ingredient)
-                      .Include(x => x.Dinner)
-                        .ThenInclude(x => x.Ingredients)
-                          .ThenInclude(x => x.MeasureUnit)
-                      .Include(x => x.Dinner)
-                        .ThenInclude(x => x.Tags);
+            return baseQuery.Include(x => x.Dinner)
+                              .ThenInclude(x => x.IngredientGroups)
+                                .ThenInclude(x => x.Ingredients)
+                                  .ThenInclude(x => x.Ingredient)
+                            .Include(x => x.Dinner)
+                              .ThenInclude(x => x.IngredientGroups)
+                                .ThenInclude(x => x.Ingredients)
+                                  .ThenInclude(x => x.MeasureUnit)
+                            .Include(x => x.Dinner)
+                              .ThenInclude(x => x.Ingredients)
+                                .ThenInclude(x => x.Ingredient)
+                            .Include(x => x.Dinner)
+                              .ThenInclude(x => x.Ingredients)
+                                .ThenInclude(x => x.MeasureUnit)
+                            .Include(x => x.Dinner)
+                              .ThenInclude(x => x.Tags);
 #pragma warning restore CS8602
         }
 

@@ -35,17 +35,14 @@ namespace Cooking
 
             bool? dialogResult = openFileDialog.ShowDialog();
 
-            if (dialogResult == true)
+            if (dialogResult == true && File.Exists(openFileDialog.FileName))
             {
-                if (File.Exists(openFileDialog.FileName))
-                {
-                    DirectoryInfo dir = Directory.CreateDirectory(Consts.ImageFolder);
-                    var file = new FileInfo(openFileDialog.FileName);
-                    string newName = $"{Guid.NewGuid()}{file.Extension}";
-                    string newFilePath = Path.Combine(dir.FullName, newName);
-                    MinifyImage(source: openFileDialog.FileName, destination: newFilePath);
-                    return $"{Consts.ImageFolder}/{newName}";
-                }
+                DirectoryInfo dir = Directory.CreateDirectory(Consts.ImageFolder);
+                var file = new FileInfo(openFileDialog.FileName);
+                string newName = $"{Guid.NewGuid()}{file.Extension}";
+                string newFilePath = Path.Combine(dir.FullName, newName);
+                MinifyImage(source: openFileDialog.FileName, destination: newFilePath);
+                return $"{Consts.ImageFolder}/{newName}";
             }
 
             return null;

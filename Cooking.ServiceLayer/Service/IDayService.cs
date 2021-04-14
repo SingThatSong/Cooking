@@ -37,9 +37,9 @@ namespace Cooking.ServiceLayer
         /// <summary>
         /// Delete whole week from database.
         /// </summary>
-        /// <param name="weekStart">First day of a period to which deleted days should belong.</param>
+        /// <param name="weekday">First day of a period to which deleted days should belong.</param>
         /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        Task DeleteWeekAsync(DateTime weekStart);
+        Task DeleteWeekAsync(DateTime weekday);
 
         /// <summary>
         /// Get first day of week for a given day.

@@ -209,10 +209,10 @@ namespace Cooking
 
             while (error != null)
             {
-                sb.AppendLine(error.Message);
-                sb.AppendLine(error.StackTrace);
-                sb.AppendLine("--------------------------------------");
-                sb.AppendLine();
+                sb.AppendLine(error.Message)
+                  .AppendLine(error.StackTrace)
+                  .AppendLine("--------------------------------------")
+                  .AppendLine();
                 error = error.InnerException;
             }
 
@@ -260,7 +260,7 @@ namespace Cooking
             DayService dayService = Container.Resolve<DayService>();
             dayService.InitCache();
 
-            DelegateCommand.GlobalExceptionHandler = ex =>
+            DelegateCommandBase.GlobalExceptionHandler = ex =>
             {
                 ILogger logger = Container.Resolve<ILogger>();
                 logger.Error(ex, "Critical error");

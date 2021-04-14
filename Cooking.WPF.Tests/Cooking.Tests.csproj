@@ -64,4 +64,8 @@
     <ProjectReference Include="..\Cooking.ServiceLayer\Cooking.ServiceLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Service\" />
+  </ItemGroup>
+
 </Project>

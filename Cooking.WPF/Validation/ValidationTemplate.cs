@@ -68,11 +68,11 @@ namespace Cooking
         public string Error => string.Join(Environment.NewLine, validationResult.Errors.Select(x => x.ErrorMessage));
 
         /// <inheritdoc/>
-        public string? this[string propertyName]
+        public string? this[string columnName]
         {
             get
             {
-                IEnumerable errors = GetErrors(propertyName);
+                IEnumerable errors = GetErrors(columnName);
 
                 return errors.GetEnumerator().MoveNext()
                             ? string.Join(Environment.NewLine, errors)

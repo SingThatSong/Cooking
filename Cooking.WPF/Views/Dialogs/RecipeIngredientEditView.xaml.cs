@@ -35,17 +35,13 @@ namespace Cooking.WPF.Views
                 {
                     return true;
                 }
-                else
+
+                if (o is IngredientEdit ingredient && ingredient.Name != null)
                 {
-                    if (o is IngredientEdit ingredient && ingredient.Name != null)
-                    {
-                        return ingredient.Name.Contains(Ingredient.Text, StringComparison.OrdinalIgnoreCase);
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return ingredient.Name.Contains(Ingredient.Text, StringComparison.OrdinalIgnoreCase);
                 }
+
+                return false;
             };
 
             itemsViewOriginal.Refresh();

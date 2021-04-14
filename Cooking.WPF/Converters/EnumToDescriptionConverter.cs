@@ -29,7 +29,7 @@ namespace Cooking.WPF.Converters
                 {
                     return localization[@enum];
                 }
-                else if (value is IEnumerable collection && !(value is string))
+                else if (value is IEnumerable collection and not string)
                 {
                     var list = new List<string>();
 

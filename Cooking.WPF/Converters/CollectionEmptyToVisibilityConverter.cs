@@ -29,10 +29,8 @@ namespace Cooking.WPF.Converters
                 return collection.GetEnumerator().MoveNext() ? CollectionNotEmptyVisibility
                                                              : CollectionEmptyVisibility;
             }
-            else
-            {
-                return Visibility.Collapsed;
-            }
+
+            return Visibility.Collapsed;
         }
 
         /// <inheritdoc/>

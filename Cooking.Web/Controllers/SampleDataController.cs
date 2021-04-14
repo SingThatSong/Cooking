@@ -62,7 +62,7 @@ namespace Cooking.Web.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<Recipe?> WeatherForecasts(Guid id)
         {
-            Recipe result;
+            Recipe? result;
             using (var context = new CookingContext(Database))
             {
                 result = await context.Recipies.Include(x => x.Ingredients)
@@ -70,7 +70,8 @@ namespace Cooking.Web.Controllers
                                                .Include(x => x.Ingredients)
                                                   .ThenInclude(x => x.MeasureUnit)
                                                .Where(x => x.ID == id)
-                                               .FirstOrDefaultAsync().ConfigureAwait(false);
+                                               .FirstOrDefaultAsync()
+                                               .ConfigureAwait(false);
             }
 
             if (result != null)

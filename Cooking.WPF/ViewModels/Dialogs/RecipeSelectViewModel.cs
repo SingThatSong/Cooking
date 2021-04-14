@@ -79,8 +79,8 @@ namespace Cooking.WPF.ViewModels
                     {
                         if (day.NeededDishTypes?.Count > 1)
                         {
-                            sb.Insert(0, '(');
-                            sb.Append(')');
+                            sb.Insert(0, '(')
+                              .Append(')');
                         }
 
                         sb.Append(" and ");
