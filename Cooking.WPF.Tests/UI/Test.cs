@@ -1,12 +1,11 @@
 ﻿using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Capturing;
 using FlaUI.UIA3;
-using FluentAssertions;
 using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Cooking.Tests.UI
+namespace Cooking.Tests.UITests
 {
     public class Test
     {
