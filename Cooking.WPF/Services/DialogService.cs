@@ -60,8 +60,8 @@ public class DialogService
     public virtual async Task ShowAndWaitForClosedAsync(BaseMetroDialog dialog)
         => await Application.Current.Dispatcher.Invoke(async () =>
         {
-                // Remember where we were before showing.
-                BaseMetroDialog parentDialog = await dialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(viewModel);
+            // Remember where we were before showing.
+            BaseMetroDialog parentDialog = await dialogCoordinator.GetCurrentDialogAsync<BaseMetroDialog>(viewModel);
 
             await dialogCoordinator.ShowMetroDialogAsync(viewModel, dialog);
 

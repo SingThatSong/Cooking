@@ -232,13 +232,7 @@ public partial class App : PrismApplication
     private void SetStaticVariables()
     {
         AppSettings configuration = Container.Resolve<AppSettings>();
-        var currentCulture = CultureInfo.GetCultureInfo(configuration.Culture);
-        LocalizeDictionary.Instance.Culture = currentCulture;
-        PluralLocalizationFormatter? formatter = Smart.Default.GetFormatterExtension<PluralLocalizationFormatter>();
-        if (formatter != null)
-        {
-            formatter.DefaultTwoLetterISOLanguageName = currentCulture.TwoLetterISOLanguageName;
-        }
+        LocalizeDictionary.Instance.Culture = CultureInfo.GetCultureInfo(configuration.Culture);
 
         LocalizeDictionary.Instance.DefaultProvider = Container.Resolve<ILocalizationProvider>();
         LocalizeDictionary.Instance.DisableCache = false;

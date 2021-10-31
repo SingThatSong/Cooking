@@ -8,6 +8,7 @@ namespace Cooking.WPF.Services;
 
 // Class contains expressions for database querying, null-checks is not applicable.
 #pragma warning disable CS8602, CS8604
+
 // Same for ToLower and Equals methods
 #pragma warning disable CA1304, CA1307, RCS1155
 

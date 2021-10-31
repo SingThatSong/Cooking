@@ -46,8 +46,8 @@ internal static class MapperService
         {
             cfg.AddCollectionMappers();
 
-                // Disable validation while mapping and map
-                cfg.ForAllMaps((_, mappingExpression) =>
+            // Disable validation while mapping and map
+            cfg.ForAllMaps((_, mappingExpression) =>
             {
                 mappingExpression.ForAllMembers(opts => opts.Condition((_, _, srcMember) => srcMember != null));
 
@@ -74,8 +74,8 @@ internal static class MapperService
                 });
             });
 
-                // Base mapping for db-dto mappings
-                cfg.CreateMap<Entity, Entity>()
+            // Base mapping for db-dto mappings
+            cfg.CreateMap<Entity, Entity>()
                .EqualityComparison((a, b) => a.ID == b.ID)
                .IncludeAllDerived();
 
@@ -83,14 +83,14 @@ internal static class MapperService
                .EqualityComparison((a, b) => a.ID == b.ID)
                .IncludeAllDerived();
 
-                // Map created recipe to displayed in list
-                cfg.CreateMap<RecipeEdit, RecipeListViewDto>()
+            // Map created recipe to displayed in list
+            cfg.CreateMap<RecipeEdit, RecipeListViewDto>()
 
                // It is a new recipe, so we just set LastCooked to infinity
                .ForMember(x => x.LastCooked, opts => opts.MapFrom(_ => int.MaxValue));
 
-                // Backup dto for editing
-                cfg.CreateMap<RecipeEdit, RecipeEdit>()
+            // Backup dto for editing
+            cfg.CreateMap<RecipeEdit, RecipeEdit>()
                .ForMember(x => x.LastCooked, opts => opts.Ignore());
 
             cfg.CreateMap<TagEdit, TagEdit>();
@@ -107,29 +107,29 @@ internal static class MapperService
                .ForMember(x => x.MeasureUnit, opts => opts.Ignore())
                .ForMember(x => x.MeasureUnitID, opts => opts.MapFrom(x => x.MeasureUnit != null ? (Guid?)x.MeasureUnit.ID : null));
 
-                // Project Recipe from db to displayed in lists
-                cfg.CreateMap<Recipe, RecipeListViewDto>()
+            // Project Recipe from db to displayed in lists
+            cfg.CreateMap<Recipe, RecipeListViewDto>()
                .ForMember(x => x.LastCooked, opts => opts.Ignore())
                .AfterMap<RecipeDtoConverter>();
 
-                // Project Recipe form db to displayed in week generation
-                cfg.CreateMap<Recipe, DayPlanRecipe>();
+            // Project Recipe form db to displayed in week generation
+            cfg.CreateMap<Recipe, DayPlanRecipe>();
 
-                // Project Recipe from db to displayed in recipe view
-                cfg.CreateMap<Recipe, RecipeEdit>()
+            // Project Recipe from db to displayed in recipe view
+            cfg.CreateMap<Recipe, RecipeEdit>()
                .ForMember(x => x.LastCooked, opts => opts.Ignore())
                .AfterMap<RecipeConverter>()
                .ReverseMap();
 
-                // Update ingredients group in recipe
-                cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>()
+            // Update ingredients group in recipe
+            cfg.CreateMap<IngredientGroupEdit, IngredientsGroup>()
                .ReverseMap();
 
-                // Project day to display
-                cfg.CreateMap<Day, DayDisplay>();
+            // Project day to display
+            cfg.CreateMap<Day, DayDisplay>();
 
-                // Project enities for editing
-                cfg.CreateMap<Tag, TagEdit>()
+            // Project enities for editing
+            cfg.CreateMap<Tag, TagEdit>()
                .ForMember(x => x.IsChecked, opts => opts.Ignore())
                .ForMember(x => x.CanBeRemoved, opts => opts.Ignore())
                .ReverseMap();
