@@ -1,4 +1,11 @@
-﻿using ControlzEx.Theming;
+﻿using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Text;
+using System.Windows;
+using System.Windows.Media;
+using ControlzEx.Theming;
 using Cooking.Data.Context;
 using Cooking.ServiceLayer;
 using Cooking.WPF;
@@ -9,22 +16,12 @@ using Cooking.WPF.Views;
 using MahApps.Metro.Controls.Dialogs;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Prism.Ioc;
 using Prism.Unity;
 using Serilog;
 using Serilog.Core;
 using SmartFormat;
 using SmartFormat.Extensions;
-using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Media;
 using WPF.Commands;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Providers;
@@ -57,215 +54,208 @@ using WPFLocalizeExtension.Providers;
 // TODO: Make Mahapps and MaterialDesign work correctly together https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/wiki/MahAppsMetro-integration. Not available now, See https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit/issues/1896
 // TODO: Fix publishing: lib trimming isnt working
 // TODO: Set autoupgrade https://github.com/Squirrel/Squirrel.Windows Waiting to target .NET 5
-// TODO: Use PVS Studio - Does not support .NET 5/6
-namespace Cooking
+namespace Cooking;
+
+/// <summary>
+/// Logic for App.xaml.
+/// </summary>
+public partial class App : PrismApplication
 {
-    /// <summary>
-    /// Logic for App.xaml.
-    /// </summary>
-    public partial class App : PrismApplication
+    static App()
     {
-        static App()
+        // Subscribe to errors in PrismApplication initialization. This is needed because those errors occurs before any IoC initialization
+        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="App"/> class.
+    /// </summary>
+    public App()
+    {
+        // Unsubscribe to errors in PrismApplication initialization and move to instance's version
+        AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;
+        AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;
+    }
+
+    /// <inheritdoc/>
+    protected override void RegisterTypes(IContainerRegistry containerRegistry)
+    {
+        // Register logging
+        Logger logger = new LoggerConfiguration()
+                         .MinimumLevel.Information()
+                         .WriteTo.Debug()
+                         .WriteTo.File(Consts.LogFilename,
+                                       rollingInterval: RollingInterval.Infinite,
+                                       rollOnFileSizeLimit: true,
+                                       fileSizeLimitBytes: 5 * Consts.Megabyte)
+                         .CreateLogger();
+
+        containerRegistry.RegisterInstance<ILogger>(logger);
+
+        AppSettings appSettings = CreateOptions();
+        containerRegistry.RegisterInstance(appSettings);
+
+        ThemeManager.Current.ChangeTheme(Current, appSettings.Theme, appSettings.Accent);
+
+        var paletteHelper = new PaletteHelper();
+        IBaseTheme baseTheme = MaterialDesignThemes.Wpf.Theme.Dark;
+        if (appSettings.Theme == "Light")
         {
-            // Subscribe to errors in PrismApplication initialization. This is needed because those errors occurs before any IoC initialization
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            baseTheme = MaterialDesignThemes.Wpf.Theme.Light;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="App"/> class.
-        /// </summary>
-        public App()
+        paletteHelper.SetTheme(MaterialDesignThemes.Wpf.Theme.Create(baseTheme,
+                                                                    (Color)ColorConverter.ConvertFromString(appSettings.Accent),
+                                                                    (Color)ColorConverter.ConvertFromString(appSettings.Accent)));
+
+        // Register main page and main vm - they are constant
+        containerRegistry.RegisterSingleton<MainWindowViewModel>();
+
+        containerRegistry.UseAutomapper(Container);
+
+        // Register services
+        containerRegistry.RegisterSingleton<ImageService>();
+        containerRegistry.Register<IDayService, DayService>();
+        containerRegistry.RegisterSingleton<IContextFactory, ContextFactory>();
+
+        // Use instance of provider as singleton for different interfaces
+        var jsonProvider = new JsonLocalizationProvider();
+        containerRegistry.RegisterInstance<ILocalization>(jsonProvider);
+        containerRegistry.RegisterInstance<ILocalizationProvider>(jsonProvider);
+        containerRegistry.RegisterInstance<ICurrentCultureProvider>(jsonProvider);
+
+        // If no localization exists or current config is invalid, close application
+        EnsureLocalizationProvided();
+
+        // TODO: remove after introducing data migrator
+        DatabaseService dbService = Container.Resolve<DatabaseService>();
+        dbService.MigrateDatabase();
+
+        // Variables affect pages, so we set them beforehand
+        SetStaticVariables();
+
+        // Dialog service is constant - we have only one window
+        containerRegistry.RegisterInstance(new DialogService(
+                                                    Container.Resolve<MainWindowViewModel>(),
+                                                    DialogCoordinator.Instance,
+                                                    Container.Resolve<IContainerExtension>(),
+                                                    Container.Resolve<ILocalization>()
+                                               )
+                                          );
+
+        // Register pages
+        containerRegistry.RegisterForNavigation<WeekSettingsView>();
+        containerRegistry.RegisterForNavigation<GeneratedWeekView>();
+        containerRegistry.RegisterForNavigation<SettingsView>();
+        containerRegistry.RegisterForNavigation<WeekView>();
+        containerRegistry.RegisterForNavigation<ShoppingCartView>();
+        containerRegistry.RegisterForNavigation<RecipeListView>();
+        containerRegistry.RegisterForNavigation<RecipeView>();
+        containerRegistry.RegisterForNavigation<IngredientListView>();
+        containerRegistry.RegisterForNavigation<TagListView>();
+    }
+
+    /// <inheritdoc/>
+    protected override Window CreateShell()
+    {
+        MainWindowView mainWindow = Container.Resolve<MainWindowView>();
+        AppSettings settings = Container.Resolve<AppSettings>();
+
+        if (settings.IsWindowMaximized)
         {
-            // Unsubscribe to errors in PrismApplication initialization and move to instance's version
-            AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;
-            AppDomain.CurrentDomain.UnhandledException += FatalUnhandledException;
+            mainWindow.WindowState = WindowState.Maximized;
         }
 
-        /// <inheritdoc/>
-        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        if (settings.WindowWidth.HasValue)
         {
-            // Register logging
-            Logger logger = new LoggerConfiguration()
-                             .MinimumLevel.Information()
-                             .WriteTo.Debug()
-                             .WriteTo.File(Consts.LogFilename,
-                                           rollingInterval: RollingInterval.Infinite,
-                                           rollOnFileSizeLimit: true,
-                                           fileSizeLimitBytes: 5 * Consts.Megabyte)
-                             .CreateLogger();
-
-            containerRegistry.RegisterInstance<ILogger>(logger);
-
-            IOptions<AppSettings> options = CreateOptions();
-            containerRegistry.RegisterInstance(options);
-
-            ThemeManager.Current.ChangeTheme(Current, options.Value.Theme, options.Value.Accent);
-
-            var paletteHelper = new PaletteHelper();
-            IBaseTheme baseTheme = MaterialDesignThemes.Wpf.Theme.Dark;
-            if (options.Value.Theme == "Light")
-            {
-                baseTheme = MaterialDesignThemes.Wpf.Theme.Light;
-            }
-
-            paletteHelper.SetTheme(MaterialDesignThemes.Wpf.Theme.Create(baseTheme,
-                                                                        (Color)ColorConverter.ConvertFromString(options.Value.Accent),
-                                                                        (Color)ColorConverter.ConvertFromString(options.Value.Accent)));
-
-            // Register main page and main vm - they are constant
-            containerRegistry.RegisterSingleton<MainWindowViewModel>();
-
-            containerRegistry.UseAutomapper(Container);
-
-            // Register services
-            containerRegistry.RegisterSingleton<ImageService>();
-            containerRegistry.Register<IDayService, DayService>();
-            containerRegistry.RegisterSingleton<IContextFactory, ContextFactory>();
-
-            // Use instance of provider as singleton for different interfaces
-            var jsonProvider = new JsonLocalizationProvider();
-            containerRegistry.RegisterInstance<ILocalization>(jsonProvider);
-            containerRegistry.RegisterInstance<ILocalizationProvider>(jsonProvider);
-            containerRegistry.RegisterInstance<ICurrentCultureProvider>(jsonProvider);
-
-            // If no localization exists or current config is invalid, close application
-            EnsureLocalizationProvided();
-
-            // TODO: remove after introducing data migrator
-            DatabaseService dbService = Container.Resolve<DatabaseService>();
-            dbService.MigrateDatabase();
-
-            // Variables affect pages, so we set them beforehand
-            SetStaticVariables();
-
-            // Dialog service is constant - we have only one window
-            containerRegistry.RegisterInstance(new DialogService(
-                                                        Container.Resolve<MainWindowViewModel>(),
-                                                        DialogCoordinator.Instance,
-                                                        Container.Resolve<IContainerExtension>(),
-                                                        Container.Resolve<ILocalization>()
-                                                   )
-                                              );
-
-            // Register pages
-            containerRegistry.RegisterForNavigation<WeekSettingsView>();
-            containerRegistry.RegisterForNavigation<GeneratedWeekView>();
-            containerRegistry.RegisterForNavigation<SettingsView>();
-            containerRegistry.RegisterForNavigation<WeekView>();
-            containerRegistry.RegisterForNavigation<ShoppingCartView>();
-            containerRegistry.RegisterForNavigation<RecipeListView>();
-            containerRegistry.RegisterForNavigation<RecipeView>();
-            containerRegistry.RegisterForNavigation<IngredientListView>();
-            containerRegistry.RegisterForNavigation<TagListView>();
-            containerRegistry.RegisterForNavigation<GarnishListView>();
+            mainWindow.Width = settings.WindowWidth.Value;
         }
 
-        /// <inheritdoc/>
-        protected override Window CreateShell()
+        if (settings.WindowHeight.HasValue)
         {
-            MainWindowView mainWindow = Container.Resolve<MainWindowView>();
-            IOptions<AppSettings> settings = Container.Resolve<IOptions<AppSettings>>();
-
-            if (settings.Value.IsWindowMaximized)
-            {
-                mainWindow.WindowState = WindowState.Maximized;
-            }
-
-            if (settings.Value.WindowWidth.HasValue)
-            {
-                mainWindow.Width = settings.Value.WindowWidth.Value;
-            }
-
-            if (settings.Value.WindowHeight.HasValue)
-            {
-                mainWindow.Height = settings.Value.WindowHeight.Value;
-            }
-
-            return mainWindow;
+            mainWindow.Height = settings.WindowHeight.Value;
         }
 
-        private static IOptions<AppSettings> CreateOptions()
+        return mainWindow;
+    }
+
+    private static AppSettings CreateOptions()
+    {
+        string? exeFile = Process.GetCurrentProcess().MainModule?.FileName;
+        string? directory = Path.GetDirectoryName(exeFile);
+
+        IConfigurationRoot configuration = new ConfigurationBuilder()
+                                                .SetBasePath(directory)
+                                                .AddJsonFile(Consts.AppSettingsFilename, optional: false, reloadOnChange: true)
+                                                .Build();
+
+        return configuration.Get<AppSettings>();
+    }
+
+    private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        var sb = new StringBuilder();
+
+        var error = e.ExceptionObject as Exception;
+
+        while (error != null)
         {
-            string? exeFile = Process.GetCurrentProcess().MainModule?.FileName;
-            string? directory = Path.GetDirectoryName(exeFile);
-
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                                                    .SetBasePath(directory)
-                                                    .AddJsonFile(Consts.AppSettingsFilename, optional: false, reloadOnChange: true)
-                                                    .Build();
-
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.Configure<AppSettings>(configuration);
-            ServiceProvider provider = serviceCollection.BuildServiceProvider();
-
-            return provider.GetRequiredService<IOptions<AppSettings>>();
+            sb.AppendLine(error.Message)
+              .AppendLine(error.StackTrace)
+              .AppendLine("--------------------------------------")
+              .AppendLine();
+            error = error.InnerException;
         }
 
-        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        File.WriteAllText("error.log", sb.ToString());
+    }
+
+    private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        ILogger logger = Container.Resolve<ILogger>();
+        logger.Fatal(e.ExceptionObject as Exception, "Critical error");
+    }
+
+    private void EnsureLocalizationProvided()
+    {
+        ILocalizationProvider localization = Container.Resolve<ILocalizationProvider>();
+        AppSettings configuration = Container.Resolve<AppSettings>();
+
+        if (!localization.AvailableCultures.Any(x => x.Name == configuration.Culture))
         {
-            var sb = new StringBuilder();
+            string error = string.Format(CultureInfo.InvariantCulture, Consts.LocalizationNotFound, configuration.Culture);
+            MessageBox.Show(error);
+            Environment.Exit(0);
+        }
+    }
 
-            var error = e.ExceptionObject as Exception;
-
-            while (error != null)
-            {
-                sb.AppendLine(error.Message)
-                  .AppendLine(error.StackTrace)
-                  .AppendLine("--------------------------------------")
-                  .AppendLine();
-                error = error.InnerException;
-            }
-
-            File.WriteAllText("error.log", sb.ToString());
+    private void SetStaticVariables()
+    {
+        AppSettings configuration = Container.Resolve<AppSettings>();
+        var currentCulture = CultureInfo.GetCultureInfo(configuration.Culture);
+        LocalizeDictionary.Instance.Culture = currentCulture;
+        PluralLocalizationFormatter? formatter = Smart.Default.GetFormatterExtension<PluralLocalizationFormatter>();
+        if (formatter != null)
+        {
+            formatter.DefaultTwoLetterISOLanguageName = currentCulture.TwoLetterISOLanguageName;
         }
 
-        private void FatalUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        LocalizeDictionary.Instance.DefaultProvider = Container.Resolve<ILocalizationProvider>();
+        LocalizeDictionary.Instance.DisableCache = false;
+        LocalizeDictionary.Instance.IncludeInvariantCulture = false;
+
+        ILocalization localization = Container.Resolve<ILocalization>();
+        TagEdit.Any.Name = localization["Any"];
+        CalorieTypeSelection.Any.Name = localization["Any"];
+
+        DayService dayService = Container.Resolve<DayService>();
+        dayService.InitCache();
+
+        DelegateCommandBase.GlobalExceptionHandler = ex =>
         {
             ILogger logger = Container.Resolve<ILogger>();
-            logger.Fatal(e.ExceptionObject as Exception, "Critical error");
-        }
-
-        private void EnsureLocalizationProvided()
-        {
-            ILocalizationProvider localization = Container.Resolve<ILocalizationProvider>();
-            IOptions<AppSettings> configuration = Container.Resolve<IOptions<AppSettings>>();
-
-            if (!localization.AvailableCultures.Any(x => x.Name == configuration.Value.Culture))
-            {
-                string error = string.Format(CultureInfo.InvariantCulture, Consts.LocalizationNotFound, configuration.Value.Culture);
-                MessageBox.Show(error);
-                Environment.Exit(0);
-            }
-        }
-
-        private void SetStaticVariables()
-        {
-            IOptions<AppSettings> configuration = Container.Resolve<IOptions<AppSettings>>();
-            var currentCulture = CultureInfo.GetCultureInfo(configuration.Value.Culture);
-            LocalizeDictionary.Instance.Culture = currentCulture;
-            PluralLocalizationFormatter? formatter = Smart.Default.GetFormatterExtension<PluralLocalizationFormatter>();
-            if (formatter != null)
-            {
-                formatter.DefaultTwoLetterISOLanguageName = currentCulture.TwoLetterISOLanguageName;
-            }
-
-            LocalizeDictionary.Instance.DefaultProvider = Container.Resolve<ILocalizationProvider>();
-            LocalizeDictionary.Instance.DisableCache = false;
-            LocalizeDictionary.Instance.IncludeInvariantCulture = false;
-
-            ILocalization localization = Container.Resolve<ILocalization>();
-            TagEdit.Any.Name              = localization["Any"];
-            CalorieTypeSelection.Any.Name = localization["Any"];
-
-            DayService dayService = Container.Resolve<DayService>();
-            dayService.InitCache();
-
-            DelegateCommandBase.GlobalExceptionHandler = ex =>
-            {
-                ILogger logger = Container.Resolve<ILogger>();
-                logger.Error(ex, "Critical error");
-                return true;
-            };
-        }
+            logger.Error(ex, "Critical error");
+            return true;
+        };
     }
 }

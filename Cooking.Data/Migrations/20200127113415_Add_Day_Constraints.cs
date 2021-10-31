@@ -1,21 +1,20 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Cooking.Data.Migrations
+namespace Cooking.Data.Migrations;
+
+/// <summary>
+/// Days now should always have dinner and date.
+/// </summary>
+public partial class Add_Day_Constraints : Migration
 {
-    /// <summary>
-    /// Days now should always have dinner and date.
-    /// </summary>
-    public partial class Add_Day_Constraints : Migration
+    /// <inheritdoc/>
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc/>
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            // Rename old Day table to temp
-            migrationBuilder.Sql($"ALTER TABLE Day RENAME TO _Day;");
+        // Rename old Day table to temp
+        migrationBuilder.Sql($"ALTER TABLE Day RENAME TO _Day;");
 
-            // Recreate table with new types for Day
-            migrationBuilder.Sql(@"CREATE TABLE [Day] (
+        // Recreate table with new types for Day
+        migrationBuilder.Sql(@"CREATE TABLE [Day] (
                                   [ID] text NOT NULL
                                 , [DinnerID] text NOT NULL
                                 , [DinnerWasCooked] bigint NOT NULL
@@ -26,16 +25,15 @@ namespace Cooking.Data.Migrations
                                 , CONSTRAINT [FK_Day_0_0] FOREIGN KEY ([DinnerID]) REFERENCES [Recipies] ([ID]) ON DELETE SET NULL ON UPDATE NO ACTION
                                 );");
 
-            // Copy data from backup
-            migrationBuilder.Sql(@$"INSERT INTO Day SELECT * FROM [_Day] WHERE DinnerID IS NOT NULL;");
+        // Copy data from backup
+        migrationBuilder.Sql(@$"INSERT INTO Day SELECT * FROM [_Day] WHERE DinnerID IS NOT NULL;");
 
-            // Drop backup
-            migrationBuilder.Sql($"DROP TABLE [_Day];");
-        }
+        // Drop backup
+        migrationBuilder.Sql($"DROP TABLE [_Day];");
+    }
 
-        /// <inheritdoc/>
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-        }
+    /// <inheritdoc/>
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
     }
 }

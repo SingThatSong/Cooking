@@ -1,18 +1,15 @@
-﻿using System.Windows.Input;
+﻿namespace Cooking.WPF.Views;
 
-namespace Cooking.WPF.Views
+/// <summary>
+/// Logic for <see cref="TagEditView"/>.
+/// </summary>
+public partial class TagEditView
 {
     /// <summary>
-    /// Logic for <see cref="TagEditView"/>.
+    /// Initializes a new instance of the <see cref="TagEditView"/> class.
     /// </summary>
-    public partial class TagEditView
+    public TagEditView()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TagEditView"/> class.
-        /// </summary>
-        public TagEditView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

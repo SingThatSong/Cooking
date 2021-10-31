@@ -1,24 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Cooking.Data.Migrations
-{
-    /// <summary>
-    /// Add pluralization for measurement units.
-    /// </summary>
-    public partial class MeasureUnitPluralization : Migration
-    {
-        /// <inheritdoc/>
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<string>(
-                name: "FullNamePluralization",
-                table: "MeasureUnit",
-                type: "TEXT",
-                nullable: false,
-                defaultValue: string.Empty);
+namespace Cooking.Data.Migrations;
 
-            migrationBuilder.Sql(
-              @"UPDATE [MeasureUnit] 
+/// <summary>
+/// Add pluralization for measurement units.
+/// </summary>
+public partial class MeasureUnitPluralization : Migration
+{
+    /// <inheritdoc/>
+    protected override void Up(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.AddColumn<string>(
+            name: "FullNamePluralization",
+            table: "MeasureUnit",
+            type: "TEXT",
+            nullable: false,
+            defaultValue: string.Empty);
+
+        migrationBuilder.Sql(
+          @"UPDATE [MeasureUnit] 
                 SET [FullNamePluralization] = ('грамм|грамма|грамм')
                      WHERE ID = '35ACBB4B-B650-422A-808A-79415B03A80A';
 
@@ -57,14 +57,13 @@ namespace Cooking.Data.Migrations
                 UPDATE [MeasureUnit] 
                   SET [FullNamePluralization] = ('пучок|пучка|пучков')
                      WHERE ID = 'A072CB35-8FF7-4ACD-BCD6-23C7E3F64D8A';");
-        }
+    }
 
-        /// <inheritdoc/>
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "FullNamePluralization",
-                table: "MeasureUnit");
-        }
+    /// <inheritdoc/>
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropColumn(
+            name: "FullNamePluralization",
+            table: "MeasureUnit");
     }
 }

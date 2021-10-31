@@ -29,12 +29,6 @@
         <converters:EnumToDescriptionConverter x:Key="enumToDescriptionConverter" />
     </UserControl.Resources>
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <UserControl.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding CloseCommand}" />
     </UserControl.InputBindings>

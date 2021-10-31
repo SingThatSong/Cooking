@@ -1,20 +1,18 @@
-﻿using Cooking.ServiceLayer;
-using Cooking.WPF.Validation;
+﻿using Cooking.WPF.Validation;
 using FluentValidation;
 
-namespace Cooking.WPF.ViewModels
+namespace Cooking.WPF.ViewModels;
+
+/// <summary>
+/// Validator for <see cref="IngredientEditViewModel"/> class.
+/// </summary>
+public class IngredientEditViewModelValidator : AbstractValidator<IngredientEditViewModel>
 {
     /// <summary>
-    /// Validator for <see cref="IngredientEditViewModel"/> class.
+    /// Initializes a new instance of the <see cref="IngredientEditViewModelValidator"/> class.
     /// </summary>
-    public class IngredientEditViewModelValidator : AbstractValidator<IngredientEditViewModel>
+    public IngredientEditViewModelValidator()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IngredientEditViewModelValidator"/> class.
-        /// </summary>
-        public IngredientEditViewModelValidator()
-        {
-            RuleFor(x => x.Ingredient).Must(x => x.IsValid());
-        }
+        RuleFor(x => x.Ingredient).Must(x => x.IsValid());
     }
 }

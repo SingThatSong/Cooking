@@ -1107,7 +1107,7 @@
             <see cref="T:Cooking.Data.Context.IContextFactory"/> implementation for WPF part.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ContextFactory.#ctor(Microsoft.Extensions.Options.IOptions{Cooking.WPF.Services.AppSettings})">
+        <member name="M:Cooking.WPF.ContextFactory.#ctor(Cooking.WPF.Services.AppSettings)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ContextFactory"/> class.
             </summary>
@@ -1225,13 +1225,6 @@
             <param name="obj">An object with a template.</param>
             <returns>Validation template object or null if object don't have one.</returns>
         </member>
-        <member name="M:Cooking.WPF.Validation.ValidationHelper.GetRules(FluentValidation.IValidator)">
-            <summary>
-            Get FluentValidation ruleset for an object.
-            </summary>
-            <param name="obj">An object with a template.</param>
-            <returns>Validation template object or null if object don't have one.</returns>
-        </member>
         <member name="M:Cooking.WPF.Validation.ValidationHelper.IsValid(System.Object,System.Boolean)">
             <summary>
             Determines whether object is valid.
@@ -1272,6 +1265,16 @@
         <member name="M:Cooking.WPF.ViewModels.IngredientEditViewModelValidator.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.IngredientEditViewModelValidator"/> class.
+            </summary>
+        </member>
+        <member name="T:Cooking.WPF.ViewModels.TagEditViewModelValidator">
+            <summary>
+            Validator for <see cref="T:Cooking.WPF.ViewModels.TagEditViewModel"/> class.
+            </summary>
+        </member>
+        <member name="M:Cooking.WPF.ViewModels.TagEditViewModelValidator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.TagEditViewModelValidator"/> class.
             </summary>
         </member>
         <member name="T:Cooking.WPF.ViewModels.CalorieTypeSelectViewModel">
@@ -1612,11 +1615,6 @@
         <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.SimilarTags">
             <summary>
             Gets similar tags to avoid duplicates.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.LoadedCommand">
-            <summary>
-            Gets command to execute on loaded event.
             </summary>
         </member>
         <member name="P:Cooking.WPF.ViewModels.TagEditViewModel.AddIconCommand">
@@ -1977,7 +1975,7 @@
             View model for settings.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.SettingsViewModel.#ctor(Serilog.ILogger,Cooking.ServiceLayer.ILocalization,Microsoft.Extensions.Options.IOptions{Cooking.WPF.Services.AppSettings},Cooking.WPF.Services.SettingsService)">
+        <member name="M:Cooking.WPF.ViewModels.SettingsViewModel.#ctor(Serilog.ILogger,Cooking.ServiceLayer.ILocalization,Cooking.WPF.Services.AppSettings,Cooking.WPF.Services.SettingsService)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.SettingsViewModel"/> class.
             </summary>
@@ -2343,7 +2341,7 @@
             View model for viewing week schedule.
             </summary>
         </member>
-        <member name="M:Cooking.WPF.ViewModels.WeekViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.DayService,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization,Microsoft.Extensions.Options.IOptions{Cooking.WPF.Services.AppSettings})">
+        <member name="M:Cooking.WPF.ViewModels.WeekViewModel.#ctor(Cooking.WPF.DialogService,Prism.Regions.IRegionManager,Prism.Ioc.IContainerExtension,Cooking.ServiceLayer.DayService,AutoMapper.IMapper,Cooking.ServiceLayer.ILocalization,Cooking.WPF.Services.AppSettings)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.ViewModels.WeekViewModel"/> class.
             </summary>
@@ -2627,27 +2625,6 @@
             InitializeComponent
             </summary>
         </member>
-        <member name="T:Cooking.WPF.Views.GarnishListView">
-            <summary>
-            Logic for <see cref="T:Cooking.WPF.Views.GarnishListView"/>.
-            </summary>
-            <summary>
-            GarnishListView
-            </summary>
-        </member>
-        <member name="M:Cooking.WPF.Views.GarnishListView.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Cooking.WPF.Views.GarnishListView"/> class.
-            </summary>
-        </member>
-        <member name="P:Cooking.WPF.Views.GarnishListView.KeepAlive">
-            <inheritdoc/>
-        </member>
-        <member name="M:Cooking.WPF.Views.GarnishListView.InitializeComponent">
-            <summary>
-            InitializeComponent
-            </summary>
-        </member>
         <member name="T:Cooking.WPF.Views.GeneratedWeekView">
             <summary>
             Logic for WeekSettings.xaml.
@@ -2692,7 +2669,7 @@
             MainWindowView
             </summary>
         </member>
-        <member name="M:Cooking.WPF.Views.MainWindowView.#ctor(Prism.Regions.IRegionManager,Microsoft.Extensions.Options.IOptions{Cooking.WPF.Services.AppSettings},Cooking.WPF.Services.SettingsService)">
+        <member name="M:Cooking.WPF.Views.MainWindowView.#ctor(Prism.Regions.IRegionManager,Cooking.WPF.Services.AppSettings,Cooking.WPF.Services.SettingsService)">
             <summary>
             Initializes a new instance of the <see cref="T:Cooking.WPF.Views.MainWindowView"/> class.
             </summary>
@@ -2902,6 +2879,26 @@
             Select an image, resize it and save to predefined folder.
             </summary>
             <returns>Saved file path.</returns>
+        </member>
+        <member name="T:Cooking.IValidationTemplate">
+            <summary>
+            Common validation template interface.
+            </summary>
+        </member>
+        <member name="M:Cooking.IValidationTemplate.DisableValidation">
+            <summary>
+            Disable validation.
+            </summary>
+        </member>
+        <member name="M:Cooking.IValidationTemplate.EnableValidation">
+            <summary>
+            Enable validation.
+            </summary>
+        </member>
+        <member name="M:Cooking.IValidationTemplate.ForceValidate">
+            <summary>
+            Execute validation forcefully.
+            </summary>
         </member>
         <member name="T:Cooking.ValidationTemplate`1">
             <summary>

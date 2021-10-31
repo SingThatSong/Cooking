@@ -1,19 +1,17 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Input;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.Views;
+
+/// <summary>
+/// Logic for WeekSettings.xaml.
+/// </summary>
+public partial class GeneratedWeekView : UserControl
 {
     /// <summary>
-    /// Logic for WeekSettings.xaml.
+    /// Initializes a new instance of the <see cref="GeneratedWeekView"/> class.
     /// </summary>
-    public partial class GeneratedWeekView : UserControl
+    public GeneratedWeekView()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GeneratedWeekView"/> class.
-        /// </summary>
-        public GeneratedWeekView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

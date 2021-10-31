@@ -1,21 +1,20 @@
 ﻿using Prism.Regions;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.Views;
+
+/// <summary>
+/// Logic for <see cref="TagListView"/>.
+/// </summary>
+public partial class TagListView : IRegionMemberLifetime
 {
     /// <summary>
-    /// Logic for <see cref="TagListView"/>.
+    /// Initializes a new instance of the <see cref="TagListView"/> class.
     /// </summary>
-    public partial class TagListView : IRegionMemberLifetime
+    public TagListView()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TagListView"/> class.
-        /// </summary>
-        public TagListView()
-        {
-            InitializeComponent();
-        }
-
-        /// <inheritdoc/>
-        public bool KeepAlive => true;
+        InitializeComponent();
     }
+
+    /// <inheritdoc/>
+    public bool KeepAlive => true;
 }

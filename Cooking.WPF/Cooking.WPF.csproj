@@ -7,17 +7,21 @@
     <ApplicationIcon>if_pan_416389.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
-    <PublishReadyToRunShowWarnings>true</PublishReadyToRunShowWarnings>
-    <Platforms>AnyCPU;x64</Platforms>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AnalysisLevel>preview</AnalysisLevel>
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <RestoreUseStaticGraphEvaluation>true</RestoreUseStaticGraphEvaluation>
-    <Configurations>Debug;Release;Trace</Configurations>
+	  <Platforms>AnyCPU;x64</Platforms>
+	  <EnableNETAnalyzers>true</EnableNETAnalyzers>
+	  <AnalysisLevel>preview</AnalysisLevel>
+	  <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+	  <RestoreUseStaticGraphEvaluation>true</RestoreUseStaticGraphEvaluation>
+	  <Configurations>Debug;Release;Trace</Configurations>
+	  <LangVersion>preview</LangVersion>
+	  
+	  <PublishReadyToRunComposite>true</PublishReadyToRunComposite>
+	  <PublishReadyToRunShowWarnings>true</PublishReadyToRunShowWarnings>
   </PropertyGroup>
 
   <ItemGroup>
     <TrimmerRootAssembly Include="System.Runtime" />
+    <TrimmerRootAssembly Include="System.Runtime.Extensions" />
   </ItemGroup>
   
   <PropertyGroup>
@@ -42,45 +46,45 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Collection" Version="7.0.2-alpha.0.1" />
     <PackageReference Include="ConfigureAwait.Fody" Version="3.3.1" PrivateAssets="All" />
-    <PackageReference Include="FluentValidation" Version="10.0.2" />
-    <PackageReference Include="Fody" Version="6.5.1">
+    <PackageReference Include="FluentValidation" Version="10.3.4" />
+    <PackageReference Include="Fody" Version="6.6.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="gong-wpf-dragdrop" Version="2.3.2" />
-    <PackageReference Include="MahApps.Metro" Version="2.4.4" />
-    <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="4.8.0" />
-    <PackageReference Include="MaterialDesignColors" Version="2.0.0" />
-    <PackageReference Include="MaterialDesignThemes" Version="4.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-preview.4.21213.3" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0-preview.4.21213.3" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="2.4.3" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="4.11.0" />
+    <PackageReference Include="MaterialDesignColors" Version="2.0.4-ci75" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.3.0-ci75" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-rtm.21518.12" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0-rtm.21518.12" />
     <PackageReference Include="NullGuard.Fody" Version="3.0.0" PrivateAssets="All" />
-    <PackageReference Include="PhotoSauce.MagicScaler" Version="0.12.0" />
+    <PackageReference Include="PhotoSauce.MagicScaler" Version="0.12.2" />
     <PackageReference Include="Plafi.DynamicLinq" Version="1.1.0" />
-    <PackageReference Include="Prism.Unity" Version="8.0.0.1909" />
-    <PackageReference Include="PropertyChanged.Fody" Version="3.3.3" PrivateAssets="All" />
-    <PackageReference Include="Roslynator.Analyzers" Version="3.1.0">
+    <PackageReference Include="Prism.Unity" Version="8.1.97" />
+    <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" PrivateAssets="All" />
+    <PackageReference Include="Roslynator.Analyzers" Version="3.2.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="1.0.0">
+    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="1.1.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="1.1.0">
+    <PackageReference Include="Roslynator.Formatting.Analyzers" Version="1.2.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
-    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0-dev-00909" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.333">
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Validar.Fody" Version="1.9.0" PrivateAssets="All" />
-    <PackageReference Include="VirtualizingWrapPanel" Version="1.5.4" />
+    <PackageReference Include="VirtualizingWrapPanel" Version="1.5.5" />
     <PackageReference Include="WPF.Commands" Version="1.0.0" />
-    <PackageReference Include="WPFLocalizeExtension" Version="3.8.0" />
+    <PackageReference Include="WPFLocalizeExtension" Version="3.9.0" />
   </ItemGroup>
 
   <ItemGroup>

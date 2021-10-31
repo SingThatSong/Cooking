@@ -1,52 +1,49 @@
-﻿using Cooking.Data.Model;
+﻿using System;
+using System.Collections.ObjectModel;
+using Cooking.Data.Model;
 using Cooking.ServiceLayer;
 using Cooking.WPF.DTO;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
-namespace Cooking.WPF.ViewModels
+namespace Cooking.WPF.ViewModels;
+
+/// <summary>
+/// View model for selecting calorie types.
+/// </summary>
+public partial class CalorieTypeSelectViewModel : OkCancelViewModel
 {
     /// <summary>
-    /// View model for selecting calorie types.
+    /// Initializes a new instance of the <see cref="CalorieTypeSelectViewModel"/> class.
     /// </summary>
-    public partial class CalorieTypeSelectViewModel : OkCancelViewModel
+    /// <param name="dialogService">Dialog service dependency to close dialog.</param>
+    /// <param name="localization">Localization provider for calorie type's names.</param>
+    /// <param name="selectedTypes">Already selected types to show in interface.</param>
+    public CalorieTypeSelectViewModel(DialogService dialogService, ILocalization localization, IEnumerable<CalorieTypeSelection>? selectedTypes)
+        : base(dialogService)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CalorieTypeSelectViewModel"/> class.
-        /// </summary>
-        /// <param name="dialogService">Dialog service dependency to close dialog.</param>
-        /// <param name="localization">Localization provider for calorie type's names.</param>
-        /// <param name="selectedTypes">Already selected types to show in interface.</param>
-        public CalorieTypeSelectViewModel(DialogService dialogService, ILocalization localization, IEnumerable<CalorieTypeSelection>? selectedTypes)
-            : base(dialogService)
-        {
-            AllValues = new ObservableCollection<CalorieTypeSelection>(
-                Enum.GetValues(typeof(CalorieType))
-                .Cast<CalorieType>()
-                .Where(x => x != CalorieType.None)
-                .Select(x => new CalorieTypeSelection()
-                {
-                    CalorieType = x,
-                    Name = localization[x]
-                })
-            );
-
-            AllValues.Insert(0, CalorieTypeSelection.Any);
-
-            if (selectedTypes != null)
+        AllValues = new ObservableCollection<CalorieTypeSelection>(
+            Enum.GetValues(typeof(CalorieType))
+            .Cast<CalorieType>()
+            .Where(x => x != CalorieType.None)
+            .Select(x => new CalorieTypeSelection()
             {
-                foreach (CalorieTypeSelection tag in selectedTypes)
-                {
-                    AllValues.Single(x => x.CalorieType == tag.CalorieType).IsSelected = true;
-                }
+                CalorieType = x,
+                Name = localization[x]
+            })
+        );
+
+        AllValues.Insert(0, CalorieTypeSelection.Any);
+
+        if (selectedTypes != null)
+        {
+            foreach (CalorieTypeSelection tag in selectedTypes)
+            {
+                AllValues.Single(x => x.CalorieType == tag.CalorieType).IsSelected = true;
             }
         }
-
-        /// <summary>
-        /// Gets all calorie types to select from.
-        /// </summary>
-        public ObservableCollection<CalorieTypeSelection> AllValues { get; }
     }
+
+    /// <summary>
+    /// Gets all calorie types to select from.
+    /// </summary>
+    public ObservableCollection<CalorieTypeSelection> AllValues { get; }
 }

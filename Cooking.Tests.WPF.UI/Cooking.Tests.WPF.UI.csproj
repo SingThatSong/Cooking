@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <Platforms>AnyCPU;x64</Platforms>
+
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>preview</AnalysisLevel>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <Configurations>Debug;Release;Trace</Configurations>
+    <Nullable>enable</Nullable>
+    <RestoreUseStaticGraphEvaluation>true</RestoreUseStaticGraphEvaluation>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FlaUI.UIA3" Version="3.2.0" />
+    <PackageReference Include="FluentAssertions" Version="6.2.0" />
+    <PackageReference Include="Microsoft.Build" Version="16.11.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="xunit" Version="2.4.2-pre.build.4151" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

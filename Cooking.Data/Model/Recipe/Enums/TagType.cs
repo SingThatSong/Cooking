@@ -1,30 +1,27 @@
-﻿using System.ComponentModel;
+﻿namespace Cooking.Data.Model;
 
-namespace Cooking.Data.Model
+/// <summary>
+/// Type of Tag enumeration.
+/// </summary>
+public enum TagType
 {
     /// <summary>
-    /// Type of Tag enumeration.
+    /// DishType.
     /// </summary>
-    public enum TagType
-    {
-        /// <summary>
-        /// DishType.
-        /// </summary>
-        DishType = 1,
+    DishType = 1,
 
-        /// <summary>
-        /// MainIngredient.
-        /// </summary>
-        MainIngredient = 2,
+    /// <summary>
+    /// MainIngredient.
+    /// </summary>
+    MainIngredient = 2,
 
-        /// <summary>
-        /// Occasion.
-        /// </summary>
-        Occasion = 3,
+    /// <summary>
+    /// Occasion.
+    /// </summary>
+    Occasion = 3,
 
-        /// <summary>
-        /// Source.
-        /// </summary>
-        Source = 4
-    }
+    /// <summary>
+    /// Source.
+    /// </summary>
+    Source = 4
 }

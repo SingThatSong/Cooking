@@ -1,18 +1,17 @@
 ﻿using System.Windows;
 
-namespace Cooking.WPF.Converters
+namespace Cooking.WPF.Converters;
+
+/// <summary>
+/// Implementation of BooleanConverter when true means Collapsed and false means Visible.
+/// </summary>
+public sealed class InvertedBooleanToVisibilityConverter : BooleanConverter<Visibility>
 {
     /// <summary>
-    /// Implementation of BooleanConverter when true means Collapsed and false means Visible.
+    /// Initializes a new instance of the <see cref="InvertedBooleanToVisibilityConverter"/> class.
     /// </summary>
-    public sealed class InvertedBooleanToVisibilityConverter : BooleanConverter<Visibility>
+    public InvertedBooleanToVisibilityConverter()
+        : base(Visibility.Collapsed, Visibility.Visible)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="InvertedBooleanToVisibilityConverter"/> class.
-        /// </summary>
-        public InvertedBooleanToVisibilityConverter()
-            : base(Visibility.Collapsed, Visibility.Visible)
-        {
-        }
     }
 }

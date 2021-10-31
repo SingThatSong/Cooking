@@ -1,28 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Cooking.Data.Migrations
+namespace Cooking.Data.Migrations;
+
+/// <summary>
+/// Set Date for day nullable.
+/// </summary>
+public partial class DaysDateNullable : Migration
 {
-    /// <summary>
-    /// Set Date for day nullable.
-    /// </summary>
-    public partial class DaysDateNullable : Migration
+    /// <inheritdoc/>
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc/>
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<DateTime>(
-                name: "Date",
-                table: "Day",
-                nullable: true);
-        }
+        migrationBuilder.AddColumn<DateTime>(
+            name: "Date",
+            table: "Day",
+            nullable: true);
+    }
 
-        /// <inheritdoc/>
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "Date",
-                table: "Day");
-        }
+    /// <inheritdoc/>
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropColumn(
+            name: "Date",
+            table: "Day");
     }
 }

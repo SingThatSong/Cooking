@@ -37,22 +37,14 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaResource Remove="SideBar.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.999-cibuild0013089-beta" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.999-cibuild0013089-beta" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.333">
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.999-cibuild0014036-beta" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.999-cibuild0014036-beta" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cooking.ServiceLayer\Cooking.ServiceLayer.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="SideBar.xaml">
-      <Generator></Generator>
-    </None>
   </ItemGroup>
 </Project>

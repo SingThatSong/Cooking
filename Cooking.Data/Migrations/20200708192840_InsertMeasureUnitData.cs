@@ -1,16 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Cooking.Data.Migrations
+namespace Cooking.Data.Migrations;
+
+/// <summary>
+/// Replacement of enum MeasureUnit to database table MeasureUnit.
+/// </summary>
+public partial class InsertMeasureUnitData : Migration
 {
-    /// <summary>
-    /// Replacement of enum MeasureUnit to database table MeasureUnit.
-    /// </summary>
-    public partial class InsertMeasureUnitData : Migration
+    /// <inheritdoc/>
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc/>
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.Sql(@"
+        migrationBuilder.Sql(@"
                 INSERT INTO [MeasureUnit] ([ID], [Culture], [Name], [FullName])
                      VALUES ('35ACBB4B-B650-422A-808A-79415B03A80A', 'ru-RU', 'г', 'грамм');
 
@@ -84,16 +84,15 @@ namespace Cooking.Data.Migrations
                 UPDATE [RecipeIngredients] 
                    SET [MeasureUnitGuid] = upper(MeasureUnitGuid);
             ");
-        }
+    }
 
-        /// <inheritdoc/>
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<int>(
-                name: "MeasureUnitID",
-                table: "RecipeIngredients",
-                type: "INTEGER",
-                nullable: true);
-        }
+    /// <inheritdoc/>
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.AddColumn<int>(
+            name: "MeasureUnitID",
+            table: "RecipeIngredients",
+            type: "INTEGER",
+            nullable: true);
     }
 }

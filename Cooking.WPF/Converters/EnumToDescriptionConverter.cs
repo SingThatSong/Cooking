@@ -1,79 +1,74 @@
-﻿using Cooking.ServiceLayer;
-using Cooking.WPF.Services;
-using NullGuard;
-using Prism.Ioc;
-using Prism.Unity;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using Cooking.ServiceLayer;
+using Prism.Ioc;
+using Prism.Unity;
 
-namespace Cooking.WPF.Converters
+namespace Cooking.WPF.Converters;
+
+/// <summary>
+/// Converter for displaying <see cref="System.ComponentModel.DescriptionAttribute"/> values from enums.
+/// </summary>
+public class EnumToDescriptionConverter : IValueConverter
 {
-    /// <summary>
-    /// Converter for displaying <see cref="System.ComponentModel.DescriptionAttribute"/> values from enums.
-    /// </summary>
-    public class EnumToDescriptionConverter : IValueConverter
+    /// <inheritdoc/>
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        /// <inheritdoc/>
-        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        if (Application.Current is PrismApplication prismApplication)
         {
-            if (Application.Current is PrismApplication prismApplication)
+            ILocalization localization = prismApplication.Container.Resolve<ILocalization>();
+
+            if (value is Enum @enum)
             {
-                ILocalization localization = prismApplication.Container.Resolve<ILocalization>();
+                return localization[@enum];
+            }
+            else if (value is IEnumerable collection and not string)
+            {
+                var list = new List<string>();
 
-                if (value is Enum @enum)
+                foreach (object? val in collection)
                 {
-                    return localization[@enum];
-                }
-                else if (value is IEnumerable collection and not string)
-                {
-                    var list = new List<string>();
-
-                    foreach (object? val in collection)
+                    if (val is Enum @enumValue)
                     {
-                        if (val is Enum @enumValue)
+                        string? description = localization[@enumValue];
+                        if (description != null)
                         {
-                            string? description = localization[@enumValue];
-                            if (description != null)
-                            {
-                                list.Add(description);
-                            }
+                            list.Add(description);
                         }
                     }
-
-                    return list;
                 }
-            }
 
-            return value;
+                return list;
+            }
         }
 
-        /// <inheritdoc/>
-        public object? ConvertBack(object? value, Type? targetType, object? parameter, CultureInfo culture)
+        return value;
+    }
+
+    /// <inheritdoc/>
+    public object? ConvertBack(object? value, Type? targetType, object? parameter, CultureInfo culture)
+    {
+        if (Application.Current is PrismApplication prismApplication)
         {
-            if (Application.Current is PrismApplication prismApplication)
+            ILocalization localization = prismApplication.Container.Resolve<ILocalization>();
+
+            if (value != null && targetType != null)
             {
-                ILocalization localization = prismApplication.Container.Resolve<ILocalization>();
-
-                if (value != null && targetType != null)
+                if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
-                    if (targetType.IsGenericType && targetType.GetGenericTypeDefinition() == typeof(Nullable<>))
-                    {
-                        targetType = targetType.GetGenericArguments()[0];
-                    }
-
-                    Dictionary<string, string> allValues = localization.GetAllValuesFor(targetType.Name);
-                    string? valAsString = value.ToString();
-                    string key = allValues.FirstOrDefault(x => x.Value == valAsString).Key;
-                    return Enum.Parse(targetType, key);
+                    targetType = targetType.GetGenericArguments()[0];
                 }
-            }
 
-            return Binding.DoNothing;
+                Dictionary<string, string> allValues = localization.GetAllValuesFor(targetType.Name);
+                string? valAsString = value.ToString();
+                string key = allValues.FirstOrDefault(x => x.Value == valAsString).Key;
+                return Enum.Parse(targetType, key);
+            }
         }
+
+        return Binding.DoNothing;
     }
 }

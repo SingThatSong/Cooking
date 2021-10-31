@@ -20,7 +20,6 @@ Application to manage home recipies collection and create week schedules based o
 - Prism: Navigation, Dependency injection
 - Automapper (with Automapper.Collection): mapping between application levels
 - Fody: code generation
--- Bindables.Fody: Simpyfying DependencyProperty definition
 -- ConfigureAwait.Fody: Automatic use of ConfigureAwait(false)
 -- NullGuard.Fody: Automatic check for method parameters to be not null
 -- Validar.Fody: Validation injection

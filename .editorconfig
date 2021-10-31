@@ -68,7 +68,7 @@ csharp_style_pattern_local_over_anonymous_function = true:warning
 csharp_using_directive_placement = outside_namespace:error
 csharp_prefer_simple_using_statement = true:error
 csharp_style_prefer_switch_expression = true:warning
-
+csharp_style_namespace_declarations = file_scoped:error
 dotnet_sort_system_directives_first = true:suggestion
 
 csharp_new_line_before_open_brace = all
@@ -133,6 +133,18 @@ dotnet_naming_symbols.constant_fields.required_modifiers          = const
 # Anyway, even if it not, it may just be interface requirement
 dotnet_diagnostic.CS0067.severity = none
 
+# Absent use of return values most of the time is false alarm
+dotnet_diagnostic.IDE0058.severity = none
+
+# Absent use of return values most of the time is false alarm
+dotnet_diagnostic.IDE0058.severity = none
+
+# Custom code formatting for better readability is ok
+dotnet_diagnostic.IDE0055.severity = none
+
+# Namespace structure should not mimic folder structure
+dotnet_diagnostic.IDE0130.severity = none
+
 #FxCop issues
 
 dotnet_diagnostic.CA2227.severity = none
@@ -188,3 +200,9 @@ dotnet_diagnostic.SA1413.severity = none
 # Irrelevant in .NET Core https://github.com/JosefPihrt/Roslynator/issues/212
 # Harms readability anyway
 dotnet_diagnostic.RCS1096.severity = none
+
+# Else statement makes intention clear and possibly prevents bugs on refactoring
+dotnet_diagnostic.RCS1211.severity = none
+
+# Internal enums (not stored in database) could be without explicit values
+dotnet_diagnostic.RCS1161.severity = none

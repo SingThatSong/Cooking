@@ -1,10 +1,9 @@
-﻿namespace Cooking.Console
+﻿namespace Cooking.Console;
+
+class Program
 {
-    class Program
+    static void Main(string[] _)
     {
-        static void Main(string[] args)
-        {
-            System.Console.WriteLine("Hello World!");
-        }
+        System.Console.WriteLine("Hello World!");
     }
 }

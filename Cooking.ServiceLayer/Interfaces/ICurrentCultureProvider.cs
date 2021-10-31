@@ -1,15 +1,14 @@
 ﻿using System.Globalization;
 
-namespace Cooking.ServiceLayer
+namespace Cooking.ServiceLayer;
+
+/// <summary>
+/// Interface for culture provider.
+/// </summary>
+public interface ICurrentCultureProvider
 {
     /// <summary>
-    /// Interface for culture provider.
+    /// Gets current culture.
     /// </summary>
-    public interface ICurrentCultureProvider
-    {
-        /// <summary>
-        /// Gets current culture.
-        /// </summary>
-        CultureInfo CurrentCulture { get; }
-    }
+    CultureInfo CurrentCulture { get; }
 }

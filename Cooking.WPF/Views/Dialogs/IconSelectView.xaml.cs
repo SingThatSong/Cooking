@@ -1,18 +1,15 @@
-﻿using System.Windows.Input;
+﻿namespace Cooking.WPF.Views;
 
-namespace Cooking.WPF.Views
+/// <summary>
+/// Logic for <see cref="IconSelectView"/>.
+/// </summary>
+public partial class IconSelectView
 {
     /// <summary>
-    /// Logic for <see cref="IconSelectView"/>.
+    /// Initializes a new instance of the <see cref="IconSelectView"/> class.
     /// </summary>
-    public partial class IconSelectView
+    public IconSelectView()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IconSelectView"/> class.
-        /// </summary>
-        public IconSelectView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

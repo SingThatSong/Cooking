@@ -1,31 +1,30 @@
 ﻿using Cooking.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cooking.ServiceLayer
+namespace Cooking.ServiceLayer;
+
+/// <summary>
+/// Service to perform actions on database itself (e.g. migrations).
+/// </summary>
+public sealed class DatabaseService
 {
+    private readonly IContextFactory contextFactory;
+
     /// <summary>
-    /// Service to perform actions on database itself (e.g. migrations).
+    /// Initializes a new instance of the <see cref="DatabaseService"/> class.
     /// </summary>
-    public sealed class DatabaseService
+    /// <param name="contextFactory">Factory for <see cref="CookingContext"/> creation.</param>
+    public DatabaseService(IContextFactory contextFactory)
     {
-        private readonly IContextFactory contextFactory;
+        this.contextFactory = contextFactory;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DatabaseService"/> class.
-        /// </summary>
-        /// <param name="contextFactory">Factory for <see cref="CookingContext"/> creation.</param>
-        public DatabaseService(IContextFactory contextFactory)
-        {
-            this.contextFactory = contextFactory;
-        }
-
-        /// <summary>
-        /// Migrate database to current version.
-        /// </summary>
-        public void MigrateDatabase()
-        {
-            using CookingContext context = contextFactory.Create();
-            context.Database.Migrate();
-        }
+    /// <summary>
+    /// Migrate database to current version.
+    /// </summary>
+    public void MigrateDatabase()
+    {
+        using CookingContext context = contextFactory.Create();
+        context.Database.Migrate();
     }
 }

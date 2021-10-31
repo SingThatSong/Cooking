@@ -2,30 +2,29 @@
 using Cooking.ServiceLayer;
 using FluentValidation;
 
-namespace Cooking.WPF.DTO
+namespace Cooking.WPF.DTO;
+
+/// <summary>
+/// FluentValidation Validator for <see cref="TagEdit"/>.
+/// </summary>
+public class TagEditValidator : AbstractValidator<TagEdit>
 {
     /// <summary>
-    /// FluentValidation Validator for <see cref="TagEdit"/>.
+    /// Initializes a new instance of the <see cref="TagEditValidator"/> class.
     /// </summary>
-    public class TagEditValidator : AbstractValidator<TagEdit>
+    /// <param name="localization">Localization provider for eror messages.</param>
+    public TagEditValidator(ILocalization localization)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TagEditValidator"/> class.
-        /// </summary>
-        /// <param name="localization">Localization provider for eror messages.</param>
-        public TagEditValidator(ILocalization localization)
-        {
-            RuleFor(x => x.Name)
-                .NotEmpty()
-                .WithMessage(localization["SpecifyName"]);
+        RuleFor(x => x.Name)
+            .NotEmpty()
+            .WithMessage(localization["SpecifyName"]);
 
-            RuleFor(x => x.Type)
-                .NotEqual((TagType)0)
-                .WithMessage(localization["SpecifyTagType"]);
+        RuleFor(x => x.Type)
+            .NotEqual((TagType)0)
+            .WithMessage(localization["SpecifyTagType"]);
 
-            RuleFor(x => x.MenuIcon)
-                .NotNull().When(x => x.IsInMenu)
-                .WithMessage(localization["SpecifyMenuIcon"]);
-        }
+        RuleFor(x => x.MenuIcon)
+            .NotNull().When(x => x.IsInMenu)
+            .WithMessage(localization["SpecifyMenuIcon"]);
     }
 }

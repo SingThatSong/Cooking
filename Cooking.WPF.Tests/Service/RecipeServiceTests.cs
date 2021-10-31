@@ -1,65 +1,79 @@
-﻿using AutoMapper;
-using Cooking.Data.Context;
+﻿using System;
+using System.Threading.Tasks;
 using Cooking.Data.Model;
 using Cooking.ServiceLayer;
 using FluentAssertions;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Moq;
-using System;
-using System.Threading.Tasks;
 using Xunit;
 
-namespace Cooking.Tests
+namespace Cooking.Tests;
+
+/// <summary>
+/// Tests for <see cref="RecipeService"/>.
+/// </summary>
+public class RecipeServiceTests : TestClass
 {
-    public class RecipeServiceTests : TestClass
+    /// <summary>
+    /// Recipe creation actually creates record.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+    [Fact]
+    public async Task CreateRecipe_CreatesRecipe()
     {
-        [Fact]
-        public async Task CreateRecipe_CreatesRecipe()
-        {
-            RecipeService recipeService = CreateRecipeService();
+        RecipeService recipeService = CreateRecipeService();
 
-            var r = new Recipe();
-            await recipeService.CreateAsync(r);
+        var r = new Recipe();
+        await recipeService.CreateAsync(r);
 
-            int count = recipeService.GetAll().Count;
-            count.Should().Be(1);
-        }
+        int count = recipeService.GetAll().Count;
+        count.Should().Be(1);
+    }
 
-        [Fact]
-        public async Task CreateRecipeTwice_FailsConstraint()
-        {
-            RecipeService recipeService = CreateRecipeService();
+    /// <summary>
+    /// Recipe creation twice fails.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+    [Fact]
+    public async Task CreateRecipeTwice_FailsConstraint()
+    {
+        RecipeService recipeService = CreateRecipeService();
 
-            var r = new Recipe();
-            await recipeService.CreateAsync(r);
+        var r = new Recipe();
+        await recipeService.CreateAsync(r);
 
-            Func<Task> act = async () => await recipeService.CreateAsync(r);
-            await act.Should().ThrowAsync<DbUpdateException>();
-        }
+        Func<Task> act = async () => await recipeService.CreateAsync(r);
+        await act.Should().ThrowAsync<DbUpdateException>();
+    }
 
-        [Fact]
-        public async Task CreateRecipe_IDGenerated()
-        {
-            RecipeService recipeService = CreateRecipeService();
+    /// <summary>
+    /// Recipe creation fills Recipe's ID.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+    [Fact]
+    public async Task CreateRecipe_IDGenerated()
+    {
+        RecipeService recipeService = CreateRecipeService();
 
-            var r = new Recipe();
-            r.ID.Should().Be(Guid.Empty);
-            await recipeService.CreateAsync(r);
-            r.ID.Should().NotBe(Guid.Empty);
-        }
+        var r = new Recipe();
+        r.ID.Should().Be(Guid.Empty);
+        await recipeService.CreateAsync(r);
+        r.ID.Should().NotBe(Guid.Empty);
+    }
 
-        [Fact]
-        public async Task CreateRecipe_AndRemove()
-        {
-            RecipeService recipeService = CreateRecipeService();
+    /// <summary>
+    /// Recipe deletion actially deletes Recipe.
+    /// </summary>
+    /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+    [Fact]
+    public async Task CreateRecipe_AndRemove()
+    {
+        RecipeService recipeService = CreateRecipeService();
 
-            var r = new Recipe();
-            await recipeService.CreateAsync(r);
-            await recipeService.DeleteAsync(r.ID);
+        var r = new Recipe();
+        await recipeService.CreateAsync(r);
+        await recipeService.DeleteAsync(r.ID);
 
-            int count = recipeService.GetAll().Count;
-            count.Should().Be(0);
-        }
+        int count = recipeService.GetAll().Count;
+        count.Should().Be(0);
     }
 }

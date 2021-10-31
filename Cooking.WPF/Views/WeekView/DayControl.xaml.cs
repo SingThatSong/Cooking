@@ -1,18 +1,17 @@
 ﻿using System.Windows.Controls;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.Views;
+
+/// <summary>
+/// Logic for DayControl.xaml.
+/// </summary>
+public partial class DayControl : UserControl
 {
     /// <summary>
-    /// Logic for DayControl.xaml.
+    /// Initializes a new instance of the <see cref="DayControl"/> class.
     /// </summary>
-    public partial class DayControl : UserControl
+    public DayControl()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DayControl"/> class.
-        /// </summary>
-        public DayControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

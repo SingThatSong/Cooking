@@ -1,26 +1,24 @@
 ﻿using Cooking.Data.Context;
 using Cooking.WPF.Services;
-using Microsoft.Extensions.Options;
 
-namespace Cooking.WPF
+namespace Cooking.WPF;
+
+/// <summary>
+/// <see cref="IContextFactory"/> implementation for WPF part.
+/// </summary>
+public class ContextFactory : IContextFactory
 {
+    private readonly AppSettings appSettings;
+
     /// <summary>
-    /// <see cref="IContextFactory"/> implementation for WPF part.
+    /// Initializes a new instance of the <see cref="ContextFactory"/> class.
     /// </summary>
-    public class ContextFactory : IContextFactory
+    /// <param name="appSettings">App settings that contains instance of <see cref="AppSettings"/>.</param>
+    public ContextFactory(AppSettings appSettings)
     {
-        private readonly IOptions<AppSettings> appSettings;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ContextFactory"/> class.
-        /// </summary>
-        /// <param name="appSettings">App settings that contains instance of <see cref="AppSettings"/>.</param>
-        public ContextFactory(IOptions<AppSettings> appSettings)
-        {
-            this.appSettings = appSettings;
-        }
-
-        /// <inheritdoc/>
-        public CookingContext Create() => new(appSettings.Value.DbName);
+        this.appSettings = appSettings;
     }
+
+    /// <inheritdoc/>
+    public CookingContext Create() => new(appSettings.DbName, appSettings.Culture);
 }

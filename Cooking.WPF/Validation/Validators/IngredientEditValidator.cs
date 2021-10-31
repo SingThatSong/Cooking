@@ -1,26 +1,25 @@
 ﻿using Cooking.ServiceLayer;
 using FluentValidation;
 
-namespace Cooking.WPF.DTO
+namespace Cooking.WPF.DTO;
+
+/// <summary>
+/// FluentValidation Validator for <see cref="IngredientEdit"/>.
+/// </summary>
+public class IngredientEditValidator : AbstractValidator<IngredientEdit>
 {
     /// <summary>
-    /// FluentValidation Validator for <see cref="IngredientEdit"/>.
+    /// Initializes a new instance of the <see cref="IngredientEditValidator"/> class.
     /// </summary>
-    public class IngredientEditValidator : AbstractValidator<IngredientEdit>
+    /// <param name="localization">Localization provider for eror messages.</param>
+    public IngredientEditValidator(ILocalization localization)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IngredientEditValidator"/> class.
-        /// </summary>
-        /// <param name="localization">Localization provider for eror messages.</param>
-        public IngredientEditValidator(ILocalization localization)
-        {
-            RuleFor(x => x.Name)
-                .NotEmpty()
-                .WithMessage(localization["SpecifyName"]);
+        RuleFor(x => x.Name)
+            .NotEmpty()
+            .WithMessage(localization["SpecifyName"]);
 
-            RuleFor(x => x.Type)
-                .NotNull()
-                .WithMessage(localization["SpecifyIngredientType"]);
-        }
+        RuleFor(x => x.Type)
+            .NotNull()
+            .WithMessage(localization["SpecifyIngredientType"]);
     }
 }

@@ -3,47 +3,46 @@ using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.Views;
+
+/// <summary>
+/// Logic for <see cref="RecipeView"/>.
+/// </summary>
+public partial class RecipeView
 {
     /// <summary>
-    /// Logic for <see cref="RecipeView"/>.
+    /// Initializes a new instance of the <see cref="RecipeView"/> class.
     /// </summary>
-    public partial class RecipeView
+    public RecipeView()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RecipeView"/> class.
-        /// </summary>
-        public RecipeView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
 
-        private void RichTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void RichTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+        if (e.Changes.Count > 1 && e.UndoAction != UndoAction.Clear)
         {
-            if (e.Changes.Count > 1 && e.UndoAction != UndoAction.Clear)
-            {
-                RecipeEdit.ScrollToEnd();
-            }
+            RecipeEdit.ScrollToEnd();
         }
+    }
 
-        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+    private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri)
-            {
-                UseShellExecute = true,
-                Verb = "open"
-            });
-            e.Handled = true;
-        }
+            UseShellExecute = true,
+            Verb = "open"
+        });
+        e.Handled = true;
+    }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (editRichTextbox != null)
         {
-            if (editRichTextbox != null)
-            {
-                var r = new TextRange(editRichTextbox.Selection.Start, editRichTextbox.Selection.End);
-                dynamic? addedItem = e.AddedItems[0];
-                r.ApplyPropertyValue(TextElement.FontSizeProperty, Convert.ToDouble(addedItem!.Content));
-            }
+            var r = new TextRange(editRichTextbox.Selection.Start, editRichTextbox.Selection.End);
+            dynamic? addedItem = e.AddedItems[0];
+            r.ApplyPropertyValue(TextElement.FontSizeProperty, Convert.ToDouble(addedItem!.Content));
         }
     }
 }

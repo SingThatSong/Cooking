@@ -1,30 +1,29 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Cooking.Data.Migrations
+namespace Cooking.Data.Migrations;
+
+/// <summary>
+/// Migration to remove Week table.
+/// </summary>
+public partial class RemoveWeek : Migration
 {
-    /// <summary>
-    /// Migration to remove Week table.
-    /// </summary>
-    public partial class RemoveWeek : Migration
+    /// <inheritdoc/>
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc/>
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "Weeks");
+        migrationBuilder.DropTable(
+            name: "Weeks");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Day_WeekID",
-                table: "Day");
+        migrationBuilder.DropIndex(
+            name: "IX_Day_WeekID",
+            table: "Day");
 
-            // Drop WeekID Foreign key
+        // Drop WeekID Foreign key
 
-            // Rename old Day table to temp
-            migrationBuilder.Sql("ALTER TABLE Day RENAME TO _Day;");
+        // Rename old Day table to temp
+        migrationBuilder.Sql("ALTER TABLE Day RENAME TO _Day;");
 
-            // Recreate table Day without WeekID FK
-            migrationBuilder.Sql(@"CREATE TABLE [Day] (
+        // Recreate table Day without WeekID FK
+        migrationBuilder.Sql(@"CREATE TABLE [Day] (
   [ID] image NOT NULL
 , [DinnerID] image NULL
 , [DinnerWasCooked] bigint NOT NULL
@@ -35,9 +34,9 @@ namespace Cooking.Data.Migrations
 , CONSTRAINT [FK__Day_0_0] FOREIGN KEY ([DinnerID]) REFERENCES [Recipies] ([ID]) ON DELETE SET NULL ON UPDATE NO ACTION
 );");
 
-            migrationBuilder.Sql("CREATE INDEX [Day_IX_Day_DinnerID] ON [Day] ([DinnerID] ASC);");
+        migrationBuilder.Sql("CREATE INDEX [Day_IX_Day_DinnerID] ON [Day] ([DinnerID] ASC);");
 
-            migrationBuilder.Sql(@"INSERT INTO Day 
+        migrationBuilder.Sql(@"INSERT INTO Day 
 SELECT [ID]
       ,[DinnerID]
       ,[DinnerWasCooked]
@@ -46,12 +45,11 @@ SELECT [ID]
       ,[Culture]
   FROM [_Day];");
 
-            migrationBuilder.Sql("DROP TABLE [_Day];");
-        }
+        migrationBuilder.Sql("DROP TABLE [_Day];");
+    }
 
-        /// <inheritdoc/>
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-        }
+    /// <inheritdoc/>
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
     }
 }

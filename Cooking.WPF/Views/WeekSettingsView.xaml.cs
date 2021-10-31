@@ -1,18 +1,17 @@
 ﻿using System.Windows.Controls;
 
-namespace Cooking.WPF.Views
+namespace Cooking.WPF.Views;
+
+/// <summary>
+/// Logic for WeekSettings.xaml.
+/// </summary>
+public partial class WeekSettingsView : UserControl
 {
     /// <summary>
-    /// Logic for WeekSettings.xaml.
+    /// Initializes a new instance of the <see cref="WeekSettingsView"/> class.
     /// </summary>
-    public partial class WeekSettingsView : UserControl
+    public WeekSettingsView()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WeekSettingsView"/> class.
-        /// </summary>
-        public WeekSettingsView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

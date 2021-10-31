@@ -1,6 +1,6 @@
-﻿using Fody;
+﻿using System.Runtime.CompilerServices;
+using Fody;
 using NullGuard;
-using System.Runtime.CompilerServices;
 
 // Global project settings. Replacement of ApplicationInfo.cs.
 

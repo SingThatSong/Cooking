@@ -1,23 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Cooking.Data.Migrations
+namespace Cooking.Data.Migrations;
+
+/// <summary>
+/// Remove old MeasureUnitID and set new one with reference to the table.
+/// </summary>
+public partial class UpdateRecipeIngredients : Migration
 {
-    /// <summary>
-    /// Remove old MeasureUnitID and set new one with reference to the table.
-    /// </summary>
-    public partial class UpdateRecipeIngredients : Migration
+    /// <inheritdoc/>
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc/>
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            // Disable foreign key checks
-            migrationBuilder.Sql("PRAGMA foreign_keys = OFF;", suppressTransaction: true);
+        // Disable foreign key checks
+        migrationBuilder.Sql("PRAGMA foreign_keys = OFF;", suppressTransaction: true);
 
-            // Rename old Day table to temp
-            migrationBuilder.Sql($"ALTER TABLE RecipeIngredients RENAME TO _RecipeIngredients;");
+        // Rename old Day table to temp
+        migrationBuilder.Sql($"ALTER TABLE RecipeIngredients RENAME TO _RecipeIngredients;");
 
-            // Recreate table with new types for Day
-            migrationBuilder.Sql(@"
+        // Recreate table with new types for Day
+        migrationBuilder.Sql(@"
                 CREATE TABLE [RecipeIngredients] (
                   [ID] text NOT NULL
                 , [IngredientId] text NULL
@@ -39,8 +39,8 @@ namespace Cooking.Data.Migrations
                 CREATE INDEX [RecipeIngredients_RecipeIngredients_RecipeIngredients_IX_RecipeIngredients_IngredientsGroupID] ON [RecipeIngredients] ([IngredientsGroupID] ASC);
                 CREATE INDEX [RecipeIngredients_RecipeIngredients_RecipeIngredients_IX_RecipeIngredients_IngredientId] ON [RecipeIngredients] ([IngredientId] ASC);");
 
-            // Copy data from backup
-            migrationBuilder.Sql(@$"
+        // Copy data from backup
+        migrationBuilder.Sql(@$"
                 INSERT INTO RecipeIngredients SELECT [ID]
                      ,[IngredientId]
                      ,[Amount]
@@ -51,16 +51,15 @@ namespace Cooking.Data.Migrations
                      ,[MeasureUnitGuid]
                  FROM [_RecipeIngredients];");
 
-            // Drop backup
-            migrationBuilder.Sql($"DROP TABLE [_RecipeIngredients];");
+        // Drop backup
+        migrationBuilder.Sql($"DROP TABLE [_RecipeIngredients];");
 
-            // Re-enable foreign key checks
-            migrationBuilder.Sql("PRAGMA foreign_keys = ON;", suppressTransaction: true);
-        }
+        // Re-enable foreign key checks
+        migrationBuilder.Sql("PRAGMA foreign_keys = ON;", suppressTransaction: true);
+    }
 
-        /// <inheritdoc/>
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-        }
+    /// <inheritdoc/>
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
     }
 }

@@ -1,18 +1,15 @@
-﻿using System.Windows.Input;
+﻿namespace Cooking.WPF.Views;
 
-namespace Cooking.WPF.Views
+/// <summary>
+/// Logic for <see cref="IngredientGroupEditView"/>.
+/// </summary>
+public partial class IngredientGroupEditView
 {
     /// <summary>
-    /// Logic for <see cref="IngredientGroupEditView"/>.
+    /// Initializes a new instance of the <see cref="IngredientGroupEditView"/> class.
     /// </summary>
-    public partial class IngredientGroupEditView
+    public IngredientGroupEditView()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IngredientGroupEditView"/> class.
-        /// </summary>
-        public IngredientGroupEditView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

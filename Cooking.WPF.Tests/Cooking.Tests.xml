@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cooking.Tests</name>
+    </assembly>
+    <members>
+        <member name="T:Cooking.Tests.RecipeServiceTests">
+            <summary>
+            Tests for <see cref="T:Cooking.ServiceLayer.RecipeService"/>.
+            </summary>
+        </member>
+        <member name="M:Cooking.Tests.RecipeServiceTests.CreateRecipe_CreatesRecipe">
+            <summary>
+            Recipe creation actually creates record.
+            </summary>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous unit test.</returns>
+        </member>
+        <member name="M:Cooking.Tests.RecipeServiceTests.CreateRecipeTwice_FailsConstraint">
+            <summary>
+            Recipe creation twice fails.
+            </summary>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous unit test.</returns>
+        </member>
+        <member name="M:Cooking.Tests.RecipeServiceTests.CreateRecipe_IDGenerated">
+            <summary>
+            Recipe creation fills Recipe's ID.
+            </summary>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous unit test.</returns>
+        </member>
+        <member name="M:Cooking.Tests.RecipeServiceTests.CreateRecipe_AndRemove">
+            <summary>
+            Recipe deletion actially deletes Recipe.
+            </summary>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous unit test.</returns>
+        </member>
+        <member name="T:Cooking.Tests.TestClass">
+            <summary>
+            Base class for unit tests.
+            </summary>
+        </member>
+        <member name="M:Cooking.Tests.TestClass.CreateInmemoryDatabase">
+            <summary>
+            Create inmemory Sqlite databae mock.
+            </summary>
+            <returns>Inmemory database mock.</returns>
+        </member>
+        <member name="M:Cooking.Tests.TestClass.CreateLocalization">
+            <summary>
+            Create localization mock.
+            </summary>
+            <returns>Localization database mock.</returns>
+        </member>
+        <member name="M:Cooking.Tests.TestClass.CreateRecipeService">
+            <summary>
+            Create recipe service for unit testing.
+            </summary>
+            <returns>Recipe service for unit testing.</returns>
+        </member>
+    </members>
+</doc>

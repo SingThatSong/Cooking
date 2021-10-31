@@ -1,17 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Cooking.Data.Migrations
+namespace Cooking.Data.Migrations;
+
+/// <summary>
+/// Migration to ensure that day removal do not remove week.
+/// </summary>
+public partial class RemoveDayNotRemovesWeek : Migration
 {
-    /// <summary>
-    /// Migration to ensure that day removal do not remove week.
-    /// </summary>
-    public partial class RemoveDayNotRemovesWeek : Migration
+    /// <inheritdoc/>
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc/>
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.Sql("PRAGMA writable_schema=1;");
-            migrationBuilder.Sql(@"UPDATE sqlite_master SET sql='CREATE TABLE ""Weeks"" 
+        migrationBuilder.Sql("PRAGMA writable_schema=1;");
+        migrationBuilder.Sql(@"UPDATE sqlite_master SET sql='CREATE TABLE ""Weeks"" 
 (
     ""ID""    BLOB NOT NULL,
     ""Start"" TEXT NOT NULL,
@@ -33,11 +33,10 @@ namespace Cooking.Data.Migrations
     CONSTRAINT ""FK_Weeks_Day_WednesdayID"" FOREIGN KEY(""WednesdayID"") REFERENCES ""Day""(""ID"") ON DELETE SET NULL
 )' 
     WHERE type='table' AND name='Weeks';");
-        }
+    }
 
-        /// <inheritdoc/>
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-        }
+    /// <inheritdoc/>
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
     }
 }

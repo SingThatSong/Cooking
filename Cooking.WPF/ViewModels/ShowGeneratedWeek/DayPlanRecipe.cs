@@ -1,27 +1,25 @@
 ﻿using Cooking.Data.Model;
 using Cooking.WPF.DTO;
-using System.Collections.Generic;
 
-namespace Cooking.WPF.ViewModels
+namespace Cooking.WPF.ViewModels;
+
+/// <summary>
+/// Dto for a recipe in a day in week generation.
+/// </summary>
+public class DayPlanRecipe : EntityNotify
 {
     /// <summary>
-    /// Dto for a recipe in a day in week generation.
+    /// Gets or sets recipe name.
     /// </summary>
-    public class DayPlanRecipe : EntityNotify
-    {
-        /// <summary>
-        /// Gets or sets recipe name.
-        /// </summary>
-        public string? Name { get; set; }
+    public string? Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets calorie type.
-        /// </summary>
-        public CalorieType CalorieType { get; set; }
+    /// <summary>
+    /// Gets or sets calorie type.
+    /// </summary>
+    public CalorieType CalorieType { get; set; }
 
-        /// <summary>
-        /// Gets or sets garnishes for a recipe.
-        /// </summary>
-        public List<DayPlanRecipe> Garnishes { get; set; } = new List<DayPlanRecipe>();
-    }
+    /// <summary>
+    /// Gets or sets garnishes for a recipe.
+    /// </summary>
+    public List<DayPlanRecipe> Garnishes { get; set; } = new List<DayPlanRecipe>();
 }

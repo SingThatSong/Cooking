@@ -1,18 +1,17 @@
-﻿namespace Cooking.Data.Model
+﻿namespace Cooking.Data.Model;
+
+/// <summary>
+/// Ingredient database entity.
+/// </summary>
+public class Ingredient : Entity
 {
     /// <summary>
-    /// Ingredient database entity.
+    /// Gets or sets ingredient's name.
     /// </summary>
-    public class Ingredient : Entity
-    {
-        /// <summary>
-        /// Gets or sets ingredient's name.
-        /// </summary>
-        public string Name { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Gets or sets ingredient's Type.
-        /// </summary>
-        public IngredientType? Type { get; set; }
-    }
+    /// <summary>
+    /// Gets or sets ingredient's Type.
+    /// </summary>
+    public IngredientType? Type { get; set; }
 }

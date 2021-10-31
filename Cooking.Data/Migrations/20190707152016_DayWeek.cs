@@ -1,50 +1,50 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Cooking.Data.Migrations
+namespace Cooking.Data.Migrations;
+
+/// <summary>
+/// Move data accordingly to prev. migration.
+/// </summary>
+public partial class DayWeek : Migration
 {
-    /// <summary>
-    /// Move data accordingly to prev. migration.
-    /// </summary>
-    public partial class DayWeek : Migration
+    /// <inheritdoc/>
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc/>
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropIndex(
-                name: "IX_Weeks_FridayID",
-                table: "Weeks");
+        migrationBuilder.DropIndex(
+            name: "IX_Weeks_FridayID",
+            table: "Weeks");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Weeks_MondayID",
-                table: "Weeks");
+        migrationBuilder.DropIndex(
+            name: "IX_Weeks_MondayID",
+            table: "Weeks");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Weeks_SaturdayID",
-                table: "Weeks");
+        migrationBuilder.DropIndex(
+            name: "IX_Weeks_SaturdayID",
+            table: "Weeks");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Weeks_SundayID",
-                table: "Weeks");
+        migrationBuilder.DropIndex(
+            name: "IX_Weeks_SundayID",
+            table: "Weeks");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Weeks_ThursdayID",
-                table: "Weeks");
+        migrationBuilder.DropIndex(
+            name: "IX_Weeks_ThursdayID",
+            table: "Weeks");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Weeks_TuesdayID",
-                table: "Weeks");
+        migrationBuilder.DropIndex(
+            name: "IX_Weeks_TuesdayID",
+            table: "Weeks");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Weeks_WednesdayID",
-                table: "Weeks");
+        migrationBuilder.DropIndex(
+            name: "IX_Weeks_WednesdayID",
+            table: "Weeks");
 
-            migrationBuilder.AddColumn<int>(
-                name: "DayOfWeek",
-                table: "Day",
-                nullable: false,
-                defaultValue: 0);
+        migrationBuilder.AddColumn<int>(
+            name: "DayOfWeek",
+            table: "Day",
+            nullable: false,
+            defaultValue: 0);
 
-            migrationBuilder.Sql(@"update Day
+        migrationBuilder.Sql(@"update Day
                                    set DayOfWeek = 0
                                    where WeekID in (select ID from Weeks where SundayID = Day.ID);
 	   
@@ -71,11 +71,10 @@ namespace Cooking.Data.Migrations
                                    update Day
                                    set DayOfWeek = 6
                                    where WeekID in (select ID from Weeks where SaturdayID = Day.ID);");
-        }
+    }
 
-        /// <inheritdoc/>
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-        }
+    /// <inheritdoc/>
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
     }
 }
