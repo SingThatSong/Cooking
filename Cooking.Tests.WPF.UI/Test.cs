@@ -83,7 +83,7 @@ public class TagTest : UITest
 
     private static async Task WaitForDialogClose()
     {
-        // Wait for dialog open animation
+        // Wait for dialog close animation
         await Task.Delay(300);
     }
 }
