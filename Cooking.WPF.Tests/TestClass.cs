@@ -23,7 +23,7 @@ public class TestClass
         var factoryMock = new Mock<IContextFactory>();
         factoryMock.Setup(x => x.Create()).Returns(() =>
         {
-            var teste = new CookingContext(keepAliveConnection);
+            var teste = new CookingContext(keepAliveConnection, "ru-RU");
             teste.Database.EnsureCreated();
             return teste;
         });

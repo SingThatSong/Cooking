@@ -40,9 +40,11 @@ public class CookingContext : DbContext
     /// Initializes a new instance of the <see cref="CookingContext"/> class using existing connection.
     /// </summary>
     /// <param name="connection">Existing connection for database.</param>
-    public CookingContext(SqliteConnection connection)
+    /// <param name="culture">Culture of entries to use.</param>
+    public CookingContext(SqliteConnection connection, string culture)
     {
         this.connection = connection;
+        this.culture = culture;
     }
 
     /// <summary>
